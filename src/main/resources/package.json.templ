@@ -1,0 +1,20 @@
+@includeNamed{"common.templ"}
+@code{
+  def enrichPackageJson() {
+    /* attempt to merge from the environment config */
+    json = new io.vertx.core.json.JsonObject(System.getProperty('package-json', '{}'));
+
+    if (json.getString('name') == '') {
+      json.put('name', getNPMScope(module));
+    }
+
+    if (!Boolean.getBoolean('npm-meta-package')) {
+      /* always overwritten */
+      json.put('main', 'index.js');
+      json.put('types', 'index.d.ts');
+    }
+
+    return json.encodePrettily();
+  }
+}
+@{enrichPackageJson()}\n
