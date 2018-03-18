@@ -17,10 +17,17 @@
 
   <properties>
     <vertx.version>3.5.1</vertx.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
+
     <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
     <maven.compiler.testSource>1.8</maven.compiler.testSource>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <java9.sourceDirectory>${project.basedir}/src/main/java-9</java9.sourceDirectory>
+    <java9.resourcesDirectory>${project.basedir}/src/main/resources-9</java9.resourcesDirectory>
+    <java9.testDirectory>${project.basedir}/src/test/java-9</java9.testDirectory>
+
+    <java9.build.outputDirectory>${project.build.directory}/classes-java9</java9.build.outputDirectory>
   </properties>
 
   <licenses>
@@ -91,6 +98,68 @@
     </pluginManagement>
 
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>compile-java9</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <property name="compile_classpath" refid="maven.compile.classpath"/>
+                <mkdir dir="${java9.build.outputDirectory}" />
+                <javac
+                  srcdir="${java9.sourceDirectory}"
+                  destdir="${java9.build.outputDirectory}"
+                  classpath="${compile_classpath}"
+                  includeantruntime="false" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${java9.build.outputDirectory}</directory>
+                </resource>
+                <resource>
+                  <directory>${java9.resourcesDirectory}</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Multi-Release>true</Multi-Release>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>com.amashchenko.maven.plugin</groupId>
         <artifactId>gitflow-maven-plugin</artifactId>
