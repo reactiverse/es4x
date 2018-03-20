@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>xyz.jetdrone</groupId>
+    <artifactId>vertx-lang-es-generator</artifactId>
+    <version>1.0</version>
+    <relativePath>../../parent</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>vertx-config-yaml</artifactId>
+  <version>3.5.1</version>
+
+  <properties>
+    <maven.groupId>io.vertx</maven.groupId>
+    <npm-name>@vertx/config-yaml</npm-name>
+    <!-- language=json -->
+    <npm-dependencies>
+      {
+        "@vertx/core": "${stack.version}",
+        "@vertx/config": "${stack.version}"
+      }
+    </npm-dependencies>
+    <npm-meta-package>true</npm-meta-package>
+  </properties>
+
+  <dependencies>
+    <!-- CODEGEN -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-codegen</artifactId>
+      <scope>provided</scope>
+      <optional>true</optional>
+      <version>3.6.0-SNAPSHOT</version>
+      <!-- <version>${stack.version}</version> -->
+    </dependency>
+    <!-- SOURCE TO GENERATE -->
+    <dependency>
+      <groupId>${maven.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${maven.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+      <classifier>sources</classifier>
+    </dependency>
+  </dependencies>
+
+</project>
