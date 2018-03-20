@@ -9,21 +9,18 @@
   <!-- WARNING: IF YOU NEED HAVE A CUSTOM POM.XML CREATE A HANDLEBARS TEMPLATE FILE NAMED '.pom.xml' -->
   <!-- WARNING: THE AVAILABLE VARS ARE: groupId, artifactId, version, name, description, files, dependencies, packageJson -->
 
-  <groupId>{{ groupId }}</groupId>
-  <artifactId>{{ artifactId }}</artifactId>
-  <version>{{ version }}</version>
-  {{#if name}}
-  <name>{{ name }}</name>
-  {{/if}}
+  <groupId>{{groupId}}</groupId>
+  <artifactId>{{artifactId}}</artifactId>
+  <version>{{version}}</version>
+
+  <name>{{name}}</name>
+
   {{#if description}}
-  <description>{{ description }}</description>
+  <description>{{description}}</description>
   {{/if}}
 
   <properties>
-    <vertx.verticle>{{ main }}</vertx.verticle>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -45,8 +42,15 @@
       {{/if}}
     </dependency>
     {{/each}}
+    <!-- Always required -->
+    <dependency>
+      <groupId>io.reactiverse</groupId>
+      <artifactId>es4x</artifactId>
+      <version>0.5.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <build>
+    <defaultGoal>clean package</defaultGoal>
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
@@ -59,7 +63,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/classes</outputDirectory>
+              <outputDirectory>${project.build.directory}/classes/node_modules/{{name}}</outputDirectory>
               <resources>
                 <resource>
                   <directory>${project.basedir}</directory>
@@ -99,7 +103,7 @@
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
                     <Main-Class>io.vertx.core.Launcher</Main-Class>
-                    <Main-Verticle>${vertx.verticle}</Main-Verticle>
+                    <Main-Verticle>js:./node_modules/{{name}}</Main-Verticle>
                   </manifestEntries>
                 </transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">

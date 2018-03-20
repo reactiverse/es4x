@@ -20,6 +20,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.spi.VerticleFactory;
+import jdk.nashorn.api.scripting.NashornScriptEngine;
 
 public class NashornVerticleFactory implements VerticleFactory {
 
@@ -68,13 +69,24 @@ public class NashornVerticleFactory implements VerticleFactory {
           loader.config(context.config());
         }
 
-        loader.main(verticleName);
+        // extract prefix if present
+        if (verticleName.startsWith(prefix() + ":")) {
+          loader.main(verticleName.substring(prefix().length() + 1));
+        } else {
+          loader.main(verticleName);
+        }
+
         startFuture.complete();
       }
 
       @Override
       public void stop(Future<Void> stopFuture) throws Exception {
-        stopFuture.complete();
+        NashornScriptEngine engine = (NashornScriptEngine) loader.getEngine();
+        try {
+          engine.invokeMethod(engine.get("process"), "stop", stopFuture);
+        } catch (RuntimeException e) {
+          stopFuture.fail(e);
+        }
       }
     };
   }
