@@ -4,7 +4,7 @@
     /* attempt to merge from the environment config */
     json = new io.vertx.core.json.JsonObject(System.getProperty('package-json', '{}'));
 
-    if (json.getString('name') == '') {
+    if (json.getString('name') == null || json.getString('name') == '') {
       json.put('name', getNPMScope(module));
     }
 

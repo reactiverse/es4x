@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.nashorn;
 
 import io.vertx.core.Context;
@@ -5,6 +20,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.spi.VerticleFactory;
+import jdk.nashorn.api.scripting.NashornScriptEngine;
 
 public class NashornVerticleFactory implements VerticleFactory {
 
@@ -53,13 +69,24 @@ public class NashornVerticleFactory implements VerticleFactory {
           loader.config(context.config());
         }
 
-        loader.main(verticleName);
+        // extract prefix if present
+        if (verticleName.startsWith(prefix() + ":")) {
+          loader.main(verticleName.substring(prefix().length() + 1));
+        } else {
+          loader.main(verticleName);
+        }
+
         startFuture.complete();
       }
 
       @Override
       public void stop(Future<Void> stopFuture) throws Exception {
-        stopFuture.complete();
+        NashornScriptEngine engine = (NashornScriptEngine) loader.getEngine();
+        try {
+          engine.invokeMethod(engine.get("process"), "stop", stopFuture);
+        } catch (RuntimeException e) {
+          stopFuture.fail(e);
+        }
       }
     };
   }

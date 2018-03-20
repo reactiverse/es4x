@@ -172,6 +172,10 @@ program
       if (el.charAt(el.length - 1) === '/') {
         files[i] = el + '**.*';
       }
+      // remove the "./" if present (maven does not like it)
+      if (el.startsWith('./')) {
+        files[i] = el.substring(2);
+      }
     });
 
     const data = {
