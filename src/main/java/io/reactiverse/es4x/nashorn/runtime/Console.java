@@ -15,13 +15,12 @@
  */
 package io.reactiverse.es4x.nashorn.runtime;
 
+import io.reactiverse.es4x.jul.ES4XFormatter;
 import io.vertx.core.Vertx;
 import jdk.nashorn.api.scripting.AbstractJSObject;
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptUtils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -159,6 +158,9 @@ public final class Console {
     // we need a reference to the stringify function
     final JSObject stringify = (JSObject) ((JSObject) global.getMember("JSON")).getMember("stringify");
     assert stringify != null;
+    // reference the Error object
+    final JSObject error = ((JSObject) global.getMember("Error"));
+    assert error != null;
 
     final JSObject console = (JSObject) global.eval("new Object()");
 
@@ -290,19 +292,26 @@ public final class Console {
       @Override
       public Object call(Object thiz, Object... args) {
         if (args != null && args.length > 0 && args[0] != null) {
-          if (args[0] instanceof Throwable) {
-            final Throwable e = (Throwable) args[0];
-            final StringWriter sw = new StringWriter();
-            final PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            final String trace = sw.toString();
-            if (trace != null) {
-              int idx = trace.indexOf('\n');
-              if (idx != -1) {
-                System.out.println(BOLD + RED + trace.substring(0, idx) + RESET + trace.substring(idx));
-                return undefined;
+
+          if (args[0] instanceof JSObject) {
+            final JSObject e = (JSObject) args[0];
+            if (e.isInstanceOf(error)) {
+              String trace = (String) e.getMember("stack");
+              if (trace != null) {
+                int idx = trace.indexOf('\n');
+                if (idx != -1) {
+                  System.out.println(BOLD + RED + trace.substring(0, idx) + RESET + trace.substring(idx));
+                  return undefined;
+                }
               }
             }
+          }
+
+          if (args[0] instanceof Throwable) {
+            final Throwable e = (Throwable) args[0];
+            final CharSequence trace = ES4XFormatter.formatStackTrace(e);
+            System.out.println(BOLD + RED + e.getLocalizedMessage() + RESET + trace);
+            return undefined;
           }
           System.out.println(BOLD + RED + args[0] + RESET);
         }
