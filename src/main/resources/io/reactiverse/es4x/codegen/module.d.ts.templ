@@ -21,12 +21,12 @@ import { AsyncResult } from '@vertx/core';\n\n
 @end{}
 @foreach{dataObjectType : referencedDataObjectTypes}
 	@if{!isImported(dataObjectType)}
-		import { @{dataObjectType.simpleName} } from '@{getNPMScope(dataObjectType.raw.module)}/options';\n
+		import { @{dataObjectType.simpleName} } from '@if{dataObjectType.raw.moduleName == type.raw.moduleName}.@else{}@{getNPMScope(dataObjectType.raw.module)}@end{}/options';\n
 	@end{}
 @end{}
 @foreach{enumType : referencedEnumTypes}
 	@if{!isImported(enumType)}
-		import { @{enumType.simpleName} } from '@{getNPMScope(enumType.raw.module)}/enums';\n
+		import { @{enumType.simpleName} } from '@if{enumType.raw.moduleName == type.raw.moduleName}.@else{}@{getNPMScope(enumType.raw.module)}@end{}/enums';\n
 	@end{}
 @end{}
 \n
