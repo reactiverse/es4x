@@ -22,15 +22,15 @@
 @foreach{referencedType : filterImports(properties)}
 	@if{!isImported(referencedType)}
 		@if{referencedType.kind == CLASS_ENUM}
-			import { @{referencedType.simpleName} } from '@{getNPMScope(referencedType.raw.module)}/enums';\n
+			import { @{referencedType.simpleName} } from '@if{referencedType.raw.moduleName == type.raw.moduleName}.@else{}@{getNPMScope(referencedType.raw.module)}@end{}/enums';\n
 		@end{}
 		@if{referencedType.kind == CLASS_DATA_OBJECT}
 			@if{referencedType.raw.moduleName != type.raw.moduleName}
-				import { @{referencedType.simpleName} } from '@{getNPMScope(referencedType.raw.module)}/options';\n
+				import { @{referencedType.simpleName} } from '@if{referencedType.raw.moduleName == type.raw.moduleName}.@else{}@{getNPMScope(referencedType.raw.module)}@end{}/options';\n
 			@end{}
 		@end{}
 		@if{referencedType.kind == CLASS_API}
-			import { @{referencedType.simpleName} } from '@{getNPMScope(referencedType.raw.module)}';\n
+			import { @{referencedType.simpleName} } from '@if{referencedType.raw.moduleName == type.raw.moduleName}./index@else{}@{getNPMScope(referencedType.raw.module)}@end{}';\n
 		@end{}
 	@end{}
 @end{}\n
