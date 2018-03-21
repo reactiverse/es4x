@@ -22,8 +22,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.spi.VerticleFactory;
 import jdk.nashorn.api.scripting.JSObject;
 
-import javax.script.ScriptException;
-
 public class NashornVerticleFactory implements VerticleFactory {
 
   private Vertx vertx;
@@ -83,37 +81,23 @@ public class NashornVerticleFactory implements VerticleFactory {
           fsVerticleName = verticleName;
         }
 
-        // nashorn can take some time to load, so we wrap the initial
-        // load inside a execute blocking
-        vertx.executeBlocking(fut -> {
-          try {
-            self = loader.main(fsVerticleName);
-            fut.complete();
-          } catch (ScriptException | NoSuchMethodException e) {
-            fut.fail(e);
+        // nashorn can take some time to load so it might block the event loop
+        // this is usually not a issue as it is a one time operation
+        self = loader.main(fsVerticleName);
+
+        // if the main module exports 2 function we bind those to the verticle lifecycle
+        if (self instanceof JSObject) {
+          Object start = ((JSObject) self).getMember("start");
+          if (start instanceof JSObject) {
+            ((JSObject) start).call(self);
           }
-        }, false, res -> {
-          if (res.succeeded()) {
-            // if the main module exports 2 function we bind those to the verticle lifecycle
-            if (self instanceof JSObject) {
-              Object start = ((JSObject) self).getMember("start");
-              Object stop = ((JSObject) self).getMember("stop");
-              try {
-                if (start instanceof JSObject) {
-                  ((JSObject) start).call(self);
-                }
-                if (stop instanceof JSObject) {
-                  this.stop = (JSObject) stop;
-                }
-                startFuture.complete();
-              } catch (RuntimeException e) {
-                startFuture.fail(e);
-              }
-            }
-          } else {
-            startFuture.fail(res.cause());
+
+          Object stop = ((JSObject) self).getMember("stop");
+          if (stop instanceof JSObject) {
+            this.stop = (JSObject) stop;
           }
-        });
+        }
+        startFuture.complete();
       }
 
       @Override
