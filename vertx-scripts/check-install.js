@@ -24,7 +24,7 @@ for (var k in npm.scripts || {}) {
 }
 
 console.log(chalk.yellow.bold('Please add the following scripts to your \'package.json\':'));
-console.log(JSON.stringify({
+console.log("\"scripts\": " + JSON.stringify({
   "postinstall": "vertx-scripts init",
   "test": "vertx-scripts launcher test -t",
   "start": "vertx-scripts launcher run",
