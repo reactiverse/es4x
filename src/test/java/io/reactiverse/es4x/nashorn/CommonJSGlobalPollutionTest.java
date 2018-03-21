@@ -12,7 +12,6 @@ import static org.junit.Assert.*;
 
 public class CommonJSGlobalPollutionTest {
 
-  private static ScriptEngine engine;
   private static JSObject require;
 
   @SuppressWarnings("unchecked")
@@ -23,7 +22,7 @@ public class CommonJSGlobalPollutionTest {
   @BeforeClass
   public static void beforeClass() throws ScriptException, NoSuchMethodException {
     Loader loader = new Loader(Vertx.vertx());
-    engine = loader.getEngine();
+    ScriptEngine engine = loader.getEngine();
     require = (JSObject) engine.get("require");
   }
 

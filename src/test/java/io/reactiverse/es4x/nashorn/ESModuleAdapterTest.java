@@ -8,35 +8,35 @@ import static org.junit.Assert.*;
 public class ESModuleAdapterTest {
 
   @Test
-  public void shouldAdaptWildcard() throws Exception {
+  public void shouldAdaptWildcard() {
     assertEquals(
       "const myModule = require('/modules/my-module.js');",
       ESModuleAdapter.adapt("import * as myModule from '/modules/my-module.js'"));
   }
 
   @Test
-  public void shouldAdaptSingleSelect() throws Exception {
+  public void shouldAdaptSingleSelect() {
     assertEquals(
       "const myExport = require('/modules/my-module.js').myExport;",
       ESModuleAdapter.adapt("import {myExport} from '/modules/my-module.js'"));
   }
 
   @Test
-  public void shouldAdaptMultiSelect() throws Exception {
+  public void shouldAdaptMultiSelect() {
     assertEquals(
       "const foo = require('/modules/my-module.js').foo;const bar = require('/modules/my-module.js').bar;",
       ESModuleAdapter.adapt("import {foo, bar} from '/modules/my-module.js'"));
   }
 
   @Test
-  public void shouldAdaptSelectAlias() throws Exception {
+  public void shouldAdaptSelectAlias() {
     assertEquals(
       "const shortName = require('/modules/my-module.js').reallyReallyLongModuleExportName;",
       ESModuleAdapter.adapt("import {reallyReallyLongModuleExportName as shortName} from '/modules/my-module.js';"));
   }
 
   @Test
-  public void shouldAdaptMultiSelectAlias() throws Exception {
+  public void shouldAdaptMultiSelectAlias() {
     assertEquals(
       "const shortName = require('/modules/my-module.js').reallyReallyLongModuleExportName;const short = require('/modules/my-module.js').anotherLongModuleName;",
       ESModuleAdapter.adapt(
@@ -47,7 +47,7 @@ public class ESModuleAdapterTest {
   }
 
   @Test
-  public void adaptFullFileNoChange() throws Exception {
+  public void adaptFullFileNoChange() {
     String file = "module.exports = {\n" +
       "  a: require('./a'),\n" +
       "  b: require('./b')\n" +
@@ -58,7 +58,7 @@ public class ESModuleAdapterTest {
   }
 
   @Test
-  public void shouldAdaptWithDoubleQuotes() throws Exception {
+  public void shouldAdaptWithDoubleQuotes() {
     assertEquals(
       "const TestSuite = require('vertx-unit').TestSuite;\n" +
         "\n" +
@@ -87,7 +87,7 @@ public class ESModuleAdapterTest {
   }
 
   @Test
-  public void shouldNotAdaptCode() throws Exception {
+  public void shouldNotAdaptCode() {
 
     String file = "import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(8);\n" +
       "/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);\n" +
@@ -107,7 +107,7 @@ public class ESModuleAdapterTest {
   }
 
   @Test
-  public void shouldNotAdaptReactJSCode() throws Exception {
+  public void shouldNotAdaptReactJSCode() {
 
     assertEquals("import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(8);\n" +
       "/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);\n" +
@@ -191,7 +191,7 @@ public class ESModuleAdapterTest {
   }
 
   @Test
-  public void shouldAdapt() throws Exception {
+  public void shouldAdapt() {
     String file =
       "/// <reference types=\"@vertx/core/runtime\" />\n"+
       "// @ts-check\n"+

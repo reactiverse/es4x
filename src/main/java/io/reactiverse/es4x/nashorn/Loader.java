@@ -66,12 +66,12 @@ class Loader {
     engineBindings.put("config", config != null ? config.getMap() : null);
   }
 
-  void main(String main) throws ScriptException, NoSuchMethodException {
+  Object main(String main) throws ScriptException, NoSuchMethodException {
     // patch the main path to be a relative path
     if (!main.startsWith("./") && !main.startsWith("/")) {
       main = "./" + main;
     }
     // invoke the main script
-    engine.invokeFunction("require", main);
+    return engine.invokeFunction("require", main);
   }
 }

@@ -49,7 +49,7 @@ public class CommonJsTest {
   }
 
   @Test
-  public void shouldSupportNestedRequires() throws ScriptException {
+  public void shouldSupportNestedRequires() {
     JSObject outer = require("./lib/outer");
     JSObject quadruple = (JSObject) outer.getMember("quadruple");
     Number n = (Number) quadruple.call(outer, 2);
@@ -57,7 +57,7 @@ public class CommonJsTest {
   }
 
   @Test
-  public void shouldSupportAnIdWithAnExtension() throws ScriptException {
+  public void shouldSupportAnIdWithAnExtension() {
     JSObject outer = require("./lib/outer.js");
     JSObject quadruple = (JSObject) outer.getMember("quadruple");
     Number n = (Number) quadruple.call(outer, 2);
@@ -65,13 +65,13 @@ public class CommonJsTest {
   }
 
   @Test
-  public void shouldReturnDotJsonFileAsJsonObject() throws ScriptException {
+  public void shouldReturnDotJsonFileAsJsonObject() {
     JSObject json = require("./lib/some_data.json");
     assertEquals("This is a JSON file", json.getMember("description"));
   }
 
   @Test
-  public void shouldCacheModulesInRequireCache() throws ScriptException {
+  public void shouldCacheModulesInRequireCache() {
     JSObject outer = require("./lib/outer.js");
     JSObject require = (JSObject) engine.get("require");
     assertEquals(((JSObject) require.getMember("cache")).getMember((String) outer.getMember("filename")), outer);
@@ -80,7 +80,7 @@ public class CommonJsTest {
   }
 
   @Test
-  public void shoudlHandleCyclicDependencies() throws ScriptException {
+  public void shoudlHandleCyclicDependencies() {
     JSObject main = require("./lib/cyclic");
     assertEquals("Hello from A", ((JSObject) main.getMember("a")).getMember
       ("fromA"));

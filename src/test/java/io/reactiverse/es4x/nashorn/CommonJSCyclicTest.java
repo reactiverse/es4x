@@ -8,13 +8,10 @@ import org.junit.Test;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CommonJSCyclicTest {
 
-  private static ScriptEngine engine;
   private static JSObject require;
 
   @SuppressWarnings("unchecked")
@@ -25,7 +22,7 @@ public class CommonJSCyclicTest {
   @BeforeClass
   public static void beforeClass() throws ScriptException, NoSuchMethodException {
     Loader loader = new Loader(Vertx.vertx());
-    engine = loader.getEngine();
+    ScriptEngine engine = loader.getEngine();
     require = (JSObject) engine.get("require");
   }
 

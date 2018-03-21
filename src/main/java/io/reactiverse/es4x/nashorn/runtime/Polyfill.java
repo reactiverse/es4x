@@ -20,7 +20,7 @@ import jdk.nashorn.api.scripting.JSObject;
 
 import java.util.Map;
 
-public class Polyfill {
+class Polyfill {
 
   private Polyfill() {
     throw new RuntimeException("Should not be instantiated");
@@ -52,10 +52,7 @@ public class Polyfill {
 
         @Override
         public boolean hasMember(String name) {
-          if ("assign".equals(name)) {
-            return true;
-          }
-          return super.hasMember(name);
+          return "assign".equals(name) || super.hasMember(name);
         }
 
         @Override

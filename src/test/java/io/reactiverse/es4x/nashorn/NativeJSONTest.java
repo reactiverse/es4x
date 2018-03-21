@@ -34,7 +34,7 @@ public class NativeJSONTest {
   }
 
   @Test
-  public void testNativeJsonObject() throws ScriptException, NoSuchMethodException {
+  public void testNativeJsonObject() {
     Object JSON = engine.get("JSON");
 
     Object result = stringify(new JsonObject().put("foo", "bar"));
@@ -43,7 +43,7 @@ public class NativeJSONTest {
   }
 
   @Test
-  public void testNativeJsonArray() throws ScriptException, NoSuchMethodException {
+  public void testNativeJsonArray() {
     Object JSON = engine.get("JSON");
 
     Object result = stringify(new JsonArray().add("foo").add("bar"));
@@ -52,14 +52,14 @@ public class NativeJSONTest {
   }
 
   @Test
-  public void testOriginalObject() throws ScriptException, NoSuchMethodException {
+  public void testOriginalObject() throws ScriptException {
     Object result = engine.eval("JSON.stringify({foo: 'bar'})");
     assertNotNull(result);
     assertEquals("{\"foo\":\"bar\"}", result);
   }
 
   @Test
-  public void testOriginalArray() throws ScriptException, NoSuchMethodException {
+  public void testOriginalArray() throws ScriptException {
     Object result = engine.eval("JSON.stringify(['foo', 'bar'])");
     assertNotNull(result);
     assertEquals("[\"foo\",\"bar\"]", result);

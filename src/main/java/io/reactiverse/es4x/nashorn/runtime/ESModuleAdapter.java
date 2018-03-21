@@ -24,7 +24,7 @@ public class ESModuleAdapter {
   private static final boolean DEBUG = Boolean.getBoolean("es2cjs.debug");
 
   private static final Pattern importDef = Pattern.compile("import (\\* as [a-zA-Z_$][0-9a-zA-Z_$]*|\\{.+?}) from ['\"]([0-9a-zA-Z_$@./\\- ]+)['\"];?", Pattern.DOTALL);
-  private static final Pattern exportDef = Pattern.compile("\\{(.+?)\\}", Pattern.DOTALL);
+  private static final Pattern exportDef = Pattern.compile("\\{(.+?)}", Pattern.DOTALL);
   private static final Pattern aliasDef = Pattern.compile("(\\*|[a-zA-Z_$][0-9a-zA-Z_$]*) as ([a-zA-Z_$][0-9a-zA-Z_$]*)", Pattern.DOTALL);
 
   private static String replace(String source, Pattern pattern, Function<Matcher, String> fn) {

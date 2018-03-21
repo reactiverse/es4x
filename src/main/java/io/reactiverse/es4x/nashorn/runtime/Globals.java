@@ -21,7 +21,7 @@ import jdk.nashorn.api.scripting.JSObject;
 
 import java.util.Map;
 
-public final class Globals {
+final class Globals {
 
   private Globals() {
     throw new RuntimeException("Should not be instantiated");

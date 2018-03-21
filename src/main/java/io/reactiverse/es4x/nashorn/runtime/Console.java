@@ -30,7 +30,7 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class Console {
+final class Console {
 
   private static final Pattern FORMAT = Pattern.compile("%[sdfj%]");
 

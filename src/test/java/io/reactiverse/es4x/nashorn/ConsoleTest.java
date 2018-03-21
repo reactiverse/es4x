@@ -28,7 +28,7 @@ public class ConsoleTest {
   }
 
   @Test
-  public void testBasicConsole() throws ScriptException, NoSuchMethodException {
+  public void testBasicConsole() throws ScriptException {
     // print some stuff
     engine.eval("console.log('Hello', 'World', '!')");
     // print some stuff
@@ -36,7 +36,7 @@ public class ConsoleTest {
   }
 
   @Test
-  public void testConsole() throws ScriptException, NoSuchMethodException {
+  public void testConsole() throws ScriptException {
     // print some stuff
     engine.eval("console.debug('Hello', 'World', '!')");
     engine.eval("console.info('Hello', 'World', '!')");
@@ -46,7 +46,7 @@ public class ConsoleTest {
   }
 
   @Test
-  public void testConsoleAssert() throws ScriptException, NoSuchMethodException {
+  public void testConsoleAssert() throws ScriptException {
     // print some stuff
     engine.eval("console.assert(true, 'Hello1')");
     engine.eval("console.assert(false, 'Hello2')");
@@ -55,17 +55,17 @@ public class ConsoleTest {
   }
 
   @Test
-  public void testConsoleTrace() throws ScriptException, NoSuchMethodException {
+  public void testConsoleTrace() throws ScriptException {
     engine.eval("try { throw new Error('durp!'); } catch (e) { console.trace(e); }\n//@ sourceURL=/index.js");
   }
 
   @Test
-  public void testConsoleCount() throws ScriptException, NoSuchMethodException {
+  public void testConsoleCount() throws ScriptException {
     engine.eval("console.count('durp'); console.count('durp'); console.count('durp'); console.count('durp')");
   }
 
   @Test
-  public void testConsoleTime() throws ScriptException, NoSuchMethodException {
+  public void testConsoleTime() throws ScriptException {
     engine.eval("console.time('durp'); for (var i = 0; i < 1000; i++); console.timeEnd('durp')");
     engine.eval("console.timeEnd('durp');");
   }

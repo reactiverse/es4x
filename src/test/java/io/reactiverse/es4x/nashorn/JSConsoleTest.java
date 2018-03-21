@@ -7,9 +7,6 @@ import org.junit.Test;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 public class JSConsoleTest {
 
   private static ScriptEngine engine;

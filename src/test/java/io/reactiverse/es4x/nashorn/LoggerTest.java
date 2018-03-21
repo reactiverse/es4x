@@ -13,7 +13,7 @@ import javax.script.ScriptException;
 
 public class LoggerTest {
 
-  Logger log = LoggerFactory.getLogger(LoggerTest.class);
+  final Logger log = LoggerFactory.getLogger(LoggerTest.class);
 
   private static ScriptEngine engine;
   private static JSObject require;

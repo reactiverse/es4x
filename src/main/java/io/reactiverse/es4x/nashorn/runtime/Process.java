@@ -15,16 +15,14 @@
  */
 package io.reactiverse.es4x.nashorn.runtime;
 
-import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import jdk.nashorn.api.scripting.AbstractJSObject;
 import jdk.nashorn.api.scripting.JSObject;
 
 import java.lang.management.ManagementFactory;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
-public final class Process {
+final class Process {
 
   private Process() {
     throw new RuntimeException("Should not be instantiated");
@@ -93,61 +91,6 @@ public final class Process {
     process.setMember("stdout", System.out);
     process.setMember("stderr", System.err);
     process.setMember("stdin", System.in);
-
-    // will hold an atomic reference to the callback
-    final AtomicReference<JSObject> onStopCB = new AtomicReference<>();
-
-    process.setMember("onStop", new AbstractJSObject() {
-      @Override
-      public boolean isFunction() {
-        return true;
-      }
-
-      @Override
-      public Object call(Object thiz, Object... args) {
-        final JSObject func;
-
-        if (args != null && args.length > 0) {
-          func = (JSObject) args[0];
-          if (!func.isStrictFunction() && !func.isFunction()) {
-            throw new RuntimeException("onStop callback is not a function.");
-          }
-
-          return onStopCB.getAndSet(func);
-        }
-
-        return undefined;
-      }
-    });
-
-    process.setMember("stop", new AbstractJSObject() {
-      @Override
-      public boolean isFunction() {
-        return true;
-      }
-
-      @Override
-      @SuppressWarnings("unchecked")
-      public Object call(Object thiz, Object... args) {
-        final Future<Void> future;
-
-        if (args != null && args.length > 0) {
-          future = (Future<Void>) args[0];
-        } else {
-          future = null;
-        }
-
-        if (onStopCB.get() == null) {
-          if (future != null) {
-            future.complete();
-          }
-        } else {
-          onStopCB.get().call(onStopCB, future);
-        }
-
-        return undefined;
-      }
-    });
 
     bindings.put("process", process);
   }

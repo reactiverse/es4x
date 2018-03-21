@@ -58,12 +58,12 @@
           return ESModuleAdapter.adapt(fs.readFileBlocking(uri.path.substr(1)).toString());
         case 'file':
           return ESModuleAdapter.adapt(fs.readFileBlocking(uri.path).toString());
-        default:
-          throw new ModuleError('Cannot handle scheme [' + uri.scheme + ']: ', 'IO_ERROR');
       }
     } catch (e) {
       throw new ModuleError('Cannot read file [' + uri + ']: ', 'IO_ERROR', e);
     }
+    // if we fall through it's an error as we can't handle this scheme
+    throw new ModuleError('Cannot handle scheme [' + uri.scheme + ']: ', 'IO_ERROR');
   }
 
   function Module(id, parent) {

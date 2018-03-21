@@ -25,7 +25,7 @@ import jdk.nashorn.api.scripting.JSObject;
 
 import java.util.*;
 
-public final class JSON {
+final class JSON {
 
   private JSON() {
     throw new RuntimeException("Should not be instantiated");
@@ -63,19 +63,19 @@ public final class JSON {
             // special case, try to fall back to jackson
             if (args[1] instanceof Class) {
               if (val instanceof String) {
-                return Json.decodeValue((String) val, (Class) args[1]);
+                return Json.decodeValue((String) val, (Class<?>) args[1]);
               }
               if (val instanceof Buffer) {
-                return Json.decodeValue((Buffer) val, (Class) args[1]);
+                return Json.decodeValue((Buffer) val, (Class<?>) args[1]);
               }
             }
 
             if (args[1] instanceof TypeReference) {
               if (val instanceof String) {
-                return Json.decodeValue((String) val, (TypeReference) args[1]);
+                return Json.decodeValue((String) val, (TypeReference<?>) args[1]);
               }
               if (val instanceof Buffer) {
-                return Json.decodeValue((Buffer) val, (TypeReference) args[1]);
+                return Json.decodeValue((Buffer) val, (TypeReference<?>) args[1]);
               }
             }
           } else {
