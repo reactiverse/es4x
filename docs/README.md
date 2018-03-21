@@ -1,4 +1,4 @@
-# Vert.x Lang ES
+# Reactiverse ES4X
 
 This is the EcmaScript (5.1+) language support for [Eclipse Vert.x](http://vertx.io)
 
@@ -11,6 +11,10 @@ some `ES6` features. For a full list of supported features please have a look at
 runtime [JDK 1.8](https://kangax.github.io/compat-table/es6/#nashorn1_8) or
 [JDK9](https://kangax.github.io/compat-table/es6/#nashorn9) you should have more or less
 language features.
+
+# Links
+
+* [API docs](./API)
 
 ## Goals
 
@@ -32,6 +36,7 @@ Bootstrapping a project should be as simple as:
 mkdir myproject
 cd myproject
 npm init -y
+npm add vertx-scripts --save-dev
 ```
 
 As this moment there should be a minimal `package.json`. To simplify working with `vert.x`
@@ -53,7 +58,7 @@ add the package [vertx-scripts](https://www.npmjs.com/package/vertx-scripts) to 
   "license": "ISC",
   "private": true,
   "devDependencies": {
-    "vertx-scripts": "^1.0.7"
+    "vertx-scripts": "^1.0.8"
   }
 }
 ```
@@ -109,113 +114,3 @@ npm run package
 ```
 
 And a new `JAR` file should be built in your `target` directory.
-
-## More information
-
-To know more details about the `vertx-scripts`, please refer to it's [manual](vertx-scripts/README.md).
-
-## Generating your own ES bindings
-
-If you're working on the Java side and would like to generate `JavaScript` binding for your vert.x library, all you need
-is to create a new `Maven` `pom.xml` file as follows:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <groupId>xyz.jetdrone</groupId>
-    <artifactId>vertx-lang-es-generator</artifactId>
-    <version>1.0</version>
-  </parent>
-
-  <artifactId>hot-reload</artifactId>
-  <version>0.0.5</version>
-
-  <packaging>jar</packaging>
-
-  <properties>
-    <maven.groupId>xyz.jetdrone</maven.groupId>
-    <!-- language=json -->
-    <npm-dependencies>
-      {
-        "${npm-scope}vertx": "${stack.version}",
-        "${npm-scope}vertx-web": "${stack.version}"
-      }
-    </npm-dependencies>
-  </properties>
-
-  <dependencies>
-    <!-- SOURCE TO GENERATE -->
-    <dependency>
-      <groupId>${maven.groupId}</groupId>
-      <artifactId>${project.artifactId}</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${maven.groupId}</groupId>
-      <artifactId>${project.artifactId}</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-      <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web</artifactId>
-      <version>${stack.version}</version>
-      <optional>true</optional>
-    </dependency>
-  </dependencies>
-</project>
-```
-
-Is it important to use the given parent:
-
-```xml
-<parent>
-  <groupId>xyz.jetdrone</groupId>
-  <artifactId>vertx-lang-es-generator</artifactId>
-  <version>1.0</version>
-</parent>
-```
-
-The npm module name is extracted from the `artifactId` so in order to properly generate the code you must specify what
-is the `maven.groupId` from the java project.
-
-If the project has other dependencies they should be listed in the dependencies section as in this example `vertx-web`.
-
-Finally if there were extra dependencies it will be good to provide that information to `NPM` so it can be achived with
-a property:
-
-```xml
-<!-- language=json -->
-<npm-dependencies>
-  {
-    "${npm-scope}vertx": "${stack.version}",
-    "${npm-scope}vertx-web": "${stack.version}"
-  }
-</npm-dependencies>
-```
-
-The variables `npm-scope` and `stack.version` are provided by the parent pom. Once you are happy with the generated code
-by running:
-
-```sh
-mvn clean package
-```
-
-You can publish it to a local `NPM` registry:
-
-```sh
-mvn install
-```
-
-or to a custom registry:
-
-```sh
-mvn -Dnpm-registry=https://registry.npmjs.org install
-```
