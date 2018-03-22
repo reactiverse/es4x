@@ -79,16 +79,17 @@ modules=(
   #"io.vertx/vertx-web-templ-rocker"
   #"io.vertx/vertx-web-templ-thymeleaf"
   #"io.vertx/vertx-zookeeper"
-  "xyz.jetdrone/hot-reload"
-  "com.julienviet/reactive-pg-client"
+#  "xyz.jetdrone/hot-reload"
+#  "com.julienviet/reactive-pg-client"
 )
 
 for i in "${modules[@]}"
 do
   # generate code
   mvn -f ./$i/pom.xml
-  # upload to registry
-  mvn -f ./$i/pom.xml exec:exec@npm-publish
   # typedoc
+  # this step assumes typedoc is installed globally
   mvn -f ./$i/pom.xml exec:exec@typedoc
+  # upload to registry
+#  mvn -Dnpm-registry=https://registry.npmjs.org -f ./$i/pom.xml exec:exec@npm-publish
 done
