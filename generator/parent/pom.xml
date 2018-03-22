@@ -60,6 +60,7 @@
         "description": "${project.description}",
         "version": "${project.version}",
         "license": "${npm-license}",
+        "public": true,
         "maven": {
           "groupId": "${maven.groupId}",
           "artifactId": "${project.artifactId}",
@@ -198,6 +199,8 @@
               <executable>npm</executable>
               <arguments>
                 <argument>publish</argument>
+                <argument>--access</argument>
+                <argument>public</argument>
                 <argument>--registry</argument>
                 <argument>${npm-registry}</argument>
               </arguments>
