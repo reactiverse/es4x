@@ -1,0 +1,139 @@
+@code{
+  def genReturnType(type) {
+    if (type.kind == CLASS_STRING) {
+      return 'string';
+    } else if (type.kind == CLASS_PRIMITIVE || type.kind == CLASS_BOXED_PRIMITIVE) {
+      if (type.simpleName == 'boolean' || type.simpleName == 'Boolean') {
+        return 'boolean';
+      } else if (type.simpleName == 'char' || type.simpleName == 'Character') {
+        return 'string';
+      } else {
+        return 'number';
+      }
+    } else if (type.void) {
+      return 'void';
+    } else if (type.kind == CLASS_THROWABLE) {
+      return 'Error';
+    } else if (type.kind == CLASS_JSON_OBJECT) {
+      return 'object';
+    } else if (type.kind == CLASS_JSON_ARRAY) {
+      return 'any[]';
+    } else if (type.kind == CLASS_DATA_OBJECT) {
+      return type.erased.simpleName;
+    } else if (type.kind == CLASS_LIST) {
+      return genReturnType(type.args[0]) + '[]';
+    } else if (type.kind == CLASS_SET) {
+      return genReturnType(type.args[0]) + '[]';
+    } else if (type.kind == CLASS_MAP) {
+      return '{ [key:string]: ' + genReturnType(type.args[1]) + '; }';
+    } else if (type.kind == CLASS_HANDLER) {
+      return "(result: " + genReturnType(type.args[0]) + ") => void";
+    } else {
+      if (type.parameterized) {
+        return type.raw.simpleName;
+      } else {
+        return type.erased.simpleName;
+      }
+    }
+  }
+
+  def genParamType(type) {
+    if (type.kind == CLASS_STRING) {
+      return 'string';
+    } else if (type.kind == CLASS_PRIMITIVE || type.kind == CLASS_BOXED_PRIMITIVE) {
+      if (type.simpleName == 'boolean' || type.simpleName == 'Boolean') {
+        return 'boolean';
+      } else if (type.simpleName == 'char' || type.simpleName == 'Character') {
+        return 'string';
+      } else {
+        return 'number';
+      }
+    } else if (type.kind == CLASS_VOID) {
+      return "void";
+    } else if (type.kind == CLASS_THROWABLE) {
+      return "Error";
+    } else if (type.kind == CLASS_JSON_OBJECT) {
+      return "object";
+    } else if (type.kind == CLASS_JSON_ARRAY) {
+      return "any[]";
+    } else if (type.kind == CLASS_OBJECT) {
+      return "any";
+    } else if (type.kind == CLASS_HANDLER) {
+      return "(result: " + genParamType(type.args[0]) + ") => void";
+    } else if (type.kind == CLASS_ASYNC_RESULT) {
+      return "AsyncResult<" + genParamType(type.args[0]) + ">";
+    } else if (type.kind == CLASS_LIST) {
+      return genParamType(type.args[0]) + "[]";
+    } else if (type.kind == CLASS_SET) {
+      return genParamType(type.args[0]) + "[]";
+    } else if (type.kind == CLASS_MAP) {
+      return "Map<String, " + genParamType(type.args[1]) + ">";
+    } else if (type.kind == CLASS_FUNCTION) {
+      return "(t: " + genParamType(type.args[0]) + ") => " + genParamType(type.args[1]);
+    } else {
+      if (type.parameterized) {
+        return type.raw.simpleName;
+      } else {
+        return type.erased.simpleName;
+      }
+    }
+  }
+
+  def isImported(ref) {
+    if (ref.raw.moduleName == null) {
+      return true;
+    }
+
+    key = type.raw.moduleName + '/' + ref.raw.moduleName + '/' + ref.simpleName;
+
+    if (session[key] == null) {
+      session[key] = ref;
+      return false;
+    }
+    return true;
+  }
+
+  registry = null;
+
+  def getNPMScope(module) {
+    if (registry == null) {
+      /* parse the registry from the system property */
+      registry = new io.vertx.core.json.JsonArray(System.getProperty('scope-registry', '[]'));
+    }
+    scope = '';
+    name = '';
+
+    /* get from registry */
+    foreach (entry : registry) {
+      if (entry.getString('group') == module.groupPackage) {
+        scope = entry.getString('scope', '');
+        if (scope.charAt(0) != '@') {
+          scope = '@' + scope;
+        }
+        if (scope.charAt(scope.length() - 1) != '/') {
+          scope += '/';
+        }
+        if (entry.containsKey('prefix')) {
+          if (module.name.startsWith(entry.getString('prefix'))) {
+            if (entry.getBoolean('stripPrefix')) {
+              name = module.name.substring(entry.getString('prefix').length());
+            } else {
+              name = module.name;
+            }
+          }
+        }
+        if (entry.containsKey('module')) {
+          if (module.name == entry.getString('module')) {
+            name = entry.getString('name');
+          }
+        }
+      }
+    }
+
+    if (name == '') {
+      name = module.name;
+    }
+
+    return scope + name;
+  }
+}

@@ -1,0 +1,48 @@
+@includeNamed{"common.templ"}
+@code{
+  def filterProperties(properties) {
+    var result = [];
+    for (p : properties) {
+      if (p.setterMethod != null || p.adderMethod != null) {
+        result.add(p)
+      }
+    }
+    return result
+  }
+
+  def filterImports(properties) {
+    var importedTypes = [];
+    for (property : properties) {
+      property.type.collectImports(importedTypes);
+    }
+    return importedTypes;
+  }
+}
+
+@foreach{referencedType : filterImports(properties)}
+	@if{!isImported(referencedType)}
+		@if{referencedType.kind == CLASS_ENUM}
+			import { @{referencedType.simpleName} } from '@if{referencedType.raw.moduleName == type.raw.moduleName}.@else{}@{getNPMScope(referencedType.raw.module)}@end{}/enums';\n
+		@end{}
+		@if{referencedType.kind == CLASS_DATA_OBJECT}
+			@if{referencedType.raw.moduleName != type.raw.moduleName}
+				import { @{referencedType.simpleName} } from '@if{referencedType.raw.moduleName == type.raw.moduleName}.@else{}@{getNPMScope(referencedType.raw.module)}@end{}/options';\n
+			@end{}
+		@end{}
+		@if{referencedType.kind == CLASS_API}
+			import { @{referencedType.simpleName} } from '@if{referencedType.raw.moduleName == type.raw.moduleName}./index@else{}@{getNPMScope(referencedType.raw.module)}@end{}';\n
+		@end{}
+	@end{}
+@end{}\n
+
+export @if{concrete}class@else{}interface@end{} ${type.raw.simpleName} {\n
+@foreach{property:filterProperties(properties)}\n
+@if{property.doc != null}
+  /**\n
+   *@{property.doc.toString().replace('\n', '\n   * ')}\n
+   */\n
+@end{}
+  @{property.name}: @{genParamType(property.type)};\n
+@end{}
+}\n
+\n

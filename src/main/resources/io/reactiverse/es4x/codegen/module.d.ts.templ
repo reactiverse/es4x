@@ -1,0 +1,43 @@
+@includeNamed{"common.templ"}
+@if{incrementalIndex==0}
+@if{type.raw.moduleName == 'vertx'}
+export interface AsyncResult<T> {\n
+  succeeded() : boolean;\n
+  failed() : boolean;\n
+  cause() : Error | null;\n
+  result() : T | null;\n
+}\n\n
+@else{}
+import { AsyncResult } from '@vertx/core';\n\n
+@end{}
+
+@end{}
+@foreach{referencedType : referencedTypes}
+	@if{!isImported(referencedType)}
+		@if{referencedType.raw.moduleName != type.raw.moduleName}
+			import { @{referencedType.simpleName} } from '@{getNPMScope(referencedType.raw.module)}';\n
+		@end{}
+	@end{}
+@end{}
+@foreach{dataObjectType : referencedDataObjectTypes}
+	@if{!isImported(dataObjectType)}
+		import { @{dataObjectType.simpleName} } from '@if{dataObjectType.raw.moduleName == type.raw.moduleName}.@else{}@{getNPMScope(dataObjectType.raw.module)}@end{}/options';\n
+	@end{}
+@end{}
+@foreach{enumType : referencedEnumTypes}
+	@if{!isImported(enumType)}
+		import { @{enumType.simpleName} } from '@if{enumType.raw.moduleName == type.raw.moduleName}.@else{}@{getNPMScope(enumType.raw.module)}@end{}/enums';\n
+	@end{}
+@end{}
+\n
+export @if{concrete}class@else{}interface@end{} ${type.raw.simpleName} {\n
+@foreach{method : methods}
+@if{method.doc != null}
+  /**\n
+   * @{method.doc.toString().replace('\n', '\n   * ')}\n
+   */\n
+@end{}
+  @if{method.staticMethod}static @end{}@{method.name}(@foreach{param : method.params}@{param.name}: @{genParamType(param.type)}@if{param.type.nullable} | null | undefined@end{}@end{', '}) : @{genReturnType(method.returnType)}@if{method.returnType.nullable} | null@end{};\n\n
+@end{}
+}\n
+\n
