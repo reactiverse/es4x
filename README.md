@@ -24,7 +24,7 @@ Update your `package.json` as highlighted by the npm log:
   ...
   "scripts": {
     "postinstall": "vertx-scripts init",
-    "test": "vertx-scripts launcher test",
+    "test": "vertx-scripts launcher test -v",
     "start": "vertx-scripts launcher run",
     "package": "vertx-scripts package"
   },
