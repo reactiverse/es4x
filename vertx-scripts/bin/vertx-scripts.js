@@ -213,14 +213,14 @@ program
       process.exit(1);
     }
 
+    var test = ('test' === cmd);
+
     if (!args || args.length === 0) {
       // main verticle name is derived from main
       if (!npm.main) {
         console.error(chalk.red.bold('No \'main\' or \'verticle\' was defined!'));
         process.exit(1);
       }
-
-      var test = ('test' === cmd);
 
       if (test) {
         if (npm.main.endsWith('.js')) {

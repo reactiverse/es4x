@@ -90,6 +90,6 @@ do
   # typedoc
   # this step assumes typedoc is installed globally
   mvn -f ./$i/pom.xml exec:exec@typedoc
-  # upload to registry
-#  mvn -Dnpm-registry=https://registry.npmjs.org -f ./$i/pom.xml exec:exec@npm-publish
+#  # upload to registry
+#  mvn -f ./$i/pom.xml exec:exec@npm-publish
 done
