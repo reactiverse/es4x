@@ -205,7 +205,6 @@ program
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-c, --clean', 'Perform a clean before running the task')
   .option('-d , --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9797)')
-  .option('-t , --test', 'Enable test classpath (default: runtime)')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (cmd, args, options) {
     // if it doesn't exist stop
@@ -221,7 +220,9 @@ program
         process.exit(1);
       }
 
-      if (options.test) {
+      var test = ('test' === cmd);
+
+      if (test) {
         if (npm.main.endsWith('.js')) {
           args = [npm.main.substr(0, npm.main.length - 3) + '.test.js'];
         } else {
@@ -253,7 +254,7 @@ program
 
     params.push(
       'exec:java',
-      '-Dexec.classpathScope=' + (options.test ? 'test' : 'runtime'),
+      '-Dexec.classpathScope=' + (test ? 'test' : 'runtime'),
       '-Dexec.mainClass=io.vertx.core.Launcher',
       '-Dexec.args=' + cmd + ' ' + args.join(' ')
     );
