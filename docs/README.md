@@ -32,36 +32,28 @@ it is expected that both `nodejs` and (`npm` or `yarn`) are available too.
 
 Bootstrapping a project should be as simple as:
 
-```sh
-mkdir myproject
-cd myproject
+```
+mkdir my-app
+cd my-app
 npm init -y
 npm add vertx-scripts --save-dev
+npm add @vertx/unit --save-dev
+npm add @vertx/core --save-prod
+npm add @vertx/web --save-prod
 ```
 
-As this moment there should be a minimal `package.json`. To simplify working with `vert.x`
-add the package [vertx-scripts](https://www.npmjs.com/package/vertx-scripts) to your
-`devDependencies`. During install you should get a warning tip to add also a set of custom
-`scripts` to your `package.json` so it looks like this:
+Update your `package.json` as highlighted by the npm log:
 
 ```json
 {
-  "name": "myproject",
-  "version": "0.0.1",
-  "main": "./index.js",
   "scripts": {
     "postinstall": "vertx-scripts init",
-    "test": "vertx-scripts launcher test -t -v",
-    "start": "vertx-scripts launcher run -v",
-    "package": "vertx-scripts package -c -v"
+    "test": "vertx-scripts launcher test -v",
+    "start": "vertx-scripts launcher run",
+    "package": "vertx-scripts package"
   },
-  "license": "ISC",
-  "private": true,
-  "devDependencies": {
-    "vertx-scripts": "^1.0.8"
-  }
 }
-```
+``` 
 
 As of this moment you can follow the normal workflow. For example in order to create a
 `vert.x` HTTP server using `vert.x web` you could add the following `dependencies`:
