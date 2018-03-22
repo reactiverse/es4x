@@ -21,10 +21,17 @@
   var ESModuleAdapter = Java.type('io.reactiverse.es4x.nashorn.runtime.ESModuleAdapter');
 
   function getParent(uri) {
+    if (!(uri instanceof URI)) {
+      try {
+        uri = new URI(uri);
+      } catch (e) {
+        // there is no parent
+        return null;
+      }
+    }
     var path = uri.path;
     var last = path.lastIndexOf('/');
     if (path.length > last) {
-      //print(uri.scheme + ':' + path.substring(0, last));
       return uri.scheme + ':' + path.substring(0, last);
     }
   }
@@ -36,7 +43,7 @@
       case 'file':
         return fs.existsBlocking(uri.path);
       default:
-        throw new ModuleError('Cannot handle scheme [' + uri.scheme + ']: ', 'IO_ERROR');
+        return false;
     }
   }
 
@@ -47,7 +54,7 @@
       case 'file':
         return fs.propsBlocking(uri.path).isRegularFile();
       default:
-        throw new ModuleError('Cannot handle scheme [' + uri.scheme + ']: ', 'IO_ERROR');
+        return false;
     }
   }
 
@@ -138,23 +145,15 @@
     var uri = Require.resolve(id, parent);
 
     if (!uri) {
-      throw new ModuleError('Cannot find module ' + id, 'MODULE_NOT_FOUND');
+      throw new ModuleError('Module "' + id + '" was not found', 'MODULE_NOT_FOUND');
     }
 
-    try {
-      if (Require.cache[uri]) {
-        return Require.cache[uri];
-      } else if (uri.path.endsWith('.js')) {
-        return Module._load(uri, parent);
-      } else if (uri.path.endsWith('.json')) {
-        return loadJSON(uri);
-      }
-    } catch (ex) {
-      if (ex instanceof java.lang.Throwable) {
-        throw new ModuleError('Cannot load module ' + id, 'LOAD_ERROR', ex);
-      } else {
-        throw ex;
-      }
+    if (Require.cache[uri]) {
+      return Require.cache[uri];
+    } else if (uri.path.endsWith('.js')) {
+      return Module._load(uri, parent);
+    } else if (uri.path.endsWith('.json')) {
+      return loadJSON(uri);
     }
   }
 
@@ -257,7 +256,7 @@
     var base = root ? [root, 'node_modules'].join('/') : 'node_modules';
     return resolveAsFile(id, base) ||
       resolveAsDirectory(id, base) ||
-      (root ? resolveAsNodeModule(id, getParent(new URI(root))) : false);
+      (root ? resolveAsNodeModule(id, getParent(root)) : false);
   }
 
   function resolveAsDirectory(id, root) {
@@ -320,4 +319,4 @@
   ModuleError.prototype = new Error();
   ModuleError.prototype.constructor = ModuleError;
 })(this);
-//# sourceURL=src/main/resources/jvm-npm.js
+//# sourceURL=src/main/resources/io/reactiverse/es4x/jvm-npm.js

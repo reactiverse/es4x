@@ -34,7 +34,7 @@ public class CommonJsTest {
       require("./not_found.js");
       fail();
     } catch (Exception e) {
-      assertEquals("Error: Cannot find module ./not_found.js", e.getMessage());
+      assertEquals("Error: Module \"./not_found.js\" was not found", e.getMessage());
     }
   }
 

@@ -301,9 +301,19 @@ final class Console {
                 int idx = trace.indexOf('\n');
                 if (idx != -1) {
                   System.out.println(BOLD + RED + trace.substring(0, idx) + RESET + trace.substring(idx));
-                  return undefined;
+                } else {
+                  System.out.println(BOLD + RED + args[0] + RESET);
                 }
+              } else {
+                System.out.println(BOLD + RED + args[0] + RESET);
               }
+              // get if present a cause
+              Object cause = e.getMember("cause");
+              if (cause != null && !cause.equals(undefined)) {
+                System.out.print("Caused by: ");
+                call(thiz, cause);
+              }
+              return undefined;
             }
           }
 
@@ -313,6 +323,7 @@ final class Console {
             System.out.println(BOLD + RED + e.getLocalizedMessage() + RESET + trace);
             return undefined;
           }
+          // don't know what type this is, lets fallback to string
           System.out.println(BOLD + RED + args[0] + RESET);
         }
         return undefined;
