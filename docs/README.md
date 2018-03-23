@@ -2,7 +2,9 @@
 
 This is the EcmaScript (5.1+) language support for [Eclipse Vert.x](http://vertx.io)
 
-[![Build Status](https://travis-ci.org/reactiverse/es4x.svg?branch=develop)](https://travis-ci.org/reactiverse/es4x)
+[![Travis branch](https://img.shields.io/travis/reactiverse/es4x/develop.svg?style=for-the-badge)](https://travis-ci.org/reactiverse/es4x)
+[![Maven Central](https://img.shields.io/maven-central/v/io.reactiverse/es4x.svg?style=for-the-badge)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.reactiverse%22%20AND%20a%3A%22es4x%22)
+[![Codecov branch](https://img.shields.io/codecov/c/github/reactiverse/es4x/develop.svg?style=for-the-badge)](https://codecov.io/gh/reactiverse/es4x)
 
 EcmaScript (or JavaScript from now onwards) can be used with Vert.x, however it's language
 level is limited to the underlying `Nashorn` engine. The engine does support `ES5.1` plus
