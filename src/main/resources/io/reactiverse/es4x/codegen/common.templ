@@ -136,4 +136,23 @@
 
     return scope + name;
   }
+
+  def readFileIfPresent(file) {
+    path = new java.io.File(System.getProperty("basedir"), file);
+    if (path.exists()) {
+      bytes = java.nio.file.Files.readAllBytes(path.toPath());
+      if (bytes != null) {
+        md = new String(bytes, 'UTF-8');
+        if (md.length() > 0) {
+          if (md.charAt(md.length() - 1) != '\n') {
+            return md + '\n\n';
+          } else {
+            return md + '\n';
+          }
+        }
+      }
+    }
+
+    return '';
+  }
 }
