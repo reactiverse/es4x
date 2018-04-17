@@ -137,7 +137,7 @@
     return scope + name;
   }
 
-  def readFileIfPresent(file) {
+  def includeFileIfPresent(file) {
     path = new java.io.File(System.getProperty("basedir"), file);
     if (path.exists()) {
       bytes = java.nio.file.Files.readAllBytes(path.toPath());

@@ -224,31 +224,6 @@
     }
   };
 
-  /**
-   * Extension (not real part of the spec but nice to have for vert.x)
-   * @param {object} obj native vert.x object
-   * @return wrapper function that follows the promise flow.
-   */
-  Promise.promisify = function promisify(obj) {
-    return {
-      __noSuchMethod__: function () {
-        var fn = arguments[0];
-        var args = [obj].concat(Array.prototype.slice.call(arguments, 1));
-
-        return new Promise(function (resolve, reject) {
-          args.push(function (res) {
-            if (res.failed()) {
-              reject(res.cause());
-            } else {
-              resolve(res.result());
-            }
-          });
-          Function.call.apply(obj[fn], args);
-        });
-      }
-    };
-  };
-
   if (!global.Promise) {
     global.Promise = Promise;
   }

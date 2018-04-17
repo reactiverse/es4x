@@ -88,6 +88,31 @@ final class Process {
       }
     });
 
+    process.setMember("nextTick", new AbstractJSObject() {
+      @Override
+      public boolean isFunction() {
+        return true;
+      }
+
+      @Override
+      public Object call(Object thiz, Object... args) {
+        if (args != null && args.length > 0) {
+          JSObject cb = (JSObject) args[0];
+          vertx.runOnContext(v -> {
+            if (args.length > 1) {
+              Object[] arr = new Object[args.length - 1];
+              System.arraycopy(args, 1, arr, 0, arr.length);
+              cb.call(cb, arr);
+            } else {
+              cb.call(cb);
+            }
+          });
+        }
+
+        return undefined;
+      }
+    });
+
     process.setMember("stdout", System.out);
     process.setMember("stderr", System.err);
     process.setMember("stdin", System.in);
