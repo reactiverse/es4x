@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Fix Console `format` to not crash when handling unsupported types
 - Added a Changelog
 - Implemented `util/promisify` similar to node
 - Added `process.nextTick` wrapper
