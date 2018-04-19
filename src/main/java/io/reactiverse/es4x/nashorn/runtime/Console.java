@@ -59,10 +59,19 @@ final class Console {
   }
 
   private static String format(JSObject stringify, Object... args) {
-    if (!(args[0] instanceof String)) {
+    if (!(args[0] instanceof CharSequence)) {
       List<String> objects = new ArrayList<>();
       for (Object arg : args) {
-        objects.add((String) stringify.call(null, arg));
+        try {
+          objects.add((String) stringify.call(null, arg));
+        } catch (RuntimeException e) {
+          // can't format, fallback to .toString()
+          if (arg == null) {
+            objects.add("null");
+          } else {
+            objects.add(arg.toString());
+          }
+        }
       }
       return String.join(" ", objects);
     }
@@ -320,9 +329,25 @@ final class Console {
           if (args[0] instanceof Throwable) {
             final Throwable e = (Throwable) args[0];
             final CharSequence trace = ES4XFormatter.formatStackTrace(e);
+            if (trace != null) {
+              int idx = -1;
+              for (int i = 0; i < trace.length(); i++) {
+                if (trace.charAt(i) == '\n') {
+                  idx = i;
+                  break;
+                }
+              }
+
+              if (idx != -1) {
+                System.out.println(BOLD + RED + trace.subSequence(0, idx) + RESET + trace.subSequence(idx, trace.length()));
+                return undefined;
+              }
+            }
+
             System.out.println(BOLD + RED + e.getLocalizedMessage() + RESET + trace);
             return undefined;
           }
+
           // don't know what type this is, lets fallback to string
           System.out.println(BOLD + RED + args[0] + RESET);
         }

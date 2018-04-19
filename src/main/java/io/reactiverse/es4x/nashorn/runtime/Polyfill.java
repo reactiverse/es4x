@@ -67,7 +67,6 @@ class Polyfill {
         public Object call(Object thiz, Object... args) {
           if (args != null && args.length >= 2) {
             final JSObject target = (JSObject) args[0];
-            final JSObject varArgs = (JSObject) args[1];
 
             if (target == null) {
               // not correct as it should be a TypeError...
@@ -77,7 +76,7 @@ class Polyfill {
             for (int index = 1; index < args.length; index++) {
               Object nextSource = args[index];
 
-              if (nextSource != null && nextSource instanceof JSObject) {
+              if (nextSource instanceof JSObject) {
                 for (String nextKey : ((JSObject) nextSource).keySet()) {
                   // Avoid bugs when hasOwnProperty is shadowed
                   if (((JSObject) nextSource).hasMember(nextKey)) {

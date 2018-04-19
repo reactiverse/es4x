@@ -47,7 +47,7 @@ public final class VertxRuntime {
     // install JavaScript global functions
     Globals.install(bindings);
     // install the process object
-    io.reactiverse.es4x.nashorn.runtime.Process.install(bindings);
+    Process.install(bindings);
     // patch the JSON object to handle Vert.x JSON types
     JSON.install(bindings);
     // install the console object
