@@ -12,7 +12,6 @@ function one() {
       should.assertEquals('stacktraces/index.js', trace[0].fileName);
       should.assertEquals('stacktraces/index.js', trace[1].fileName);
       should.assertEquals('stacktraces/index.js', trace[2].fileName);
-      console.log(trace[0]);
       console.trace(err);
       test.complete();
       return;
