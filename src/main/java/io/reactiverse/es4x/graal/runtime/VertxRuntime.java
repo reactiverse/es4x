@@ -13,13 +13,13 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x.nashorn.runtime;
+package io.reactiverse.es4x.graal.runtime;
 
 import io.vertx.core.Vertx;
-import jdk.nashorn.api.scripting.JSObject;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Value;
 
-import java.util.Map;
+import java.util.AbstractMap;
 
 public final class VertxRuntime {
 
@@ -39,36 +39,36 @@ public final class VertxRuntime {
    *                 property named <pre>global</pre> which is a JSObject. And a property
    *                 named <pre>vertx</pre>.
    */
-  public static synchronized void install(Map<String, Object> bindings) {
-    // get a reference to vertx instance
-    final Vertx vertx = (Vertx) bindings.get("vertx");
-    assert vertx != null;
-
-    // install JavaScript global functions
-    Globals.install(bindings);
-    // install the process object
-    Process.install(bindings);
-    // patch the JSON object to handle Vert.x JSON types
-    JSON.install(bindings);
-    // install the console object
-    Console.install(bindings);
-    // install Object.assign (required by react.js for example)
-    Polyfill.install(bindings);
-
+  public static synchronized void install(Context bindings) {
     // get a reference to the global object
-    final JSObject global = (JSObject) bindings.get("global");
+    final Value global = bindings.eval("js", "(function () { return global; })").execute();
     assert global != null;
 
+    // get a reference to vertx instance
+    final Vertx vertx = global.getMember("vertx").as(Vertx.class);
+    assert vertx != null;
+
+//    // install JavaScript global functions
+//    Globals.install(bindings);
+//    // install the process object
+//    Process.install(bindings);
+//    // patch the JSON object to handle Vert.x JSON types
+//    JSON.install(bindings);
+//    // install the console object
+//    Console.install(bindings);
+//    // install Object.assign (required by react.js for example)
+//    Polyfill.install(bindings);
+
     // get a reference to the "JSON" object
-    final JSObject json = (JSObject) global.getMember("JSON");
+    final Value json = global.getMember("JSON");
     assert json != null;
 
     // get a reference to the "JSON" object
-    final JSObject java = (JSObject) global.getMember("Java");
+    final Value java = global.getMember("Java");
     assert java != null;
 
     // register a default codec to allow JSON messages directly from nashorn to the JVM world
-    vertx.eventBus().unregisterDefaultCodec(ScriptObjectMirror.class);
-    vertx.eventBus().registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec(json, java));
+    vertx.eventBus().unregisterDefaultCodec(AbstractMap.class);
+    vertx.eventBus().registerDefaultCodec(AbstractMap.class, new JSObjectMessageCodec(json, java));
   }
 }

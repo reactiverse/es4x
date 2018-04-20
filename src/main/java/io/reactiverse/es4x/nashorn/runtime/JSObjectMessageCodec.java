@@ -26,7 +26,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import java.util.List;
 import java.util.Map;
 
-final class NashornJSObjectMessageCodec implements MessageCodec<ScriptObjectMirror, Object> {
+final class JSObjectMessageCodec implements MessageCodec<ScriptObjectMirror, Object> {
 
   private final JSObject JSON;
   private final JSObject Java;
@@ -34,7 +34,7 @@ final class NashornJSObjectMessageCodec implements MessageCodec<ScriptObjectMirr
   private final JSObject stringify;
   private final JSObject asJSONCompatible;
 
-  NashornJSObjectMessageCodec(JSObject JSON, JSObject Java) {
+  JSObjectMessageCodec(JSObject JSON, JSObject Java) {
     this.JSON = JSON;
     this.Java = Java;
 

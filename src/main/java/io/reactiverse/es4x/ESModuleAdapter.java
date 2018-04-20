@@ -13,7 +13,7 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x.nashorn.runtime;
+package io.reactiverse.es4x;
 
 import java.util.function.Function;
 import java.util.regex.Matcher;

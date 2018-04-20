@@ -13,16 +13,15 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x.nashorn;
+package io.reactiverse.es4x.graal;
 
 import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
-import io.vertx.core.spi.VerticleFactory;
-import jdk.nashorn.api.scripting.JSObject;
+import org.graalvm.polyglot.Value;
 
-public class NashornVerticleFactory implements VerticleFactory {
+public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
 
   private Vertx vertx;
 
@@ -33,7 +32,7 @@ public class NashornVerticleFactory implements VerticleFactory {
 
   @Override
   public String prefix() {
-    return "js";
+    return "graal.js";
   }
 
   @Override
@@ -51,8 +50,8 @@ public class NashornVerticleFactory implements VerticleFactory {
       private Vertx vertx;
       private Context context;
 
-      private Object self;
-      private JSObject stop;
+      private Value self;
+      private Value stop;
 
       @Override
       public Vertx getVertx() {
@@ -66,7 +65,7 @@ public class NashornVerticleFactory implements VerticleFactory {
       }
 
       @Override
-      public void start(Future<Void> startFuture) throws Exception {
+      public void start(Future<Void> startFuture) {
         // expose config
         if (context != null && context.config() != null) {
           loader.config(context.config());
@@ -81,30 +80,33 @@ public class NashornVerticleFactory implements VerticleFactory {
           fsVerticleName = verticleName;
         }
 
-        // nashorn can take some time to load so it might block the event loop
-        // this is usually not a issue as it is a one time operation
+        // the initial script is a relative file, not necessarily a module
         self = loader.main(fsVerticleName);
 
         // if the main module exports 2 function we bind those to the verticle lifecycle
-        if (self instanceof JSObject) {
-          Object start = ((JSObject) self).getMember("start");
-          if (start instanceof JSObject) {
-            ((JSObject) start).call(self);
+        if (self != null) {
+          if (self.hasMember("start")) {
+            try {
+              self.getMember("start").execute();
+            } catch (RuntimeException e) {
+              startFuture.fail(e);
+              return;
+            }
           }
 
-          Object stop = ((JSObject) self).getMember("stop");
-          if (stop instanceof JSObject) {
-            this.stop = (JSObject) stop;
+          if (self.hasMember("stop")) {
+            this.stop = self.getMember("stop");
           }
         }
+        // ready!
         startFuture.complete();
       }
 
       @Override
-      public void stop(Future<Void> stopFuture) throws Exception {
+      public void stop(Future<Void> stopFuture) {
         if (stop != null) {
           try {
-            stop.call(self);
+            stop.execute();
           } catch (RuntimeException e) {
             stopFuture.fail(e);
           }

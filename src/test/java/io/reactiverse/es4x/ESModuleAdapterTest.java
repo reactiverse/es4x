@@ -1,6 +1,6 @@
-package io.reactiverse.es4x.nashorn;
+package io.reactiverse.es4x;
 
-import io.reactiverse.es4x.nashorn.runtime.ESModuleAdapter;
+import io.reactiverse.es4x.ESModuleAdapter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
