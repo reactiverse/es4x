@@ -109,6 +109,7 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
           }
         }
         // done!
+        loader.close();
         stopFuture.complete();
       }
     };

@@ -57,4 +57,8 @@ public class Loader {
   Value eval(@Language("JavaScript") String script) {
     return context.eval("js", script);
   }
+
+  public void close() {
+    context.close();
+  }
 }

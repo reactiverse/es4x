@@ -15,13 +15,19 @@
  */
 package io.reactiverse.es4x.graal.runtime;
 
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 
 import java.util.AbstractMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class VertxRuntime {
+
+  public static void callMe(Object o ) {
+    System.out.println(o.getClass());
+  }
 
   private VertxRuntime() {
     throw new RuntimeException("Should not be instantiated");
@@ -68,7 +74,10 @@ public final class VertxRuntime {
     assert java != null;
 
     // register a default codec to allow JSON messages directly from nashorn to the JVM world
-    vertx.eventBus().unregisterDefaultCodec(AbstractMap.class);
-    vertx.eventBus().registerDefaultCodec(AbstractMap.class, new JSObjectMessageCodec(json, java));
+    final AtomicReference holder = new AtomicReference();
+    bindings.eval("js", "(function (fn) { fn({}); })").execute((Handler) holder::set);
+
+    vertx.eventBus().unregisterDefaultCodec(holder.get().getClass());
+    vertx.eventBus().registerDefaultCodec(holder.get().getClass(), new JSObjectMessageCodec<>(json, java));
   }
 }

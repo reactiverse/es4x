@@ -74,4 +74,8 @@ class Loader {
     // invoke the main script
     return engine.invokeFunction("require", main);
   }
+
+  public void close() {
+    // NO-OP
+  }
 }

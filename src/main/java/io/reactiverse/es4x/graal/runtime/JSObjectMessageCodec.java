@@ -21,9 +21,7 @@ import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
 
-import java.util.AbstractMap;
-
-final class JSObjectMessageCodec implements MessageCodec<AbstractMap, Object> {
+final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
 
   private final Value stringify;
   private final Value asJSONCompatible;
@@ -34,7 +32,7 @@ final class JSObjectMessageCodec implements MessageCodec<AbstractMap, Object> {
   }
 
   @Override
-  public void encodeToWire(Buffer buffer, AbstractMap jsObject) {
+  public void encodeToWire(Buffer buffer, T jsObject) {
     String strJson = stringify.execute(jsObject).asString();
     byte[] encoded = strJson.getBytes(CharsetUtil.UTF_8);
     buffer.appendInt(encoded.length);
@@ -52,7 +50,7 @@ final class JSObjectMessageCodec implements MessageCodec<AbstractMap, Object> {
   }
 
   @Override
-  public Object transform(AbstractMap jsObject) {
+  public Object transform(T jsObject) {
     Value compat = asJSONCompatible.execute(jsObject);
 //    if (compat instanceof Map) {
 //      return new JsonObject((Map) compat);

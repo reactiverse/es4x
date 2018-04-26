@@ -224,7 +224,7 @@
     }
   };
 
-  if (!global.Promise) {
-    global.Promise = Promise;
-  }
+  // Install (or replace) the Promise implementation
+  global.Promise = Promise;
+
 })(this, vertx);
