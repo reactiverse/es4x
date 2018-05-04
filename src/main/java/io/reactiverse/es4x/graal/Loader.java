@@ -28,10 +28,14 @@ public class Loader {
     // install the vert.x runtime
     VertxRuntime.install(context);
 
+    // add polyfills
+    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/object.js").toString("UTF-8"));
+    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/json.js").toString("UTF-8"));
+    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/global.js").toString("UTF-8"));
+    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/console.js").toString("UTF-8"));
+    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/promise.js").toString("UTF-8"));
     // install the commonjs loader
     context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/jvm-npm.js").toString("UTF-8"));
-    // add polyfills
-    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill.js").toString("UTF-8"));
   }
 
   void config(final JsonObject config) {

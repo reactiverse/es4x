@@ -18,17 +18,23 @@ package io.reactiverse.es4x.graal.runtime;
 import io.netty.util.CharsetUtil;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 
 final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
 
   private final Value stringify;
-  private final Value asJSONCompatible;
 
-  JSObjectMessageCodec(Value JSON, Value Java) {
+  private final Value isObject;
+  private final Value isArray;
+
+  JSObjectMessageCodec(Value JSON, Context ctx) {
     this.stringify = JSON.getMember("stringify");
-    this.asJSONCompatible = Java.getMember("asJSONCompatible");
+
+    this.isObject = ctx.eval("js", "function (obj) { return typeof obj === 'object'; }");
+    this.isArray = ctx.eval("js", "function () { return Array.isArray; }").execute();
   }
 
   @Override
@@ -51,15 +57,15 @@ final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
 
   @Override
   public Object transform(T jsObject) {
-    Value compat = asJSONCompatible.execute(jsObject);
-//    if (compat instanceof Map) {
-//      return new JsonObject((Map) compat);
-//    }
-//    if (compat instanceof List) {
-//      return new JsonArray((List) compat);
-//    }
-
-    return compat;
+    if (isObject.execute(jsObject).asBoolean()) {
+      if (isArray.execute(jsObject).asBoolean()) {
+        return new JsonArray();
+      } else {
+        return new JsonObject();
+      }
+    }
+    // cannot cast return as is...
+    return jsObject;
   }
 
   @Override

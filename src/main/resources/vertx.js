@@ -39,5 +39,5 @@
   // install the common js loader
   load.call(global, 'classpath:io/reactiverse/es4x/jvm-npm.js');
   // add support for polyfill
-  load.call(global, 'classpath:io/reactiverse/es4x/polyfill.js');
+  load.call(global, 'classpath:io/reactiverse/es4x/promise.js');
 })(this);

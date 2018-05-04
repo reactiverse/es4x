@@ -50,10 +50,14 @@ class Loader {
     // install the vert.x runtime
     VertxRuntime.install(globalBindings);
 
+    // add polyfills
+    engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/object.js");
+    engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/json.js");
+    engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/global.js");
+    engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/console.js");
+    engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/promise.js");
     // install the commonjs loader
     engine.invokeFunction("load", "classpath:io/reactiverse/es4x/jvm-npm.js");
-    // add polyfills
-    engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill.js");
   }
 
   ScriptEngine getEngine() {

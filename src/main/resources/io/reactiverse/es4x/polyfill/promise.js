@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-(function (global, vertx) {
+(function (global) {
   'use strict';
 
   var Vertx = Java.type('io.vertx.core.Vertx');
@@ -227,4 +227,4 @@
   // Install (or replace) the Promise implementation
   global.Promise = Promise;
 
-})(this, vertx);
+})(this);

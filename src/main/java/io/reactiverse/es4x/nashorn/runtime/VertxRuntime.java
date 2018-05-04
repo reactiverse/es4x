@@ -44,17 +44,6 @@ public final class VertxRuntime {
     final Vertx vertx = (Vertx) bindings.get("vertx");
     assert vertx != null;
 
-    // install JavaScript global functions
-    Globals.install(bindings);
-    // install the process object
-    Process.install(bindings);
-    // patch the JSON object to handle Vert.x JSON types
-    JSON.install(bindings);
-    // install the console object
-    Console.install(bindings);
-    // install Object.assign (required by react.js for example)
-    Polyfill.install(bindings);
-
     // get a reference to the global object
     final JSObject global = (JSObject) bindings.get("global");
     assert global != null;

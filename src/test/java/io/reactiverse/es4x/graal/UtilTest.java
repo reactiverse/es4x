@@ -1,11 +1,9 @@
 package io.reactiverse.es4x.graal;
 
-import io.vertx.core.Vertx;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,8 +36,6 @@ public class UtilTest {
       "});\n";
 
     loader.eval(script);
-
-    test.await();
   }
 
   @Test(timeout = 10000)
@@ -76,7 +72,5 @@ public class UtilTest {
       "});\n";
 
     loader.eval(script);
-
-    test.await();
   }
 }

@@ -78,6 +78,6 @@ public final class VertxRuntime {
     bindings.eval("js", "(function (fn) { fn({}); })").execute((Handler) holder::set);
 
     vertx.eventBus().unregisterDefaultCodec(holder.get().getClass());
-    vertx.eventBus().registerDefaultCodec(holder.get().getClass(), new JSObjectMessageCodec<>(json, java));
+    vertx.eventBus().registerDefaultCodec(holder.get().getClass(), new JSObjectMessageCodec<>(json, bindings));
   }
 }
