@@ -1,33 +1,42 @@
 package io.reactiverse.es4x.nashorn;
 
+import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import jdk.nashorn.api.scripting.JSObject;
-import jdk.nashorn.api.scripting.NashornScriptEngine;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.junit.Assume.assumeTrue;
+
+@RunWith(Parameterized.class)
 public class LoggerTest {
 
   final Logger log = LoggerFactory.getLogger(LoggerTest.class);
 
-  private static ScriptEngine engine;
-  private static JSObject require;
-
-  @BeforeClass
-  public static void beforeClass() throws ScriptException, NoSuchMethodException {
-    Loader loader = new Loader(Vertx.vertx());
-    engine = loader.getEngine();
-    require = (JSObject) engine.get("require");
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalVM");
   }
 
-  @SuppressWarnings("unchecked")
-  private static <T> T require(String module) {
-    return (T) require.call(null, module);
+  final String engineName;
+  final Loader loader;
+
+  public LoggerTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+    loader = Loader.create(Vertx.vertx());
+  }
+
+  @Before
+  public void initialize() {
+    assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 
   @Test
@@ -40,11 +49,11 @@ public class LoggerTest {
   }
 
   @Test
-  public void shouldPrettyPrintException() throws NoSuchMethodException {
-    JSObject module = require("./exp.js");
+  public void shouldPrettyPrintException() {
+    Object module = loader.require("./exp.js");
     try {
-      ((NashornScriptEngine) engine).invokeMethod(module, "a");
-    } catch (ScriptException e) {
+      loader.invokeMethod(module, "a");
+    } catch (RuntimeException e) {
       log.error("Error from Script", e);
     }
   }

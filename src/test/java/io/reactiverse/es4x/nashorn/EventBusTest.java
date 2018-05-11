@@ -1,63 +1,83 @@
 package io.reactiverse.es4x.nashorn;
 
-import io.vertx.core.Vertx;
+import io.reactiverse.es4x.Loader;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
-import org.junit.BeforeClass;
+import io.vertx.ext.unit.junit.RunTestOnContext;
+import io.vertx.ext.unit.junit.VertxUnitRunnerWithParametersFactory;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
-@RunWith(VertxUnitRunner.class)
+import static org.junit.Assume.assumeTrue;
+
+@RunWith(Parameterized.class)
+@Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
 public class EventBusTest {
 
-  private static ScriptEngine engine;
-  private static Vertx vertx;
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalVM");
+  }
 
-  @BeforeClass
-  public static void beforeClass() throws ScriptException, NoSuchMethodException {
-    vertx = Vertx.vertx();
-    final Loader loader = new Loader(vertx);
-    engine = loader.getEngine();
-    engine.put("eb", vertx.eventBus());
+  final String engineName;
+  private Loader loader;
+
+  public EventBusTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+  }
+
+  @Rule
+  public RunTestOnContext rule = new RunTestOnContext();
+
+  @Before
+  public void initialize() {
+    loader = Loader.create(rule.vertx());
+    loader.put("eb", rule.vertx().eventBus());
+    assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 
   @Test(timeout = 10000)
-  public void testNativeJSObjectOverEB(TestContext ctx) throws ScriptException {
+  public void testNativeJSObjectOverEB(TestContext ctx) throws Exception {
     final Async async = ctx.async();
 
-    vertx.eventBus().consumer("test.address.object", msg -> {
+    rule.vertx().eventBus().consumer("test.address.object", msg -> {
       ctx.assertNotNull(msg);
       ctx.assertNotNull(msg.body());
       Object res = msg.body();
       ctx.assertNotNull(res);
       ctx.assertTrue(res instanceof JsonObject);
+      ctx.assertEquals("bar", ((JsonObject) res).getString("foo"));
       async.complete();
     });
 
-    engine.eval("eb.send('test.address.object', {foo: 'bar'})");
-    async.await();
+    loader.eval("eb.send('test.address.object', {foo: 'bar'})");
   }
 
   @Test(timeout = 10000)
-  public void testNativeJSArrayOverEB(TestContext ctx) throws ScriptException {
+  public void testNativeJSArrayOverEB(TestContext ctx) throws Exception {
     final Async async = ctx.async();
 
-    vertx.eventBus().consumer("test.address.array", msg -> {
+    rule.vertx().eventBus().consumer("test.address.array", msg -> {
       ctx.assertNotNull(msg);
       ctx.assertNotNull(msg.body());
       Object res = msg.body();
       ctx.assertNotNull(res);
       ctx.assertTrue(res instanceof JsonArray);
+      ctx.assertTrue(res instanceof JsonArray);
+      ctx.assertEquals("foo", ((JsonArray) res).getString(0));
+      ctx.assertEquals("bar", ((JsonArray) res).getString(1));
       async.complete();
     });
 
-    engine.eval("eb.send('test.address.array', ['foo', 'bar'])");
-    async.await();
+    loader.eval("eb.send('test.address.array', ['foo', 'bar'])");
   }
 }

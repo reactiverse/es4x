@@ -1,42 +1,59 @@
 package io.reactiverse.es4x.nashorn;
 
+import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import jdk.nashorn.api.scripting.JSObject;
-import org.junit.BeforeClass;
+import org.graalvm.polyglot.Value;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeTrue;
 
+@RunWith(Parameterized.class)
 public class NativeJSONTest {
 
-  private static ScriptEngine engine;
-  private static JSObject JSON;
-
-  public static Object stringify(Object... args) {
-    return ((JSObject) JSON.getMember("stringify")).call(JSON, args);
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalVM");
   }
 
-  public static Object parse(Object... args) {
-    return ((JSObject) JSON.getMember("parse")).call(JSON, args);
+  private Loader loader;
+  private Object JSON;
+
+  final String engineName;
+
+  public NativeJSONTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+    loader = Loader.create(Vertx.vertx());
   }
 
-  @BeforeClass
-  public static void beforeClass() throws ScriptException, NoSuchMethodException {
-    Loader loader = new Loader(Vertx.vertx());
-    engine = loader.getEngine();
-    JSON = (JSObject) engine.get("JSON");
+  @Before
+  public void initialize() throws Exception {
+    assumeTrue(loader.name().equalsIgnoreCase(engineName));
+    JSON = loader.eval("JSON");
+  }
+
+  public Object stringify(Object... args) {
+    Object res = loader.invokeMethod(JSON, "stringify", args);
+    // Graal engine always wraps
+    if (res instanceof Value) {
+      return ((Value) res).asString();
+    }
+
+    return res;
   }
 
   @Test
   public void testNativeJsonObject() {
-    Object JSON = engine.get("JSON");
-
     Object result = stringify(new JsonObject().put("foo", "bar"));
     assertNotNull(result);
     assertEquals("{\"foo\":\"bar\"}", result);
@@ -44,24 +61,30 @@ public class NativeJSONTest {
 
   @Test
   public void testNativeJsonArray() {
-    Object JSON = engine.get("JSON");
-
     Object result = stringify(new JsonArray().add("foo").add("bar"));
     assertNotNull(result);
     assertEquals("[\"foo\",\"bar\"]", result);
   }
 
   @Test
-  public void testOriginalObject() throws ScriptException {
-    Object result = engine.eval("JSON.stringify({foo: 'bar'})");
+  public void testOriginalObject() throws Exception {
+    Object result = loader.eval("JSON.stringify({foo: 'bar'})");
     assertNotNull(result);
+    // Graal engine always wraps
+    if (result instanceof Value) {
+      result = ((Value) result).asString();
+    }
     assertEquals("{\"foo\":\"bar\"}", result);
   }
 
   @Test
-  public void testOriginalArray() throws ScriptException {
-    Object result = engine.eval("JSON.stringify(['foo', 'bar'])");
+  public void testOriginalArray() throws Exception {
+    Object result = loader.eval("JSON.stringify(['foo', 'bar'])");
     assertNotNull(result);
+    // Graal engine always wraps
+    if (result instanceof Value) {
+      result = ((Value) result).asString();
+    }
     assertEquals("[\"foo\",\"bar\"]", result);
   }
 }

@@ -13,13 +13,12 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x.nashorn;
+package io.reactiverse.es4x;
 
 import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
-import jdk.nashorn.api.scripting.JSObject;
 
 public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
 
@@ -42,7 +41,7 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
 
     synchronized (this) {
       // create a new CommonJS loader
-      loader = new Loader(vertx);
+      loader = Loader.create(vertx);
     }
 
     return new Verticle() {
@@ -51,7 +50,6 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
       private Context context;
 
       private Object self;
-      private JSObject stop;
 
       @Override
       public Vertx getVertx() {
@@ -80,37 +78,34 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
           fsVerticleName = verticleName;
         }
 
-        // nashorn can take some time to load so it might block the event loop
+        // this can take some time to load so it might block the event loop
         // this is usually not a issue as it is a one time operation
         self = loader.main(fsVerticleName);
 
         // if the main module exports 2 function we bind those to the verticle lifecycle
-        if (self instanceof JSObject) {
-          Object start = ((JSObject) self).getMember("start");
-          if (start instanceof JSObject) {
-            ((JSObject) start).call(self);
-          }
-
-          Object stop = ((JSObject) self).getMember("stop");
-          if (stop instanceof JSObject) {
-            this.stop = (JSObject) stop;
+        if (self != null) {
+          try {
+            loader.invokeMethod(self, "start");
+            startFuture.complete();
+          } catch (RuntimeException e) {
+            startFuture.fail(e);
           }
         }
-        startFuture.complete();
       }
 
       @Override
       public void stop(Future<Void> stopFuture) throws Exception {
-        if (stop != null) {
+        if (self != null) {
           try {
-            stop.call(self);
+            loader.invokeMethod(self, "stop");
+            stopFuture.complete();
           } catch (RuntimeException e) {
             stopFuture.fail(e);
+          } finally {
+            // done!
+            loader.close();
           }
         }
-        // done!
-        loader.close();
-        stopFuture.complete();
       }
     };
   }

@@ -1,38 +1,47 @@
 package io.reactiverse.es4x.nashorn;
 
+import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
-import jdk.nashorn.api.scripting.JSObject;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.Assume.*;
 
+@RunWith(Parameterized.class)
 public class CommonJSGlobalPollutionTest {
 
-  private static JSObject require;
-
-  @SuppressWarnings("unchecked")
-  private static <T> T require(String module) {
-    return (T) require.call(null, module);
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalVM");
   }
 
-  @BeforeClass
-  public static void beforeClass() throws ScriptException, NoSuchMethodException {
-    Loader loader = new Loader(Vertx.vertx());
-    ScriptEngine engine = loader.getEngine();
-    require = (JSObject) engine.get("require");
+  final String engineName;
+  final Loader loader;
+
+  public CommonJSGlobalPollutionTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+    loader = Loader.create(Vertx.vertx());
+  }
+
+  @Before
+  public void initialize() {
+    assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 
   @Test
   public void shouldHaveSideEffects() {
     try {
       // this test verifies that the pollution of the global context behaves like on node
-      require("./pollution/a.js");
+      loader.require("./pollution/a.js");
       fail("should throw");
-    } catch (RuntimeException e) {
+    } catch (Exception e) {
       assertEquals("Error: engine is tainted: b", e.getMessage());
     }
   }

@@ -13,33 +13,33 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x.graal.runtime;
+package io.reactiverse.es4x.impl.nashorn;
 
 import io.netty.util.CharsetUtil;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.Value;
+import jdk.nashorn.api.scripting.JSObject;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import jdk.nashorn.api.scripting.ScriptUtils;
 
-final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
+import java.util.List;
+import java.util.Map;
 
-  private final Value stringify;
+final class JSObjectMessageCodec implements MessageCodec<ScriptObjectMirror, Object> {
 
-  private final Value isObject;
-  private final Value isArray;
+  private final JSObject JSON;
+  private final JSObject stringify;
 
-  JSObjectMessageCodec(Value JSON, Context ctx) {
-    this.stringify = JSON.getMember("stringify");
-
-    this.isObject = ctx.eval("js", "function (obj) { return typeof obj === 'object'; }");
-    this.isArray = ctx.eval("js", "function () { return Array.isArray; }").execute();
+  JSObjectMessageCodec(JSObject JSON) {
+    this.JSON = JSON;
+    this.stringify = (JSObject) JSON.getMember("stringify");
   }
 
   @Override
-  public void encodeToWire(Buffer buffer, T jsObject) {
-    String strJson = stringify.execute(jsObject).asString();
+  public void encodeToWire(Buffer buffer, ScriptObjectMirror jsObject) {
+    String strJson = (String) stringify.call(JSON, jsObject);
     byte[] encoded = strJson.getBytes(CharsetUtil.UTF_8);
     buffer.appendInt(encoded.length);
     Buffer buff = Buffer.buffer(encoded);
@@ -56,16 +56,17 @@ final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
   }
 
   @Override
-  public Object transform(T jsObject) {
-    if (isObject.execute(jsObject).asBoolean()) {
-      if (isArray.execute(jsObject).asBoolean()) {
-        return new JsonArray();
-      } else {
-        return new JsonObject();
+  public Object transform(ScriptObjectMirror jsObject) {
+    if (!jsObject.isFunction() && !jsObject.isStrictFunction()) {
+      // it's an Array
+      if (jsObject.isArray()) {
+        return new JsonArray((List) ScriptUtils.convert(jsObject, List.class));
       }
+      // it's an Object
+      return new JsonObject((Map) ScriptUtils.convert(jsObject, Map.class));
     }
-    // cannot cast return as is...
-    return jsObject;
+    // it's likely a Function
+    throw new ClassCastException("Function is not an Object or Array");
   }
 
   @Override

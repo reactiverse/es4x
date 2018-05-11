@@ -1,47 +1,57 @@
 package io.reactiverse.es4x.nashorn;
 
+import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
-import jdk.nashorn.api.scripting.JSObject;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
+import static io.reactiverse.es4x.nashorn.JS.*;
 
+@RunWith(Parameterized.class)
 public class CommonJsUserModulesTest {
 
-  private static JSObject require;
-
-  @SuppressWarnings("unchecked")
-  private static <T> T require(String module) {
-    return (T) require.call(null, module);
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalVM");
   }
 
-  @BeforeClass
-  public static void beforeClass() throws ScriptException, NoSuchMethodException {
-    Loader loader = new Loader(Vertx.vertx());
-    ScriptEngine engine = loader.getEngine();
-    require = (JSObject) engine.get("require");
+  final String engineName;
+  final Loader loader;
+
+  public CommonJsUserModulesTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+    loader = Loader.create(Vertx.vertx());
+  }
+
+  @Before
+  public void initialize() {
+    assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 
   @Test
   public void shouldFindPackageJsonInModuleFolder() {
-    JSObject packageJson = require("./lib/other_package");
-    assertEquals("cool ranch", packageJson.getMember("flavor"));
-    assertEquals("jar:/lib/other_package/lib/subdir", packageJson.getMember("subdir"));
+    Object packageJson = loader.require("./lib/other_package");
+    assertEquals("cool ranch", getMember(packageJson, "flavor", String.class));
+    assertEquals("jar:/lib/other_package/lib/subdir", getMember(packageJson, "subdir", String.class));
   }
 
   @Test
   public void shouldLoadPackageJsonMainPropertyEvenIfItIsDirectory() {
-    JSObject cheese = require( "./lib/cheese");
-    assertEquals("nacho", cheese.getMember("flavor"));
+    Object cheese = loader.require( "./lib/cheese");
+    assertEquals("nacho", getMember(cheese, "flavor", String.class));
   }
 
   @Test
   public void shouldFindIndexJsInDirectoryIfNoPackageJsonExists() {
-    JSObject packageJson = require("./lib/my_package");
-    assertEquals("Hello!", packageJson.getMember("data"));
+    Object packageJson = loader.require("./lib/my_package");
+    assertEquals("Hello!", getMember(packageJson, "data", String.class));
   }
 }

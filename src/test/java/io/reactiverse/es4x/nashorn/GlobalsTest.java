@@ -1,33 +1,49 @@
 package io.reactiverse.es4x.nashorn;
 
+import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
-import org.junit.BeforeClass;
+import io.vertx.ext.unit.junit.VertxUnitRunnerWithParametersFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
-@RunWith(VertxUnitRunner.class)
+import static org.junit.Assume.assumeTrue;
+
+@RunWith(Parameterized.class)
+@Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
 public class GlobalsTest {
 
-  private static ScriptEngine engine;
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalVM");
+  }
 
-  @BeforeClass
-  public static void beforeClass() throws ScriptException, NoSuchMethodException {
-    Loader loader = new Loader(Vertx.vertx());
-    engine = loader.getEngine();
+  final String engineName;
+  final Loader loader;
+
+  public GlobalsTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+    loader = Loader.create(Vertx.vertx());
+  }
+
+  @Before
+  public void initialize() {
+    assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 
   @Test(timeout = 10000)
-  public void testSetTimeout(TestContext ctx) throws ScriptException {
+  public void testSetTimeout(TestContext ctx) throws Exception {
     final Async async = ctx.async();
 
-    engine.put("ctx", ctx);
-    engine.put("async", async);
+    loader.put("ctx", ctx);
+    loader.put("async", async);
 
     /// @language=JavaScript
     String script =
@@ -36,16 +52,16 @@ public class GlobalsTest {
       "}, 1);";
 
 
-    engine.eval(script);
+    loader.eval(script);
     async.await();
   }
 
   @Test(timeout = 10000)
-  public void testSetTimeout0(TestContext ctx) throws ScriptException {
+  public void testSetTimeout0(TestContext ctx) throws Exception {
     final Async async = ctx.async();
 
-    engine.put("ctx", ctx);
-    engine.put("async", async);
+    loader.put("ctx", ctx);
+    loader.put("async", async);
 
     /// @language=JavaScript
     String script =
@@ -54,16 +70,16 @@ public class GlobalsTest {
         "}, 0);";
 
 
-    engine.eval(script);
+    loader.eval(script);
     async.await();
   }
 
   @Test(timeout = 10000)
-  public void testSetTimeoutWithParams(TestContext ctx) throws ScriptException {
+  public void testSetTimeoutWithParams(TestContext ctx) throws Exception {
     final Async async = ctx.async();
 
-    engine.put("ctx", ctx);
-    engine.put("async", async);
+    loader.put("ctx", ctx);
+    loader.put("async", async);
 
     /// @language=JavaScript
     String script =
@@ -73,7 +89,7 @@ public class GlobalsTest {
         "}, 1, 'durp!');";
 
 
-    engine.eval(script);
+    loader.eval(script);
     async.await();
   }
 }

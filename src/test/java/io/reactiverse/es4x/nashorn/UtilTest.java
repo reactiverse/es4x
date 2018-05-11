@@ -1,40 +1,53 @@
 package io.reactiverse.es4x.nashorn;
 
-import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
+import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
-import jdk.nashorn.api.scripting.JSObject;
+import io.vertx.ext.unit.junit.RunTestOnContext;
+import io.vertx.ext.unit.junit.VertxUnitRunnerWithParametersFactory;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeTrue;
 
-@RunWith(VertxUnitRunner.class)
+@RunWith(Parameterized.class)
+@Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
 public class UtilTest {
 
-  private static ScriptEngine engine;
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalVM");
+  }
 
-  @BeforeClass
-  public static void setup() throws ScriptException, NoSuchMethodException {
-    Loader loader = new Loader(Vertx.vertx());
-    engine = loader.getEngine();
+  final String engineName;
+  private Loader loader;
+
+  public UtilTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+  }
+
+  @Rule
+  public RunTestOnContext rule = new RunTestOnContext();
+
+  @Before
+  public void initialize() {
+    loader = Loader.create(rule.vertx());
+    assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 
   @Test(timeout = 10000)
-  public void shouldPromisifyAVertxAPI(TestContext should) throws ScriptException {
+  public void shouldPromisifyAVertxAPI(TestContext should) throws Exception {
     final Async test = should.async();
     // pass the assertion to the engine
-    engine.put("should", should);
-    engine.put("test", test);
+    loader.put("should", should);
+    loader.put("test", test);
 
     //language=JavaScript
     String script =
@@ -48,20 +61,15 @@ public class UtilTest {
       "  should.fail(error);\n" +
       "});\n";
 
-    engine.eval(script);
-
-    test.await();
-
-    engine.put("should", null);
-    engine.put("test", null);
+    loader.eval(script);
   }
 
   @Test(timeout = 10000)
-  public void shouldPromisifyAJavaScriptAPI(TestContext should) throws ScriptException {
+  public void shouldPromisifyAJavaScriptAPI(TestContext should) throws Exception {
     final Async test = should.async();
     // pass the assertion to the engine
-    engine.put("should", should);
-    engine.put("test", test);
+    loader.put("should", should);
+    loader.put("test", test);
 
     //language=JavaScript
     String script =
@@ -88,11 +96,6 @@ public class UtilTest {
       "  should.fail(error);\n" +
       "});\n";
 
-    engine.eval(script);
-
-    test.await();
-
-    engine.put("should", null);
-    engine.put("test", null);
+    loader.eval(script);
   }
 }

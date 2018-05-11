@@ -1,38 +1,49 @@
 package io.reactiverse.es4x.nashorn;
 
+import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
-import jdk.nashorn.api.scripting.JSObject;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
+import static io.reactiverse.es4x.nashorn.JS.*;
+
+@RunWith(Parameterized.class)
 public class CommonJSCyclicTest {
 
-  private static JSObject require;
-
-  @SuppressWarnings("unchecked")
-  private static <T> T require(String module) {
-    return (T) require.call(null, module);
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalVM");
   }
 
-  @BeforeClass
-  public static void beforeClass() throws ScriptException, NoSuchMethodException {
-    Loader loader = new Loader(Vertx.vertx());
-    ScriptEngine engine = loader.getEngine();
-    require = (JSObject) engine.get("require");
+  final String engineName;
+  final Loader loader;
+
+  public CommonJSCyclicTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+    loader = Loader.create(Vertx.vertx());
+  }
+
+  @Before
+  public void initialize() {
+    assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 
   @Test
   public void shouldHaveTheSameSenseOfAnObjectInAllPlaces() {
-    JSObject stream = require("./lib/cyclic2/stream.js");
-    assertTrue(stream.isFunction());
-    JSObject readable = (JSObject) stream.getMember("Readable");
-    assertTrue(readable.isFunction());
-    JSObject stream2 = (JSObject) readable.getMember("Stream");
-    assertTrue(stream2.isFunction());
+    Object stream = loader.require("./lib/cyclic2/stream.js");
+    assertTrue(isFunction(stream));
+    Object readable = getMember(stream, "Readable");
+    assertTrue(isFunction(readable));
+    Object stream2 = getMember(readable, "Stream");
+    assertTrue(isFunction(stream2));
   }
 }

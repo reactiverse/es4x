@@ -1,61 +1,70 @@
 package io.reactiverse.es4x.nashorn;
 
+import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
-import jdk.nashorn.api.scripting.JSObject;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assume.assumeTrue;
 
+import static io.reactiverse.es4x.nashorn.JS.*;
+
+@RunWith(Parameterized.class)
 public class CommonJsNodeModulesTest {
 
-  private static JSObject require;
-
-  @SuppressWarnings("unchecked")
-  private static <T> T require(String module) {
-    return (T) require.call(null, module);
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalVM");
   }
 
-  @BeforeClass
-  public static void beforeClass() throws ScriptException, NoSuchMethodException {
-    Loader loader = new Loader(Vertx.vertx());
-    ScriptEngine engine = loader.getEngine();
-    require = (JSObject) engine.get("require");
+  final String engineName;
+  final Loader loader;
+
+  public CommonJsNodeModulesTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+    loader = Loader.create(Vertx.vertx());
+  }
+
+  @Before
+  public void initialize() {
+    assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 
   @Test
   public void shouldLoadFileModulesFromTheNode_modulesFolderInCwd() {
-    JSObject top = require("./lib/a_package");
-    assertEquals("Hello from a file module", top.getMember("file_module"));
+    Object top = loader.require("./lib/a_package");
+    assertEquals("Hello from a file module", getMember(top, "file_module", String.class));
   }
 
   @Test
   public void shouldLoadPackageModulesFromNode_modulesFolder() {
-    JSObject top = require("./lib/a_package");
-    assertEquals("Hello from a package module", ((JSObject) top.getMember
-      ("pkg_module")).getMember("pkg"));
+    Object top = loader.require("./lib/a_package");
+    assertEquals("Hello from a package module", getMember(getMember(top, "pkg_module"), "pkg", String.class));
   }
 
   @Test
   public void shouldFindNode_modulePackagesInTheParentPath() {
-    JSObject top = require("./lib/a_package");
-    assertEquals("Hello from a file module", ((JSObject) top.getMember
-      ("pkg_module")).getMember("file"));
+    Object top = loader.require("./lib/a_package");
+    assertEquals("Hello from a file module", getMember(getMember(top, "pkg_module"), "file", String.class));
   }
 
   @Test
   public void shouldFindNode_modulePackagesFromSiblingPath() {
-    JSObject top = require("./lib/a_package");
-    assertFalse((Boolean) ((JSObject) top.getMember("parent_test")).getMember("parentChanged"));
+    Object top = loader.require("./lib/a_package");
+    assertFalse(getMember(getMember(top, "parent_test"), "parentChanged", Boolean.class));
   }
 
   @Test
   public void shouldFindNode_modulePackagesAllTheWayUpAboveCwd() {
-    JSObject m = require("root_module");
-    assertEquals("You are at the root", m.getMember("message"));
+    Object m = loader.require("root_module");
+    assertEquals("You are at the root", getMember(m, "message", String.class));
   }
 }

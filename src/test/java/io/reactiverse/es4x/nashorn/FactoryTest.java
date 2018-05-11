@@ -4,6 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -11,6 +12,11 @@ import org.junit.runner.RunWith;
 public class FactoryTest {
 
   private static final Vertx vertx = Vertx.vertx();
+
+  @BeforeClass
+  public static void beforeClass() {
+    System.setProperty("es4x.engine", "Nashorn");
+  }
 
   @Test(timeout = 10000)
   public void shouldDeployVerticle(TestContext ctx) {

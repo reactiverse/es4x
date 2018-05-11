@@ -13,38 +13,33 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x.nashorn.runtime;
+package io.reactiverse.es4x.impl.graal;
 
 import io.netty.util.CharsetUtil;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import jdk.nashorn.api.scripting.JSObject;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Value;
 
 import java.util.List;
 import java.util.Map;
 
-final class JSObjectMessageCodec implements MessageCodec<ScriptObjectMirror, Object> {
+final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
 
-  private final JSObject JSON;
-  private final JSObject Java;
+  private final Value stringify;
 
-  private final JSObject stringify;
-  private final JSObject asJSONCompatible;
+  private final Context ctx;
 
-  JSObjectMessageCodec(JSObject JSON, JSObject Java) {
-    this.JSON = JSON;
-    this.Java = Java;
-
-    this.stringify = (JSObject) JSON.getMember("stringify");
-    this.asJSONCompatible = (JSObject) Java.getMember("asJSONCompatible");
+  JSObjectMessageCodec(Value JSON, Context ctx) {
+    this.stringify = JSON.getMember("stringify");
+    this.ctx = ctx;
   }
 
   @Override
-  public void encodeToWire(Buffer buffer, ScriptObjectMirror jsObject) {
-    String strJson = (String) stringify.call(JSON, jsObject);
+  public void encodeToWire(Buffer buffer, T jsObject) {
+    String strJson = stringify.execute(jsObject).asString();
     byte[] encoded = strJson.getBytes(CharsetUtil.UTF_8);
     buffer.appendInt(encoded.length);
     Buffer buff = Buffer.buffer(encoded);
@@ -61,16 +56,17 @@ final class JSObjectMessageCodec implements MessageCodec<ScriptObjectMirror, Obj
   }
 
   @Override
-  public Object transform(ScriptObjectMirror jsObject) {
-    Object compat = asJSONCompatible.call(Java, jsObject);
-    if (compat instanceof Map) {
-      return new JsonObject((Map) compat);
+  public Object transform(T jsObject) {
+    final Value value = ctx.asValue(jsObject);
+    if (value.hasMembers()) {
+      if (value.hasArrayElements()) {
+        return new JsonArray(value.as(List.class));
+      } else {
+        return new JsonObject(value.as(Map.class));
+      }
     }
-    if (compat instanceof List) {
-      return new JsonArray((List) compat);
-    }
-
-    return compat;
+    // cannot cast return as is...
+    return jsObject;
   }
 
   @Override
