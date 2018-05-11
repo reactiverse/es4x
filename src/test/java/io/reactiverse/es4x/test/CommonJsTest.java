@@ -1,4 +1,4 @@
-package io.reactiverse.es4x.nashorn;
+package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import static io.reactiverse.es4x.nashorn.JS.*;
+import static io.reactiverse.es4x.test.JS.*;
 import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)

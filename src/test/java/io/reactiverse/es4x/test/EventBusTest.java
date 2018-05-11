@@ -1,4 +1,4 @@
-package io.reactiverse.es4x.nashorn;
+package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.json.JsonArray;

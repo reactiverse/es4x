@@ -28,7 +28,7 @@ public class GraalLoader implements Loader<Value> {
     // add vertx as a global
     context.eval("js", INSTALL_GLOBAL).execute("vertx", vertx);
 
-    // register a default codec to allow JSON messages directly from nashorn to the JVM world
+    // register a default codec to allow JSON messages directly from GraalVM to the JVM world
     final AtomicReference holder = new AtomicReference();
     context.eval("js", "(function (fn) { fn({}); })").execute((Handler) holder::set);
 

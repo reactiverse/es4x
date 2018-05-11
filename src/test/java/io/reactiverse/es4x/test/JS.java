@@ -1,4 +1,4 @@
-package io.reactiverse.es4x.nashorn;
+package io.reactiverse.es4x.test;
 
 import jdk.nashorn.api.scripting.JSObject;
 import org.graalvm.polyglot.Value;

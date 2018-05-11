@@ -1,4 +1,4 @@
-package io.reactiverse.es4x.nashorn;
+package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
@@ -10,13 +10,11 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
-
-import static io.reactiverse.es4x.nashorn.JS.*;
+import static org.junit.Assert.*;
+import static org.junit.Assume.*;
 
 @RunWith(Parameterized.class)
-public class CommonJSCyclicTest {
+public class CommonJSGlobalPollutionTest {
 
   @Parameterized.Parameters
   public static List<String> engines() {
@@ -26,7 +24,7 @@ public class CommonJSCyclicTest {
   final String engineName;
   final Loader loader;
 
-  public CommonJSCyclicTest(String engine) {
+  public CommonJSGlobalPollutionTest(String engine) {
     System.setProperty("es4x.engine", engine);
     engineName = engine;
     loader = Loader.create(Vertx.vertx());
@@ -38,12 +36,13 @@ public class CommonJSCyclicTest {
   }
 
   @Test
-  public void shouldHaveTheSameSenseOfAnObjectInAllPlaces() {
-    Object stream = loader.require("./lib/cyclic2/stream.js");
-    assertTrue(isFunction(stream));
-    Object readable = getMember(stream, "Readable");
-    assertTrue(isFunction(readable));
-    Object stream2 = getMember(readable, "Stream");
-    assertTrue(isFunction(stream2));
+  public void shouldHaveSideEffects() {
+    try {
+      // this test verifies that the pollution of the global context behaves like on node
+      loader.require("./pollution/a.js");
+      fail("should throw");
+    } catch (Exception e) {
+      assertEquals("Error: engine is tainted: b", e.getMessage());
+    }
   }
 }

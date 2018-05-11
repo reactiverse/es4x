@@ -1,9 +1,8 @@
-package io.reactiverse.es4x.nashorn;
+package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
