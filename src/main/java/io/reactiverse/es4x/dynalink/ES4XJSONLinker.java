@@ -52,6 +52,7 @@ public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConver
     return null;
   }
 
+  @SuppressWarnings("unchecked")
   private static JsonObject toJsonObject(final Object obj) {
     // nulls will be nulls
     if (obj == null) {
@@ -65,6 +66,7 @@ public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConver
     return new JsonObject((Map<String, Object>) ScriptUtils.convert(obj, Map.class));
   }
 
+  @SuppressWarnings("unchecked")
   private static JsonArray toJsonArray(final Object obj) {
     // nulls will be nulls
     if (obj == null) {
