@@ -6,7 +6,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
-import org.intellij.lang.annotations.Language;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -74,7 +73,7 @@ public class GraalLoader implements Loader<Value> {
   }
 
   @Override
-  public Value eval(@Language("JavaScript") String script) {
+  public Value eval(String script) {
     return context.eval("js", script);
   }
 

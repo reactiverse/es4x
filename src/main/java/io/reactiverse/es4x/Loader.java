@@ -4,7 +4,6 @@ import io.reactiverse.es4x.impl.graal.GraalLoader;
 import io.reactiverse.es4x.impl.nashorn.NashornLoader;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import org.intellij.lang.annotations.Language;
 
 public interface Loader<T> {
 
@@ -38,7 +37,7 @@ public interface Loader<T> {
 
   T main(String main);
 
-  T eval(@Language("JavaScript") String script) throws Exception;
+  T eval(String script) throws Exception;
 
   T invokeMethod(Object thiz, String method, Object... args);
 
