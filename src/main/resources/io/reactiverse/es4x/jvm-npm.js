@@ -18,7 +18,7 @@
   var fs = global.vertx.fileSystem();
   var System = Java.type('java.lang.System');
   var URI = Java.type('java.net.URI');
-  var ESModuleAdapter = Java.type('io.reactiverse.es4x.nashorn.runtime.ESModuleAdapter');
+  var ESModuleAdapter = Java.type('io.reactiverse.es4x.ESModuleAdapter');
 
   function getParent(uri) {
     if (!(uri instanceof URI)) {
@@ -29,30 +29,30 @@
         return null;
       }
     }
-    var path = uri.path;
+    var path = uri.getPath();
     var last = path.lastIndexOf('/');
     if (path.length > last) {
-      return uri.scheme + ':' + path.substring(0, last);
+      return uri.getScheme() + ':' + path.substring(0, last);
     }
   }
 
   function exists(uri) {
-    switch (uri.scheme) {
+    switch (uri.getScheme()) {
       case 'jar':
-        return fs.existsBlocking(uri.path.substr(1));
+        return fs.existsBlocking(uri.getPath().substr(1));
       case 'file':
-        return fs.existsBlocking(uri.path);
+        return fs.existsBlocking(uri.getPath());
       default:
         return false;
     }
   }
 
   function isFile(uri) {
-    switch (uri.scheme) {
+    switch (uri.getScheme()) {
       case 'jar':
-        return fs.propsBlocking(uri.path.substr(1)).isRegularFile();
+        return fs.propsBlocking(uri.getPath().substr(1)).isRegularFile();
       case 'file':
-        return fs.propsBlocking(uri.path).isRegularFile();
+        return fs.propsBlocking(uri.getPath()).isRegularFile();
       default:
         return false;
     }
@@ -60,17 +60,17 @@
 
   function readFile(uri) {
     try {
-      switch (uri.scheme) {
+      switch (uri.getScheme()) {
         case 'jar':
-          return ESModuleAdapter.adapt(fs.readFileBlocking(uri.path.substr(1)).toString());
+          return ESModuleAdapter.adapt(fs.readFileBlocking(uri.getPath().substr(1)).toString());
         case 'file':
-          return ESModuleAdapter.adapt(fs.readFileBlocking(uri.path).toString());
+          return ESModuleAdapter.adapt(fs.readFileBlocking(uri.getPath()).toString());
       }
     } catch (e) {
       throw new ModuleError('Cannot read file [' + uri + ']: ', 'IO_ERROR', e);
     }
     // if we fall through it's an error as we can't handle this scheme
-    throw new ModuleError('Cannot handle scheme [' + uri.scheme + ']: ', 'IO_ERROR');
+    throw new ModuleError('Cannot handle scheme [' + uri.getScheme() + ']: ', 'IO_ERROR');
   }
 
   function Module(id, parent) {
@@ -107,29 +107,17 @@
 
     var sourceURL = '<unknown>';
 
-    switch (uri.scheme) {
+    switch (uri.getScheme()) {
       case 'jar':
-        sourceURL = uri.path.substr(1);
+        sourceURL = uri.getPath().substr(1);
         break;
       case 'file':
-        sourceURL = uri.path;
+        sourceURL = uri.getPath();
         break;
     }
 
-    load.call(
-      // abuse the "this" to setup the context for the module
-      {
-        exports: module.exports,
-        module: module,
-        require: module.require,
-        __filename: module.filename,
-        __dirname: dir
-      },
-      {
-        script: body,
-        name: sourceURL
-      }
-    );
+    var func = new Function('exports', 'module', 'require', '__filename', '__dirname', body + '\n//# sourceURL=' + sourceURL);
+    func.apply(module, [module.exports, module, module.require, module.filename, dir]);
 
     module.loaded = true;
     module.main = main;
@@ -150,9 +138,9 @@
 
     if (Require.cache[uri]) {
       return Require.cache[uri];
-    } else if (uri.path.endsWith('.js')) {
+    } else if (uri.getPath().endsWith('.js')) {
       return Module._load(uri, parent);
-    } else if (uri.path.endsWith('.json')) {
+    } else if (uri.getPath().endsWith('.json')) {
       return loadJSON(uri);
     }
   }
