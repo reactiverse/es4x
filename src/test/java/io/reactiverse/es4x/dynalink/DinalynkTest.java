@@ -54,7 +54,7 @@ public class DinalynkTest {
   public void testDataObject(TestContext should) throws Exception {
     final Async test = should.async();
 
-    should.assertEquals("{\n  \"foo\" : \"bar\"\n}", loader.eval(
+    should.assertEquals(new HttpServerOptions().toJson().encodePrettily(), loader.eval(
       "var DynalinkTest = Java.type('io.reactiverse.es4x.dynalink.DinalynkTest');\n" +
         "DynalinkTest.testDataObject({foo: 'bar'});\n"));
 
