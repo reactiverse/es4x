@@ -1,6 +1,7 @@
 package io.reactiverse.es4x.dynalink;
 
 import io.reactiverse.es4x.Loader;
+import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
@@ -28,11 +29,14 @@ public class DinalynkTest {
     System.setProperty("es4x.engine", "Nashorn");
     loader = Loader.create(rule.vertx());
     assumeTrue(loader.name().equalsIgnoreCase("Nashorn"));
-    System.out.println(System.getProperty("java.version"));
   }
 
-  public static String testMe(JsonObject o) {
+  public static String testJSON(JsonObject o) {
     return o.encodePrettily();
+  }
+
+  public static String testDataObject(HttpServerOptions o) {
+    return o.toJson().encodePrettily();
   }
 
   @Test(timeout = 10000)
@@ -41,7 +45,18 @@ public class DinalynkTest {
 
     should.assertEquals("{\n  \"foo\" : \"bar\"\n}", loader.eval(
       "var DynalinkTest = Java.type('io.reactiverse.es4x.dynalink.DinalynkTest');\n" +
-      "DynalinkTest.testMe({foo: 'bar'});\n"));
+      "DynalinkTest.testJSON({foo: 'bar'});\n"));
+
+    test.complete();
+  }
+
+  @Test(timeout = 10000)
+  public void testDataObject(TestContext should) throws Exception {
+    final Async test = should.async();
+
+    should.assertEquals("{\n  \"foo\" : \"bar\"\n}", loader.eval(
+      "var DynalinkTest = Java.type('io.reactiverse.es4x.dynalink.DinalynkTest');\n" +
+        "DynalinkTest.testDataObject({foo: 'bar'});\n"));
 
     test.complete();
   }

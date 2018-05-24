@@ -1,19 +1,21 @@
 package io.reactiverse.es4x.dynalink;
 
+import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jdk.dynalink.linker.*;
 import jdk.nashorn.api.scripting.ScriptUtils;
 
 import java.lang.invoke.*;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConverterFactory {
 
   private static final MethodHandle TO_JSONOBJECT;
   private static final MethodHandle TO_JSONARRAY;
+
+  private final Map<Class, DataObjectLinker> linkers = new IdentityHashMap<>();
 
   static {
     final MethodHandles.Lookup lookup = MethodHandles.lookup();
@@ -41,13 +43,33 @@ public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConver
   }
 
   @Override
-  public GuardedInvocation convertToType(Class<?> sourceType, Class<?> targetType, Supplier<MethodHandles.Lookup> lookupSupplier) {
+  public GuardedInvocation convertToType(Class<?> sourceType, Class<?> targetType, Supplier<MethodHandles.Lookup> lookupSupplier) throws NoSuchMethodException, IllegalAccessException {
     if (targetType.isAssignableFrom(JsonObject.class)) {
       return new GuardedInvocation(TO_JSONOBJECT);
     }
     if (targetType.isAssignableFrom(JsonArray.class)) {
       return new GuardedInvocation(TO_JSONARRAY);
     }
+    // will attempt to cache the linker if not available yet
+    DataObjectLinker linker;
+
+    if (linkers.containsKey(targetType)) {
+      linker = linkers.get(targetType);
+      if (linker != null) {
+        return new GuardedInvocation(linker.getHandler());
+      }
+    } else {
+      // first time check
+      if (targetType.isAnnotationPresent(DataObject.class)) {
+        linker = new DataObjectLinker(targetType);
+        linkers.put(targetType, linker);
+        return new GuardedInvocation(linker.getHandler());
+      } else {
+        linkers.put(targetType, null);
+
+      }
+    }
+
     // we can't convert
     return null;
   }
