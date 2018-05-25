@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.dynalink;
 
-import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jdk.dynalink.linker.*;
@@ -43,7 +42,7 @@ public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConver
   }
 
   @Override
-  public GuardedInvocation convertToType(Class<?> sourceType, Class<?> targetType, Supplier<MethodHandles.Lookup> lookupSupplier) throws NoSuchMethodException, IllegalAccessException {
+  public GuardedInvocation convertToType(Class<?> sourceType, Class<?> targetType, Supplier<MethodHandles.Lookup> lookupSupplier) {
     if (targetType.isAssignableFrom(JsonObject.class)) {
       return new GuardedInvocation(TO_JSONOBJECT);
     }
@@ -60,13 +59,12 @@ public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConver
       }
     } else {
       // first time check
-      if (targetType.isAnnotationPresent(DataObject.class)) {
+      try {
         linker = new DataObjectLinker(targetType);
         linkers.put(targetType, linker);
         return new GuardedInvocation(linker.getHandler());
-      } else {
+      } catch (NoSuchMethodException | IllegalAccessException e) {
         linkers.put(targetType, null);
-
       }
     }
 

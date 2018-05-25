@@ -10,13 +10,13 @@ import java.util.Map;
 
 public class DataObjectLinker {
 
-  private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
+  private static final MethodHandles.Lookup lookup = MethodHandles.publicLookup();
 
   private final Class type;
   private final MethodHandle constructor;
   private final MethodHandle handler;
 
-  public DataObjectLinker(Class target) throws NoSuchMethodException, IllegalAccessException {
+  DataObjectLinker(Class target) throws NoSuchMethodException, IllegalAccessException {
     this.type = target;
     constructor = lookup.findConstructor(target, MethodType.methodType(void.class, JsonObject.class));
 
