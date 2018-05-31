@@ -2,6 +2,8 @@
 
 This is the list of generated API docs:
 
+## @vertx
+
 * [amqp-bridge](./@vertx/amqp-bridge/index.html)
 * [auth-common](./@vertx/auth-common/index.html)
 * [auth-digest](./@vertx/auth-digest/index.html)
@@ -55,3 +57,6 @@ This is the list of generated API docs:
 * [web-client](./@vertx/web-client/index.html)
 * [web-common](./@vertx/web-common/index.html)
 
+## @reactiverse
+
+* [reactive-pg-client](./@reactiverse/reactive-pg-client/index.html)
