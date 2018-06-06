@@ -3,8 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>xyz.jetdrone</groupId>
     <artifactId>vertx-lang-es-generator</artifactId>
@@ -12,24 +10,22 @@
     <relativePath>../../parent</relativePath>
   </parent>
 
-  <artifactId>reactive-pg-client</artifactId>
-  <version>0.5.0</version>
+  <modelVersion>4.0.0</modelVersion>
 
-  <packaging>jar</packaging>
+  <artifactId>vertx-service-proxy</artifactId>
+  <version>3.5.2</version>
 
   <properties>
-    <maven.groupId>com.julienviet</maven.groupId>
+    <maven.groupId>io.vertx</maven.groupId>
+    <npm-name>@vertx/service-proxy</npm-name>
   </properties>
 
   <dependencies>
-    <!-- CODEGEN -->
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-codegen</artifactId>
-      <scope>provided</scope>
+      <artifactId>vertx-auth-jwt</artifactId>
+      <version>${stack.version}</version>
       <optional>true</optional>
-      <version>3.6.0-SNAPSHOT</version>
-      <!-- <version>${stack.version}</version> -->
     </dependency>
     <!-- SOURCE TO GENERATE -->
     <dependency>

@@ -60,7 +60,7 @@ add the package [vertx-scripts](https://www.npmjs.com/package/vertx-scripts) to 
   "license": "ISC",
   "private": true,
   "devDependencies": {
-    "vertx-scripts": "^1.0.8"
+    "vertx-scripts": "^1.0.9"
   }
 }
 ```

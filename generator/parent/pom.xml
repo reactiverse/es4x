@@ -17,7 +17,7 @@
     <!-- ES4X version -->
     <es4x.version>0.5.2-SNAPSHOT</es4x.version>
     <!-- This version matches the stack version to be used -->
-    <stack.version>3.5.2.CR2</stack.version>
+    <stack.version>3.5.2</stack.version>
     <!-- This is the source group id -->
     <maven.groupId>io.vertx</maven.groupId>
 
@@ -35,6 +35,10 @@
           "module": "vertx",
           "name": "core",
           "scope": "vertx"
+        },
+        {
+          "group": "io.reactiverse",
+          "scope": "reactiverse"
         }
       ]
     </scope-registry>
@@ -78,7 +82,6 @@
       <artifactId>vertx-codegen</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
-      <!--<version>3.6.0-SNAPSHOT</version>-->
        <version>${stack.version}</version>
     </dependency>
     <dependency>
@@ -121,7 +124,7 @@
               <includeClassifiers>sources</includeClassifiers>
               <includes>**/*.java</includes>
               <excludes>
-                examples/**/*.java,io/vertx/core/logging/*.java,**/impl/**/*.*,**/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
+                examples/**/*.java,io/vertx/core/logging/*.java,io/vertx/**/impl/**/*.*,**/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
               </excludes>
               <outputDirectory>${project.build.directory}/sources/${project.artifactId}</outputDirectory>
             </configuration>
