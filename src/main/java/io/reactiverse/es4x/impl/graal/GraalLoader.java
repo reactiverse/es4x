@@ -81,7 +81,7 @@ public class GraalLoader implements Loader<Value> {
   public Value invokeMethod(Object thiz, String method, Object... args) {
     if (thiz instanceof Value) {
       Value fn = ((Value) thiz).getMember(method);
-      if (fn != null) {
+      if (fn != null && !fn.isNull()) {
         return fn.execute(args);
       }
     }
