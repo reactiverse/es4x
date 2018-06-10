@@ -91,7 +91,9 @@ app.route().handler(function (ctx) {
 });
 
 vertx.createHttpServer()
-  .requestHandler(app)
+  .requestHandler((result) => {
+    return app.accept(result);
+  } )
   .listen(8080);
 ```
 
