@@ -20,7 +20,6 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 
 import java.util.List;
@@ -30,11 +29,8 @@ final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
 
   private final Value stringify;
 
-  private final Context ctx;
-
-  JSObjectMessageCodec(Value JSON, Context ctx) {
+  JSObjectMessageCodec(Value JSON) {
     this.stringify = JSON.getMember("stringify");
-    this.ctx = ctx;
   }
 
   @Override
@@ -57,7 +53,7 @@ final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
 
   @Override
   public Object transform(T jsObject) {
-    final Value value = ctx.asValue(jsObject);
+    final Value value = Value.asValue(jsObject);
     if (value.hasMembers()) {
       if (value.hasArrayElements()) {
         return new JsonArray(value.as(List.class));

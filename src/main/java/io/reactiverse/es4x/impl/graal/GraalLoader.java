@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.impl.graal;
 
 import io.reactiverse.es4x.Loader;
@@ -32,7 +47,7 @@ public class GraalLoader implements Loader<Value> {
     context.eval("js", "(function (fn) { fn({}); })").execute((Handler) holder::set);
 
     vertx.eventBus().unregisterDefaultCodec(holder.get().getClass());
-    vertx.eventBus().registerDefaultCodec(holder.get().getClass(), new JSObjectMessageCodec<>(context.eval("js", "JSON"), context));
+    vertx.eventBus().registerDefaultCodec(holder.get().getClass(), new JSObjectMessageCodec<>(context.eval("js", "JSON")));
 
     // add polyfills
     context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/object.js").toString("UTF-8"));
