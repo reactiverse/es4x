@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Added `Dynalink` to any `DataObject`
 - Type definition for `process`
 - Loader updated to switch from `Nashorn`/`GraalVM` depending on the runtime
 - Fix Console `format` to not crash when handling unsupported types
