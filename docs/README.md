@@ -11,7 +11,7 @@ level is limited to the underlying `Nashorn` engine. The engine does support `ES
 some `ES6` features. For a full list of supported features please have a look at the
 [compat-tables](https://kangax.github.io/compat-table/es6/) project, depending on your
 runtime [JDK 1.8](https://kangax.github.io/compat-table/es6/#nashorn1_8) or
-[JDK9](https://kangax.github.io/compat-table/es6/#nashorn9) you should have more or less
+[JDK10](https://kangax.github.io/compat-table/es6/#nashorn10) you should have more or less
 language features.
 
 # Links
@@ -60,7 +60,7 @@ add the package [vertx-scripts](https://www.npmjs.com/package/vertx-scripts) to 
   "license": "ISC",
   "private": true,
   "devDependencies": {
-    "vertx-scripts": "^1.0.8"
+    "vertx-scripts": "^1.0.9"
   }
 }
 ```
@@ -91,7 +91,9 @@ app.route().handler(function (ctx) {
 });
 
 vertx.createHttpServer()
-  .requestHandler(app)
+  .requestHandler((result) => {
+    return app.accept(result);
+  } )
   .listen(8080);
 ```
 

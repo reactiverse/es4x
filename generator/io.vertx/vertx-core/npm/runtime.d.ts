@@ -21,6 +21,16 @@ declare const Java: {
   type(className: string): any
 };
 
+declare const process: {
+  env: Map<String, String>;
+  pid: String;
+  exit: (exitCode: Number) => void;
+  nextTick: (callback: (...args: any[]) => void) => void;
+  stdout: any;
+  stderr: any;
+  stdin: any;
+};
+
 // The globally defined objects that are provided by the loader runtime
 declare global {
   const vertx : Vertx;

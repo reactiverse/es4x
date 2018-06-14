@@ -2,6 +2,12 @@
 
 This is the list of generated API docs:
 
+## @vertx/core
+
+* [core](./@vertx/core/index.html)
+
+## @vertx
+
 * [amqp-bridge](./@vertx/amqp-bridge/index.html)
 * [auth-common](./@vertx/auth-common/index.html)
 * [auth-digest](./@vertx/auth-digest/index.html)
@@ -24,7 +30,6 @@ This is the list of generated API docs:
 * [config-yaml](./@vertx/config-yaml/index.html)
 * [config-zookeeper](./@vertx/config-zookeeper/index.html)
 * [consul-client](./@vertx/consul-client/index.html)
-* [core](./@vertx/core/index.html)
 * [dropwizard-metrics](./@vertx/dropwizard-metrics/index.html)
 * [hawkular-metrics](./@vertx/hawkular-metrics/index.html)
 * [health-check](./@vertx/health-check/index.html)
@@ -55,3 +60,6 @@ This is the list of generated API docs:
 * [web-client](./@vertx/web-client/index.html)
 * [web-common](./@vertx/web-common/index.html)
 
+## @reactiverse
+
+* [reactive-pg-client](./@reactiverse/reactive-pg-client/index.html)
