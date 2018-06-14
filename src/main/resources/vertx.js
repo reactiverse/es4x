@@ -1,6 +1,6 @@
 (function (self) {
   if (typeof vertx === 'undefined') {
-    var clustered = false;
+    let clustered = false;
 
     // remove the default quit functions
     delete self['exit'];
@@ -13,8 +13,8 @@
 
     // do we want clustering support?
     if (self['arguments']) {
-      for (var i = 0; i < self['arguments'].length; i++) {
-        if (self['arguments'][i] === '--cluster') {
+      for (let i = 0; i < self['arguments'].length; i++) {
+        if (self['arguments'][i] === '-cluster') {
           clustered = true;
           break;
         }

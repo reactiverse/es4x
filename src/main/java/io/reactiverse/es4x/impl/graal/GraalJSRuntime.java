@@ -19,11 +19,8 @@ import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import org.graalvm.polyglot.Value;
 
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class GraalJSRuntime {
 
@@ -32,16 +29,14 @@ public class GraalJSRuntime {
       final CountDownLatch latch = new CountDownLatch(1);
 
       final AtomicReference<Throwable> err = new AtomicReference<>();
-      final AtomicReference<Vertx> vertx = new AtomicReference<>();
+      final AtomicReference<Vertx> holder = new AtomicReference<>();
 
       Vertx.clusteredVertx(new VertxOptions(), ar -> {
         if (ar.failed()) {
           err.set(ar.cause());
           latch.countDown();
         } else {
-          final Vertx result = ar.result();
-          registerCodec(result, object, json);
-          vertx.set(result);
+          holder.set(ar.result());
           latch.countDown();
         }
       });
@@ -55,7 +50,9 @@ public class GraalJSRuntime {
       if (err.get() != null) {
         throw new RuntimeException(err.get());
       } else {
-        return vertx.get();
+        final Vertx vertx = holder.get();
+        registerCodec(vertx, object, json);
+        return vertx;
       }
     } else {
       final Vertx vertx = Vertx.vertx();

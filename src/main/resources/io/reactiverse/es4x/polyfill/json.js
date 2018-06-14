@@ -56,21 +56,19 @@
 
   // enhancement that converts json to java native objects
   JSON.wrap = function (arg) {
-    if (arg === null) {
+    if (arg === null || arg === undefined) {
       return null;
     }
 
-    var nativeJSON = Java.asJSONCompatible(arg);
-
-    if (nativeJSON instanceof List) {
-      return new JsonArray(nativeJSON);
+    if (Array.isArray(arg)) {
+      return new JsonArray(arg);
     }
 
-    if (nativeJSON instanceof Map) {
-      return new JsonObject(nativeJSON);
+    if (typeof arg === 'object') {
+      return new JsonObject(arg);
     }
 
     // fallback
-    return nativeJSON;
+    return arg;
   };
 })(JSON);
