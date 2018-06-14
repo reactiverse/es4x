@@ -213,7 +213,7 @@ program
       process.exit(1);
     }
 
-    var test = ('test' === cmd);
+    const test = ('test' === cmd);
 
     if (!args || args.length === 0) {
       // main verticle name is derived from main
@@ -288,62 +288,74 @@ program
   .command('repl')
   .description('Starts a REPL with the current project in the classpath')
   .action(function () {
-    var shell;
+    let shell;
+    let graal = false;
+    let tmp;
 
     // attempt to get graal from the env
     if (!shell && process.env['GRAAL_HOME']) {
-      shell = path.resolve(process.env['GRAAL_HOME'], 'bin/node');
-      if (!fs.existsSync(shell)) {
-        shell = null;
+      tmp = path.resolve(process.env['GRAAL_HOME'], 'bin/js');
+      if (fs.existsSync(tmp)) {
+        shell = tmp;
+        graal = true;
       }
     }
+
     // attempt to get graal from the env (perhaps it's on the JAVA_HOME ?)
     if (!shell && process.env['JAVA_HOME']) {
-      shell = path.resolve(process.env['JAVA_HOME'], 'bin/node');
-      if (!fs.existsSync(shell)) {
-        shell = null;
+      tmp = path.resolve(process.env['JAVA_HOME'], 'bin/js');
+      if (fs.existsSync(tmp)) {
+        shell = tmp;
+        graal = true;
       }
+    }
+
+    // attempt to get nashorn from the env (perhaps it's on the JAVA_HOME ?)
+    if (!shell && process.env['JAVA_HOME']) {
+      tmp = path.resolve(process.env['JAVA_HOME'], 'bin/jjs');
+      if (fs.existsSync(tmp)) {
+        shell = tmp;
+        graal = false;
+      }
+    }
+
+    // expect it to be on the classpath
+    if (!shell) {
+      shell = 'jjs';
+      graal = false;
     }
 
     // Releasing stdin
     process.stdin.setRawMode(false);
 
-    // fallback to jjs
-    if (!shell) {
-      // give some instructions...
-      console.log('please load vertx into the shell: ' + chalk.yellow.bold('load(\'classpath:@vertx/core/runtime\');'));
+    // give some instructions...
+    console.log('please load vertx into the shell: ' + chalk.yellow.bold('load(\'classpath:vertx.js\');'));
 
-      const jjs = spawn(
+    var proc;
+
+    if (!graal) {
+      proc = spawn(
         'jjs',
         [
           '-cp', path.resolve(dir, 'target/' + npm.name + '-' + npm.version + '-fat.jar'),
           '--language=es6'
         ],
         {stdio: [0, 1, 2]});
-
-      jjs.on("exit", function (code) {
-        // Don't forget to switch pseudo terminal on again
-        process.stdin.setRawMode(true);
-        process.exit(code);
-      });
     } else {
-      // give some instructions...
-      console.log('please load vertx into the shell: ' + chalk.yellow.bold('require(\'@vertx/core/runtime\');'));
-
-      const node = spawn(
+      proc = spawn(
         shell,
         [
-          '--polyglot',
           '--jvm.classpath=' + path.resolve(dir, 'target/' + npm.name + '-' + npm.version + '-fat.jar')
         ],
         {stdio: [0, 1, 2]});
-
-      node.on("exit", function (code) {
-        // Don't forget to switch pseudo terminal on again
-        process.stdin.setRawMode(true);
-        process.exit(code);
-      });
     }
+
+    proc.on("exit", function (code) {
+      // Don't forget to switch pseudo terminal on again
+      process.stdin.setRawMode(true);
+      process.exit(code);
+    });
+
   });
 
 program.parse(process.argv);

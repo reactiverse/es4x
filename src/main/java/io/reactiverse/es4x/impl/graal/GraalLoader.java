@@ -112,4 +112,14 @@ public class GraalLoader implements Loader<Value> {
   public void close() {
     context.close();
   }
+
+  @Override
+  public void enter() {
+    context.enter();
+  }
+
+  @Override
+  public void leave() {
+    context.leave();
+  }
 }

@@ -85,24 +85,32 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
         // if the main module exports 2 function we bind those to the verticle lifecycle
         if (self != null) {
           try {
+            loader.enter();
             loader.invokeMethod(self, "start");
             startFuture.complete();
           } catch (RuntimeException e) {
             startFuture.fail(e);
+          } finally {
+            loader.leave();
           }
         }
+
+        // release the loader (detach from the main thread)
+        loader.leave();
       }
 
       @Override
       public void stop(Future<Void> stopFuture) throws Exception {
         if (self != null) {
           try {
+            loader.enter();
             loader.invokeMethod(self, "stop");
             stopFuture.complete();
           } catch (RuntimeException e) {
             stopFuture.fail(e);
           } finally {
             // done!
+            loader.leave();
             loader.close();
           }
         }
