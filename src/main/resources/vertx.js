@@ -52,12 +52,19 @@
     // will setup vertx + default codec
     if (typeof Graal !== 'undefined') {
       // Graal mode
-      global['vertx'] = Java.type('io.reactiverse.es4x.impl.graal.GraalJSRuntime').install({}, JSON, options);
+      Java
+        .type('java.lang.System')
+        .setProperty('es4x.engine', 'GraalVM');
     } else {
       // Nashorn mode
-      self['vertx'] = Java.type('io.reactiverse.es4x.impl.nashorn.NashornJSRuntime').install(JSON, options);
       load("classpath:io/reactiverse/es4x/polyfill/object.js");
     }
+
+    // install the vertx in the global scope
+    global['vertx'] = Java
+      .type('io.reactiverse.es4x.Runtime')
+      .create()
+      .vertx({}, JSON, options);
 
     // load polyfills
     load("classpath:io/reactiverse/es4x/polyfill/json.js");
