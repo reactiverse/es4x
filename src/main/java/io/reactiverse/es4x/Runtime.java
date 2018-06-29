@@ -15,14 +15,15 @@
  */
 package io.reactiverse.es4x;
 
-import io.reactiverse.es4x.impl.graal.GraalLoader;
-import io.reactiverse.es4x.impl.nashorn.NashornLoader;
+import io.reactiverse.es4x.impl.graal.GraalRuntime;
+import io.reactiverse.es4x.impl.nashorn.NashornRuntime;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
 
-public interface Loader<T> {
+import java.util.Map;
 
-  static Loader create(Vertx vertx) {
+public interface Runtime<T> {
+
+  static Runtime create() {
     String rtName = System.getProperty("es4x.engine");
     // rt name takes precedence in the choice
     if (rtName == null) {
@@ -35,34 +36,16 @@ public interface Loader<T> {
     if (rtName != null && rtName.equalsIgnoreCase("GraalVM")) {
       // attempt to load graal loader
       try {
-        return new GraalLoader(vertx);
+        return new GraalRuntime();
       } catch (RuntimeException e) {
         // Ignore...
       }
     }
     // fallback (nashorn)
-    return new NashornLoader(vertx);
+    return new NashornRuntime();
   }
 
   String name();
 
-  void config(final JsonObject config);
-
-  T require(String main);
-
-  T main(String main);
-
-  T eval(String script) throws Exception;
-
-  T invokeMethod(Object thiz, String method, Object... args);
-
-  void put(String name, Object value);
-
-  default void enter() {
-  }
-
-  default void leave() {
-  }
-
-  void close();
+  Vertx vertx(Object object, T JSON, Map<String, Object> arguments);
 }

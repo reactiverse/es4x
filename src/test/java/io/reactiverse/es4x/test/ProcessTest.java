@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
@@ -50,8 +51,7 @@ public class ProcessTest {
       return;
     }
 
-    for (Map.Entry<String, String> kv : env.entrySet()) {
-      System.out.println(kv.getKey() + ": " + kv.getValue());
-    }
+    // PATH is usually available on all OSes
+    assertNotNull(env.get("PATH"));
   }
 }

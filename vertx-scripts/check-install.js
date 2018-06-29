@@ -23,10 +23,19 @@ for (var k in npm.scripts || {}) {
   }
 }
 
-console.log(chalk.yellow.bold('Please add the following scripts to your \'package.json\':'));
-console.log("\"scripts\": " + JSON.stringify({
-  "postinstall": "vertx-scripts init",
-  "test": "vertx-scripts launcher test -v",
-  "start": "vertx-scripts launcher run",
-  "package": "vertx-scripts package"
-}, null, 2));
+if (!npm.scripts) {
+  npm.scripts = {};
+}
+
+npm.scripts.postinstall = 'vertx-scripts init';
+npm.scripts.test = 'vertx-scripts launcher test';
+npm.scripts.start = 'vertx-scripts launcher run';
+npm.scripts.package = 'vertx-scripts package';
+npm.scripts.repl = 'vertx-scripts repl';
+
+try {
+  fs.writeFileSync(path.resolve(projectDir, 'package.json'), JSON.stringify(npm, null, 2));
+} catch (e) {
+  console.error(chalk.red.bold(e));
+  process.exit(1);
+}
