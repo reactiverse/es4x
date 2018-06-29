@@ -94,9 +94,6 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
             loader.leave();
           }
         }
-
-        // release the loader (detach from the main thread)
-        loader.leave();
       }
 
       @Override

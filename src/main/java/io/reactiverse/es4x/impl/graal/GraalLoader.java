@@ -19,6 +19,8 @@ import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Engine;
+import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -38,7 +40,10 @@ public class GraalLoader implements Loader<Value> {
 
   public GraalLoader(final Vertx vertx) {
     // create a engine instance
-    context = Context.newBuilder("js").allowAllAccess(true).build();
+    context = Context
+      .newBuilder("js")
+      .allowAllAccess(true)
+      .build();
 
     // remove the exit and quit functions
     context.eval("js", UNINSTALL_GLOBAL).execute("exit");
@@ -142,5 +147,13 @@ public class GraalLoader implements Loader<Value> {
   @Override
   public void leave() {
     context.leave();
+  }
+
+  Engine getEngine() {
+    return context.getEngine();
+  }
+
+  Value eval(Source source) {
+    return context.eval(source);
   }
 }
