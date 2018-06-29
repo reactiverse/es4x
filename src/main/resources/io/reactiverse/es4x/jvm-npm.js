@@ -15,10 +15,10 @@
  */
 // Since we intend to use the Function constructor.
 (function (global) {
-  var fs = global.vertx.fileSystem();
-  var System = Java.type('java.lang.System');
-  var URI = Java.type('java.net.URI');
-  var ESModuleAdapter = Java.type('io.reactiverse.es4x.ESModuleAdapter');
+  const fs = global.vertx.fileSystem();
+  const System = Java.type('java.lang.System');
+  const URI = Java.type('java.net.URI');
+  const ESModuleAdapter = Java.type('io.reactiverse.es4x.ESModuleAdapter');
 
   function getParent(uri) {
     if (!(uri instanceof URI)) {
@@ -29,8 +29,8 @@
         return null;
       }
     }
-    var path = uri.getPath();
-    var last = path.lastIndexOf('/');
+    const path = uri.getPath();
+    let last = path.lastIndexOf('/');
     if (path.length > last) {
       return uri.getScheme() + ':' + path.substring(0, last);
     }
@@ -101,11 +101,11 @@
   }
 
   Module._load = function _load(uri, parent, main) {
-    var module = new Module(uri.toString(), parent);
-    var body = readFile(uri);
-    var dir = getParent(uri);
+    const module = new Module(uri.toString(), parent);
+    const body = readFile(uri);
+    const dir = getParent(uri);
 
-    var sourceURL = '<unknown>';
+    let sourceURL = '<unknown>';
 
     switch (uri.getScheme()) {
       case 'jar':
@@ -116,7 +116,13 @@
         break;
     }
 
-    var func = new Function('exports', 'module', 'require', '__filename', '__dirname', body + '\n//# sourceURL=' + sourceURL);
+    // wrap the module with a eval statement instead of Function object so we
+    // can preserve the correct line numbering during exceptions
+    const func = load({
+      script: 'function (exports, module, require, __filename, __dirname) { ' + body + '\n}',
+      name: sourceURL
+    });
+
     func.apply(module, [module.exports, module, module.require, module.filename, dir]);
 
     module.loaded = true;
@@ -125,12 +131,12 @@
   };
 
   Module.runMain = function runMain(main) {
-    var uri = Require.resolve(main);
+    const uri = Require.resolve(main);
     Module._load(uri, undefined, true);
   };
 
   function Require(id, parent) {
-    var uri = Require.resolve(id, parent);
+    const uri = Require.resolve(id, parent);
 
     if (!uri) {
       throw new ModuleError('Module "' + id + '" was not found', 'MODULE_NOT_FOUND');
@@ -146,12 +152,12 @@
   }
 
   Require.resolve = function (id, parent) {
-    var roots = findRoots(parent);
-    var start = id.substring(0, 2);
-    for (var i = 0; i < roots.length; ++i) {
-      var root = roots[i];
+    const roots = findRoots(parent);
+    let start = id.substring(0, 2);
+    for (let i = 0; i < roots.length; ++i) {
+      let root = roots[i];
 
-      var result;
+      let result;
       // node_modules do not start with a prefix
       if (start !== './' && start !== '..') {
         result = resolveAsNodeModule(id, root);
@@ -186,8 +192,8 @@
     if (paths === '') {
       return [];
     }
-    var osName = System.getProperty('os.name').toLowerCase();
-    var separator;
+    const osName = System.getProperty('os.name').toLowerCase();
+    let separator;
 
     if (osName.indexOf('win') >= 0) {
       separator = ';';
@@ -201,7 +207,7 @@
   }
 
   Require.paths = function () {
-    var r = [
+    let r = [
       // classpath resources
       'jar://',
       // current working dir
@@ -215,7 +221,7 @@
     if (Require.NODE_PATH) {
       r = r.concat('file://' + parsePaths(Require.NODE_PATH));
     } else {
-      var NODE_PATH = System.getenv('NODE_PATH');
+      let NODE_PATH = System.getenv('NODE_PATH');
       if (NODE_PATH) {
         r = r.concat('file://' + parsePaths(NODE_PATH));
       }
@@ -225,7 +231,7 @@
   };
 
   function findRoot(parent) {
-    var pathParts = parent.id.split(/[\/|\\,]+/g);
+    let pathParts = parent.id.split(/[\/|\\,]+/g);
     pathParts.pop();
     return pathParts.join('/');
   }
@@ -235,25 +241,25 @@
   global.require = Require;
 
   function loadJSON(uri) {
-    var json = JSON.parse(readFile(uri));
+    const json = JSON.parse(readFile(uri));
     Require.cache[uri] = json;
     return json;
   }
 
   function resolveAsNodeModule(id, root) {
-    var base = root ? [root, 'node_modules'].join('/') : 'node_modules';
+    let base = root ? [root, 'node_modules'].join('/') : 'node_modules';
     return resolveAsFile(id, base) ||
       resolveAsDirectory(id, base) ||
       (root ? resolveAsNodeModule(id, getParent(root)) : false);
   }
 
   function resolveAsDirectory(id, root) {
-    var base = root ? [root, id].join('/') : id;
-    var uri = new URI([base, 'package.json'].join('/')).normalize();
+    let base = root ? [root, id].join('/') : id;
+    const uri = new URI([base, 'package.json'].join('/')).normalize();
     if (exists(uri)) {
       try {
-        var body = readFile(uri);
-        var package_ = JSON.parse(body);
+        const body = readFile(uri);
+        const package_ = JSON.parse(body);
         if (package_.main) {
           return (resolveAsFile(package_.main, base) ||
             resolveAsDirectory(package_.main, base));
@@ -268,7 +274,7 @@
   }
 
   function resolveAsFile(id, root, ext) {
-    var uri;
+    let uri;
     if (id.length > 0 && id[0] === '/') {
       uri = new URI(normalizeName(id, ext)).normalize();
       if (!exists(uri)) {
@@ -283,7 +289,7 @@
   }
 
   function normalizeName(fileName, ext) {
-    var extension = ext || '.js';
+    let extension = ext || '.js';
     if (fileName.endsWith(extension)) {
       return fileName;
     }
