@@ -16,21 +16,25 @@
 package io.reactiverse.es4x.impl.graal;
 
 import io.reactiverse.es4x.Loader;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 public class GraalLoader implements Loader<Value> {
 
   private final Context context;
 
-
   private static final String INSTALL_GLOBAL = "(function(k, v) global[k] = v)";
   private static final String UNINSTALL_GLOBAL = "(function(k) delete global[k])";
+
+  // **INFO**: This is disabled until graal native images support passing object from Java to JS
+  // get the type from the system properties, if missing attempt to get it from
+  // the engine at runtime (however this doesn't work for native images)
+  private static final String EVENTBUS_JSOBJECT_AOT_CLASS = System.getProperty("es4x.eventbus.jsobject.aot.class");
 
   public GraalLoader(final Vertx vertx) {
     // create a engine instance
@@ -42,21 +46,33 @@ public class GraalLoader implements Loader<Value> {
     // add vertx as a global
     context.eval("js", INSTALL_GLOBAL).execute("vertx", vertx);
 
+    final AtomicReference<Class<?>> holder = new AtomicReference<>();
+
+    //   **INFO**: This is disabled until graal native images support passing object from Java to JS
+    if (EVENTBUS_JSOBJECT_AOT_CLASS == null) {
+      final Consumer callback = value -> holder.set(value.getClass());
+      context.eval("js", "(function (fn) { fn({}); })").execute(callback);
+    } else {
+      try {
+        holder.set(Class.forName(EVENTBUS_JSOBJECT_AOT_CLASS));
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
     // register a default codec to allow JSON messages directly from GraalVM to the JVM world
-    final AtomicReference holder = new AtomicReference();
-    context.eval("js", "(function (fn) { fn({}); })").execute((Handler) holder::set);
+    vertx.eventBus()
+      .unregisterDefaultCodec(holder.get())
+      .registerDefaultCodec(holder.get(), new JSObjectMessageCodec<>(context.eval("js", "JSON")));
 
-    vertx.eventBus().unregisterDefaultCodec(holder.get().getClass());
-    vertx.eventBus().registerDefaultCodec(holder.get().getClass(), new JSObjectMessageCodec<>(context.eval("js", "JSON")));
-
+    final Value load = context.eval("js", "load");
     // add polyfills
-    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/object.js").toString("UTF-8"));
-    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/json.js").toString("UTF-8"));
-    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/global.js").toString("UTF-8"));
-    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/console.js").toString("UTF-8"));
-    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/polyfill/promise.js").toString("UTF-8"));
+    load.execute("classpath:io/reactiverse/es4x/polyfill/json.js");
+    load.execute("classpath:io/reactiverse/es4x/polyfill/global.js");
+    load.execute("classpath:io/reactiverse/es4x/polyfill/console.js");
+    load.execute("classpath:io/reactiverse/es4x/polyfill/promise.js");
     // install the commonjs loader
-    context.eval("js", vertx.fileSystem().readFileBlocking("io/reactiverse/es4x/jvm-npm.js").toString("UTF-8"));
+    load.execute("classpath:io/reactiverse/es4x/jvm-npm.js");
   }
 
   @Override
@@ -101,6 +117,11 @@ public class GraalLoader implements Loader<Value> {
       }
     }
     return null;
+  }
+
+  @Override
+  public Value invokeFunction(String function, Object... args) {
+    return context.eval("js", function).execute(args);
   }
 
   @Override

@@ -52,8 +52,9 @@ public class NashornLoader implements Loader<Object> {
       engine.setBindings(globalBindings, ScriptContext.GLOBAL_SCOPE);
 
       // register a default codec to allow JSON messages directly from nashorn to the JVM world
-      vertx.eventBus().unregisterDefaultCodec(ScriptObjectMirror.class);
-      vertx.eventBus().registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec((JSObject) engine.eval("JSON")));
+      vertx.eventBus()
+        .unregisterDefaultCodec(ScriptObjectMirror.class)
+        .registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec((JSObject) engine.eval("JSON")));
 
       // add polyfills
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/object.js");
@@ -113,6 +114,15 @@ public class NashornLoader implements Loader<Object> {
     }
 
     return null;
+  }
+
+  @Override
+  public Object invokeFunction(String function, Object... args) {
+    try {
+      return engine.invokeFunction(function, args);
+    } catch (ScriptException | NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override

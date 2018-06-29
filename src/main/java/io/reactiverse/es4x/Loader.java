@@ -56,6 +56,8 @@ public interface Loader<T> {
 
   T invokeMethod(Object thiz, String method, Object... args);
 
+  T invokeFunction(String function, Object... args);
+
   void put(String name, Object value);
 
   default void enter() {
