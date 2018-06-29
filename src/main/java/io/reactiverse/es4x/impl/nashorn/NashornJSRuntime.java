@@ -17,20 +17,28 @@ package io.reactiverse.es4x.impl.nashorn;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import io.vertx.core.json.JsonObject;
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class NashornJSRuntime {
 
-  public static Vertx install(JSObject json, boolean clustered) {
-    if (clustered) {
+  public static Vertx install(JSObject json, Map<String, Object> arguments) {
+
+    final VertxOptions options = new VertxOptions(new JsonObject(arguments));
+
+    System.out.println(options);
+
+    if (options.isClustered()) {
       final CountDownLatch latch = new CountDownLatch(1);
 
       final AtomicReference<Throwable> err = new AtomicReference<>();
       final AtomicReference<Vertx> holder = new AtomicReference<>();
+
 
       Vertx.clusteredVertx(new VertxOptions(), ar -> {
         if (ar.failed()) {

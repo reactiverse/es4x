@@ -1,6 +1,17 @@
 (function (self) {
+
+  function camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|-\w|-+)/g, function(match, index) {
+      if (!match) {
+        return "";
+      }
+      let val = match.charAt(1);
+      return index === 0 ? val.toLowerCase() : val.toUpperCase();
+    });
+  }
+
   if (typeof vertx === 'undefined') {
-    let clustered = false;
+    let options = {};
 
     // remove the default quit functions
     delete self['exit'];
@@ -14,9 +25,26 @@
     // do we want clustering support?
     if (self['arguments']) {
       for (let i = 0; i < self['arguments'].length; i++) {
-        if (self['arguments'][i] === '-cluster') {
-          clustered = true;
-          break;
+        let arg = self['arguments'][i];
+        if (arg.length > 0 && arg.charAt(0) === '-') {
+          if (arg === '-cluster') {
+            // adapt argument to match vertx options
+            arg = '-clustered';
+          }
+          let idx = arg.indexOf('=');
+          if (idx !== -1) {
+            // attempt to cast numeric values to number
+            let value;
+            try {
+              value = parseInt(arg.substring(idx + 1), 10);
+            } catch (e) {
+              value = arg.substring(idx + 1);
+            }
+
+            options[camelize(arg.substring(0, idx))] = value;
+          } else {
+            options[camelize(arg.substring(0, idx))] = true;
+          }
         }
       }
     }
@@ -24,14 +52,14 @@
     // will setup vertx + default codec
     if (typeof Graal !== 'undefined') {
       // Graal mode
-      global['vertx'] = Java.type('io.reactiverse.es4x.impl.graal.GraalJSRuntime').install({}, JSON, clustered);
+      global['vertx'] = Java.type('io.reactiverse.es4x.impl.graal.GraalJSRuntime').install({}, JSON, options);
     } else {
       // Nashorn mode
-      self['vertx'] = Java.type('io.reactiverse.es4x.impl.nashorn.NashornJSRuntime').install(JSON, clustered);
+      self['vertx'] = Java.type('io.reactiverse.es4x.impl.nashorn.NashornJSRuntime').install(JSON, options);
+      load("classpath:io/reactiverse/es4x/polyfill/object.js");
     }
 
     // load polyfills
-    load("classpath:io/reactiverse/es4x/polyfill/object.js");
     load("classpath:io/reactiverse/es4x/polyfill/json.js");
     load("classpath:io/reactiverse/es4x/polyfill/global.js");
     load("classpath:io/reactiverse/es4x/polyfill/console.js");
