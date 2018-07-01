@@ -35,11 +35,10 @@ public interface Loader<T> {
     if (rtName != null && rtName.equalsIgnoreCase("GraalVM")) {
       // attempt to load graal loader
       try {
-        System.out.println("WARNING: Trying to use GraalVM...");
         return new GraalLoader(vertx);
       } catch (RuntimeException e) {
-        // Ignore...
-        System.out.println("ERROR: Failed start GraalVM");
+        System.err.println("ERROR: Failed start GraalVM");
+        // Ignore and go for the fallback...
       }
     }
     // fallback (nashorn)

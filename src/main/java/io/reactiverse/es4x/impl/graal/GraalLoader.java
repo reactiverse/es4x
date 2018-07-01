@@ -39,11 +39,19 @@ public class GraalLoader implements Loader<Value> {
   private static final String EVENTBUS_JSOBJECT_AOT_CLASS = System.getProperty("es4x.eventbus.jsobject.aot.class");
 
   public GraalLoader(final Vertx vertx) {
-    // create a engine instance
-    context = Context
-      .newBuilder("js")
-      .allowAllAccess(true)
-      .build();
+    this(
+      vertx,
+      // create the default context
+      Context
+        .newBuilder("js")
+        .allowHostAccess(true)
+        .allowCreateThread(true)
+        .build()
+    );
+  }
+
+  public GraalLoader(final Vertx vertx, Context context) {
+    this.context = context;
 
     // remove the exit and quit functions
     context.eval("js", UNINSTALL_GLOBAL).execute("exit");
@@ -149,11 +157,11 @@ public class GraalLoader implements Loader<Value> {
     context.leave();
   }
 
-  Engine getEngine() {
+  public Engine getEngine() {
     return context.getEngine();
   }
 
-  Value eval(Source source) {
+  public Value eval(Source source) {
     return context.eval(source);
   }
 }
