@@ -54,11 +54,29 @@
     </dependency>
   </dependencies>
   <build>
-    <defaultGoal>clean package</defaultGoal>
+    <defaultGoal>compile</defaultGoal>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>build-classpath</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>build-classpath</goal>
+            </goals>
+            <configuration>
+              <includeScope>test</includeScope>
+              <silent>true</silent>
+              <outputFile>${project.build.directory}/classpath.txt</outputFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>package-resources</id>
@@ -86,7 +104,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.3</version>
+        <version>3.1.1</version>
         <executions>
           <execution>
             <phase>package</phase>
