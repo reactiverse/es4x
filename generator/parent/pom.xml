@@ -17,7 +17,7 @@
     <!-- ES4X version -->
     <es4x.version>0.5.2-SNAPSHOT</es4x.version>
     <!-- This version matches the stack version to be used -->
-    <stack.version>3.5.2</stack.version>
+    <stack.version>3.6.0-SNAPSHOT</stack.version>
     <!-- This is the source group id -->
     <maven.groupId>io.vertx</maven.groupId>
 
@@ -80,9 +80,16 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-codegen</artifactId>
+      <version>${stack.version}</version>
       <scope>provided</scope>
       <optional>true</optional>
-       <version>${stack.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-codetrans</artifactId>
+      <version>${stack.version}</version>
+      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
@@ -112,21 +119,41 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <id>unpack-vertx-core</id>
+            <id>unpack-sources</id>
             <phase>generate-sources</phase>
             <goals>
               <goal>unpack-dependencies</goal>
             </goals>
             <configuration>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
               <includeGroupIds>${maven.groupId}</includeGroupIds>
               <includeArtifactIds>${project.artifactId}</includeArtifactIds>
               <includeTypes>jar</includeTypes>
               <includeClassifiers>sources</includeClassifiers>
               <includes>**/*.java</includes>
               <excludes>
-                examples/**/*.java,io/vertx/core/logging/*.java,io/vertx/**/impl/**/*.*,**/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
+                **/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*,${source.excludes}
               </excludes>
               <outputDirectory>${project.build.directory}/sources/${project.artifactId}</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-asciidocs</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+              <includeGroupIds>${maven.groupId}</includeGroupIds>
+              <includeArtifactIds>${project.artifactId}</includeArtifactIds>
+              <includeTypes>jar</includeTypes>
+              <includeClassifiers>sources</includeClassifiers>
+              <includes>**/*.adoc</includes>
+              <excludes>override/**.*</excludes>
+              <outputDirectory>${project.build.directory}/asciidoc/${project.artifactId}</outputDirectory>
             </configuration>
           </execution>
         </executions>
@@ -148,14 +175,17 @@
             <goals>
               <goal>process</goal>
             </goals>
-            <phase>generate-sources</phase>
+            <phase>generate-resources</phase>
             <configuration>
               <processors>
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
+                <processor>io.vertx.docgen.DocGenProcessor</processor>
               </processors>
               <optionMap>
                 <codegen.output>${project.basedir}</codegen.output>
                 <codegen.generators>es-generator</codegen.generators>
+                <docgen.source>${project.build.directory}/asciidoc/${project.artifactId}</docgen.source>
+                <docgen.output>${project.basedir}/../../../docs/manual/${npm-name}</docgen.output>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
             </configuration>

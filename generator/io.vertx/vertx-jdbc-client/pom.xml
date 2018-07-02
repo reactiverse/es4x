@@ -13,7 +13,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>vertx-jdbc-client</artifactId>
-  <version>3.5.2</version>
+  <version>${stack.version}</version>
 
   <properties>
     <maven.groupId>io.vertx</maven.groupId>
@@ -40,6 +40,36 @@
       <version>${project.version}</version>
       <scope>provided</scope>
       <classifier>sources</classifier>
+    </dependency>
+    <!-- Optionals -->
+    <dependency>
+      <groupId>com.mchange</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>0.9.5.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>2.4.6</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.jolbox</groupId>
+      <artifactId>bonecp</artifactId>
+      <version>0.8.0.RELEASE</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>io.agroal</groupId>
+      <artifactId>agroal-api</artifactId>
+      <version>0.2</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>io.agroal</groupId>
+      <artifactId>agroal-pool</artifactId>
+      <version>0.2</version>
+      <optional>true</optional>
     </dependency>
   </dependencies>
 

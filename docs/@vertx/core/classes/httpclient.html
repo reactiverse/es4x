@@ -122,7 +122,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4488</li>
+									<li>Defined in index.d.ts:4491</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3336,7 +3336,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4481</li>
+									<li>Defined in index.d.ts:4484</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3351,7 +3351,10 @@
 													<li>when null is returned, the original response is processed by the original request response handler</li>
 													<li>when a new {@code Future<HttpClientRequest>} is returned, the client will send this new request</li>
 												</ul>
-											The handler must return a {@code Future<HttpClientRequest>} unsent so the client can further configure it and send it.</p>
+												The new request will get a copy of the previous request headers unless headers are set. In this case,
+												the client assumes that the redirect handler exclusively managers the headers of the new request.
+												<p>
+												The handler must return a {@code Future<HttpClientRequest>} unsent so the client can further configure it and send it.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>

@@ -87,6 +87,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptionsbase.html#enabledciphersuites" class="tsd-kind-icon">enabled<wbr>Cipher<wbr>Suites</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptionsbase.html#enabledsecuretransportprotocols" class="tsd-kind-icon">enabled<wbr>Secure<wbr>Transport<wbr>Protocols</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptionsbase.html#idletimeout" class="tsd-kind-icon">idle<wbr>Timeout</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptionsbase.html#idletimeoutunit" class="tsd-kind-icon">idle<wbr>Timeout<wbr>Unit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptionsbase.html#jdksslengineoptions" class="tsd-kind-icon">jdk<wbr>Ssl<wbr>Engine<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptionsbase.html#keystoreoptions" class="tsd-kind-icon">key<wbr>Store<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptionsbase.html#localaddress" class="tsd-kind-icon">local<wbr>Address</a></li>
@@ -248,17 +249,41 @@
 					<div class="tsd-signature tsd-kind-icon">idle<wbr>Timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:239</li>
+							<li>Defined in options.d.ts:241</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Set the idle timeout, in seconds. zero means don&#39;t timeout.
+							<p>Set the idle timeout, default time unit is seconds. Zero means don&#39;t timeout.
 							This determines if a connection will timeout and be closed if no data is received within the timeout.</p>
 						</div>
+						<p> If you want change default time unit, use {@link #setIdleTimeoutUnit(TimeUnit)}</p>
 						<dl class="tsd-comment-tags">
 							<dt>param</dt>
 							<dd><p>the timeout, in seconds</p>
+							</dd>
+							<dt>returns</dt>
+							<dd><p>a reference to this, so the API can be used fluently</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="idletimeoutunit" class="tsd-anchor"></a>
+					<h3>idle<wbr>Timeout<wbr>Unit</h3>
+					<div class="tsd-signature tsd-kind-icon">idle<wbr>Timeout<wbr>Unit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TimeUnit</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in options.d.ts:249</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Set the idle timeout unit. If not specified, default is seconds.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>specify time unit.</p>
 							</dd>
 							<dt>returns</dt>
 							<dd><p>a reference to this, so the API can be used fluently</p>
@@ -272,7 +297,7 @@
 					<div class="tsd-signature tsd-kind-icon">jdk<wbr>Ssl<wbr>Engine<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../classes/jdksslengineoptions.html" class="tsd-signature-type">JdkSSLEngineOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:241</li>
+							<li>Defined in options.d.ts:251</li>
 						</ul>
 					</aside>
 				</section>
@@ -282,7 +307,7 @@
 					<div class="tsd-signature tsd-kind-icon">key<wbr>Store<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../classes/jksoptions.html" class="tsd-signature-type">JksOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:249</li>
+							<li>Defined in options.d.ts:259</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -305,7 +330,7 @@
 					<div class="tsd-signature tsd-kind-icon">local<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:258</li>
+							<li>Defined in options.d.ts:268</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -329,7 +354,7 @@
 					<div class="tsd-signature tsd-kind-icon">log<wbr>Activity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:266</li>
+							<li>Defined in options.d.ts:276</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -352,7 +377,7 @@
 					<div class="tsd-signature tsd-kind-icon">metrics<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:275</li>
+							<li>Defined in options.d.ts:285</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -376,7 +401,7 @@
 					<div class="tsd-signature tsd-kind-icon">open<wbr>Ssl<wbr>Engine<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../classes/opensslengineoptions.html" class="tsd-signature-type">OpenSSLEngineOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:277</li>
+							<li>Defined in options.d.ts:287</li>
 						</ul>
 					</aside>
 				</section>
@@ -386,7 +411,7 @@
 					<div class="tsd-signature tsd-kind-icon">pem<wbr>Key<wbr>Cert<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../classes/pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:285</li>
+							<li>Defined in options.d.ts:295</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -409,7 +434,7 @@
 					<div class="tsd-signature tsd-kind-icon">pem<wbr>Trust<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../classes/pemtrustoptions.html" class="tsd-signature-type">PemTrustOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:293</li>
+							<li>Defined in options.d.ts:303</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -432,7 +457,7 @@
 					<div class="tsd-signature tsd-kind-icon">pfx<wbr>Key<wbr>Cert<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../classes/pfxoptions.html" class="tsd-signature-type">PfxOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:301</li>
+							<li>Defined in options.d.ts:311</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -455,7 +480,7 @@
 					<div class="tsd-signature tsd-kind-icon">pfx<wbr>Trust<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../classes/pfxoptions.html" class="tsd-signature-type">PfxOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:309</li>
+							<li>Defined in options.d.ts:319</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -478,7 +503,7 @@
 					<div class="tsd-signature tsd-kind-icon">proxy<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../classes/proxyoptions.html" class="tsd-signature-type">ProxyOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:317</li>
+							<li>Defined in options.d.ts:327</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -501,7 +526,7 @@
 					<div class="tsd-signature tsd-kind-icon">receive<wbr>Buffer<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:325</li>
+							<li>Defined in options.d.ts:335</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -524,7 +549,7 @@
 					<div class="tsd-signature tsd-kind-icon">reuse<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:333</li>
+							<li>Defined in options.d.ts:343</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -547,7 +572,7 @@
 					<div class="tsd-signature tsd-kind-icon">reuse<wbr>Port<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:343</li>
+							<li>Defined in options.d.ts:353</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -572,7 +597,7 @@
 					<div class="tsd-signature tsd-kind-icon">send<wbr>Buffer<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:351</li>
+							<li>Defined in options.d.ts:361</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -595,7 +620,7 @@
 					<div class="tsd-signature tsd-kind-icon">so<wbr>Linger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:359</li>
+							<li>Defined in options.d.ts:369</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -618,7 +643,7 @@
 					<div class="tsd-signature tsd-kind-icon">ssl<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:367</li>
+							<li>Defined in options.d.ts:377</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -641,7 +666,7 @@
 					<div class="tsd-signature tsd-kind-icon">tcp<wbr>Cork<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:374</li>
+							<li>Defined in options.d.ts:384</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -661,7 +686,7 @@
 					<div class="tsd-signature tsd-kind-icon">tcp<wbr>Fast<wbr>Open<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:381</li>
+							<li>Defined in options.d.ts:391</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -681,7 +706,7 @@
 					<div class="tsd-signature tsd-kind-icon">tcp<wbr>Keep<wbr>Alive<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:389</li>
+							<li>Defined in options.d.ts:399</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -704,7 +729,7 @@
 					<div class="tsd-signature tsd-kind-icon">tcp<wbr>NoDelay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:397</li>
+							<li>Defined in options.d.ts:407</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -727,7 +752,7 @@
 					<div class="tsd-signature tsd-kind-icon">tcp<wbr>Quick<wbr>Ack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:404</li>
+							<li>Defined in options.d.ts:414</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -747,7 +772,7 @@
 					<div class="tsd-signature tsd-kind-icon">traffic<wbr>Class<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:412</li>
+							<li>Defined in options.d.ts:422</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -770,7 +795,7 @@
 					<div class="tsd-signature tsd-kind-icon">trust<wbr>All<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:420</li>
+							<li>Defined in options.d.ts:430</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -793,7 +818,7 @@
 					<div class="tsd-signature tsd-kind-icon">trust<wbr>Store<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../classes/jksoptions.html" class="tsd-signature-type">JksOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:428</li>
+							<li>Defined in options.d.ts:438</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -816,7 +841,7 @@
 					<div class="tsd-signature tsd-kind-icon">use<wbr>Alpn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:435</li>
+							<li>Defined in options.d.ts:445</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -836,7 +861,7 @@
 					<div class="tsd-signature tsd-kind-icon">use<wbr>Pooled<wbr>Buffers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.d.ts:443</li>
+							<li>Defined in options.d.ts:453</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -887,6 +912,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="clientoptionsbase.html#idletimeout" class="tsd-kind-icon">idle<wbr>Timeout</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="clientoptionsbase.html#idletimeoutunit" class="tsd-kind-icon">idle<wbr>Timeout<wbr>Unit</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="clientoptionsbase.html#jdksslengineoptions" class="tsd-kind-icon">jdk<wbr>Ssl<wbr>Engine<wbr>Options</a>

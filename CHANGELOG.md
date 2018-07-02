@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Generated manual for modules
+- Fixed `vertx-scripts` to allow debugging from the script
 - REPL support for both Nashorn and Graal
 - Added `Dynalink` to any `DataObject`
 - Type definition for `process`

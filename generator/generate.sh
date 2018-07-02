@@ -17,13 +17,13 @@ modules=(
   "io.vertx/vertx-camel-bridge"
   "io.vertx/vertx-circuit-breaker"
   "io.vertx/vertx-config"
-  "io.vertx/vertx-config-consul"
+#  "io.vertx/vertx-config-consul"
   "io.vertx/vertx-config-git"
   "io.vertx/vertx-config-hocon"
   "io.vertx/vertx-config-kubernetes-configmap"
   "io.vertx/vertx-config-redis"
   "io.vertx/vertx-config-spring-config-server"
-  "io.vertx/vertx-config-vault"
+#  "io.vertx/vertx-config-vault"
   "io.vertx/vertx-config-yaml"
   "io.vertx/vertx-config-zookeeper"
   "io.vertx/vertx-consul-client"
@@ -89,11 +89,10 @@ modules=(
 
 for i in "${modules[@]}"
 do
+  # clean previous run
   # generate code
-  mvn -f ./$i/pom.xml
-  # typedoc
   # this step assumes typedoc is installed globally
-  mvn -f ./$i/pom.xml exec:exec@typedoc
+  mvn -f ./$i/pom.xml clean generate-resources exec:exec@typedoc || true
 #  # upload to registry
 #  mvn -f ./$i/pom.xml exec:exec@npm-publish
 done
