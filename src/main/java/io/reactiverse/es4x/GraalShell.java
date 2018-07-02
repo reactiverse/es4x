@@ -141,12 +141,13 @@ public class GraalShell {
             break;
           }
           t.printStackTrace();
-          try {
-            loader.close();
-          } catch (RuntimeException e) {
-            // ignore...
-          }
         }
+      }
+      // REPL is cancelled, close the loader
+      try {
+        loader.close();
+      } catch (RuntimeException e) {
+        // ignore...
       }
     }
   }
