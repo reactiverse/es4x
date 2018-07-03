@@ -23,15 +23,14 @@ import org.graalvm.polyglot.Engine;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class GraalLoader implements Loader<Value> {
 
   private final Context context;
-
-  private static final String INSTALL_GLOBAL = "(function(k, v) global[k] = v)";
-  private static final String UNINSTALL_GLOBAL = "(function(k) delete global[k])";
+  private final Value bindings;
 
   // **INFO**: This is disabled until graal native images support passing object from Java to JS
   // get the type from the system properties, if missing attempt to get it from
@@ -52,19 +51,26 @@ public class GraalLoader implements Loader<Value> {
 
   public GraalLoader(final Vertx vertx, Context context) {
     this.context = context;
+    this.bindings = this.context.getBindings("js");
 
     // remove the exit and quit functions
-    context.eval("js", UNINSTALL_GLOBAL).execute("exit");
-    context.eval("js", UNINSTALL_GLOBAL).execute("quit");
+    bindings.removeMember("exit");
+    bindings.removeMember("quit");
     // add vertx as a global
-    context.eval("js", INSTALL_GLOBAL).execute("vertx", vertx);
+    bindings.putMember("vertx", vertx);
 
     final AtomicReference<Class<?>> holder = new AtomicReference<>();
 
     //   **INFO**: This is disabled until graal native images support passing object from Java to JS
     if (EVENTBUS_JSOBJECT_AOT_CLASS == null) {
       final Consumer callback = value -> holder.set(value.getClass());
-      context.eval("js", "(function (fn) { fn({}); })").execute(callback);
+      try {
+        context.eval(
+          Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").internal(true).build()
+        ).execute(callback);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     } else {
       try {
         holder.set(Class.forName(EVENTBUS_JSOBJECT_AOT_CLASS));
@@ -76,9 +82,9 @@ public class GraalLoader implements Loader<Value> {
     // register a default codec to allow JSON messages directly from GraalVM to the JVM world
     vertx.eventBus()
       .unregisterDefaultCodec(holder.get())
-      .registerDefaultCodec(holder.get(), new JSObjectMessageCodec<>(context.eval("js", "JSON")));
+      .registerDefaultCodec(holder.get(), new JSObjectMessageCodec<>(bindings.getMember("JSON")));
 
-    final Value load = context.eval("js", "load");
+    final Value load = bindings.getMember("load");
     // add polyfills
     load.execute("classpath:io/reactiverse/es4x/polyfill/json.js");
     load.execute("classpath:io/reactiverse/es4x/polyfill/global.js");
@@ -96,14 +102,14 @@ public class GraalLoader implements Loader<Value> {
   @Override
   public void config(final JsonObject config) {
     if (config != null) {
-      // add vertx as a global
-      context.eval("js", INSTALL_GLOBAL).execute("config", config.getMap());
+      // add config as a global
+      bindings.putMember("config", config.getMap());
     }
   }
 
   @Override
   public Value require(String main) {
-    return context.eval("js", "require").execute(main);
+    return bindings.getMember("require").execute(main);
   }
 
   @Override
@@ -139,7 +145,7 @@ public class GraalLoader implements Loader<Value> {
 
   @Override
   public void put(String name, Object value) {
-    context.getBindings("js").putMember(name, value);
+    bindings.putMember(name, value);
   }
 
   @Override

@@ -20,6 +20,8 @@ import io.reactiverse.es4x.impl.nashorn.NashornLoader;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
+import java.io.IOException;
+
 public interface Loader<T> {
 
   static Loader create(Vertx vertx) {
@@ -35,13 +37,15 @@ public interface Loader<T> {
     if (rtName != null && rtName.equalsIgnoreCase("GraalVM")) {
       // attempt to load graal loader
       try {
+        System.setProperty("es4x.engine", "GraalVM");
         return new GraalLoader(vertx);
       } catch (RuntimeException e) {
-        System.err.println("ERROR: Failed start GraalVM");
+        System.err.println("ERROR: Failed start GraalVM [" + e.getLocalizedMessage() + "]");
         // Ignore and go for the fallback...
       }
     }
     // fallback (nashorn)
+    System.setProperty("es4x.engine", "Nashorn");
     return new NashornLoader(vertx);
   }
 
