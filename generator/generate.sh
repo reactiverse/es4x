@@ -90,10 +90,7 @@ modules=(
 for i in "${modules[@]}"
 do
   # generate code
-  mvn -f ./$i/pom.xml
-  # typedoc
-  # this step assumes typedoc is installed globally
-  mvn -f ./$i/pom.xml exec:exec@typedoc
+  mvn -f ./$i/pom.xml clean generate-sources exec:exec@typedoc
 #  # upload to registry
 #  mvn -f ./$i/pom.xml exec:exec@npm-publish
 done

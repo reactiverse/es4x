@@ -64,57 +64,41 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="es4x">ES4X</h1>
-				<p>This is the EcmaScript (5.1+) language support for <a href="http://vertx.io">Eclipse Vert.x</a></p>
-				<p><a href="https://travis-ci.org/reactiverse/es4x"><img src="https://travis-ci.org/reactiverse/es4x.svg?branch=develop" alt="Build Status"></a></p>
+				<p><img src="https://img.shields.io/npm/v/@vertx/web-templ-freemarker.svg" alt="npm (scoped)">
+				<img src="https://img.shields.io/npm/l/@vertx/web-templ-freemarker.svg" alt="npm"></p>
+				<p>Generated JavaScript bindings for Eclipse Vert.x.</p>
+				<h2 id="documentation">Documentation</h2>
+				<ul>
+					<li><a href="https://reactiverse.io/es4x/@vertx/web-templ-freemarker">API Docs</a></li>
+					<li><a href="https://www.npmjs.com/package/@vertx/web-templ-freemarker">NPM module</a></li>
+				</ul>
 				<h2 id="usage">Usage</h2>
-				<p>Create a project:</p>
-				<pre><code>mkdir my-app
-cd my-app
-npm init -y
-npm <span class="hljs-keyword">add</span><span class="bash"> vertx-scripts --save-dev
-</span>npm <span class="hljs-keyword">add</span><span class="bash"> @vertx/unit --save-dev
-</span>npm <span class="hljs-keyword">add</span><span class="bash"> @vertx/core --save-prod</span>
-</code></pre><p>Update your <code>package.json</code> as highlighted by the npm log:</p>
-				<pre><code class="lang-json">{
-  ...
-  &quot;scripts&quot;: {
-    &quot;postinstall&quot;: &quot;vertx-scripts init&quot;,
-    &quot;test&quot;: &quot;vertx-scripts launcher test -v&quot;,
-    &quot;start&quot;: &quot;vertx-scripts launcher run&quot;,
-    &quot;package&quot;: &quot;vertx-scripts package&quot;
-  },
-  ...
-}
+				<p>Import the required <code>API</code>/<code>Enum</code>/<code>DataObject</code> and profit!</p>
+				<pre><code class="lang-js"><span class="hljs-comment">// Base API</span>
+<span class="hljs-keyword">const</span> Api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@vertx/web-templ-freemarker'</span>);
+<span class="hljs-comment">// Base ENUMs</span>
+<span class="hljs-keyword">const</span> Enums = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@vertx/web-templ-freemarker/enums'</span>);
+<span class="hljs-comment">// DataObject's</span>
+<span class="hljs-keyword">const</span> Options = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@vertx/web-templ-freemarker/options'</span>);
+
+<span class="hljs-comment">// refer to the API docs for specific help...</span>
+
+<span class="hljs-comment">// your code here!!!</span>
+
 </code></pre>
-				<p>Create your <code>index.js</code>:</p>
-				<pre><code class="lang-js"><span class="hljs-comment">/// &lt;reference types="@vertx/core/runtime" /&gt;</span>
+				<h2 id="typescript">Typescript</h2>
+				<p>This package includes <a href="http://www.typescriptlang.org/">Typescript</a> typedefinitions and your IDE should find then automatically.</p>
+				<p>When working in a project you can enable type hinting for the runtime as:</p>
+				<pre><code class="lang-js"><span class="hljs-comment">/// &lt;definition types="@vertx/core/runtime" /&gt;</span>
 <span class="hljs-comment">// @ts-check</span>
 
-vertx
-  .createHttpServer()
-  .requestHandler(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">req</span>) </span>{
-    req.response().end(<span class="hljs-string">"Hello!"</span>);
-  })
-  .listen(<span class="hljs-number">8080</span>);
-
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Server listening at: http://localhost:8080/'</span>);
+<span class="hljs-comment">// your TypeScript code here...</span>
 </code></pre>
-				<p>and your <code>index.test.js</code>:</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">import</span> { TestSuite } <span class="hljs-keyword">from</span> <span class="hljs-string">'@vertx/unit'</span>;
-
-<span class="hljs-keyword">const</span> suite = TestSuite.create(<span class="hljs-string">"the_test_suite"</span>);
-
-suite.test(<span class="hljs-string">"my_test_case"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">context</span>) </span>{
-  <span class="hljs-keyword">var</span> s = <span class="hljs-string">"value"</span>;
-  context.assertEquals(<span class="hljs-string">"value"</span>, s);
-});
-
-suite.run();
-</code></pre>
-				<p>Profit!</p>
-				<h1 id="documentation">Documentation</h1>
-				<p>For more documentation please see <a href="./docs">docs</a>.</p>
+				<h2 id="links">Links</h2>
+				<ul>
+					<li><a href="https://vertx.io">Eclipse Vert.x</a></li>
+					<li><a href="https://reactiverse.io/es4x">ES4X</a></li>
+				</ul>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
