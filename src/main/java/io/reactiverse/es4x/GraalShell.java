@@ -55,19 +55,16 @@ public class GraalShell {
   public static void main(String[] args) throws IOException {
 
     final JsonObject options = new JsonObject();
+    String script = null;
 
     // parse the arguments
     if (args != null) {
-      String lastArg = null;
-
       for (String arg : args) {
         if (arg != null && arg.length() > 0 && arg.charAt(0) == '-') {
           if ("-cluster".equals(arg)) {
             // adapt argument to match vertx options
             arg = "-clustered";
           }
-
-          lastArg = arg;
 
           int idx = arg.indexOf('=');
           if (idx != -1) {
@@ -91,11 +88,11 @@ public class GraalShell {
             options.put(toCamelCase(arg), true);
           }
         } else {
-          if (lastArg == null) {
+          if (script == null) {
+            script = arg;
+          } else {
             throw new IllegalArgumentException("Invalid argument: " + arg);
           }
-          options.put(lastArg, arg);
-          lastArg = null;
         }
       }
     }
@@ -104,6 +101,7 @@ public class GraalShell {
     System.setProperty("es4x.engine", "GraalVM");
 
     final VertxOptions vertxOptions = new VertxOptions(options);
+    final String theScript = script;
     final Context context = Context
       .newBuilder("js")
       .allowHostAccess(options.getBoolean("allowHostAccess", true))
@@ -121,7 +119,7 @@ public class GraalShell {
           System.exit(1);
         } else {
           try {
-            bootstrap(res.result(), context);
+            bootstrap(res.result(), context, theScript);
           } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -129,13 +127,17 @@ public class GraalShell {
         }
       });
     } else {
-      bootstrap(Vertx.vertx(vertxOptions), context);
+      bootstrap(Vertx.vertx(vertxOptions), context, theScript);
     }
   }
 
-  private static void bootstrap(Vertx vertx, Context context) throws IOException {
+  private static void bootstrap(Vertx vertx, Context context, String script) throws IOException {
 
     final GraalLoader loader = new GraalLoader(vertx, context);
+
+    if (script != null) {
+      loader.main(script);
+    }
 
     try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
       for (;;) {
