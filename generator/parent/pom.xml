@@ -15,9 +15,9 @@
 
   <properties>
     <!-- ES4X version -->
-    <es4x.version>0.5.1</es4x.version>
+    <es4x.version>0.5.2</es4x.version>
     <!-- This version matches the stack version to be used -->
-    <stack.version>3.5.1</stack.version>
+    <stack.version>3.5.2</stack.version>
     <!-- This is the source group id -->
     <maven.groupId>io.vertx</maven.groupId>
 
@@ -35,6 +35,10 @@
           "module": "vertx",
           "name": "core",
           "scope": "vertx"
+        },
+        {
+          "group": "io.reactiverse",
+          "scope": "reactiverse"
         }
       ]
     </scope-registry>
@@ -45,7 +49,7 @@
     <!-- a meta package has no code, just wraps a maven artifact -->
     <npm-meta-package>false</npm-meta-package>
     <!-- allow to publish to a different registry -->
-    <npm-registry>http://localhost:4873</npm-registry>
+    <npm-registry>https://registry.npmjs.org</npm-registry>
     <!-- allow override of dependencies -->
     <!-- language=json -->
     <npm-dependencies>
@@ -78,16 +82,14 @@
       <artifactId>vertx-codegen</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
-      <version>3.6.0-SNAPSHOT</version>
-      <!-- <version>${stack.version}</version> -->
+       <version>${stack.version}</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-docgen</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
-      <version>3.6.0-SNAPSHOT</version>
-      <!-- <version>${stack.version}</version> -->
+      <version>0.9.2</version>
     </dependency>
     <!-- CORE -->
     <dependency>
@@ -122,7 +124,7 @@
               <includeClassifiers>sources</includeClassifiers>
               <includes>**/*.java</includes>
               <excludes>
-                examples/**/*.java,io/vertx/core/logging/*.java,**/impl/**/*.*,**/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
+                examples/**/*.java,io/vertx/core/logging/*.java,io/vertx/**/impl/**/*.*,**/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
               </excludes>
               <outputDirectory>${project.build.directory}/sources/${project.artifactId}</outputDirectory>
             </configuration>
@@ -182,6 +184,10 @@
                 <property>
                   <name>npm-meta-package</name>
                   <value>${npm-meta-package}</value>
+                </property>
+                <property>
+                  <name>basedir</name>
+                  <value>${project.basedir}</value>
                 </property>
               </properties>
             </configuration>

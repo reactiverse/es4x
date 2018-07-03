@@ -15,22 +15,8 @@ npm init -y
 npm add vertx-scripts --save-dev
 npm add @vertx/unit --save-dev
 npm add @vertx/core --save-prod
+npm install
 ```
-
-Update your `package.json` as highlighted by the npm log:
-
-```json
-{
-  ...
-  "scripts": {
-    "postinstall": "vertx-scripts init",
-    "test": "vertx-scripts launcher test -v",
-    "start": "vertx-scripts launcher run",
-    "package": "vertx-scripts package"
-  },
-  ...
-}
-``` 
 
 Create your `index.js`:
 

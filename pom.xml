@@ -13,13 +13,11 @@
 
   <groupId>io.reactiverse</groupId>
   <artifactId>es4x</artifactId>
-  <version>0.5.1</version>
+  <version>0.5.2</version>
 
   <properties>
-    <vertx.version>3.5.1</vertx.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
-    <maven.compiler.testSource>1.8</maven.compiler.testSource>
+    <vertx.version>3.5.2</vertx.version>
+    <graal.version>1.0.0-rc3</graal.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -43,6 +41,74 @@
     <developerConnection>scm:git:git@github.com:reactiverse/es4x.git</developerConnection>
   </scm>
 
+  <profiles>
+    <profile>
+      <id>java8</id>
+      <activation>
+        <jdk>1.8</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+              <excludes>
+                <exclude>**/META-INF/services/jdk.dynalink.linker.GuardingDynamicLinkerExporter</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>java9</id>
+      <activation>
+        <jdk>[1.9,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+              <source>1.9</source>
+              <target>1.9</target>
+            </configuration>
+            <executions>
+              <execution>
+                <id>java9-compile</id>
+                <phase>compile</phase>
+                <configuration>
+                  <includes>
+                    <include>**/dynalink/*.java</include>
+                  </includes>
+                </configuration>
+                <goals>
+                  <goal>compile</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>java9-testCompile</id>
+                <phase>test-compile</phase>
+                <configuration>
+                  <testIncludes>
+                    <include>**/dynalink/*.java</include>
+                  </testIncludes>
+                </configuration>
+                <goals>
+                  <goal>testCompile</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>io.vertx</groupId>
@@ -50,6 +116,13 @@
       <version>${vertx.version}</version>
       <!-- to allow other versions -->
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.graalvm</groupId>
+      <artifactId>graal-sdk</artifactId>
+      <version>${graal.version}</version>
+      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
     <!-- testing -->
     <dependency>
@@ -64,26 +137,55 @@
       <version>${vertx.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-hazelcast</artifactId>
+      <version>${vertx.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <phase>compile</phase>
+            <configuration>
+              <excludes>
+                <exclude>**/dynalink/*.java</exclude>
+              </excludes>
+            </configuration>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-testCompile</id>
+            <phase>test-compile</phase>
+            <configuration>
+              <testExcludes>
+                <exclude>**/dynalink/*.java</exclude>
+              </testExcludes>
+            </configuration>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>com.amashchenko.maven.plugin</groupId>
         <artifactId>gitflow-maven-plugin</artifactId>
-        <version>1.7.0</version>
+        <version>1.9.0</version>
         <configuration>
           <installProject>false</installProject>
           <gitFlowConfig>
@@ -96,6 +198,25 @@
             <versionTagPrefix/>
           </gitFlowConfig>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

@@ -1,43 +1,77 @@
-/**
- *  Copyright 2014-2018 Red Hat, Inc.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License")
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-// This is a similar bootstrap script to JSVerticle, it is useful when working with JJS repl.
-(function (global) {
-  'use strict';
+(function (self) {
 
-  if (global.vertx) {
-    // already installed
-    return;
+  function camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|-\w|-+)/g, function(match, index) {
+      if (!match) {
+        return "";
+      }
+      let val = match.charAt(1);
+      return index === 0 ? val.toLowerCase() : val.toUpperCase();
+    });
   }
 
-  // remove the exit and quit functions
-  delete global.exit;
-  delete global.quit;
+  if (typeof vertx === 'undefined') {
+    let options = {};
 
-  var Vertx = Java.type('io.vertx.core.Vertx');
-  var VertxRuntime = Java.type('io.reactiverse.es4x.nashorn.runtime.VertxRuntime');
+    // remove the default quit functions
+    delete self['exit'];
+    delete self['quit'];
 
-  // the vertx instance
-  global.vertx = Vertx.vertx();
-  // install the global object
-  global.global = global;
-  // configure the runtime
-  VertxRuntime.install(global);
+    // install the global object
+    if (typeof global === 'undefined') {
+      self['global'] = self;
+    }
 
-  // install the common js loader
-  load.call(global, 'classpath:io/reactiverse/es4x/jvm-npm.js');
-  // add support for polyfill
-  load.call(global, 'classpath:io/reactiverse/es4x/polyfill.js');
+    // do we want clustering support?
+    if (self['arguments']) {
+      for (let i = 0; i < self['arguments'].length; i++) {
+        let arg = self['arguments'][i];
+        if (arg.length > 0 && arg.charAt(0) === '-') {
+          if (arg === '-cluster') {
+            // adapt argument to match vertx options
+            arg = '-clustered';
+          }
+          let idx = arg.indexOf('=');
+          if (idx !== -1) {
+            // attempt to cast numeric values to number
+            let value;
+            try {
+              value = parseInt(arg.substring(idx + 1), 10);
+            } catch (e) {
+              value = arg.substring(idx + 1);
+            }
+
+            options[camelize(arg.substring(0, idx))] = value;
+          } else {
+            options[camelize(arg.substring(0, idx))] = true;
+          }
+        }
+      }
+    }
+
+    // will setup vertx + default codec
+    if (typeof Graal !== 'undefined') {
+      // Graal mode
+      Java
+        .type('java.lang.System')
+        .setProperty('es4x.engine', 'GraalVM');
+    } else {
+      // Nashorn mode
+      load("classpath:io/reactiverse/es4x/polyfill/object.js");
+    }
+
+    // install the vertx in the global scope
+    global['vertx'] = Java
+      .type('io.reactiverse.es4x.Runtime')
+      .create()
+      .vertx({}, JSON, options);
+
+    // load polyfills
+    load("classpath:io/reactiverse/es4x/polyfill/json.js");
+    load("classpath:io/reactiverse/es4x/polyfill/global.js");
+    load("classpath:io/reactiverse/es4x/polyfill/console.js");
+    load("classpath:io/reactiverse/es4x/polyfill/promise.js");
+    // install the commonjs loader
+    load("classpath:io/reactiverse/es4x/jvm-npm.js");
+  }
 })(this);

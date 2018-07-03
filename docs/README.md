@@ -2,14 +2,16 @@
 
 This is the EcmaScript (5.1+) language support for [Eclipse Vert.x](http://vertx.io)
 
-[![Build Status](https://travis-ci.org/reactiverse/es4x.svg?branch=develop)](https://travis-ci.org/reactiverse/es4x)
+[![Travis branch](https://img.shields.io/travis/reactiverse/es4x/develop.svg?style=for-the-badge)](https://travis-ci.org/reactiverse/es4x)
+[![Maven Central](https://img.shields.io/maven-central/v/io.reactiverse/es4x.svg?style=for-the-badge)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.reactiverse%22%20AND%20a%3A%22es4x%22)
+[![Codecov branch](https://img.shields.io/codecov/c/github/reactiverse/es4x/develop.svg?style=for-the-badge)](https://codecov.io/gh/reactiverse/es4x)
 
 EcmaScript (or JavaScript from now onwards) can be used with Vert.x, however it's language
 level is limited to the underlying `Nashorn` engine. The engine does support `ES5.1` plus
 some `ES6` features. For a full list of supported features please have a look at the
 [compat-tables](https://kangax.github.io/compat-table/es6/) project, depending on your
 runtime [JDK 1.8](https://kangax.github.io/compat-table/es6/#nashorn1_8) or
-[JDK9](https://kangax.github.io/compat-table/es6/#nashorn9) you should have more or less
+[JDK10](https://kangax.github.io/compat-table/es6/#nashorn10) you should have more or less
 language features.
 
 # Links
@@ -42,16 +44,25 @@ npm add @vertx/core --save-prod
 npm add @vertx/web --save-prod
 ```
 
-Update your `package.json` as highlighted by the npm log:
+As this moment there should be a minimal `package.json`. To simplify working with `vert.x`
+add the package [vertx-scripts](https://www.npmjs.com/package/vertx-scripts) to your
+`devDependencies`. During install the `package.json` should get a set of custom
+`scripts` added and it should look similar to this:
 
 ```json
 {
   "scripts": {
     "postinstall": "vertx-scripts init",
-    "test": "vertx-scripts launcher test -v",
+    "test": "vertx-scripts launcher test",
     "start": "vertx-scripts launcher run",
-    "package": "vertx-scripts package"
+    "package": "vertx-scripts package",
+    "repl": "vertx-scripts repl"
   },
+  "license": "ISC",
+  "private": true,
+  "devDependencies": {
+    "vertx-scripts": "^1.0.9"
+  }
 }
 ``` 
 
@@ -81,7 +92,9 @@ app.route().handler(function (ctx) {
 });
 
 vertx.createHttpServer()
-  .requestHandler(app)
+  .requestHandler((result) => {
+    return app.accept(result);
+  } )
   .listen(8080);
 ```
 
@@ -97,6 +110,26 @@ application is as simple as:
 npm start
 ```
 
+### Debugging your app
+
+When working on the standard JDK you can start your application as:
+
+```sh
+npm start -- -d
+```
+
+This will start a JVM debugger agent on port 9229 that you can attach for a remote
+debug session from your IDE (currently only tested with IntelliJ IDEA).
+
+The experimental GraalVM support allows debugging over the JVM agent and also supoprt
+the Chrome devtools protocol to debug the scripts. In order to activate this mode:
+
+```sh
+npm start -- -i
+```
+
+And follow the instructions.
+
 ### Packaging
 
 It is common to package JVM applications as runnable `JAR` files, the `vertx-scripts` also provides this feature:
@@ -106,3 +139,31 @@ npm run package
 ```
 
 And a new `JAR` file should be built in your `target` directory.
+
+Packaging will re-arrange your application code to be moved to the directory `node_modules/your-module-name` so
+it can be used from other JARs. In order for this to work correctly, the current `node_modules` are also
+bundled in the jar as well as all files listed under the `files` property of your `package.json`.
+
+
+### Shell/ REPL
+
+When working in a more interactive mode you'll be able to use the standard Nashorn REPL `jjs` or Graal.js REPL `js` or
+if you just want a REPL to be available in your Graal runtime you can switch the main class of your runnable jar to:
+
+```
+io.reactiverse.es4x.GraalShell
+```
+
+Using this `main` will allow you to pass any configuration to your vertx instance by using a `kebab` case format
+prefixed with a `-` sign. For example to start a clustered shell:
+
+```sh
+java -cp your_fatjar.jar io.reactiverse.es4x.GraalShell -clustered ./index.js
+```
+
+The if no script is passed then the shell will be just a bootstrapped environment. You will be able to
+load any module by calling later:
+
+```js
+require('./my-module.js');
+```

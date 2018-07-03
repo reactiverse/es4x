@@ -11,18 +11,18 @@ const handlebars = require('handlebars');
 const version = require('../package.json').version;
 const dir = process.cwd();
 const npm = require(dir + '/package.json');
+const isWindows = /^win/.test(process.platform);
 
 /**
  * Executes an external command.
  *
- * @param command command to execute
- * @param args arguments to the command
- * @param env environment variables
- * @param verbose verbose logging (log command stdout)
- * @param callback callback at command termination
+ * @param {String} command command to execute
+ * @param {String[]} args arguments to the command
+ * @param {Object} env environment variables
+ * @param {Object} options verbose logging (log command stdout)
+ * @param {Function?} callback callback at command termination
  */
-function exec(command, args, env, verbose, callback) {
-
+function exec(command, args, env, options, callback) {
   const proc = spawn(command, args, {env: env});
   if (args && args.length > 0) {
     const lastArg = args[args.length - 1];
@@ -32,7 +32,7 @@ function exec(command, args, env, verbose, callback) {
   }
 
   proc.stdout.on('data', function (data) {
-    if (verbose) {
+    if (options.verbose) {
       process.stdout.write(data);
     }
   });
@@ -43,7 +43,10 @@ function exec(command, args, env, verbose, callback) {
 
   proc.on('close', function (code) {
     if (code) {
-      console.error(chalk.yellow.bold('Error: ' + command + " exit code " + code + '.' + (verbose ? '' : ' Re-run with verbose enabled for more details.')));
+      console.error(chalk.yellow.bold('Error: ' + command + " exit code " + code + '.' + (options.verbose ? '' : ' Re-run with verbose enabled for more details.')));
+      if (options.stopOnError) {
+        process.exit(code);
+      }
     }
     callback && callback(code);
   });
@@ -51,6 +54,9 @@ function exec(command, args, env, verbose, callback) {
   proc.on('error', function (err) {
     if (err) {
       console.error(chalk.red.bold(err));
+      if (options.stopOnError) {
+        process.exit(err);
+      }
     }
     callback && callback(err);
   });
@@ -59,15 +65,13 @@ function exec(command, args, env, verbose, callback) {
 /**
  * Helper to select local maven wrapper or system maven
  *
- * @param dir current working directory
  * @returns {string} the maven command
  */
-function getMaven(dir) {
+function getMaven() {
   let mvn = 'mvn';
-  let isWin = /^win/.test(process.platform);
 
   // check for wrapper
-  if (isWin) {
+  if (isWindows) {
     if (fs.existsSync(path.resolve(dir, 'mvnw.bat'))) {
       mvn = path.resolve(dir, 'mvnw.bat');
     }
@@ -78,6 +82,37 @@ function getMaven(dir) {
   }
 
   return mvn;
+}
+
+function generateClassPath(force, callback) {
+  const readClassPath = function () {
+    let classPath = fs.readFileSync(path.resolve(dir, 'target/classpath.txt')).toString('UTF-8');
+    // trim by the first line
+    let idx = classPath.indexOf('\n');
+    if (idx !== -1) {
+      classPath = classPath.substring(0, idx);
+    }
+    // we need to attach the classes directory just in case
+    classPath += (isWindows ? ';' : ':') + path.resolve(dir, 'target/classes');
+
+    callback(classPath);
+  };
+
+  if (force || !fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
+    let params = [
+      '-f', path.resolve(dir, 'pom.xml')
+    ];
+
+    if (options.clean) {
+      params.push('clean');
+    }
+
+    params.push('compile');
+
+    return exec(getMaven(), params, process.env, { verbose: false, stopOnError: true }, readClassPath);
+  }
+
+  readClassPath();
 }
 
 program
@@ -112,31 +147,34 @@ program
 
     const find = function (npm, dev) {
       // locate dependencies
-      for (let dependency in (npm[dev ? 'devDependencies' : 'dependencies'] || {})) {
-        // skip if we already visited this dependency
-        if (!dependencies[dependency]) {
-          const d = path.resolve(dir, 'node_modules/' + dependency);
-          if (fs.existsSync(d)) {
-            if (!dev) {
-              if (files.indexOf('node_modules/' + dependency + '/') === -1) {
-                files.push('node_modules/' + dependency + '/');
+      const jsonDependencies = npm[dev ? 'devDependencies' : 'dependencies'] || {};
+      for (let dependency in jsonDependencies) {
+        if (jsonDependencies.hasOwnProperty(dependency)) {
+          // skip if we already visited this dependency
+          if (!dependencies[dependency]) {
+            const d = path.resolve(dir, 'node_modules/' + dependency);
+            if (fs.existsSync(d)) {
+              if (!dev) {
+                if (files.indexOf('node_modules/' + dependency + '/') === -1) {
+                  files.push('node_modules/' + dependency + '/');
+                }
               }
-            }
 
-            const f = path.resolve(path.resolve(dir, 'node_modules/' + dependency), 'package.json');
-            if (fs.existsSync(f)) {
-              const json = require(f);
-              if (json.maven) {
-                // add this dependency
-                dependencies[dependency] = {
-                  groupId: json.maven.groupId,
-                  artifactId: json.maven.artifactId,
-                  version: json.maven.version,
-                  scope: dev ? 'test' : json.maven.scope,
-                  classifier: json.maven.classifier
-                };
-                // recurse...
-                find(json, false);
+              const f = path.resolve(path.resolve(dir, 'node_modules/' + dependency), 'package.json');
+              if (fs.existsSync(f)) {
+                const json = require(f);
+                if (json.maven) {
+                  // add this dependency
+                  dependencies[dependency] = {
+                    groupId: json.maven.groupId,
+                    artifactId: json.maven.artifactId,
+                    version: json.maven.version,
+                    scope: dev ? 'test' : json.maven.scope,
+                    classifier: json.maven.classifier
+                  };
+                  // recurse...
+                  find(json, false);
+                }
               }
             }
           }
@@ -145,18 +183,21 @@ program
     };
 
     const toMavenDep = function (npm, key) {
+      const jsonDependencies = npm[key] || {};
       // locate dependencies
-      for (let dependency in (npm[key] || {})) {
-        const ga = dependency.split(':');
-        const vsc = npm[key][dependency].split(':');
-        // add this dependency
-        dependencies[dependency] = {
-          groupId: ga[0],
-          artifactId: ga[1],
-          version: vsc[0],
-          scope: vsc[1],
-          classifier: vsc[2]
-        };
+      for (let dependency in jsonDependencies) {
+        if (jsonDependencies.hasOwnProperty(dependency)) {
+          const ga = dependency.split(':');
+          const vsc = npm[key][dependency].split(':');
+          // add this dependency
+          dependencies[dependency] = {
+            groupId: ga[0],
+            artifactId: ga[1],
+            version: vsc[0],
+            scope: vsc[1],
+            classifier: vsc[2]
+          };
+        }
       }
     };
 
@@ -194,6 +235,8 @@ program
 
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), template(data));
+      // init the maven bits
+      exec(getMaven(), [], process.env, {stopOnError: true});
     } catch (e) {
       console.error(chalk.red.bold(e));
       process.exit(1);
@@ -204,7 +247,9 @@ program
   .command('launcher <cmd> [args...]')
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-c, --clean', 'Perform a clean before running the task')
-  .option('-d , --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9797)')
+  .option('-d , --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
+  .option('-i , --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
+  .option('-w , --watch [watch]', 'Watches for modifications on the given expression')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (cmd, args, options) {
     // if it doesn't exist stop
@@ -213,7 +258,7 @@ program
       process.exit(1);
     }
 
-    var test = ('test' === cmd);
+    const test = ('test' === cmd);
 
     if (!args || args.length === 0) {
       // main verticle name is derived from main
@@ -233,33 +278,50 @@ program
       }
     }
 
-    const env = Object.create(process.env);
+    // if the clean is active or the file 'target/classpath.txt' doesn't exist then we
+    // need to run maven as a prepare step
+    generateClassPath(options.clean, function (classPath) {
+      let params = [
+        '-cp',
+        classPath
+      ];
 
-    if (options.debug) {
-      if (options.debug === true) {
-        console.log(chalk.yellow.bold('Debug socket listening at port: 9797'));
-        env['MAVEN_OPTS'] = '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9797';
-      } else {
-        env['MAVEN_OPTS'] = '-agentlib:jdwp=' + options.debug;
+      if (options.debug) {
+        if (options.debug === true) {
+          console.log(chalk.yellow.bold('Debug socket listening at port: 9229'));
+          params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9229');
+        } else {
+          console.log(chalk.yellow.bold('Debug at: ' + options.debug));
+          params.push('-agentlib:jdwp=' + options.debug);
+        }
       }
-    }
 
-    const params = [
-      '-f', path.resolve(dir, 'pom.xml')
-    ];
+      if (options.inspect) {
+        if (options.inspect === true) {
+          console.log(chalk.yellow.bold('Chrome devtools listening at port: 9229'));
+          params.push('-Dpolyglot.inspect=9292');
+          params.push('-Dpolyglot.inspect.Suspend=false');
+        } else {
+          console.log(chalk.yellow.bold('Chrome devtools listenting at: ' + options.inspect));
+          params.push('-Dpolyglot.inspect=' + options.inspect);
+          params.push('-Dpolyglot.inspect.Suspend=false');
+        }
+      }
 
-    if (options.clean) {
-      params.push('clean', 'compile');
-    }
+      params.push('io.vertx.core.Launcher');
+      params.push(cmd);
 
-    params.push(
-      'exec:java',
-      '-Dexec.classpathScope=' + (test ? 'test' : 'runtime'),
-      '-Dexec.mainClass=io.vertx.core.Launcher',
-      '-Dexec.args=' + cmd + ' ' + args.join(' ')
-    );
+      if (options.watch) {
+        params.push('--redeploy=' + options.watch);
+        params.push('--on-redeploy=' + getMaven() + ' package');
+        params.push('--launcher-class=io.vertx.core.Launcher');
+      }
 
-    exec(getMaven(dir), params, env, options.verbose);
+      params = params.concat(args);
+
+      // run the command
+      exec('java', params, process.env, {verbose: true});
+    });
   });
 
 program
@@ -274,7 +336,7 @@ program
     }
 
     exec(
-      getMaven(dir),
+      getMaven(),
       [
         '-f', path.resolve(dir, 'pom.xml'),
         'clean',
@@ -285,26 +347,37 @@ program
   });
 
 program
-  .command('shell')
+  .command('repl')
+  .option('-c, --clean', 'Perform a clean before running the task')
+  .option('-g, --graal', 'Run the builtin Graal Shell')
   .description('Starts a REPL with the current project in the classpath')
-  .action(function () {
-    // give some instructions...
-    console.log('please load vertx into the shell: \"load(\'classpath:vertx.js\')\"');
+  .action(function (options) {
 
-    // Releasing stdin
-    process.stdin.setRawMode(false);
-    const jjs = spawn(
-      'jjs',
-      [
-        '-cp', path.resolve(dir, 'target/' + npm.name + '-' + npm.version + '-fat.jar'),
-        '--language=es6'
-      ],
-      {stdio: [0, 1, 2]});
+    let shell = options.graal ? 'java' : 'jjs';
 
-    jjs.on("exit", function (code) {
-      // Don't forget to switch pseudo terminal on again
-      process.stdin.setRawMode(true);
-      process.exit(code);
+    generateClassPath(options.clean, function (classPath) {
+      let params = [
+        '-cp',
+        classPath
+      ];
+
+      if (shell === 'jjs') {
+        params.push('--language=es6');
+        // give some instructions...
+        console.log('please load vertx into the shell: ' + chalk.yellow.bold('load(\'classpath:vertx.js\');'));
+      } else {
+        params.push('io.reactiverse.es4x.GraalShell');
+      }
+
+      // Releasing stdin
+      process.stdin.setRawMode(false);
+
+      spawn(shell, params, {stdio: [0, 1, 2]})
+        .on("exit", function (code) {
+          // Don't forget to switch pseudo terminal on again
+          process.stdin.setRawMode(true);
+          process.exit(code);
+        });
     });
   });
 
