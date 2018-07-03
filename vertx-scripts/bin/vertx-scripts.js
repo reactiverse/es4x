@@ -248,6 +248,7 @@ program
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-c, --clean', 'Perform a clean before running the task')
   .option('-d , --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
+  .option('-i , --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
   .option('-w , --watch [watch]', 'Watches for modifications on the given expression')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (cmd, args, options) {
@@ -292,6 +293,18 @@ program
         } else {
           console.log(chalk.yellow.bold('Debug at: ' + options.debug));
           params.push('-agentlib:jdwp=' + options.debug);
+        }
+      }
+
+      if (options.inspect) {
+        if (options.inspect === true) {
+          console.log(chalk.yellow.bold('Chrome devtools listening at port: 9229'));
+          params.push('-Dpolyglot.inspect=9292');
+          params.push('-Dpolyglot.inspect.Suspend=false');
+        } else {
+          console.log(chalk.yellow.bold('Chrome devtools listenting at: ' + options.inspect));
+          params.push('-Dpolyglot.inspect=' + options.inspect);
+          params.push('-Dpolyglot.inspect.Suspend=false');
         }
       }
 

@@ -43,8 +43,8 @@ npm add vertx-scripts --save-dev
 
 As this moment there should be a minimal `package.json`. To simplify working with `vert.x`
 add the package [vertx-scripts](https://www.npmjs.com/package/vertx-scripts) to your
-`devDependencies`. During install you should get a warning tip to add also a set of custom
-`scripts` to your `package.json` so it looks like this:
+`devDependencies`. During install the `package.json` should get a set of custom
+`scripts` added and it should look similar to this:
 
 ```json
 {
@@ -53,9 +53,10 @@ add the package [vertx-scripts](https://www.npmjs.com/package/vertx-scripts) to 
   "main": "./index.js",
   "scripts": {
     "postinstall": "vertx-scripts init",
-    "test": "vertx-scripts launcher test -t -v",
-    "start": "vertx-scripts launcher run -v",
-    "package": "vertx-scripts package -c -v"
+    "test": "vertx-scripts launcher test",
+    "start": "vertx-scripts launcher run",
+    "package": "vertx-scripts package",
+    "repl": "vertx-scripts repl"
   },
   "license": "ISC",
   "private": true,
@@ -109,6 +110,26 @@ application is as simple as:
 npm start
 ```
 
+### Debugging your app
+
+When working on the standard JDK you can start your application as:
+
+```sh
+npm start -- -d
+```
+
+This will start a JVM debugger agent on port 9229 that you can attach for a remote
+debug session from your IDE (currently only tested with IntelliJ IDEA).
+
+The experimental GraalVM support allows debugging over the JVM agent and also supoprt
+the Chrome devtools protocol to debug the scripts. In order to activate this mode:
+
+```sh
+npm start -- -i
+```
+
+And follow the instructions.
+
 ### Packaging
 
 It is common to package JVM applications as runnable `JAR` files, the `vertx-scripts` also provides this feature:
@@ -118,3 +139,31 @@ npm run package
 ```
 
 And a new `JAR` file should be built in your `target` directory.
+
+Packaging will re-arrange your application code to be moved to the directory `node_modules/your-module-name` so
+it can be used from other JARs. In order for this to work correctly, the current `node_modules` are also
+bundled in the jar as well as all files listed under the `files` property of your `package.json`.
+
+
+### Shell/ REPL
+
+When working in a more interactive mode you'll be able to use the standard Nashorn REPL `jjs` or Graal.js REPL `js` or
+if you just want a REPL to be available in your Graal runtime you can switch the main class of your runnable jar to:
+
+```
+io.reactiverse.es4x.GraalShell
+```
+
+Using this `main` will allow you to pass any configuration to your vertx instance by using a `kebab` case format
+prefixed with a `-` sign. For example to start a clustered shell:
+
+```sh
+java -cp your_fatjar.jar io.reactiverse.es4x.GraalShell -clustered ./index.js
+```
+
+The if no script is passed then the shell will be just a bootstrapped environment. You will be able to
+load any module by calling later:
+
+```js
+require('./my-module.js');
+```
