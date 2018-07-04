@@ -266,7 +266,9 @@ program
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), template(data));
       // init the maven bits
-      exec(getMaven(), [], process.env, {stopOnError: true, verbose: options.verbose});
+      if (!options.bare) {
+        exec(getMaven(), [], process.env, {stopOnError: true, verbose: options.verbose});
+      }
     } catch (e) {
       console.error(chalk.red.bold(e));
       process.exit(1);
