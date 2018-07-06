@@ -427,21 +427,22 @@ program
       process.exit(1);
     }
 
-    // if there is a local template, prefer it over ours...
-    let source = __dirname + '/../.substitutions.java';
-
-    if (fs.existsSync(path.resolve(dir, '.substitutions.java'))) {
-      source = path.resolve(dir, '.substitutions.java');
-    }
-
-    mkdirp(path.resolve(dir, 'src/main/java'), function (err) {
+    mkdirp(path.resolve(dir, 'src/main/svm'), function (err) {
       if (err) {
-        console.error(chalk.red.bold('Could not create \'src/main/java\'.'));
+        console.error(chalk.red.bold('Could not create \'src/main/svm\'.'));
         process.exit(1);
       }
 
       try {
-        fs.writeFileSync(path.resolve(dir, 'src/main/java/substitutions.java'), fs.readFileSync(source));
+        // if there is a local template, prefer it over ours...
+        if (!fs.existsSync(path.resolve(dir, 'src/main/svm/substitutions.java'))) {
+          fs.writeFileSync(path.resolve(dir, 'src/main/svm/substitutions.java'), fs.readFileSync(__dirname + '/../.substitutions.java'));
+        }
+        // if there is a local template, prefer it over ours...
+        if (!fs.existsSync(path.resolve(dir, 'reflection.json'))) {
+          fs.writeFileSync(path.resolve(dir, 'reflection.json'), fs.readFileSync(__dirname + '/../.reflection.json'));
+        }
+
         // package the maven bits
         let args = [
           '-Pnative-image',
@@ -458,7 +459,7 @@ program
         // first step is to build the fat jar
         exec(getMaven(), args, process.env, {stopOnError: true, verbose: options.verbose}, function () {
 
-          let resources = '(static|webroot|template)/.*';
+          let resources = '(META-INF/services|static|webroot|template)/.*';
 
           if (options.resources) {
             if (options.resources !== true) {
@@ -468,8 +469,12 @@ program
 
           let args = [
             '--no-server',
+            '-Djava.net.preferIPv4Stack=true',
+            '-Dvertx.disableDnsResolver=true',
             '-H:IncludeResources=' + resources,
             '-H:+ReportUnsupportedElementsAtRuntime',
+            '-H:ReflectionConfigurationFiles=./reflection.json',
+            '-H:Name=' + npm.name,
             '-jar',
             'target/' + npm.name + '-' + npm.version + '-fat.jar'
           ];

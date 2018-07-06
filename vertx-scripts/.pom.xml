@@ -42,14 +42,22 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.1</version>
-            <configuration>
-              <includes>
-                <include>**/substitutions.java</include>
-              </includes>
-            </configuration>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <executions>
+              <execution>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>add-source</goal>
+                </goals>
+                <configuration>
+                  <sources>
+                    <source>src/main/svm</source>
+                  </sources>
+                </configuration>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
@@ -87,16 +95,6 @@
   <build>
     <defaultGoal>compile</defaultGoal>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <excludes>
-            <exclude>**/substitutions.java</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
