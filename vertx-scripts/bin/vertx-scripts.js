@@ -471,10 +471,11 @@ program
             '--no-server',
             '-Djava.net.preferIPv4Stack=true',
             '-Dvertx.disableDnsResolver=true',
+            '-H:Name=' + npm.name,
+            '-H:Path=./target',
             '-H:IncludeResources=' + resources,
             '-H:+ReportUnsupportedElementsAtRuntime',
             '-H:ReflectionConfigurationFiles=./reflection.json',
-            '-H:Name=' + npm.name,
             '-jar',
             'target/' + npm.name + '-' + npm.version + '-fat.jar'
           ];
