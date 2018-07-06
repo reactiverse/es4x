@@ -439,8 +439,8 @@ program
           fs.writeFileSync(path.resolve(dir, 'src/main/svm/substitutions.java'), fs.readFileSync(__dirname + '/../.substitutions.java'));
         }
         // if there is a local template, prefer it over ours...
-        if (!fs.existsSync(path.resolve(dir, 'reflection.json'))) {
-          fs.writeFileSync(path.resolve(dir, 'reflection.json'), fs.readFileSync(__dirname + '/../.reflection.json'));
+        if (!fs.existsSync(path.resolve(dir, 'src/main/svm/reflection.json'))) {
+          fs.writeFileSync(path.resolve(dir, 'src/main/svm/reflection.json'), fs.readFileSync(__dirname + '/../.reflection.json'));
         }
 
         // package the maven bits
@@ -475,7 +475,7 @@ program
             '-H:Path=./target',
             '-H:IncludeResources=' + resources,
             '-H:+ReportUnsupportedElementsAtRuntime',
-            '-H:ReflectionConfigurationFiles=./reflection.json',
+            '-H:ReflectionConfigurationFiles=./src/main/svm/reflection.json',
             '-jar',
             'target/' + npm.name + '-' + npm.version + '-fat.jar'
           ];
