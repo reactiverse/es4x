@@ -92,4 +92,9 @@ public class GlobalsTest {
     loader.eval(script);
     async.await();
   }
+
+  @Test(timeout = 10000)
+  public void testDateToInstant(TestContext ctx) throws Exception {
+    loader.eval("console.log(new Date().toInstant());");
+  }
 }

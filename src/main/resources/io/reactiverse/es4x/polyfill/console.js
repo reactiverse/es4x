@@ -16,9 +16,8 @@
 (function (global) {
   'use strict';
 
-  var System = Java.type('java.lang.System');
-
-  var formatRegExp = /%[sdj%]/g;
+  const System = Java.type('java.lang.System');
+  const formatRegExp = /%[sdj%]/g;
 
   function format(f) {
     if (typeof f !== 'string') {

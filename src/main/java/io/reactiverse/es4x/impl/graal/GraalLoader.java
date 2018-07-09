@@ -88,6 +88,7 @@ public class GraalLoader implements Loader<Value> {
     // add polyfills
     load.execute("classpath:io/reactiverse/es4x/polyfill/json.js");
     load.execute("classpath:io/reactiverse/es4x/polyfill/global.js");
+    load.execute("classpath:io/reactiverse/es4x/polyfill/date.js");
     load.execute("classpath:io/reactiverse/es4x/polyfill/console.js");
     load.execute("classpath:io/reactiverse/es4x/polyfill/promise.js");
     // install the commonjs loader

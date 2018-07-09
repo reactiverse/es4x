@@ -18,9 +18,11 @@ package io.reactiverse.es4x.dynalink;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jdk.dynalink.linker.*;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.api.scripting.ScriptUtils;
 
 import java.lang.invoke.*;
+import java.time.Instant;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -28,6 +30,9 @@ public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConver
 
   private static final MethodHandle TO_JSONOBJECT;
   private static final MethodHandle TO_JSONARRAY;
+
+  private static final MethodHandle TO_DATE;
+  private static final MethodHandle TO_INSTANT;
 
   private final Map<Class, DataObjectLinker> linkers = new IdentityHashMap<>();
 
@@ -44,6 +49,17 @@ public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConver
         ES4XJSONLinker.class,
         "toJsonArray",
         MethodType.methodType(JsonArray.class, Object.class));
+
+      TO_DATE = lookup.findStatic(
+        ES4XJSONLinker.class,
+        "toDate",
+        MethodType.methodType(Date.class, Object.class));
+
+      TO_INSTANT = lookup.findStatic(
+        ES4XJSONLinker.class,
+        "toInstant",
+        MethodType.methodType(Instant.class, Object.class));
+
     } catch (NoSuchMethodException | IllegalAccessException e) {
       throw new RuntimeException(e);
     }
@@ -63,6 +79,12 @@ public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConver
     }
     if (targetType.isAssignableFrom(JsonArray.class)) {
       return new GuardedInvocation(TO_JSONARRAY);
+    }
+    if (targetType.isAssignableFrom(Date.class)) {
+      return new GuardedInvocation(TO_DATE);
+    }
+    if (targetType.isAssignableFrom(Instant.class)) {
+      return new GuardedInvocation(TO_INSTANT);
     }
     // will attempt to cache the linker if not available yet
     DataObjectLinker linker;
@@ -113,5 +135,47 @@ public class ES4XJSONLinker implements GuardingDynamicLinker, GuardingTypeConver
     }
     // rely on nashorn to do the intermediate representation for us
     return new JsonArray((List<Object>) ScriptUtils.convert(obj, List.class));
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Date toDate(final Object obj) {
+    // nulls will be nulls
+    if (obj == null) {
+      return null;
+    }
+    // if we're already working with the correct type return identity
+    if (obj instanceof Date) {
+      return (Date) obj;
+    }
+    // rely on nashorn to do the intermediate representation for us
+    final ScriptObjectMirror jsDate = ScriptUtils.wrap(obj);
+
+    if (!"Date".equals(jsDate.getClassName())) {
+      throw new ClassCastException("Object is not a Date");
+    }
+
+    Number timestampLocalTime = (Number) jsDate.callMember("getTime");
+    return new Date(timestampLocalTime.longValue());
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Instant toInstant(final Object obj) {
+    // nulls will be nulls
+    if (obj == null) {
+      return null;
+    }
+    // if we're already working with the correct type return identity
+    if (obj instanceof Instant) {
+      return (Instant) obj;
+    }
+    // rely on nashorn to do the intermediate representation for us
+    final ScriptObjectMirror jsDate = ScriptUtils.wrap(obj);
+
+    if (!"Date".equals(jsDate.getClassName())) {
+      throw new ClassCastException("Object is not a Date");
+    }
+
+    Number timestampLocalTime = (Number) jsDate.callMember("getTime");
+    return Instant.ofEpochMilli(timestampLocalTime.longValue());
   }
 }

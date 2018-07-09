@@ -60,6 +60,7 @@ public class NashornLoader implements Loader<Object> {
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/object.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/json.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/global.js");
+      engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/date.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/console.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/promise.js");
       // install the commonjs loader
