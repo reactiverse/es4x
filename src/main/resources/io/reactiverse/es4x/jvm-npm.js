@@ -312,5 +312,5 @@
 
   ModuleError.prototype = new Error();
   ModuleError.prototype.constructor = ModuleError;
-})(this);
+})(global || this);
 //# sourceURL=src/main/resources/io/reactiverse/es4x/jvm-npm.js
