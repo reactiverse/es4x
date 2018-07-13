@@ -23,11 +23,14 @@ import jdk.nashorn.api.scripting.NashornScriptEngine;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import javax.script.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NashornLoader implements Loader<Object> {
 
   private final NashornScriptEngine engine;
   private final JSObject require;
+
+  private static final AtomicBoolean codecInstalled = new AtomicBoolean(false);
 
   public NashornLoader(final Vertx vertx) {
     try {
@@ -52,9 +55,11 @@ public class NashornLoader implements Loader<Object> {
       engine.setBindings(globalBindings, ScriptContext.GLOBAL_SCOPE);
 
       // register a default codec to allow JSON messages directly from nashorn to the JVM world
-      vertx.eventBus()
-        .unregisterDefaultCodec(ScriptObjectMirror.class)
-        .registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec((JSObject) engine.eval("JSON")));
+      if (!codecInstalled.getAndSet(true)) {
+        vertx.eventBus()
+          .unregisterDefaultCodec(ScriptObjectMirror.class)
+          .registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec((JSObject) engine.eval("JSON")));
+      }
 
       // add polyfills
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/object.js");
@@ -63,6 +68,7 @@ public class NashornLoader implements Loader<Object> {
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/date.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/console.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/promise.js");
+      engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/worker.js");
       // install the commonjs loader
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/jvm-npm.js");
       // get a reference to the require function
@@ -103,6 +109,14 @@ public class NashornLoader implements Loader<Object> {
   @Override
   public Object eval(String script) throws ScriptException {
     return engine.eval(script);
+  }
+
+  @Override
+  public boolean hasMember(Object thiz, String key) {
+    if (thiz instanceof JSObject) {
+      return (((JSObject) thiz).hasMember(key));
+    }
+    return false;
   }
 
   @Override

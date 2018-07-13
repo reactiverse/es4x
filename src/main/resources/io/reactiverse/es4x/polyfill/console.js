@@ -23,7 +23,12 @@
     if (typeof f !== 'string') {
       var objects = [];
       for (var index = 0; index < arguments.length; index++) {
-        objects.push(JSON.stringify(arguments[index]));
+        var obj = arguments[index];
+        if (Java.isJavaObject(obj)) {
+          objects.push(obj.toString());
+        } else {
+          objects.push(JSON.stringify(obj));
+        }
       }
       return objects.join(' ');
     }
