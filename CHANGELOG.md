@@ -8,7 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Code clean ups
+- `vertx-scripts` will install `mvnw` by default (for Graal users, this means there are no extra
+  dependencies needed to run or develop ES4X)
 - `Worker` API following the Ecma Interface will off load to worker verticles.
+- Bump Vert.x dependencies to 3.5.3
+- Bump `pg-reactive-client` to 0.9.0
+
+## [0.5.2] - 2018-07-13
 - `vertx-scripts` can generate basic native images
 
 ## [0.5.1] - 2018-07-03
