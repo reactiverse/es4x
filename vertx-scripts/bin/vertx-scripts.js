@@ -92,12 +92,37 @@ function getMaven() {
 
   // check for wrapper
   if (isWindows) {
-    if (fs.existsSync(path.resolve(dir, 'mvnw.bat'))) {
-      mvn = path.resolve(dir, 'mvnw.bat');
+    mvn = 'mvnw.cmd';
+    if (fs.existsSync(path.resolve(dir, mvn))) {
+      mvn = path.resolve(dir, mvn);
+    } else {
+      try {
+        mkdirp.sync(path.resolve(dir, '.mvn/wrapper'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.jar'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.jar'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.properties'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.properties'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/MavenWrapperDownloader.java'), fs.readFileSync(__dirname + '/../.mvn/wrapper/MavenWrapperDownloader.java'));
+        fs.writeFileSync(path.resolve(dir, mvn), fs.readFileSync(__dirname + '/../mvnw.cmd'));
+      } catch (e) {
+        // don't care fallback to system wide maven
+        mvn = 'mvn';
+      }
     }
   } else {
-    if (fs.existsSync(path.resolve(dir, 'mvnw'))) {
-      mvn = path.resolve(dir, 'mvnw');
+    mvn = 'mvnw';
+    if (fs.existsSync(path.resolve(dir, mvn))) {
+      mvn = path.resolve(dir, mvn);
+    } else {
+      try {
+        mkdirp.sync(path.resolve(dir, '.mvn/wrapper'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.jar'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.jar'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.properties'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.properties'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/MavenWrapperDownloader.java'), fs.readFileSync(__dirname + '/../.mvn/wrapper/MavenWrapperDownloader.java'));
+        fs.writeFileSync(path.resolve(dir, mvn), fs.readFileSync(__dirname + '/../mvnw'));
+        fs.chmodSync(path.resolve(dir, mvn), '0755');
+      } catch (e) {
+        // don't care fallback to system wide maven
+        mvn = 'mvn';
+      }
     }
   }
 
