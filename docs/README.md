@@ -61,7 +61,7 @@ add the package [vertx-scripts](https://www.npmjs.com/package/vertx-scripts) to 
   "license": "ISC",
   "private": true,
   "devDependencies": {
-    "vertx-scripts": "^1.0.9"
+    "vertx-scripts": "^1.1.3"
   }
 }
 ```
@@ -72,8 +72,8 @@ As of this moment you can follow the normal workflow. For example in order to cr
 ```json
 {
   "dependencies": {
-    "@vertx/core": "3.5.1",
-    "@vertx/web": "3.5.1"
+    "@vertx/core": "3.5.3",
+    "@vertx/web": "3.5.3"
   }
 }
 ```
