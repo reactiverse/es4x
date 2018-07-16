@@ -17,145 +17,93 @@
 
   const Vertx = Java.type('io.vertx.core.Vertx');
   const DeploymentOptions = Java.type('io.vertx.core.DeploymentOptions');
-  const JsonObject = Java.type('io.vertx.core.json.JsonObject');
-  const CountDownLatch = Java.type('java.util.concurrent.CountDownLatch');
+  const Future = Java.type('io.vertx.core.Future');
 
   const eventBus = vertx.eventBus();
 
   /**
-   * Worker constructor.
+   * Worker factory.
    *
    * A Worker is a Worker verticle that will be deployed and will connect to the eventbus.
-   * @param {String} worker
-   * @param {?String} address
    * @constructor
    */
-  function Worker(worker, address) {
-    // keep a self reference
-    let self = this;
+  function Worker(address) {
+    const self = this;
+
     // keep a reference to the context
-    this._context = Vertx.currentContext();
-    this._address = address || worker;
+    Object.defineProperty(this, 'context', {
+      value: Vertx.currentContext(),
+      writable: false
+    });
 
-    vertx.deployVerticle(
-      'worker-js:' + worker,
-      new DeploymentOptions()
-        .setWorker(true)
-        .setConfig(new JsonObject().put('address', this._address)),
-      function (deployVerticle) {
-        if (deployVerticle.succeeded()) {
-          self._deploymentId = deployVerticle.result();
-          // TODO: push all queued messages to the verticle and disable queueing
-        } else {
-          self._failure = deployVerticle.cause();
-          // TODO: save the throwable so when the onerror handle is set it will be pushed
+    // keep a reference to the context
+    Object.defineProperty(this, 'address', {
+      value: address,
+      writable: false
+    });
+
+    // in order to interact with the worker we need to have a message producer
+    Object.defineProperty(this, 'producer', {
+      value: eventBus.sender(address + '.out'),
+      writable: false
+    });
+
+    this.producer.exceptionHandler(function (error) {
+      if (self.onerror) {
+        self.context.runOnContext(function () {
+          self.onerror(error);
+        });
+      }
+    });
+
+    // the interface contract defines 2 callbacks, "onmessage" to receive message, "onerror" for error handling.
+
+    // keep a reference to the context
+    Object.defineProperty(this, 'consumer', {
+      value: undefined,
+      writable: true
+    });
+
+    Object.defineProperty(this, 'onmessage', {
+      enumerable: true,
+      set: function (value) {
+        // small clean up
+        if (self.consumer) {
+          self.consumer.unregister();
         }
-      });
+        // create a new consumer
+        self.consumer = eventBus.localConsumer(address + '.in', function (aMessage) {
+          self.context.runOnContext(function () {
+            value(JSON.parse(aMessage.body()));
+          });
+        });
+        // attach any errors to the error handler
+        self.consumer.exceptionHandler(function (error) {
+          if (self.onerror) {
+            self.context.runOnContext(function () {
+              self.onerror(error);
+            });
+          }
+        });
+      },
+      get: function () {
+        return self.consumer;
+      }
+    });
 
-    // // there are 2 modes to operate, either bind to an eventbus address
-    // // or load a script and bind it to an eventbus address
-    //
-    // // 3rd option receive a function and do an execute blocking
-    //
-    // if (location.startsWith('eventbus:')) {
-    //   this._publisher = eventBus.publisher(location.substr(9));
-    //   // setup the handlers
-    //   this._publisher.exceptionHandler(function (err) {
-    //     if (self.onerror) {
-    //       if (self._context) {
-    //         self._context.runOnContext(function () {
-    //           self.onerror(err);
-    //         });
-    //       } else {
-    //         self.onerror(err);
-    //       }
-    //     }
-    //   });
-    //
-    //   return;
-    // }
-    //
-    // // the second mode is more tricky we need to load scripts
-    // let script = fs.readFileBlocking(location).toString();
-    //
-    // let worker = loadWithNewGlobal({
-    //   script: script,
-    //   name: location
-    // });
-    //
-    // print(worker);
-    // print(worker.onmessage);
-    //
-    // // if (location.startsWith('consumer:')) {
-    // //   this._consumer = eventBus.consumer(location.substr(9));
-    // //   // setup the handlers
-    // //   this._consumer.handler(function (msg) {
-    // //     if (self.onmessage) {
-    // //       if (self._context) {
-    // //         self._context.runOnContext(function () {
-    // //           self.onmessage(msg.body());
-    // //         });
-    // //       } else {
-    // //         self.onmessage(msg.body());
-    // //       }
-    // //     }
-    // //   });
-    // //   this._consumer.exceptionHandler(function (err) {
-    // //     if (self.onerror) {
-    // //       if (self._context) {
-    // //         self._context.runOnContext(function () {
-    // //           self.onerror(err);
-    // //         });
-    // //       } else {
-    // //         self.onerror(err);
-    // //       }
-    // //     }
-    // //   });
-    // // }
-    // // if (location.startsWith('local-consumer:')) {
-    // //   this._consumer = eventBus.localConsumer(location.substr(15));
-    // //   // setup the handlers
-    // //   this._consumer.handler(function (msg) {
-    // //     if (self.onmessage) {
-    // //       if (self._context) {
-    // //         self._context.runOnContext(function () {
-    // //           self.onmessage(msg.body());
-    // //         });
-    // //       } else {
-    // //         self.onmessage(msg.body());
-    // //       }
-    // //     }
-    // //   });
-    // //   this._consumer.exceptionHandler(function (err) {
-    // //     if (self.onerror) {
-    // //       if (self._context) {
-    // //         self._context.runOnContext(function () {
-    // //           self.onerror(err);
-    // //         });
-    // //       } else {
-    // //         self.onerror(err);
-    // //       }
-    // //     }
-    // //   });
-    // // }
+    console.log('worker complete')
   }
 
   /**
    * The postMessage() method of the Worker interface sends a message to the worker's inner scope.
    * This accepts a single parameter, which is the data to send to the worker. The data may be any
-   * value or JavaScript object handled by the structured clone algorithm, which includes cyclical
-   * references.
-   *
-   * The Worker can send back information to the thread that spawned it using the
-   * DedicatedWorkerGlobalScope.postMessage method.
+   * value or JavaScript object handled by the JSON stringify algorithm.
    *
    * @param {Object} aMessage - The object to deliver to the worker.
    * @return {void} void
    */
   Worker.prototype.postMessage = function (aMessage) {
-    if (this._address) {
-      eventBus.send('out.' + this._address, aMessage);
-    }
+    this.producer.send(JSON.stringify(aMessage));
   };
 
   /**
@@ -163,12 +111,42 @@
    * offer the worker an opportunity to finish its operations; it is simply stopped at once.
    */
   Worker.prototype.terminate = function () {
-    if (this._consumer) {
-      this._consumer.unregister();
-    }
-    if (this._publisher) {
-      this._publisher.close();
-    }
+    // close the producer
+    this.producer.close();
+    // undeploy the worker
+    vertx.undeployVerticle(this.address);
+    // unregister the consumer
+    this.consumer.unregister();
+  };
+
+  /**
+   * Worker factory.
+   *
+   * This factory will create workers following the Vert.x semantics, not the Browser semantics. Once the worker is
+   * created it will be delivered over the handler instead of being a common constructor.
+   *
+   * Vert.x Workers are plain Worker Verticles that bind to the eventbus using their own deployment id as base address.
+   *
+   * A Worker is a Worker verticle that will be deployed and will connect to the eventbus.
+   * @param {String} workerScript - following commonjs guidelines **BUT** resolution starts form
+   *                                the start up path. The path is not relative to the current module.
+   * @param {Function} handler - the handler will contain a asynchronous result with the worker instance.
+   */
+  Worker.create = function (workerScript, handler) {
+    vertx.deployVerticle(
+      // the script is prefixed to ensure we get the right loader
+      'js:' + workerScript,
+      // workers **must** be deployed as worker
+      new DeploymentOptions().setWorker(true),
+      // handler
+      function (deployVerticle) {
+        if (deployVerticle.failed()) {
+          // with JS we don't need to match types, so no need to re wrap the failure
+          return handler(deployVerticle);
+        }
+        // return the worker as an asynchronous result
+        handler(Future.succeededFuture(new Worker(deployVerticle.result())));
+      });
   };
 
   // Install (or replace) the Worker implementation

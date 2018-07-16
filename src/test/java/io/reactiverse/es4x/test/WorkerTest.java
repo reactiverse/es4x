@@ -51,15 +51,17 @@ public class WorkerTest {
     loader.put("ctx", ctx);
     loader.put("async", async);
 
-    // @Language=JavaScript
+    // @language=JavaScript
     String script =
-      "var worker = new Worker('workers/worker.js');\n" +
-      "console.log(worker);\n" +
-      "worker.onmessage = function (msg) {\n" +
-      "  async.complete();\n" +
-      "};\n" +
-      "console.log('posting...');\n" +
-      "worker.postMessage([2, 3]);";
+      "Worker.create('workers/worker.js', function (create) {" +
+        "var worker = create.result();\n" +
+        "worker.onmessage = function (msg) {\n" +
+        "  console.log('onmessage: ' + msg)\n" +
+        "  async.complete();\n" +
+        "};\n" +
+        "console.log('posting...');\n" +
+        "worker.postMessage({data: [2, 3]});\n" +
+      "});\n";
 
     loader.eval(script);
   }

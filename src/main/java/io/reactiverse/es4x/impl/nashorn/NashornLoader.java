@@ -23,14 +23,11 @@ import jdk.nashorn.api.scripting.NashornScriptEngine;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import javax.script.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NashornLoader implements Loader<Object> {
 
   private final NashornScriptEngine engine;
   private final JSObject require;
-
-  private static final AtomicBoolean codecInstalled = new AtomicBoolean(false);
 
   public NashornLoader(final Vertx vertx) {
     try {
@@ -55,11 +52,9 @@ public class NashornLoader implements Loader<Object> {
       engine.setBindings(globalBindings, ScriptContext.GLOBAL_SCOPE);
 
       // register a default codec to allow JSON messages directly from nashorn to the JVM world
-      if (!codecInstalled.getAndSet(true)) {
-        vertx.eventBus()
-          .unregisterDefaultCodec(ScriptObjectMirror.class)
-          .registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec((JSObject) engine.eval("JSON")));
-      }
+      vertx.eventBus()
+        .unregisterDefaultCodec(ScriptObjectMirror.class)
+        .registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec((JSObject) engine.eval("JSON")));
 
       // add polyfills
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/object.js");

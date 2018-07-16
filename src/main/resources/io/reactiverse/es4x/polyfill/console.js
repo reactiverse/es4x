@@ -25,7 +25,11 @@
       for (var index = 0; index < arguments.length; index++) {
         var obj = arguments[index];
         if (Java.isJavaObject(obj)) {
-          objects.push(obj.toString());
+          if (obj) {
+            objects.push(obj.toString());
+          } else {
+            objects.push('null');
+          }
         } else {
           objects.push(JSON.stringify(obj));
         }

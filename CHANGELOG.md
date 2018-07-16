@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `Worker` API following the Ecma Interface will off load to worker verticles.
 - `vertx-scripts` can generate basic native images
 
 ## [0.5.1] - 2018-07-03

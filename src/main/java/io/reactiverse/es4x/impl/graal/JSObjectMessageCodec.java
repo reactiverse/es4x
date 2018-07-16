@@ -22,9 +22,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
 
-import java.util.List;
-import java.util.Map;
-
 final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
 
   private final Value stringify;
@@ -56,13 +53,13 @@ final class JSObjectMessageCodec<T> implements MessageCodec<T, Object> {
     final Value value = Value.asValue(jsObject);
     if (value.hasMembers()) {
       if (value.hasArrayElements()) {
-        return new JsonArray(value.as(List.class));
+        return new JsonArray(stringify.execute(value).asString());
       } else {
-        return new JsonObject(value.as(Map.class));
+        return new JsonObject(stringify.execute(value).asString());
       }
     }
-    // cannot cast return as is...
-    return jsObject;
+    // it's likely a Function
+    throw new ClassCastException("type is not Object or Array");
   }
 
   @Override
