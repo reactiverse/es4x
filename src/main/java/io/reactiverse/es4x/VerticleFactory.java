@@ -37,11 +37,11 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
   @Override
   public Verticle createVerticle(String verticleName, ClassLoader classLoader) throws Exception {
 
-    final Loader loader;
+    final Loader engine;
 
     synchronized (this) {
       // create a new CommonJS loader
-      loader = Loader.create(vertx);
+      engine = Loader.create(vertx);
     }
 
     return new Verticle() {
@@ -64,12 +64,9 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
 
       @Override
       public void start(Future<Void> startFuture) throws Exception {
-        // expose config
-        if (context != null && context.config() != null) {
-          loader.config(context.config());
-        }
-
+        final String address;
         final String fsVerticleName;
+        final boolean worker;
 
         // extract prefix if present
         if (verticleName.startsWith(prefix() + ":")) {
@@ -78,43 +75,91 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
           fsVerticleName = verticleName;
         }
 
+        if (context != null) {
+          address = context.deploymentID();
+          worker = context.isWorkerContext() || context.isMultiThreadedWorkerContext();
+          // expose config
+          if (context.config() != null) {
+            engine.config(context.config());
+          }
+        } else {
+          worker = false;
+          address = null;
+        }
+
+        if (worker) {
+          // in the case of being a worker we need to define an extra function in the global scope `postMessage`
+          // define the postMessage function
+          engine.eval(
+            "(function (global) {\n" +
+              "  global.postMessage = function (aMessage) {\n" +
+              "    vertx.eventBus().send('" + address + ".in', JSON.stringify(aMessage));\n" +
+              "  };\n" +
+              "})(global || this);");
+        }
+
         // this can take some time to load so it might block the event loop
         // this is usually not a issue as it is a one time operation
-        self = loader.main(fsVerticleName);
+        self = engine.main(fsVerticleName);
 
-        // if the main module exports 2 function we bind those to the verticle lifecycle
         if (self != null) {
-          try {
-            loader.enter();
-            loader.invokeMethod(self, "start");
-            startFuture.complete();
-          } catch (RuntimeException e) {
-            startFuture.fail(e);
-          } finally {
-            loader.leave();
+          if (worker) {
+            // if it is a worker and there is a onmessage handler we need to bind it to the eventbus
+            if (engine.hasMember(self, "onmessage")) {
+              try {
+                // if the worker has specified a onmessage function we need to bind it to the eventbus
+                final Object JSON = engine.eval("JSON");
+
+                vertx.eventBus().consumer(address + ".out", msg -> {
+                  // parse the json back to the engine runtime type
+                  Object json = engine.invokeMethod(JSON, "parse", msg.body());
+                  // deliver it to the handler
+                  engine.invokeMethod(self, "onmessage", json);
+                });
+              } catch (RuntimeException e) {
+                startFuture.fail(e);
+                return;
+              }
+            }
+          } else {
+            // if the main module exports 2 function we bind those to the verticle lifecycle
+            if (engine.hasMember(self, "start")) {
+              try {
+                engine.enter();
+                engine.invokeMethod(self, "start");
+              } catch (RuntimeException e) {
+                startFuture.fail(e);
+                return;
+              } finally {
+                engine.leave();
+              }
+            }
           }
         }
+
+        // worker initialization is complete
+        startFuture.complete();
       }
 
       @Override
       public void stop(Future<Void> stopFuture) throws Exception {
         if (self != null) {
-          try {
-            loader.enter();
-            loader.invokeMethod(self, "stop");
-            stopFuture.complete();
-          } catch (RuntimeException e) {
-            stopFuture.fail(e);
-          } finally {
-            // done!
-            loader.leave();
-            // close the loader
-            loader.close();
+          if (engine.hasMember(self, "stop")) {
+            try {
+              engine.enter();
+              engine.invokeMethod(self, "stop");
+            } catch (RuntimeException e) {
+              stopFuture.fail(e);
+              return;
+            } finally {
+              // done!
+              engine.leave();
+            }
           }
-        } else {
-          // close the loader
-          loader.close();
         }
+        // close the loader
+        engine.close();
+        stopFuture.complete();
       }
     };
   }

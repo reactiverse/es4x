@@ -59,7 +59,9 @@ public interface Loader<T> {
 
   T eval(String script) throws Exception;
 
-  T invokeMethod(Object thiz, String method, Object... args);
+  boolean hasMember(T thiz, String key);
+
+  T invokeMethod(T thiz, String method, Object... args);
 
   T invokeFunction(String function, Object... args);
 
