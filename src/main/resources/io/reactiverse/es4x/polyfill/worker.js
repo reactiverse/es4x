@@ -22,12 +22,13 @@
   const eventBus = vertx.eventBus();
 
   /**
-   * Worker factory.
+   * A Worker is a Worker verticle that is deployed and connected to the eventbus.
    *
-   * A Worker is a Worker verticle that will be deployed and will connect to the eventbus.
+   * @param {String} deploymentId the verticle deploymentId
+   * @param {?Boolean} remote is this deploymentId local
    * @constructor
    */
-  function Worker(address) {
+  function Worker(deploymentId, remote) {
     const self = this;
 
     // keep a reference to the context
@@ -37,22 +38,26 @@
     });
 
     // keep a reference to the context
-    Object.defineProperty(this, 'address', {
-      value: address,
+    Object.defineProperty(this, 'id', {
+      value: deploymentId,
       writable: false
     });
 
     // in order to interact with the worker we need to have a message producer
     Object.defineProperty(this, 'producer', {
-      value: eventBus.sender(address + '.out'),
+      value: eventBus.sender(deploymentId + '.out'),
       writable: false
     });
 
     this.producer.exceptionHandler(function (error) {
       if (self.onerror) {
-        self.context.runOnContext(function () {
+        if (self.context) {
+          self.context.runOnContext(function () {
+            self.onerror(error);
+          });
+        } else {
           self.onerror(error);
-        });
+        }
       }
     });
 
@@ -72,17 +77,25 @@
           self.consumer.unregister();
         }
         // create a new consumer
-        self.consumer = eventBus.localConsumer(address + '.in', function (aMessage) {
-          self.context.runOnContext(function () {
+        self.consumer = eventBus[remote ? 'consumer' : 'localConsumer'](deploymentId + '.in', function (aMessage) {
+          if (self.context) {
+            self.context.runOnContext(function () {
+              value(JSON.parse(aMessage.body()));
+            });
+          } else {
             value(JSON.parse(aMessage.body()));
-          });
+          }
         });
         // attach any errors to the error handler
         self.consumer.exceptionHandler(function (error) {
           if (self.onerror) {
-            self.context.runOnContext(function () {
+            if (self.context) {
+              self.context.runOnContext(function () {
+                self.onerror(error);
+              });
+            } else {
               self.onerror(error);
-            });
+            }
           }
         });
       },
@@ -90,8 +103,6 @@
         return self.consumer;
       }
     });
-
-    console.log('worker complete')
   }
 
   /**
@@ -114,7 +125,7 @@
     // close the producer
     this.producer.close();
     // undeploy the worker
-    vertx.undeployVerticle(this.address);
+    vertx.undeployVerticle(this.id);
     // unregister the consumer
     this.consumer.unregister();
   };

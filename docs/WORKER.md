@@ -71,3 +71,13 @@ Worker.create('workers/worker.js', function (create) {
 
 So the code that would be not allowed to run on the event loop `Thread.sleep(5000)` is now running on a worker thread
 leaving the event loop thread free for all the other IO tasks.
+
+## Polyglot Workers
+
+It is still possible to write workers that are not JavaScript workers. Workers must follow a very small list of rules:
+
+* Workers must register the address: `{deploymentId}.out` to receive messages from the main script.
+* Workers should send messages to: `{deploymentId}.in` to send messages to the main script.
+* Message payloads are expected to be `JSON.stringify(message)` to avoid any issues between languages
+* Workers are expected to be local, if want to connect to a worker anywhere in the cluster, then you need to use the
+  constructor with an extra argument `true`, e.g.: `new Worker('deploymentId', true)`.
