@@ -33,7 +33,7 @@ your `package.json` scripts:
   },
   
   "devDependencies": {
-    "vertx-scripts": "^1.0.7"
+    "vertx-scripts": "^1.1.4"
   }
 }
 ```
@@ -65,12 +65,12 @@ An example running tests would be after adding `vertx-unit` to the
   },
   
   "devDependencies": {
-    "vertx-scripts": "1.0.0",
-    "@vertx/unit": "3.5.1"
+    "vertx-scripts": "^1.1.4",
+    "@vertx/unit": "3.5.3"
   },
   
   "dependencies": {
-    "@vertx/core": "3.5.1"
+    "@vertx/core": "3.5.3"
   }
 }
 ```
@@ -87,11 +87,11 @@ deploy it and distribute.
   },
   
   "devDependencies": {
-    "vertx-scripts": "^1.0.7"
+    "vertx-scripts": "^1.1.4"
   },
   
   "dependencies": {
-    "@vertx/core": "3.5.1"
+    "@vertx/core": "3.5.3"
   }
 }
 ```

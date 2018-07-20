@@ -19,6 +19,7 @@
 
   var Map = Java.type('java.util.Map');
   var List = Java.type('java.util.List');
+  var Instant = Java.type('java.time.Instant');
 
   // this will wrap the original function to handle Vert.x native types too
   var _stringify = JSON.stringify;
@@ -38,6 +39,10 @@
     if (val instanceof List) {
       return new JsonArray(val).encode();
     }
+    if (val instanceof Instant) {
+      return val.toString();
+    }
+
     return _stringify.apply(JSON, Array.prototype.slice.call(arguments))
   };
 

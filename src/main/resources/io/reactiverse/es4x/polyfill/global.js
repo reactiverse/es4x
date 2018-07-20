@@ -102,4 +102,4 @@
     stdin: System.in
   }
 
-})(this);
+})(global || this);

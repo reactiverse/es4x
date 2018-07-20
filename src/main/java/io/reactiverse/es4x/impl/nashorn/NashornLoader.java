@@ -60,8 +60,10 @@ public class NashornLoader implements Loader<Object> {
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/object.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/json.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/global.js");
+      engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/date.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/console.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/promise.js");
+      engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/worker.js");
       // install the commonjs loader
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/jvm-npm.js");
       // get a reference to the require function
@@ -102,6 +104,14 @@ public class NashornLoader implements Loader<Object> {
   @Override
   public Object eval(String script) throws ScriptException {
     return engine.eval(script);
+  }
+
+  @Override
+  public boolean hasMember(Object thiz, String key) {
+    if (thiz instanceof JSObject) {
+      return (((JSObject) thiz).hasMember(key));
+    }
+    return false;
   }
 
   @Override

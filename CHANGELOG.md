@@ -8,6 +8,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Added docs about Worker and Graal
+- Code clean ups
+- `vertx-scripts` will install `mvnw` by default (for Graal users, this means there are no extra
+  dependencies needed to run or develop ES4X)
+- `Worker` API following the Ecma Interface will off load to worker verticles.
+- Bump Vert.x dependencies to 3.5.3
+- Bump `pg-reactive-client` to 0.9.0
+- Fix build to always target `JDK8` making it possible to use on `JDK>=8` and `GraalVM 1.0.0`
+
+## [0.5.2] - 2018-07-13
+- `vertx-scripts` can generate basic native images
+- Added `pg-reactive-client@0.8.0`
+- Bump Vert.x dependencies to 3.5.2
+
+## [0.5.1] - 2018-07-03
 - REPL support for both Nashorn and Graal
 - Added `Dynalink` to any `DataObject`
 - Type definition for `process`

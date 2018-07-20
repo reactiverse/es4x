@@ -22,10 +22,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import jdk.nashorn.api.scripting.ScriptUtils;
-
-import java.util.List;
-import java.util.Map;
 
 final class JSObjectMessageCodec implements MessageCodec<ScriptObjectMirror, Object> {
 
@@ -60,13 +56,13 @@ final class JSObjectMessageCodec implements MessageCodec<ScriptObjectMirror, Obj
     if (!jsObject.isFunction() && !jsObject.isStrictFunction()) {
       // it's an Array
       if (jsObject.isArray()) {
-        return new JsonArray((List) ScriptUtils.convert(jsObject, List.class));
+        return new JsonArray((String) stringify.call(JSON, jsObject));
       }
       // it's an Object
-      return new JsonObject((Map) ScriptUtils.convert(jsObject, Map.class));
+      return new JsonObject((String) stringify.call(JSON, jsObject));
     }
     // it's likely a Function
-    throw new ClassCastException("Function is not an Object or Array");
+    throw new ClassCastException("type is not Object or Array");
   }
 
   @Override

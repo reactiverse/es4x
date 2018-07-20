@@ -88,8 +88,10 @@ public class GraalLoader implements Loader<Value> {
     // add polyfills
     load.execute("classpath:io/reactiverse/es4x/polyfill/json.js");
     load.execute("classpath:io/reactiverse/es4x/polyfill/global.js");
+    load.execute("classpath:io/reactiverse/es4x/polyfill/date.js");
     load.execute("classpath:io/reactiverse/es4x/polyfill/console.js");
     load.execute("classpath:io/reactiverse/es4x/polyfill/promise.js");
+    load.execute("classpath:io/reactiverse/es4x/polyfill/worker.js");
     // install the commonjs loader
     load.execute("classpath:io/reactiverse/es4x/jvm-npm.js");
   }
@@ -128,12 +130,18 @@ public class GraalLoader implements Loader<Value> {
   }
 
   @Override
-  public Value invokeMethod(Object thiz, String method, Object... args) {
-    if (thiz instanceof Value) {
-      Value fn = ((Value) thiz).getMember(method);
-      if (fn != null && !fn.isNull()) {
-        return fn.execute(args);
-      }
+  public boolean hasMember(Value object, String key) {
+    if (object != null) {
+      return object.hasMember(key);
+    }
+    return false;
+  }
+
+  @Override
+  public Value invokeMethod(Value thiz, String method, Object... args) {
+    Value fn = thiz.getMember(method);
+    if (fn != null && !fn.isNull()) {
+      return fn.execute(args);
     }
     return null;
   }

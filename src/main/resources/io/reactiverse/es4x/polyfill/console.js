@@ -16,15 +16,23 @@
 (function (global) {
   'use strict';
 
-  var System = Java.type('java.lang.System');
-
-  var formatRegExp = /%[sdj%]/g;
+  const System = Java.type('java.lang.System');
+  const formatRegExp = /%[sdj%]/g;
 
   function format(f) {
     if (typeof f !== 'string') {
       var objects = [];
       for (var index = 0; index < arguments.length; index++) {
-        objects.push(JSON.stringify(arguments[index]));
+        var obj = arguments[index];
+        if (Java.isJavaObject(obj)) {
+          if (obj) {
+            objects.push(obj.toString());
+          } else {
+            objects.push('null');
+          }
+        } else {
+          objects.push(JSON.stringify(obj));
+        }
       }
       return objects.join(' ');
     }
@@ -172,4 +180,4 @@
       }
     }
   };
-})(this);
+})(global || this);

@@ -227,4 +227,4 @@
   // Install (or replace) the Promise implementation
   global.Promise = Promise;
 
-})(this);
+})(global || this);

@@ -7,11 +7,31 @@ const spawn = require('child_process').spawn;
 const program = require('commander');
 const chalk = require('chalk');
 const handlebars = require('handlebars');
+const mkdirp = require('mkdirp');
 
 const version = require('../package.json').version;
 const dir = process.cwd();
-const npm = require(dir + '/package.json');
 const isWindows = /^win/.test(process.platform);
+
+// there are 2 options, either a local package.json exists
+// and we're working in npm mode, no package.json then we're
+// in the global install utility mode
+let npm;
+
+if (fs.existsSync(path.resolve(dir, 'package.json'))) {
+  npm = require(path.resolve(dir, 'package.json'));
+} else {
+  npm = {
+    name: path.basename(dir),
+    version: "0.0.1-SNAPSHOT",
+    devDependencies: {
+      "vertx-scripts": version
+    },
+    mvnDependencies: {
+      "io.vertx:vertx-core": "[3.5.3,)"
+    }
+  };
+}
 
 /**
  * Executes an external command.
@@ -72,12 +92,37 @@ function getMaven() {
 
   // check for wrapper
   if (isWindows) {
-    if (fs.existsSync(path.resolve(dir, 'mvnw.bat'))) {
-      mvn = path.resolve(dir, 'mvnw.bat');
+    mvn = 'mvnw.cmd';
+    if (fs.existsSync(path.resolve(dir, mvn))) {
+      mvn = path.resolve(dir, mvn);
+    } else {
+      try {
+        mkdirp.sync(path.resolve(dir, '.mvn/wrapper'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.jar'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.jar'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.properties'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.properties'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/MavenWrapperDownloader.java'), fs.readFileSync(__dirname + '/../.mvn/wrapper/MavenWrapperDownloader.java'));
+        fs.writeFileSync(path.resolve(dir, mvn), fs.readFileSync(__dirname + '/../mvnw.cmd'));
+      } catch (e) {
+        // don't care fallback to system wide maven
+        mvn = 'mvn';
+      }
     }
   } else {
-    if (fs.existsSync(path.resolve(dir, 'mvnw'))) {
-      mvn = path.resolve(dir, 'mvnw');
+    mvn = './mvnw';
+    if (fs.existsSync(path.resolve(dir, mvn))) {
+      mvn = path.resolve(dir, mvn);
+    } else {
+      try {
+        mkdirp.sync(path.resolve(dir, '.mvn/wrapper'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.jar'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.jar'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.properties'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.properties'));
+        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/MavenWrapperDownloader.java'), fs.readFileSync(__dirname + '/../.mvn/wrapper/MavenWrapperDownloader.java'));
+        fs.writeFileSync(path.resolve(dir, mvn), fs.readFileSync(__dirname + '/../mvnw'));
+        fs.chmodSync(path.resolve(dir, mvn), '0755');
+      } catch (e) {
+        // don't care fallback to system wide maven
+        mvn = 'mvn';
+      }
     }
   }
 
@@ -121,8 +166,10 @@ program
 
 program
   .command('init')
-  .description('Updates the type definitions from the JVM world')
-  .action(function () {
+  .option('-b, --bare [main]', 'bare pom.xml without ES4X and using the given main verticle')
+  .option('-v, --verbose', 'Verbose logging')
+  .description('Generate a pom.xml')
+  .action(function (options) {
     // if there is a local template, prefer it over ours...
     let source = __dirname + '/../.pom.xml';
 
@@ -219,7 +266,15 @@ program
       }
     });
 
+    let mainClass = 'io.vertx.core.Launcher';
+
+    if (options.bare && options.bare !== true) {
+      mainClass = options.bare;
+    }
+
     const data = {
+      bare: options.bare,
+      mainClass: mainClass,
       groupId: npm.groupId || npm.name,
       artifactId: npm.artifactId || npm.name,
       version: npm.version,
@@ -236,7 +291,9 @@ program
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), template(data));
       // init the maven bits
-      exec(getMaven(), [], process.env, {stopOnError: true});
+      if (!options.bare) {
+        exec(getMaven(), [], process.env, {stopOnError: true, verbose: options.verbose});
+      }
     } catch (e) {
       console.error(chalk.red.bold(e));
       process.exit(1);
@@ -342,8 +399,8 @@ program
         'clean',
         'package'
       ],
-      Object.create(process.env),
-      options.verbose);
+      process.env,
+      { verbose: options.verbose});
   });
 
 program
@@ -378,6 +435,83 @@ program
           process.stdin.setRawMode(true);
           process.exit(code);
         });
+    });
+  });
+
+program
+  .command('native-image')
+  .option('-c, --clean', 'Perform a clean before running the task')
+  .option('-r, --resources [resources]', 'RexEx specifying the resources to be included [default: (static|webroot|template)/.*]')
+  .option('-v, --verbose', 'Verbose logging')
+  .description('Build a native image for the current pom.xml project')
+  .action(function (options) {
+
+    // if it doesn't exist stop
+    if (!fs.existsSync(path.resolve(dir, 'pom.xml'))) {
+      console.error(chalk.red.bold('No \'pom.xml\' found, please init it first.'));
+      process.exit(1);
+    }
+
+    mkdirp(path.resolve(dir, 'src/main/svm'), function (err) {
+      if (err) {
+        console.error(chalk.red.bold('Could not create \'src/main/svm\'.'));
+        process.exit(1);
+      }
+
+      try {
+        // if there is a local template, prefer it over ours...
+        if (!fs.existsSync(path.resolve(dir, 'src/main/svm/substitutions.java'))) {
+          fs.writeFileSync(path.resolve(dir, 'src/main/svm/substitutions.java'), fs.readFileSync(__dirname + '/../.substitutions.java'));
+        }
+        // if there is a local template, prefer it over ours...
+        if (!fs.existsSync(path.resolve(dir, 'src/main/svm/reflection.json'))) {
+          fs.writeFileSync(path.resolve(dir, 'src/main/svm/reflection.json'), fs.readFileSync(__dirname + '/../.reflection.json'));
+        }
+
+        // package the maven bits
+        let args = [
+          '-Pnative-image',
+          '-f',
+          path.resolve(dir, 'pom.xml')
+        ];
+
+        if (options.clean) {
+          args.push('clean');
+        }
+
+        args.push('package');
+
+        // first step is to build the fat jar
+        exec(getMaven(), args, process.env, {stopOnError: true, verbose: options.verbose}, function () {
+
+          let resources = '(META-INF/services|static|webroot|template)/.*';
+
+          if (options.resources) {
+            if (options.resources !== true) {
+              resources = options.resources;
+            }
+          }
+
+          let args = [
+            '--no-server',
+            '-Djava.net.preferIPv4Stack=true',
+            '-Dvertx.disableDnsResolver=true',
+            '-H:Name=' + npm.name,
+            '-H:Path=./target',
+            '-H:IncludeResources=' + resources,
+            '-H:+ReportUnsupportedElementsAtRuntime',
+            '-H:ReflectionConfigurationFiles=./src/main/svm/reflection.json',
+            '-jar',
+            'target/' + npm.name + '-' + npm.version + '-fat.jar'
+          ];
+
+          // second step run native image command
+          exec('native-image', args, process.env, {stopOnError: true, verbose: options.verbose});
+        });
+      } catch (e) {
+        console.error(chalk.red.bold(e));
+        process.exit(1);
+      }
     });
   });
 
