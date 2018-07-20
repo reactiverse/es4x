@@ -28,7 +28,7 @@ if (fs.existsSync(path.resolve(dir, 'package.json'))) {
       "vertx-scripts": version
     },
     mvnDependencies: {
-      "io.vertx:vertx-core": "[3.5.2,)"
+      "io.vertx:vertx-core": "[3.5.3,)"
     }
   };
 }
@@ -108,7 +108,7 @@ function getMaven() {
       }
     }
   } else {
-    mvn = 'mvnw';
+    mvn = './mvnw';
     if (fs.existsSync(path.resolve(dir, mvn))) {
       mvn = path.resolve(dir, mvn);
     } else {
