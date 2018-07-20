@@ -43,26 +43,6 @@
 
   <profiles>
     <profile>
-      <id>java8</id>
-      <activation>
-        <jdk>1.8</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>2.4</version>
-            <configuration>
-              <excludes>
-                <exclude>**/META-INF/services/jdk.dynalink.linker.GuardingDynamicLinkerExporter</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>java9</id>
       <activation>
         <jdk>[1.9,)</jdk>
@@ -70,37 +50,47 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.1</version>
-            <configuration>
-              <source>1.8</source>
-              <target>1.8</target>
-            </configuration>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.0.0</version>
             <executions>
               <execution>
-                <id>java9-compile</id>
-                <phase>compile</phase>
-                <configuration>
-                  <includes>
-                    <include>**/dynalink/*.java</include>
-                  </includes>
-                </configuration>
+                <id>add-sources</id>
+                <phase>generate-sources</phase>
                 <goals>
-                  <goal>compile</goal>
+                  <goal>add-source</goal>
                 </goals>
+                <configuration>
+                  <sources>
+                    <source>src/main/java-9</source>
+                  </sources>
+                </configuration>
               </execution>
               <execution>
-                <id>java9-testCompile</id>
-                <phase>test-compile</phase>
-                <configuration>
-                  <testIncludes>
-                    <include>**/dynalink/*.java</include>
-                  </testIncludes>
-                </configuration>
+                <id>add-test-sources</id>
+                <phase>generate-test-sources</phase>
                 <goals>
-                  <goal>testCompile</goal>
+                  <goal>add-test-source</goal>
                 </goals>
+                <configuration>
+                  <sources>
+                    <source>src/test/java-9</source>
+                  </sources>
+                </configuration>
+              </execution>
+              <execution>
+                <id>add-resources</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>add-resource</goal>
+                </goals>
+                <configuration>
+                  <resources>
+                    <resource>
+                      <directory>src/main/resources-9</directory>
+                    </resource>
+                  </resources>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -155,32 +145,6 @@
           <source>1.8</source>
           <target>1.8</target>
         </configuration>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <phase>compile</phase>
-            <configuration>
-              <excludes>
-                <exclude>**/dynalink/*.java</exclude>
-              </excludes>
-            </configuration>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>default-testCompile</id>
-            <phase>test-compile</phase>
-            <configuration>
-              <testExcludes>
-                <exclude>**/dynalink/*.java</exclude>
-              </testExcludes>
-            </configuration>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>com.amashchenko.maven.plugin</groupId>
