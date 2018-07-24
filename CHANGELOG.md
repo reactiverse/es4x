@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-### Added
+
+## [0.5.3] - 2018-07-20
 - Added docs about Worker and Graal
 - Code clean ups
 - `vertx-scripts` will install `mvnw` by default (for Graal users, this means there are no extra
