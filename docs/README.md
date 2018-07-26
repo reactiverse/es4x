@@ -17,8 +17,9 @@ language features.
 # Links
 
 * [API docs](./API)
-* [Worker API](./WORKER)
-* [GraalVM Support](./GRAAL)
+* [Worker API](./worker)
+* [GraalVM Support](./graal)
+* [Asynchronous Programming](./asynchronous)
 
 ## Goals
 
