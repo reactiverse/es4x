@@ -17,6 +17,9 @@ package io.reactiverse.es4x;
 
 import io.vertx.core.AsyncResult;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Utility functions to stitch exception from 2 different sources, moments together in order
  * to preserve some connection between 2 handlers.
@@ -25,25 +28,15 @@ import io.vertx.core.AsyncResult;
  */
 public final class AsyncError {
 
-  private static final int STACK_ELEMENT = 3;
-
-
-  private static Throwable patchStackTrace(Throwable throwable) {
+  private static Throwable patchStackTrace(Throwable throwable, String jsAsyncStackLine) {
     // there is a error
-    if (throwable != null) {
-      // locate the caller
-      final StackTraceElement[] currentStack =  Thread.currentThread().getStackTrace();
-      if (currentStack.length <= STACK_ELEMENT) {
-        // strange enough i can't locate the source...
-        return throwable;
-      }
-
+    if (throwable != null && jsAsyncStackLine != null) {
       // if there is already a stacktrace available
       StackTraceElement[] stack = throwable.getStackTrace();
       if (stack != null) {
         // start stitching the 2 traces
         StackTraceElement[] nstack = new StackTraceElement[stack.length + 1];
-        nstack[0] = currentStack[STACK_ELEMENT];
+        nstack[0] = parseStrackTraceElement(jsAsyncStackLine);
         System.arraycopy(stack, 0, nstack, 1, stack.length);
         // replace the stack on the original throwable
         throwable.setStackTrace(nstack);
@@ -52,7 +45,7 @@ public final class AsyncError {
       else {
         // start stitching the 2 traces
         StackTraceElement[] nstack = new StackTraceElement[1];
-        nstack[0] = currentStack[STACK_ELEMENT];
+        nstack[0] = parseStrackTraceElement(jsAsyncStackLine);
         // replace the stack on the original throwable
         throwable.setStackTrace(nstack);
       }
@@ -68,8 +61,8 @@ public final class AsyncError {
    * @param throwable a throwable object
    * @return the enhanced throwable
    */
-  public static Throwable asyncError(Throwable throwable) {
-    return patchStackTrace(throwable);
+  public static Throwable asyncError(Throwable throwable, String jsAsyncStackLine) {
+    return patchStackTrace(throwable, jsAsyncStackLine);
   }
 
   /**
@@ -79,11 +72,34 @@ public final class AsyncError {
    * @param asyncResult a asyncResult object
    * @return the enhanced throwable
    */
-  public static <T> Throwable asyncError(AsyncResult<T> asyncResult) {
-    return patchStackTrace(asyncResult.cause());
+  public static <T> Throwable asyncError(AsyncResult<T> asyncResult, String jsAsyncStackLine) {
+    return patchStackTrace(asyncResult.cause(), jsAsyncStackLine);
   }
 
   private AsyncError() {
     throw new RuntimeException("Not Instantiable");
+  }
+
+  private static final Pattern STACKTRACE = Pattern.compile("at (<.+?> )?\\(?(.+?):(\\d+)(:\\d+)?\\)?");
+
+  private static StackTraceElement parseStrackTraceElement(String element) {
+    String methodName = null;
+    String filename = "";
+    int lineNumber = 0;
+
+    if (element != null) {
+      final Matcher matcher = STACKTRACE.matcher(element);
+      if (matcher.find()) {
+        methodName = matcher.group(1);
+        filename = matcher.group(2);
+        try {
+          lineNumber = Integer.parseInt(matcher.group(3));
+        } catch (NumberFormatException e) {
+          // we couldn't parse it...
+          lineNumber = -1;
+        }
+      }
+    }
+    return new StackTraceElement("<async>", methodName == null ? "<error>" : methodName, filename, lineNumber);
   }
 }

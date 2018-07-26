@@ -1,5 +1,4 @@
 var asyncError = require('async-error');
-var fs = vertx.fileSystem();
 
 function one() {
   two(function (err) {
@@ -7,11 +6,6 @@ function one() {
     if (err) {
       // the trace should contain 3 frames from JS code that were
       // stitched to the original exception
-      var trace = err.getStackTrace();
-      should.assertTrue(trace.length > 3);
-      should.assertEquals('stacktraces/index.js', trace[0].getFileName());
-      should.assertEquals('stacktraces/index.js', trace[1].getFileName());
-      should.assertEquals('stacktraces/index.js', trace[2].getFileName());
       console.trace(err);
       test.complete();
       return;
@@ -56,11 +50,7 @@ function three(callback) {
 
 function four(callback) {
   setTimeout(function () {
-    fs.readFile("durpa/durp.txt", function (ar) {
-      if (ar.failed()) {
-        callback(asyncError(ar));
-      }
-    });
+    callback(asyncError(new Error('File not found!')));
   }, 0);
 }
 
