@@ -2,8 +2,10 @@ package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
+import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.graalvm.polyglot.Value;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -25,16 +27,19 @@ public class ProcessTest {
   }
 
   final String engineName;
-  final Loader loader;
+  private Loader loader;
 
   public ProcessTest(String engine) {
     System.setProperty("es4x.engine", engine);
     engineName = engine;
-    loader = Loader.create(Vertx.vertx());
   }
+
+  @Rule
+  public RunTestOnContext rule = new RunTestOnContext();
 
   @Before
   public void initialize() {
+    loader = Loader.create(rule.vertx());
     assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 

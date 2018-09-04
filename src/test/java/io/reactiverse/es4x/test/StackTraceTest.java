@@ -27,7 +27,7 @@ public class StackTraceTest {
   }
 
   final String engineName;
-  Loader loader;
+  private Loader loader;
 
   @Rule
   public RunTestOnContext rule = new RunTestOnContext();

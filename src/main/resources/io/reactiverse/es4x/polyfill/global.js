@@ -66,7 +66,7 @@
     }
   };
 
-  global.setImmediate = function (id) {
+  global.clearImmediate = function (id) {
     // NO-OP
   };
 
@@ -79,6 +79,7 @@
   global.process = {
     env: System.getenv(),
     pid: pid.substring(0, pid.indexOf('@')),
+    engine: System.getProperty('es4x.engine'),
 
     exit: function (exitCode) {
       vertx.close(function (res) {
@@ -92,7 +93,7 @@
 
     nextTick: function (callback) {
       var args = Array.prototype.slice.call(arguments, 1);
-      vertx.runOnContext(function (v) {
+      vertx.runOnContext(function () {
         callback.apply(global, args);
       });
     },

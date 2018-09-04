@@ -24,6 +24,7 @@ declare const Java: {
 declare const process: {
   env: Map<String, String>;
   pid: String;
+  engine: String;
   exit: (exitCode: Number) => void;
   nextTick: (callback: (...args: any[]) => void) => void;
   stdout: any;

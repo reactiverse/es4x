@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-- `AsyncError` helper to stich asynchronous exception stacktraces
+- Unit tests are now fully async and do not lead file descriptors.
+- Added a shortcut (`engine`) to the `process` object with the engine name.  
+- Fix `util.promisify` on Graal when dealing with Java Objects.
+- `AsyncError` helper to stich asynchronous exception stacktraces.
 
 ## [0.5.3] - 2018-07-20
 - Added docs about Worker and Graal

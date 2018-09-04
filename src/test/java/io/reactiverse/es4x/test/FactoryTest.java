@@ -4,6 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,11 +12,17 @@ import org.junit.runner.RunWith;
 @RunWith(VertxUnitRunner.class)
 public class FactoryTest {
 
-  private static final Vertx vertx = Vertx.vertx();
+  private static Vertx vertx;
 
   @BeforeClass
   public static void beforeClass() {
     System.setProperty("es4x.engine", "Nashorn");
+    vertx = Vertx.vertx();
+  }
+
+  @AfterClass
+  public static void afterClass() {
+    vertx.close();
   }
 
   @Test(timeout = 10000)
@@ -25,7 +32,6 @@ public class FactoryTest {
       ctx.assertTrue(deploy.succeeded());
       async.complete();
     });
-    async.await();
   }
 
   @Test(timeout = 10000)
@@ -40,7 +46,6 @@ public class FactoryTest {
         });
       });
     });
-    async.await();
   }
 
   @Test(timeout = 10000)
@@ -53,6 +58,5 @@ public class FactoryTest {
         async.complete();
       });
     });
-    async.await();
   }
 }

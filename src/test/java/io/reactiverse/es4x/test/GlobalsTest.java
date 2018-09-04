@@ -4,8 +4,10 @@ import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
+import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunnerWithParametersFactory;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -25,16 +27,19 @@ public class GlobalsTest {
   }
 
   final String engineName;
-  final Loader loader;
+  private Loader loader;
 
   public GlobalsTest(String engine) {
     System.setProperty("es4x.engine", engine);
     engineName = engine;
-    loader = Loader.create(Vertx.vertx());
   }
+
+  @Rule
+  public RunTestOnContext rule = new RunTestOnContext();
 
   @Before
   public void initialize() {
+    loader = Loader.create(rule.vertx());
     assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 
@@ -53,7 +58,6 @@ public class GlobalsTest {
 
 
     loader.eval(script);
-    async.await();
   }
 
   @Test(timeout = 10000)
@@ -71,7 +75,6 @@ public class GlobalsTest {
 
 
     loader.eval(script);
-    async.await();
   }
 
   @Test(timeout = 10000)
@@ -90,7 +93,6 @@ public class GlobalsTest {
 
 
     loader.eval(script);
-    async.await();
   }
 
   @Test(timeout = 10000)
