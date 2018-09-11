@@ -17,6 +17,7 @@ package io.reactiverse.es4x.impl.graal;
 
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
+import io.vertx.core.file.FileSystem;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
@@ -29,13 +30,22 @@ import java.util.function.Consumer;
 
 public class GraalLoader implements Loader<Value> {
 
+  private static final String EVENTBUS_JSOBJECT_AOT_CLASS;
+
+  static {
+    // if this code is used in a native image avoid the reflection guess game
+    // and hard code the expected class to be a PolyglotMap
+    if (System.getProperty("org.graalvm.nativeimage.imagecode") != null) {
+      EVENTBUS_JSOBJECT_AOT_CLASS = "com.oracle.truffle.polyglot.PolyglotMap";
+    } else {
+      EVENTBUS_JSOBJECT_AOT_CLASS = null;
+    }
+  }
+
   private final Context context;
   private final Value bindings;
+  private final FileSystem fs;
 
-  // **INFO**: This is disabled until graal native images support passing object from Java to JS
-  // get the type from the system properties, if missing attempt to get it from
-  // the engine at runtime (however this doesn't work for native images)
-  private static final String EVENTBUS_JSOBJECT_AOT_CLASS = System.getProperty("es4x.eventbus.jsobject.aot.class");
 
   public GraalLoader(final Vertx vertx) {
     this(
@@ -50,8 +60,10 @@ public class GraalLoader implements Loader<Value> {
   }
 
   public GraalLoader(final Vertx vertx, Context context) {
+
     this.context = context;
     this.bindings = this.context.getBindings("js");
+    this.fs = vertx.fileSystem();
 
     // remove the exit and quit functions
     bindings.removeMember("exit");
@@ -61,7 +73,7 @@ public class GraalLoader implements Loader<Value> {
 
     final AtomicReference<Class<?>> holder = new AtomicReference<>();
 
-    //   **INFO**: This is disabled until graal native images support passing object from Java to JS
+    // This is not used until graal native images / ES4X support passing object from Java to JS
     if (EVENTBUS_JSOBJECT_AOT_CLASS == null) {
       final Consumer callback = value -> holder.set(value.getClass());
       try {
@@ -84,16 +96,19 @@ public class GraalLoader implements Loader<Value> {
       .unregisterDefaultCodec(holder.get())
       .registerDefaultCodec(holder.get(), new JSObjectMessageCodec<>(bindings.getMember("JSON")));
 
-    final Value load = bindings.getMember("load");
     // add polyfills
-    load.execute("classpath:io/reactiverse/es4x/polyfill/json.js");
-    load.execute("classpath:io/reactiverse/es4x/polyfill/global.js");
-    load.execute("classpath:io/reactiverse/es4x/polyfill/date.js");
-    load.execute("classpath:io/reactiverse/es4x/polyfill/console.js");
-    load.execute("classpath:io/reactiverse/es4x/polyfill/promise.js");
-    load.execute("classpath:io/reactiverse/es4x/polyfill/worker.js");
-    // install the commonjs loader
-    load.execute("classpath:io/reactiverse/es4x/jvm-npm.js");
+    try {
+      load("io/reactiverse/es4x/polyfill/json.js");
+      load("io/reactiverse/es4x/polyfill/global.js");
+      load("io/reactiverse/es4x/polyfill/date.js");
+      load("io/reactiverse/es4x/polyfill/console.js");
+      load("io/reactiverse/es4x/polyfill/promise.js");
+      load("io/reactiverse/es4x/polyfill/worker.js");
+      // install the commonjs loader
+      load("io/reactiverse/es4x/jvm-npm.js");
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -177,5 +192,9 @@ public class GraalLoader implements Loader<Value> {
 
   public Value eval(Source source) {
     return context.eval(source);
+  }
+
+  private void load(String filename) throws IOException {
+    context.eval(Source.newBuilder("js", fs.readFileBlocking(filename).toString(), filename).build());
   }
 }
