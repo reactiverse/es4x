@@ -15,9 +15,9 @@
 
   <properties>
     <!-- ES4X version -->
-    <es4x.version>0.5.3</es4x.version>
+    <es4x.version>0.5.4-SNAPSHOT</es4x.version>
     <!-- This version matches the stack version to be used -->
-    <stack.version>3.5.3</stack.version>
+    <stack.version>3.6.0-SNAPSHOT</stack.version>
     <!-- This is the source group id -->
     <maven.groupId>io.vertx</maven.groupId>
 
@@ -94,7 +94,7 @@
     <!-- CORE -->
     <dependency>
       <groupId>io.reactiverse</groupId>
-      <artifactId>es4x</artifactId>
+      <artifactId>es4x-codegen</artifactId>
       <version>${es4x.version}</version>
     </dependency>
     <dependency>
@@ -155,7 +155,7 @@
               </processors>
               <optionMap>
                 <codegen.output>${project.basedir}</codegen.output>
-                <codegen.generators>es-generator</codegen.generators>
+                <codegen.generators>es4x-generator</codegen.generators>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
             </configuration>
