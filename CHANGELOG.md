@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+- Fix `parsePaths` to properly convert slashes on windows.
 - Unit tests are now fully async and do not lead file descriptors.
 - Added a shortcut (`engine`) to the `process` object with the engine name.  
 - Fix `util.promisify` on Graal when dealing with Java Objects.

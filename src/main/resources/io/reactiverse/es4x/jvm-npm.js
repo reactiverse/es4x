@@ -198,7 +198,7 @@
     if (osName.indexOf('win') >= 0) {
       separator = ';';
       // transform \ into /
-      paths = paths.replaceAll('\\', '/');
+      paths = paths.replace(/\\/g, '/');
     } else {
       separator = ':';
     }
