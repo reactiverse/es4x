@@ -185,12 +185,14 @@
     return [findRoot(parent)].concat(Require.paths());
   }
 
-  function parsePaths(paths) {
+  function parsePaths(prefix, paths, suffix) {
+    var out = [];
+
     if (!paths) {
-      return [];
+      return out;
     }
     if (paths === '') {
-      return [];
+      return out;
     }
     const osName = System.getProperty('os.name').toLowerCase();
     let separator;
@@ -203,27 +205,34 @@
       separator = ':';
     }
 
-    return paths.split(separator);
+    // append the desired prefix, suffix
+    paths.split(separator).forEach(function (p) {
+      if (p) {
+        out.push((prefix || '') + p + (suffix || ''));
+      }
+    });
+
+    return out;
   }
 
   Require.paths = function () {
     let r = [
       // classpath resources
-      'jar://',
-      // current working dir
-      'file://' + parsePaths(System.getProperty("user.dir"))[0],
-      // user node modules cache
-      'file://' + parsePaths(System.getProperty('user.home'))[0] + '/.node_modules',
-      // user node libraries cache
-      'file://' + parsePaths(System.getProperty('user.home'))[0] + '/.node_libraries'
+      'jar://'
     ];
+    // current working dir
+    r = r.concat(parsePaths('file://', System.getProperty("user.dir")));
+    // user node modules cache
+    r = r.concat(parsePaths('file://', System.getProperty('user.home'), '/.node_modules'));
+    // user node libraries cache
+    r = r.concat(parsePaths('file://', System.getProperty('user.home'), '/.node_libraries'));
 
     if (Require.NODE_PATH) {
-      r = r.concat('file://' + parsePaths(Require.NODE_PATH));
+      r = r.concat(parsePaths('file://', Require.NODE_PATH));
     } else {
       let NODE_PATH = System.getenv('NODE_PATH');
       if (NODE_PATH) {
-        r = r.concat('file://' + parsePaths(NODE_PATH));
+        r = r.concat(parsePaths('file://', NODE_PATH));
       }
     }
 
