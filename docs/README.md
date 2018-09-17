@@ -17,8 +17,9 @@ language features.
 # Links
 
 * [API docs](./API)
-* [Worker API](./WORKER)
-* [GraalVM Support](./GRAAL)
+* [Worker API](./worker)
+* [GraalVM Support](./graal)
+* [Asynchronous Programming](./asynchronous)
 
 ## Goals
 
@@ -44,6 +45,8 @@ npm add vertx-scripts --save-dev
 npm add @vertx/unit --save-dev
 npm add @vertx/core --save-prod
 npm add @vertx/web --save-prod
+# trigger the java bootstrap
+npm install
 ```
 
 As this moment there should be a minimal `package.json`. To simplify working with `vert.x`
@@ -102,6 +105,20 @@ vertx.createHttpServer()
 
 Note that the first 2 lines are helpful if you're using [Visual Studio Code](https://code.visualstudio.com/)
 and they will give you proper type hinting and error reporting.
+
+
+### Important note on ES compatibility
+
+Depending on the runtime your application will run, the ES level will be different. You can verify what works and what
+doesn't at the kangax compat table project.
+
+* [JDK 1.8](https://kangax.github.io/compat-table/es6/#nashorn1_8)
+* [JDK 10](https://kangax.github.io/compat-table/es6/#nashorn10)
+* [GraalVM 1.0](https://kangax.github.io/compat-table/es6/#graalvm)
+
+For reference you can expect that `JDK1.8` will be less feature rich as it only contains **7%** of the spec implemented,
+`JDK10` implements **28%** while `GraalVM` implements **97%**.
+
 
 ### Running your app
 

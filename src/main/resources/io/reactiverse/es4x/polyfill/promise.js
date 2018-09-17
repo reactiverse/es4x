@@ -147,10 +147,25 @@
   };
 
   Promise.prototype.then = function (onFulfilled, onRejected) {
-    var prom = new (this.constructor)(noop);
+    var prom = new Promise(noop);
 
     handle(this, new Handler(onFulfilled, onRejected, prom));
     return prom;
+  };
+
+  Promise.prototype['finally'] = function (callback) {
+    return this.then(
+      function(value) {
+        return Promise.resolve(callback()).then(function() {
+          return value;
+        });
+      },
+      function(reason) {
+        return Promise.resolve(callback()).then(function() {
+          return Promise.reject(reason);
+        });
+      }
+    );
   };
 
   Promise.all = function (arr) {

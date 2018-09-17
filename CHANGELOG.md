@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-### Added
+- Bump `pg-reactive-client` to 0.10.3
+- Fix `parsePaths` to properly convert slashes on windows.
+- Unit tests are now fully async and do not lead file descriptors.
+- Added a shortcut (`engine`) to the `process` object with the engine name.  
+- Fix `util.promisify` on Graal when dealing with Java Objects.
+- `AsyncError` helper to stitch asynchronous exception stacktraces.
+
+## [0.5.3] - 2018-07-20
 - Added docs about Worker and Graal
 - Code clean ups
 - `vertx-scripts` will install `mvnw` by default (for Graal users, this means there are no extra

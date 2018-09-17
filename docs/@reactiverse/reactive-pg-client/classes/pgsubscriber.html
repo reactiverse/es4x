@@ -38,8 +38,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 							<input type="checkbox" id="tsd-filter-only-exported" />
 							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
@@ -106,7 +104,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:498</li>
+									<li>Defined in index.d.ts:544</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -126,7 +124,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:457</li>
+									<li>Defined in index.d.ts:503</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -139,7 +137,24 @@
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the channel name</p>
+										<p>the channel name
+											<p/>
+												This will be the name of the channel exactly as held by Postgres for sending
+												notifications.  Internally this name will be truncated to the Postgres identifier
+												maxiumum length of {@code (NAMEDATALEN = 64) - 1 == 63} characters, and prepared
+												as a quoted identifier without unicode escape sequence support for use in
+												{@code LISTEN/UNLISTEN} commands.  Examples of channel names and corresponding
+												{@code NOTIFY} commands:
+												<ul>
+													<li>when {@code name == &quot;the_channel&quot;}: {@code NOTIFY the_channel, &#39;msg&#39;},
+														{@code NOTIFY The_Channel, &#39;msg&#39;}, or {@code NOTIFY &quot;the_channel&quot;, &#39;msg&#39;}
+														succeed in delivering a message to the created channel
+													</li>
+													<li>when {@code name == &quot;The_Channel&quot;}: {@code NOTIFY &quot;The_Channel&quot;, &#39;msg&#39;},
+														succeeds in delivering a message to the created channel
+													</li>
+													<li></li>
+											</ul></p>
 									</div>
 								</li>
 							</ul>
@@ -158,7 +173,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:511</li>
+									<li>Defined in index.d.ts:557</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -180,7 +195,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:491</li>
+									<li>Defined in index.d.ts:537</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -230,7 +245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:505</li>
+									<li>Defined in index.d.ts:551</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -250,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:465</li>
+									<li>Defined in index.d.ts:511</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -300,7 +315,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:483</li>
+									<li>Defined in index.d.ts:529</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -360,7 +375,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:449</li>
+									<li>Defined in index.d.ts:478</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -400,6 +415,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="interval.html" class="tsd-kind-icon">Interval</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="json.html" class="tsd-kind-icon">Json</a>
 					</li>

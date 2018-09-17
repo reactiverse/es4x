@@ -4,8 +4,10 @@ import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.graalvm.polyglot.Value;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -33,11 +35,14 @@ public class NativeJSONTest {
   public NativeJSONTest(String engine) {
     System.setProperty("es4x.engine", engine);
     engineName = engine;
-    loader = Loader.create(Vertx.vertx());
   }
+
+  @Rule
+  public RunTestOnContext rule = new RunTestOnContext();
 
   @Before
   public void initialize() throws Exception {
+    loader = Loader.create(rule.vertx());
     assumeTrue(loader.name().equalsIgnoreCase(engineName));
     JSON = loader.eval("JSON");
   }
