@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+
+## [0.5.4] - 2018-09-17
 - Bump `pg-reactive-client` to 0.10.3
 - Fix `parsePaths` to properly convert slashes on windows.
 - Unit tests are now fully async and do not lead file descriptors.
