@@ -219,13 +219,13 @@
     let r = [
       // classpath resources
       'jar://'
-    ];
+    ]
     // current working dir
-    r = r.concat(parsePaths('file://', System.getProperty("user.dir")));
+    .concat(parsePaths('file://', System.getProperty("user.dir")))
     // user node modules cache
-    r = r.concat(parsePaths('file://', System.getProperty('user.home'), '/.node_modules'));
+    .concat(parsePaths('file://', System.getProperty('user.home'), '/.node_modules'))
     // user node libraries cache
-    r = r.concat(parsePaths('file://', System.getProperty('user.home'), '/.node_libraries'));
+    .concat(parsePaths('file://', System.getProperty('user.home'), '/.node_libraries'));
 
     if (Require.NODE_PATH) {
       r = r.concat(parsePaths('file://', Require.NODE_PATH));
