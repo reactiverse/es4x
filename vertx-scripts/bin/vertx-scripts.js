@@ -21,16 +21,8 @@ let npm;
 if (fs.existsSync(path.resolve(dir, 'package.json'))) {
   npm = require(path.resolve(dir, 'package.json'));
 } else {
-  npm = {
-    name: path.basename(dir),
-    version: "0.0.1-SNAPSHOT",
-    devDependencies: {
-      "vertx-scripts": version
-    },
-    mvnDependencies: {
-      "io.vertx:vertx-core": "[3.5.3,)"
-    }
-  };
+  console.error(chalk.red.bold('Cannot find `package.json` in current directory!'));
+  process.exit(1);
 }
 
 /**
@@ -148,7 +140,7 @@ function generateClassPath(force, callback) {
       '-f', path.resolve(dir, 'pom.xml')
     ];
 
-    if (options.clean) {
+    if (force) {
       params.push('clean');
     }
 
@@ -166,7 +158,6 @@ program
 
 program
   .command('init')
-  .option('-b, --bare [main]', 'bare pom.xml without ES4X and using the given main verticle')
   .option('-v, --verbose', 'Verbose logging')
   .description('Generate a pom.xml')
   .action(function (options) {
@@ -266,15 +257,7 @@ program
       }
     });
 
-    let mainClass = 'io.vertx.core.Launcher';
-
-    if (options.bare && options.bare !== true) {
-      mainClass = options.bare;
-    }
-
     const data = {
-      bare: options.bare,
-      mainClass: mainClass,
       groupId: npm.groupId || npm.name,
       artifactId: npm.artifactId || npm.name,
       version: npm.version,
@@ -291,9 +274,7 @@ program
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), template(data));
       // init the maven bits
-      if (!options.bare) {
-        exec(getMaven(), [], process.env, {stopOnError: true, verbose: options.verbose});
-      }
+      exec(getMaven(), [], process.env, {stopOnError: true, verbose: options.verbose});
     } catch (e) {
       console.error(chalk.red.bold(e));
       process.exit(1);
@@ -304,9 +285,9 @@ program
   .command('launcher <cmd> [args...]')
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-c, --clean', 'Perform a clean before running the task')
-  .option('-d , --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
-  .option('-i , --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
-  .option('-w , --watch [watch]', 'Watches for modifications on the given expression')
+  .option('-d, --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
+  .option('-i, --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
+  .option('-w, --watch [watch]', 'Watches for modifications on the given expression')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (cmd, args, options) {
     // if it doesn't exist stop
@@ -342,6 +323,10 @@ program
         '-cp',
         classPath
       ];
+
+      if (options.debug || options.inspect) {
+        params.push('-Dvertx.options.blockedThreadCheckInterval=100000')
+      }
 
       if (options.debug) {
         if (options.debug === true) {
@@ -435,83 +420,6 @@ program
           process.stdin.setRawMode(true);
           process.exit(code);
         });
-    });
-  });
-
-program
-  .command('native-image')
-  .option('-c, --clean', 'Perform a clean before running the task')
-  .option('-r, --resources [resources]', 'RexEx specifying the resources to be included [default: (static|webroot|template)/.*]')
-  .option('-v, --verbose', 'Verbose logging')
-  .description('Build a native image for the current pom.xml project')
-  .action(function (options) {
-
-    // if it doesn't exist stop
-    if (!fs.existsSync(path.resolve(dir, 'pom.xml'))) {
-      console.error(chalk.red.bold('No \'pom.xml\' found, please init it first.'));
-      process.exit(1);
-    }
-
-    mkdirp(path.resolve(dir, 'src/main/svm'), function (err) {
-      if (err) {
-        console.error(chalk.red.bold('Could not create \'src/main/svm\'.'));
-        process.exit(1);
-      }
-
-      try {
-        // if there is a local template, prefer it over ours...
-        if (!fs.existsSync(path.resolve(dir, 'src/main/svm/substitutions.java'))) {
-          fs.writeFileSync(path.resolve(dir, 'src/main/svm/substitutions.java'), fs.readFileSync(__dirname + '/../.substitutions.java'));
-        }
-        // if there is a local template, prefer it over ours...
-        if (!fs.existsSync(path.resolve(dir, 'src/main/svm/reflection.json'))) {
-          fs.writeFileSync(path.resolve(dir, 'src/main/svm/reflection.json'), fs.readFileSync(__dirname + '/../.reflection.json'));
-        }
-
-        // package the maven bits
-        let args = [
-          '-Pnative-image',
-          '-f',
-          path.resolve(dir, 'pom.xml')
-        ];
-
-        if (options.clean) {
-          args.push('clean');
-        }
-
-        args.push('package');
-
-        // first step is to build the fat jar
-        exec(getMaven(), args, process.env, {stopOnError: true, verbose: options.verbose}, function () {
-
-          let resources = '(META-INF/services|static|webroot|template)/.*';
-
-          if (options.resources) {
-            if (options.resources !== true) {
-              resources = options.resources;
-            }
-          }
-
-          let args = [
-            '--no-server',
-            '-Djava.net.preferIPv4Stack=true',
-            '-Dvertx.disableDnsResolver=true',
-            '-H:Name=' + npm.name,
-            '-H:Path=./target',
-            '-H:IncludeResources=' + resources,
-            '-H:+ReportUnsupportedElementsAtRuntime',
-            '-H:ReflectionConfigurationFiles=./src/main/svm/reflection.json',
-            '-jar',
-            'target/' + npm.name + '-' + npm.version + '-fat.jar'
-          ];
-
-          // second step run native image command
-          exec('native-image', args, process.env, {stopOnError: true, verbose: options.verbose});
-        });
-      } catch (e) {
-        console.error(chalk.red.bold(e));
-        process.exit(1);
-      }
     });
   });
 

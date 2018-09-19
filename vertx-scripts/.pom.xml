@@ -27,43 +27,6 @@
     <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
   </properties>
 
-  <profiles>
-    <profile>
-      <id>native-image</id>
-      <dependencies>
-        <dependency>
-          <groupId>com.oracle</groupId>
-          <artifactId>substrate</artifactId>
-          <version>1.0.0-rc4</version>
-          <scope>system</scope>
-          <systemPath>${java.home}/lib/svm/builder/svm.jar</systemPath>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-              <execution>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>add-source</goal>
-                </goals>
-                <configuration>
-                  <sources>
-                    <source>src/main/svm</source>
-                  </sources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
   <dependencies>
     {{#each dependencies}}
     <dependency>
@@ -83,14 +46,12 @@
       {{/if}}
     </dependency>
     {{/each}}
-    {{#unless bare}}
     <!-- Always required -->
     <dependency>
       <groupId>io.reactiverse</groupId>
       <artifactId>es4x</artifactId>
-      <version>[0.5.3,)</version>
+      <version>[0.5.4,)</version>
     </dependency>
-    {{/unless}}
   </dependencies>
   <build>
     <defaultGoal>compile</defaultGoal>
@@ -113,7 +74,6 @@
           </execution>
         </executions>
       </plugin>
-      {{#unless bare}}
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.1.0</version>
@@ -141,7 +101,6 @@
           </execution>
         </executions>
       </plugin>
-      {{/unless}}
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -165,10 +124,8 @@
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
-                    <Main-Class>{{mainClass}}</Main-Class>
-                    {{#unless bare}}
+                    <Main-Class>io.vertx.core.Launcher</Main-Class>
                     <Main-Verticle>js:./node_modules/{{name}}</Main-Verticle>
-                    {{/unless}}
                   </manifestEntries>
                 </transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
