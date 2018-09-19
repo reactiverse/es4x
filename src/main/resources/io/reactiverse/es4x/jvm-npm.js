@@ -77,7 +77,7 @@
     this.id = id;
     this.parent = parent;
     this.children = [];
-    this.filename = id;
+    this.filename = id.toString();
     this.loaded = false;
 
     Object.defineProperty(this, 'exports', {
@@ -101,7 +101,7 @@
   }
 
   Module._load = function _load(uri, parent, main) {
-    const module = new Module(uri.toString(), parent);
+    const module = new Module(uri, parent);
     const body = readFile(uri);
     const dir = getParent(uri);
 
@@ -181,8 +181,8 @@
     if (!parent || !parent.id) {
       return Require.paths();
     }
-
-    return [findRoot(parent)].concat(Require.paths());
+    // always prepend the current parent dir
+    return [parent.id.resolve('.')].concat(Require.paths());
   }
 
   function parsePaths(prefix, paths, suffix) {
@@ -238,12 +238,6 @@
 
     return r;
   };
-
-  function findRoot(parent) {
-    let pathParts = parent.id.split(/[\/|\\,]+/g);
-    pathParts.pop();
-    return pathParts.join('/');
-  }
 
   Require.cache = {};
   Require.extensions = {};
@@ -322,4 +316,3 @@
   ModuleError.prototype = new Error();
   ModuleError.prototype.constructor = ModuleError;
 })(global || this);
-//# sourceURL=src/main/resources/io/reactiverse/es4x/jvm-npm.js
