@@ -119,11 +119,11 @@
     // wrap the module with a eval statement instead of Function object so we
     // can preserve the correct line numbering during exceptions
     const func = load({
-      script: 'function (exports, module, require, __filename, __dirname) { ' + body + '\n}',
+      script: '(function (exports, require, module, __filename, __dirname) { ' + body + '\n});',
       name: sourceURL
     });
 
-    func.apply(module, [module.exports, module, module.require, module.filename, dir]);
+    func.apply(module, [module.exports, module.require, module, module.filename, dir]);
 
     module.loaded = true;
     module.main = main;
