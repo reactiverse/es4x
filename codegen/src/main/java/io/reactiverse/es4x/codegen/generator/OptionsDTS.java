@@ -117,7 +117,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
         writer.printf("   *%s\n", property.getDoc().toString().replace("\n", "\n   * "));
         writer.print("   */\n");
       }
-      writer.printf("  %s: %s;\n", property.getName(), genParamType(property.getType()));
+      writer.printf("  %s: %s;\n", property.getName(), genType(property.getType()));
       more = true;
     }
 

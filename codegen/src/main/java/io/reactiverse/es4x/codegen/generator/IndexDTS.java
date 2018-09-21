@@ -15,10 +15,7 @@
  */
 package io.reactiverse.es4x.codegen.generator;
 
-import io.vertx.codegen.ClassModel;
-import io.vertx.codegen.Generator;
-import io.vertx.codegen.MethodInfo;
-import io.vertx.codegen.ParamInfo;
+import io.vertx.codegen.*;
 import io.vertx.codegen.type.ApiTypeInfo;
 import io.vertx.codegen.type.ClassTypeInfo;
 import io.vertx.codegen.type.EnumTypeInfo;
@@ -52,8 +49,10 @@ public class IndexDTS extends Generator<ClassModel> {
     StringWriter sw = new StringWriter();
     PrintWriter writer = new PrintWriter(sw);
 
+    ClassTypeInfo type = model.getType();
+
     if (index == 0) {
-      if (model.getType().getRaw().getModuleName().equals("vertx")) {
+      if (type.getModuleName().equals("vertx")) {
         writer.print("export interface AsyncResult<T> {\n");
         writer.print("  succeeded() : boolean;\n");
         writer.print("  failed() : boolean;\n");
@@ -71,7 +70,7 @@ public class IndexDTS extends Generator<ClassModel> {
 
     for (ApiTypeInfo referencedType : model.getReferencedTypes()) {
       if (!isImported(referencedType, session)) {
-        if (!referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
+        if (!referencedType.getRaw().getModuleName().equals(type.getModuleName())) {
           writer.printf("import { %s } from '%s';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
           imports = true;
         }
@@ -79,7 +78,7 @@ public class IndexDTS extends Generator<ClassModel> {
     }
     for (ClassTypeInfo dataObjectType : model.getReferencedDataObjectTypes()) {
       if (!isImported(dataObjectType, session)) {
-        if (dataObjectType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
+        if (dataObjectType.getRaw().getModuleName().equals(type.getModuleName())) {
           writer.printf("import { %s } from './options';\n", dataObjectType.getSimpleName());
           imports = true;
         } else {
@@ -90,7 +89,7 @@ public class IndexDTS extends Generator<ClassModel> {
     }
     for (EnumTypeInfo enumType : model.getReferencedEnumTypes()) {
       if (!isImported(enumType, session)) {
-        if (enumType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
+        if (enumType.getRaw().getModuleName().equals(type.getModuleName())) {
           writer.printf("import { %s } from './enums';\n", enumType.getSimpleName());
           imports = true;
         } else {
@@ -104,7 +103,8 @@ public class IndexDTS extends Generator<ClassModel> {
       writer.print("\n");
     }
 
-    writer.printf("export %s %s {\n", model.isConcrete() ? "class" : "interface", model.getType().getRaw().getSimpleName());
+    writer.printf("export %s %s%s {\n", model.isConcrete() ? "class" : "interface", type.getSimpleName(), genGeneric(type.getParams()));
+
     boolean moreMethods = false;
     for (MethodInfo method : model.getMethods()) {
       if (moreMethods) {
@@ -116,17 +116,17 @@ public class IndexDTS extends Generator<ClassModel> {
         writer.printf("   *%s\n", method.getDoc().toString().replace("\n", "\n   * "));
         writer.print("   */\n");
       }
-      writer.printf("  %s%s(", method.isStaticMethod() ? "static " : "", method.getName());
+      writer.printf("  %s%s%s(", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()));
       boolean more = false;
       for (ParamInfo param : method.getParams()) {
         if (more) {
           writer.print(", ");
         }
-        writer.printf("%s: %s%s", param.getName(), genParamType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
+        writer.printf("%s: %s%s", param.getName(), genType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
         more = true;
       }
 
-      writer.printf(") : %s%s;\n", genReturnType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
+      writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
       moreMethods = true;
     }
     writer.print("}\n");

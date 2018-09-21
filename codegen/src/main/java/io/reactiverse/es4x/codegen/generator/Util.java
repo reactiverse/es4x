@@ -16,6 +16,7 @@
 package io.reactiverse.es4x.codegen.generator;
 
 import io.vertx.codegen.ModuleInfo;
+import io.vertx.codegen.TypeParamInfo;
 import io.vertx.codegen.type.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Map;
 
 public final class Util {
@@ -39,13 +41,19 @@ public final class Util {
     registry = new JsonArray(System.getProperty("scope-registry", "[]"));
   }
 
-  public static String genReturnType(TypeInfo type) {
+  public static String genType(TypeInfo type) {
+
+    ParameterizedTypeInfo ptype = null;
+
+    if (type.isParameterized()) {
+      ptype = (ParameterizedTypeInfo) type;
+    }
 
     switch (type.getKind()) {
       case STRING:
         return "string";
-      case PRIMITIVE:
       case BOXED_PRIMITIVE:
+      case PRIMITIVE:
         switch (type.getSimpleName()) {
           case "boolean":
           case "Boolean":
@@ -56,77 +64,101 @@ public final class Util {
           default:
             return "number";
         }
-      case VOID:
-        return "void";
-      case THROWABLE:
-        return "Error";
+      case ENUM:
+        if (type.getRaw().getModule() != null) {
+          return type.getSimpleName();
+        } else {
+          return "any";
+        }
+      case OBJECT:
+        if (type.isVariable()) {
+          return type.getName();
+        } else {
+          return "any";
+        }
       case JSON_OBJECT:
-        return "any";
+        return "{ [key: string]: any }";
       case JSON_ARRAY:
         return "any[]";
+      case THROWABLE:
+        return "Error";
+      case VOID:
+        return "void";
+      case LIST:
+      case SET:
+        if (type.isParameterized()) {
+          return genType(ptype.getArg(0)) + "[]";
+        } else {
+          return "any[]";
+        }
+      case MAP:
+        if (type.isParameterized()) {
+          return "{ [key: " + genType(ptype.getArg(0)) + "]: " + genType(ptype.getArg(1)) + "; }";
+        } else {
+          return "{ [key: string]: any }";
+        }
+      case API:
+        if (type.isParameterized()) {
+          StringBuilder sb = new StringBuilder();
+          boolean first = true;
+          for (TypeInfo t : ptype.getArgs()) {
+            if (!first) {
+              sb.append(", ");
+            }
+            sb.append(genType(t));
+            first = false;
+          }
+          return type.getRaw().getSimpleName() + "<" + sb.toString() + ">";
+        } else {
+          return type.getErased().getSimpleName();
+        }
       case DATA_OBJECT:
         return type.getErased().getSimpleName();
-      case LIST:
-      case SET:
-        return genReturnType(((ParameterizedTypeInfo) type).getArg(0)) + "[]";
-      case MAP:
-        return "{ [key:string]: " + genReturnType(((ParameterizedTypeInfo) type).getArg(1)) + "; }";
       case HANDLER:
-        return "(result: " + genReturnType(((ParameterizedTypeInfo) type).getArg(0)) + ") => void";
-      default:
         if (type.isParameterized()) {
-          return type.getRaw().getSimpleName();
+          return "(res: " + genType(ptype.getArg(0)) + ") => void";
         } else {
-          return type.getErased().getSimpleName();
+          return "(res: any) => void";
         }
+      case FUNCTION:
+        if (type.isParameterized()) {
+          return "(arg: " + genType(ptype.getArg(0)) + ") => " + genType(ptype.getArg(1));
+        } else {
+          return "(arg: any) => any";
+        }
+      case ASYNC_RESULT:
+        if (type.isParameterized()) {
+          return "AsyncResult<" + genType(ptype.getArg(0)) + ">";
+        } else {
+          return "AsyncResult<any>";
+        }
+      case CLASS_TYPE:
+        return "any /* TODO: class */";
+      case OTHER:
+        return "any /* TODO: other */";
     }
+
+    System.out.println("!!! " + type + " - " + type.getKind());
+    return "";
   }
 
-  public static String genParamType(TypeInfo type) {
+  public static String genGeneric(List<? extends TypeParamInfo> params) {
+    StringBuilder sb = new StringBuilder();
 
-    switch (type.getKind()) {
-      case STRING:
-        return "string";
-      case PRIMITIVE:
-      case BOXED_PRIMITIVE:
-        switch (type.getSimpleName()) {
-          case "boolean":
-          case "Boolean":
-            return "boolean";
-          case "char":
-          case "Character":
-            return "string";
-          default:
-            return "number";
+    if (params.size() > 0) {
+      sb.append("<");
+      boolean firstParam = true;
+      for (TypeParamInfo p : params) {
+        if (!firstParam) {
+          sb.append(", ");
         }
-      case VOID:
-        return "void";
-      case THROWABLE:
-        return "Error";
-      case JSON_OBJECT:
-        return "any";
-      case JSON_ARRAY:
-        return "any[]";
-      case OBJECT:
-        return "any";
-      case HANDLER:
-        return "(result: " + genParamType(((ParameterizedTypeInfo) type).getArg(0)) + ") => void";
-      case ASYNC_RESULT:
-        return "AsyncResult<" + genParamType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
-      case LIST:
-      case SET:
-       return genParamType(((ParameterizedTypeInfo) type).getArg(0)) + "[]";
-      case MAP:
-        return "{ [key:string]: " + genParamType(((ParameterizedTypeInfo) type).getArg(1)) + "; }";
-      case FUNCTION:
-        return "(t: " + genParamType(((ParameterizedTypeInfo) type).getArg(0)) + ") => " + genParamType(((ParameterizedTypeInfo) type).getArg(1));
-      default:
-        if (type.isParameterized()) {
-          return type.getRaw().getSimpleName();
-        } else {
-          return type.getErased().getSimpleName();
-        }
+        sb.append(p.getName());
+        firstParam = false;
       }
+      sb.append(">");
+    }
+
+    return sb.toString();
   }
 
   public static boolean isImported(TypeInfo ref, Map<String, Object> session) {
