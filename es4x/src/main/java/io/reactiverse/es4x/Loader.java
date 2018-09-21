@@ -20,8 +20,6 @@ import io.reactiverse.es4x.impl.nashorn.NashornLoader;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
-import java.io.IOException;
-
 public interface Loader<T> {
 
   static Loader create(Vertx vertx) {

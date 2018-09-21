@@ -77,7 +77,7 @@
     this.id = id;
     this.parent = parent;
     this.children = [];
-    this.filename = id;
+    this.filename = id.toString();
     this.loaded = false;
 
     Object.defineProperty(this, 'exports', {
@@ -101,7 +101,7 @@
   }
 
   Module._load = function _load(uri, parent, main) {
-    const module = new Module(uri.toString(), parent);
+    const module = new Module(uri, parent);
     const body = readFile(uri);
     const dir = getParent(uri);
 
@@ -119,11 +119,11 @@
     // wrap the module with a eval statement instead of Function object so we
     // can preserve the correct line numbering during exceptions
     const func = load({
-      script: 'function (exports, module, require, __filename, __dirname) { ' + body + '\n}',
+      script: '(function (exports, require, module, __filename, __dirname) { ' + body + '\n});',
       name: sourceURL
     });
 
-    func.apply(module, [module.exports, module, module.require, module.filename, dir]);
+    func.apply(module, [module.exports, module.require, module, module.filename, dir]);
 
     module.loaded = true;
     module.main = main;
@@ -181,8 +181,8 @@
     if (!parent || !parent.id) {
       return Require.paths();
     }
-
-    return [findRoot(parent)].concat(Require.paths());
+    // always prepend the current parent dir
+    return [parent.id.resolve('.')].concat(Require.paths());
   }
 
   function parsePaths(prefix, paths, suffix) {
@@ -219,13 +219,13 @@
     let r = [
       // classpath resources
       'jar://'
-    ];
+    ]
     // current working dir
-    r = r.concat(parsePaths('file://', System.getProperty("user.dir")));
+    .concat(parsePaths('file://', System.getProperty("user.dir")))
     // user node modules cache
-    r = r.concat(parsePaths('file://', System.getProperty('user.home'), '/.node_modules'));
+    .concat(parsePaths('file://', System.getProperty('user.home'), '/.node_modules'))
     // user node libraries cache
-    r = r.concat(parsePaths('file://', System.getProperty('user.home'), '/.node_libraries'));
+    .concat(parsePaths('file://', System.getProperty('user.home'), '/.node_libraries'));
 
     if (Require.NODE_PATH) {
       r = r.concat(parsePaths('file://', Require.NODE_PATH));
@@ -238,12 +238,6 @@
 
     return r;
   };
-
-  function findRoot(parent) {
-    let pathParts = parent.id.split(/[\/|\\,]+/g);
-    pathParts.pop();
-    return pathParts.join('/');
-  }
 
   Require.cache = {};
   Require.extensions = {};
@@ -322,4 +316,3 @@
   ModuleError.prototype = new Error();
   ModuleError.prototype.constructor = ModuleError;
 })(global || this);
-//# sourceURL=src/main/resources/io/reactiverse/es4x/jvm-npm.js
