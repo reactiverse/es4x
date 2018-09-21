@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc.
+ * Copyright 2018 Paulo Lopes.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -52,6 +52,8 @@ public class IndexDTS extends Generator<ClassModel> {
     ClassTypeInfo type = model.getType();
 
     if (index == 0) {
+      Util.generateLicense(writer);
+
       if (type.getModuleName().equals("vertx")) {
         writer.print("export interface AsyncResult<T> {\n");
         writer.print("  succeeded() : boolean;\n");
@@ -104,6 +106,21 @@ public class IndexDTS extends Generator<ClassModel> {
     }
 
     writer.printf("export %s %s%s {\n", model.isConcrete() ? "class" : "interface", type.getSimpleName(), genGeneric(type.getParams()));
+
+    boolean moreConstants = false;
+    for (ConstantInfo constant : model.getConstants()) {
+      if (moreConstants) {
+        writer.print("\n");
+      }
+
+      if (constant.getDoc() != null) {
+        writer.print("  /**\n");
+        writer.printf("   *%s\n", constant.getDoc().toString().replace("\n", "\n   * "));
+        writer.print("   */\n");
+      }
+      writer.printf("  static readonly %s : %s;", constant.getName(), genType(constant.getType()));
+      moreConstants = true;
+    }
 
     boolean moreMethods = false;
     for (MethodInfo method : model.getMethods()) {

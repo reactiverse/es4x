@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc.
+ * Copyright 2018 Paulo Lopes.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -68,7 +68,9 @@ public class OptionsDTS extends Generator<DataObjectModel> {
 
     boolean imports = false;
 
-    if (index != 0) {
+    if (index == 0) {
+      Util.generateLicense(writer);
+    } else {
       writer.print("\n");
     }
 

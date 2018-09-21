@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc.
+ * Copyright 2018 Paulo Lopes.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -23,8 +23,10 @@ import io.vertx.core.json.JsonObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -35,19 +37,15 @@ public final class Util {
   }
 
   private final static JsonArray registry;
+  private final static int year;
 
   static {
     /* parse the registry from the system property */
     registry = new JsonArray(System.getProperty("scope-registry", "[]"));
+    year = Calendar.getInstance().get(Calendar.YEAR);
   }
 
   public static String genType(TypeInfo type) {
-
-    ParameterizedTypeInfo ptype = null;
-
-    if (type.isParameterized()) {
-      ptype = (ParameterizedTypeInfo) type;
-    }
 
     switch (type.getKind()) {
       case STRING:
@@ -87,21 +85,21 @@ public final class Util {
       case LIST:
       case SET:
         if (type.isParameterized()) {
-          return genType(ptype.getArg(0)) + "[]";
+          return genType(((ParameterizedTypeInfo) type).getArg(0)) + "[]";
         } else {
           return "any[]";
         }
       case MAP:
         if (type.isParameterized()) {
-          return "{ [key: " + genType(ptype.getArg(0)) + "]: " + genType(ptype.getArg(1)) + "; }";
+          return "{ [key: " + genType(((ParameterizedTypeInfo) type).getArg(0)) + "]: " + genType(((ParameterizedTypeInfo) type).getArg(1)) + "; }";
         } else {
           return "{ [key: string]: any }";
         }
       case API:
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
         if (type.isParameterized()) {
-          StringBuilder sb = new StringBuilder();
-          boolean first = true;
-          for (TypeInfo t : ptype.getArgs()) {
+          for (TypeInfo t : ((ParameterizedTypeInfo) type).getArgs()) {
             if (!first) {
               sb.append(", ");
             }
@@ -110,25 +108,37 @@ public final class Util {
           }
           return type.getRaw().getSimpleName() + "<" + sb.toString() + ">";
         } else {
-          return type.getErased().getSimpleName();
+          // TS is strict with generics, you can't define/use a generic type with out its generic <T>
+          if (type.getRaw() != null && type.getRaw().getParams().size() > 0) {
+            for (TypeParamInfo t : type.getRaw().getParams()) {
+              if (!first) {
+                sb.append(", ");
+              }
+              sb.append("any");
+              first = false;
+            }
+            return type.getSimpleName() + "<" + sb.toString() + ">";
+          } else {
+            return type.getErased().getSimpleName();
+          }
         }
       case DATA_OBJECT:
         return type.getErased().getSimpleName();
       case HANDLER:
         if (type.isParameterized()) {
-          return "(res: " + genType(ptype.getArg(0)) + ") => void";
+          return "(res: " + genType(((ParameterizedTypeInfo) type).getArg(0)) + ") => void";
         } else {
           return "(res: any) => void";
         }
       case FUNCTION:
         if (type.isParameterized()) {
-          return "(arg: " + genType(ptype.getArg(0)) + ") => " + genType(ptype.getArg(1));
+          return "(arg: " + genType(((ParameterizedTypeInfo) type).getArg(0)) + ") => " + genType(((ParameterizedTypeInfo) type).getArg(1));
         } else {
           return "(arg: any) => any";
         }
       case ASYNC_RESULT:
         if (type.isParameterized()) {
-          return "AsyncResult<" + genType(ptype.getArg(0)) + ">";
+          return "AsyncResult<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
         } else {
           return "AsyncResult<any>";
         }
@@ -238,4 +248,22 @@ public final class Util {
     return "";
   }
 
+  public static void generateLicense(PrintWriter writer) {
+    writer.println("/*");
+    writer.println(" * Copyright " + year + " ES4X");
+    writer.println(" *");
+    writer.println(" * ES4X licenses this file to you under the Apache License, version 2.0");
+    writer.println(" * (the \"License\"); you may not use this file except in compliance with the");
+    writer.println(" * License.  You may obtain a copy of the License at:");
+    writer.println(" *");
+    writer.println(" * http://www.apache.org/licenses/LICENSE-2.0");
+    writer.println(" *");
+    writer.println(" * Unless required by applicable law or agreed to in writing, software");
+    writer.println(" * distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT");
+    writer.println(" * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the");
+    writer.println(" * License for the specific language governing permissions and limitations");
+    writer.println(" * under the License.");
+    writer.println(" */");
+    writer.println();
+  }
 }
