@@ -62,21 +62,21 @@ public class GraalRuntime implements Runtime<Value> {
         throw new RuntimeException(err.get());
       } else {
         final Vertx vertx = holder.get();
-        registerCodec(vertx, object, json);
+        registerCodec(vertx, object);
         return vertx;
       }
     } else {
       final Vertx vertx = Vertx.vertx();
-      registerCodec(vertx, object, json);
+      registerCodec(vertx, object);
       return vertx;
     }
   }
 
-  private static void registerCodec(Vertx vertx, Object object, Value json) {
-    if (object != null && json != null) {
+  private static void registerCodec(Vertx vertx, Object object) {
+    if (object != null) {
       // register a default codec to allow JSON messages directly from GraalVM to the JVM world
       vertx.eventBus().unregisterDefaultCodec(object.getClass());
-      vertx.eventBus().registerDefaultCodec(object.getClass(), new JSObjectMessageCodec<>(json));
+      vertx.eventBus().registerDefaultCodec(object.getClass(), new JSObjectMessageCodec<>());
     }
   }
 }

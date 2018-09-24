@@ -87,7 +87,7 @@ public class GraalLoader implements Loader<Value> {
     // register a default codec to allow JSON messages directly from GraalVM to the JVM world
     vertx.eventBus()
       .unregisterDefaultCodec(holder.get())
-      .registerDefaultCodec(holder.get(), new JSObjectMessageCodec<>(bindings.getMember("JSON")));
+      .registerDefaultCodec(holder.get(), new JSObjectMessageCodec<>());
 
     // load all the polyfills
     try {

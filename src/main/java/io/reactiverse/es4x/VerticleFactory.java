@@ -100,7 +100,15 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
 
         // this can take some time to load so it might block the event loop
         // this is usually not a issue as it is a one time operation
-        self = engine.main(fsVerticleName);
+        try {
+          engine.enter();
+          self = engine.main(fsVerticleName);
+        } catch (RuntimeException e) {
+          startFuture.fail(e);
+          return;
+        } finally {
+          engine.leave();
+        }
 
         if (self != null) {
           if (worker) {
