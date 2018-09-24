@@ -7,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
 import io.vertx.ext.unit.junit.VertxUnitRunnerWithParametersFactory;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -25,7 +24,9 @@ public class MultithreadTest {
 
   @Parameterized.Parameters
   public static List<String> engines() {
-    return Arrays.asList("Nashorn", "GraalVM");
+    // Graal is disabled on purpose as it will not allow MT under JS
+    // the workaround is to use the Worker API which deploys everything in the worker pool
+    return Arrays.asList("Nashorn" /*, "GraalVM" */);
   }
 
   final String engineName;
