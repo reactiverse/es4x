@@ -41,14 +41,17 @@ public class EventBusTest {
 
   @Before
   public void initialize() {
-    loader = Runtime.getCurrent()
-      // install the codec
-      .registerCodec(rule.vertx())
-      // create the loader
-      .loader(rule.vertx());
+    try {
+      loader = Runtime.getCurrent()
+        // install the codec
+        .registerCodec(rule.vertx())
+        // create the loader
+        .loader(rule.vertx());
 
-    loader.put("eb", rule.vertx().eventBus());
-    assumeTrue(loader.name().equalsIgnoreCase(engineName));
+      loader.put("eb", rule.vertx().eventBus());
+    } catch (IllegalStateException e) {
+      assumeTrue(engineName + " is not available", false);
+    }
   }
 
   @Test(timeout = 10000)

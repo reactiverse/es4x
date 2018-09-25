@@ -60,12 +60,12 @@
       load("classpath:io/reactiverse/es4x/polyfill/object.js");
     }
 
+    // get the runtime for the current environment
+    const runtime = Java.type('io.reactiverse.es4x.Runtime').getCurrent();
     // install the vertx in the global scope
-    global['vertx'] = Java
-      .type('io.reactiverse.es4x.Runtime')
-      .getCurrent()
-      .vertx(options);
-
+    global['vertx'] = runtime.vertx(options);
+    // install the message codec
+    runtime.registerCodec(vertx);
     // load polyfills
     load("classpath:io/reactiverse/es4x/polyfill/json.js");
     load("classpath:io/reactiverse/es4x/polyfill/global.js");

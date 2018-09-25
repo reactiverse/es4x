@@ -39,8 +39,11 @@ public class ProcessTest {
 
   @Before
   public void initialize() {
-    loader = Runtime.getCurrent().loader(rule.vertx());
-    assumeTrue(loader.name().equalsIgnoreCase(engineName));
+    try {
+      loader = Runtime.getCurrent().loader(rule.vertx());
+    } catch (IllegalStateException e) {
+      assumeTrue(engineName + " is not available", false);
+    }
   }
 
   @Test(timeout = 10000)

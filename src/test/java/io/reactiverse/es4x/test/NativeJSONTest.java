@@ -42,9 +42,12 @@ public class NativeJSONTest {
 
   @Before
   public void initialize() throws Exception {
-    loader = Runtime.getCurrent().loader(rule.vertx());
-    assumeTrue(loader.name().equalsIgnoreCase(engineName));
-    JSON = loader.eval("JSON");
+    try {
+      loader = Runtime.getCurrent().loader(rule.vertx());
+      JSON = loader.eval("JSON");
+    } catch (IllegalStateException e) {
+      assumeTrue(engineName + " is not available", false);
+    }
   }
 
   private Object stringify(Object... args) {

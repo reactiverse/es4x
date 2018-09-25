@@ -16,6 +16,7 @@
 package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.graal.GraalLoader;
+import io.vertx.core.Vertx;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotException;
 import org.graalvm.polyglot.Source;
@@ -100,6 +101,8 @@ public class GraalShell {
       }
     }
 
+    final Vertx vertx = runtime.vertx(options);
+
     final Context context = Context
       .newBuilder("js")
       .allowHostAccess((Boolean) options.getOrDefault("allowHostAccess", true))
@@ -110,8 +113,9 @@ public class GraalShell {
       .allowNativeAccess((Boolean) options.getOrDefault("allowNativeAccess", false))
       .build();
 
+    runtime.registerCodec(vertx);
 
-    final GraalLoader loader = new GraalLoader (runtime.vertx(options), context);
+    final GraalLoader loader = new GraalLoader(vertx, context);
 
     if (script != null) {
       loader.main(script);

@@ -75,7 +75,7 @@ public interface Runtime<R> {
       final AtomicReference<Vertx> holder = new AtomicReference<>();
 
 
-      Vertx.clusteredVertx(new VertxOptions(), ar -> {
+      Vertx.clusteredVertx(options, ar -> {
         if (ar.failed()) {
           err.set(ar.cause());
           latch.countDown();
@@ -94,14 +94,10 @@ public interface Runtime<R> {
       if (err.get() != null) {
         throw new RuntimeException(err.get());
       } else {
-        final Vertx vertx = holder.get();
-        registerCodec(vertx);
-        return vertx;
+        return holder.get();
       }
     } else {
-      final Vertx vertx = Vertx.vertx();
-      registerCodec(vertx);
-      return vertx;
+      return Vertx.vertx(options);
     }
   }
 
