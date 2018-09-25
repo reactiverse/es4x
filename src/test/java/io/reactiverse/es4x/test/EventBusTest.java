@@ -1,5 +1,6 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -24,10 +25,10 @@ public class EventBusTest {
 
   @Parameterized.Parameters
   public static List<String> engines() {
-    return Arrays.asList("Nashorn", "GraalVM");
+    return Arrays.asList("Nashorn", "GraalJS");
   }
 
-  final String engineName;
+  private final String engineName;
   private Loader loader;
 
   public EventBusTest(String engine) {
@@ -40,7 +41,12 @@ public class EventBusTest {
 
   @Before
   public void initialize() {
-    loader = Loader.create(rule.vertx());
+    loader = Runtime.getCurrent()
+      // install the codec
+      .registerCodec(rule.vertx())
+      // create the loader
+      .loader(rule.vertx());
+
     loader.put("eb", rule.vertx().eventBus());
     assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }

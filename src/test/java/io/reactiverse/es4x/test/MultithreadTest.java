@@ -1,5 +1,6 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
@@ -26,10 +27,10 @@ public class MultithreadTest {
   public static List<String> engines() {
     // Graal is disabled on purpose as it will not allow MT under JS
     // the workaround is to use the Worker API which deploys everything in the worker pool
-    return Arrays.asList("Nashorn" /*, "GraalVM" */);
+    return Arrays.asList("Nashorn" /*, "GraalJS" */);
   }
 
-  final String engineName;
+  private final String engineName;
 
   public MultithreadTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -41,7 +42,7 @@ public class MultithreadTest {
 
   @Before
   public void initialize() {
-    Loader loader = Loader.create(rule.vertx());
+    Loader loader = Runtime.getCurrent().loader(rule.vertx());
     assumeTrue(loader.name().equalsIgnoreCase(engineName));
     loader.close();
   }
@@ -50,6 +51,8 @@ public class MultithreadTest {
   public void shouldNotPoluteMTState(TestContext ctx) {
     final Vertx vertx = rule.vertx();
     final Async async = ctx.async();
+    // install global exception handler
+    vertx.exceptionHandler(ctx::fail);
     // deploy 8 instances
     vertx.deployVerticle("js:./mt-verticle.js", new DeploymentOptions().setInstances(8), deploy -> {
       ctx.assertTrue(deploy.succeeded());

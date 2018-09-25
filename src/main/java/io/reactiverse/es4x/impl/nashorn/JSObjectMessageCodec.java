@@ -15,63 +15,51 @@
  */
 package io.reactiverse.es4x.impl.nashorn;
 
-import io.netty.util.CharsetUtil;
+import io.reactiverse.es4x.impl.AbstractJSObjectMessageCodec;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
-final class JSObjectMessageCodec implements MessageCodec<ScriptObjectMirror, Object> {
-
-  private final JSObject JSON;
-  private final JSObject stringify;
-
-  JSObjectMessageCodec(JSObject JSON) {
-    this.JSON = JSON;
-    this.stringify = (JSObject) JSON.getMember("stringify");
-  }
+final class JSObjectMessageCodec extends AbstractJSObjectMessageCodec<ScriptObjectMirror> {
 
   @Override
   public void encodeToWire(Buffer buffer, ScriptObjectMirror jsObject) {
-    String strJson = (String) stringify.call(JSON, jsObject);
-    byte[] encoded = strJson.getBytes(CharsetUtil.UTF_8);
-    buffer.appendInt(encoded.length);
-    Buffer buff = Buffer.buffer(encoded);
-    buffer.appendBuffer(buff);
-  }
 
-  @Override
-  public JsonObject decodeFromWire(int pos, Buffer buffer) {
-    int length = buffer.getInt(pos);
-    pos += 4;
-    byte[] encoded = buffer.getBytes(pos, pos + length);
-    String str = new String(encoded, CharsetUtil.UTF_8);
-    return new JsonObject(str);
+    if (jsObject == null) {
+      buffer.appendInt(0);
+      return;
+    }
+
+    final JSObject JSON = (JSObject) jsObject.eval("JSON");
+    final JSObject stringify = (JSObject) JSON.getMember("stringify");
+
+    Buffer encoded = Buffer.buffer((String) stringify.call(JSON, jsObject));
+    buffer.appendInt(encoded.length());
+    buffer.appendBuffer(buffer);
   }
 
   @Override
   public Object transform(ScriptObjectMirror jsObject) {
-    if (!jsObject.isFunction() && !jsObject.isStrictFunction()) {
-      // it's an Array
-      if (jsObject.isArray()) {
-        return new JsonArray((String) stringify.call(JSON, jsObject));
-      }
-      // it's an Object
-      return new JsonObject((String) stringify.call(JSON, jsObject));
+
+    if (jsObject == null) {
+      return null;
     }
-    // it's likely a Function
+
+    final JSObject JSON = (JSObject) jsObject.eval("JSON");
+    final JSObject stringify = (JSObject) JSON.getMember("stringify");
+    final String encoded = (String) stringify.call(JSON, jsObject);
+    char c = encoded.charAt(0);
+
+    // encoded messages are expected not to be pretty printed
+    if (c == '{') {
+      return new JsonObject(encoded);
+    }
+    if (c == '[') {
+      return new JsonArray(encoded);
+    }
+
     throw new ClassCastException("type is not Object or Array");
-  }
-
-  @Override
-  public String name() {
-    return this.getClass().getSimpleName();
-  }
-
-  @Override
-  public byte systemCodecID() {
-    return -1;
   }
 }

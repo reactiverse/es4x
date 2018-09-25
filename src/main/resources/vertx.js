@@ -54,7 +54,7 @@
       // Graal mode
       Java
         .type('java.lang.System')
-        .setProperty('es4x.engine', 'GraalVM');
+        .setProperty('es4x.engine', 'GraalJS');
     } else {
       // Nashorn mode
       load("classpath:io/reactiverse/es4x/polyfill/object.js");
@@ -63,8 +63,8 @@
     // install the vertx in the global scope
     global['vertx'] = Java
       .type('io.reactiverse.es4x.Runtime')
-      .create()
-      .vertx({}, JSON, options);
+      .getCurrent()
+      .vertx(options);
 
     // load polyfills
     load("classpath:io/reactiverse/es4x/polyfill/json.js");

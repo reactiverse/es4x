@@ -22,6 +22,8 @@ import io.vertx.core.Vertx;
 
 public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
 
+  private final Runtime runtime = Runtime.getCurrent();
+
   private Vertx vertx;
 
   @Override
@@ -35,13 +37,17 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
   }
 
   @Override
-  public Verticle createVerticle(String verticleName, ClassLoader classLoader) throws Exception {
+  public Verticle createVerticle(String verticleName, ClassLoader classLoader) {
 
     final Loader engine;
 
     synchronized (this) {
-      // create a new CommonJS loader
-      engine = Loader.create(vertx);
+      engine = runtime
+        // now that the vertx instance fully initialized  and available,
+        // register the custom JS codec for the eventbus
+        .registerCodec(vertx)
+        // create a new CommonJS loader
+        .loader(vertx);
     }
 
     return new Verticle() {
@@ -150,7 +156,7 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
       }
 
       @Override
-      public void stop(Future<Void> stopFuture) throws Exception {
+      public void stop(Future<Void> stopFuture) {
         if (self != null) {
           if (engine.hasMember(self, "stop")) {
             try {

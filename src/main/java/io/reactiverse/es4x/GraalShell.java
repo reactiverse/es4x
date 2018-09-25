@@ -16,9 +16,6 @@
 package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.graal.GraalLoader;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
-import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotException;
 import org.graalvm.polyglot.Source;
@@ -26,6 +23,8 @@ import org.graalvm.polyglot.Source;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GraalShell {
 
@@ -54,7 +53,11 @@ public class GraalShell {
 
   public static void main(String[] args) throws IOException {
 
-    final JsonObject options = new JsonObject();
+    // Graal mode
+    System.setProperty("es4x.engine", "GraalJS");
+    final Runtime runtime = Runtime.getCurrent();
+
+    final Map<String, Object> options = new HashMap<>();
     String script = null;
 
     // parse the arguments
@@ -97,43 +100,18 @@ public class GraalShell {
       }
     }
 
-    // Graal mode
-    System.setProperty("es4x.engine", "GraalVM");
-
-    final VertxOptions vertxOptions = new VertxOptions(options);
-    final String theScript = script;
     final Context context = Context
       .newBuilder("js")
-      .allowHostAccess(options.getBoolean("allowHostAccess", true))
-      .allowCreateThread(options.getBoolean("allowCreateThread", true))
-      .allowAllAccess(options.getBoolean("allowAllAccess", false))
-      .allowHostClassLoading(options.getBoolean("allowHostClassLoading", false))
-      .allowIO(options.getBoolean("allowIO", false))
-      .allowNativeAccess(options.getBoolean("allowNativeAccess", false))
+      .allowHostAccess((Boolean) options.getOrDefault("allowHostAccess", true))
+      .allowCreateThread((Boolean) options.getOrDefault("allowCreateThread", true))
+      .allowAllAccess((Boolean) options.getOrDefault("allowAllAccess", false))
+      .allowHostClassLoading((Boolean) options.getOrDefault("allowHostClassLoading", false))
+      .allowIO((Boolean) options.getOrDefault("allowIO", false))
+      .allowNativeAccess((Boolean) options.getOrDefault("allowNativeAccess", false))
       .build();
 
-    if (vertxOptions.isClustered()) {
-      Vertx.clusteredVertx(vertxOptions, res -> {
-        if (res.failed()) {
-          res.cause().printStackTrace();
-          System.exit(1);
-        } else {
-          try {
-            bootstrap(res.result(), context, theScript);
-          } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-          }
-        }
-      });
-    } else {
-      bootstrap(Vertx.vertx(vertxOptions), context, theScript);
-    }
-  }
 
-  private static void bootstrap(Vertx vertx, Context context, String script) throws IOException {
-
-    final GraalLoader loader = new GraalLoader(vertx, context);
+    final GraalLoader loader = new GraalLoader (runtime.vertx(options), context);
 
     if (script != null) {
       loader.main(script);

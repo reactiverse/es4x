@@ -1,7 +1,7 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.Loader;
-import io.vertx.core.Vertx;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -19,14 +19,14 @@ import static org.junit.Assume.assumeTrue;
 @RunWith(Parameterized.class)
 public class LoggerTest {
 
-  final Logger log = LoggerFactory.getLogger(LoggerTest.class);
+  private final Logger log = LoggerFactory.getLogger(LoggerTest.class);
 
   @Parameterized.Parameters
   public static List<String> engines() {
-    return Arrays.asList("Nashorn", "GraalVM");
+    return Arrays.asList("Nashorn", "GraalJS");
   }
 
-  final String engineName;
+  private final String engineName;
   private Loader loader;
 
   public LoggerTest(String engine) {
@@ -39,7 +39,7 @@ public class LoggerTest {
 
   @Before
   public void initialize() {
-    loader = Loader.create(rule.vertx());
+    loader = Runtime.getCurrent().loader(rule.vertx());
     assumeTrue(loader.name().equalsIgnoreCase(engineName));
   }
 

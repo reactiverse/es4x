@@ -15,18 +15,12 @@
  */
 package io.reactiverse.es4x.impl.nashorn;
 
+import io.reactiverse.es4x.Loader;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
-import io.vertx.core.json.JsonObject;
-import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
-
-public class NashornRuntime implements Runtime<JSObject> {
+public class NashornRuntime implements Runtime<Object> {
 
   @Override
   public String name() {
@@ -34,52 +28,23 @@ public class NashornRuntime implements Runtime<JSObject> {
   }
 
   @Override
-  public Vertx vertx(Object object, JSObject json, Map<String, Object> arguments) {
+  public Runtime<Object> registerCodec(Vertx vertx) {
+    // register a default codec to allow JSON messages directly from GraalVM to the JVM world
+    vertx.eventBus()
+      .unregisterDefaultCodec(ScriptObjectMirror.class)
+      .registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec());
 
-    final VertxOptions options = new VertxOptions(new JsonObject(arguments));
-
-    if (options.isClustered()) {
-      final CountDownLatch latch = new CountDownLatch(1);
-
-      final AtomicReference<Throwable> err = new AtomicReference<>();
-      final AtomicReference<Vertx> holder = new AtomicReference<>();
-
-
-      Vertx.clusteredVertx(new VertxOptions(), ar -> {
-        if (ar.failed()) {
-          err.set(ar.cause());
-          latch.countDown();
-        } else {
-          holder.set(ar.result());
-          latch.countDown();
-        }
-      });
-
-      try {
-        latch.await();
-      } catch (InterruptedException e) {
-        throw new RuntimeException(e);
-      }
-
-      if (err.get() != null) {
-        throw new RuntimeException(err.get());
-      } else {
-        final Vertx vertx = holder.get();
-        registerCodec(vertx, json);
-        return vertx;
-      }
-    } else {
-      final Vertx vertx = Vertx.vertx();
-      registerCodec(vertx, json);
-      return vertx;
-    }
+    return this;
   }
 
-  private static void registerCodec(Vertx vertx, JSObject json) {
-    if (json != null) {
-      // register a default codec to allow JSON messages directly from GraalVM to the JVM world
-      vertx.eventBus().unregisterDefaultCodec(ScriptObjectMirror.class);
-      vertx.eventBus().registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec(json));
-    }
+  /**
+   * Returns a module loader for the given runtime.
+   *
+   * @param vertx
+   * @return loader
+   */
+  @Override
+  public Loader<Object> loader(Vertx vertx) {
+    return new NashornLoader(vertx);
   }
 }
