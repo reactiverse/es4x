@@ -61,12 +61,12 @@ public interface Runtime<R> {
 
   /**
    * Bootstraps a Vert.x instance
-   * @param arguments
-   * @return
+   * @param arguments arguments
+   * @return a vertx instance
    */
   default Vertx vertx(Map<String, Object> arguments) {
 
-    final VertxOptions options = new VertxOptions(new JsonObject(arguments));
+    final VertxOptions options = arguments == null ? new VertxOptions() : new VertxOptions(new JsonObject(arguments));
 
     if (options.isClustered()) {
       final CountDownLatch latch = new CountDownLatch(1);

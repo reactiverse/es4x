@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.Runtime;
 import io.vertx.core.Vertx;
 import jdk.nashorn.api.scripting.NashornScriptEngine;
 import org.graalvm.polyglot.Context;
@@ -60,5 +59,6 @@ public class JSRuntimeFromScriptTest {
     assertTrue(context.getBindings("js").getMember("vertx").asHostObject() instanceof Vertx);
     Vertx vertx = context.getBindings("js").getMember("vertx").asHostObject();
     vertx.close();
+    context.close();
   }
 }

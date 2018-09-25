@@ -9,7 +9,7 @@ public final class JS {
     throw new RuntimeException("Do not instantiate!");
   }
 
-  public static boolean isFunction(Object obj) {
+  static boolean isFunction(Object obj) {
     if (obj instanceof JSObject) {
       return ((JSObject) obj).isFunction();
     }
@@ -19,7 +19,7 @@ public final class JS {
     return false;
   }
 
-  public static Object getMember(Object obj, String member) {
+  static Object getMember(Object obj, String member) {
     if (obj instanceof JSObject) {
       return ((JSObject) obj).getMember(member);
     }
@@ -30,7 +30,7 @@ public final class JS {
     throw new RuntimeException("Cannot get member from: " + obj);
   }
 
-  public static <T> T getMember(Object obj, String member, Class<T> asClass) {
+  static <T> T getMember(Object obj, String member, Class<T> asClass) {
     if (obj instanceof JSObject) {
       return (T) ((JSObject) obj).getMember(member);
     }
@@ -41,7 +41,7 @@ public final class JS {
     throw new RuntimeException("Cannot get member from: " + obj);
   }
 
-  public static Object call(Object thiz, Object fn, Object... args) {
+  static Object call(Object thiz, Object fn, Object... args) {
     if (fn instanceof JSObject) {
       return ((JSObject) fn).call(thiz, args);
     }
@@ -52,7 +52,7 @@ public final class JS {
     throw new RuntimeException("Cannot call: " + fn);
   }
 
-  public static <T> T callAs(Object thiz, Object fn, Class<T> asType, Object... args) {
+  static <T> T callAs(Object thiz, Object fn, Class<T> asType, Object... args) {
     if (fn instanceof JSObject) {
       return (T) ((JSObject) fn).call(thiz, args);
     }

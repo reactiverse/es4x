@@ -40,7 +40,7 @@ public class NashornRuntime implements Runtime<Object> {
   /**
    * Returns a module loader for the given runtime.
    *
-   * @param vertx
+   * @param vertx the vertx instance
    * @return loader
    */
   @Override
