@@ -1,6 +1,7 @@
 package io.reactiverse.es4x.dynalink;
 
 import io.reactiverse.es4x.Loader;
+import io.reactiverse.es4x.Runtime;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
@@ -28,7 +29,7 @@ public class DinalynkTest {
   @Before
   public void before() {
     System.setProperty("es4x.engine", "Nashorn");
-    loader = Loader.create(rule.vertx());
+    loader = Runtime.getCurrent().loader(rule.vertx());
     assumeTrue(loader.name().equalsIgnoreCase("Nashorn"));
   }
 
