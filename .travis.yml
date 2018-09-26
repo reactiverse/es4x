@@ -38,7 +38,9 @@ matrix:
     - env: JDK='GraalVM 1.0.0'
       install: . ./install-jdk.sh --url https://github.com/oracle/graal/releases/download/vm-1.0.0-rc6/graalvm-ce-1.0.0-rc6-linux-amd64.tar.gz
   allow_failures:
-    - env: JDK='Oracle JDK 10'
+  # Jacoco doesn't work fine with 11
+    - env: JDK='Oracle JDK 11'
+    - env: JDK='OpenJDK JDK 11'
 
 script:
   - echo PATH = ${PATH}
@@ -50,5 +52,5 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 - '[[ "${TRAVIS_BRANCH}" = "develop" ]] &&
    [[ "${TRAVIS_PULL_REQUEST}" = "false" ]] &&
-   [[ "${JDK}" = "Oracle JDK 11" ]] &&
+   [[ "${JDK}" = "Oracle JDK 9" ]] &&
    mvn --settings settings.xml -DskipTests deploy -B || true'
