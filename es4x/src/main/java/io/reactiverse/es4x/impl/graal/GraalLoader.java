@@ -24,23 +24,8 @@ import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 
 public class GraalLoader implements Loader<Value> {
-
-  // Graal AOT config
-  private static final String EVENTBUS_JSOBJECT_AOT_CLASS;
-
-  static {
-    // if this code is used in a native image avoid the reflection guess game
-    // and hard code the expected class to be a PolyglotMap
-    if (System.getProperty("org.graalvm.nativeimage.imagecode") != null) {
-      EVENTBUS_JSOBJECT_AOT_CLASS = "com.oracle.truffle.polyglot.PolyglotMap";
-    } else {
-      EVENTBUS_JSOBJECT_AOT_CLASS = null;
-    }
-  }
 
   private final Context context;
   private final Value bindings;
@@ -68,27 +53,6 @@ public class GraalLoader implements Loader<Value> {
     // add vertx as a global
     bindings.putMember("vertx", vertx);
 
-    final AtomicReference<Class<?>> holder = new AtomicReference<>();
-
-    // This is not used until graal native images / ES4X support passing object from Java to JS
-    if (EVENTBUS_JSOBJECT_AOT_CLASS == null) {
-      final Consumer callback = value -> holder.set(value.getClass());
-      context.eval(
-        Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").internal(true).buildLiteral()
-      ).execute(callback);
-    } else {
-      try {
-        holder.set(Class.forName(EVENTBUS_JSOBJECT_AOT_CLASS));
-      } catch (ClassNotFoundException e) {
-        throw new RuntimeException(e);
-      }
-    }
-
-    // register a default codec to allow JSON messages directly from GraalVM to the JVM world
-    vertx.eventBus()
-      .unregisterDefaultCodec(holder.get())
-      .registerDefaultCodec(holder.get(), new JSObjectMessageCodec<>(bindings.getMember("JSON")));
-
     // load all the polyfills
     try {
       context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).internal(true).build());
@@ -105,7 +69,7 @@ public class GraalLoader implements Loader<Value> {
 
   @Override
   public String name() {
-    return "GraalVM";
+    return "GraalJS";
   }
 
   @Override

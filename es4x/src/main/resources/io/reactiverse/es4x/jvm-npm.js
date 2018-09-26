@@ -186,7 +186,7 @@
   }
 
   function parsePaths(prefix, paths, suffix) {
-    var out = [];
+    const out = [];
 
     if (!paths) {
       return out;

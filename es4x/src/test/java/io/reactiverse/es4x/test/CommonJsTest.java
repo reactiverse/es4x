@@ -1,7 +1,7 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.Loader;
-import io.vertx.core.Vertx;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,10 +24,10 @@ public class CommonJsTest {
 
   @Parameterized.Parameters
   public static List<String> engines() {
-    return Arrays.asList("Nashorn", "GraalVM");
+    return Arrays.asList("Nashorn", "GraalJS");
   }
 
-  final String engineName;
+  private final String engineName;
   private Loader loader;
 
   public CommonJsTest(String engine) {
@@ -40,8 +40,11 @@ public class CommonJsTest {
 
   @Before
   public void initialize() {
-    loader = Loader.create(rule.vertx());
-    assumeTrue(loader.name().equalsIgnoreCase(engineName));
+    try {
+      loader = Runtime.getCurrent().loader(rule.vertx());
+    } catch (IllegalStateException e) {
+      assumeTrue(engineName + " is not available", false);
+    }
   }
 
   @Test

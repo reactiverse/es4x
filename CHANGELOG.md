@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 - Prune MVEL from codegen and decoupled it from the runtime
+- Decoupled Codec from the engine (avoids calls on the wrong context)
+- Several clean ups
 
 ## [0.5.4] - 2018-09-17
 - Bump `pg-reactive-client` to 0.10.3

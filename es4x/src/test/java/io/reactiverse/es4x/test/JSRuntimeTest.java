@@ -20,7 +20,7 @@ public class JSRuntimeTest {
 
   @Parameterized.Parameters
   public static List<String> engines() {
-    return Arrays.asList("Nashorn", "GraalVM");
+    return Arrays.asList("Nashorn", "GraalJS");
   }
 
   private final String engineName;
@@ -30,7 +30,7 @@ public class JSRuntimeTest {
   public JSRuntimeTest(String engine) {
     System.setProperty("es4x.engine", engine);
     engineName = engine;
-    runtime = Runtime.create();
+    runtime = Runtime.getCurrent();
   }
 
   @Before
@@ -40,7 +40,7 @@ public class JSRuntimeTest {
 
   @Test
   public void shouldCreateAVertxInstance() {
-    Vertx vertx = runtime.vertx(null, null, new HashMap<>());
+    Vertx vertx = runtime.vertx(new HashMap<>());
     assertNotNull(vertx);
     assertFalse(vertx.isClustered());
     vertx.close();
@@ -50,7 +50,7 @@ public class JSRuntimeTest {
   public void shouldCreateAClusteredVertxInstance() {
     final Map<String, Object> arguments = new HashMap<>();
     arguments.put("clustered", true);
-    Vertx vertx = runtime.vertx(null, null, arguments);
+    Vertx vertx = runtime.vertx(arguments);
     assertNotNull(vertx);
     assertTrue(vertx.isClustered());
     vertx.close();

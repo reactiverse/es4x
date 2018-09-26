@@ -20,7 +20,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.NashornScriptEngine;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import javax.script.*;
 
@@ -50,11 +49,6 @@ public class NashornLoader implements Loader<Object> {
       globalBindings.put("global", engine.eval("this"));
 
       engine.setBindings(globalBindings, ScriptContext.GLOBAL_SCOPE);
-
-      // register a default codec to allow JSON messages directly from nashorn to the JVM world
-      vertx.eventBus()
-        .unregisterDefaultCodec(ScriptObjectMirror.class)
-        .registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec((JSObject) engine.eval("JSON")));
 
       // add polyfills
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/object.js");

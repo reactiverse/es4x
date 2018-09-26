@@ -56,7 +56,7 @@ public class ES4XFormatter extends Formatter {
       throwable);
   }
 
-  public static CharSequence formatStackTrace(Throwable self) {
+  private static CharSequence formatStackTrace(Throwable self) {
     final StringBuffer buffer = new StringBuffer();
 
     Set<Throwable> dejaVu = Collections.newSetFromMap(new IdentityHashMap<>());

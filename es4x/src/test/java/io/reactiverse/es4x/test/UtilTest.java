@@ -1,5 +1,6 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
@@ -22,10 +23,10 @@ public class UtilTest {
 
   @Parameterized.Parameters
   public static List<String> engines() {
-    return Arrays.asList("Nashorn", "GraalVM");
+    return Arrays.asList("Nashorn", "GraalJS");
   }
 
-  final String engineName;
+  private final String engineName;
   private Loader loader;
 
   public UtilTest(String engine) {
@@ -38,8 +39,11 @@ public class UtilTest {
 
   @Before
   public void initialize() {
-    loader = Loader.create(rule.vertx());
-    assumeTrue(loader.name().equalsIgnoreCase(engineName));
+    try {
+      loader = Runtime.getCurrent().loader(rule.vertx());
+    } catch (IllegalStateException e) {
+      assumeTrue(engineName + " is not available", false);
+    }
   }
 
   @Test(timeout = 10000)

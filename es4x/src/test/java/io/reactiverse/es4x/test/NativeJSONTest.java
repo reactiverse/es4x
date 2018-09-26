@@ -1,7 +1,7 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.Loader;
-import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -24,13 +24,13 @@ public class NativeJSONTest {
 
   @Parameterized.Parameters
   public static List<String> engines() {
-    return Arrays.asList("Nashorn", "GraalVM");
+    return Arrays.asList("Nashorn", "GraalJS");
   }
 
   private Loader loader;
   private Object JSON;
 
-  final String engineName;
+  private final String engineName;
 
   public NativeJSONTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -42,12 +42,15 @@ public class NativeJSONTest {
 
   @Before
   public void initialize() throws Exception {
-    loader = Loader.create(rule.vertx());
-    assumeTrue(loader.name().equalsIgnoreCase(engineName));
-    JSON = loader.eval("JSON");
+    try {
+      loader = Runtime.getCurrent().loader(rule.vertx());
+      JSON = loader.eval("JSON");
+    } catch (IllegalStateException e) {
+      assumeTrue(engineName + " is not available", false);
+    }
   }
 
-  public Object stringify(Object... args) {
+  private Object stringify(Object... args) {
     Object res = loader.invokeMethod(JSON, "stringify", args);
     // Graal engine always wraps
     if (res instanceof Value) {
