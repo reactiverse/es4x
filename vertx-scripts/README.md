@@ -57,7 +57,7 @@ An example running tests would be after adding `vertx-unit` to the
 ```json
 {
   "scripts": {
-    "test": "vertx-scripts launcher test -v"
+    "test": "es4x launcher test -v"
   },
   
   "devDependencies": {
