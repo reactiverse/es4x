@@ -5,25 +5,21 @@ const fs = require('fs');
 const path = require('path');
 const spawn = require('child_process').spawn;
 const program = require('commander');
-const chalk = require('chalk');
-const handlebars = require('handlebars');
+const c = require('ansi-colors');
+const Mustache = require('mustache');
 const mkdirp = require('mkdirp');
 
 const version = require('../package.json').version;
 const dir = process.cwd();
 const isWindows = /^win/.test(process.platform);
 
-// there are 2 options, either a local package.json exists
-// and we're working in npm mode, no package.json then we're
-// in the global install utility mode
-let npm;
-
-if (fs.existsSync(path.resolve(dir, 'package.json'))) {
-  npm = require(path.resolve(dir, 'package.json'));
-} else {
-  console.error(chalk.red.bold('Cannot find `package.json` in current directory!'));
+// quickly abort if there's no package.json
+if (!fs.existsSync(path.resolve(dir, 'package.json'))) {
+  console.error(c.red.bold('Cannot find `package.json` in current directory!'));
   process.exit(1);
 }
+
+const npm = require(path.resolve(dir, 'package.json'));
 
 /**
  * Executes an external command.
@@ -38,9 +34,9 @@ function exec(command, args, env, options, callback) {
   const proc = spawn(command, args, {env: env});
   if (args && args.length > 0) {
     const lastArg = args[args.length - 1];
-    console.log('Running: ' + chalk.bold(command) + ' ... ' + chalk.bold(lastArg));
+    console.log('Running: ' + c.bold(command) + ' ... ' + c.bold(lastArg));
   } else {
-    console.log('Running: ' + chalk.bold(command));
+    console.log('Running: ' + c.bold(command));
   }
 
   proc.stdout.on('data', function (data) {
@@ -55,7 +51,7 @@ function exec(command, args, env, options, callback) {
 
   proc.on('close', function (code) {
     if (code) {
-      console.error(chalk.yellow.bold('Error: ' + command + " exit code " + code + '.' + (options.verbose ? '' : ' Re-run with verbose enabled for more details.')));
+      console.error(c.yellow.bold('Error: ' + command + " exit code " + code + '.' + (options.verbose ? '' : ' Re-run with verbose enabled for more details.')));
       if (options.stopOnError) {
         process.exit(code);
       }
@@ -65,7 +61,7 @@ function exec(command, args, env, options, callback) {
 
   proc.on('error', function (err) {
     if (err) {
-      console.error(chalk.red.bold(err));
+      console.error(c.red.bold(err));
       if (options.stopOnError) {
         process.exit(err);
       }
@@ -74,54 +70,45 @@ function exec(command, args, env, options, callback) {
   });
 }
 
+function installMavenWrapper() {
+  mkdirp.sync(path.resolve(dir, '.mvn/wrapper'));
+  fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.jar'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.jar'));
+  fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.properties'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.properties'));
+  fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/MavenWrapperDownloader.java'), fs.readFileSync(__dirname + '/../.mvn/wrapper/MavenWrapperDownloader.java'));
+  fs.writeFileSync(path.resolve(dir, 'mvnw.cmd'), fs.readFileSync(__dirname + '/../mvnw.cmd'));
+  fs.writeFileSync(path.resolve(dir, 'mvnw'), fs.readFileSync(__dirname + '/../mvnw'));
+  try {
+    fs.chmodSync(path.resolve(dir, 'mvnw'), '0755');
+  } catch (e) {
+    // it's ok to fail if not windows i guess...
+    if (!isWindows) {
+      throw e;
+    }
+  }
+}
+
 /**
  * Helper to select local maven wrapper or system maven
  *
  * @returns {string} the maven command
  */
 function getMaven() {
-  let mvn = 'mvn';
-
+  let mvn = isWindows ? 'mvnw.cmd' : './mvnw';
   // check for wrapper
-  if (isWindows) {
-    mvn = 'mvnw.cmd';
-    if (fs.existsSync(path.resolve(dir, mvn))) {
-      mvn = path.resolve(dir, mvn);
-    } else {
-      try {
-        mkdirp.sync(path.resolve(dir, '.mvn/wrapper'));
-        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.jar'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.jar'));
-        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.properties'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.properties'));
-        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/MavenWrapperDownloader.java'), fs.readFileSync(__dirname + '/../.mvn/wrapper/MavenWrapperDownloader.java'));
-        fs.writeFileSync(path.resolve(dir, mvn), fs.readFileSync(__dirname + '/../mvnw.cmd'));
-      } catch (e) {
-        // don't care fallback to system wide maven
-        mvn = 'mvn';
-      }
-    }
-  } else {
-    mvn = './mvnw';
-    if (fs.existsSync(path.resolve(dir, mvn))) {
-      mvn = path.resolve(dir, mvn);
-    } else {
-      try {
-        mkdirp.sync(path.resolve(dir, '.mvn/wrapper'));
-        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.jar'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.jar'));
-        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.properties'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.properties'));
-        fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/MavenWrapperDownloader.java'), fs.readFileSync(__dirname + '/../.mvn/wrapper/MavenWrapperDownloader.java'));
-        fs.writeFileSync(path.resolve(dir, mvn), fs.readFileSync(__dirname + '/../mvnw'));
-        fs.chmodSync(path.resolve(dir, mvn), '0755');
-      } catch (e) {
-        // don't care fallback to system wide maven
-        mvn = 'mvn';
-      }
+  if (!fs.existsSync(path.resolve(dir, mvn))) {
+    try {
+      installMavenWrapper();
+    } catch (e) {
+      console.log(c.yellow.bold('Failed to install maven wrapper, falling back to the system default!'));
+      // don't care fallback to system wide maven
+      return 'mvn';
     }
   }
 
-  return mvn;
+  return path.resolve(dir, mvn);
 }
 
-function generateClassPath(force, callback) {
+function generateClassPath(callback) {
   const readClassPath = function () {
     let classPath = fs.readFileSync(path.resolve(dir, 'target/classpath.txt')).toString('UTF-8');
     // trim by the first line
@@ -135,16 +122,11 @@ function generateClassPath(force, callback) {
     callback(classPath);
   };
 
-  if (force || !fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
+  if (!fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
     let params = [
-      '-f', path.resolve(dir, 'pom.xml')
+      '-f', path.resolve(dir, 'pom.xml'),
+      'compile'
     ];
-
-    if (force) {
-      params.push('clean');
-    }
-
-    params.push('compile');
 
     return exec(getMaven(), params, process.env, { verbose: false, stopOnError: true }, readClassPath);
   }
@@ -157,9 +139,9 @@ program
   .description('Utility scripts to work with Eclipse Vert.x projects');
 
 program
-  .command('init')
+  .command('postinstall')
   .option('-v, --verbose', 'Verbose logging')
-  .description('Generate a pom.xml')
+  .description('Generate a pom.xml from the current package.json')
   .action(function (options) {
     // if there is a local template, prefer it over ours...
     let source = __dirname + '/../.pom.xml';
@@ -168,7 +150,7 @@ program
       source = path.resolve(dir, '.pom.xml');
     }
 
-    const template = handlebars.compile(fs.readFileSync(source).toString('UTF-8'));
+    const template = fs.readFileSync(source).toString('UTF-8');
 
     const dependencies = {};
     const files = npm.files || [];
@@ -267,16 +249,16 @@ program
       main: npm.main,
 
       files: files,
-      dependencies: dependencies,
+      dependencies: Object.values(dependencies),
       packageJson: npm
     };
 
     try {
-      fs.writeFileSync(path.resolve(dir, 'pom.xml'), template(data));
+      fs.writeFileSync(path.resolve(dir, 'pom.xml'), Mustache.render(template, data));
       // init the maven bits
       exec(getMaven(), [], process.env, {stopOnError: true, verbose: options.verbose});
     } catch (e) {
-      console.error(chalk.red.bold(e));
+      console.error(c.red.bold(e));
       process.exit(1);
     }
   });
@@ -284,15 +266,15 @@ program
 program
   .command('launcher <cmd> [args...]')
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
-  .option('-c, --clean', 'Perform a clean before running the task')
   .option('-d, --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
   .option('-i, --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
+  .option('-s, --suspend', 'While debug/inspect, suspend at start')
   .option('-w, --watch [watch]', 'Watches for modifications on the given expression')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (cmd, args, options) {
     // if it doesn't exist stop
     if (!fs.existsSync(path.resolve(dir, 'pom.xml'))) {
-      console.error(chalk.red.bold('No \'pom.xml\' found, please init it first.'));
+      console.error(c.red.bold('No \'pom.xml\' found, please init it first.'));
       process.exit(1);
     }
 
@@ -301,7 +283,7 @@ program
     if (!args || args.length === 0) {
       // main verticle name is derived from main
       if (!npm.main) {
-        console.error(chalk.red.bold('No \'main\' or \'verticle\' was defined!'));
+        console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
         process.exit(1);
       }
 
@@ -316,9 +298,9 @@ program
       }
     }
 
-    // if the clean is active or the file 'target/classpath.txt' doesn't exist then we
+    // if the file 'target/classpath.txt' doesn't exist then we
     // need to run maven as a prepare step
-    generateClassPath(options.clean, function (classPath) {
+    generateClassPath(function (classPath) {
       let params = [
         '-cp',
         classPath
@@ -330,23 +312,27 @@ program
 
       if (options.debug) {
         if (options.debug === true) {
-          console.log(chalk.yellow.bold('Debug socket listening at port: 9229'));
-          params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9229');
+          console.log(c.yellow.bold('Debug socket listening at port: 9229'));
+          if (options.suspend) {
+            params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9229');
+          } else {
+            params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9229');
+          }
         } else {
-          console.log(chalk.yellow.bold('Debug at: ' + options.debug));
+          console.log(c.yellow.bold('Debug at: ' + options.debug));
           params.push('-agentlib:jdwp=' + options.debug);
         }
       }
 
       if (options.inspect) {
         if (options.inspect === true) {
-          console.log(chalk.yellow.bold('Chrome devtools listening at port: 9229'));
+          console.log(c.yellow.bold('Chrome devtools listening at port: 9229'));
           params.push('-Dpolyglot.inspect=9292');
-          params.push('-Dpolyglot.inspect.Suspend=false');
+          params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
         } else {
-          console.log(chalk.yellow.bold('Chrome devtools listenting at: ' + options.inspect));
+          console.log(c.yellow.bold('Chrome devtools listenting at: ' + options.inspect));
           params.push('-Dpolyglot.inspect=' + options.inspect);
-          params.push('-Dpolyglot.inspect.Suspend=false');
+          params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
         }
       }
 
@@ -355,7 +341,7 @@ program
 
       if (options.watch) {
         params.push('--redeploy=' + options.watch);
-        params.push('--on-redeploy=' + getMaven() + ' package');
+        params.push('--on-redeploy=' + getMaven() + ' compile');
         params.push('--launcher-class=io.vertx.core.Launcher');
       }
 
@@ -367,37 +353,14 @@ program
   });
 
 program
-  .command('package')
-  .description('Packages the application')
-  .option('-v, --verbose', 'Verbose logging')
-  .action(function (options) {
-    // if it doesn't exist stop
-    if (!fs.existsSync(path.resolve(dir, 'pom.xml'))) {
-      console.error(chalk.red.bold('No \'pom.xml\' found, please init it first.'));
-      process.exit(1);
-    }
-
-    exec(
-      getMaven(),
-      [
-        '-f', path.resolve(dir, 'pom.xml'),
-        'clean',
-        'package'
-      ],
-      process.env,
-      { verbose: options.verbose});
-  });
-
-program
-  .command('repl')
-  .option('-c, --clean', 'Perform a clean before running the task')
+  .command('shell')
   .option('-g, --graal', 'Run the builtin Graal Shell')
   .description('Starts a REPL with the current project in the classpath')
   .action(function (options) {
 
     let shell = options.graal ? 'java' : 'jjs';
 
-    generateClassPath(options.clean, function (classPath) {
+    generateClassPath(function (classPath) {
       let params = [
         '-cp',
         classPath
@@ -406,7 +369,7 @@ program
       if (shell === 'jjs') {
         params.push('--language=es6');
         // give some instructions...
-        console.log('please load vertx into the shell: ' + chalk.yellow.bold('load(\'classpath:vertx.js\');'));
+        console.log('please load vertx into the shell: ' + c.yellow.bold('load(\'classpath:vertx.js\');'));
       } else {
         params.push('io.reactiverse.es4x.GraalShell');
       }
@@ -421,6 +384,50 @@ program
           process.exit(code);
         });
     });
+  });
+
+program
+  .command('init')
+  .description('Installs utility scripts into the current package.json')
+  .action(function (options) {
+
+    for (var k in npm.scripts || {}) {
+      if (npm.scripts.hasOwnProperty(k)) {
+        if (('' + npm.scripts[k]).indexOf('es4x') !== -1) {
+          // there is already a reference to es4x, nothing else to do!
+          return;
+        }
+      }
+    }
+
+    if (!npm.devDependencies) {
+      npm.devDependencies = {};
+    }
+
+    npm.devDependencies['es4x-cli'] = version;
+
+    if (!npm.scripts) {
+      npm.scripts = {};
+    }
+
+    npm.scripts.postinstall = 'es4x postinstall';
+    npm.scripts.start = 'es4x launcher run';
+    npm.scripts.test = 'es4x launcher test';
+    npm.scripts.shell = 'es4x shell';
+
+    try {
+      fs.writeFileSync(path.resolve(dir, 'package.json'), JSON.stringify(npm, null, 2));
+    } catch (e) {
+      console.error(c.red.bold(e));
+      process.exit(1);
+    }
+  });
+
+program
+  .command('*')
+  .description('Prints this help')
+  .action(function(env) {
+    program.help();
   });
 
 program.parse(process.argv);
