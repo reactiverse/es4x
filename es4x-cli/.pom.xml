@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!-- WARNING: THIS FILE IS GENERATED AND WILL BE OVERWRITTEN BY THE NEXT RUN -->
-  <!-- WARNING: IF YOU NEED HAVE A CUSTOM POM.XML CREATE A HANDLEBARS TEMPLATE FILE NAMED '.pom.xml' -->
+  <!-- WARNING: IF YOU NEED HAVE A CUSTOM POM.XML CREATE A MUSTACHE TEMPLATE FILE NAMED '.pom.xml' -->
   <!-- WARNING: THE AVAILABLE VARS ARE: groupId, artifactId, version, name, description, files, dependencies, packageJson -->
 
   <groupId>{{groupId}}</groupId>
@@ -14,10 +14,9 @@
   <version>{{version}}</version>
 
   <name>{{name}}</name>
-
-  {{#if description}}
+  {{#description}}
   <description>{{description}}</description>
-  {{/if}}
+  {{/description}}
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,24 +27,24 @@
   </properties>
 
   <dependencies>
-    {{#each dependencies}}
+    {{#dependencies}}
     <dependency>
-      <groupId>{{groupId}}</groupId>
-      <artifactId>{{artifactId}}</artifactId>
-      {{#if version}}
-      <version>{{version}}</version>
-      {{/if}}
-      {{#if scope}}
-      <scope>{{scope}}</scope>
-      {{/if}}
-      {{#if classifier}}
-      <classifier>{{classifier}}</classifier>
-      {{/if}}
-      {{#if optional}}
+      <groupId>{{{groupId}}}</groupId>
+      <artifactId>{{{artifactId}}}</artifactId>
+      {{#version}}
+      <version>{{{version}}}</version>
+      {{/version}}
+      {{#scope}}
+      <scope>{{{scope}}}</scope>
+      {{/scope}}
+      {{#classifier}}
+      <classifier>{{{classifier}}}</classifier>
+      {{/classifier}}
+      {{#optional}}
       <optional>true</optional>
-      {{/if}}
+      {{/optional}}
     </dependency>
-    {{/each}}
+    {{/dependencies}}
     <!-- Always required -->
     <dependency>
       <groupId>io.reactiverse</groupId>
@@ -90,9 +89,9 @@
                 <resource>
                   <directory>${project.basedir}</directory>
                   <includes>
-                    {{#each files}}
-                    <include>{{this}}</include>
-                    {{/each}}
+                    {{#files}}
+                    <include>{{{.}}}</include>
+                    {{/files}}
                   </includes>
                   <filtering>false</filtering>
                 </resource>

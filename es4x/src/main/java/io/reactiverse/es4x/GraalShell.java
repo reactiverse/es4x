@@ -21,9 +21,7 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.PolyglotException;
 import org.graalvm.polyglot.Source;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,24 +120,58 @@ public class GraalShell {
     }
 
     try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
-      for (;;) {
+      final StringBuilder buffer = new StringBuilder();
+      for (; ; ) {
         try {
-          System.out.print("> ");
+          if (buffer.length() == 0) {
+            System.out.print("> ");
+          } else {
+            System.out.print("| ");
+          }
+
           String line = input.readLine();
           if (line == null) {
             break;
           }
+          buffer.append(line);
+
           Source source = Source
-            .newBuilder("js", line, "<shell>")
+            .newBuilder("js", buffer, "<shell>")
             .interactive(true)
             .buildLiteral();
 
-          loader.eval(source);
+          System.out.println("\u001B[1;90m" + loader.eval(source) + "\u001B[0m");
+          // reset the buffer
+          buffer.setLength(0);
         } catch (PolyglotException t) {
-          if(t.isExit()) {
+          // incomplete source, do not handle as error and
+          // continue appending to the previous buffer
+          if (t.isIncompleteSource()) {
+            continue;
+          }
+
+          // polyglot engine is requesting to exit
+          if (t.isExit()) {
             break;
           }
-          t.printStackTrace();
+
+          // reset the buffer as the source is complete
+          // but there's an error anyway
+          buffer.setLength(0);
+
+          // collect the trace back to a string
+          try (StringWriter sw = new StringWriter()) {
+            PrintWriter pw = new PrintWriter(sw);
+            t.printStackTrace(pw);
+            String sStackTrace = sw.toString(); // stack trace as a string
+            int idx = sStackTrace.indexOf("\n\tat");
+            if (idx != -1) {
+              System.out.print("\u001B[1m\u001B[31m" + sStackTrace.substring(0, idx) + "\u001B[0m");
+              System.out.println(sStackTrace.substring(idx));
+            } else {
+              System.out.println(sStackTrace);
+            }
+          }
         }
       }
       // REPL is cancelled, close the loader

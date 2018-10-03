@@ -9,13 +9,15 @@ This is the EcmaScript (5.1+) language support for [Eclipse Vert.x](http://vertx
 Create a project:
 
 ```
+# create a generic project
 mkdir my-app
 cd my-app
 npm init -y
-npm add vertx-scripts --save-dev
-npm add @vertx/unit --save-dev
-npm add @vertx/core --save-prod
-npm install
+# init the es4x bits
+npx es4x-cli init
+# add dependencies
+npm install @vertx/unit --save-dev
+npm install @vertx/core --save-prod
 ```
 
 Create your `index.js`:
