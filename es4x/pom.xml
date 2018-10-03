@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>io.reactiverse</groupId>
+    <artifactId>es4x-parent</artifactId>
+    <version>0.5.5-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>es4x</artifactId>
+  <version>0.5.5-SNAPSHOT</version>
+
+  <properties>
+    <graal.version>1.0.0-rc6</graal.version>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>java9</id>
+      <activation>
+        <jdk>[1.9,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <executions>
+              <execution>
+                <id>add-sources</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>add-source</goal>
+                </goals>
+                <configuration>
+                  <sources>
+                    <source>src/main/java-9</source>
+                  </sources>
+                </configuration>
+              </execution>
+              <execution>
+                <id>add-test-sources</id>
+                <phase>generate-test-sources</phase>
+                <goals>
+                  <goal>add-test-source</goal>
+                </goals>
+                <configuration>
+                  <sources>
+                    <source>src/test/java-9</source>
+                  </sources>
+                </configuration>
+              </execution>
+              <execution>
+                <id>add-resources</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>add-resource</goal>
+                </goals>
+                <configuration>
+                  <resources>
+                    <resource>
+                      <directory>src/main/resources-9</directory>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>${vertx.version}</version>
+      <!-- to allow other versions -->
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.graalvm</groupId>
+      <artifactId>graal-sdk</artifactId>
+      <version>${graal.version}</version>
+      <scope>provided</scope>
+      <optional>true</optional>
+    </dependency>
+    <!-- testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-unit</artifactId>
+      <version>${vertx.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-hazelcast</artifactId>
+      <version>${vertx.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.amashchenko.maven.plugin</groupId>
+        <artifactId>gitflow-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

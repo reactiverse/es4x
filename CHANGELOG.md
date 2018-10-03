@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+- Prune MVEL from codegen and decoupled it from the runtime
 - `es4x-cli` has less dependencies and can be used by `npx`
 - `vertx-scripts` has been replaced by `es4x-cli`
 - Decoupled Codec from the engine (avoids calls on the wrong context)

@@ -21,6 +21,7 @@ function vertx_io () {
     "io.vertx/vertx-auth-oauth2"
     "io.vertx/vertx-auth-shiro"
     "io.vertx/vertx-bridge-common"
+#    "io.vertx/vertx-cassandra-client"
     "io.vertx/vertx-camel-bridge"
     "io.vertx/vertx-circuit-breaker"
     "io.vertx/vertx-config"
@@ -82,26 +83,26 @@ function vertx_io () {
     "io.vertx/vertx-web-api-contract"
     "io.vertx/vertx-web-client"
     "io.vertx/vertx-web-common"
-#    "io.vertx/vertx-web-templ-freemarker"
-#    "io.vertx/vertx-web-templ-handlebars"
-#    "io.vertx/vertx-web-templ-jade"
-#    "io.vertx/vertx-web-templ-mvel"
-#    "io.vertx/vertx-web-templ-pebble"
-#    "io.vertx/vertx-web-templ-rocker"
-#    "io.vertx/vertx-web-templ-thymeleaf"
+    "io.vertx/vertx-web-templ-freemarker"
+    "io.vertx/vertx-web-templ-handlebars"
+    "io.vertx/vertx-web-templ-jade"
+    "io.vertx/vertx-web-templ-mvel"
+    "io.vertx/vertx-web-templ-pebble"
+    "io.vertx/vertx-web-templ-rocker"
+    "io.vertx/vertx-web-templ-thymeleaf"
     #"io.vertx/vertx-zookeeper"
   )
 
-  # force login
-  echo "<Login as vertx>"
-  npm adduser --registry $REGISTRY
+#  # force login
+#  echo "<Login as vertx>"
+#  npm adduser --registry $REGISTRY
 
   for i in "${modules[@]}"
   do
     # generate code
-    mvn -f ./$i/pom.xml clean generate-sources exec:exec@typedoc
-   # upload to registry
-   mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
+    mvn -f ./$i/pom.xml clean generate-sources #exec:exec@typedoc
+#    # upload to registry
+#    mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
   done
 }
 
@@ -110,16 +111,16 @@ function reactiverse_io () {
     "io.reactiverse/reactive-pg-client"
   )
 
-  # force login
-  echo "<Login as reactiverse>"
-  npm adduser --registry $REGISTRY
+#  # force login
+#  echo "<Login as reactiverse>"
+#  npm adduser --registry $REGISTRY
 
   for i in "${modules[@]}"
   do
     # generate code
-    mvn -f ./$i/pom.xml clean generate-sources exec:exec@typedoc
-   # upload to registry
-   mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
+    mvn -f ./$i/pom.xml clean generate-sources #exec:exec@typedoc
+#    # upload to registry
+#    mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
   done
 }
 
