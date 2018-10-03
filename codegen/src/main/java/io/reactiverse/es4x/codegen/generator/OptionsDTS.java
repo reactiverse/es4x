@@ -41,17 +41,6 @@ public class OptionsDTS extends Generator<DataObjectModel> {
     return "npm/options.d.ts";
   }
 
-  private Collection<PropertyInfo> filterProperties(Map<String, PropertyInfo> properties) {
-    List<PropertyInfo> result = new ArrayList<>();
-    for (PropertyInfo p : properties.values()) {
-      if (p.isSetter() || p.isAdder()) {
-        result.add(p);
-      }
-    }
-
-    return result;
-  }
-
   private Collection<ClassTypeInfo> filterImports(Map<String, PropertyInfo> properties) {
     Set<ClassTypeInfo> result = new HashSet<>();
     for (PropertyInfo p : properties.values()) {
@@ -109,17 +98,50 @@ public class OptionsDTS extends Generator<DataObjectModel> {
 
     writer.printf("export %s %s {\n", model.isConcrete() ? "class" : "interface", model.getType().getRaw().getSimpleName());
     boolean more = false;
-    for (PropertyInfo property : filterProperties(model.getPropertyMap())) {
+
+    for (Map.Entry<String, PropertyInfo> entry : model.getPropertyMap().entrySet()) {
+
+      final PropertyInfo property = entry.getValue();
+
       if (more) {
         writer.print("\n");
       }
 
+      // write getter
       if (property.getDoc() != null) {
         writer.print("  /**\n");
         writer.printf("   *%s\n", property.getDoc().toString().replace("\n", "\n   * "));
         writer.print("   */\n");
       }
-      writer.printf("  %s: %s;\n", property.getName(), genType(property.getType()));
+      // custom vert.x style
+      String getter = property.getGetterMethod();
+      writer.printf("  %s(): %s;\n", getter == null ? entry.getKey() : getter, genType(property.getType()));
+
+
+      if (property.isSetter()) {
+        // write setter
+        writer.print("\n");
+
+        if (property.getDoc() != null) {
+          writer.print("  /**\n");
+          writer.printf("   *%s\n", property.getDoc().toString().replace("\n", "\n   * "));
+          writer.print("   */\n");
+        }
+        writer.printf("  %s(%s: %s): %s;\n", property.getSetterMethod(), entry.getKey(), genType(property.getType()), model.getType().getRaw().getSimpleName());
+      }
+
+      if (property.isAdder()) {
+        // write adder
+        writer.print("\n");
+
+        if (property.getDoc() != null) {
+          writer.print("  /**\n");
+          writer.printf("   *%s\n", property.getDoc().toString().replace("\n", "\n   * "));
+          writer.print("   */\n");
+        }
+        writer.printf("  %s(%s: %s): %s;\n", property.getAdderMethod(), entry.getKey(), genType(property.getType()), model.getType().getRaw().getSimpleName());
+      }
+
       more = true;
     }
 
