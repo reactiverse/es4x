@@ -18,6 +18,9 @@ npx es4x-cli init
 # add dependencies
 npm install @vertx/unit --save-dev
 npm install @vertx/core --save-prod
+# will trigger the download
+# of the java dependencies
+npm install
 ```
 
 Create your `index.js`:

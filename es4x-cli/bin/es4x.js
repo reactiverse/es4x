@@ -125,7 +125,7 @@ function generateClassPath(callback) {
   if (!fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
     let params = [
       '-f', path.resolve(dir, 'pom.xml'),
-      'compile'
+      'generate-sources'
     ];
 
     return exec(getMaven(), params, process.env, { verbose: false, stopOnError: true }, readClassPath);

@@ -48,6 +48,9 @@ npx es4x-cli init
 npm install @vertx/unit --save-dev
 npm install @vertx/core --save-prod
 npm install @vertx/web --save-prod
+# will trigger the download
+# of the java dependencies
+npm install
 ```
 
 As this moment there should be a minimal `package.json`. To simplify working with `vert.x`
