@@ -1,0 +1,1 @@
+exports.message = 'dist/path';

@@ -175,8 +175,6 @@
     return false;
   };
 
-  Require.NODE_PATH = undefined;
-
   function findRoots(parent) {
     if (!parent || !parent.id) {
       return Require.paths();
@@ -191,9 +189,7 @@
     if (!paths) {
       return out;
     }
-    if (paths === '') {
-      return out;
-    }
+
     const osName = System.getProperty('os.name').toLowerCase();
     let separator;
 
@@ -208,6 +204,16 @@
     // append the desired prefix, suffix
     paths.split(separator).forEach(function (p) {
       if (p) {
+        // all paths need to be absolute
+        if (p.indexOf('./') === 0) {
+          let cwd = System.getProperty("user.dir");
+          if (cwd.length > 0) {
+            if (cwd[cwd.length - 1] !== '/') {
+              cwd += '/';
+            }
+          }
+          p = cwd + p.substr(2);
+        }
         out.push((prefix || '') + p + (suffix || ''));
       }
     });
@@ -227,13 +233,10 @@
     // user node libraries cache
     .concat(parsePaths('file://', System.getProperty('user.home'), '/.node_libraries'));
 
-    if (Require.NODE_PATH) {
-      r = r.concat(parsePaths('file://', Require.NODE_PATH));
-    } else {
-      let NODE_PATH = System.getenv('NODE_PATH');
-      if (NODE_PATH) {
-        r = r.concat(parsePaths('file://', NODE_PATH));
-      }
+    let NODE_PATH = process.env['NODE_PATH'];
+    if (NODE_PATH) {
+      // NODE_PATH takes precedence
+      r = parsePaths('file://', NODE_PATH).concat(r);
     }
 
     return r;
