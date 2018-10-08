@@ -22,8 +22,7 @@ import io.vertx.codegen.type.EnumTypeInfo;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import static io.reactiverse.es4x.codegen.generator.Util.*;
 
@@ -55,6 +54,9 @@ public class IndexDTS extends Generator<ClassModel> {
       Util.generateLicense(writer);
 
       if (type.getModuleName().equals("vertx")) {
+        writer.print("export interface Handler<T> {\n");
+        writer.print("  handle(arg0: T) : void;\n");
+        writer.print("}\n\n");
         writer.print("export interface AsyncResult<T> {\n");
         writer.print("  succeeded() : boolean;\n");
         writer.print("  failed() : boolean;\n");
@@ -62,7 +64,7 @@ public class IndexDTS extends Generator<ClassModel> {
         writer.print("  result() : T | null;\n");
         writer.print("}\n\n");
       } else {
-        writer.print("import { AsyncResult } from '@vertx/core';\n\n");
+        writer.print("import { Handler, AsyncResult } from '@vertx/core';\n\n");
       }
     } else {
       writer.print("\n");
@@ -105,7 +107,32 @@ public class IndexDTS extends Generator<ClassModel> {
       writer.print("\n");
     }
 
-    writer.printf("export %s %s%s {\n", model.isConcrete() ? "class" : "interface", type.getSimpleName(), genGeneric(type.getParams()));
+    final Set<String> superTypes = new HashSet<>();
+    model.getAbstractSuperTypes().forEach(ti -> superTypes.add(ti.getSimpleName()));
+
+    if (model.getHandlerType() != null) {
+      if (model.isConcrete()) {
+        superTypes.add("Handler<" + model.getHandlerType().getSimpleName() + ">");
+      }
+    }
+
+    writer.printf("export %s %s%s", model.isConcrete() ? "abstract class" : "interface", type.getSimpleName(), genGeneric(type.getParams()));
+
+    if (model.isConcrete()) {
+      if (model.getHandlerType() != null) {
+        superTypes.add("Handler<" + model.getHandlerType().getSimpleName() + ">");
+      }
+    } else {
+      if (model.getHandlerType() != null) {
+        writer.printf(" extends Handler<%s>", model.getHandlerType().getSimpleName());
+      }
+    }
+
+    if (!superTypes.isEmpty()) {
+      writer.printf(" implements %s", String.join(", ", superTypes));
+    }
+
+    writer.print(" {\n");
 
     boolean moreConstants = false;
     for (ConstantInfo constant : model.getConstants()) {
@@ -118,13 +145,13 @@ public class IndexDTS extends Generator<ClassModel> {
         writer.printf("   *%s\n", constant.getDoc().toString().replace("\n", "\n   * "));
         writer.print("   */\n");
       }
-      writer.printf("  static readonly %s : %s;", constant.getName(), genType(constant.getType()));
+      writer.printf("  static readonly %s : %s;\n", constant.getName(), genType(constant.getType()));
       moreConstants = true;
     }
 
     boolean moreMethods = false;
     for (MethodInfo method : model.getMethods()) {
-      if (moreMethods) {
+      if (moreMethods || moreConstants) {
         writer.print("\n");
       }
 
