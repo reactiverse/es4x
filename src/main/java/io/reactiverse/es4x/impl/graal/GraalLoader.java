@@ -29,6 +29,7 @@ public class GraalLoader implements Loader<Value> {
 
   private final Context context;
   private final Value bindings;
+  private final Value module;
 
   public GraalLoader(final Vertx vertx) {
     this(
@@ -61,7 +62,7 @@ public class GraalLoader implements Loader<Value> {
       context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).internal(true).build());
       context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).internal(true).build());
       context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).internal(true).build());
-      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).internal(true).build());
+      module = context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).internal(true).build());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -92,7 +93,17 @@ public class GraalLoader implements Loader<Value> {
       main = "./" + main;
     }
     // invoke the main script
-    return require(main);
+    return invokeMethod(module, "runMain", main);
+  }
+
+  @Override
+  public Value worker(String main, String address) {
+    // patch the main path to be a relative path
+    if (!main.startsWith("./") && !main.startsWith("/")) {
+      main = "./" + main;
+    }
+    // invoke the main script
+    return invokeMethod(module, "runWorker", main, address);
   }
 
   @Override

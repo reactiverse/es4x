@@ -27,6 +27,8 @@ public interface Loader<T> {
 
   T main(String main);
 
+  T worker(String main, String address);
+
   T eval(String script) throws Exception;
 
   boolean hasMember(T thiz, String key);

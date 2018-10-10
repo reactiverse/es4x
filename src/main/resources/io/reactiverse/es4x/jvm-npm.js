@@ -100,7 +100,7 @@
     }.bind(this);
   }
 
-  Module._load = function _load(uri, parent, main) {
+  Module._load = function _load(uri, parent, main, workerAddress) {
     const module = new Module(uri, parent);
     const body = readFile(uri);
     const dir = getParent(uri);
@@ -116,23 +116,55 @@
         break;
     }
 
-    // wrap the module with a eval statement instead of Function object so we
-    // can preserve the correct line numbering during exceptions
-    const func = load({
-      script: '(function (exports, require, module, __filename, __dirname) { ' + body + '\n});',
-      name: sourceURL
-    });
+    if (workerAddress) {
 
-    func.apply(module, [module.exports, module.require, module, module.filename, dir]);
+      let workerContext = {
+        postMessage: function (msg) {
+          // this implementation is not totally correct as it should be
+          // a shallow copy not a full encode/decode of JSON payload, however
+          // this works better in vert.x as we can be interacting with any
+          // polyglot language or across the cluster
+          vertx.eventBus().send(workerAddress + '.in', JSON.stringify(msg));
+        }
+      };
 
-    module.loaded = true;
-    module.main = main;
-    return module.exports;
+      // wrap the module with a eval statement instead of Function object so we
+      // can preserve the correct line numbering during exceptions
+      const func = load({
+        script: '(function (self, require, postMessage, __filename, __dirname) { ' + body + '\n});',
+        name: sourceURL
+      });
+      func.apply(module, [workerContext, module.require, workerContext.postMessage, module.filename, dir]);
+      module.loaded = true;
+      module.main = main;
+      // we don't return the exported, but the worker context
+      return workerContext;
+    } else {
+      // wrap the module with a eval statement instead of Function object so we
+      // can preserve the correct line numbering during exceptions
+      const func = load({
+        script: '(function (exports, require, module, __filename, __dirname) { ' + body + '\n});',
+        name: sourceURL
+      });
+
+      func.apply(module, [module.exports, module.require, module, module.filename, dir]);
+      module.loaded = true;
+      module.main = main;
+      return module.exports;
+    }
   };
 
   Module.runMain = function runMain(main) {
     const uri = Require.resolve(main);
-    Module._load(uri, undefined, true);
+    return Module._load(uri, undefined, true, undefined);
+  };
+
+  Module.runWorker = function runWorker(main, address) {
+    if (!address) {
+      throw new ModuleError('Worker address must be supplied!', 'ADDRESS_NOT_FOUND');
+    }
+    const uri = Require.resolve(main);
+    return Module._load(uri, undefined, true, address);
   };
 
   function Require(id, parent) {
@@ -318,4 +350,6 @@
 
   ModuleError.prototype = new Error();
   ModuleError.prototype.constructor = ModuleError;
+
+  return Module;
 })(global || this);

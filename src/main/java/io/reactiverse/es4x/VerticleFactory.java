@@ -93,22 +93,15 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
           address = null;
         }
 
-        if (worker) {
-          // in the case of being a worker we need to define an extra function in the global scope `postMessage`
-          // define the postMessage function
-          engine.eval(
-            "(function (global) {\n" +
-              "  global.postMessage = function (aMessage) {\n" +
-              "    vertx.eventBus().send('" + address + ".in', JSON.stringify(aMessage));\n" +
-              "  };\n" +
-              "})(global || this);");
-        }
-
         // this can take some time to load so it might block the event loop
         // this is usually not a issue as it is a one time operation
         try {
           engine.enter();
-          self = engine.main(fsVerticleName);
+          if (worker) {
+            self = engine.worker(fsVerticleName, address);
+          } else {
+            self = engine.main(fsVerticleName);
+          }
         } catch (RuntimeException e) {
           startFuture.fail(e);
           return;
