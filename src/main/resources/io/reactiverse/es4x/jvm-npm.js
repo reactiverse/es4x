@@ -163,7 +163,17 @@
     if (!address) {
       throw new ModuleError('Worker address must be supplied!', 'ADDRESS_NOT_FOUND');
     }
-    const uri = Require.resolve(main);
+    // workers should supply a uri, so we only look in 2 roots
+    const uri =
+      // in the jar
+      resolveAsFile(main, 'jar://', '.js') ||
+      // from the current working dir
+      resolveAsFile(main, parsePaths('file://', System.getProperty("user.dir")), '.js');
+
+    if (!uri) {
+      throw new ModuleError('Module "' + id + '" was not found', 'MODULE_NOT_FOUND');
+    }
+
     return Module._load(uri, undefined, true, address);
   };
 
