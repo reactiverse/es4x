@@ -98,10 +98,6 @@ public class NashornLoader implements Loader<Object> {
 
   @Override
   public Object worker(String main, String address) {
-    // patch the main path to be a relative path
-    if (!main.startsWith("./") && !main.startsWith("/")) {
-      main = "./" + main;
-    }
     // invoke the main script
     return invokeMethod(module, "runWorker", main, address);
   }
