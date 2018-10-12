@@ -62,6 +62,7 @@ public class GraalLoader implements Loader<Value> {
       context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).internal(true).build());
       context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).internal(true).build());
       context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).internal(true).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/buffer.js")).internal(true).build());
       module = context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).internal(true).build());
     } catch (IOException e) {
       throw new RuntimeException(e);
