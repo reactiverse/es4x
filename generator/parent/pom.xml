@@ -15,9 +15,9 @@
 
   <properties>
     <!-- ES4X version -->
-    <es4x.version>0.5.3</es4x.version>
+    <es4x.version>0.5.5-SNAPSHOT</es4x.version>
     <!-- This version matches the stack version to be used -->
-    <stack.version>3.5.3</stack.version>
+    <stack.version>3.6.0-SNAPSHOT</stack.version>
     <!-- This is the source group id -->
     <maven.groupId>io.vertx</maven.groupId>
 
@@ -45,7 +45,7 @@
 
     <!-- allow to publish under a custom name -->
     <npm-name>${artifactId}</npm-name>
-    <npm-license>Apache Software License 2.0</npm-license>
+    <npm-license>Apache License 2.0</npm-license>
     <!-- a meta package has no code, just wraps a maven artifact -->
     <npm-meta-package>false</npm-meta-package>
     <!-- allow to publish to a different registry -->
@@ -94,7 +94,7 @@
     <!-- CORE -->
     <dependency>
       <groupId>io.reactiverse</groupId>
-      <artifactId>es4x</artifactId>
+      <artifactId>es4x-codegen</artifactId>
       <version>${es4x.version}</version>
     </dependency>
     <dependency>
@@ -155,7 +155,7 @@
               </processors>
               <optionMap>
                 <codegen.output>${project.basedir}</codegen.output>
-                <codegen.generators>es-generator</codegen.generators>
+                <codegen.generators>es4x-generator</codegen.generators>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
             </configuration>
@@ -207,6 +207,21 @@
                 <argument>publish</argument>
                 <argument>--access</argument>
                 <argument>public</argument>
+                <argument>--registry</argument>
+                <argument>${npm-registry}</argument>
+              </arguments>
+              <workingDirectory>${project.basedir}/npm</workingDirectory>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>npm-install</id>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>install</argument>
                 <argument>--registry</argument>
                 <argument>${npm-registry}</argument>
               </arguments>
