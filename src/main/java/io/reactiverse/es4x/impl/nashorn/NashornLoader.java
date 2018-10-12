@@ -59,7 +59,6 @@ public class NashornLoader implements Loader<Object> {
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/console.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/promise.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/worker.js");
-      engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/buffer.js");
       // install the commonjs loader
       module = engine.invokeFunction("load", "classpath:io/reactiverse/es4x/jvm-npm.js");
       // get a reference to the require function
