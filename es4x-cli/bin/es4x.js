@@ -353,10 +353,10 @@ program
   });
 
 program
-  .command('shell')
+  .command('shell [args...]')
   .option('-g, --graal', 'Run the builtin Graal Shell')
   .description('Starts a REPL with the current project in the classpath')
-  .action(function (options) {
+  .action(function (args, options) {
 
     let shell = options.graal ? 'java' : 'jjs';
 
@@ -372,6 +372,14 @@ program
         console.log('please load vertx into the shell: ' + c.yellow.bold('load(\'classpath:vertx.js\');'));
       } else {
         params.push('io.reactiverse.es4x.GraalShell');
+      }
+
+      if (args && Array.isArray(args) && args.length > 0) {
+        if (shell === 'jjs') {
+          // as of now it's not jjs args but app args
+          params.push('--');
+        }
+        params = params.concat(args);
       }
 
       // Releasing stdin
