@@ -73,7 +73,7 @@
     throw new ModuleError('Cannot handle scheme [' + uri.getScheme() + ']: ', 'IO_ERROR');
   }
 
-  function Module(id, parent) {
+  function Module(id, parent, alias) {
     this.id = id;
     this.parent = parent;
     this.children = [];
@@ -85,7 +85,7 @@
         return this._exports;
       }.bind(this),
       set: function (val) {
-        Require.cache[this.filename] = val;
+        Require.cache[alias ? alias.toString() : this.filename] = val;
         this._exports = val;
       }.bind(this)
     });
@@ -100,8 +100,8 @@
     }.bind(this);
   }
 
-  Module._load = function _load(uri, parent, main, workerAddress) {
-    const module = new Module(uri, parent);
+  Module._load = function _load(uri, parent, main, workerAddress, alias) {
+    const module = new Module(uri, parent, alias);
     const body = readFile(uri);
     const dir = getParent(uri);
 
@@ -186,6 +186,8 @@
 
     if (Require.cache[uri]) {
       return Require.cache[uri];
+    } else if (Require.alias[uri]) {
+      return Module._load(Require.alias[uri], parent, undefined, undefined, uri);
     } else if (uri.getPath().endsWith('.js')) {
       return Module._load(uri, parent);
     } else if (uri.getPath().endsWith('.json')) {
@@ -286,6 +288,9 @@
 
   Require.cache = {};
   Require.extensions = {};
+  // extension (non standard)
+  Require.alias = {};
+
   global.require = Require;
 
   function loadJSON(uri) {
@@ -308,6 +313,15 @@
       try {
         const body = readFile(uri);
         const package_ = JSON.parse(body);
+        // add alias to alias cache
+        if (package_.es4xAlias) {
+          for (let k in package_.es4xAlias) {
+            if (package_.es4xAlias.hasOwnProperty(k)) {
+              Require.alias[new URI([base, 'node_modules', k].join('/')).normalize()] = new URI([base, package_.es4xAlias[k]].join('/')).normalize();
+            }
+          }
+        }
+        // resolve main if present
         if (package_.main) {
           return (resolveAsFile(package_.main, base) ||
             resolveAsDirectory(package_.main, base));
