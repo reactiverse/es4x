@@ -122,6 +122,11 @@ doesn't at the kangax compat table project.
 For reference you can expect that `JDK1.8` will be less feature rich as it only contains **7%** of the spec implemented,
 `JDK10` implements **28%** while `GraalVM` implements **97%**.
 
+### Working with NPM
+
+ES4X tries to be compliant with `commonjs` modules, however please note that ES4X
+is **NOT** a nodejs runtime so no node specific modules are available. For more information
+on modules please read the [modules](./MODULES) doc.
 
 ### Running your app
 
