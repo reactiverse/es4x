@@ -31,6 +31,10 @@ public interface Loader<T> {
 
   T eval(String script) throws Exception;
 
+  default T evalLiteral(CharSequence script) throws Exception {
+    return eval(script.toString());
+  }
+
   boolean hasMember(T thiz, String key);
 
   T invokeMethod(T thiz, String method, Object... args);

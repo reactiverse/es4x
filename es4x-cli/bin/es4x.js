@@ -354,11 +354,8 @@ program
 
 program
   .command('shell [args...]')
-  .option('-g, --graal', 'Run the builtin Graal Shell')
   .description('Starts a REPL with the current project in the classpath')
-  .action(function (args, options) {
-
-    let shell = options.graal ? 'java' : 'jjs';
+  .action(function (args) {
 
     generateClassPath(function (classPath) {
       let params = [
@@ -366,26 +363,16 @@ program
         classPath
       ];
 
-      if (shell === 'jjs') {
-        params.push('--language=es6');
-        // give some instructions...
-        console.log('please load vertx into the shell: ' + c.yellow.bold('load(\'classpath:vertx.js\');'));
-      } else {
-        params.push('io.reactiverse.es4x.GraalShell');
-      }
+      params.push('io.reactiverse.es4x.Shell');
 
       if (args && Array.isArray(args) && args.length > 0) {
-        if (shell === 'jjs') {
-          // as of now it's not jjs args but app args
-          params.push('--');
-        }
         params = params.concat(args);
       }
 
       // Releasing stdin
       process.stdin.setRawMode(false);
 
-      spawn(shell, params, {stdio: [0, 1, 2]})
+      spawn('java', params, {stdio: [0, 1, 2]})
         .on("exit", function (code) {
           // Don't forget to switch pseudo terminal on again
           process.stdin.setRawMode(true);

@@ -179,14 +179,14 @@ When working in a more interactive mode you'll be able to use the standard Nasho
 if you just want a REPL to be available in your Graal runtime you can switch the main class of your runnable jar to:
 
 ```
-io.reactiverse.es4x.GraalShell
+io.reactiverse.es4x.Shell
 ```
 
 Using this `main` will allow you to pass any configuration to your vertx instance by using a `kebab` case format
 prefixed with a `-` sign. For example to start a clustered shell:
 
 ```sh
-java -cp your_fatjar.jar io.reactiverse.es4x.GraalShell -clustered ./index.js
+java -cp your_fatjar.jar io.reactiverse.es4x.Shell -clustered ./index.js
 ```
 
 The if no script is passed then the shell will be just a bootstrapped environment. You will be able to

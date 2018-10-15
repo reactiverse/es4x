@@ -15,13 +15,12 @@
  */
 package io.reactiverse.es4x.impl.graal;
 
+import io.reactiverse.es4x.FatalException;
+import io.reactiverse.es4x.IncompleteSourceException;
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.Engine;
-import org.graalvm.polyglot.Source;
-import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.*;
 
 import java.io.IOException;
 
@@ -105,6 +104,28 @@ public class GraalLoader implements Loader<Value> {
   @Override
   public Value eval(String script) {
     return context.eval("js", script);
+  }
+
+  @Override
+  public Value evalLiteral(CharSequence literal) throws IncompleteSourceException, FatalException {
+
+    try {
+      final Source source = Source
+        .newBuilder("js", literal, "<shell>")
+        .interactive(true)
+        .buildLiteral();
+
+      return context.eval(source);
+    } catch (PolyglotException e) {
+      if (e.isIncompleteSource()) {
+        throw new IncompleteSourceException(e);
+      }
+      if (e.isExit()) {
+        throw new FatalException(e);
+      }
+
+      throw e;
+    }
   }
 
   @Override
