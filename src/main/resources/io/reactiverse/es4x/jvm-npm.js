@@ -156,6 +156,10 @@
 
   Module.runMain = function runMain(main) {
     const uri = Require.resolve(main);
+
+    if (!uri) {
+      throw new ModuleError('Module "' + main + '" was not found', 'MODULE_NOT_FOUND');
+    }
     return Module._load(uri, undefined, true, undefined);
   };
 
@@ -171,7 +175,7 @@
       resolveAsFile(main, parsePaths('file://', System.getProperty("user.dir")), '.js');
 
     if (!uri) {
-      throw new ModuleError('Module "' + id + '" was not found', 'MODULE_NOT_FOUND');
+      throw new ModuleError('Module "' + main + '" was not found', 'MODULE_NOT_FOUND');
     }
 
     return Module._load(uri, undefined, true, address);
