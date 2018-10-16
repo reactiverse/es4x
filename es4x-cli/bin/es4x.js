@@ -301,14 +301,7 @@ program
     // if the file 'target/classpath.txt' doesn't exist then we
     // need to run maven as a prepare step
     generateClassPath(function (classPath) {
-      let params = [
-        '-cp',
-        classPath
-      ];
-
-      if (options.debug || options.inspect) {
-        params.push('-Dvertx.options.blockedThreadCheckInterval=100000')
-      }
+      let params = [];
 
       if (options.debug) {
         if (options.debug === true) {
@@ -327,13 +320,20 @@ program
       if (options.inspect) {
         if (options.inspect === true) {
           console.log(c.yellow.bold('Chrome devtools listening at port: 9229'));
-          params.push('-Dpolyglot.inspect=9292');
           params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
+          params.push('-Dpolyglot.inspect=9229');
         } else {
           console.log(c.yellow.bold('Chrome devtools listenting at: ' + options.inspect));
-          params.push('-Dpolyglot.inspect=' + options.inspect);
           params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
+          params.push('-Dpolyglot.inspect=' + options.inspect);
         }
+      }
+
+      params.push('-cp', classPath);
+
+      if (options.debug || options.inspect) {
+        // in debug delay thread checks
+        params.push('-Dvertx.options.blockedThreadCheckInterval=100000')
       }
 
       params.push('io.vertx.core.Launcher');
