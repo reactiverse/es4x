@@ -131,7 +131,7 @@ public class GraalLoader implements Loader<Value> {
                 uri = new URI("file://" + name);
               }
 
-              source = Source.newBuilder("js", script, "<module-wrapper>").uri(uri).build();
+              source = Source.newBuilder("js", script, name.toString()).uri(uri).build();
             } else {
               source = Source.newBuilder("js", script, "<module-wrapper>").build();
             }
