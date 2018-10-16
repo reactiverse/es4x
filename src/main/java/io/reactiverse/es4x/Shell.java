@@ -46,7 +46,7 @@ public class Shell {
     return sb.toString();
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
 
     final Runtime runtime = Runtime.getCurrent();
 
@@ -93,67 +93,74 @@ public class Shell {
       }
     }
 
+    // create the vertx instance that will boostrap the whole process
     final Vertx vertx = runtime.vertx(options);
+    final String main = script;
 
-    runtime.registerCodec(vertx);
+    // move the context to the event loop
+    vertx.runOnContext(v -> {
+      runtime.registerCodec(vertx);
 
-    final Loader loader = runtime.loader(vertx);
+      final Loader loader = runtime.loader(vertx);
 
-    if (script != null) {
-      loader.main(script);
-    } else {
-      try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
-        final StringBuilder buffer = new StringBuilder();
-        for (; ; ) {
-          try {
-            if (buffer.length() == 0) {
-              System.out.print("> ");
-            } else {
-              System.out.print("| ");
-            }
-
-            String line = input.readLine();
-            if (line == null) {
-              break;
-            }
-            buffer.append(line);
-
-            System.out.println("\u001B[1;90m" + loader.evalLiteral(buffer) + "\u001B[0m");
-            // reset the buffer
-            buffer.setLength(0);
-          } catch (IncompleteSourceException t) {
-            // incomplete source, do not handle as error and
-            // continue appending to the previous buffer
-            continue;
-          } catch (FatalException t) {
-            // polyglot engine is requesting to exit
-            break;
-          } catch (Exception t) {
-            // reset the buffer as the source is complete
-            // but there's an error anyway
-            buffer.setLength(0);
-            // collect the trace back to a string
-            try (StringWriter sw = new StringWriter()) {
-              PrintWriter pw = new PrintWriter(sw);
-              t.printStackTrace(pw);
-              String sStackTrace = sw.toString(); // stack trace as a string
-              int idx = sStackTrace.indexOf("\n\tat");
-              if (idx != -1) {
-                System.out.print("\u001B[1m\u001B[31m" + sStackTrace.substring(0, idx) + "\u001B[0m");
-                System.out.println(sStackTrace.substring(idx));
+      if (main != null) {
+        loader.main(main);
+      } else {
+        try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
+          final StringBuilder buffer = new StringBuilder();
+          for (; ; ) {
+            try {
+              if (buffer.length() == 0) {
+                System.out.print("> ");
               } else {
-                System.out.println(sStackTrace);
+                System.out.print("| ");
+              }
+
+              String line = input.readLine();
+              if (line == null) {
+                break;
+              }
+              buffer.append(line);
+
+              System.out.println("\u001B[1;90m" + loader.evalLiteral(buffer) + "\u001B[0m");
+              // reset the buffer
+              buffer.setLength(0);
+            } catch (IncompleteSourceException t) {
+              // incomplete source, do not handle as error and
+              // continue appending to the previous buffer
+            } catch (FatalException t) {
+              // polyglot engine is requesting to exit
+              break;
+            } catch (Exception t) {
+              // reset the buffer as the source is complete
+              // but there's an error anyway
+              buffer.setLength(0);
+              // collect the trace back to a string
+              try (StringWriter sw = new StringWriter()) {
+                PrintWriter pw = new PrintWriter(sw);
+                t.printStackTrace(pw);
+                String sStackTrace = sw.toString(); // stack trace as a string
+                int idx = sStackTrace.indexOf("\n\tat");
+                if (idx != -1) {
+                  System.out.print("\u001B[1m\u001B[31m" + sStackTrace.substring(0, idx) + "\u001B[0m");
+                  System.out.println(sStackTrace.substring(idx));
+                } else {
+                  System.out.println(sStackTrace);
+                }
               }
             }
           }
-        }
-        // REPL is cancelled, close the loader
-        try {
-          loader.close();
-        } catch (RuntimeException e) {
-          // ignore...
+          // REPL is cancelled, close the loader
+          try {
+            loader.close();
+          } catch (RuntimeException e) {
+            // ignore...
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+          System.exit(1);
         }
       }
-    }
+    });
   }
 }

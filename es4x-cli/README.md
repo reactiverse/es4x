@@ -73,21 +73,14 @@ An example running tests would be after adding `vertx-unit` to the
 
 ## Shell
 
-Once you have your code packaged you can run it as a runnable jar or even
-run it using the `shell`. Be aware that the `shell` not not `node` but
-Nashorn the JVM JavaScript engine. You can run it as:
+You can run your code from a shell by executing the command:
 
 ```sh
-jjs -cp target/yourapp-1.0.0-fat.jar
+es4x shell
 ```
 
-or from the script.
+or if you package your application into a java `jar` file:
 
-Once the `REPL` starts you can load vert.x and your code e.g.:
-
-```js
-// this will initialize all the Vert.x Runtime Objects
-load('classpath:vertx.js');
-// run your verticle:
-require('path/to/your/verticle');
+```bash
+java -jar your-jar.jar io.reactiverse.es4x.Shell
 ```

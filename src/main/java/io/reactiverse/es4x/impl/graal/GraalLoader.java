@@ -22,7 +22,14 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Map;
+import java.util.function.Function;
 
 public class GraalLoader implements Loader<Value> {
 
@@ -42,6 +49,32 @@ public class GraalLoader implements Loader<Value> {
     );
   }
 
+  private static String getCWD() {
+    // clean up the current working dir
+    String cwdOverride = System.getProperty("vertx.cwd");
+    String cwd;
+    // are the any overrides?
+    if (cwdOverride != null) {
+      cwd = new File(cwdOverride).getAbsolutePath();
+    } else {
+      cwd = System.getProperty("user.dir");
+    }
+    // ensure it's not null
+    if (cwd == null) {
+      cwd = "";
+    }
+
+    // all paths are unix paths
+    cwd = cwd.replace('\\', '/');
+    // ensure it ends with /
+    if (cwd.charAt(cwd.length() - 1) != '/') {
+      cwd += '/';
+    }
+
+    // append the required prefix
+    return "file://" + cwd;
+  }
+
   public GraalLoader(final Vertx vertx, Context context) {
 
     this.context = context;
@@ -53,15 +86,75 @@ public class GraalLoader implements Loader<Value> {
     // add vertx as a global
     bindings.putMember("vertx", vertx);
 
+    // clean up the current working dir
+    final String cwd = getCWD();
+
+    // override the default load function to allow proper mapping of file for debugging
+    bindings.putMember("load", new Function<Object, Value>() {
+      @Override
+      public Value apply(Object value) {
+
+        try {
+          final Source source;
+
+          if (value instanceof String) {
+            // a path or url in string format
+            try {
+              // try to parse as URL
+              return apply(new URL((String) value));
+            } catch (MalformedURLException murle) {
+              // on failure fallback to file
+              return apply(new File((String) value));
+            }
+          }
+          else if (value instanceof URL) {
+            // a url
+            source = Source.newBuilder("js", (URL) value).build();
+          }
+          else if (value instanceof File) {
+            // a local file
+            source = Source.newBuilder("js", (File) value).build();
+          }
+          else if (value instanceof Map) {
+            // a json document
+            final CharSequence script = (CharSequence) ((Map) value).get("script");
+            // might be optional
+            final CharSequence name = (CharSequence) ((Map) value).get("name");
+
+            if (name != null && name.length() > 0) {
+              final URI uri;
+              if (name.charAt(0) != '/') {
+                // relative uri
+                uri = new URI(cwd + name);
+              } else {
+                // absolute uri
+                uri = new URI("file://" + name);
+              }
+
+              source = Source.newBuilder("js", script, "<module-wrapper>").uri(uri).build();
+            } else {
+              source = Source.newBuilder("js", script, "<module-wrapper>").build();
+            }
+          } else {
+            throw new RuntimeException("TypeError: cannot load [" + value.getClass() + "]");
+          }
+
+          return context.eval(source);
+        } catch (IOException | URISyntaxException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    });
+
     // load all the polyfills
     try {
-      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).internal(true).build());
-      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).internal(true).build());
-      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).internal(true).build());
-      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).internal(true).build());
-      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).internal(true).build());
-      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).internal(true).build());
-      module = context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).internal(true).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).build());
+      module = context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).build());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
