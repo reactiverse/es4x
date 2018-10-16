@@ -39,12 +39,10 @@ public class FactoryTest {
     final Async async = ctx.async();
     vertx.deployVerticle("js:./verticle2.js", deploy -> {
       ctx.assertTrue(deploy.succeeded());
-      vertx.setTimer(1000L, t -> {
-        vertx.undeploy(deploy.result(), undeploy -> {
-          ctx.assertTrue(undeploy.succeeded());
-          async.complete();
-        });
-      });
+      vertx.setTimer(1000L, t -> vertx.undeploy(deploy.result(), undeploy -> {
+        ctx.assertTrue(undeploy.succeeded());
+        async.complete();
+      }));
     });
   }
 

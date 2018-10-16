@@ -2,19 +2,24 @@
 
 This is the EcmaScript (5.1+) language support for [Eclipse Vert.x](http://vertx.io)
 
-[![Build Status](https://travis-ci.org/reactiverse/es4x.svg?branch=develop)](https://travis-ci.org/reactiverse/es4x)
+[![Build Status](https://travis-ci.org/reactiverse/es4x.svg?branch=develop)](https://travis-ci.org/reactiverse/es4x) [![Join the chat at https://gitter.im/es4x/Lobby](https://badges.gitter.im/es4x/Lobby.svg)](https://gitter.im/es4x/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Usage
 
 Create a project:
 
 ```
+# create a generic project
 mkdir my-app
 cd my-app
 npm init -y
-npm add vertx-scripts --save-dev
-npm add @vertx/unit --save-dev
-npm add @vertx/core --save-prod
+# init the es4x bits
+npx es4x-cli init
+# add dependencies
+npm install @vertx/unit --save-dev
+npm install @vertx/core --save-prod
+# will trigger the download
+# of the java dependencies
 npm install
 ```
 

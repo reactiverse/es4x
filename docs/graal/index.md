@@ -61,19 +61,19 @@ result, so there is currently no support for multiline scripts.
 To start a REPL you can execute:
 
 ```sh
-java -cp your_fatjar.jar io.reactiverse.es4x.GraalShell
+java -cp your_fatjar.jar io.reactiverse.es4x.Shell
 ```
 
 If you need to pass arguments to your REPL, say for example, that you would like to have `cluster` support, then use the
 `kebab` notation in the arguments as:
 
 ```sh
-java -cp your_fatjar.jar io.reactiverse.es4x.GraalShell -clustered
+java -cp your_fatjar.jar io.reactiverse.es4x.Shell -clustered
 ```
 
 If the last argument is not in the `kebab` format it is assumed that is the startup script and will be executed on
 start:
 
 ```sh
-java -cp your_fatjar.jar io.reactiverse.es4x.GraalShell -clustered ./index.js
+java -cp your_fatjar.jar io.reactiverse.es4x.Shell -clustered ./index.js
 ```

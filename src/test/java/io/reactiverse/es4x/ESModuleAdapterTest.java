@@ -1,6 +1,5 @@
 package io.reactiverse.es4x;
 
-import io.reactiverse.es4x.ESModuleAdapter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -208,6 +207,6 @@ public class ESModuleAdapterTest {
       "    router.accept(req);\n"+
       "}).listen(8080);";
 
-    assertFalse(ESModuleAdapter.adapt(file).equals(file));
+    assertNotEquals(ESModuleAdapter.adapt(file), file);
   }
 }

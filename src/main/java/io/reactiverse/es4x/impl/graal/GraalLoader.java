@@ -15,37 +15,27 @@
  */
 package io.reactiverse.es4x.impl.graal;
 
+import io.reactiverse.es4x.FatalException;
+import io.reactiverse.es4x.IncompleteSourceException;
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
-import io.vertx.core.file.FileSystem;
 import io.vertx.core.json.JsonObject;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.Engine;
-import org.graalvm.polyglot.Source;
-import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.*;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Map;
+import java.util.function.Function;
 
 public class GraalLoader implements Loader<Value> {
 
-  private static final String EVENTBUS_JSOBJECT_AOT_CLASS;
-
-  static {
-    // if this code is used in a native image avoid the reflection guess game
-    // and hard code the expected class to be a PolyglotMap
-    if (System.getProperty("org.graalvm.nativeimage.imagecode") != null) {
-      EVENTBUS_JSOBJECT_AOT_CLASS = "com.oracle.truffle.polyglot.PolyglotMap";
-    } else {
-      EVENTBUS_JSOBJECT_AOT_CLASS = null;
-    }
-  }
-
   private final Context context;
   private final Value bindings;
-  private final FileSystem fs;
-
+  private final Value module;
 
   public GraalLoader(final Vertx vertx) {
     this(
@@ -59,11 +49,36 @@ public class GraalLoader implements Loader<Value> {
     );
   }
 
+  private static String getCWD() {
+    // clean up the current working dir
+    String cwdOverride = System.getProperty("vertx.cwd");
+    String cwd;
+    // are the any overrides?
+    if (cwdOverride != null) {
+      cwd = new File(cwdOverride).getAbsolutePath();
+    } else {
+      cwd = System.getProperty("user.dir");
+    }
+    // ensure it's not null
+    if (cwd == null) {
+      cwd = "";
+    }
+
+    // all paths are unix paths
+    cwd = cwd.replace('\\', '/');
+    // ensure it ends with /
+    if (cwd.charAt(cwd.length() - 1) != '/') {
+      cwd += '/';
+    }
+
+    // append the required prefix
+    return "file://" + cwd;
+  }
+
   public GraalLoader(final Vertx vertx, Context context) {
 
     this.context = context;
     this.bindings = this.context.getBindings("js");
-    this.fs = vertx.fileSystem();
 
     // remove the exit and quit functions
     bindings.removeMember("exit");
@@ -71,41 +86,75 @@ public class GraalLoader implements Loader<Value> {
     // add vertx as a global
     bindings.putMember("vertx", vertx);
 
-    final AtomicReference<Class<?>> holder = new AtomicReference<>();
+    // clean up the current working dir
+    final String cwd = getCWD();
 
-    // This is not used until graal native images / ES4X support passing object from Java to JS
-    if (EVENTBUS_JSOBJECT_AOT_CLASS == null) {
-      final Consumer callback = value -> holder.set(value.getClass());
-      try {
-        context.eval(
-          Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").internal(true).build()
-        ).execute(callback);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+    // override the default load function to allow proper mapping of file for debugging
+    bindings.putMember("load", new Function<Object, Value>() {
+      @Override
+      public Value apply(Object value) {
+
+        try {
+          final Source source;
+
+          if (value instanceof String) {
+            // a path or url in string format
+            try {
+              // try to parse as URL
+              return apply(new URL((String) value));
+            } catch (MalformedURLException murle) {
+              // on failure fallback to file
+              return apply(new File((String) value));
+            }
+          }
+          else if (value instanceof URL) {
+            // a url
+            source = Source.newBuilder("js", (URL) value).build();
+          }
+          else if (value instanceof File) {
+            // a local file
+            source = Source.newBuilder("js", (File) value).build();
+          }
+          else if (value instanceof Map) {
+            // a json document
+            final CharSequence script = (CharSequence) ((Map) value).get("script");
+            // might be optional
+            final CharSequence name = (CharSequence) ((Map) value).get("name");
+
+            if (name != null && name.length() > 0) {
+              final URI uri;
+              if (name.charAt(0) != '/') {
+                // relative uri
+                uri = new URI(cwd + name);
+              } else {
+                // absolute uri
+                uri = new URI("file://" + name);
+              }
+
+              source = Source.newBuilder("js", script, name.toString()).uri(uri).build();
+            } else {
+              source = Source.newBuilder("js", script, "<module-wrapper>").build();
+            }
+          } else {
+            throw new RuntimeException("TypeError: cannot load [" + value.getClass() + "]");
+          }
+
+          return context.eval(source);
+        } catch (IOException | URISyntaxException e) {
+          throw new RuntimeException(e);
+        }
       }
-    } else {
-      try {
-        holder.set(Class.forName(EVENTBUS_JSOBJECT_AOT_CLASS));
-      } catch (ClassNotFoundException e) {
-        throw new RuntimeException(e);
-      }
-    }
+    });
 
-    // register a default codec to allow JSON messages directly from GraalVM to the JVM world
-    vertx.eventBus()
-      .unregisterDefaultCodec(holder.get())
-      .registerDefaultCodec(holder.get(), new JSObjectMessageCodec<>(bindings.getMember("JSON")));
-
-    // add polyfills
+    // load all the polyfills
     try {
-      load("io/reactiverse/es4x/polyfill/json.js");
-      load("io/reactiverse/es4x/polyfill/global.js");
-      load("io/reactiverse/es4x/polyfill/date.js");
-      load("io/reactiverse/es4x/polyfill/console.js");
-      load("io/reactiverse/es4x/polyfill/promise.js");
-      load("io/reactiverse/es4x/polyfill/worker.js");
-      // install the commonjs loader
-      load("io/reactiverse/es4x/jvm-npm.js");
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).build());
+      context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).build());
+      module = context.eval(Source.newBuilder("js", Loader.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).build());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -113,7 +162,7 @@ public class GraalLoader implements Loader<Value> {
 
   @Override
   public String name() {
-    return "GraalVM";
+    return "GraalJS";
   }
 
   @Override
@@ -136,12 +185,40 @@ public class GraalLoader implements Loader<Value> {
       main = "./" + main;
     }
     // invoke the main script
-    return require(main);
+    return invokeMethod(module, "runMain", main);
+  }
+
+  @Override
+  public Value worker(String main, String address) {
+    // invoke the main script
+    return invokeMethod(module, "runWorker", main, address);
   }
 
   @Override
   public Value eval(String script) {
     return context.eval("js", script);
+  }
+
+  @Override
+  public Value evalLiteral(CharSequence literal) throws IncompleteSourceException, FatalException {
+
+    try {
+      final Source source = Source
+        .newBuilder("js", literal, "<shell>")
+        .interactive(true)
+        .buildLiteral();
+
+      return context.eval(source);
+    } catch (PolyglotException e) {
+      if (e.isIncompleteSource()) {
+        throw new IncompleteSourceException(e);
+      }
+      if (e.isExit()) {
+        throw new FatalException(e);
+      }
+
+      throw e;
+    }
   }
 
   @Override
@@ -192,9 +269,5 @@ public class GraalLoader implements Loader<Value> {
 
   public Value eval(Source source) {
     return context.eval(source);
-  }
-
-  private void load(String filename) throws IOException {
-    context.eval(Source.newBuilder("js", fs.readFileBlocking(filename).toString(), filename).build());
   }
 }

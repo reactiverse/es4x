@@ -73,11 +73,11 @@
     throw new ModuleError('Cannot handle scheme [' + uri.getScheme() + ']: ', 'IO_ERROR');
   }
 
-  function Module(id, parent) {
+  function Module(id, parent, alias) {
     this.id = id;
     this.parent = parent;
     this.children = [];
-    this.filename = id;
+    this.filename = id.toString();
     this.loaded = false;
 
     Object.defineProperty(this, 'exports', {
@@ -85,7 +85,7 @@
         return this._exports;
       }.bind(this),
       set: function (val) {
-        Require.cache[this.filename] = val;
+        Require.cache[alias ? alias.toString() : this.filename] = val;
         this._exports = val;
       }.bind(this)
     });
@@ -100,8 +100,8 @@
     }.bind(this);
   }
 
-  Module._load = function _load(uri, parent, main) {
-    const module = new Module(uri.toString(), parent);
+  Module._load = function _load(uri, parent, main, workerAddress, alias) {
+    const module = new Module(uri, parent, alias);
     const body = readFile(uri);
     const dir = getParent(uri);
 
@@ -116,23 +116,69 @@
         break;
     }
 
-    // wrap the module with a eval statement instead of Function object so we
-    // can preserve the correct line numbering during exceptions
-    const func = load({
-      script: 'function (exports, module, require, __filename, __dirname) { ' + body + '\n}',
-      name: sourceURL
-    });
+    if (workerAddress) {
 
-    func.apply(module, [module.exports, module, module.require, module.filename, dir]);
+      let workerContext = {
+        postMessage: function (msg) {
+          // this implementation is not totally correct as it should be
+          // a shallow copy not a full encode/decode of JSON payload, however
+          // this works better in vert.x as we can be interacting with any
+          // polyglot language or across the cluster
+          vertx.eventBus().send(workerAddress + '.in', JSON.stringify(msg));
+        }
+      };
 
-    module.loaded = true;
-    module.main = main;
-    return module.exports;
+      // wrap the module with a eval statement instead of Function object so we
+      // can preserve the correct line numbering during exceptions
+      const func = load({
+        script: '(function (self, require, postMessage, __filename, __dirname) { ' + body + '\n});',
+        name: sourceURL
+      });
+      func.apply(module, [workerContext, module.require, workerContext.postMessage, module.filename, dir]);
+      module.loaded = true;
+      module.main = main;
+      // we don't return the exported, but the worker context
+      return workerContext;
+    } else {
+      // wrap the module with a eval statement instead of Function object so we
+      // can preserve the correct line numbering during exceptions
+      const func = load({
+        script: '(function (exports, require, module, __filename, __dirname) { ' + body + '\n});',
+        name: sourceURL
+      });
+
+      func.apply(module, [module.exports, module.require, module, module.filename, dir]);
+      module.loaded = true;
+      module.main = main;
+      return module.exports;
+    }
   };
 
   Module.runMain = function runMain(main) {
     const uri = Require.resolve(main);
-    Module._load(uri, undefined, true);
+
+    if (!uri) {
+      throw new ModuleError('Module "' + main + '" was not found', 'MODULE_NOT_FOUND');
+    }
+    return Module._load(uri, undefined, true, undefined);
+  };
+
+  Module.runWorker = function runWorker(main, address) {
+    if (!address) {
+      throw new ModuleError('Worker address must be supplied!', 'ADDRESS_NOT_FOUND');
+    }
+    // workers should supply a uri, so we only look in 2 roots
+    const uri =
+      // in the jar
+      resolveAsFile(main, 'jar://', '.js') ||
+      // from the current working dir
+      resolveAsFile(main, parsePaths('file://', System.getProperty("user.dir")), '.js');
+
+    if (!uri) {
+      throw new ModuleError('Module "' + main + '" was not found', 'MODULE_NOT_FOUND');
+    }
+
+    return Module._load(uri, undefined, true, address);
   };
 
   function Require(id, parent) {
@@ -144,6 +190,8 @@
 
     if (Require.cache[uri]) {
       return Require.cache[uri];
+    } else if (Require.alias[uri]) {
+      return Module._load(Require.alias[uri], parent, undefined, undefined, uri);
     } else if (uri.getPath().endsWith('.js')) {
       return Module._load(uri, parent);
     } else if (uri.getPath().endsWith('.json')) {
@@ -175,25 +223,21 @@
     return false;
   };
 
-  Require.NODE_PATH = undefined;
-
   function findRoots(parent) {
     if (!parent || !parent.id) {
       return Require.paths();
     }
-
-    return [findRoot(parent)].concat(Require.paths());
+    // always prepend the current parent dir
+    return [parent.id.resolve('.')].concat(Require.paths());
   }
 
   function parsePaths(prefix, paths, suffix) {
-    var out = [];
+    const out = [];
 
     if (!paths) {
       return out;
     }
-    if (paths === '') {
-      return out;
-    }
+
     const osName = System.getProperty('os.name').toLowerCase();
     let separator;
 
@@ -208,6 +252,16 @@
     // append the desired prefix, suffix
     paths.split(separator).forEach(function (p) {
       if (p) {
+        // all paths need to be absolute
+        if (p.indexOf('./') === 0) {
+          let cwd = System.getProperty("user.dir");
+          if (cwd.length > 0) {
+            if (cwd[cwd.length - 1] !== '/') {
+              cwd += '/';
+            }
+          }
+          p = cwd + p.substr(2);
+        }
         out.push((prefix || '') + p + (suffix || ''));
       }
     });
@@ -219,34 +273,28 @@
     let r = [
       // classpath resources
       'jar://'
-    ];
+    ]
     // current working dir
-    r = r.concat(parsePaths('file://', System.getProperty("user.dir")));
+    .concat(parsePaths('file://', System.getProperty("user.dir")))
     // user node modules cache
-    r = r.concat(parsePaths('file://', System.getProperty('user.home'), '/.node_modules'));
+    .concat(parsePaths('file://', System.getProperty('user.home'), '/.node_modules'))
     // user node libraries cache
-    r = r.concat(parsePaths('file://', System.getProperty('user.home'), '/.node_libraries'));
+    .concat(parsePaths('file://', System.getProperty('user.home'), '/.node_libraries'));
 
-    if (Require.NODE_PATH) {
-      r = r.concat(parsePaths('file://', Require.NODE_PATH));
-    } else {
-      let NODE_PATH = System.getenv('NODE_PATH');
-      if (NODE_PATH) {
-        r = r.concat(parsePaths('file://', NODE_PATH));
-      }
+    let NODE_PATH = process.env['NODE_PATH'];
+    if (NODE_PATH) {
+      // NODE_PATH takes precedence
+      r = parsePaths('file://', NODE_PATH).concat(r);
     }
 
     return r;
   };
 
-  function findRoot(parent) {
-    let pathParts = parent.id.split(/[\/|\\,]+/g);
-    pathParts.pop();
-    return pathParts.join('/');
-  }
-
   Require.cache = {};
   Require.extensions = {};
+  // extension (non standard)
+  Require.alias = {};
+
   global.require = Require;
 
   function loadJSON(uri) {
@@ -269,6 +317,15 @@
       try {
         const body = readFile(uri);
         const package_ = JSON.parse(body);
+        // add alias to alias cache
+        if (package_.es4xAlias) {
+          for (let k in package_.es4xAlias) {
+            if (package_.es4xAlias.hasOwnProperty(k)) {
+              Require.alias[new URI([base, 'node_modules', k].join('/')).normalize()] = new URI([base, package_.es4xAlias[k]].join('/')).normalize();
+            }
+          }
+        }
+        // resolve main if present
         if (package_.main) {
           return (resolveAsFile(package_.main, base) ||
             resolveAsDirectory(package_.main, base));
@@ -321,5 +378,6 @@
 
   ModuleError.prototype = new Error();
   ModuleError.prototype.constructor = ModuleError;
+
+  return Module;
 })(global || this);
-//# sourceURL=src/main/resources/io/reactiverse/es4x/jvm-npm.js

@@ -1,9 +1,5 @@
 sudo: false
 language: java
-jdk:
-- oraclejdk8
-- oraclejdk9
-- oraclejdk10
 notifications:
   email:
   - pmlopes@gmail.com
@@ -12,9 +8,50 @@ env:
   - secure: RW98CXIpIhMm17UFI7NsFZmmpPOe48IT2R1vKonLkG37av6wTOrVjLZlpihTrIGUuyJsIvrOrM2tybzT+Cq2o1/h4P9XxufzUdyHabh4Ppk1cSQzfEL/vKwBU8HFgUwsuRKVjhowKUXAwKhDtU+oorJWiFqrv1JC/boJOwT71qOZqPdu6A5s7+ubcdUCimwFI0XNGzBZ+phtcdE4dVC5l176/sJVoCGaefG+cZxjCU6AvWnVcPz9POZvtpHvZU1pE26LKgMIiPPgDdxg1oRpcOVPSTKw9Zu9lI1VqfrBj/6k4TsyEWujFtVO9RS0EeMjw6N9diIocdajAhMcSlihytMrBK8DTShnNCaSwxEaqFZUtiY0ZOvYxo9RU0QBGaADvMz5qC701Kmq0eJvDCjdjA37hWeD/wSru3czrsn46Ub3TjqAAOjQCFhcN3wVrZ0r586g1YwueuXKlAQwBEY5k3KP6NqUInxiYW7GYYOsPFxBrPomZSvzdo3GE8pLxChJvuBONtEKnNkmBjFTRTgrNwr3Jw2TlJP1lZQ96YmVM3Hz8fzWJdaTyMgzjpx8TrU17hzfPH27zibP3fdiGZRWtRtCDMmC3wpC5S37hiDUn42laDAAghGKA0K4c2xbUz73L0r9jZaiXYShxqA6G/e9PNDwAYDxflf3ysb1Vf6hVU0=
   - secure: w5bMX1j/wDNLbaqDXFhMDtzyu4Th32OOQ7K2gQnppxb+lTdy3iNjzjrDkGTnM69Oe+AsXo68LiER0kRkZp7LgUrwtGrQ9J6JxUzXhqiaK9vvIF8OQ40DfvZHQwWnF23gjqyNGHpD0gPwbgjAqH3Snz96VVD5I6TbcJpHtj6VAzECmsikfpwlSiWOFXjT/6nRPYWf51lfZMyg1R9MhV4CoEIugmmM0F/bTDBwNG5gxakCwOqQ1WqbzphzxTNfyTu9LJSUXPMx6kWk2lZNUwgUjKIVlAOGbYp6H2DWdBfGxey2rj9VQBizFc7uZAeX7GG45pcRUqOKyutQQS7DBLCSZnceHe1ssZ5FGhY3x79nYfRm85wIPDkNXdUnZR8hxMLNBejZ3PpOx1piz7b8AkTUM357BuMSY7k4E/rvmeJ5E8H5J1TwUiCRM1y6/8Rvm2CfiMLXN+gD3lVhqPbALTc+D8fdIZ9lj7x6HKLYCwevwhbEZ6yFcASGWK7svFWFRzYD3gZ3ukJ+jpdO6+djysKTKjAVZ4FYWQrUPSetFDo93lCmIE1WToyi40CK1vcz6SdxU8Cawtz1cDvaSxYpMOqJsePL/oIewPtWvxmcsVnk0sTQdZM2yRHEJZBp6PrnycVEYDwiCsFyepEqKeD4uJlVyEOtlLGpXMSPWCKQBYdOOfM=
   - secure: qY757AXCYgqIgxdbSS7xmSE5hQM+X1WERyLkm5wpbeYaDI5WL5BPTVNDR4S48C3M5IyIWeJo2x+UUpw9kA2QnMznZh+4q0AIJU5Pbz0OOwSCTZcUMB7jpHYgAci+xBge+TRkNN3KoQNZK9yYpj05FxbFj5jqykpOW4gVtZ9lkiBX2TqnsLJrKGDw8Aed5FjdTPihHHCx7KVbwseVP2fqxMcHhXzPAO29guuvQGYKstQrurlFg5QrOiHPnGQPLbfni/ZYwxcK/RrOh07Yv6PFqqpWwUGhZUsbESOGKsrdpgOUZo8152HHnSwsafWi5L3QYMYqBHd28tqMz4dP7oMob7ZT2jeclEXf+xPYjZp26ue4VA9BLIPA8hE3Nhu6yYBVY9cCWNrztreuBjbmGi4HaZ3wCNt3L3/PIJ7r2QPV5RcxSk/3VOQppSM6qoH2AYCy+huzaaM3REDsaMyW/mfPvRSLOr/J5zglXDZDkebDvaApAUq3yGyH7CDf4IF7ZKSI3Op0t8giKG73P08OV0t/FCZMbSZJ6a9XvZoYEycYlqlwyfkDW9X5q6ERAfQlIMNWAjPqIAZsrV1TujhIpubI4ifAU7fgE8HC6CykBN2F6BpSOTbObB23179li8UzRWaFf91ifO8HcHnWquVOCjvcDK6y96hwJWcwxYFhms7nV48=
+
+before_install:
+- wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+
+matrix:
+  include:
+  # 8
+    - env: JDK='Oracle JDK 8'
+      jdk: oraclejdk8
+    - env: JDK='OpenJDK 8'
+      jdk: openjdk8
+# JDK 9 is EOL
+#  # 9
+#    - env: JDK='Oracle JDK 9'
+#      jdk: oraclejdk9
+#    - env: JDK='OpenJDK 9'
+#      install: . ./install-jdk.sh -F 9
+  # 10
+    - env: JDK='Oracle JDK 10'
+      jdk: oraclejdk10
+    - env: JDK='OpenJDK 10'
+      install: . ./install-jdk.sh -F 10 -L GPL
+  # 11
+    - env: JDK='Oracle JDK 11'
+      install: . ./install-jdk.sh -F 11 -L BCL
+    - env: JDK='OpenJDK 11'
+      install: . ./install-jdk.sh -F 11 -L GPL
+  # GraalVM
+    - env: JDK='GraalVM 1.0.0'
+      install: . ./install-jdk.sh --url https://github.com/oracle/graal/releases/download/vm-1.0.0-rc7/graalvm-ce-1.0.0-rc7-linux-amd64.tar.gz
+  allow_failures:
+    # Non LTS releases are OK to fail
+    - env: JDK='Oracle JDK 10'
+    - env: JDK='OpenJDK 10'
+
+script:
+  - echo PATH = ${PATH}
+  - echo JAVA_HOME = ${JAVA_HOME}
+  - java -version
+  - mvn --settings settings.xml test -B
+
 after_success:
+- bash <(curl -s https://codecov.io/bash)
 - '[[ "${TRAVIS_BRANCH}" = "develop" ]] &&
    [[ "${TRAVIS_PULL_REQUEST}" = "false" ]] &&
-   [[ "${TRAVIS_JDK_VERSION}" = "oraclejdk9" ]] &&
+   [[ "${JDK}" = "OpenJDK 11" ]] &&
    mvn --settings settings.xml -DskipTests deploy -B || true'
-- bash <(curl -s https://codecov.io/bash)

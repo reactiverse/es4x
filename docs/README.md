@@ -38,35 +38,38 @@ it is expected that both `nodejs` and (`npm` or `yarn`) are available too.
 Bootstrapping a project should be as simple as:
 
 ```
+# create a generic project
 mkdir my-app
 cd my-app
 npm init -y
-npm add vertx-scripts --save-dev
-npm add @vertx/unit --save-dev
-npm add @vertx/core --save-prod
-npm add @vertx/web --save-prod
-# trigger the java bootstrap
+# init the es4x bits
+npx es4x-cli init
+# add some dependencies
+npm install @vertx/unit --save-dev
+npm install @vertx/core --save-prod
+npm install @vertx/web --save-prod
+# will trigger the download
+# of the java dependencies
 npm install
 ```
 
 As this moment there should be a minimal `package.json`. To simplify working with `vert.x`
-add the package [vertx-scripts](https://www.npmjs.com/package/vertx-scripts) to your
+add the package [es4x-cli](https://www.npmjs.com/package/es4x-cli) to your
 `devDependencies`. During install the `package.json` should get a set of custom
 `scripts` added and it should look similar to this:
 
 ```json
 {
   "scripts": {
-    "postinstall": "vertx-scripts init",
-    "test": "vertx-scripts launcher test",
-    "start": "vertx-scripts launcher run",
-    "package": "vertx-scripts package",
-    "repl": "vertx-scripts repl"
+    "postinstall": "es4x postinstall",
+    "test": "es4x launcher test",
+    "start": "es4x launcher run",
+    "shell": "es4x shell"
   },
   "license": "ISC",
   "private": true,
   "devDependencies": {
-    "vertx-scripts": "^1.1.3"
+    "es4x-cli": "*"
   }
 }
 ``` 
@@ -119,10 +122,15 @@ doesn't at the kangax compat table project.
 For reference you can expect that `JDK1.8` will be less feature rich as it only contains **7%** of the spec implemented,
 `JDK10` implements **28%** while `GraalVM` implements **97%**.
 
+### Working with NPM
+
+ES4X tries to be compliant with `commonjs` modules, however please note that ES4X
+is **NOT** a nodejs runtime so no node specific modules are available. For more information
+on modules please read the [modules](./MODULES) doc.
 
 ### Running your app
 
-Since the package `vertx-scripts` is added to the project and the `scripts` section is using it, running your
+Since the package `es4x-cli` is added to the project and the `scripts` section is using it, running your
 application is as simple as:
 
 ```sh
@@ -151,10 +159,11 @@ And follow the instructions.
 
 ### Packaging
 
-It is common to package JVM applications as runnable `JAR` files, the `vertx-scripts` also provides this feature:
+It is common to package JVM applications as runnable `JAR` files, the `es4x-cli` creates a `pom.xml` with the
+`maven-shade-plugin` configured for this:
 
 ```sh
-npm run package
+mvn clean package
 ```
 
 And a new `JAR` file should be built in your `target` directory.
@@ -170,14 +179,14 @@ When working in a more interactive mode you'll be able to use the standard Nasho
 if you just want a REPL to be available in your Graal runtime you can switch the main class of your runnable jar to:
 
 ```
-io.reactiverse.es4x.GraalShell
+io.reactiverse.es4x.Shell
 ```
 
 Using this `main` will allow you to pass any configuration to your vertx instance by using a `kebab` case format
 prefixed with a `-` sign. For example to start a clustered shell:
 
 ```sh
-java -cp your_fatjar.jar io.reactiverse.es4x.GraalShell -clustered ./index.js
+java -cp your_fatjar.jar io.reactiverse.es4x.Shell -clustered ./index.js
 ```
 
 The if no script is passed then the shell will be just a bootstrapped environment. You will be able to

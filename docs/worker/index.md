@@ -20,17 +20,15 @@ Imagine the following worker code:
 // Get a reference to the Thread class to cause some blocking...
 const Thread = Java.type('java.lang.Thread');
 
-// We don't like to polute the global context, so we need to export the onmessage handler.
-module.exports = {
-  onmessage: function(e) {
-    console.log('Message received from main script, will sleep 5 seconds...');
-    // Cause some havok in the event loop
-    Thread.sleep(5 * 1000);
-    var workerResult = 'Result: ' + (e.data[0] * e.data[1]);
-    console.log('Posting message back to main script');
-    // return data back to the main verticle
-    postMessage(workerResult);
-  }
+// The worker context is referenced by the variable `self` like on the MDN docs
+self.onmessage = function(e) {
+  console.log('Message received from main script, will sleep 5 seconds...');
+  // Cause some havok in the event loop
+  Thread.sleep(5 * 1000);
+  var workerResult = 'Result: ' + (e.data[0] * e.data[1]);
+  console.log('Posting message back to main script');
+  // return data back to the main verticle
+  postMessage(workerResult);
 };
 ```
 

@@ -1,17 +1,25 @@
-# Vert.x Scripts
+# ES4X Cli
 
 This is a helper dev package to work with Eclipse Vert.x JS/TS projects.
 
 Included scripts:
 
 * init
+* postinstall
 * launcher
-* package
 * shell
 
 ## Init
 
-Init will bootstrap a `pom.xml` file from the `package.json`. The maven
+Init the ES4X scripts section in the current `package.json` usually used with `npx`:
+
+```bash
+npm es4x-cli init
+```
+
+## Postinstall
+
+Postinstall will bootstrap a `pom.xml` file from the `package.json`. The maven
 pom file can be customized by supplying a handlebars template named
 `.pom.xml`.
 
@@ -23,20 +31,8 @@ All entries in `files` will be added to the final `fatJar` with the caveat
 that directories **must** be sufixed with `/` so maven can understand
 how to handle it.
 
-In order to use this script in your project you should add the following to
-your `package.json` scripts:
-
-```json
-{
-  "scripts": {
-    "postinstall": "vertx-scripts init"
-  },
-  
-  "devDependencies": {
-    "vertx-scripts": "^1.1.4"
-  }
-}
-```
+In order to use this script in your project you should have *init'ed* your
+`package.json`.
 
 You can add normal dependencies as normal too.
 
@@ -61,33 +57,12 @@ An example running tests would be after adding `vertx-unit` to the
 ```json
 {
   "scripts": {
-    "test": "vertx-scripts launcher test -v"
+    "test": "es4x launcher test -v"
   },
   
   "devDependencies": {
-    "vertx-scripts": "^1.1.4",
+    "es4x-cli": "*",
     "@vertx/unit": "3.5.3"
-  },
-  
-  "dependencies": {
-    "@vertx/core": "3.5.3"
-  }
-}
-```
-
-## Package
-
-This script will package your application as a fatJar so you can easily
-deploy it and distribute.
-
-```json
-{
-  "scripts": {
-    "package": "vertx-scripts package -c"
-  },
-  
-  "devDependencies": {
-    "vertx-scripts": "^1.1.4"
   },
   
   "dependencies": {
@@ -98,21 +73,14 @@ deploy it and distribute.
 
 ## Shell
 
-Once you have your code packaged you can run it as a runnable jar or even
-run it using the `shell`. Be aware that the `shell` not not `node` but
-Nashorn the JVM JavaScript engine. You can run it as:
+You can run your code from a shell by executing the command:
 
 ```sh
-jjs -cp target/yourapp-1.0.0-fat.jar
+es4x shell
 ```
 
-or from the script.
+or if you package your application into a java `jar` file:
 
-Once the `REPL` starts you can load vert.x and your code e.g.:
-
-```js
-// this will initialize all the Vert.x Runtime Objects
-load('classpath:vertx.js');
-// run your verticle:
-require('path/to/your/verticle');
+```bash
+java -jar your-jar.jar io.reactiverse.es4x.Shell
 ```

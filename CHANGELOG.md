@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+- implemented module aliases
+- fixed node inspector paths for debugging
+- fixed runtime definitions
+- `es4x-cli` has less dependencies and can be used by `npx`
+- `vertx-scripts` has been replaced by `es4x-cli`
+- Decoupled Codec from the engine (avoids calls on the wrong context)
+- Several clean ups
+
+## [0.5.4] - 2018-09-17
 - Bump `pg-reactive-client` to 0.10.3
 - Fix `parsePaths` to properly convert slashes on windows.
 - Unit tests are now fully async and do not lead file descriptors.
