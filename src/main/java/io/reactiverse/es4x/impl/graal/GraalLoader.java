@@ -15,8 +15,6 @@
  */
 package io.reactiverse.es4x.impl.graal;
 
-import io.reactiverse.es4x.FatalException;
-import io.reactiverse.es4x.IncompleteSourceException;
 import io.reactiverse.es4x.Loader;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -200,25 +198,13 @@ public class GraalLoader implements Loader<Value> {
   }
 
   @Override
-  public Value evalLiteral(CharSequence literal) throws IncompleteSourceException, FatalException {
+  public Value evalLiteral(CharSequence literal) {
+    final Source source = Source
+      .newBuilder("js", literal, "<shell>")
+      .interactive(true)
+      .buildLiteral();
 
-    try {
-      final Source source = Source
-        .newBuilder("js", literal, "<shell>")
-        .interactive(true)
-        .buildLiteral();
-
-      return context.eval(source);
-    } catch (PolyglotException e) {
-      if (e.isIncompleteSource()) {
-        throw new IncompleteSourceException(e);
-      }
-      if (e.isExit()) {
-        throw new FatalException(e);
-      }
-
-      throw e;
-    }
+    return context.eval(source);
   }
 
   @Override
