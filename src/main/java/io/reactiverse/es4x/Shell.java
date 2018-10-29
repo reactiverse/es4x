@@ -15,7 +15,9 @@
  */
 package io.reactiverse.es4x;
 
+import io.vertx.core.Context;
 import io.vertx.core.Vertx;
+import org.graalvm.polyglot.PolyglotException;
 
 import java.io.*;
 import java.util.HashMap;
@@ -97,6 +99,11 @@ public class Shell {
     final Vertx vertx = runtime.vertx(options);
     final String main = script;
 
+    if (main == null && System.console() == null) {
+      // invalid state, no script and no console
+      throw new RuntimeException("No Script provided in non interactive shell!");
+    }
+
     // move the context to the event loop
     vertx.runOnContext(v -> {
       runtime.registerCodec(vertx);
@@ -106,35 +113,85 @@ public class Shell {
       if (main != null) {
         loader.main(main);
       } else {
-        try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
-          final StringBuilder buffer = new StringBuilder();
-          for (; ; ) {
+        new REPL(vertx.getOrCreateContext(), loader).start();
+      }
+    });
+  }
+
+  private static class REPL extends Thread {
+
+    final StringBuilder buffer = new StringBuilder();
+
+    final Context context;
+    final Loader loader;
+
+    private REPL(Context context, Loader loader) {
+      this.context = context;
+      this.loader = loader;
+    }
+
+    private synchronized String updateBuffer(String line, boolean resetOrPrepend) {
+      if (resetOrPrepend) {
+        buffer.append(line);
+        final String statement = buffer.toString();
+        // reset the buffer
+        buffer.setLength(0);
+        return statement;
+      } else {
+        // incomplete source, do not handle as error and
+        // continue appending to the previous buffer
+        buffer.insert(0, line);
+        return null;
+      }
+    }
+
+    @Override
+    public void run() {
+      try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
+        System.out.print("> ");
+        System.out.flush();
+
+        for (; ; ) {
+          String line = input.readLine();
+          if (line == null) {
+            break;
+          }
+
+          final String statement = updateBuffer(line, true);
+
+          // ensure the statement is run on the right context
+          context.runOnContext(v -> {
             try {
-              if (buffer.length() == 0) {
-                System.out.print("> ");
-              } else {
-                System.out.print("| ");
+              System.out.println("\u001B[1;90m" + loader.evalLiteral(statement) + "\u001B[0m");
+              System.out.print("> ");
+              System.out.flush();
+            } catch (PolyglotException t) {
+              if (t.isIncompleteSource()) {
+                updateBuffer(statement, false);
+                return;
               }
 
-              String line = input.readLine();
-              if (line == null) {
-                break;
-              }
-              buffer.append(line);
+              System.out.println("\u001B[1m\u001B[31m" + t.getMessage() + "\u001B[0m\n");
 
-              System.out.println("\u001B[1;90m" + loader.evalLiteral(buffer) + "\u001B[0m");
-              // reset the buffer
-              buffer.setLength(0);
-            } catch (IncompleteSourceException t) {
-              // incomplete source, do not handle as error and
-              // continue appending to the previous buffer
-            } catch (FatalException t) {
-              // polyglot engine is requesting to exit
-              break;
-            } catch (Exception t) {
-              // reset the buffer as the source is complete
-              // but there's an error anyway
-              buffer.setLength(0);
+              if (t.isExit()) {
+                // polyglot engine is requesting to exit
+                // REPL is cancelled, close the loader
+                try {
+                  loader.close();
+                  System.exit(1);
+                } catch (RuntimeException e) {
+                  // ignore...
+                }
+                // force a error code out
+                System.exit(1);
+              }
+
+              System.out.print("> ");
+              System.out.flush();
+            } catch (Throwable t) {
+              String message = null;
+              String trace = null;
+
               // collect the trace back to a string
               try (StringWriter sw = new StringWriter()) {
                 PrintWriter pw = new PrintWriter(sw);
@@ -142,25 +199,30 @@ public class Shell {
                 String sStackTrace = sw.toString(); // stack trace as a string
                 int idx = sStackTrace.indexOf("\n\tat");
                 if (idx != -1) {
-                  System.out.print("\u001B[1m\u001B[31m" + sStackTrace.substring(0, idx) + "\u001B[0m");
-                  System.out.println(sStackTrace.substring(idx));
+                  message = sStackTrace.substring(0, idx);
+                  trace = sStackTrace.substring(idx);
                 } else {
-                  System.out.println(sStackTrace);
+                  trace = sStackTrace;
                 }
+              } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(1);
               }
+
+              if (message != null) {
+                System.out.print("\u001B[1m\u001B[31m" + message + "\u001B[0m");
+              }
+
+              System.out.println(trace);
+              System.out.print("> ");
+              System.out.flush();
             }
-          }
-          // REPL is cancelled, close the loader
-          try {
-            loader.close();
-          } catch (RuntimeException e) {
-            // ignore...
-          }
-        } catch (IOException e) {
-          e.printStackTrace();
-          System.exit(1);
+          });
         }
+      } catch (IOException e) {
+        e.printStackTrace();
+        System.exit(1);
       }
-    });
+    }
   }
 }
