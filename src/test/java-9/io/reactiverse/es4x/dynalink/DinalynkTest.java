@@ -23,13 +23,13 @@ public class DinalynkTest {
   @Rule
   public RunTestOnContext rule = new RunTestOnContext();
 
-  private Loader loader;
+  private Runtime runtime;
 
   @Before
   public void before() {
     System.setProperty("es4x.engine", "Nashorn");
-    loader = Runtime.getCurrent().loader(rule.vertx());
-    assumeTrue(loader.name().equalsIgnoreCase("Nashorn"));
+    runtime = Runtime.getCurrent(rule.vertx());
+    assumeTrue(runtime.name().equalsIgnoreCase("Nashorn"));
   }
 
   public static String testJSON(JsonObject o) {
@@ -53,7 +53,7 @@ public class DinalynkTest {
   public void testCasting(TestContext should) throws Exception {
     final Async test = should.async();
 
-    should.assertEquals("{\n  \"foo\" : \"bar\"\n}", loader.eval(
+    should.assertEquals("{\n  \"foo\" : \"bar\"\n}", runtime.eval(
       "var DynalinkTest = Java.type('io.reactiverse.es4x.dynalink.DinalynkTest');\n" +
       "DynalinkTest.testJSON({foo: 'bar'});\n"));
 
@@ -64,7 +64,7 @@ public class DinalynkTest {
   public void testDataObject(TestContext should) throws Exception {
     final Async test = should.async();
 
-    should.assertEquals(new HttpServerOptions().toJson().encodePrettily(), loader.eval(
+    should.assertEquals(new HttpServerOptions().toJson().encodePrettily(), runtime.eval(
       "var DynalinkTest = Java.type('io.reactiverse.es4x.dynalink.DinalynkTest');\n" +
         "DynalinkTest.testDataObject({foo: 'bar'});\n"));
 
@@ -75,7 +75,7 @@ public class DinalynkTest {
   public void testInstant(TestContext should) throws Exception {
     final Async test = should.async();
 
-    should.assertEquals("OK", loader.eval(
+    should.assertEquals("OK", runtime.eval(
       "var DynalinkTest = Java.type('io.reactiverse.es4x.dynalink.DinalynkTest');\n" +
         "DynalinkTest.testInstant(new Date());\n"));
 
@@ -86,7 +86,7 @@ public class DinalynkTest {
   public void testDate(TestContext should) throws Exception {
     final Async test = should.async();
 
-    should.assertEquals("OK", loader.eval(
+    should.assertEquals("OK", runtime.eval(
       "var DynalinkTest = Java.type('io.reactiverse.es4x.dynalink.DinalynkTest');\n" +
         "DynalinkTest.testDate(new Date());\n"));
 
