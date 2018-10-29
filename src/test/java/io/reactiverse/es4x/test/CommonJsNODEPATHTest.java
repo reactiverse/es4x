@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.Loader;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.junit.Before;
@@ -25,7 +24,7 @@ public class CommonJsNODEPATHTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public CommonJsNODEPATHTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -38,7 +37,7 @@ public class CommonJsNODEPATHTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -48,8 +47,8 @@ public class CommonJsNODEPATHTest {
   public void shouldLoadAModuleFromACustomROOT() throws Exception {
     // this test shows that neither the path.js from the jar root or the node_modules module
     // is loaded as the node path takes precedence
-    loader.eval("process.env = { NODE_PATH: '" + "./src/test/resources/dist" + "' }");
-    Object mod = loader.require("./path");
+    runtime.eval("process.env = { NODE_PATH: '" + "./src/test/resources/dist" + "' }");
+    Object mod = runtime.require("./path");
     assertEquals("dist/path", getMember(mod, "message", String.class));
   }
 }

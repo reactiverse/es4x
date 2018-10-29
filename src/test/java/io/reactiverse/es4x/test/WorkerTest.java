@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -27,7 +26,7 @@ public class WorkerTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public WorkerTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -40,7 +39,7 @@ public class WorkerTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -50,8 +49,8 @@ public class WorkerTest {
   public void testWorkerLoading(TestContext ctx) throws Exception {
     final Async async = ctx.async();
 
-    loader.put("ctx", ctx);
-    loader.put("async", async);
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
 
     // @language=JavaScript
     String script =
@@ -65,6 +64,6 @@ public class WorkerTest {
         "worker.postMessage({data: [2, 3]});\n" +
       "});\n";
 
-    loader.eval(script);
+    runtime.eval(script);
   }
 }

@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -27,7 +26,7 @@ public class UtilTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public UtilTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -40,7 +39,7 @@ public class UtilTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -50,8 +49,8 @@ public class UtilTest {
   public void shouldPromisifyAVertxAPI(TestContext should) throws Exception {
     final Async test = should.async();
     // pass the assertion to the engine
-    loader.put("should", should);
-    loader.put("test", test);
+    runtime.put("should", should);
+    runtime.put("test", test);
 
     //language=JavaScript
     String script =
@@ -65,15 +64,15 @@ public class UtilTest {
       "  should.fail(error);\n" +
       "});\n";
 
-    loader.eval(script);
+    runtime.eval(script);
   }
 
   @Test(timeout = 10000)
   public void shouldPromisifyAJavaScriptAPI(TestContext should) throws Exception {
     final Async test = should.async();
     // pass the assertion to the engine
-    loader.put("should", should);
-    loader.put("test", test);
+    runtime.put("should", should);
+    runtime.put("test", test);
 
     //language=JavaScript
     String script =
@@ -100,6 +99,6 @@ public class UtilTest {
       "  should.fail(error);\n" +
       "});\n";
 
-    loader.eval(script);
+    runtime.eval(script);
   }
 }

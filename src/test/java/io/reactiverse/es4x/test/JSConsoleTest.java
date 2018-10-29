@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,7 +22,7 @@ public class JSConsoleTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public JSConsoleTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -36,7 +35,7 @@ public class JSConsoleTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -44,26 +43,26 @@ public class JSConsoleTest {
 
   @Test
   public void shouldPrintToStdOut() throws Exception {
-    loader.eval("console.log('test');");
+    runtime.eval("console.log('test');");
   }
 
   @Test
   public void shouldPrintToStdOutAFormattedString() throws Exception {
-    loader.eval("console.log('test %s', JSON.stringify({k:1}));");
+    runtime.eval("console.log('test %s', JSON.stringify({k:1}));");
   }
 
   @Test
   public void shouldPrintErrorToStdOut() throws Exception {
-    loader.eval("console.error('test');");
+    runtime.eval("console.error('test');");
   }
 
   @Test
   public void shouldPrintErrorToStdOutAFormattedString() throws Exception {
-    loader.eval("console.error('test %s', JSON.stringify({k:1}));");
+    runtime.eval("console.error('test %s', JSON.stringify({k:1}));");
   }
 
   @Test
   public void throwsTest() throws Exception {
-    loader.eval("try { throw new Error('Boom!'); } catch (e) { console.trace(e); }");
+    runtime.eval("try { throw new Error('Boom!'); } catch (e) { console.trace(e); }");
   }
 }
