@@ -342,9 +342,9 @@
   function resolveAsFile(id, root, ext) {
     let uri;
     if (id.length > 0 && id[0] === '/') {
-      uri = new URI(normalizeName(id, ext)).normalize();
+      uri = new URI('file://' + normalizeName(id, ext)).normalize();
       if (!exists(uri)) {
-        return resolveAsDirectory(id);
+        return resolveAsDirectory('file://' + id);
       }
     } else {
       uri = new URI(root ? [root, normalizeName(id, ext)].join('/') : normalizeName(id, ext)).normalize();
