@@ -278,6 +278,12 @@ program
       process.exit(1);
     }
 
+    // debug validation and they overlap
+    if (options.debug && options.inspect) {
+      console.error(c.red.bold('--debug and --inspect options are exclusive (choose one)'));
+      process.exit(1);
+    }
+
     const test = ('test' === cmd);
 
     if (!args || args.length === 0) {
