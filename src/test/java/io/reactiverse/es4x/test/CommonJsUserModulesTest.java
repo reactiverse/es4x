@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.junit.Before;
 import org.junit.Rule;
@@ -25,7 +24,7 @@ public class CommonJsUserModulesTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public CommonJsUserModulesTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -38,7 +37,7 @@ public class CommonJsUserModulesTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -46,20 +45,20 @@ public class CommonJsUserModulesTest {
 
   @Test
   public void shouldFindPackageJsonInModuleFolder() {
-    Object packageJson = loader.require("./lib/other_package");
+    Object packageJson = runtime.require("./lib/other_package");
     assertEquals("cool ranch", getMember(packageJson, "flavor", String.class));
     assertEquals("jar:/lib/other_package/lib/subdir", getMember(packageJson, "subdir", String.class));
   }
 
   @Test
   public void shouldLoadPackageJsonMainPropertyEvenIfItIsDirectory() {
-    Object cheese = loader.require( "./lib/cheese");
+    Object cheese = runtime.require( "./lib/cheese");
     assertEquals("nacho", getMember(cheese, "flavor", String.class));
   }
 
   @Test
   public void shouldFindIndexJsInDirectoryIfNoPackageJsonExists() {
-    Object packageJson = loader.require("./lib/my_package");
+    Object packageJson = runtime.require("./lib/my_package");
     assertEquals("Hello!", getMember(packageJson, "data", String.class));
   }
 }

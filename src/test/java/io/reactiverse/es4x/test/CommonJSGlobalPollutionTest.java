@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,7 +23,7 @@ public class CommonJSGlobalPollutionTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public CommonJSGlobalPollutionTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -37,7 +36,7 @@ public class CommonJSGlobalPollutionTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -47,7 +46,7 @@ public class CommonJSGlobalPollutionTest {
   public void shouldHaveSideEffects() {
     try {
       // this test verifies that the pollution of the global context behaves like on node
-      loader.require("./pollution/a.js");
+      runtime.require("./pollution/a.js");
       fail("should throw");
     } catch (Exception e) {
       assertEquals("Error: engine is tainted: b", e.getMessage());

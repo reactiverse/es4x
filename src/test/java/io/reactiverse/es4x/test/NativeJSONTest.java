@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -27,7 +26,7 @@ public class NativeJSONTest {
     return Arrays.asList("Nashorn", "GraalJS");
   }
 
-  private Loader loader;
+  private Runtime runtime;
   private Object JSON;
 
   private final String engineName;
@@ -43,15 +42,15 @@ public class NativeJSONTest {
   @Before
   public void initialize() throws Exception {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
-      JSON = loader.eval("JSON");
+      runtime = Runtime.getCurrent(rule.vertx());
+      JSON = runtime.eval("JSON");
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
   }
 
   private Object stringify(Object... args) {
-    Object res = loader.invokeMethod(JSON, "stringify", args);
+    Object res = runtime.invokeMethod(JSON, "stringify", args);
     // Graal engine always wraps
     if (res instanceof Value) {
       return ((Value) res).asString();
@@ -76,7 +75,7 @@ public class NativeJSONTest {
 
   @Test
   public void testOriginalObject() throws Exception {
-    Object result = loader.eval("JSON.stringify({foo: 'bar'})");
+    Object result = runtime.eval("JSON.stringify({foo: 'bar'})");
     assertNotNull(result);
     // Graal engine always wraps
     if (result instanceof Value) {
@@ -87,7 +86,7 @@ public class NativeJSONTest {
 
   @Test
   public void testOriginalArray() throws Exception {
-    Object result = loader.eval("JSON.stringify(['foo', 'bar'])");
+    Object result = runtime.eval("JSON.stringify(['foo', 'bar'])");
     assertNotNull(result);
     // Graal engine always wraps
     if (result instanceof Value) {

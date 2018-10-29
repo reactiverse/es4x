@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -31,6 +30,7 @@ public class MultithreadTest {
   }
 
   private final String engineName;
+  private Runtime runtime;
 
   public MultithreadTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -42,9 +42,8 @@ public class MultithreadTest {
 
   @Before
   public void initialize() {
-    Loader loader = Runtime.getCurrent().loader(rule.vertx());
-    assumeTrue(loader.name().equalsIgnoreCase(engineName));
-    loader.close();
+    runtime = Runtime.getCurrent(rule.vertx());
+    assumeTrue(runtime.name().equalsIgnoreCase(engineName));
   }
 
   @Test(timeout = 10000)

@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.dynalink;
 
-import io.reactiverse.es4x.Loader;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;

@@ -50,8 +50,6 @@ public class Shell {
 
   public static void main(String[] args) {
 
-    final Runtime runtime = Runtime.getCurrent();
-
     final Map<String, Object> options = new HashMap<>();
     String script = null;
 
@@ -96,7 +94,7 @@ public class Shell {
     }
 
     // create the vertx instance that will boostrap the whole process
-    final Vertx vertx = runtime.vertx(options);
+    final Vertx vertx = Runtime.vertx(options);
     final String main = script;
 
     if (main == null && System.console() == null) {
@@ -106,14 +104,12 @@ public class Shell {
 
     // move the context to the event loop
     vertx.runOnContext(v -> {
-      runtime.registerCodec(vertx);
-
-      final Loader loader = runtime.loader(vertx);
+      final Runtime runtime = Runtime.getCurrent(vertx);
 
       if (main != null) {
-        loader.main(main);
+        runtime.main(main);
       } else {
-        new REPL(vertx.getOrCreateContext(), loader).start();
+        new REPL(vertx.getOrCreateContext(), runtime).start();
       }
     });
   }
@@ -123,11 +119,11 @@ public class Shell {
     final StringBuilder buffer = new StringBuilder();
 
     final Context context;
-    final Loader loader;
+    final Runtime runtime;
 
-    private REPL(Context context, Loader loader) {
+    private REPL(Context context, Runtime runtime) {
       this.context = context;
-      this.loader = loader;
+      this.runtime = runtime;
     }
 
     private synchronized String updateBuffer(String line, boolean resetOrPrepend) {
@@ -162,7 +158,7 @@ public class Shell {
           // ensure the statement is run on the right context
           context.runOnContext(v -> {
             try {
-              System.out.println("\u001B[1;90m" + loader.evalLiteral(statement) + "\u001B[0m");
+              System.out.println("\u001B[1;90m" + runtime.evalLiteral(statement) + "\u001B[0m");
               System.out.print("> ");
               System.out.flush();
             } catch (PolyglotException t) {
@@ -177,7 +173,7 @@ public class Shell {
                 // polyglot engine is requesting to exit
                 // REPL is cancelled, close the loader
                 try {
-                  loader.close();
+                  runtime.close();
                   System.exit(1);
                 } catch (RuntimeException e) {
                   // ignore...

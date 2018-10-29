@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -28,7 +27,7 @@ public class PathsTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public PathsTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -41,7 +40,7 @@ public class PathsTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -52,8 +51,8 @@ public class PathsTest {
 
     final Async async = ctx.async();
 
-    loader.put("ctx", ctx);
-    loader.put("async", async);
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
 
     final String script =
       /// @language=JavaScript
@@ -62,7 +61,7 @@ public class PathsTest {
       "});\n" +
       "async.complete();";
 
-    loader.eval(script);
+    runtime.eval(script);
   }
 
   @Test(timeout = 10000)
@@ -70,8 +69,8 @@ public class PathsTest {
 
     final Async async = ctx.async();
 
-    loader.put("ctx", ctx);
-    loader.put("async", async);
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
 
     final String userDir = System.getProperty("user.dir");
     final String userHome = System.getProperty("user.home");
@@ -90,7 +89,7 @@ public class PathsTest {
         "});\n" +
         "async.complete();";
 
-      loader.eval(script);
+      runtime.eval(script);
 
     } finally {
       System.setProperty("os.name", osName);
@@ -104,8 +103,8 @@ public class PathsTest {
 
     final Async async = ctx.async();
 
-    loader.put("ctx", ctx);
-    loader.put("async", async);
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
 
     try {
       final String script =
@@ -116,9 +115,9 @@ public class PathsTest {
           "});\n" +
           "async.complete();";
 
-      loader.eval(script);
+      runtime.eval(script);
     } finally {
-      loader.eval("delete require.NODE_PATH;");
+      runtime.eval("delete require.NODE_PATH;");
     }
   }
 
@@ -127,8 +126,8 @@ public class PathsTest {
 
     final Async async = ctx.async();
 
-    loader.put("ctx", ctx);
-    loader.put("async", async);
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
 
     final String userDir = System.getProperty("user.dir");
     final String userHome = System.getProperty("user.home");
@@ -156,12 +155,12 @@ public class PathsTest {
           "});\n" +
           "async.complete();";
 
-      loader.eval(script);
+      runtime.eval(script);
     } finally {
       System.setProperty("os.name", osName);
       System.setProperty("user.dir", userDir);
       System.setProperty("user.home", userHome);
-      loader.eval("delete require.NODE_PATH;");
+      runtime.eval("delete require.NODE_PATH;");
     }
   }
 }
