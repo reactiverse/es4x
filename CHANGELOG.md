@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+- Allow specifying absolute path as start module
 - implemented module aliases
 - fixed node inspector paths for debugging
 - fixed runtime definitions
