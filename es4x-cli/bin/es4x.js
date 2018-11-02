@@ -145,7 +145,7 @@ function generateClassPath(callback) {
   if (!fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
     let params = [];
 
-    if (npm.java11) {
+    if (npm.java11 || process.env['GRAALJS']) {
       params.push('-Pjava11');
     }
 
@@ -282,7 +282,7 @@ program
       // init the maven bits
       let params = [];
 
-      if (npm.java11) {
+      if (npm.java11 || process.env['GRAALJS']) {
         params.push('-Pjava11');
       }
 
@@ -341,7 +341,7 @@ program
     generateClassPath(function (classPath) {
       let params = [];
 
-      if (npm.java11) {
+      if (npm.java11 || process.env['GRAALJS']) {
         // enable modules
         params.push('--module-path=target/compiler');
         // enable JVMCI
@@ -408,7 +408,7 @@ program
     generateClassPath(function (classPath) {
       let params = [];
 
-      if (npm.java11) {
+      if (npm.java11 || process.env['GRAALJS']) {
         // enable modules
         params.push('--module-path=target/compiler');
         // enable JVMCI
