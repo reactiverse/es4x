@@ -109,6 +109,25 @@ function getMaven() {
   return path.resolve(dir, mvn);
 }
 
+/**
+ * Helper to select java from JAVA_HOME or system maven
+ *
+ * @returns {string} the java command
+ */
+function getJava() {
+  let java = isWindows ? 'java.exe' : 'java';
+  let javaHome = process.env['JAVA_HOME'];
+
+  if (javaHome) {
+    let resolved = path.resolve(javaHome, 'bin/' + java);
+    if (fs.existsSync(resolved)) {
+      return resolved;
+    }
+  }
+
+  return java;
+}
+
 function generateClassPath(callback) {
   const readClassPath = function () {
     let classPath = fs.readFileSync(path.resolve(dir, 'target/classpath.txt')).toString('UTF-8');
@@ -124,10 +143,13 @@ function generateClassPath(callback) {
   };
 
   if (!fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
-    let params = [
-      '-f', path.resolve(dir, 'pom.xml'),
-      'generate-sources'
-    ];
+    let params = [];
+
+    if (npm.java11) {
+      params.push('-Pjava11');
+    }
+
+    params.push('-f', path.resolve(dir, 'pom.xml'), 'generate-sources');
 
     return exec(getMaven(), params, process.env, { verbose: false, stopOnError: true }, readClassPath);
   }
@@ -258,10 +280,13 @@ program
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), Mustache.render(template, data));
       // init the maven bits
-      let params = [
-        '-f', path.resolve(dir, 'pom.xml'),
-        'clean'
-      ];
+      let params = [];
+
+      if (npm.java11) {
+        params.push('-Pjava11');
+      }
+
+      params.push('-f', path.resolve(dir, 'pom.xml'), 'clean');
 
       exec(getMaven(), params, process.env, {stopOnError: true, verbose: options.verbose});
     } catch (e) {
@@ -275,7 +300,6 @@ program
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-d, --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
   .option('-i, --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
-  .option('-j, --jdk11', 'Launch using a stock JDK11 with GraalVM bits')
   .option('-s, --suspend', 'While debug/inspect, suspend at start')
   .option('-w, --watch [watch]', 'Watches for modifications on the given expression')
   .option('-v, --verbose', 'Verbose logging')
@@ -317,7 +341,7 @@ program
     generateClassPath(function (classPath) {
       let params = [];
 
-      if (options.jdk11) {
+      if (npm.java11) {
         // enable modules
         params.push('--module-path=target/compiler');
         // enable JVMCI
@@ -372,20 +396,19 @@ program
       params = params.concat(args);
 
       // run the command
-      exec('java', params, process.env, {verbose: true});
+      exec(getJava(), params, process.env, {verbose: true});
     });
   });
 
 program
   .command('shell [args...]')
-  .option('-j, --jdk11', 'Launch using a stock JDK11 with GraalVM bits')
   .description('Starts a REPL with the current project in the classpath')
-  .action(function (args, options) {
+  .action(function (args) {
 
     generateClassPath(function (classPath) {
       let params = [];
 
-      if (options.jdk11) {
+      if (npm.java11) {
         // enable modules
         params.push('--module-path=target/compiler');
         // enable JVMCI
@@ -407,7 +430,7 @@ program
       // Releasing stdin
       process.stdin.setRawMode(false);
 
-      spawn('java', params, {stdio: [0, 1, 2]})
+      spawn(getJava(), params, {stdio: [0, 1, 2]})
         .on("exit", function (code) {
           // Don't forget to switch pseudo terminal on again
           process.stdin.setRawMode(true);
