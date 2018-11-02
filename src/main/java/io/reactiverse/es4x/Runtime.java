@@ -33,23 +33,45 @@ public interface Runtime<T> {
     if (rtName == null) {
       String vmName = System.getProperty("java.vm.name");
       if (vmName != null && vmName.startsWith("GraalVM")) {
-        rtName = "GraalJS";
+        // we're running on a GraalVM JDK
+        rtName = "graaljs";
       } else {
-        rtName = "Nashorn";
+        // it is not GraalVM JDK but if it is JDK11 and the graal components
+        // are available graaljs can be available too
+
+        try {
+          double spec = Double.parseDouble(System.getProperty("java.specification.version"));
+          if (spec < 11) {
+            rtName = "nashorn";
+          }
+        } catch (NumberFormatException nfe) {
+          rtName = "nashorn";
+        }
+      }
+    } else {
+      rtName = rtName.toLowerCase();
+    }
+
+    if (rtName == null || "graaljs".equals(rtName)) {
+      try {
+        System.setProperty("es4x.engine", "graaljs");
+        return new GraalRuntime(vertx);
+      } catch (NoClassDefFoundError | IllegalArgumentException e) {
+        // in the case classes are missing, the graal bits are missing
+        // so fallback to Nashorn
+
+        // we could also have an illegal argument when the graal is missing
+        // the language bits, in that case also try to fallback to nashorn
+        rtName = "nashorn";
       }
     }
 
-    if (rtName.equalsIgnoreCase("GraalJS")) {
-      System.setProperty("es4x.engine", "GraalJS");
-      return new GraalRuntime(vertx);
-    }
-
-    if (rtName.equalsIgnoreCase("Nashorn")) {
-      System.setProperty("es4x.engine", "Nashorn");
+    if ("nashorn".equals(rtName)) {
+      System.setProperty("es4x.engine", rtName);
       return new NashornRuntime(vertx);
     }
 
-    System.clearProperty("es4x.engine");
+    // no nashorn or graal available on the system!
     throw new RuntimeException("Unsupported runtime: " + rtName);
   }
 

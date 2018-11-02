@@ -49,10 +49,22 @@ public class GraalRuntime implements Runtime<Value> {
     }
   }
 
+  private static final Object lock = new Object();
+  // lazily create a polyglot engine
+  private static Engine engine;
 
   private final Context context;
   private final Value bindings;
   private final Value module;
+
+  private static Engine engine() {
+    synchronized (lock) {
+      if (engine == null) {
+        engine = Engine.create();
+      }
+    }
+    return engine;
+  }
 
   public GraalRuntime(final Vertx vertx) {
     this(
@@ -62,6 +74,10 @@ public class GraalRuntime implements Runtime<Value> {
         .newBuilder("js")
         .allowHostAccess(true)
         .allowCreateThread(true)
+        // by sharing the same engine we allow
+        // easier debugging and a single remote
+        // chromeinspector url
+        .engine(engine())
         .build()
     );
   }
