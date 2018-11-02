@@ -12,6 +12,7 @@ const mkdirp = require('mkdirp');
 const version = require('../package.json').version;
 const dir = process.cwd();
 const isWindows = /^win/.test(process.platform);
+const graalVersion = '1.0.0-rc8';
 
 // quickly abort if there's no package.json
 if (!fs.existsSync(path.resolve(dir, 'package.json'))) {
@@ -250,13 +251,19 @@ program
 
       files: files,
       dependencies: Object.values(dependencies),
-      packageJson: npm
+      packageJson: npm,
+      graalVersion: npm.graal || graalVersion
     };
 
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), Mustache.render(template, data));
       // init the maven bits
-      exec(getMaven(), [], process.env, {stopOnError: true, verbose: options.verbose});
+      let params = [
+        '-f', path.resolve(dir, 'pom.xml'),
+        'clean'
+      ];
+
+      exec(getMaven(), params, process.env, {stopOnError: true, verbose: options.verbose});
     } catch (e) {
       console.error(c.red.bold(e));
       process.exit(1);
@@ -268,6 +275,7 @@ program
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-d, --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
   .option('-i, --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
+  .option('-j, --jdk11', 'Launch using a stock JDK11 with GraalVM bits')
   .option('-s, --suspend', 'While debug/inspect, suspend at start')
   .option('-w, --watch [watch]', 'Watches for modifications on the given expression')
   .option('-v, --verbose', 'Verbose logging')
@@ -308,6 +316,16 @@ program
     // need to run maven as a prepare step
     generateClassPath(function (classPath) {
       let params = [];
+
+      if (options.jdk11) {
+        // enable modules
+        params.push('--module-path=target/compiler');
+        // enable JVMCI
+        params.push('-XX:+UnlockExperimentalVMOptions');
+        params.push('-XX:+EnableJVMCI');
+        // upgrade graal compiler
+        params.push('--upgrade-module-path=target/compiler/compiler.jar');
+      }
 
       if (options.debug) {
         if (options.debug === true) {
@@ -360,14 +378,25 @@ program
 
 program
   .command('shell [args...]')
+  .option('-j, --jdk11', 'Launch using a stock JDK11 with GraalVM bits')
   .description('Starts a REPL with the current project in the classpath')
-  .action(function (args) {
+  .action(function (args, options) {
 
     generateClassPath(function (classPath) {
-      let params = [
-        '-cp',
-        classPath
-      ];
+      let params = [];
+
+      if (options.jdk11) {
+        // enable modules
+        params.push('--module-path=target/compiler');
+        // enable JVMCI
+        params.push('-XX:+UnlockExperimentalVMOptions');
+        params.push('-XX:+EnableJVMCI');
+        // upgrade graal compiler
+        params.push('--upgrade-module-path=target/compiler/compiler.jar');
+      }
+
+      params.push('-cp');
+      params.push(classPath);
 
       params.push('io.reactiverse.es4x.Shell');
 

@@ -51,6 +51,35 @@
       <artifactId>es4x</artifactId>
       <version>[0.5.5,)</version>
     </dependency>
+    <!-- GraalVM runtime -->
+    <dependency>
+      <groupId>org.graalvm.truffle</groupId>
+      <artifactId>truffle-api</artifactId>
+      <version>[{{graalVersion}},)</version>
+      <optional>true</optional>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.graalvm.js</groupId>
+      <artifactId>js</artifactId>
+      <version>[{{graalVersion}},)</version>
+      <optional>true</optional>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.graalvm.tools</groupId>
+      <artifactId>profiler</artifactId>
+      <version>[{{graalVersion}},)</version>
+      <optional>true</optional>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.graalvm.tools</groupId>
+      <artifactId>chromeinspector</artifactId>
+      <version>[{{graalVersion}},)</version>
+      <optional>true</optional>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <build>
     <defaultGoal>compile</defaultGoal>
@@ -69,6 +98,39 @@
               <includeScope>test</includeScope>
               <silent>true</silent>
               <outputFile>${project.build.directory}/classpath.txt</outputFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-graalvm-compiler</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.graalvm.compiler</groupId>
+                  <artifactId>compiler</artifactId>
+                  <version>{{graalVersion}}</version>
+                  <type>jar</type>
+                  <destFileName>compiler.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.graalvm.truffle</groupId>
+                  <artifactId>truffle-api</artifactId>
+                  <version>{{graalVersion}}</version>
+                  <type>jar</type>
+                  <destFileName>truffle-api.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.graalvm.sdk</groupId>
+                  <artifactId>graal-sdk</artifactId>
+                  <version>{{graalVersion}}</version>
+                  <type>jar</type>
+                  <destFileName>graal-sdk.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>target/compiler</outputDirectory>
             </configuration>
           </execution>
         </executions>
@@ -117,6 +179,7 @@
                     <exclude>META-INF/*.SF</exclude>
                     <exclude>META-INF/*.DSA</exclude>
                     <exclude>META-INF/*.RSA</exclude>
+                    <exclude>**/module-info.class</exclude>
                   </excludes>
                 </filter>
               </filters>
