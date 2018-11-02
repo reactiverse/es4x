@@ -12,6 +12,7 @@ const mkdirp = require('mkdirp');
 const version = require('../package.json').version;
 const dir = process.cwd();
 const isWindows = /^win/.test(process.platform);
+const graalVersion = '1.0.0-rc8';
 
 // quickly abort if there's no package.json
 if (!fs.existsSync(path.resolve(dir, 'package.json'))) {
@@ -108,6 +109,25 @@ function getMaven() {
   return path.resolve(dir, mvn);
 }
 
+/**
+ * Helper to select java from JAVA_HOME or system maven
+ *
+ * @returns {string} the java command
+ */
+function getJava() {
+  let java = isWindows ? 'java.exe' : 'java';
+  let javaHome = process.env['JAVA_HOME'];
+
+  if (javaHome) {
+    let resolved = path.resolve(javaHome, 'bin/' + java);
+    if (fs.existsSync(resolved)) {
+      return resolved;
+    }
+  }
+
+  return java;
+}
+
 function generateClassPath(callback) {
   const readClassPath = function () {
     let classPath = fs.readFileSync(path.resolve(dir, 'target/classpath.txt')).toString('UTF-8');
@@ -123,10 +143,13 @@ function generateClassPath(callback) {
   };
 
   if (!fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
-    let params = [
-      '-f', path.resolve(dir, 'pom.xml'),
-      'generate-sources'
-    ];
+    let params = [];
+
+    if (npm.java11 || process.env['GRAALJS']) {
+      params.push('-Pjava11');
+    }
+
+    params.push('-f', path.resolve(dir, 'pom.xml'), 'generate-sources');
 
     return exec(getMaven(), params, process.env, { verbose: false, stopOnError: true }, readClassPath);
   }
@@ -250,13 +273,22 @@ program
 
       files: files,
       dependencies: Object.values(dependencies),
-      packageJson: npm
+      packageJson: npm,
+      graalVersion: npm.graal || graalVersion
     };
 
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), Mustache.render(template, data));
       // init the maven bits
-      exec(getMaven(), [], process.env, {stopOnError: true, verbose: options.verbose});
+      let params = [];
+
+      if (npm.java11 || process.env['GRAALJS']) {
+        params.push('-Pjava11');
+      }
+
+      params.push('-f', path.resolve(dir, 'pom.xml'), 'clean');
+
+      exec(getMaven(), params, process.env, {stopOnError: true, verbose: options.verbose});
     } catch (e) {
       console.error(c.red.bold(e));
       process.exit(1);
@@ -309,6 +341,16 @@ program
     generateClassPath(function (classPath) {
       let params = [];
 
+      if (npm.java11 || process.env['GRAALJS']) {
+        // enable modules
+        params.push('--module-path=target/compiler');
+        // enable JVMCI
+        params.push('-XX:+UnlockExperimentalVMOptions');
+        params.push('-XX:+EnableJVMCI');
+        // upgrade graal compiler
+        params.push('--upgrade-module-path=target/compiler/compiler.jar');
+      }
+
       if (options.debug) {
         if (options.debug === true) {
           console.log(c.yellow.bold('Debug socket listening at port: 9229'));
@@ -354,7 +396,7 @@ program
       params = params.concat(args);
 
       // run the command
-      exec('java', params, process.env, {verbose: true});
+      exec(getJava(), params, process.env, {verbose: true});
     });
   });
 
@@ -364,10 +406,20 @@ program
   .action(function (args) {
 
     generateClassPath(function (classPath) {
-      let params = [
-        '-cp',
-        classPath
-      ];
+      let params = [];
+
+      if (npm.java11 || process.env['GRAALJS']) {
+        // enable modules
+        params.push('--module-path=target/compiler');
+        // enable JVMCI
+        params.push('-XX:+UnlockExperimentalVMOptions');
+        params.push('-XX:+EnableJVMCI');
+        // upgrade graal compiler
+        params.push('--upgrade-module-path=target/compiler/compiler.jar');
+      }
+
+      params.push('-cp');
+      params.push(classPath);
 
       params.push('io.reactiverse.es4x.Shell');
 
@@ -378,7 +430,7 @@ program
       // Releasing stdin
       process.stdin.setRawMode(false);
 
-      spawn('java', params, {stdio: [0, 1, 2]})
+      spawn(getJava(), params, {stdio: [0, 1, 2]})
         .on("exit", function (code) {
           // Don't forget to switch pseudo terminal on again
           process.stdin.setRawMode(true);
