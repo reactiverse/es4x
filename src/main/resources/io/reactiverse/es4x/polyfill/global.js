@@ -70,15 +70,43 @@
     // NO-OP
   };
 
-  // process
-
-  var ManagementFactory = Java.type('java.lang.management.ManagementFactory');
   var System = Java.type('java.lang.System');
-  var pid = ManagementFactory.getRuntimeMXBean().getName();
+
+  // process
+  var jvmLanguageLevel;
+  var pid = undefined;
+
+  try {
+    // are we on java > 9
+    jvmLanguageLevel = parseInt(ystem.getProperty('java.specification.version'), 10);
+  } catch (e) {
+    jvmLanguageLevel = 8;
+  }
+
+  if (jvmLanguageLevel >= 9) {
+    // try to use the new pid API
+    try {
+      var ProcessHandle = Java.type('java.lang.ProcessHandle');
+      pid = ProcessHandle.current().pid();
+    } catch (e) {
+      // ignore...
+    }
+  }
+
+  if (jvmLanguageLevel === 8 || pid === undefined) {
+    // try to use the ManagementFactory MXBean
+    try {
+      var ManagementFactory = Java.type('java.lang.management.ManagementFactory');
+      var name = ManagementFactory.getRuntimeMXBean().getName();
+      pid = parseInt(parseInt(name.substring(0, name.indexOf('@')), 10))
+    } catch (e) {
+      // ignore...
+    }
+  }
 
   global.process = {
     env: System.getenv(),
-    pid: pid.substring(0, pid.indexOf('@')),
+    pid: pid,
     engine: System.getProperty('es4x.engine'),
 
     exit: function (exitCode) {
@@ -100,7 +128,9 @@
 
     stdout: System.out,
     stderr: System.err,
-    stdin: System.in
+    stdin: System.in,
+    // non standard
+    properties: System.getProperties(),
   }
 
 })(global || this);

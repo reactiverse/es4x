@@ -67,7 +67,6 @@ function exec(command, args, env, options, callback) {
         process.exit(err);
       }
     }
-    callback && callback(err);
   });
 }
 
@@ -145,8 +144,8 @@ function generateClassPath(callback) {
   if (!fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
     let params = [];
 
-    if (npm.java11 || process.env['GRAALJS']) {
-      params.push('-Pjava11');
+    if (npm.jvmci) {
+      params.push('-Pjvmci');
     }
 
     params.push('-f', path.resolve(dir, 'pom.xml'), 'generate-sources');
@@ -282,8 +281,8 @@ program
       // init the maven bits
       let params = [];
 
-      if (npm.java11 || process.env['GRAALJS']) {
-        params.push('-Pjava11');
+      if (npm.jvmci) {
+        params.push('-Pjvmci');
       }
 
       params.push('-f', path.resolve(dir, 'pom.xml'), 'clean');
@@ -341,7 +340,7 @@ program
     generateClassPath(function (classPath) {
       let params = [];
 
-      if (npm.java11 || process.env['GRAALJS']) {
+      if (npm.jvmci || process.env['JVMCI']) {
         // enable modules
         params.push('--module-path=target/compiler');
         // enable JVMCI
@@ -408,7 +407,7 @@ program
     generateClassPath(function (classPath) {
       let params = [];
 
-      if (npm.java11 || process.env['GRAALJS']) {
+      if (npm.jvmci || process.env['JVMCI']) {
         // enable modules
         params.push('--module-path=target/compiler');
         // enable JVMCI
@@ -467,9 +466,59 @@ program
     npm.scripts.start = 'es4x launcher run';
     npm.scripts.test = 'es4x launcher test';
     npm.scripts.shell = 'es4x shell';
+    npm.scripts.package = 'es4x package';
 
     try {
       fs.writeFileSync(path.resolve(dir, 'package.json'), JSON.stringify(npm, null, 2));
+    } catch (e) {
+      console.error(c.red.bold(e));
+      process.exit(1);
+    }
+  });
+
+program
+  .command('package')
+  .description('Packages the application as a runnable jar')
+  .action(function(options) {
+
+    // if it doesn't exist stop
+    if (!fs.existsSync(path.resolve(dir, 'pom.xml'))) {
+      console.error(c.red.bold('No \'pom.xml\' found, please init it first.'));
+      process.exit(1);
+    }
+
+    try {
+      // init the maven bits
+      let params = [];
+
+      if (npm.jvmci || process.env['JVMCI']) {
+        params.push('-Pjvmci');
+      }
+
+      params.push('-f', path.resolve(dir, 'pom.xml'), 'clean', 'package');
+
+      exec(getMaven(), params, process.env, {stopOnError: true, verbose: options.verbose}, function (code) {
+        if (code !== 0) {
+          console.error(c.red.bold('Maven exited with code: ' + code));
+          process.exit(1);
+        }
+
+        console.log(c.green.bold('Run your application with:'));
+        console.log();
+
+        var classifier = 'bin';
+
+        console.log(c.bold('  ' + getJava() + ' \\'));
+        if (npm.jvmci || process.env['JVMCI']) {
+          classifier = 'bin-jvmci';
+          console.log(c.bold('  --module-path=target/compiler \\'));
+          console.log(c.bold('  -XX:+UnlockExperimentalVMOptions \\'));
+          console.log(c.bold('  -XX:+EnableJVMCI \\'));
+          console.log(c.bold('  --upgrade-module-path=target/compiler/compiler.jar \\'));
+        }
+        console.log(c.bold('  -jar target/' + (npm.artifactId || npm.name) + '-' + npm.version + '-' + classifier + '.jar'));
+        console.log();
+      });
     } catch (e) {
       console.error(c.red.bold(e));
       process.exit(1);
