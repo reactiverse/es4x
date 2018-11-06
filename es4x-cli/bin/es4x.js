@@ -12,7 +12,7 @@ const mkdirp = require('mkdirp');
 const version = require('../package.json').version;
 const dir = process.cwd();
 const isWindows = /^win/.test(process.platform);
-const graalVersion = '1.0.0-rc8';
+const graalVersion = '1.0.0-rc9';
 
 // quickly abort if there's no package.json
 if (!fs.existsSync(path.resolve(dir, 'package.json'))) {
