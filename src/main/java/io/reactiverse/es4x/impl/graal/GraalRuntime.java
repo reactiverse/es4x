@@ -91,11 +91,8 @@ public class GraalRuntime implements Runtime<Value> {
     if (cwdOverride != null) {
       cwd = new File(cwdOverride).getAbsolutePath();
     } else {
-      cwd = System.getProperty("user.dir");
-    }
-    // ensure it's not null
-    if (cwd == null) {
-      cwd = "";
+      // ensure it's not null
+      cwd = System.getProperty("user.dir", "");
     }
 
     // all paths are unix paths
@@ -194,17 +191,14 @@ public class GraalRuntime implements Runtime<Value> {
     });
 
     // load all the polyfills
-    try {
-      context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).build());
-      context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).build());
-      context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).build());
-      context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).build());
-      context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).build());
-      context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).build());
-      module = context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).build());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).buildLiteral());
+    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).buildLiteral());
+    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).buildLiteral());
+    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).buildLiteral());
+    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).buildLiteral());
+    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).buildLiteral());
+    // keep a reference to module
+    module = context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral());
   }
 
   @Override
@@ -302,13 +296,5 @@ public class GraalRuntime implements Runtime<Value> {
   @Override
   public void leave() {
     context.leave();
-  }
-
-  public Engine getEngine() {
-    return context.getEngine();
-  }
-
-  public Value eval(Source source) {
-    return context.eval(source);
   }
 }
