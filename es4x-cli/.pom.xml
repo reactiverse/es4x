@@ -24,40 +24,45 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.testSource>1.8</maven.compiler.testSource>
     <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
+    <shade.classifier>bin</shade.classifier>
   </properties>
 
   <profiles>
     <profile>
-      <id>java11</id>
+      <id>jvmci</id>
+      <activation>
+        <property>
+          <name>env.JVMCI</name>
+        </property>
+      </activation>
+      <properties>
+        <shade.classifier>bin-jvmci</shade.classifier>
+      </properties>
       <dependencies>
         <!-- GraalVM runtime -->
         <dependency>
           <groupId>org.graalvm.truffle</groupId>
           <artifactId>truffle-api</artifactId>
           <version>[{{graalVersion}},)</version>
-          <optional>true</optional>
-          <scope>provided</scope>
+          <scope>runtime</scope>
         </dependency>
         <dependency>
           <groupId>org.graalvm.js</groupId>
           <artifactId>js</artifactId>
           <version>[{{graalVersion}},)</version>
-          <optional>true</optional>
-          <scope>provided</scope>
+          <scope>runtime</scope>
         </dependency>
         <dependency>
           <groupId>org.graalvm.tools</groupId>
           <artifactId>profiler</artifactId>
           <version>[{{graalVersion}},)</version>
-          <optional>true</optional>
-          <scope>provided</scope>
+          <scope>runtime</scope>
         </dependency>
         <dependency>
           <groupId>org.graalvm.tools</groupId>
           <artifactId>chromeinspector</artifactId>
           <version>[{{graalVersion}},)</version>
-          <optional>true</optional>
-          <scope>provided</scope>
+          <scope>runtime</scope>
         </dependency>
       </dependencies>
       <build>
@@ -214,7 +219,7 @@
               </transformers>
               <artifactSet>
               </artifactSet>
-              <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile>
+              <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-${shade.classifier}.jar</outputFile>
             </configuration>
           </execution>
         </executions>
