@@ -2,22 +2,14 @@ package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.Vertx;
-import io.vertx.ext.unit.junit.RunTestOnContext;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
 
-@RunWith(VertxUnitRunner.class)
 public class JSRuntimeTest {
-
-  @Rule
-  public RunTestOnContext rule = new RunTestOnContext();
 
   @Test
   public void shouldCreateAVertxInstance() {
