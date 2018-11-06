@@ -16,6 +16,7 @@
 package io.reactiverse.es4x.impl.graal;
 
 import io.reactiverse.es4x.Runtime;
+import io.reactiverse.es4x.ScriptException;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.*;
@@ -236,7 +237,13 @@ public class GraalRuntime implements Runtime<Value> {
       .interactive(true)
       .buildLiteral();
 
-    return context.eval(source);
+    try {
+      return context.eval(source);
+    } catch (PolyglotException e) {
+      // in this special case we wrap and hide the polyglot type
+      // so we can keep a contract outside graal
+      throw new ScriptException(e, e.isIncompleteSource(), e.isExit());
+    }
   }
 
   @Override
