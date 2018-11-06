@@ -60,7 +60,7 @@ public class ShellTest {
     assertEquals(1, runScript(null, null));
   }
 
-  @Test(timeout = 10000)
+  @Test(timeout = 30000)
   public void shouldRunAScriptInClusterMode() throws Exception {
     assertEquals(0, runScript("process.exit(0);", Arrays.asList("-clustered")));
   }
