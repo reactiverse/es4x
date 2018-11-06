@@ -17,7 +17,6 @@ package io.reactiverse.es4x;
 
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
-import org.graalvm.polyglot.PolyglotException;
 
 import java.io.*;
 import java.util.HashMap;
@@ -99,7 +98,8 @@ public class Shell {
 
     if (main == null && System.console() == null) {
       // invalid state, no script and no console
-      throw new RuntimeException("No Script provided in non interactive shell!");
+      System.err.println("\u001B[1m\u001B[31mNo Script provided in non interactive shell!\u001B[0m");
+      System.exit(1);
     }
 
     // move the context to the event loop
@@ -161,7 +161,7 @@ public class Shell {
               System.out.println("\u001B[1;90m" + runtime.evalLiteral(statement) + "\u001B[0m");
               System.out.print("> ");
               System.out.flush();
-            } catch (PolyglotException t) {
+            } catch (ScriptException t) {
               if (t.isIncompleteSource()) {
                 updateBuffer(statement, false);
                 return;
