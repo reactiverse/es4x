@@ -56,11 +56,11 @@ public interface Runtime<T> {
       try {
         System.setProperty("es4x.engine", "graaljs");
         return new GraalRuntime(vertx);
-      } catch (NoClassDefFoundError | IllegalArgumentException e) {
+      } catch (NoClassDefFoundError | IllegalStateException e) {
         // in the case classes are missing, the graal bits are missing
         // so fallback to Nashorn
 
-        // we could also have an illegal argument when the graal is missing
+        // we could also have an illegal state when the graal is missing
         // the language bits, in that case also try to fallback to nashorn
         rtName = "nashorn";
       }
