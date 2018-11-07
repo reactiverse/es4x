@@ -25,46 +25,70 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
-public interface Runtime<R> {
+public interface Runtime<T> {
 
-  static Runtime getCurrent() {
+  static Runtime getCurrent(Vertx vertx) {
     String rtName = System.getProperty("es4x.engine");
     // rt name takes precedence in the choice
     if (rtName == null) {
       String vmName = System.getProperty("java.vm.name");
       if (vmName != null && vmName.startsWith("GraalVM")) {
-        rtName = "GraalJS";
+        // we're running on a GraalVM JDK
+        rtName = "graaljs";
       } else {
-        rtName = "Nashorn";
+        // it is not GraalVM JDK but if it is JDK11 and the graal components
+        // are available graaljs can be available too
+
+        try {
+          double spec = Double.parseDouble(System.getProperty("java.specification.version"));
+          if (spec < 11) {
+            rtName = "nashorn";
+          }
+        } catch (NumberFormatException nfe) {
+          rtName = "nashorn";
+        }
+      }
+    } else {
+      rtName = rtName.toLowerCase();
+    }
+
+    if (rtName == null || "graaljs".equals(rtName)) {
+      try {
+        System.setProperty("es4x.engine", "graaljs");
+        return new GraalRuntime(vertx);
+      } catch (NoClassDefFoundError | IllegalStateException e) {
+        // in the case classes are missing, the graal bits are missing
+        // so fallback to Nashorn
+
+        // we could also have an illegal state when the graal is missing
+        // the language bits, in that case also try to fallback to nashorn
+        rtName = "nashorn";
       }
     }
 
-    if (rtName.equalsIgnoreCase("GraalJS")) {
-      System.setProperty("es4x.engine", "GraalJS");
-      return new GraalRuntime();
+    if ("nashorn".equals(rtName)) {
+      System.setProperty("es4x.engine", rtName);
+      return new NashornRuntime(vertx);
     }
 
-    if (rtName.equalsIgnoreCase("Nashorn")) {
-      System.setProperty("es4x.engine", "Nashorn");
-      return new NashornRuntime();
-    }
-
-    System.clearProperty("es4x.engine");
+    // no nashorn or graal available on the system!
     throw new RuntimeException("Unsupported runtime: " + rtName);
   }
 
   /**
    * return the runtime name
+   *
    * @return runtime name.
    */
   String name();
 
   /**
    * Bootstraps a Vert.x instance
+   *
    * @param arguments arguments
    * @return a vertx instance
    */
-  default Vertx vertx(Map<String, Object> arguments) {
+  static Vertx vertx(Map<String, Object> arguments) {
 
     final VertxOptions options = arguments == null ? new VertxOptions() : new VertxOptions(new JsonObject(arguments));
 
@@ -101,12 +125,110 @@ public interface Runtime<R> {
     }
   }
 
-  Runtime<R> registerCodec(Vertx vertx);
+  /**
+   * passes the given configuration to the runtime.
+   *
+   * @param config given configuration.
+   */
+  void config(final JsonObject config);
 
   /**
-   * Returns a module loader for the given runtime.
+   * Require a module following the commonjs spec
    *
-   * @return loader
+   * @param module a module
+   * @return return the module
    */
-  Loader<R> loader(Vertx vertx);
+  T require(String module);
+
+  /**
+   * Requires the main module as a commonjs module, the
+   * module returned will be flagged as a main module.
+   *
+   * @param main the main module
+   * @return the module
+   */
+  T main(String main);
+
+  /**
+   * Loads a JS Worker, meaning it will become a Vert.x Worker.
+   *
+   * @param main    the main entry script
+   * @param address the eventbus address
+   * @return the module
+   */
+  T worker(String main, String address);
+
+  /**
+   * Evals a given sript string.
+   *
+   * @param script string containing code.
+   * @return returns the evaluation result.
+   * @throws Exception on error
+   */
+  T eval(String script) throws Exception;
+
+  /**
+   * Evals a script literal. Script literals are hidden from the
+   * chrome inspector loaded scripts.
+   *
+   * @param script string containing code.
+   * @return returns the evaluation result.
+   * @throws Exception on error
+   */
+  default T evalLiteral(CharSequence script) throws Exception {
+    return eval(script.toString());
+  }
+
+  /**
+   * Performs property lookups on a given evaluated object.
+   *
+   * @param thiz the evaluated object
+   * @param key  the key to lookup
+   * @return the value associated with the key
+   */
+  boolean hasMember(T thiz, String key);
+
+  /**
+   * Invokes a method on an evaluated object.
+   *
+   * @param thiz the evaluated object
+   * @param method the method name to invoke
+   * @param args the vararg arguments list
+   * @return the call result
+   */
+  T invokeMethod(T thiz, String method, Object... args);
+
+  /**
+   * Invokes function on the global scope.
+   *
+   * @param function the function name to invoke
+   * @param args the vararg arguments list
+   * @return the call result
+   */
+  T invokeFunction(String function, Object... args);
+
+  /**
+   * Puts a value to the global scope.
+   *
+   * @param name the key to identify the value in the global scope
+   * @param value the value to store.
+   */
+  void put(String name, Object value);
+
+  /**
+   * explicitly enter the script engine scope.
+   */
+  default void enter() {
+  }
+
+  /**
+   * explicitly leave the script engine scope.
+   */
+  default void leave() {
+  }
+
+  /**
+   * close the current runtime and shutdown all the engine related resources.
+   */
+  void close();
 }

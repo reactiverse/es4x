@@ -24,7 +24,92 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.testSource>1.8</maven.compiler.testSource>
     <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
+    <shade.classifier>bin</shade.classifier>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>jvmci</id>
+      <activation>
+        <property>
+          <name>env.JVMCI</name>
+        </property>
+      </activation>
+      <properties>
+        <shade.classifier>bin-jvmci</shade.classifier>
+      </properties>
+      <dependencies>
+        <!-- GraalVM runtime -->
+        <dependency>
+          <groupId>org.graalvm.truffle</groupId>
+          <artifactId>truffle-api</artifactId>
+          <version>[{{graalVersion}},)</version>
+          <scope>runtime</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.graalvm.js</groupId>
+          <artifactId>js</artifactId>
+          <version>[{{graalVersion}},)</version>
+          <scope>runtime</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.graalvm.tools</groupId>
+          <artifactId>profiler</artifactId>
+          <version>[{{graalVersion}},)</version>
+          <scope>runtime</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.graalvm.tools</groupId>
+          <artifactId>chromeinspector</artifactId>
+          <version>[{{graalVersion}},)</version>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-graalvm-compiler</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.graalvm.compiler</groupId>
+                      <artifactId>compiler</artifactId>
+                      <version>{{graalVersion}}</version>
+                      <type>jar</type>
+                      <destFileName>compiler.jar</destFileName>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.graalvm.truffle</groupId>
+                      <artifactId>truffle-api</artifactId>
+                      <version>{{graalVersion}}</version>
+                      <type>jar</type>
+                      <destFileName>truffle-api.jar</destFileName>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.graalvm.sdk</groupId>
+                      <artifactId>graal-sdk</artifactId>
+                      <version>{{graalVersion}}</version>
+                      <type>jar</type>
+                      <destFileName>graal-sdk.jar</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                  <outputDirectory>target/compiler</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <dependencies>
     {{#dependencies}}
@@ -117,6 +202,7 @@
                     <exclude>META-INF/*.SF</exclude>
                     <exclude>META-INF/*.DSA</exclude>
                     <exclude>META-INF/*.RSA</exclude>
+                    <exclude>**/module-info.class</exclude>
                   </excludes>
                 </filter>
               </filters>
@@ -133,7 +219,7 @@
               </transformers>
               <artifactSet>
               </artifactSet>
-              <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile>
+              <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-${shade.classifier}.jar</outputFile>
             </configuration>
           </execution>
         </executions>

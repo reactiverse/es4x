@@ -22,8 +22,6 @@ import io.vertx.core.Vertx;
 
 public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
 
-  private final Runtime runtime = Runtime.getCurrent();
-
   private Vertx vertx;
 
   @Override
@@ -39,15 +37,10 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
   @Override
   public Verticle createVerticle(String verticleName, ClassLoader classLoader) {
 
-    final Loader engine;
+    final Runtime runtime;
 
     synchronized (this) {
-      engine = runtime
-        // now that the vertx instance fully initialized  and available,
-        // register the custom JS codec for the eventbus
-        .registerCodec(vertx)
-        // create a new CommonJS loader
-        .loader(vertx);
+      runtime = Runtime.getCurrent(vertx);
     }
 
     return new Verticle() {
@@ -86,7 +79,7 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
           worker = context.isWorkerContext() || context.isMultiThreadedWorkerContext();
           // expose config
           if (context.config() != null) {
-            engine.config(context.config());
+            runtime.config(context.config());
           }
         } else {
           worker = false;
@@ -96,32 +89,32 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
         // this can take some time to load so it might block the event loop
         // this is usually not a issue as it is a one time operation
         try {
-          engine.enter();
+          runtime.enter();
           if (worker) {
-            self = engine.worker(fsVerticleName, address);
+            self = runtime.worker(fsVerticleName, address);
           } else {
-            self = engine.main(fsVerticleName);
+            self = runtime.main(fsVerticleName);
           }
         } catch (RuntimeException e) {
           startFuture.fail(e);
           return;
         } finally {
-          engine.leave();
+          runtime.leave();
         }
 
         if (self != null) {
           if (worker) {
             // if it is a worker and there is a onmessage handler we need to bind it to the eventbus
-            if (engine.hasMember(self, "onmessage")) {
+            if (runtime.hasMember(self, "onmessage")) {
               try {
                 // if the worker has specified a onmessage function we need to bind it to the eventbus
-                final Object JSON = engine.eval("JSON");
+                final Object JSON = runtime.eval("JSON");
 
                 vertx.eventBus().consumer(address + ".out", msg -> {
                   // parse the json back to the engine runtime type
-                  Object json = engine.invokeMethod(JSON, "parse", msg.body());
+                  Object json = runtime.invokeMethod(JSON, "parse", msg.body());
                   // deliver it to the handler
-                  engine.invokeMethod(self, "onmessage", json);
+                  runtime.invokeMethod(self, "onmessage", json);
                 });
               } catch (RuntimeException e) {
                 startFuture.fail(e);
@@ -130,15 +123,15 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
             }
           } else {
             // if the main module exports 2 function we bind those to the verticle lifecycle
-            if (engine.hasMember(self, "start")) {
+            if (runtime.hasMember(self, "start")) {
               try {
-                engine.enter();
-                engine.invokeMethod(self, "start");
+                runtime.enter();
+                runtime.invokeMethod(self, "start");
               } catch (RuntimeException e) {
                 startFuture.fail(e);
                 return;
               } finally {
-                engine.leave();
+                runtime.leave();
               }
             }
           }
@@ -151,21 +144,21 @@ public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
       @Override
       public void stop(Future<Void> stopFuture) {
         if (self != null) {
-          if (engine.hasMember(self, "stop")) {
+          if (runtime.hasMember(self, "stop")) {
             try {
-              engine.enter();
-              engine.invokeMethod(self, "stop");
+              runtime.enter();
+              runtime.invokeMethod(self, "stop");
             } catch (RuntimeException e) {
               stopFuture.fail(e);
               return;
             } finally {
               // done!
-              engine.leave();
+              runtime.leave();
             }
           }
         }
         // close the loader
-        engine.close();
+        runtime.close();
         stopFuture.complete();
       }
     };

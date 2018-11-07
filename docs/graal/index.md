@@ -1,7 +1,7 @@
 # GraalVM Support
 
-ES4X has **experimental** GraalVM support. The same code will run either on Nashorn (JS Engine in JDK>=8) or GraalJS
-(if run on GraalVM).
+ES4X has GraalVM support. The same code will run either on Nashorn (JS Engine in JDK>=8) or GraalJS
+(if run on GraalVM or a JVMCI enabled JVM).
 
 There are benefits on using GraalJS namely the updated language support >=ES6 and support out of the box for generators,
 promises, etc....

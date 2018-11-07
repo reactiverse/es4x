@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -27,7 +26,7 @@ public class LoggerTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public LoggerTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -40,7 +39,7 @@ public class LoggerTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -57,9 +56,9 @@ public class LoggerTest {
 
   @Test
   public void shouldPrettyPrintException() {
-    Object module = loader.require("./exp.js");
+    Object module = runtime.require("./exp.js");
     try {
-      loader.invokeMethod(module, "a");
+      runtime.invokeMethod(module, "a");
     } catch (RuntimeException e) {
       log.error("Error from Script", e);
     }

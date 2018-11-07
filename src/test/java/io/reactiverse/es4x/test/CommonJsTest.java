@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.junit.Before;
 import org.junit.Rule;
@@ -28,7 +27,7 @@ public class CommonJsTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public CommonJsTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -41,7 +40,7 @@ public class CommonJsTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -50,7 +49,7 @@ public class CommonJsTest {
   @Test
   public void shouldThrowAnErrorIfFileCantBeFound() {
     try {
-      loader.require("./not_found.js");
+      runtime.require("./not_found.js");
       fail();
     } catch (RuntimeException e) {
       assertTrue("Error: Module \"./not_found.js\" was not found".equals(e.getMessage()) || "ModuleError: Module \"./not_found.js\" was not found".equals(e.getMessage()));
@@ -60,7 +59,7 @@ public class CommonJsTest {
   @Test
   public void shouldNotWrapErrorsEncounteredWhenLoadingModule() {
     try {
-      loader.require("./lib/throws");
+      runtime.require("./lib/throws");
       fail();
     } catch (RuntimeException e) {
       assertTrue("ReferenceError: \"bar\" is not defined".equals(e.getMessage()) || "ReferenceError: bar is not defined".equals(e.getMessage()));
@@ -69,7 +68,7 @@ public class CommonJsTest {
 
   @Test
   public void shouldSupportNestedRequires() {
-    Object outer = loader.require("./lib/outer");
+    Object outer = runtime.require("./lib/outer");
     Object quadruple = getMember(outer, "quadruple");
     Number n = callAs(outer, quadruple, Number.class, 2);
     assertEquals(8, n.intValue());
@@ -77,7 +76,7 @@ public class CommonJsTest {
 
   @Test
   public void shouldSupportAnIdWithAnExtension() {
-    Object outer = loader.require("./lib/outer.js");
+    Object outer = runtime.require("./lib/outer.js");
     Object quadruple = getMember(outer, "quadruple");
     Number n = callAs(outer, quadruple, Number.class, 2);
     assertEquals(8, n.intValue());
@@ -85,28 +84,28 @@ public class CommonJsTest {
 
   @Test
   public void shouldReturnDotJsonFileAsJsonObject() {
-    Object json = loader.require("./lib/some_data.json");
+    Object json = runtime.require("./lib/some_data.json");
     assertEquals("This is a JSON file", getMember(json, "description", String.class));
   }
 
   @Test
   public void shouldCacheModulesInRequireCache() throws Exception {
-    Object outer = loader.require("./lib/outer.js");
-    Object require = loader.eval("require");
+    Object outer = runtime.require("./lib/outer.js");
+    Object require = runtime.eval("require");
 
     Object cache = getMember(require, "cache");
     String filename = getMember(outer, "filename", String.class);
 
     // JS has no concept ot equals() so we cast to String to compare
     assertEquals(getMember(cache, filename).toString(), outer.toString());
-    Object outer2 = loader.require("./lib/outer.js");
+    Object outer2 = runtime.require("./lib/outer.js");
     // JS has no concept ot equals() so we cast to String to compare
     assertEquals(outer.toString(), outer2.toString());
   }
 
   @Test
   public void shoudlHandleCyclicDependencies() {
-    Object main = loader.require("./lib/cyclic");
+    Object main = runtime.require("./lib/cyclic");
     assertEquals("Hello from A", (getMember(getMember(main, "a"), "fromA", String.class)));
     assertEquals("Hello from B", (getMember(getMember(main, "b"), "fromB", String.class)));
   }

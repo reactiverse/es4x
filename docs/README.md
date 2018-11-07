@@ -64,7 +64,8 @@ add the package [es4x-cli](https://www.npmjs.com/package/es4x-cli) to your
     "postinstall": "es4x postinstall",
     "test": "es4x launcher test",
     "start": "es4x launcher run",
-    "shell": "es4x shell"
+    "shell": "es4x shell",
+    "package": "es4x package"
   },
   "license": "ISC",
   "private": true,
@@ -80,8 +81,8 @@ As of this moment you can follow the normal workflow. For example in order to cr
 ```json
 {
   "dependencies": {
-    "@vertx/core": "3.5.3",
-    "@vertx/web": "3.5.3"
+    "@vertx/core": "3.5.4",
+    "@vertx/web": "3.5.4"
   }
 }
 ```
@@ -163,7 +164,7 @@ It is common to package JVM applications as runnable `JAR` files, the `es4x-cli`
 `maven-shade-plugin` configured for this:
 
 ```sh
-mvn clean package
+npm run package
 ```
 
 And a new `JAR` file should be built in your `target` directory.
@@ -172,6 +173,34 @@ Packaging will re-arrange your application code to be moved to the directory `no
 it can be used from other JARs. In order for this to work correctly, the current `node_modules` are also
 bundled in the jar as well as all files listed under the `files` property of your `package.json`.
 
+When running this script you will see also the output command you need to use to run your application e.g.:
+
+```bash
+# Running on a GraalVM JVM
+Running: /home/plopes/Projects/reactiverse/es4x/examples/empty-project/mvnw ... package
+Run your application with:
+
+  java \
+  -jar target/empty-project-1.0.0-bin.jar
+```
+
+Note that if you run with the environment flag `JVMCI` then you can run your app on JDK11 too but the start command
+will be a little more complex, this is what the script tells you e.g.:
+
+```bash
+Running: /home/plopes/Projects/reactiverse/es4x/examples/empty-project/mvnw ... package
+Run your application with:
+
+  java \
+  --module-path=target/compiler \
+  -XX:+UnlockExperimentalVMOptions \
+  -XX:+EnableJVMCI \
+  --upgrade-module-path=target/compiler/compiler.jar \
+  -jar target/empty-project-1.0.0-bin-jvmci.jar
+```
+
+In this case you need not just the binary jar, but also the directory `target/compiler`. With this you can run using
+the GraalJS engine on any JDK11.
 
 ### Shell/ REPL
 

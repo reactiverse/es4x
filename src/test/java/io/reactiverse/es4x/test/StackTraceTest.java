@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -28,7 +27,7 @@ public class StackTraceTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   @Rule
   public RunTestOnContext rule = new RunTestOnContext();
@@ -41,7 +40,7 @@ public class StackTraceTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -51,20 +50,20 @@ public class StackTraceTest {
   public void shouldGenerateUsefulStackTrace(TestContext should) throws Exception {
     final Async test = should.async();
     // pass the assertion to the engine
-    loader.put("should", should);
-    loader.put("test", test);
+    runtime.put("should", should);
+    runtime.put("test", test);
 
-    loader.eval("require('./stacktraces')");
+    runtime.eval("require('./stacktraces')");
   }
 
   @Test(timeout = 10000)
   public void shouldGenerateUsefulStackTraceFromJS(TestContext should) throws Exception {
     final Async test = should.async();
     // pass the assertion to the engine
-    loader.put("should", should);
-    loader.put("test", test);
+    runtime.put("should", should);
+    runtime.put("test", test);
 
-    loader.eval("require('./stacktraces/jserror')");
+    runtime.eval("require('./stacktraces/jserror')");
   }
 
   @Test

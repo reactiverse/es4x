@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.graalvm.polyglot.Value;
 import org.junit.Before;
@@ -27,7 +26,7 @@ public class ProcessTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public ProcessTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -40,7 +39,7 @@ public class ProcessTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -48,7 +47,7 @@ public class ProcessTest {
 
   @Test(timeout = 10000)
   public void testProcessEnv() throws Exception {
-    Object res = loader.eval("process.env");
+    Object res = runtime.eval("process.env");
     Map<String, String> env;
     if (res instanceof Map) {
       env = (Map) res;

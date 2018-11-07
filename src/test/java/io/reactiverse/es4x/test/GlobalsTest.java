@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.Loader;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -27,7 +26,7 @@ public class GlobalsTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public GlobalsTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -40,7 +39,7 @@ public class GlobalsTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -50,8 +49,8 @@ public class GlobalsTest {
   public void testSetTimeout(TestContext ctx) throws Exception {
     final Async async = ctx.async();
 
-    loader.put("ctx", ctx);
-    loader.put("async", async);
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
 
     /// @language=JavaScript
     String script =
@@ -60,15 +59,15 @@ public class GlobalsTest {
       "}, 1);";
 
 
-    loader.eval(script);
+    runtime.eval(script);
   }
 
   @Test(timeout = 10000)
   public void testSetTimeout0(TestContext ctx) throws Exception {
     final Async async = ctx.async();
 
-    loader.put("ctx", ctx);
-    loader.put("async", async);
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
 
     /// @language=JavaScript
     String script =
@@ -77,15 +76,15 @@ public class GlobalsTest {
         "}, 0);";
 
 
-    loader.eval(script);
+    runtime.eval(script);
   }
 
   @Test(timeout = 10000)
   public void testSetTimeoutWithParams(TestContext ctx) throws Exception {
     final Async async = ctx.async();
 
-    loader.put("ctx", ctx);
-    loader.put("async", async);
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
 
     /// @language=JavaScript
     String script =
@@ -95,11 +94,11 @@ public class GlobalsTest {
         "}, 1, 'durp!');";
 
 
-    loader.eval(script);
+    runtime.eval(script);
   }
 
   @Test(timeout = 10000)
   public void testDateToInstant(TestContext ctx) throws Exception {
-    loader.eval("console.log(new Date().toInstant());");
+    runtime.eval("console.log(new Date().toInstant());");
   }
 }

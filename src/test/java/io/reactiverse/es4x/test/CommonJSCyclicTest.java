@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.Loader;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import org.junit.Before;
@@ -26,7 +25,7 @@ public class CommonJSCyclicTest {
   }
 
   private final String engineName;
-  private Loader loader;
+  private Runtime runtime;
 
   public CommonJSCyclicTest(String engine) {
     System.setProperty("es4x.engine", engine);
@@ -39,7 +38,7 @@ public class CommonJSCyclicTest {
   @Before
   public void initialize() {
     try {
-      loader = Runtime.getCurrent().loader(rule.vertx());
+      runtime = Runtime.getCurrent(rule.vertx());
     } catch (IllegalStateException e) {
       assumeTrue(engineName + " is not available", false);
     }
@@ -47,7 +46,7 @@ public class CommonJSCyclicTest {
 
   @Test
   public void shouldHaveTheSameSenseOfAnObjectInAllPlaces() {
-    Object stream = loader.require("./lib/cyclic2/stream.js");
+    Object stream = runtime.require("./lib/cyclic2/stream.js");
     assertTrue(isFunction(stream));
     Object readable = getMember(stream, "Readable");
     assertTrue(isFunction(readable));
