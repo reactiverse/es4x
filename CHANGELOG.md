@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+
+## [0.5.6] - 2018-10-07
 - Added a package command to package either fat jar or a JVMCI fat jar.
 - Fix issue preventing GraalJS running on OpenJ9
 - Allow specifying absolute path as start module
