@@ -19,8 +19,9 @@ import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
+import io.vertx.core.spi.VerticleFactory;
 
-public class VerticleFactory implements io.vertx.core.spi.VerticleFactory {
+public class ESVerticleFactory implements VerticleFactory {
 
   private Vertx vertx;
 

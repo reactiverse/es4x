@@ -26,7 +26,7 @@ import java.util.logging.LogRecord;
 
 public class ES4XFormatter extends Formatter {
 
-  private static final String format = "%5$s %6$s\n";
+  private static final String format = "%5$s %6$s%n";
 
   private final Date dat = new Date();
 
@@ -68,8 +68,6 @@ public class ES4XFormatter extends Formatter {
       buffer
         .append(self.getLocalizedMessage())
         .append(System.lineSeparator());
-
-      // TODO: use source map
 
       buffer
         .append("\tat (")

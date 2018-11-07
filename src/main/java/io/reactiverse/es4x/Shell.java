@@ -19,6 +19,7 @@ import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,7 +144,7 @@ public class Shell {
 
     @Override
     public void run() {
-      try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
+      try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()))) {
         System.out.print("> ");
         System.out.flush();
 
