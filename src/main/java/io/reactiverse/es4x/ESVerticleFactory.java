@@ -15,14 +15,18 @@
  */
 package io.reactiverse.es4x;
 
+import io.reactiverse.es4x.impl.REPLVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.spi.VerticleFactory;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class ESVerticleFactory implements VerticleFactory {
 
+  private final AtomicBoolean shell = new AtomicBoolean(false);
   private Vertx vertx;
 
   @Override
@@ -39,9 +43,21 @@ public class ESVerticleFactory implements VerticleFactory {
   public Verticle createVerticle(String verticleName, ClassLoader classLoader) {
 
     final Runtime runtime;
+    final String fsVerticleName;
 
     synchronized (this) {
       runtime = Runtime.getCurrent(vertx);
+    }
+
+    // extract prefix if present
+    if (verticleName.startsWith(prefix() + ":")) {
+      fsVerticleName = verticleName.substring(prefix().length() + 1);
+    } else {
+      fsVerticleName = verticleName;
+    }
+
+    if ("<shell>".equals(fsVerticleName)) {
+      return new REPLVerticle(runtime, shell);
     }
 
     return new Verticle() {
@@ -65,15 +81,7 @@ public class ESVerticleFactory implements VerticleFactory {
       @Override
       public void start(Future<Void> startFuture) throws Exception {
         final String address;
-        final String fsVerticleName;
         final boolean worker;
-
-        // extract prefix if present
-        if (verticleName.startsWith(prefix() + ":")) {
-          fsVerticleName = verticleName.substring(prefix().length() + 1);
-        } else {
-          fsVerticleName = verticleName;
-        }
 
         if (context != null) {
           address = context.deploymentID();

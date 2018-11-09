@@ -420,7 +420,9 @@ program
       params.push('-cp');
       params.push(classPath);
 
-      params.push('io.reactiverse.es4x.Shell');
+      params.push('io.vertx.core.Launcher');
+      params.push("run");
+      params.push("js:<shell>");
 
       if (args && Array.isArray(args) && args.length > 0) {
         params = params.concat(args);

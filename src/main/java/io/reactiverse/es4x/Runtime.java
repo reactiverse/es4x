@@ -18,12 +18,7 @@ package io.reactiverse.es4x;
 import io.reactiverse.es4x.impl.graal.GraalRuntime;
 import io.reactiverse.es4x.impl.nashorn.NashornRuntime;
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonObject;
-
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
 public interface Runtime<T> {
 
@@ -83,49 +78,6 @@ public interface Runtime<T> {
   String name();
 
   /**
-   * Bootstraps a Vert.x instance
-   *
-   * @param arguments arguments
-   * @return a vertx instance
-   */
-  static Vertx vertx(Map<String, Object> arguments) {
-
-    final VertxOptions options = arguments == null ? new VertxOptions() : new VertxOptions(new JsonObject(arguments));
-
-    if (options.isClustered()) {
-      final CountDownLatch latch = new CountDownLatch(1);
-
-      final AtomicReference<Throwable> err = new AtomicReference<>();
-      final AtomicReference<Vertx> holder = new AtomicReference<>();
-
-
-      Vertx.clusteredVertx(options, ar -> {
-        if (ar.failed()) {
-          err.set(ar.cause());
-          latch.countDown();
-        } else {
-          holder.set(ar.result());
-          latch.countDown();
-        }
-      });
-
-      try {
-        latch.await();
-      } catch (InterruptedException e) {
-        throw new RuntimeException(e);
-      }
-
-      if (err.get() != null) {
-        throw new RuntimeException(err.get());
-      } else {
-        return holder.get();
-      }
-    } else {
-      return Vertx.vertx(options);
-    }
-  }
-
-  /**
    * passes the given configuration to the runtime.
    *
    * @param config given configuration.
@@ -162,21 +114,21 @@ public interface Runtime<T> {
    * Evals a given sript string.
    *
    * @param script string containing code.
+   * @param literal literals are non listed on debug sessions
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  T eval(String script) throws Exception;
+  T eval(String script, boolean literal) throws Exception;
 
   /**
-   * Evals a script literal. Script literals are hidden from the
-   * chrome inspector loaded scripts.
+   * Evals a given sript string.
    *
    * @param script string containing code.
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  default T evalLiteral(CharSequence script) throws Exception {
-    return eval(script.toString());
+  default T eval(String script) throws Exception {
+    return eval(script, false);
   }
 
   /**

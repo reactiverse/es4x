@@ -13,7 +13,7 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x;
+package io.reactiverse.es4x.impl;
 
 /**
  * Exception wrapper to avoid depend on Graal exception types

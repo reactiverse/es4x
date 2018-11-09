@@ -1,67 +1,59 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.Runtime;
+import io.vertx.ext.unit.Async;
+import io.vertx.ext.unit.TestContext;
+import io.vertx.ext.unit.junit.RunTestOnContext;
+import io.vertx.ext.unit.junit.VertxUnitRunnerWithParametersFactory;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assume.assumeTrue;
 
+@RunWith(Parameterized.class)
+@Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
 public class ShellTest {
 
-  private static final String CP = System.getProperty("java.class.path");
-  private static final String JAVA = new File(System.getProperty("java.home"), "bin/java").getAbsolutePath();
-  private static final File CWD = new File(System.getProperty("user.dir"));
+  @Parameterized.Parameters
+  public static List<String> engines() {
+    return Arrays.asList("Nashorn", "GraalJS");
+  }
 
-  private int runScript(String script, List<String> shellArgs) throws IOException, InterruptedException {
+  private final String engineName;
 
-    final List<String> args = new ArrayList<>(
-      Arrays.asList(
-        JAVA,
-        "-cp",
-        CP,
-        "io.reactiverse.es4x.Shell"));
+  public ShellTest(String engine) {
+    System.setProperty("es4x.engine", engine);
+    engineName = engine;
+  }
 
-    if (script != null) {
-      final File file = File.createTempFile("ex4x-test", ".js");
-      file.deleteOnExit();
+  @Rule
+  public RunTestOnContext rule = new RunTestOnContext();
 
-      try (FileOutputStream out = new FileOutputStream(file)) {
-        out.write(script.getBytes(StandardCharsets.UTF_8));
-      }
-
-      args.add(file.getAbsolutePath());
+  @Before
+  public void initialize() {
+    try {
+      Runtime.getCurrent(rule.vertx());
+    } catch (IllegalStateException e) {
+      assumeTrue(engineName + " is not available", false);
     }
-
-    if (shellArgs != null) {
-      args.addAll(shellArgs);
-    }
-
-    return
-      new ProcessBuilder(args)
-        .directory(CWD)
-        .inheritIO()
-        .start()
-        .waitFor();
   }
 
   @Test(timeout = 10000)
-  public void shouldRunAScript() throws Exception {
-    assertEquals(0, runScript("process.exit(0);", null));
-  }
-
-  @Test(timeout = 10000)
-  public void shouldFailWhenTheresNoScript() throws Exception {
-    assertEquals(1, runScript(null, null));
-  }
-
-  @Test(timeout = 30000)
-  public void shouldRunAScriptInClusterMode() throws Exception {
-    assertEquals(0, runScript("process.exit(0);", Arrays.asList("-clustered")));
+  public void shouldRunAScript(TestContext should) throws Exception {
+    final Async test = should.async();
+    System.setProperty("script", "console.log(process.properties); process.properties['result'] = 'OK';");
+    rule.vertx().deployVerticle("js:<shell>", deploy -> {
+      should.assertTrue(deploy.succeeded());
+      rule.vertx().setTimer(300, t -> {
+        should.assertEquals("OK", System.getProperty("result"));
+        test.complete();
+      });
+    });
   }
 }
