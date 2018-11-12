@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -9,16 +9,19 @@
     <version>9</version>
   </parent>
 
-  <modelVersion>4.0.0</modelVersion>
-
   <groupId>io.reactiverse</groupId>
-  <artifactId>es4x</artifactId>
-  <version>0.5.7-SNAPSHOT</version>
+  <artifactId>es4x-parent</artifactId>
+  <version>0.6.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
   <properties>
-    <vertx.version>3.5.4</vertx.version>
-    <graal.version>1.0.0-rc9</graal.version>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
+    <maven.compiler.testSource>1.8</maven.compiler.testSource>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Dependency versions -->
+    <vertx.version>3.6.0-SNAPSHOT</vertx.version>
   </properties>
 
   <licenses>
@@ -41,148 +44,66 @@
     <developerConnection>scm:git:git@github.com:reactiverse/es4x.git</developerConnection>
   </scm>
 
-  <profiles>
-    <profile>
-      <id>java9</id>
-      <activation>
-        <jdk>[1.9,)</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-              <execution>
-                <id>add-sources</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>add-source</goal>
-                </goals>
-                <configuration>
-                  <sources>
-                    <source>src/main/java-9</source>
-                  </sources>
-                </configuration>
-              </execution>
-              <execution>
-                <id>add-test-sources</id>
-                <phase>generate-test-sources</phase>
-                <goals>
-                  <goal>add-test-source</goal>
-                </goals>
-                <configuration>
-                  <sources>
-                    <source>src/test/java-9</source>
-                  </sources>
-                </configuration>
-              </execution>
-              <execution>
-                <id>add-resources</id>
-                <phase>generate-resources</phase>
-                <goals>
-                  <goal>add-resource</goal>
-                </goals>
-                <configuration>
-                  <resources>
-                    <resource>
-                      <directory>src/main/resources-9</directory>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+  <name>es4x parent</name>
+  <description>EcmaScript >= 6 for Vert.x 3</description>
+  <url>https://reactiverse.io/es4x</url>
 
-  <dependencies>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-core</artifactId>
-      <version>${vertx.version}</version>
-      <!-- to allow other versions -->
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.graalvm.sdk</groupId>
-      <artifactId>graal-sdk</artifactId>
-      <version>${graal.version}</version>
-      <scope>provided</scope>
-      <optional>true</optional>
-    </dependency>
-    <!-- testing -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-unit</artifactId>
-      <version>${vertx.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-hazelcast</artifactId>
-      <version>${vertx.version}</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <developers>
+    <developer>
+      <id>pmlopes</id>
+      <name>Paulo Lopes</name>
+      <email>pmlopes@gmail.com</email>
+    </developer>
+  </developers>
+
+  <ciManagement>
+    <url>https://travis-ci.org/reactiverse/es4x</url>
+    <system>Travis CI</system>
+  </ciManagement>
+
+
+  <distributionManagement>
+    <site>
+      <id>website</id>
+      <url>https://reactiverse.io/es4x</url>
+    </site>
+  </distributionManagement>
+
+  <modules>
+    <module>es4x</module>
+    <module>codegen</module>
+  </modules>
 
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.amashchenko.maven.plugin</groupId>
-        <artifactId>gitflow-maven-plugin</artifactId>
-        <version>1.9.0</version>
-        <configuration>
-          <installProject>false</installProject>
-          <gitFlowConfig>
-            <productionBranch>master</productionBranch>
-            <developmentBranch>develop</developmentBranch>
-            <featureBranchPrefix>feature/</featureBranchPrefix>
-            <releaseBranchPrefix>release/</releaseBranchPrefix>
-            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-            <supportBranchPrefix>support/</supportBranchPrefix>
-            <versionTagPrefix/>
-          </gitFlowConfig>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.2</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.amashchenko.maven.plugin</groupId>
+          <artifactId>gitflow-maven-plugin</artifactId>
+          <version>1.9.0</version>
+          <configuration>
+            <installProject>false</installProject>
+            <gitFlowConfig>
+              <productionBranch>master</productionBranch>
+              <developmentBranch>develop</developmentBranch>
+              <featureBranchPrefix>feature/</featureBranchPrefix>
+              <releaseBranchPrefix>release/</releaseBranchPrefix>
+              <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+              <supportBranchPrefix>support/</supportBranchPrefix>
+              <versionTagPrefix/>
+            </gitFlowConfig>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
-
 </project>

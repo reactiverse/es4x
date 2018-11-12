@@ -72,6 +72,13 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="jsonevent.html" class="tsd-signature-type">JsonEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -84,6 +91,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jsonparser.html#end" class="tsd-kind-icon">end</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jsonparser.html#endhandler" class="tsd-kind-icon">end<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jsonparser.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jsonparser.html#fetch" class="tsd-kind-icon">fetch</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jsonparser.html#handle" class="tsd-kind-icon">handle</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jsonparser.html#handler" class="tsd-kind-icon">handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jsonparser.html#objecteventmode" class="tsd-kind-icon">object<wbr>Event<wbr>Mode</a></li>
@@ -109,12 +117,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6189</li>
+									<li>Defined in index.d.ts:6447</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Flip the parser to emit a stream of events for each new json array.</p>
+									<p>Flip the parser to emit a stream of events for each new json array.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
@@ -132,12 +140,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6198</li>
+									<li>Defined in index.d.ts:6456</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Flip the parser to emit a single value event for each new json array.
+									<p>Flip the parser to emit a single value event for each new json array.
 									</p>
 									Json array currently streamed won&#39;t be affected.</p>
 								</div>
@@ -157,12 +165,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6166</li>
+									<li>Defined in index.d.ts:6424</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> End the stream, this must be called after all the json stream has been processed.</p>
+									<p>End the stream, this must be called after all the json stream has been processed.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -179,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6204</li>
+									<li>Defined in index.d.ts:6464</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -189,17 +197,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">void</span></h5>
+															<h5>res: <span class="tsd-signature-type">void</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -225,7 +235,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6208</li>
+									<li>Defined in index.d.ts:6468</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -235,17 +245,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">Error</span></h5>
+															<h5>res: <span class="tsd-signature-type">Error</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -262,6 +274,30 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fetch" class="tsd-anchor"></a>
+					<h3>fetch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
+								<ul>
+									<li>Defined in index.d.ts:6462</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="handle" class="tsd-anchor"></a>
 					<h3>handle</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -271,12 +307,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6141</li>
+									<li>Defined in index.d.ts:6399</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Something has happened, so handle it.</p>
+									<p>Something has happened, so handle it.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -302,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6206</li>
+									<li>Defined in index.d.ts:6466</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -312,17 +348,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="jsonevent.html" class="tsd-signature-type">JsonEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="jsonevent.html" class="tsd-signature-type">JsonEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="jsonevent.html" class="tsd-signature-type">JsonEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="jsonevent.html" class="tsd-signature-type">JsonEvent</a></h5>
+															<h5>res: <a href="jsonevent.html" class="tsd-signature-type">JsonEvent</a></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="jsonevent.html" class="tsd-signature-type">JsonEvent</a><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -348,12 +386,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6173</li>
+									<li>Defined in index.d.ts:6431</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Flip the parser to emit a stream of events for each new json object.</p>
+									<p>Flip the parser to emit a stream of events for each new json object.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
@@ -371,12 +409,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6182</li>
+									<li>Defined in index.d.ts:6440</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Flip the parser to emit a single value event for each new json object.
+									<p>Flip the parser to emit a single value event for each new json object.
 									</p>
 									Json object currently streamed won&#39;t be affected.</p>
 								</div>
@@ -395,8 +433,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:6200</li>
+									<li>Defined in index.d.ts:6458</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
@@ -412,8 +451,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:6202</li>
+									<li>Defined in index.d.ts:6460</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
@@ -430,12 +470,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6160</li>
+									<li>Defined in index.d.ts:6418</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Handle a {@code Buffer}, pretty much like calling {@link #handle(Object)}.</p>
+									<p>Handle a {@code Buffer}, pretty much like calling {@link #handle(Object)}.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -454,18 +494,18 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> new<wbr>Parser</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">new<wbr>Parser<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></li>
-						<li class="tsd-signature tsd-kind-icon">new<wbr>Parser<span class="tsd-signature-symbol">(</span>stream<span class="tsd-signature-symbol">: </span><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></li>
+						<li class="tsd-signature tsd-kind-icon">new<wbr>Parser<span class="tsd-signature-symbol">(</span>stream<span class="tsd-signature-symbol">: </span><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6147</li>
+									<li>Defined in index.d.ts:6405</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Create a new {@code JsonParser} instance.</p>
+									<p>Create a new {@code JsonParser} instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
@@ -473,18 +513,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6153</li>
+									<li>Defined in index.d.ts:6411</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Create a new {@code JsonParser} instance.</p>
+									<p>Create a new {@code JsonParser} instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a></h5>
+									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
@@ -522,6 +562,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="jsonparser.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jsonparser.html#fetch" class="tsd-kind-icon">fetch</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="jsonparser.html#handle" class="tsd-kind-icon">handle</a>

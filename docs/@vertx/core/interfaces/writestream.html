@@ -57,19 +57,47 @@
 					<a href="writestream.html">WriteStream</a>
 				</li>
 			</ul>
-			<h1>Interface WriteStream</h1>
+			<h1>Interface WriteStream&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">WriteStream</span>
+						<a href="streambase.html" class="tsd-signature-type">StreamBase</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">WriteStream</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="websocketbase.html" class="tsd-signature-type">WebSocketBase</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/asyncfile.html" class="tsd-signature-type">AsyncFile</a></li>
+					<li><a href="../classes/httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></li>
+					<li><a href="../classes/httpserverresponse.html" class="tsd-signature-type">HttpServerResponse</a></li>
+					<li><a href="../classes/messageproducer.html" class="tsd-signature-type">MessageProducer</a></li>
+					<li><a href="../classes/netsocket.html" class="tsd-signature-type">NetSocket</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -81,7 +109,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="writestream.html#drainhandler" class="tsd-kind-icon">drain<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="writestream.html#end" class="tsd-kind-icon">end</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="writestream.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="writestream.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="writestream.html#setwritequeuemaxsize" class="tsd-kind-icon">set<wbr>Write<wbr>Queue<wbr>Max<wbr>Size</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="writestream.html#write" class="tsd-kind-icon">write</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="writestream.html#writequeuefull" class="tsd-kind-icon">write<wbr>Queue<wbr>Full</a></li>
@@ -96,18 +124,18 @@
 					<a name="drainhandler" class="tsd-anchor"></a>
 					<h3>drain<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">drain<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a></li>
+						<li class="tsd-signature tsd-kind-icon">drain<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8903</li>
+									<li>Defined in index.d.ts:9147</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set a drain handler on the stream. If the write queue is full, then the handler will be called when the write
+									<p>Set a drain handler on the stream. If the write queue is full, then the handler will be called when the write
 										queue is ready to accept buffers again. See <a href="../classes/pump.html">Pump</a> for an example of this being used.
 										<p/>
 											The stream implementation defines when the drain handler, for example it could be when the queue size has been
@@ -124,17 +152,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">void</span></h5>
+															<h5>res: <span class="tsd-signature-type">void</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -146,7 +176,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="writestream.html" class="tsd-signature-type">WriteStream</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -156,18 +186,18 @@
 					<h3>end</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
 						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8863</li>
+									<li>Defined in index.d.ts:9107</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Ends the stream.
+									<p>Ends the stream.
 										<p>
 										Once the stream has ended, it cannot be used any more.</p>
 								</div>
@@ -177,40 +207,41 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8869</li>
+									<li>Defined in index.d.ts:9113</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Same as {@link #end()} but writes some data to the stream before ending.</p>
+									<p>Same as {@link #end()} but writes some data to the stream before ending.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>t: <span class="tsd-signature-type">any</span></h5>
+									<h5>t: <span class="tsd-signature-type">T</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="exceptionhandler" class="tsd-anchor"></a>
 					<h3>exception<wbr>Handler</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">exception<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">exception<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="streambase.html">StreamBase</a>.<a href="streambase.html#exceptionhandler">exceptionHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8845</li>
+									<li>Defined in index.d.ts:9089</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set an exception handler on the write stream.</p>
+									<p>Set an exception handler on the write stream.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -223,17 +254,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">Error</span></h5>
+															<h5>res: <span class="tsd-signature-type">Error</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -245,7 +278,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="writestream.html" class="tsd-signature-type">WriteStream</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -254,18 +287,18 @@
 					<a name="setwritequeuemaxsize" class="tsd-anchor"></a>
 					<h3>set<wbr>Write<wbr>Queue<wbr>Max<wbr>Size</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Write<wbr>Queue<wbr>Max<wbr>Size<span class="tsd-signature-symbol">(</span>maxSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Write<wbr>Queue<wbr>Max<wbr>Size<span class="tsd-signature-symbol">(</span>maxSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8883</li>
+									<li>Defined in index.d.ts:9127</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the maximum size of the write queue to {@code maxSize}. You will still be able to write to the stream even
+									<p>Set the maximum size of the write queue to {@code maxSize}. You will still be able to write to the stream even
 										if there is more than {@code maxSize} items in the write queue. This is used as an indicator by classes such as
 										{@code Pump} to provide flow control.
 										<p/>
@@ -283,7 +316,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="writestream.html" class="tsd-signature-type">WriteStream</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -292,18 +325,18 @@
 					<a name="write" class="tsd-anchor"></a>
 					<h3>write</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a></li>
+						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8855</li>
+									<li>Defined in index.d.ts:9099</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Write some data to the stream. The data is put on an internal write queue, and the write actually happens
+									<p>Write some data to the stream. The data is put on an internal write queue, and the write actually happens
 										asynchronously. To avoid running out of memory by putting too much on the write queue,
 									check the {@link #writeQueueFull} method before writing. This is done automatically if using a <a href="../classes/pump.html">Pump</a>.</p>
 								</div>
@@ -311,13 +344,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>data: <span class="tsd-signature-type">any</span></h5>
+									<h5>data: <span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the data to write</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="writestream.html" class="tsd-signature-type">WriteStream</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -332,12 +365,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8891</li>
+									<li>Defined in index.d.ts:9135</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> This will return {@code true} if there are more bytes in the write queue than the value set using {@link</p>
+									<p>This will return {@code true} if there are more bytes in the write queue than the value set using {@link</p>
 									<p> #setWriteQueueMaxSize}</p>
 								</div>
 							</div>
@@ -360,7 +393,7 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface">
+					<li class="current tsd-kind-interface tsd-has-type-parameter">
 						<a href="writestream.html" class="tsd-kind-icon">Write<wbr>Stream</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
@@ -369,7 +402,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="writestream.html#end" class="tsd-kind-icon">end</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="writestream.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">

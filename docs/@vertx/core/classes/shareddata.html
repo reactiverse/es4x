@@ -79,10 +79,10 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="shareddata.html#getasyncmap" class="tsd-kind-icon">get<wbr>Async<wbr>Map</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="shareddata.html#getclusterwidemap" class="tsd-kind-icon">get<wbr>Cluster<wbr>Wide<wbr>Map</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="shareddata.html#getasyncmap" class="tsd-kind-icon">get<wbr>Async<wbr>Map</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="shareddata.html#getclusterwidemap" class="tsd-kind-icon">get<wbr>Cluster<wbr>Wide<wbr>Map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="shareddata.html#getcounter" class="tsd-kind-icon">get<wbr>Counter</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="shareddata.html#getlocalmap" class="tsd-kind-icon">get<wbr>Local<wbr>Map</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="shareddata.html#getlocalmap" class="tsd-kind-icon">get<wbr>Local<wbr>Map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="shareddata.html#getlock" class="tsd-kind-icon">get<wbr>Lock</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="shareddata.html#getlockwithtimeout" class="tsd-kind-icon">get<wbr>Lock<wbr>With<wbr>Timeout</a></li>
 							</ul>
@@ -92,22 +92,22 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="getasyncmap" class="tsd-anchor"></a>
 					<h3>get<wbr>Async<wbr>Map</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Async<wbr>Map<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Async<wbr>Map&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7713</li>
+									<li>Defined in index.d.ts:7947</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Get the <a href="asyncmap.html">AsyncMap</a> with the specified name. When clustered, the map is accessible to all nodes in the cluster
+									<p>Get the <a href="asyncmap.html">AsyncMap</a> with the specified name. When clustered, the map is accessible to all nodes in the cluster
 										and data put into the map from any node is visible to to any other node.
 										<p>
 											<strong>WARNING</strong>: In clustered mode, asynchronous shared maps rely on distributed data structures provided by the cluster manager.
@@ -115,6 +115,15 @@
 									</p></p>
 								</div>
 							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K</h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -131,17 +140,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -152,22 +164,22 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="getclusterwidemap" class="tsd-anchor"></a>
 					<h3>get<wbr>Cluster<wbr>Wide<wbr>Map</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Cluster<wbr>Wide<wbr>Map<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Cluster<wbr>Wide<wbr>Map&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7700</li>
+									<li>Defined in index.d.ts:7934</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Get the cluster wide map with the specified name. The map is accessible to all nodes in the cluster and data
+									<p>Get the cluster wide map with the specified name. The map is accessible to all nodes in the cluster and data
 									put into the map from any node is visible to to any other node.</p>
 								</div>
 								<dl class="tsd-comment-tags">
@@ -176,6 +188,15 @@
 									</dd>
 								</dl>
 							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K</h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -192,17 +213,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -223,12 +247,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7739</li>
+									<li>Defined in index.d.ts:7981</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Get an asynchronous counter. The counter will be passed to the handler.</p>
+									<p>Get an asynchronous counter. The counter will be passed to the handler.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -247,17 +271,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="counter.html" class="tsd-signature-type">Counter</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="counter.html" class="tsd-signature-type">Counter</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="counter.html" class="tsd-signature-type">Counter</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="counter.html" class="tsd-signature-type">Counter</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="counter.html" class="tsd-signature-type">Counter</a><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="counter.html" class="tsd-signature-type">Counter</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -268,24 +295,33 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="getlocalmap" class="tsd-anchor"></a>
 					<h3>get<wbr>Local<wbr>Map</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Local<wbr>Map<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="localmap.html" class="tsd-signature-type">LocalMap</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Local<wbr>Map&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="localmap.html" class="tsd-signature-type">LocalMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7747</li>
+									<li>Defined in index.d.ts:7989</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Return a {@code LocalMap} with the specific {@code name}.</p>
+									<p>Return a {@code LocalMap} with the specific {@code name}.</p>
 								</div>
 							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K</h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -295,7 +331,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="localmap.html" class="tsd-signature-type">LocalMap</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="localmap.html" class="tsd-signature-type">LocalMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>the msp</p>
 						</li>
 					</ul>
@@ -310,12 +346,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7721</li>
+									<li>Defined in index.d.ts:7959</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Get an asynchronous lock with the specified name. The lock will be passed to the handler when it is available.</p>
+									<p>Get an asynchronous lock with the specified name. The lock will be passed to the handler when it is available.
+										<p>
+											In general lock acquision is unordered, so that sequential attempts to acquire a lock,
+											even from a single thread, can happen in non-sequential order.
+									</p></p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -334,17 +374,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -365,13 +408,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7731</li>
+									<li>Defined in index.d.ts:7973</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #getLock(String, Handler)} but specifying a timeout. If the lock is not obtained within the timeout
-									a failure will be sent to the handler</p>
+									<p>Like {@link #getLock(String, Handler)} but specifying a timeout. If the lock is not obtained within the timeout
+										a failure will be sent to the handler.
+										<p>
+											In general lock acquision is unordered, so that sequential attempts to acquire a lock,
+											even from a single thread, can happen in non-sequential order.
+									</p></p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -396,17 +443,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -434,16 +484,16 @@
 					<li class="current tsd-kind-class">
 						<a href="shareddata.html" class="tsd-kind-icon">Shared<wbr>Data</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="shareddata.html#getasyncmap" class="tsd-kind-icon">get<wbr>Async<wbr>Map</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="shareddata.html#getclusterwidemap" class="tsd-kind-icon">get<wbr>Cluster<wbr>Wide<wbr>Map</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="shareddata.html#getcounter" class="tsd-kind-icon">get<wbr>Counter</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="shareddata.html#getlocalmap" class="tsd-kind-icon">get<wbr>Local<wbr>Map</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">

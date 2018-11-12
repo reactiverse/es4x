@@ -57,13 +57,21 @@
 					<a href="httpresponse.html">HttpResponse</a>
 				</li>
 			</ul>
-			<h1>Class HttpResponse</h1>
+			<h1>Class HttpResponse&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -81,7 +89,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#body" class="tsd-kind-icon">body</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#bodyasbuffer" class="tsd-kind-icon">body<wbr>AsBuffer</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#bodyasjson" class="tsd-kind-icon">body<wbr>AsJson</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="httpresponse.html#bodyasjson" class="tsd-kind-icon">body<wbr>AsJson</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#bodyasjsonarray" class="tsd-kind-icon">body<wbr>AsJson<wbr>Array</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#bodyasjsonobject" class="tsd-kind-icon">body<wbr>AsJson<wbr>Object</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#bodyasstring" class="tsd-kind-icon">body<wbr>AsString</a></li>
@@ -104,18 +112,18 @@
 					<a name="body" class="tsd-anchor"></a>
 					<h3>body</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">body<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">body<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:248</li>
+									<li>Defined in index.d.ts:272</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
@@ -133,7 +141,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:255</li>
+									<li>Defined in index.d.ts:279</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -142,36 +150,42 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as a {@link Buffer}</p>
+							<p>the response body decoded as a {@link Buffer}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="bodyasjson" class="tsd-anchor"></a>
 					<h3>body<wbr>AsJson</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">body<wbr>AsJson<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Class</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">body<wbr>AsJson&lt;R&gt;<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:290</li>
+									<li>Defined in index.d.ts:314</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>R</h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>type: <span class="tsd-signature-type">Class</span></h5>
+									<h5>type: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">R</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as the specified {@code type} with the Jackson mapper.</p>
+							<p>the response body decoded as the specified {@code type} with the Jackson mapper, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
@@ -185,7 +199,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:283</li>
+									<li>Defined in index.d.ts:307</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -194,7 +208,7 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as a json array</p>
+							<p>the response body decoded as a {@link JsonArray}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
@@ -202,22 +216,22 @@
 					<a name="bodyasjsonobject" class="tsd-anchor"></a>
 					<h3>body<wbr>AsJson<wbr>Object</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">body<wbr>AsJson<wbr>Object<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">body<wbr>AsJson<wbr>Object<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:276</li>
+									<li>Defined in index.d.ts:300</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as a json object</p>
+							<p>the response body decoded as {@link JsonObject}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
@@ -232,7 +246,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:262</li>
+									<li>Defined in index.d.ts:286</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -241,12 +255,12 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as a {@code String}</p>
+							<p>the response body decoded as a {@code String}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:269</li>
+									<li>Defined in index.d.ts:293</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -261,7 +275,7 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as a {@code String} given a specific {@code encoding}</p>
+							<p>the response body decoded as a {@code String} given a specific {@code encoding}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
@@ -275,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:241</li>
+									<li>Defined in index.d.ts:265</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -295,12 +309,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:219</li>
+									<li>Defined in index.d.ts:243</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Return the first header value with the specified name</p>
+									<p>Return the first header value with the specified name</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -330,12 +344,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:234</li>
+									<li>Defined in index.d.ts:258</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Return the first trailer value with the specified name</p>
+									<p>Return the first trailer value with the specified name</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -365,7 +379,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:211</li>
+									<li>Defined in index.d.ts:235</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -385,7 +399,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:197</li>
+									<li>Defined in index.d.ts:221</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -405,7 +419,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:204</li>
+									<li>Defined in index.d.ts:228</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -425,7 +439,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:226</li>
+									<li>Defined in index.d.ts:250</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -445,7 +459,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:190</li>
+									<li>Defined in index.d.ts:214</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -467,12 +481,12 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="httprequest.html" class="tsd-kind-icon">Http<wbr>Request</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class="current tsd-kind-class tsd-has-type-parameter">
 						<a href="httpresponse.html" class="tsd-kind-icon">Http<wbr>Response</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -481,7 +495,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpresponse.html#bodyasbuffer" class="tsd-kind-icon">body<wbr>AsBuffer</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="httpresponse.html#bodyasjson" class="tsd-kind-icon">body<wbr>AsJson</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">

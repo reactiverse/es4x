@@ -21,7 +21,8 @@ function vertx_io () {
     "io.vertx/vertx-auth-oauth2"
     "io.vertx/vertx-auth-shiro"
     "io.vertx/vertx-bridge-common"
-    "io.vertx/vertx-camel-bridge"
+    "io.vertx/vertx-cassandra-client"
+#    "io.vertx/vertx-camel-bridge"
     "io.vertx/vertx-circuit-breaker"
     "io.vertx/vertx-config"
     "io.vertx/vertx-config-consul"
@@ -37,7 +38,7 @@ function vertx_io () {
     #"io.vertx/vertx-consul-service"
     "io.vertx/vertx-dropwizard-metrics"
     #"io.vertx/vertx-grpc"
-    "io.vertx/vertx-hawkular-metrics"
+#    "io.vertx/vertx-hawkular-metrics"
     #"io.vertx/vertx-hazelcast"
     "io.vertx/vertx-health-check"
     #"io.vertx/vertx-http-service-factory"
@@ -48,6 +49,7 @@ function vertx_io () {
     "io.vertx/vertx-jdbc-client"
     #"io.vertx/vertx-jgroups"
     #"io.vertx/vertx-junit5"
+    "io.vertx/vertx-jwt"
     "io.vertx/vertx-kafka-client"
     "io.vertx/vertx-mail-client"
     #"io.vertx/vertx-mail-service"
@@ -82,26 +84,32 @@ function vertx_io () {
     "io.vertx/vertx-web-api-contract"
     "io.vertx/vertx-web-client"
     "io.vertx/vertx-web-common"
-#    "io.vertx/vertx-web-templ-freemarker"
-#    "io.vertx/vertx-web-templ-handlebars"
-#    "io.vertx/vertx-web-templ-jade"
-#    "io.vertx/vertx-web-templ-mvel"
-#    "io.vertx/vertx-web-templ-pebble"
-#    "io.vertx/vertx-web-templ-rocker"
-#    "io.vertx/vertx-web-templ-thymeleaf"
+    "io.vertx/vertx-web-templ-freemarker"
+    "io.vertx/vertx-web-templ-handlebars"
+    "io.vertx/vertx-web-templ-jade"
+    "io.vertx/vertx-web-templ-mvel"
+    "io.vertx/vertx-web-templ-pebble"
+    "io.vertx/vertx-web-templ-rocker"
+    "io.vertx/vertx-web-templ-thymeleaf"
     #"io.vertx/vertx-zookeeper"
   )
 
-  # force login
-  echo "<Login as vertx>"
-  npm adduser --registry $REGISTRY
+  if [ ! "$1" = "local" ]; then
+    # force login
+    echo "<Login as vertx>"
+    npm adduser --registry $REGISTRY
+  fi
 
+  # generate sources and publish
   for i in "${modules[@]}"
   do
-    # generate code
-    mvn -f ./$i/pom.xml clean generate-sources exec:exec@typedoc
-   # upload to registry
-   mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
+    # touch the 3 required files
+    mkdir -p ./$i/npm
+    touch ./$i/npm/enums.d.ts
+    touch ./$i/npm/options.d.ts
+    touch ./$i/npm/index.d.ts
+    # build
+    mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc # exec:exec@npm-publish
   done
 }
 
@@ -110,18 +118,24 @@ function reactiverse_io () {
     "io.reactiverse/reactive-pg-client"
   )
 
-  # force login
-  echo "<Login as reactiverse>"
-  npm adduser --registry $REGISTRY
+  if [ ! "$1" = "local" ]; then
+    # force login
+    echo "<Login as reactiverse>"
+    npm adduser --registry $REGISTRY
+  fi
 
+  # generate sources and publish
   for i in "${modules[@]}"
   do
-    # generate code
-    mvn -f ./$i/pom.xml clean generate-sources exec:exec@typedoc
-   # upload to registry
-   mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
+    # touch the 3 required files
+    mkdir -p ./$i/npm
+    touch ./$i/npm/enums.d.ts
+    touch ./$i/npm/options.d.ts
+    touch ./$i/npm/index.d.ts
+    # build
+    mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc # exec:exec@npm-publish
   done
 }
 
-vertx_io
-reactiverse_io
+vertx_io $1
+reactiverse_io $1

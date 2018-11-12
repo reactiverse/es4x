@@ -91,6 +91,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttendpoint.html#iscleansession" class="tsd-kind-icon">is<wbr>Clean<wbr>Session</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttendpoint.html#isconnected" class="tsd-kind-icon">is<wbr>Connected</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttendpoint.html#ispublishautoack" class="tsd-kind-icon">is<wbr>Publish<wbr>Auto<wbr>Ack</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttendpoint.html#isssl" class="tsd-kind-icon">is<wbr>Ssl</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttendpoint.html#issubscriptionautoack" class="tsd-kind-icon">is<wbr>Subscription<wbr>Auto<wbr>Ack</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttendpoint.html#keepalivetimeseconds" class="tsd-kind-icon">keep<wbr>Alive<wbr>Time<wbr>Seconds</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttendpoint.html#lastmessageid" class="tsd-kind-icon">last<wbr>Message<wbr>Id</a></li>
@@ -130,18 +131,32 @@
 					<a name="accept" class="tsd-anchor"></a>
 					<h3>accept</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">accept<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></li>
 						<li class="tsd-signature tsd-kind-icon">accept<span class="tsd-signature-symbol">(</span>sessionPresent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:493</li>
+									<li>Defined in index.d.ts:510</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the CONNACK message to the remote MQTT client with &quot;connection accepted&quot;
+									<p>Like {@link #accept(boolean)} with no session is present.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:519</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends the CONNACK message to the remote MQTT client with &quot;connection accepted&quot;
 									return code. See {@link #reject(MqttConnectReturnCode)} for refusing connection</p>
 								</div>
 							</div>
@@ -169,7 +184,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:285</li>
+									<li>Defined in index.d.ts:305</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -189,12 +204,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:364</li>
+									<li>Defined in index.d.ts:384</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Enable/disable auto keep alive (sending ping response)</p>
+									<p>Enable/disable auto keep alive (sending ping response)</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -221,7 +236,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:278</li>
+									<li>Defined in index.d.ts:298</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -241,12 +256,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:257</li>
+									<li>Defined in index.d.ts:270</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Close the endpoint, so the connection with remote MQTT client</p>
+									<p>Close the endpoint, so the connection with remote MQTT client</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -263,12 +278,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:476</li>
+									<li>Defined in index.d.ts:496</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set a close handler. This will be called when the MQTT endpoint is closed</p>
+									<p>Set a close handler. This will be called when the MQTT endpoint is closed</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -281,17 +296,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">void</span></h5>
+															<h5>res: <span class="tsd-signature-type">void</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -313,12 +331,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:395</li>
+									<li>Defined in index.d.ts:415</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set a disconnect handler on the MQTT endpoint. This handler is called when a DISCONNECT
+									<p>Set a disconnect handler on the MQTT endpoint. This handler is called when a DISCONNECT
 									message is received by the remote MQTT client</p>
 								</div>
 							</div>
@@ -332,17 +350,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">void</span></h5>
+															<h5>res: <span class="tsd-signature-type">void</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -364,12 +385,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:484</li>
+									<li>Defined in index.d.ts:504</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set an exception handler. This will be called when an error at protocol level happens</p>
+									<p>Set an exception handler. This will be called when an error at protocol level happens</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -382,17 +403,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">Error</span></h5>
+															<h5>res: <span class="tsd-signature-type">Error</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -414,7 +438,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:371</li>
+									<li>Defined in index.d.ts:391</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -434,7 +458,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:313</li>
+									<li>Defined in index.d.ts:333</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -454,7 +478,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:378</li>
+									<li>Defined in index.d.ts:398</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -474,13 +498,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:356</li>
+									<li>Defined in index.d.ts:376</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 							<p>auto acknowledge status for publishing (in/out)</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isssl" class="tsd-anchor"></a>
+					<h3>is<wbr>Ssl</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Ssl<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:291</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>true if this {@link io.vertx.mqtt.MqttEndpoint} is encrypted via SSL/TLS.</p>
 						</li>
 					</ul>
 				</section>
@@ -494,7 +538,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:341</li>
+									<li>Defined in index.d.ts:361</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -514,7 +558,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:320</li>
+									<li>Defined in index.d.ts:340</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -534,7 +578,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:327</li>
+									<li>Defined in index.d.ts:347</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -554,7 +598,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:271</li>
+									<li>Defined in index.d.ts:284</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -574,12 +618,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:468</li>
+									<li>Defined in index.d.ts:488</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the pingreq handler on the MQTT endpoint. This handler is called when a PINGREQ
+									<p>Set the pingreq handler on the MQTT endpoint. This handler is called when a PINGREQ
 										message is received by the remote MQTT client. In any case the endpoint sends the
 									PINGRESP internally after executing this handler.</p>
 								</div>
@@ -594,17 +638,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">void</span></h5>
+															<h5>res: <span class="tsd-signature-type">void</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -626,12 +673,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:570</li>
+									<li>Defined in index.d.ts:609</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the PINGRESP message to the remote MQTT client</p>
+									<p>Sends the PINGRESP message to the remote MQTT client</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></h4>
@@ -649,7 +696,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:306</li>
+									<li>Defined in index.d.ts:326</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -669,7 +716,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:299</li>
+									<li>Defined in index.d.ts:319</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -683,18 +730,19 @@
 					<a name="publish" class="tsd-anchor"></a>
 					<h3>publish</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">publish<span class="tsd-signature-symbol">(</span>topic<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, payload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, qosLevel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MqttQoS</span>, isDup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, isRetain<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></li>
+						<li class="tsd-signature tsd-kind-icon">publish<span class="tsd-signature-symbol">(</span>topic<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, payload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, qosLevel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, isDup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, isRetain<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></li>
+						<li class="tsd-signature tsd-kind-icon">publish<span class="tsd-signature-symbol">(</span>topic<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, payload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, qosLevel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, isDup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, isRetain<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, publishSentHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:563</li>
+									<li>Defined in index.d.ts:589</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the PUBLISH message to the remote MQTT client</p>
+									<p>Sends the PUBLISH message to the remote MQTT client</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -712,7 +760,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>qosLevel: <span class="tsd-signature-type">MqttQoS</span></h5>
+									<h5>qosLevel: <span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>quality of service level</p>
 									</div>
@@ -733,6 +781,80 @@
 							<h4 class="tsd-returns-title">Returns <a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:602</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends the PUBLISH message to the remote MQTT server</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>topic: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>topic on which the message is published</p>
+									</div>
+								</li>
+								<li>
+									<h5>payload: <span class="tsd-signature-type">Buffer</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>message payload</p>
+									</div>
+								</li>
+								<li>
+									<h5>qosLevel: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>QoS level</p>
+									</div>
+								</li>
+								<li>
+									<h5>isDup: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>if the message is a duplicate</p>
+									</div>
+								</li>
+								<li>
+									<h5>isRetain: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>if the message needs to be retained</p>
+									</div>
+								</li>
+								<li>
+									<h5>publishSentHandler: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>handler called after PUBLISH packet sent with a packetId</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>res: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></h4>
+							<p>current MQTT client instance</p>
+						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
@@ -745,12 +867,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:527</li>
+									<li>Defined in index.d.ts:553</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the PUBACK message to the remote MQTT client</p>
+									<p>Sends the PUBACK message to the remote MQTT client</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -777,12 +899,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:431</li>
+									<li>Defined in index.d.ts:451</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the puback handler on the MQTT endpoint. This handler is called when a PUBACK
+									<p>Set the puback handler on the MQTT endpoint. This handler is called when a PUBACK
 									message is received by the remote MQTT client</p>
 								</div>
 							</div>
@@ -796,17 +918,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">number</span></h5>
+															<h5>res: <span class="tsd-signature-type">number</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -828,12 +953,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:349</li>
+									<li>Defined in index.d.ts:369</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Enable/disable publishing (in/out) auto acknowledge</p>
+									<p>Enable/disable publishing (in/out) auto acknowledge</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -860,12 +985,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:551</li>
+									<li>Defined in index.d.ts:577</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the PUBCOMP message to the remote MQTT client</p>
+									<p>Sends the PUBCOMP message to the remote MQTT client</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -892,12 +1017,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:458</li>
+									<li>Defined in index.d.ts:478</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the pubcomp handler on the MQTT endpoint. This handler is called when a PUBCOMP
+									<p>Set the pubcomp handler on the MQTT endpoint. This handler is called when a PUBCOMP
 									message is received by the remote MQTT client</p>
 								</div>
 							</div>
@@ -911,17 +1036,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">number</span></h5>
+															<h5>res: <span class="tsd-signature-type">number</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -943,12 +1071,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:422</li>
+									<li>Defined in index.d.ts:442</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the publish handler on the MQTT endpoint. This handler is called when a PUBLISH
+									<p>Set the publish handler on the MQTT endpoint. This handler is called when a PUBLISH
 									message is received by the remote MQTT client</p>
 								</div>
 							</div>
@@ -962,17 +1090,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="mqttpublishmessage.html" class="tsd-signature-type">MqttPublishMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="mqttpublishmessage.html" class="tsd-signature-type">MqttPublishMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="mqttpublishmessage.html" class="tsd-signature-type">MqttPublishMessage</a><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="mqttpublishmessage.html" class="tsd-signature-type">MqttPublishMessage</a></h5>
+															<h5>res: <a href="mqttpublishmessage.html" class="tsd-signature-type">MqttPublishMessage</a></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="mqttpublishmessage.html" class="tsd-signature-type">MqttPublishMessage</a><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -994,12 +1125,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:535</li>
+									<li>Defined in index.d.ts:561</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the PUBREC message to the remote MQTT client</p>
+									<p>Sends the PUBREC message to the remote MQTT client</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1026,12 +1157,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:440</li>
+									<li>Defined in index.d.ts:460</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the pubrec handler on the MQTT endpoint. This handler is called when a PUBREC
+									<p>Set the pubrec handler on the MQTT endpoint. This handler is called when a PUBREC
 									message is received by the remote MQTT client</p>
 								</div>
 							</div>
@@ -1045,17 +1176,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">number</span></h5>
+															<h5>res: <span class="tsd-signature-type">number</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -1077,12 +1211,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:543</li>
+									<li>Defined in index.d.ts:569</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the PUBREL message to the remote MQTT client</p>
+									<p>Sends the PUBREL message to the remote MQTT client</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1109,12 +1243,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:449</li>
+									<li>Defined in index.d.ts:469</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the pubrel handler on the MQTT endpoint. This handler is called when a PUBREL
+									<p>Set the pubrel handler on the MQTT endpoint. This handler is called when a PUBREL
 									message is received by the remote MQTT client</p>
 								</div>
 							</div>
@@ -1128,17 +1262,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">number</span></h5>
+															<h5>res: <span class="tsd-signature-type">number</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -1154,25 +1291,25 @@
 					<a name="reject" class="tsd-anchor"></a>
 					<h3>reject</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">reject<span class="tsd-signature-symbol">(</span>returnCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MqttConnectReturnCode</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></li>
+						<li class="tsd-signature tsd-kind-icon">reject<span class="tsd-signature-symbol">(</span>returnCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:502</li>
+									<li>Defined in index.d.ts:528</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the CONNACK message to the remote MQTT client rejecting the connection
+									<p>Sends the CONNACK message to the remote MQTT client rejecting the connection
 									request with specified return code. See {@link #accept(boolean)} for accepting connection</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>returnCode: <span class="tsd-signature-type">MqttConnectReturnCode</span></h5>
+									<h5>returnCode: <span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the connect return code</p>
 									</div>
@@ -1193,7 +1330,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:264</li>
+									<li>Defined in index.d.ts:277</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1213,12 +1350,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:386</li>
+									<li>Defined in index.d.ts:406</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set client identifier if not provided by the remote MQTT client (zero-bytes)</p>
+									<p>Set client identifier if not provided by the remote MQTT client (zero-bytes)</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1239,18 +1376,18 @@
 					<a name="subscribeacknowledge" class="tsd-anchor"></a>
 					<h3>subscribe<wbr>Acknowledge</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">subscribe<wbr>Acknowledge<span class="tsd-signature-symbol">(</span>subscribeMessageId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, grantedQoSLevels<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MqttQoS</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></li>
+						<li class="tsd-signature tsd-kind-icon">subscribe<wbr>Acknowledge<span class="tsd-signature-symbol">(</span>subscribeMessageId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, grantedQoSLevels<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttendpoint.html" class="tsd-signature-type">MqttEndpoint</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:511</li>
+									<li>Defined in index.d.ts:537</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the SUBACK message to the remote MQTT client</p>
+									<p>Sends the SUBACK message to the remote MQTT client</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1262,7 +1399,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>grantedQoSLevels: <span class="tsd-signature-type">MqttQoS</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>grantedQoSLevels: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>granted QoS levels for the requested topics</p>
 									</div>
@@ -1283,12 +1420,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:404</li>
+									<li>Defined in index.d.ts:424</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set a subscribe handler on the MQTT endpoint. This handler is called when a SUBSCRIBE
+									<p>Set a subscribe handler on the MQTT endpoint. This handler is called when a SUBSCRIBE
 									message is received by the remote MQTT client</p>
 								</div>
 							</div>
@@ -1302,17 +1439,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="mqttsubscribemessage.html" class="tsd-signature-type">MqttSubscribeMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="mqttsubscribemessage.html" class="tsd-signature-type">MqttSubscribeMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="mqttsubscribemessage.html" class="tsd-signature-type">MqttSubscribeMessage</a><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="mqttsubscribemessage.html" class="tsd-signature-type">MqttSubscribeMessage</a></h5>
+															<h5>res: <a href="mqttsubscribemessage.html" class="tsd-signature-type">MqttSubscribeMessage</a></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="mqttsubscribemessage.html" class="tsd-signature-type">MqttSubscribeMessage</a><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -1334,12 +1474,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:334</li>
+									<li>Defined in index.d.ts:354</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Enable/disable subscription/unsubscription requests auto acknowledge</p>
+									<p>Enable/disable subscription/unsubscription requests auto acknowledge</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1365,12 +1505,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:519</li>
+									<li>Defined in index.d.ts:545</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Sends the UNSUBACK message to the remote MQTT client</p>
+									<p>Sends the UNSUBACK message to the remote MQTT client</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1397,12 +1537,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:413</li>
+									<li>Defined in index.d.ts:433</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set a unsubscribe handler on the MQTT endpoint. This handler is called when a UNSUBSCRIBE
+									<p>Set a unsubscribe handler on the MQTT endpoint. This handler is called when a UNSUBSCRIBE
 									message is received by the remote MQTT client</p>
 								</div>
 							</div>
@@ -1416,17 +1556,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="mqttunsubscribemessage.html" class="tsd-signature-type">MqttUnsubscribeMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="mqttunsubscribemessage.html" class="tsd-signature-type">MqttUnsubscribeMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="mqttunsubscribemessage.html" class="tsd-signature-type">MqttUnsubscribeMessage</a><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="mqttunsubscribemessage.html" class="tsd-signature-type">MqttUnsubscribeMessage</a></h5>
+															<h5>res: <a href="mqttunsubscribemessage.html" class="tsd-signature-type">MqttUnsubscribeMessage</a></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="mqttunsubscribemessage.html" class="tsd-signature-type">MqttUnsubscribeMessage</a><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -1448,7 +1591,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:292</li>
+									<li>Defined in index.d.ts:312</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1522,6 +1665,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="mqttendpoint.html#ispublishautoack" class="tsd-kind-icon">is<wbr>Publish<wbr>Auto<wbr>Ack</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="mqttendpoint.html#isssl" class="tsd-kind-icon">is<wbr>Ssl</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="mqttendpoint.html#issubscriptionautoack" class="tsd-kind-icon">is<wbr>Subscription<wbr>Auto<wbr>Ack</a>
