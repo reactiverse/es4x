@@ -68,7 +68,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ChainAuth</span>
+						<a href="authprovider.html" class="tsd-signature-type">AuthProvider</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ChainAuth</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -80,6 +85,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="chainauth.html#append" class="tsd-kind-icon">append</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="chainauth.html#authenticate" class="tsd-kind-icon">authenticate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="chainauth.html#clear" class="tsd-kind-icon">clear</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="chainauth.html#remove" class="tsd-kind-icon">remove</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="chainauth.html#create" class="tsd-kind-icon">create</a></li>
@@ -119,6 +125,84 @@
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="chainauth.html" class="tsd-signature-type">ChainAuth</a></h4>
 							<p>self</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="authenticate" class="tsd-anchor"></a>
+					<h3>authenticate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">authenticate<span class="tsd-signature-symbol">(</span>authInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="authprovider.html">AuthProvider</a>.<a href="authprovider.html#authenticate">authenticate</a></p>
+								<ul>
+									<li>Defined in index.d.ts:40</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Authenticate a user.
+										<p>
+											The first argument is a JSON object containing information for authenticating the user. What this actually contains
+											depends on the specific implementation. In the case of a simple username/password based
+											authentication it is likely to contain a JSON object with the following structure:
+											<pre>
+   {
+     &quot;username&quot;: &quot;tim&quot;,
+     &quot;password&quot;: &quot;mypassword&quot;
+   }
+ </pre>
+											For other types of authentication it contain different information - for example a JWT token or OAuth bearer token.
+											<p>
+												If the user is successfully authenticated a <a href="user.html">User</a> object is passed to the handler in an {@link io.vertx.core.AsyncResult}.
+											The user object can then be used for authorisation.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>authInfo: <span class="tsd-signature-type">object</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The auth information</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-index-signature">
+											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5>resultHandler: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The result handler</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>res: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -224,6 +308,9 @@
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="chainauth.html#append" class="tsd-kind-icon">append</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="chainauth.html#authenticate" class="tsd-kind-icon">authenticate</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="chainauth.html#clear" class="tsd-kind-icon">clear</a>
