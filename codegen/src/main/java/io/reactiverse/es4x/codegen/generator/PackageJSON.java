@@ -57,6 +57,22 @@ public class PackageJSON extends Generator<ModuleModel> {
     // extras
     json.put("sideEffects", false);
 
+    // fix version
+    char[] version = json.getString("version").toCharArray();
+    int dots = 0;
+    for (int i = 0; i < version.length; i++) {
+      if (version[i] == '.') {
+        dots++;
+        if (dots > 2) {
+          version[i] = '-';
+        }
+      }
+    }
+
+    if (dots > 2) {
+      json.put("version", new String(version));
+    }
+
     return json.encodePrettily();
   }
 }
