@@ -24,7 +24,6 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.testSource>1.8</maven.compiler.testSource>
     <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
-    <shade.classifier>bin</shade.classifier>
   </properties>
 
   <profiles>
@@ -35,9 +34,6 @@
           <name>env.JVMCI</name>
         </property>
       </activation>
-      <properties>
-        <shade.classifier>bin-jvmci</shade.classifier>
-      </properties>
       <dependencies>
         <!-- GraalVM runtime -->
         <dependency>
@@ -101,7 +97,7 @@
                       <destFileName>graal-sdk.jar</destFileName>
                     </artifactItem>
                   </artifactItems>
-                  <outputDirectory>target/compiler</outputDirectory>
+                  <outputDirectory>${project.build.directory}/dist/compiler</outputDirectory>
                 </configuration>
               </execution>
             </executions>
@@ -134,7 +130,7 @@
     <dependency>
       <groupId>io.reactiverse</groupId>
       <artifactId>es4x</artifactId>
-      <version>[0.5.5,)</version>
+      <version>[0.5.6,)</version>
     </dependency>
   </dependencies>
   <build>
@@ -154,6 +150,21 @@
               <includeScope>test</includeScope>
               <silent>true</silent>
               <outputFile>${project.build.directory}/classpath.txt</outputFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <includeScope>compile</includeScope>
+              <includeScope>runtime</includeScope>
+              <outputDirectory>${project.build.directory}/dist/java-libs</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
             </configuration>
           </execution>
         </executions>
@@ -187,42 +198,22 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.1</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <filters>
-                <filter>
-                  <excludes>
-                    <exclude>META-INF/*.SF</exclude>
-                    <exclude>META-INF/*.DSA</exclude>
-                    <exclude>META-INF/*.RSA</exclude>
-                    <exclude>**/module-info.class</exclude>
-                  </excludes>
-                </filter>
-              </filters>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <manifestEntries>
-                    <Main-Class>io.vertx.core.Launcher</Main-Class>
-                    <Main-Verticle>js:./node_modules/{{name}}</Main-Verticle>
-                  </manifestEntries>
-                </transformer>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                  <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource>
-                </transformer>
-              </transformers>
-              <artifactSet>
-              </artifactSet>
-              <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-${shade.classifier}.jar</outputFile>
-            </configuration>
-          </execution>
-        </executions>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>io.vertx.core.Launcher</mainClass>
+              <classpathPrefix>java-libs/</classpathPrefix>
+              <useUniqueVersions>false</useUniqueVersions>
+            </manifest>
+            <manifestEntries>
+              <Main-Verticle>js:./node_modules/empty-project</Main-Verticle>
+            </manifestEntries>
+          </archive>
+          <outputDirectory>${project.build.directory}/dist</outputDirectory>
+        </configuration>
       </plugin>
     </plugins>
   </build>
