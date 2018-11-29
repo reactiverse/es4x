@@ -90,6 +90,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#addqueryparam" class="tsd-kind-icon">add<wbr>Query<wbr>Param</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="httprequest.html#as" class="tsd-kind-icon">as</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#copy" class="tsd-kind-icon">copy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#expect" class="tsd-kind-icon">expect</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#followredirects" class="tsd-kind-icon">follow<wbr>Redirects</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#headers" class="tsd-kind-icon">headers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#host" class="tsd-kind-icon">host</a></li>
@@ -126,7 +127,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:118</li>
+									<li>Defined in index.d.ts:147</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -164,7 +165,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:47</li>
+									<li>Defined in index.d.ts:76</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -202,7 +203,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:149</li>
+									<li>Defined in index.d.ts:198</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -216,6 +217,84 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="expect" class="tsd-anchor"></a>
+					<h3>expect</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">expect<span class="tsd-signature-symbol">(</span>predicate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">expect<span class="tsd-signature-symbol">(</span>predicate<span class="tsd-signature-symbol">: </span><a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:174</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add an expectation that the response is valid according to the provided {@code predicate}.
+										<p>
+										Multiple predicates can be added.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>predicate: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the predicate</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a reference to this, so the API can be used fluently</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:184</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add an expectation that the response is valid according to the provided {@code predicate}.
+										<p>
+										Multiple predicates can be added.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>predicate: <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the predicate</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a reference to this, so the API can be used fluently</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="followredirects" class="tsd-anchor"></a>
 					<h3>follow<wbr>Redirects</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -225,7 +304,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:135</li>
+									<li>Defined in index.d.ts:164</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -257,7 +336,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:96</li>
+									<li>Defined in index.d.ts:125</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -277,7 +356,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:54</li>
+									<li>Defined in index.d.ts:83</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -306,7 +385,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:32</li>
+									<li>Defined in index.d.ts:61</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -335,7 +414,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:39</li>
+									<li>Defined in index.d.ts:68</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -364,7 +443,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:89</li>
+									<li>Defined in index.d.ts:118</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -402,7 +481,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:142</li>
+									<li>Defined in index.d.ts:191</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -425,7 +504,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:203</li>
+									<li>Defined in index.d.ts:252</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -474,7 +553,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:163</li>
+									<li>Defined in index.d.ts:212</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -529,7 +608,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:189</li>
+									<li>Defined in index.d.ts:238</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -587,7 +666,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:179</li>
+									<li>Defined in index.d.ts:228</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -643,7 +722,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:171</li>
+									<li>Defined in index.d.ts:220</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -704,7 +783,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:197</li>
+									<li>Defined in index.d.ts:246</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -760,7 +839,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:156</li>
+									<li>Defined in index.d.ts:205</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -815,7 +894,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:127</li>
+									<li>Defined in index.d.ts:156</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -853,7 +932,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:98</li>
+									<li>Defined in index.d.ts:127</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -876,7 +955,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:109</li>
+									<li>Defined in index.d.ts:138</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -911,7 +990,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:80</li>
+									<li>Defined in index.d.ts:109</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -943,7 +1022,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:70</li>
+									<li>Defined in index.d.ts:99</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -983,6 +1062,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="errorconverter.html" class="tsd-kind-icon">Error<wbr>Converter</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-has-type-parameter">
@@ -996,6 +1078,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httprequest.html#copy" class="tsd-kind-icon">copy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httprequest.html#expect" class="tsd-kind-icon">expect</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httprequest.html#followredirects" class="tsd-kind-icon">follow<wbr>Redirects</a>
@@ -1060,6 +1145,12 @@
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="httpresponse.html" class="tsd-kind-icon">Http<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="responsepredicate.html" class="tsd-kind-icon">Response<wbr>Predicate</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="responsepredicateresult.html" class="tsd-kind-icon">Response<wbr>Predicate<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="webclient.html" class="tsd-kind-icon">Web<wbr>Client</a>

@@ -34,7 +34,7 @@ public class IndexDTS extends Generator<ClassModel> {
     kinds = new HashSet<>();
     kinds.add("class");
 
-    name = "es4x-generator";
+    name = "es4x-generator (index.d.ts)";
   }
 
   @Override

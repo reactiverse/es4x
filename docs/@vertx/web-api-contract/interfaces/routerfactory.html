@@ -93,10 +93,16 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#addglobalhandler" class="tsd-kind-icon">add<wbr>Global<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#addsecurityhandler" class="tsd-kind-icon">add<wbr>Security<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#getoptions" class="tsd-kind-icon">get<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#getrouter" class="tsd-kind-icon">get<wbr>Router</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#getvalidationfailurehandler" class="tsd-kind-icon">get<wbr>Validation<wbr>Failure<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#setbodyhandler" class="tsd-kind-icon">set<wbr>Body<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#setextraoperationcontextpayloadmapper" class="tsd-kind-icon">set<wbr>Extra<wbr>Operation<wbr>Context<wbr>Payload<wbr>Mapper</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#setnotimplementedfailurehandler" class="tsd-kind-icon">set<wbr>Not<wbr>Implemented<wbr>Failure<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#setoptions" class="tsd-kind-icon">set<wbr>Options</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="routerfactory.html#setvalidationfailurehandler" class="tsd-kind-icon">set<wbr>Validation<wbr>Failure<wbr>Handler</a></li>
 							</ul>
 						</section>
 					</div>
@@ -104,6 +110,57 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="addglobalhandler" class="tsd-anchor"></a>
+					<h3>add<wbr>Global<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Global<wbr>Handler<span class="tsd-signature-symbol">(</span>globalHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:1071</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add global handler to be applied prior to {@link io.vertx.ext.web.Router} being generated. <br/>
+									Please note that you should not add a body handler inside that list. If you want to modify the body handler, please use {@link RouterFactory#setBodyHandler(BodyHandler)}</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>globalHandler: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>res: <span class="tsd-signature-type">RoutingContext</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>this object</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 					<a name="addsecurityhandler" class="tsd-anchor"></a>
 					<h3>add<wbr>Security<wbr>Handler</h3>
@@ -114,7 +171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:955</li>
+									<li>Defined in index.d.ts:1012</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -166,7 +223,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:968</li>
+									<li>Defined in index.d.ts:1025</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -188,7 +245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:976</li>
+									<li>Defined in index.d.ts:1033</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -203,6 +260,176 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="getvalidationfailurehandler" class="tsd-anchor"></a>
+					<h3>get<wbr>Validation<wbr>Failure<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Validation<wbr>Failure<wbr>Handler<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:1035</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">&gt;</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>res: <span class="tsd-signature-type">RoutingContext</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+												<span class="tsd-signature-symbol"> | </span>
+												<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">&gt;</span>
+											</h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="setbodyhandler" class="tsd-anchor"></a>
+					<h3>set<wbr>Body<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Body<wbr>Handler<span class="tsd-signature-symbol">(</span>bodyHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BodyHandler</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:1062</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Supply your own BodyHandler if you would like to control body limit, uploads directory and deletion of uploaded files</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bodyHandler: <span class="tsd-signature-type">BodyHandler</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>self</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="setextraoperationcontextpayloadmapper" class="tsd-anchor"></a>
+					<h3>set<wbr>Extra<wbr>Operation<wbr>Context<wbr>Payload<wbr>Mapper</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Extra<wbr>Operation<wbr>Context<wbr>Payload<wbr>Mapper<span class="tsd-signature-symbol">(</span>extraOperationContextPayloadMapper<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:1078</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>When set, this function is called while creating the payload of {@link io.vertx.ext.web.api.OperationRequest}</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>extraOperationContextPayloadMapper: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <span class="tsd-signature-type">RoutingContext</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+													<ul class="tsd-parameters">
+														<li class="tsd-parameter-index-signature">
+															<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="setnotimplementedfailurehandler" class="tsd-anchor"></a>
+					<h3>set<wbr>Not<wbr>Implemented<wbr>Failure<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Not<wbr>Implemented<wbr>Failure<wbr>Handler<span class="tsd-signature-symbol">(</span>notImplementedFailureHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:1054</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set not implemented failure handler. It&#39;s called when you don&#39;t define an handler for a
+										specific operation. You can enable/disable this feature from
+									{@link RouterFactoryOptions#setMountNotImplementedHandler(boolean)}</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>notImplementedFailureHandler: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>res: <span class="tsd-signature-type">RoutingContext</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>this object</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 					<a name="setoptions" class="tsd-anchor"></a>
 					<h3>set<wbr>Options</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -212,12 +439,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:962</li>
+									<li>Defined in index.d.ts:1019</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Override options</p>
+									<p>Set options of router factory. For more info <a href="../classes/routerfactoryoptions.html">RouterFactoryOptions</a></p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -227,6 +454,57 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="setvalidationfailurehandler" class="tsd-anchor"></a>
+					<h3>set<wbr>Validation<wbr>Failure<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Validation<wbr>Failure<wbr>Handler<span class="tsd-signature-symbol">(</span>validationFailureHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:1044</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set default validation failure handler. You can enable/disable this feature from
+									{@link RouterFactoryOptions#setMountValidationFailureHandler(boolean)}</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>validationFailureHandler: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>res: <span class="tsd-signature-type">RoutingContext</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoutingContext</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="routerfactory.html" class="tsd-signature-type">RouterFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>this object</p>
 						</li>
 					</ul>
 				</section>
@@ -296,6 +574,9 @@
 						<a href="routerfactory.html" class="tsd-kind-icon">Router<wbr>Factory</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="routerfactory.html#addglobalhandler" class="tsd-kind-icon">add<wbr>Global<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="routerfactory.html#addsecurityhandler" class="tsd-kind-icon">add<wbr>Security<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
@@ -305,7 +586,22 @@
 								<a href="routerfactory.html#getrouter" class="tsd-kind-icon">get<wbr>Router</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="routerfactory.html#getvalidationfailurehandler" class="tsd-kind-icon">get<wbr>Validation<wbr>Failure<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="routerfactory.html#setbodyhandler" class="tsd-kind-icon">set<wbr>Body<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="routerfactory.html#setextraoperationcontextpayloadmapper" class="tsd-kind-icon">set<wbr>Extra<wbr>Operation<wbr>Context<wbr>Payload<wbr>Mapper</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="routerfactory.html#setnotimplementedfailurehandler" class="tsd-kind-icon">set<wbr>Not<wbr>Implemented<wbr>Failure<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="routerfactory.html#setoptions" class="tsd-kind-icon">set<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="routerfactory.html#setvalidationfailurehandler" class="tsd-kind-icon">set<wbr>Validation<wbr>Failure<wbr>Handler</a>
 							</li>
 						</ul>
 					</li>

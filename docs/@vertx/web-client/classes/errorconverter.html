@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>FileProps | @vertx/core</title>
+	<title>ErrorConverter | @vertx/web-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">@vertx/core</a>
+					<a href="../index.html" class="title">@vertx/web-client</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="fileprops.html">FileProps</a>
+					<a href="errorconverter.html">ErrorConverter</a>
 				</li>
 			</ul>
-			<h1>Class FileProps</h1>
+			<h1>Class ErrorConverter</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">FileProps</span>
+						<span class="target">ErrorConverter</span>
 					</li>
 				</ul>
 			</section>
@@ -79,14 +79,10 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fileprops.html#creationtime" class="tsd-kind-icon">creation<wbr>Time</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fileprops.html#isdirectory" class="tsd-kind-icon">is<wbr>Directory</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fileprops.html#isother" class="tsd-kind-icon">is<wbr>Other</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fileprops.html#isregularfile" class="tsd-kind-icon">is<wbr>Regular<wbr>File</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fileprops.html#issymboliclink" class="tsd-kind-icon">is<wbr>Symbolic<wbr>Link</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fileprops.html#lastaccesstime" class="tsd-kind-icon">last<wbr>Access<wbr>Time</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fileprops.html#lastmodifiedtime" class="tsd-kind-icon">last<wbr>Modified<wbr>Time</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fileprops.html#size" class="tsd-kind-icon">size</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="errorconverter.html#apply" class="tsd-kind-icon">apply</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="errorconverter.html#requiresbody" class="tsd-kind-icon">requires<wbr>Body</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="errorconverter.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="errorconverter.html#createfullbody" class="tsd-kind-icon">create<wbr>Full<wbr>Body</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,178 +91,145 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="creationtime" class="tsd-anchor"></a>
-					<h3>creation<wbr>Time</h3>
+					<a name="apply" class="tsd-anchor"></a>
+					<h3>apply</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">creation<wbr>Time<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">apply<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2213</li>
+									<li>Defined in index.d.ts:38</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The date the file was created</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>result: <a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Error</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="isdirectory" class="tsd-anchor"></a>
-					<h3>is<wbr>Directory</h3>
+					<a name="requiresbody" class="tsd-anchor"></a>
+					<h3>requires<wbr>Body</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Directory<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">requires<wbr>Body<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2231</li>
+									<li>Defined in index.d.ts:45</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Is the file a directory?</p>
-								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>when the converter wants to process the request body.</p>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="isother" class="tsd-anchor"></a>
-					<h3>is<wbr>Other</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Other<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="create" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>converter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="errorconverter.html" class="tsd-signature-type">ErrorConverter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2237</li>
+									<li>Defined in index.d.ts:27</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Is the file some other type? (I.e. not a directory, regular file or symbolic link)</p>
+									<p>Creates a full <a href="errorconverter.html">ErrorConverter</a>, that will passed a predicate result with the response body.</p>
 								</div>
+								<p>The {@code converter} function will be invoked <em>after</em> the HTTP response body is received.
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>converter: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a function creating a {@link Throwable} from a <a href="responsepredicateresult.html">ResponsePredicateResult</a></p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Error</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="errorconverter.html" class="tsd-signature-type">ErrorConverter</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="isregularfile" class="tsd-anchor"></a>
-					<h3>is<wbr>Regular<wbr>File</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Regular<wbr>File<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createfullbody" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Full<wbr>Body</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Full<wbr>Body<span class="tsd-signature-symbol">(</span>converter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="errorconverter.html" class="tsd-signature-type">ErrorConverter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2243</li>
+									<li>Defined in index.d.ts:36</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Is the file a regular file?</p>
+									<p>Creates a full <a href="errorconverter.html">ErrorConverter</a>, that will passed a predicate result with the response body.</p>
 								</div>
+								<p>The {@code converter} function will be invoked <em>after</em> the HTTP response body is received.
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="issymboliclink" class="tsd-anchor"></a>
-					<h3>is<wbr>Symbolic<wbr>Link</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Symbolic<wbr>Link<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:2249</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Is the file a symbolic link?</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="lastaccesstime" class="tsd-anchor"></a>
-					<h3>last<wbr>Access<wbr>Time</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">last<wbr>Access<wbr>Time<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:2219</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The date the file was last accessed</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="lastmodifiedtime" class="tsd-anchor"></a>
-					<h3>last<wbr>Modified<wbr>Time</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">last<wbr>Modified<wbr>Time<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:2225</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The date the file was last modified</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="size" class="tsd-anchor"></a>
-					<h3>size</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:2255</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The size of the file, in bytes</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>converter: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a function creating a {@link Throwable} from a <a href="responsepredicateresult.html">ResponsePredicateResult</a></p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Error</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="errorconverter.html" class="tsd-signature-type">ErrorConverter</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -285,36 +248,42 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="fileprops.html" class="tsd-kind-icon">File<wbr>Props</a>
+						<a href="errorconverter.html" class="tsd-kind-icon">Error<wbr>Converter</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fileprops.html#creationtime" class="tsd-kind-icon">creation<wbr>Time</a>
+								<a href="errorconverter.html#apply" class="tsd-kind-icon">apply</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fileprops.html#isdirectory" class="tsd-kind-icon">is<wbr>Directory</a>
+								<a href="errorconverter.html#requiresbody" class="tsd-kind-icon">requires<wbr>Body</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fileprops.html#isother" class="tsd-kind-icon">is<wbr>Other</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="errorconverter.html#create" class="tsd-kind-icon">create</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fileprops.html#isregularfile" class="tsd-kind-icon">is<wbr>Regular<wbr>File</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fileprops.html#issymboliclink" class="tsd-kind-icon">is<wbr>Symbolic<wbr>Link</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fileprops.html#lastaccesstime" class="tsd-kind-icon">last<wbr>Access<wbr>Time</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fileprops.html#lastmodifiedtime" class="tsd-kind-icon">last<wbr>Modified<wbr>Time</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fileprops.html#size" class="tsd-kind-icon">size</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="errorconverter.html#createfullbody" class="tsd-kind-icon">create<wbr>Full<wbr>Body</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="httprequest.html" class="tsd-kind-icon">Http<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="httpresponse.html" class="tsd-kind-icon">Http<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="responsepredicate.html" class="tsd-kind-icon">Response<wbr>Predicate</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="responsepredicateresult.html" class="tsd-kind-icon">Response<wbr>Predicate<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="webclient.html" class="tsd-kind-icon">Web<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="webclientoptions.html" class="tsd-kind-icon">Web<wbr>Client<wbr>Options</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

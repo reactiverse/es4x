@@ -30,7 +30,7 @@ public class PackageJSON extends Generator<ModuleModel> {
     kinds = new HashSet<>();
     kinds.add("module");
 
-    name = "es4x-generator";
+    name = "es4x-generator (package.json)";
   }
 
   @Override

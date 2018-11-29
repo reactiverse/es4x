@@ -109,7 +109,12 @@ function vertx_io () {
     touch ./$i/npm/options.d.ts
     touch ./$i/npm/index.d.ts
     # build
-    mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-publish
+    if [ "$1" = "local" ]; then
+      mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-publish
+    else
+      mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
+    fi
+
   done
 }
 
@@ -133,7 +138,11 @@ function reactiverse_io () {
     touch ./$i/npm/options.d.ts
     touch ./$i/npm/index.d.ts
     # build
-    mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-publish
+    if [ "$1" = "local" ]; then
+      mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-publish
+    else
+      mvn -f ./$i/pom.xml -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
+    fi
   done
 }
 

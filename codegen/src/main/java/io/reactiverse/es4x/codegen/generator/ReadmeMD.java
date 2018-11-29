@@ -31,7 +31,7 @@ public class ReadmeMD extends Generator<ModuleModel> {
     kinds = new HashSet<>();
     kinds.add("module");
 
-    name = "es4x-generator";
+    name = "es4x-generator (README.md)";
   }
 
   @Override
