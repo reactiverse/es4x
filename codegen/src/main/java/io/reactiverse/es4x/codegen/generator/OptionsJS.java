@@ -16,7 +16,6 @@
 package io.reactiverse.es4x.codegen.generator;
 
 import io.vertx.codegen.DataObjectModel;
-import io.vertx.codegen.EnumModel;
 import io.vertx.codegen.Generator;
 
 import java.io.PrintWriter;
@@ -34,7 +33,7 @@ public class OptionsJS extends Generator<DataObjectModel> {
     kinds = new HashSet<>();
     kinds.add("dataObject");
 
-    name = "es4x-generator";
+    name = "es4x-generator (options.js)";
   }
 
   @Override

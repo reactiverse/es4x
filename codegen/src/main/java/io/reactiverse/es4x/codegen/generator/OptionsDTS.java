@@ -33,7 +33,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
     kinds = new HashSet<>();
     kinds.add("dataObject");
 
-    name = "es4x-generator";
+    name = "es4x-generator (options.d.ts)";
   }
 
   @Override

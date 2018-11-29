@@ -33,7 +33,7 @@ public class EnumJS extends Generator<EnumModel> {
     kinds = new HashSet<>();
     kinds.add("enum");
 
-    name = "es4x-generator";
+    name = "es4x-generator (enum.js)";
   }
 
   @Override
