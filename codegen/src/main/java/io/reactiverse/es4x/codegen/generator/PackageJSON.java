@@ -57,8 +57,19 @@ public class PackageJSON extends Generator<ModuleModel> {
     // extras
     json.put("sideEffects", false);
 
-    // fix version
-    char[] version = json.getString("version").toCharArray();
+    // fix version(s)
+    json.put("version", toSemVer(json.getString("version")));
+    if (json.containsKey("dependencies")) {
+      for (Map.Entry<String, Object> kv : json.getJsonObject("dependencies")) {
+        kv.setValue(toSemVer((String) kv.getValue()));
+      }
+    }
+
+    return json.encodePrettily();
+  }
+
+  private String toSemVer(String string) {
+    char[] version = string.toCharArray();
     int dots = 0;
     for (int i = 0; i < version.length; i++) {
       if (version[i] == '.') {
@@ -70,9 +81,9 @@ public class PackageJSON extends Generator<ModuleModel> {
     }
 
     if (dots > 2) {
-      json.put("version", new String(version));
+      return new String(version);
     }
 
-    return json.encodePrettily();
+    return string;
   }
 }
