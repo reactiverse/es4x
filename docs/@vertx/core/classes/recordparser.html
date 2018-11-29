@@ -72,6 +72,13 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -82,6 +89,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="recordparser.html#delimitedmode" class="tsd-kind-icon">delimited<wbr>Mode</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="recordparser.html#endhandler" class="tsd-kind-icon">end<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="recordparser.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="recordparser.html#fetch" class="tsd-kind-icon">fetch</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="recordparser.html#fixedsizemode" class="tsd-kind-icon">fixed<wbr>Size<wbr>Mode</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="recordparser.html#handle" class="tsd-kind-icon">handle</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="recordparser.html#handler" class="tsd-kind-icon">handler</a></li>
@@ -109,12 +117,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7315</li>
+									<li>Defined in index.d.ts:7616</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Flip the parser into delimited mode, and where the delimiter can be represented
+									<p>Flip the parser into delimited mode, and where the delimiter can be represented
 										by the String {@code delim} encoded in latin-1 . Don&#39;t use this if your String contains other than latin-1 characters.
 										<p>
 										This method can be called multiple times with different values of delim while data is being parsed.</p>
@@ -134,12 +142,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7325</li>
+									<li>Defined in index.d.ts:7626</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Flip the parser into delimited mode, and where the delimiter can be represented
+									<p>Flip the parser into delimited mode, and where the delimiter can be represented
 										by the delimiter {@code delim}.
 										<p>
 										This method can be called multiple times with different values of delim while data is being parsed.</p>
@@ -168,7 +176,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7362</li>
+									<li>Defined in index.d.ts:7665</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -178,17 +186,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">void</span></h5>
+															<h5>res: <span class="tsd-signature-type">void</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -214,7 +224,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7354</li>
+									<li>Defined in index.d.ts:7655</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -224,17 +234,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">Error</span></h5>
+															<h5>res: <span class="tsd-signature-type">Error</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -251,6 +263,30 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fetch" class="tsd-anchor"></a>
+					<h3>fetch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
+								<ul>
+									<li>Defined in index.d.ts:7661</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="fixedsizemode" class="tsd-anchor"></a>
 					<h3>fixed<wbr>Size<wbr>Mode</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -260,12 +296,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7334</li>
+									<li>Defined in index.d.ts:7635</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Flip the parser into fixed size mode, where the record size is specified by {@code size} in bytes.
+									<p>Flip the parser into fixed size mode, where the record size is specified by {@code size} in bytes.
 										<p>
 										This method can be called multiple times with different values of size while data is being parsed.</p>
 								</div>
@@ -293,12 +329,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7352</li>
+									<li>Defined in index.d.ts:7653</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> This method is called to provide the parser with data.</p>
+									<p>This method is called to provide the parser with data.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -324,7 +360,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7356</li>
+									<li>Defined in index.d.ts:7657</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -334,17 +370,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+															<h5>res: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -370,12 +408,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7345</li>
+									<li>Defined in index.d.ts:7646</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the maximum allowed size for a record when using the delimited mode.
+									<p>Set the maximum allowed size for a record when using the delimited mode.
 										The delimiter itself does not count for the record size.
 										<p>
 										If a record is longer than specified, an {@link IllegalStateException} will be thrown.</p>
@@ -404,8 +442,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:7358</li>
+									<li>Defined in index.d.ts:7659</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -421,8 +460,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:7360</li>
+									<li>Defined in index.d.ts:7663</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -439,7 +479,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7216</li>
+									<li>Defined in index.d.ts:7517</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -449,17 +489,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+															<h5>res: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -475,22 +518,22 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> new<wbr>Delimited</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">new<wbr>Delimited<span class="tsd-signature-symbol">(</span>delim<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
-						<li class="tsd-signature tsd-kind-icon">new<wbr>Delimited<span class="tsd-signature-symbol">(</span>delim<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, stream<span class="tsd-signature-symbol">: </span><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
+						<li class="tsd-signature tsd-kind-icon">new<wbr>Delimited<span class="tsd-signature-symbol">(</span>delim<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, stream<span class="tsd-signature-symbol">: </span><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
 						<li class="tsd-signature tsd-kind-icon">new<wbr>Delimited<span class="tsd-signature-symbol">(</span>delim<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
 						<li class="tsd-signature tsd-kind-icon">new<wbr>Delimited<span class="tsd-signature-symbol">(</span>delim<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
 						<li class="tsd-signature tsd-kind-icon">new<wbr>Delimited<span class="tsd-signature-symbol">(</span>delim<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
-						<li class="tsd-signature tsd-kind-icon">new<wbr>Delimited<span class="tsd-signature-symbol">(</span>delim<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, stream<span class="tsd-signature-symbol">: </span><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
+						<li class="tsd-signature tsd-kind-icon">new<wbr>Delimited<span class="tsd-signature-symbol">(</span>delim<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, stream<span class="tsd-signature-symbol">: </span><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7225</li>
+									<li>Defined in index.d.ts:7526</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #newDelimited(String)} but set the {@code output} that will receive whole records
+									<p>Like {@link #newDelimited(String)} but set the {@code output} that will receive whole records
 									which have been parsed.</p>
 								</div>
 							</div>
@@ -510,17 +553,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+															<h5>res: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -532,12 +578,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7236</li>
+									<li>Defined in index.d.ts:7537</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #newDelimited(String)} but wraps the {@code stream}. The {@code stream} handlers will be set/unset
+									<p>Like {@link #newDelimited(String)} but wraps the {@code stream}. The {@code stream} handlers will be set/unset
 										when the {@link #handler(Handler)} is set.
 										<p/>
 										The {@code pause()}/{@code resume()} operations are propagated to the {@code stream}.</p>
@@ -552,7 +598,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a></h5>
+									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the wrapped stream</p>
 									</div>
@@ -563,12 +609,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7246</li>
+									<li>Defined in index.d.ts:7547</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Create a new {@code RecordParser} instance, initially in delimited mode, and where the delimiter can be represented
+									<p>Create a new {@code RecordParser} instance, initially in delimited mode, and where the delimiter can be represented
 										by the String {@code} delim endcoded in latin-1 . Don&#39;t use this if your String contains other than latin-1 characters.
 										<p>
 										{@code output} Will receive whole records which have been parsed.</p>
@@ -588,12 +634,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7255</li>
+									<li>Defined in index.d.ts:7556</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Create a new {@code RecordParser} instance, initially in delimited mode, and where the delimiter can be represented
+									<p>Create a new {@code RecordParser} instance, initially in delimited mode, and where the delimiter can be represented
 										by the {@code Buffer} delim.
 										<p></p>
 								</div>
@@ -612,12 +658,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7264</li>
+									<li>Defined in index.d.ts:7565</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #newDelimited(Buffer)} but set the {@code output} that will receive whole records
+									<p>Like {@link #newDelimited(Buffer)} but set the {@code output} that will receive whole records
 									which have been parsed.</p>
 								</div>
 							</div>
@@ -637,17 +683,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+															<h5>res: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -659,12 +708,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7275</li>
+									<li>Defined in index.d.ts:7576</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #newDelimited(Buffer)} but wraps the {@code stream}. The {@code stream} handlers will be set/unset
+									<p>Like {@link #newDelimited(Buffer)} but wraps the {@code stream}. The {@code stream} handlers will be set/unset
 										when the {@link #handler(Handler)} is set.
 										<p/>
 										The {@code pause()}/{@code resume()} operations are propagated to the {@code stream}.</p>
@@ -679,7 +728,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a></h5>
+									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the wrapped stream</p>
 									</div>
@@ -695,18 +744,18 @@
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">new<wbr>Fixed<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
 						<li class="tsd-signature tsd-kind-icon">new<wbr>Fixed<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
-						<li class="tsd-signature tsd-kind-icon">new<wbr>Fixed<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, stream<span class="tsd-signature-symbol">: </span><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
+						<li class="tsd-signature tsd-kind-icon">new<wbr>Fixed<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, stream<span class="tsd-signature-symbol">: </span><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recordparser.html" class="tsd-signature-type">RecordParser</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7285</li>
+									<li>Defined in index.d.ts:7586</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Create a new {@code RecordParser} instance, initially in fixed size mode, and where the record size is specified
+									<p>Create a new {@code RecordParser} instance, initially in fixed size mode, and where the record size is specified
 										by the {@code size} parameter.
 										<p>
 										{@code output} Will receive whole records which have been parsed.</p>
@@ -726,12 +775,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7294</li>
+									<li>Defined in index.d.ts:7595</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #newFixed(int)} but set the {@code output} that will receive whole records
+									<p>Like {@link #newFixed(int)} but set the {@code output} that will receive whole records
 									which have been parsed.</p>
 								</div>
 							</div>
@@ -751,17 +800,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+															<h5>res: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -773,12 +825,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7305</li>
+									<li>Defined in index.d.ts:7606</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #newFixed(int)} but wraps the {@code stream}. The {@code stream} handlers will be set/unset
+									<p>Like {@link #newFixed(int)} but wraps the {@code stream}. The {@code stream} handlers will be set/unset
 										when the {@link #handler(Handler)} is set.
 										<p/>
 										The {@code pause()}/{@code resume()} operations are propagated to the {@code stream}.</p>
@@ -793,7 +845,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a></h5>
+									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the wrapped stream</p>
 									</div>
@@ -828,6 +880,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="recordparser.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="recordparser.html#fetch" class="tsd-kind-icon">fetch</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="recordparser.html#fixedsizemode" class="tsd-kind-icon">fixed<wbr>Size<wbr>Mode</a>

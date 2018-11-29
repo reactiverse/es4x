@@ -57,13 +57,24 @@
 					<a href="kafkaconsumerrecord.html">KafkaConsumerRecord</a>
 				</li>
 			</ul>
-			<h1>Class KafkaConsumerRecord</h1>
+			<h1>Class KafkaConsumerRecord&lt;K, V&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>K</h4>
+					</li>
+					<li>
+						<h4>V</h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -80,6 +91,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaconsumerrecord.html#checksum" class="tsd-kind-icon">checksum</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaconsumerrecord.html#headers" class="tsd-kind-icon">headers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaconsumerrecord.html#key" class="tsd-kind-icon">key</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaconsumerrecord.html#offset" class="tsd-kind-icon">offset</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaconsumerrecord.html#partition" class="tsd-kind-icon">partition</a></li>
@@ -104,10 +116,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:643</li>
+									<li>Defined in index.d.ts:675</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>As of Kafka 0.11.0. Because of the potential for message format conversion on the broker, the
+											checksum returned by the broker may not match what was computed by the producer.
+											It is therefore unsafe to depend on this checksum for end-to-end delivery guarantees. Additionally,
+											message format v2 does not include a record-level checksum (for performance, the record checksum
+											was replaced with a batch checksum). To maintain compatibility, a partial checksum computed from
+											the record timestamp, serialized key size, and serialized value size is returned instead, but
+										this should not be depended on for end-to-end reliability.</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 							<p>the checksum (CRC32) of the record.</p>
@@ -115,21 +138,41 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="key" class="tsd-anchor"></a>
-					<h3>key</h3>
+					<a name="headers" class="tsd-anchor"></a>
+					<h3>headers</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></li>
+						<li class="tsd-signature tsd-kind-icon">headers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="kafkaheader.html" class="tsd-signature-type">KafkaHeader</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:650</li>
+									<li>Defined in index.d.ts:696</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="kafkaheader.html" class="tsd-signature-type">KafkaHeader</a><span class="tsd-signature-symbol">[]</span></h4>
+							<p>the list of consumer record headers</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="key" class="tsd-anchor"></a>
+					<h3>key</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:682</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">K</span></h4>
 							<p>the key (or null if no key is specified)</p>
 						</li>
 					</ul>
@@ -144,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:622</li>
+									<li>Defined in index.d.ts:647</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -164,7 +207,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:615</li>
+									<li>Defined in index.d.ts:640</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -184,7 +227,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:629</li>
+									<li>Defined in index.d.ts:654</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -198,18 +241,18 @@
 					<a name="timestamptype" class="tsd-anchor"></a>
 					<h3>timestamp<wbr>Type</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">timestamp<wbr>Type<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TimestampType</span></li>
+						<li class="tsd-signature tsd-kind-icon">timestamp<wbr>Type<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:636</li>
+									<li>Defined in index.d.ts:661</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TimestampType</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 							<p>the timestamp type of this record</p>
 						</li>
 					</ul>
@@ -224,7 +267,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:608</li>
+									<li>Defined in index.d.ts:633</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -238,18 +281,18 @@
 					<a name="value" class="tsd-anchor"></a>
 					<h3>value</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></li>
+						<li class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">V</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:657</li>
+									<li>Defined in index.d.ts:689</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
 							<p>the value</p>
 						</li>
 					</ul>
@@ -269,16 +312,19 @@
 					<li class=" tsd-kind-class">
 						<a href="adminutils.html" class="tsd-kind-icon">Admin<wbr>Utils</a>
 					</li>
-					<li class=" tsd-kind-class">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="kafkaconsumer.html" class="tsd-kind-icon">Kafka<wbr>Consumer</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class="current tsd-kind-class tsd-has-type-parameter">
 						<a href="kafkaconsumerrecord.html" class="tsd-kind-icon">Kafka<wbr>Consumer<wbr>Record</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="kafkaconsumerrecord.html#checksum" class="tsd-kind-icon">checksum</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="kafkaconsumerrecord.html#headers" class="tsd-kind-icon">headers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="kafkaconsumerrecord.html#key" class="tsd-kind-icon">key</a>
@@ -305,13 +351,16 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="kafkaconsumerrecords.html" class="tsd-kind-icon">Kafka<wbr>Consumer<wbr>Records</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="kafkaheader.html" class="tsd-kind-icon">Kafka<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="kafkaproducer.html" class="tsd-kind-icon">Kafka<wbr>Producer</a>
 					</li>
-					<li class=" tsd-kind-class">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="kafkaproducerrecord.html" class="tsd-kind-icon">Kafka<wbr>Producer<wbr>Record</a>
 					</li>
 					<li class=" tsd-kind-class">

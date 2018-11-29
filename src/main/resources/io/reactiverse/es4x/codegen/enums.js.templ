@@ -1,9 +1,0 @@
-@includeNamed{"common.templ"}
-@if{incrementalIndex==0}
-/// <reference types="@{getNPMScope(type.raw.module)}/enums" />\n
-module.exports = {\n
-@end{}
-  @{type.raw.simpleName}: Java.type('@{type.name}')@if{incrementalIndex!=incrementalSize-1},@end{}\n
-@if{incrementalIndex==incrementalSize-1}
-};\n
-@end{}

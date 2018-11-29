@@ -57,13 +57,21 @@
 					<a href="httprequest.html">HttpRequest</a>
 				</li>
 			</ul>
-			<h1>Class HttpRequest</h1>
+			<h1>Class HttpRequest&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -80,8 +88,9 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#addqueryparam" class="tsd-kind-icon">add<wbr>Query<wbr>Param</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#as" class="tsd-kind-icon">as</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="httprequest.html#as" class="tsd-kind-icon">as</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#copy" class="tsd-kind-icon">copy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#expect" class="tsd-kind-icon">expect</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#followredirects" class="tsd-kind-icon">follow<wbr>Redirects</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#headers" class="tsd-kind-icon">headers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#host" class="tsd-kind-icon">host</a></li>
@@ -94,6 +103,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#sendform" class="tsd-kind-icon">send<wbr>Form</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#sendjson" class="tsd-kind-icon">send<wbr>Json</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#sendjsonobject" class="tsd-kind-icon">send<wbr>Json<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#sendmultipartform" class="tsd-kind-icon">send<wbr>Multipart<wbr>Form</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#sendstream" class="tsd-kind-icon">send<wbr>Stream</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#setqueryparam" class="tsd-kind-icon">set<wbr>Query<wbr>Param</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#ssl" class="tsd-kind-icon">ssl</a></li>
@@ -111,18 +121,18 @@
 					<a name="addqueryparam" class="tsd-anchor"></a>
 					<h3>add<wbr>Query<wbr>Param</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Query<wbr>Param<span class="tsd-signature-symbol">(</span>paramName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, paramValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Query<wbr>Param<span class="tsd-signature-symbol">(</span>paramName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, paramValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:101</li>
+									<li>Defined in index.d.ts:147</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a query parameter to the request.</p>
+									<p>Add a query parameter to the request.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -140,39 +150,45 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="as" class="tsd-anchor"></a>
 					<h3>as</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">as<span class="tsd-signature-symbol">(</span>responseCodec<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BodyCodec</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">as&lt;U&gt;<span class="tsd-signature-symbol">(</span>responseCodec<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BodyCodec</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:30</li>
+									<li>Defined in index.d.ts:76</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Configure the request to decode the response with the {@code responseCodec}.</p>
+									<p>Configure the request to decode the response with the {@code responseCodec}.</p>
 								</div>
 							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>U</h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>responseCodec: <span class="tsd-signature-type">BodyCodec</span></h5>
+									<h5>responseCodec: <span class="tsd-signature-type">BodyCodec</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the response codec</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -181,22 +197,100 @@
 					<a name="copy" class="tsd-anchor"></a>
 					<h3>copy</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:132</li>
+									<li>Defined in index.d.ts:198</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Copy this request</p>
+									<p>Copy this request</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a copy of this request</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="expect" class="tsd-anchor"></a>
+					<h3>expect</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">expect<span class="tsd-signature-symbol">(</span>predicate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">expect<span class="tsd-signature-symbol">(</span>predicate<span class="tsd-signature-symbol">: </span><a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:174</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add an expectation that the response is valid according to the provided {@code predicate}.
+										<p>
+										Multiple predicates can be added.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>predicate: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the predicate</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <a href="responsepredicateresult.html" class="tsd-signature-type">ResponsePredicateResult</a></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a reference to this, so the API can be used fluently</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:184</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add an expectation that the response is valid according to the provided {@code predicate}.
+										<p>
+										Multiple predicates can be added.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>predicate: <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the predicate</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -204,18 +298,18 @@
 					<a name="followredirects" class="tsd-anchor"></a>
 					<h3>follow<wbr>Redirects</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">follow<wbr>Redirects<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">follow<wbr>Redirects<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:118</li>
+									<li>Defined in index.d.ts:164</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set wether or not to follow the directs for the request.</p>
+									<p>Set wether or not to follow the directs for the request.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -227,7 +321,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -242,7 +336,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:79</li>
+									<li>Defined in index.d.ts:125</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -256,18 +350,18 @@
 					<a name="host" class="tsd-anchor"></a>
 					<h3>host</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">host<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">host<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:37</li>
+									<li>Defined in index.d.ts:83</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Configure the request to use a new host {@code value}.</p>
+									<p>Configure the request to use a new host {@code value}.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -276,7 +370,7 @@
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -285,18 +379,18 @@
 					<a name="method" class="tsd-anchor"></a>
 					<h3>method</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpMethod</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpMethod</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:15</li>
+									<li>Defined in index.d.ts:61</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Configure the request to use a new method {@code value}.</p>
+									<p>Configure the request to use a new method {@code value}.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -305,7 +399,7 @@
 									<h5>value: <span class="tsd-signature-type">HttpMethod</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -314,18 +408,18 @@
 					<a name="port" class="tsd-anchor"></a>
 					<h3>port</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">port<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">port<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:22</li>
+									<li>Defined in index.d.ts:68</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Configure the request to use a new port {@code value}.</p>
+									<p>Configure the request to use a new port {@code value}.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -334,7 +428,7 @@
 									<h5>value: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -343,18 +437,18 @@
 					<a name="putheader" class="tsd-anchor"></a>
 					<h3>put<wbr>Header</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">put<wbr>Header<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">put<wbr>Header<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:72</li>
+									<li>Defined in index.d.ts:118</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Configure the request to add a new HTTP header.</p>
+									<p>Configure the request to add a new HTTP header.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -372,7 +466,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -387,12 +481,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:125</li>
+									<li>Defined in index.d.ts:191</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Return the current query parameters.</p>
+									<p>Return the current query parameters.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MultiMap</span></h4>
@@ -410,12 +504,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:178</li>
+									<li>Defined in index.d.ts:252</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Send a request, the {@code handler} will receive the response as an <a href="httpresponse.html">HttpResponse</a>.</p>
+									<p>Send a request, the {@code handler} will receive the response as an <a href="httpresponse.html">HttpResponse</a>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -425,17 +519,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -456,12 +553,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:146</li>
+									<li>Defined in index.d.ts:212</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #send(Handler)} but with an HTTP request {@code body} buffer.</p>
+									<p>Like {@link #send(Handler)} but with an HTTP request {@code body} buffer.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -477,17 +574,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -508,12 +608,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:172</li>
+									<li>Defined in index.d.ts:238</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #send(Handler)} but with an HTTP request {@code body} multimap encoded as form and the content type
+									<p>Like {@link #send(Handler)} but with an HTTP request {@code body} multimap encoded as form and the content type
 										set to {@code application/x-www-form-urlencoded}.
 										<p>
 										When the content type header is previously set to {@code multipart/form-data} it will be used instead.</p>
@@ -532,17 +632,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -563,12 +666,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:162</li>
+									<li>Defined in index.d.ts:228</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #send(Handler)} but with an HTTP request {@code body} object encoded as json and the content type
+									<p>Like {@link #send(Handler)} but with an HTTP request {@code body} object encoded as json and the content type
 									set to {@code application/json}.</p>
 								</div>
 							</div>
@@ -585,17 +688,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -616,12 +722,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:154</li>
+									<li>Defined in index.d.ts:220</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #send(Handler)} but with an HTTP request {@code body} object encoded as json and the content type
+									<p>Like {@link #send(Handler)} but with an HTTP request {@code body} object encoded as json and the content type
 									set to {@code application/json}.</p>
 								</div>
 							</div>
@@ -632,23 +738,87 @@
 									<div class="tsd-comment tsd-typography">
 										<p>the body</p>
 									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-index-signature">
+											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+									</ul>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendmultipartform" class="tsd-anchor"></a>
+					<h3>send<wbr>Multipart<wbr>Form</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Multipart<wbr>Form<span class="tsd-signature-symbol">(</span>body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MultipartForm</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:246</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Like {@link #send(Handler)} but with an HTTP request {@code body} multimap encoded as form and the content type
+									set to {@code multipart/form-data}. You may use this method to send attributes and upload files.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>body: <span class="tsd-signature-type">MultipartForm</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the body</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>res: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -663,24 +833,24 @@
 					<a name="sendstream" class="tsd-anchor"></a>
 					<h3>send<wbr>Stream</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Stream<span class="tsd-signature-symbol">(</span>body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadStream</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Stream<span class="tsd-signature-symbol">(</span>body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadStream</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">&gt;</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:139</li>
+									<li>Defined in index.d.ts:205</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #send(Handler)} but with an HTTP request {@code body} stream.</p>
+									<p>Like {@link #send(Handler)} but with an HTTP request {@code body} stream.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>body: <span class="tsd-signature-type">ReadStream</span></h5>
+									<h5>body: <span class="tsd-signature-type">ReadStream</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the body</p>
 									</div>
@@ -690,17 +860,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>res: <span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="httpresponse.html" class="tsd-signature-type">HttpResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -715,18 +888,18 @@
 					<a name="setqueryparam" class="tsd-anchor"></a>
 					<h3>set<wbr>Query<wbr>Param</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Query<wbr>Param<span class="tsd-signature-symbol">(</span>paramName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, paramValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Query<wbr>Param<span class="tsd-signature-symbol">(</span>paramName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, paramValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:110</li>
+									<li>Defined in index.d.ts:156</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set a query parameter to the request.</p>
+									<p>Set a query parameter to the request.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -744,7 +917,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -753,13 +926,13 @@
 					<a name="ssl" class="tsd-anchor"></a>
 					<h3>ssl</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">ssl<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">ssl<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:81</li>
+									<li>Defined in index.d.ts:127</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -768,7 +941,7 @@
 									<h5>value: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -776,18 +949,18 @@
 					<a name="timeout" class="tsd-anchor"></a>
 					<h3>timeout</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">timeout<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">timeout<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:92</li>
+									<li>Defined in index.d.ts:138</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Configures the amount of time in milliseconds after which if the request does not return any data within the timeout
+									<p>Configures the amount of time in milliseconds after which if the request does not return any data within the timeout
 										period an {@link java.util.concurrent.TimeoutException} fails the request.
 										<p>
 										Setting zero or a negative {@code value} disables the timeout.</p>
@@ -802,7 +975,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -811,18 +984,18 @@
 					<a name="uri" class="tsd-anchor"></a>
 					<h3>uri</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">uri<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">uri<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:63</li>
+									<li>Defined in index.d.ts:109</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Configure the request to use a new request URI {@code value}.
+									<p>Configure the request to use a new request URI {@code value}.
 										<p>
 											When the uri has query parameters, they are set in the {@link #queryParams()} multimap, overwritting
 										any parameters previously set.</p>
@@ -834,7 +1007,7 @@
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -843,18 +1016,18 @@
 					<a name="virtualhost" class="tsd-anchor"></a>
 					<h3>virtual<wbr>Host</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">virtual<wbr>Host<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></li>
+						<li class="tsd-signature tsd-kind-icon">virtual<wbr>Host<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:53</li>
+									<li>Defined in index.d.ts:99</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Configure the request to use a virtual host {@code value}.
+									<p>Configure the request to use a virtual host {@code value}.
 										<p/>
 											Usually the header <i>host</i> (<i>:authority</i> pseudo header for HTTP/2) is set from the request host value
 											since this host value resolves to the server IP address.
@@ -872,7 +1045,7 @@
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
@@ -889,19 +1062,25 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="errorconverter.html" class="tsd-kind-icon">Error<wbr>Converter</a>
+					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class="current tsd-kind-class tsd-has-type-parameter">
 						<a href="httprequest.html" class="tsd-kind-icon">Http<wbr>Request</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httprequest.html#addqueryparam" class="tsd-kind-icon">add<wbr>Query<wbr>Param</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="httprequest.html#as" class="tsd-kind-icon">as</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httprequest.html#copy" class="tsd-kind-icon">copy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httprequest.html#expect" class="tsd-kind-icon">expect</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httprequest.html#followredirects" class="tsd-kind-icon">follow<wbr>Redirects</a>
@@ -940,6 +1119,9 @@
 								<a href="httprequest.html#sendjsonobject" class="tsd-kind-icon">send<wbr>Json<wbr>Object</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httprequest.html#sendmultipartform" class="tsd-kind-icon">send<wbr>Multipart<wbr>Form</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httprequest.html#sendstream" class="tsd-kind-icon">send<wbr>Stream</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -961,8 +1143,14 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="httpresponse.html" class="tsd-kind-icon">Http<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="responsepredicate.html" class="tsd-kind-icon">Response<wbr>Predicate</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="responsepredicateresult.html" class="tsd-kind-icon">Response<wbr>Predicate<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="webclient.html" class="tsd-kind-icon">Web<wbr>Client</a>

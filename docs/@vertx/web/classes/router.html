@@ -72,6 +72,12 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><span class="tsd-signature-type">any</span></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -89,6 +95,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="router.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="router.html#getroutes" class="tsd-kind-icon">get<wbr>Routes</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="router.html#getwithregex" class="tsd-kind-icon">get<wbr>With<wbr>Regex</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="router.html#handle" class="tsd-kind-icon">handle</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="router.html#handlecontext" class="tsd-kind-icon">handle<wbr>Context</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="router.html#handlefailure" class="tsd-kind-icon">handle<wbr>Failure</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="router.html#head" class="tsd-kind-icon">head</a></li>
@@ -124,15 +131,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1658</li>
+									<li>Defined in index.d.ts:1665</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> This method is used to provide a request to the router. Usually you take request from the
+									<p>This method is used to provide a request to the router. Usually you take request from the
 										{@link io.vertx.core.http.HttpServer#requestHandler(Handler)} and pass it to this method. The
 									router then routes it to matching routes.</p>
 								</div>
+								<p> This method is now deprecated you can use this object directly as a request handler, which
+								means there is no need for a method reference anymore.</p>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -157,12 +170,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1920</li>
+									<li>Defined in index.d.ts:1927</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Remove all the routes from this router</p>
+									<p>Remove all the routes from this router</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="router.html" class="tsd-signature-type">Router</a></h4>
@@ -181,12 +194,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1867</li>
+									<li>Defined in index.d.ts:1874</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches any HTTP CONNECT request</p>
+									<p>Add a route that matches any HTTP CONNECT request</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -195,12 +208,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1875</li>
+									<li>Defined in index.d.ts:1882</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP CONNECT request and the specified path</p>
+									<p>Add a route that matches a HTTP CONNECT request and the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -227,12 +240,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1883</li>
+									<li>Defined in index.d.ts:1890</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP CONNECT request and the specified path regex</p>
+									<p>Add a route that matches a HTTP CONNECT request and the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -260,12 +273,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1821</li>
+									<li>Defined in index.d.ts:1828</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches any HTTP DELETE request</p>
+									<p>Add a route that matches any HTTP DELETE request</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -274,12 +287,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1829</li>
+									<li>Defined in index.d.ts:1836</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP DELETE request and the specified path</p>
+									<p>Add a route that matches a HTTP DELETE request and the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -306,12 +319,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1837</li>
+									<li>Defined in index.d.ts:1844</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP DELETE request and the specified path regex</p>
+									<p>Add a route that matches a HTTP DELETE request and the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -338,12 +351,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1938</li>
+									<li>Defined in index.d.ts:1945</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Specify a handler for any unhandled exceptions on this router. The handler will be called for exceptions thrown
+									<p>Specify a handler for any unhandled exceptions on this router. The handler will be called for exceptions thrown
 									from handlers. This does not affect the normal failure routing logic.</p>
 								</div>
 							</div>
@@ -357,17 +370,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">Error</span></h5>
+															<h5>res: <span class="tsd-signature-type">Error</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -395,12 +410,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1706</li>
+									<li>Defined in index.d.ts:1713</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches any HTTP GET request</p>
+									<p>Add a route that matches any HTTP GET request</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -409,12 +424,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1714</li>
+									<li>Defined in index.d.ts:1721</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP GET request and the specified path</p>
+									<p>Add a route that matches a HTTP GET request and the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -441,7 +456,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1913</li>
+									<li>Defined in index.d.ts:1920</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -461,12 +476,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1722</li>
+									<li>Defined in index.d.ts:1729</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP GET request and the specified path regex</p>
+									<p>Add a route that matches a HTTP GET request and the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -484,6 +499,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="handle" class="tsd-anchor"></a>
+					<h3>handle</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">handle<span class="tsd-signature-symbol">(</span>arg0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpServerRequest</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:1645</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>arg0: <span class="tsd-signature-type">HttpServerRequest</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="handlecontext" class="tsd-anchor"></a>
 					<h3>handle<wbr>Context</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -493,12 +531,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1945</li>
+									<li>Defined in index.d.ts:1952</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Used to route a context to the router. Used for sub-routers. You wouldn&#39;t normally call this method directly.</p>
+									<p>Used to route a context to the router. Used for sub-routers. You wouldn&#39;t normally call this method directly.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -524,12 +562,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1952</li>
+									<li>Defined in index.d.ts:1959</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Used to route a failure to the router. Used for sub-routers. You wouldn&#39;t normally call this method directly.</p>
+									<p>Used to route a failure to the router. Used for sub-routers. You wouldn&#39;t normally call this method directly.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -556,12 +594,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1729</li>
+									<li>Defined in index.d.ts:1736</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches any HTTP HEAD request</p>
+									<p>Add a route that matches any HTTP HEAD request</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -570,12 +608,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1737</li>
+									<li>Defined in index.d.ts:1744</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP HEAD request and the specified path</p>
+									<p>Add a route that matches a HTTP HEAD request and the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -602,12 +640,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1745</li>
+									<li>Defined in index.d.ts:1752</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP HEAD request and the specified path regex</p>
+									<p>Add a route that matches a HTTP HEAD request and the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -634,12 +672,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1929</li>
+									<li>Defined in index.d.ts:1936</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Mount a sub router on this router</p>
+									<p>Mount a sub router on this router</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -673,12 +711,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1752</li>
+									<li>Defined in index.d.ts:1759</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches any HTTP OPTIONS request</p>
+									<p>Add a route that matches any HTTP OPTIONS request</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -687,12 +725,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1760</li>
+									<li>Defined in index.d.ts:1767</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP OPTIONS request and the specified path</p>
+									<p>Add a route that matches a HTTP OPTIONS request and the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -719,12 +757,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1768</li>
+									<li>Defined in index.d.ts:1775</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP OPTIONS request and the specified path regex</p>
+									<p>Add a route that matches a HTTP OPTIONS request and the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -752,12 +790,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1890</li>
+									<li>Defined in index.d.ts:1897</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches any HTTP PATCH request</p>
+									<p>Add a route that matches any HTTP PATCH request</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -766,12 +804,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1898</li>
+									<li>Defined in index.d.ts:1905</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP PATCH request and the specified path</p>
+									<p>Add a route that matches a HTTP PATCH request and the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -798,12 +836,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1906</li>
+									<li>Defined in index.d.ts:1913</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP PATCH request and the specified path regex</p>
+									<p>Add a route that matches a HTTP PATCH request and the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -831,12 +869,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1798</li>
+									<li>Defined in index.d.ts:1805</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches any HTTP POST request</p>
+									<p>Add a route that matches any HTTP POST request</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -845,12 +883,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1806</li>
+									<li>Defined in index.d.ts:1813</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP POST request and the specified path</p>
+									<p>Add a route that matches a HTTP POST request and the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -877,12 +915,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1814</li>
+									<li>Defined in index.d.ts:1821</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP POST request and the specified path regex</p>
+									<p>Add a route that matches a HTTP POST request and the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -910,12 +948,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1775</li>
+									<li>Defined in index.d.ts:1782</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches any HTTP PUT request</p>
+									<p>Add a route that matches any HTTP PUT request</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -924,12 +962,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1783</li>
+									<li>Defined in index.d.ts:1790</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP PUT request and the specified path</p>
+									<p>Add a route that matches a HTTP PUT request and the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -956,12 +994,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1791</li>
+									<li>Defined in index.d.ts:1798</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP PUT request and the specified path regex</p>
+									<p>Add a route that matches a HTTP PUT request and the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -990,12 +1028,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1665</li>
+									<li>Defined in index.d.ts:1672</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route with no matching criteria, i.e. it matches all requests or failures.</p>
+									<p>Add a route with no matching criteria, i.e. it matches all requests or failures.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -1004,12 +1042,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1674</li>
+									<li>Defined in index.d.ts:1681</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches the specified HTTP method and path</p>
+									<p>Add a route that matches the specified HTTP method and path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1033,12 +1071,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1682</li>
+									<li>Defined in index.d.ts:1689</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches the specified path</p>
+									<p>Add a route that matches the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1066,12 +1104,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1691</li>
+									<li>Defined in index.d.ts:1698</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches the specified HTTP method and path regex</p>
+									<p>Add a route that matches the specified HTTP method and path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1095,12 +1133,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1699</li>
+									<li>Defined in index.d.ts:1706</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches the specified path regex</p>
+									<p>Add a route that matches the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1128,12 +1166,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1844</li>
+									<li>Defined in index.d.ts:1851</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches any HTTP TRACE request</p>
+									<p>Add a route that matches any HTTP TRACE request</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -1142,12 +1180,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1852</li>
+									<li>Defined in index.d.ts:1859</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP TRACE request and the specified path</p>
+									<p>Add a route that matches a HTTP TRACE request and the specified path</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1174,12 +1212,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1860</li>
+									<li>Defined in index.d.ts:1867</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Add a route that matches a HTTP TRACE request and the specified path regex</p>
+									<p>Add a route that matches a HTTP TRACE request and the specified path regex</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1206,12 +1244,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1649</li>
+									<li>Defined in index.d.ts:1653</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Create a router</p>
+									<p>Create a router</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1274,6 +1312,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="router.html#getwithregex" class="tsd-kind-icon">get<wbr>With<wbr>Regex</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="router.html#handle" class="tsd-kind-icon">handle</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="router.html#handlecontext" class="tsd-kind-icon">handle<wbr>Context</a>

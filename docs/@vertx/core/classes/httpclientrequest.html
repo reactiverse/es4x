@@ -72,6 +72,13 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="httpclientresponse.html" class="tsd-signature-type">HttpClientResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -87,8 +94,10 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#end" class="tsd-kind-icon">end</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#endhandler" class="tsd-kind-icon">end<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#fetch" class="tsd-kind-icon">fetch</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#gethost" class="tsd-kind-icon">get<wbr>Host</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#getrawmethod" class="tsd-kind-icon">get<wbr>Raw<wbr>Method</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#getstreampriority" class="tsd-kind-icon">get<wbr>Stream<wbr>Priority</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#handler" class="tsd-kind-icon">handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#headers" class="tsd-kind-icon">headers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#ischunked" class="tsd-kind-icon">is<wbr>Chunked</a></li>
@@ -105,6 +114,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#setfollowredirects" class="tsd-kind-icon">set<wbr>Follow<wbr>Redirects</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#sethost" class="tsd-kind-icon">set<wbr>Host</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#setrawmethod" class="tsd-kind-icon">set<wbr>Raw<wbr>Method</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#setstreampriority" class="tsd-kind-icon">set<wbr>Stream<wbr>Priority</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#settimeout" class="tsd-kind-icon">set<wbr>Timeout</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#setwritequeuemaxsize" class="tsd-kind-icon">set<wbr>Write<wbr>Queue<wbr>Max<wbr>Size</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#streamid" class="tsd-kind-icon">stream<wbr>Id</a></li>
@@ -129,7 +139,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4567</li>
+									<li>Defined in index.d.ts:4786</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -149,7 +159,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4764</li>
+									<li>Defined in index.d.ts:4983</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -169,12 +179,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4772</li>
+									<li>Defined in index.d.ts:4991</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set a connection handler called when an HTTP connection has been established.</p>
+									<p>Set a connection handler called when an HTTP connection has been established.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -187,17 +197,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="httpconnection.html" class="tsd-signature-type">HttpConnection</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="httpconnection.html" class="tsd-signature-type">HttpConnection</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="httpconnection.html" class="tsd-signature-type">HttpConnection</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="httpconnection.html" class="tsd-signature-type">HttpConnection</a></h5>
+															<h5>res: <a href="httpconnection.html" class="tsd-signature-type">HttpConnection</a></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="httpconnection.html" class="tsd-signature-type">HttpConnection</a><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -224,12 +236,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4647</li>
+									<li>Defined in index.d.ts:4866</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> If you send an HTTP request with the header {@code Expect} set to the value {@code 100-continue}
+									<p>If you send an HTTP request with the header {@code Expect} set to the value {@code 100-continue}
 										and the server responds with an interim HTTP response with a status code of {@code 100} and a continue handler
 										has been set using this method, then the {@code handler} will be called.
 										<p>
@@ -244,17 +256,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">void</span></h5>
+															<h5>res: <span class="tsd-signature-type">void</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -281,7 +295,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4514</li>
+									<li>Defined in index.d.ts:4731</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -291,17 +305,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">void</span></h5>
+															<h5>res: <span class="tsd-signature-type">void</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -330,12 +346,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4673</li>
+									<li>Defined in index.d.ts:4892</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Same as {@link #end(Buffer)} but writes a String in UTF-8 encoding</p>
+									<p>Same as {@link #end(Buffer)} but writes a String in UTF-8 encoding</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>throws</dt>
@@ -354,12 +370,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4680</li>
+									<li>Defined in index.d.ts:4899</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Same as {@link #end(Buffer)} but writes a String with the specified encoding</p>
+									<p>Same as {@link #end(Buffer)} but writes a String with the specified encoding</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>throws</dt>
@@ -381,12 +397,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4688</li>
+									<li>Defined in index.d.ts:4907</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Same as {@link #end()} but writes some data to the request body before ending. If the request is not chunked and
+									<p>Same as {@link #end()} but writes some data to the request body before ending. If the request is not chunked and
 									no other data has been written then the {@code Content-Length} header will be automatically set</p>
 								</div>
 								<dl class="tsd-comment-tags">
@@ -405,13 +421,14 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4698</li>
+									<li>Defined in index.d.ts:4917</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Ends the request. If no data has been written to the request body, and {@link #sendHead()} has not been called then
+									<p>Ends the request. If no data has been written to the request body, and {@link #sendHead()} has not been called then
 										the actual request won&#39;t get written until this method gets called.
 										<p>
 										Once the request has ended, it cannot be used any more,</p>
@@ -436,7 +453,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4522</li>
+									<li>Defined in index.d.ts:4741</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -446,17 +463,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">void</span></h5>
+															<h5>res: <span class="tsd-signature-type">void</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -482,7 +501,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4503</li>
+									<li>Defined in index.d.ts:4720</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -492,17 +511,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <span class="tsd-signature-type">Error</span></h5>
+															<h5>res: <span class="tsd-signature-type">Error</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -519,6 +540,30 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fetch" class="tsd-anchor"></a>
+					<h3>fetch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
+								<ul>
+									<li>Defined in index.d.ts:4739</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="gethost" class="tsd-anchor"></a>
 					<h3>get<wbr>Host</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -528,7 +573,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4603</li>
+									<li>Defined in index.d.ts:4822</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -548,13 +593,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4552</li>
+									<li>Defined in index.d.ts:4771</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 							<p>the raw value of the method this request sends</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getstreampriority" class="tsd-anchor"></a>
+					<h3>get<wbr>Stream<wbr>Priority</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Stream<wbr>Priority<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="streampriority.html" class="tsd-signature-type">StreamPriority</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:5037</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="streampriority.html" class="tsd-signature-type">StreamPriority</a></h4>
+							<p>the priority of the associated HTTP/2 stream for HTTP/2 otherwise {@code null}</p>
 						</li>
 					</ul>
 				</section>
@@ -568,7 +633,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4516</li>
+									<li>Defined in index.d.ts:4733</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -578,17 +643,19 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="httpclientresponse.html" class="tsd-signature-type">HttpClientResponse</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="httpclientresponse.html" class="tsd-signature-type">HttpClientResponse</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="httpclientresponse.html" class="tsd-signature-type">HttpClientResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="httpclientresponse.html" class="tsd-signature-type">HttpClientResponse</a></h5>
+															<h5>res: <a href="httpclientresponse.html" class="tsd-signature-type">HttpClientResponse</a></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="httpclientresponse.html" class="tsd-signature-type">HttpClientResponse</a><span class="tsd-signature-symbol">&gt;</span>
 														<span class="tsd-signature-symbol"> | </span>
 														<span class="tsd-signature-type">null</span>
 														<span class="tsd-signature-symbol"> | </span>
@@ -614,7 +681,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4610</li>
+									<li>Defined in index.d.ts:4829</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -634,7 +701,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4539</li>
+									<li>Defined in index.d.ts:4758</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -654,12 +721,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4545</li>
+									<li>Defined in index.d.ts:4764</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> The HTTP method for the request.</p>
+									<p>The HTTP method for the request.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a></h4>
@@ -676,7 +743,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4581</li>
+									<li>Defined in index.d.ts:4800</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -695,8 +762,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4518</li>
+									<li>Defined in index.d.ts:4735</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></h4>
@@ -713,12 +781,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4734</li>
+									<li>Defined in index.d.ts:4953</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set a push handler for this request.<p/></p>
+									<p>Set a push handler for this request.<p/></p>
 								</div>
 								<p> The handler is called when the client receives a <i>push promise</i> from the server. The handler can be called
 									multiple times, for each push promise.<p/></p>
@@ -742,17 +810,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></h5>
+															<h5>res: <a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -774,12 +845,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4619</li>
+									<li>Defined in index.d.ts:4838</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Put an HTTP header</p>
+									<p>Put an HTTP header</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -812,7 +883,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4588</li>
+									<li>Defined in index.d.ts:4807</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -833,12 +904,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4741</li>
+									<li>Defined in index.d.ts:4960</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Reset this stream with the error code {@code 0}.</p>
+									<p>Reset this stream with the error code {@code 0}.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
@@ -851,12 +922,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4757</li>
+									<li>Defined in index.d.ts:4976</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Reset this request:
+									<p>Reset this request:
 										<p/>
 											<ul>
 												<li>for HTTP/2, this performs send an HTTP/2 reset frame with the specified error {@code code}</li>
@@ -890,8 +961,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4520</li>
+									<li>Defined in index.d.ts:4737</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></h4>
@@ -909,12 +981,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4659</li>
+									<li>Defined in index.d.ts:4878</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Forces the head of the request to be written before {@link #end()} is called on the request or any data is
+									<p>Forces the head of the request to be written before {@link #end()} is called on the request or any data is
 										written to it.
 										<p>
 											This is normally used to implement HTTP 100-continue handling, see {@link #continueHandler(io.vertx.core.Handler)} for
@@ -932,12 +1004,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4666</li>
+									<li>Defined in index.d.ts:4885</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #sendHead()} but with an handler after headers have been sent. The handler will be called with
+									<p>Like {@link #sendHead()} but with an handler after headers have been sent. The handler will be called with
 										the <a href="../enums/httpversion.html">HttpVersion</a> if it can be determined or null otherwise.<p></p>
 								</div>
 							</div>
@@ -948,17 +1020,20 @@
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>result: <a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a></h5>
+															<h5>res: <a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a></h5>
 														</li>
 													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+														<span class="tsd-signature-symbol"> | </span>
+														<a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a><span class="tsd-signature-symbol">&gt;</span>
+													</h4>
 												</li>
 											</ul>
 										</li>
@@ -979,12 +1054,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4532</li>
+									<li>Defined in index.d.ts:4751</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> If chunked is true then the request will be set into HTTP chunked mode</p>
+									<p>If chunked is true then the request will be set into HTTP chunked mode</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1011,7 +1086,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4524</li>
+									<li>Defined in index.d.ts:4743</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1034,12 +1109,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4596</li>
+									<li>Defined in index.d.ts:4815</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the request host.<p/></p>
+									<p>Set the request host.<p/></p>
 								</div>
 								<p> For HTTP/2 it sets the {@literal :authority} pseudo header otherwise it sets the {@literal Host} header</p>
 							</div>
@@ -1063,12 +1138,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4560</li>
+									<li>Defined in index.d.ts:4779</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set the value the method to send when the method {@link HttpMethod#OTHER} is used.</p>
+									<p>Set the value the method to send when the method {@link HttpMethod#OTHER} is used.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1086,6 +1161,39 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setstreampriority" class="tsd-anchor"></a>
+					<h3>set<wbr>Stream<wbr>Priority</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Stream<wbr>Priority<span class="tsd-signature-symbol">(</span>streamPriority<span class="tsd-signature-symbol">: </span><a href="streampriority.html" class="tsd-signature-type">StreamPriority</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:5030</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the priority of the associated stream.
+										<p/>
+										This is not implemented for HTTP/1.x.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>streamPriority: <a href="streampriority.html" class="tsd-signature-type">StreamPriority</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the priority of this request&#39;s stream</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="settimeout" class="tsd-anchor"></a>
 					<h3>set<wbr>Timeout</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -1095,12 +1203,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4711</li>
+									<li>Defined in index.d.ts:4930</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Set&#39;s the amount of time after which if the request does not return any data within the timeout period an
+									<p>Set&#39;s the amount of time after which if the request does not return any data within the timeout period an
 										{@link java.util.concurrent.TimeoutException} will be passed to the exception handler (if provided) and
 										the request will be closed.
 										<p>
@@ -1131,8 +1239,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#setwritequeuemaxsize">setWriteQueueMaxSize</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4512</li>
+									<li>Defined in index.d.ts:4729</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1155,7 +1264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4795</li>
+									<li>Defined in index.d.ts:5014</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1176,7 +1285,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4574</li>
+									<li>Defined in index.d.ts:4793</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1198,7 +1307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4510</li>
+									<li>Defined in index.d.ts:4727</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1219,12 +1328,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4627</li>
+									<li>Defined in index.d.ts:4846</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Write a {@link String} to the request body, encoded as UTF-8.</p>
+									<p>Write a {@link String} to the request body, encoded as UTF-8.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>throws</dt>
@@ -1244,12 +1353,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4635</li>
+									<li>Defined in index.d.ts:4854</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Write a {@link String} to the request body, encoded using the encoding {@code enc}.</p>
+									<p>Write a {@link String} to the request body, encoded using the encoding {@code enc}.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>throws</dt>
@@ -1282,12 +1391,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4787</li>
+									<li>Defined in index.d.ts:5006</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Write an HTTP/2 frame to the request, allowing to extend the HTTP/2 protocol.<p></p>
+									<p>Write an HTTP/2 frame to the request, allowing to extend the HTTP/2 protocol.<p></p>
 								</div>
 								<p> The frame is sent immediatly and is not subject to flow control.<p></p>
 									<p> This method must be called after the request headers have been sent and only for the protocol HTTP/2.
@@ -1320,12 +1429,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4802</li>
+									<li>Defined in index.d.ts:5021</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> Like {@link #writeCustomFrame(int, int, Buffer)} but with an <a href="httpframe.html">HttpFrame</a>.</p>
+									<p>Like {@link #writeCustomFrame(int, int, Buffer)} but with an <a href="httpframe.html">HttpFrame</a>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1350,13 +1459,14 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#writequeuefull">writeQueueFull</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4501</li>
+									<li>Defined in index.d.ts:4718</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p> This will return {@code true} if there are more bytes in the write queue than the value set using {@link</p>
+									<p>This will return {@code true} if there are more bytes in the write queue than the value set using {@link</p>
 									<p> #setWriteQueueMaxSize}</p>
 								</div>
 							</div>
@@ -1407,10 +1517,16 @@
 								<a href="httpclientrequest.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpclientrequest.html#fetch" class="tsd-kind-icon">fetch</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientrequest.html#gethost" class="tsd-kind-icon">get<wbr>Host</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientrequest.html#getrawmethod" class="tsd-kind-icon">get<wbr>Raw<wbr>Method</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpclientrequest.html#getstreampriority" class="tsd-kind-icon">get<wbr>Stream<wbr>Priority</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientrequest.html#handler" class="tsd-kind-icon">handler</a>
@@ -1459,6 +1575,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientrequest.html#setrawmethod" class="tsd-kind-icon">set<wbr>Raw<wbr>Method</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpclientrequest.html#setstreampriority" class="tsd-kind-icon">set<wbr>Stream<wbr>Priority</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientrequest.html#settimeout" class="tsd-kind-icon">set<wbr>Timeout</a>

@@ -161,13 +161,13 @@ And follow the instructions.
 ### Packaging
 
 It is common to package JVM applications as runnable `JAR` files, the `es4x-cli` creates a `pom.xml` with the
-`maven-shade-plugin` configured for this:
+`maven-jar-plugin` configured for this:
 
 ```sh
 npm run package
 ```
 
-And a new `JAR` file should be built in your `target` directory.
+And a new `JAR` file should be built in your `target/dist` directory.
 
 Packaging will re-arrange your application code to be moved to the directory `node_modules/your-module-name` so
 it can be used from other JARs. In order for this to work correctly, the current `node_modules` are also
@@ -181,7 +181,7 @@ Running: /home/plopes/Projects/reactiverse/es4x/examples/empty-project/mvnw ... 
 Run your application with:
 
   java \
-  -jar target/empty-project-1.0.0-bin.jar
+  -jar target/dist/empty-project-1.0.0-bin.jar
 ```
 
 Note that if you run with the environment flag `JVMCI` then you can run your app on JDK11 too but the start command
@@ -192,35 +192,22 @@ Running: /home/plopes/Projects/reactiverse/es4x/examples/empty-project/mvnw ... 
 Run your application with:
 
   java \
-  --module-path=target/compiler \
+  --module-path=target/dist/compiler \
   -XX:+UnlockExperimentalVMOptions \
   -XX:+EnableJVMCI \
-  --upgrade-module-path=target/compiler/compiler.jar \
-  -jar target/empty-project-1.0.0-bin-jvmci.jar
+  --upgrade-module-path=target/dist/compiler/compiler.jar \
+  -jar target/dist/empty-project-1.0.0-bin-jvmci.jar
 ```
 
-In this case you need not just the binary jar, but also the directory `target/compiler`. With this you can run using
-the GraalJS engine on any JDK11.
+To distribute just the application binaries all you need lives in `target/dist`.
 
 ### Shell/ REPL
 
-When working in a more interactive mode you'll be able to use the standard Nashorn REPL `jjs` or Graal.js REPL `js` or
-if you just want a REPL to be available in your Graal runtime you can switch the main class of your runnable jar to:
+If you invoke the command:
 
-```
-io.reactiverse.es4x.Shell
-```
-
-Using this `main` will allow you to pass any configuration to your vertx instance by using a `kebab` case format
-prefixed with a `-` sign. For example to start a clustered shell:
-
-```sh
-java -cp your_fatjar.jar io.reactiverse.es4x.Shell -clustered ./index.js
+```bash
+java -jar ... run "js:<shell>"
 ```
 
-The if no script is passed then the shell will be just a bootstrapped environment. You will be able to
-load any module by calling later:
-
-```js
-require('./my-module.js');
-```
+A bootstrapped shell will be available to run your code with all the components available in your classpath. You can
+then either start your application by requiring it's main module, or run any script in the `REPL`.
