@@ -103,22 +103,11 @@
     },
 
     debug: function () {
-      var args = Array.prototype.slice.call(arguments);
-      if (args.length > 0) {
-        args[0] = GREEN + args[0];
-        args[args.length - 1] = args[args.length - 1] + RESET;
-      }
-      System.out.println(format.apply(null, args));
+      System.out.println(GREEN + format.apply(null, arguments) + RESET);
     },
 
     info: function () {
-      var args = Array.prototype.slice.call(arguments);
-
-      if (args.length > 0) {
-        args[0] = BLUE + args[0];
-        args[args.length - 1] = args[args.length - 1] + RESET;
-      }
-      System.out.println(format.apply(null, args));
+      System.out.println(BLUE + format.apply(null, arguments) + RESET);
     },
 
     log: function () {
@@ -126,23 +115,11 @@
     },
 
     warn: function () {
-      var args = Array.prototype.slice.call(arguments);
-
-      if (args.length > 0) {
-        args[0] = YELLOW + args[0];
-        args[args.length - 1] = args[args.length - 1] + RESET;
-      }
-      System.out.println(format.apply(null, args));
+      System.out.println(YELLOW + format.apply(null, arguments) + RESET);
     },
 
     error: function () {
-      var args = Array.prototype.slice.call(arguments);
-
-      if (args.length > 0) {
-        args[0] = RED + args[0];
-        args[args.length - 1] = args[args.length - 1] + RESET;
-      }
-      System.out.println(format.apply(null, args));
+      System.out.println(RED + format.apply(null, arguments) + RESET);
     },
 
     trace: function (e) {
