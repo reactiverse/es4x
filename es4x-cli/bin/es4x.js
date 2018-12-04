@@ -37,12 +37,7 @@ function exec(command, args, cwd, env, options, callback) {
   let out = '';
 
   const idx = command.lastIndexOf('/');
-  if (args && args.length > 0) {
-    const lastArg = args[args.length - 1];
-    console.log('Running: ' + c.bold(idx === -1 ? command : (command.substring(idx + 1))) + ' ... ' + c.bold(lastArg));
-  } else {
-    console.log('Running: ' + c.bold(idx === -1 ? command : (command.substring(idx + 1))));
-  }
+  console.log('Running: ' + c.bold(idx === -1 ? command : (command.substring(idx + 1))) + ' ... ');
 
   proc.stdout.on('data', function (data) {
     if (options.collect) {
@@ -114,7 +109,7 @@ function generateClassPath(callback) {
   if (!fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
     let params = [];
 
-    if (npm.jvmci || process.env['JVMCI']) {
+    if (npm.jvmci) {
       params.push('-Pjvmci');
     }
 
@@ -128,7 +123,7 @@ function generateClassPath(callback) {
 
 function installJVMCICompiler(callback) {
 
-  if (!npm.jvmci && !process.env['JVMCI']) {
+  if (!npm.jvmci) {
     return callback();
   }
 
@@ -259,15 +254,7 @@ program
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), Mustache.render(template, data));
       // init the maven bits
-      let params = [];
-
-      if (npm.jvmci || process.env['JVMCI']) {
-        params.push('-Pjvmci');
-      }
-
-      params.push('-f', path.resolve(dir, 'pom.xml'), 'clean');
-
-      exec(mvn, params, __dirname + '/..', process.env, {stopOnError: true, verbose: options.verbose});
+      exec(mvn, ['-f', path.resolve(dir, 'pom.xml'), 'clean'], __dirname + '/..', process.env, {stopOnError: true, verbose: options.verbose});
     } catch (e) {
       console.error(c.red.bold(e));
       process.exit(1);
@@ -316,7 +303,7 @@ program
       installJVMCICompiler(function () {
         let params = [];
 
-        if (npm.jvmci || process.env['JVMCI']) {
+        if (npm.jvmci) {
           // enable modules
           params.push('--module-path=target/dist/compiler');
           // enable JVMCI
@@ -386,7 +373,7 @@ program
       installJVMCICompiler(function () {
         let params = [];
 
-        if (npm.jvmci || process.env['JVMCI']) {
+        if (npm.jvmci) {
           // enable modules
           params.push('--module-path=target/dist/compiler');
           // enable JVMCI
@@ -461,7 +448,10 @@ program
 program
   .command('package')
   .description('Packages the application as a runnable jar to "target/dist"')
-  .option('-d, --docker', 'Build a Docker image')
+  .option('-d, --docker', 'Also builds a Docker image')
+  .option('--build-image [buildImage]', 'Docker build image (default: openjdk:11-oracle)')
+  .option('--runtime-image [runtimeImage]', 'Docker build image (default: debian:stable-slim)')
+  .option('--no-jlink', 'Disable jlink on Docker build')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (options) {
 
@@ -469,7 +459,7 @@ program
       // init the maven bits
       let params = [];
 
-      if (npm.jvmci || process.env['JVMCI']) {
+      if (npm.jvmci) {
         params.push('-Pjvmci');
       }
 
@@ -482,7 +472,34 @@ program
         }
 
         if (options.docker) {
-          exec('docker', ['build', '.', '-f', __dirname + '/../Dockerfile', '-t', npm.name + ':' + npm.version], dir, process.env, {
+          // collect the variables
+          let jlink = (options.jlink === undefined ? true : options.jlink) || '';
+
+          let params = [
+            'build',
+            '.',
+            '-f', __dirname + '/../Dockerfile',
+            '-t', npm.name + ':' + npm.version,
+            '--build-arg', 'ARTIFACT=' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'
+          ];
+
+          if (options.buildImage) {
+            params.push('--build-arg', 'BUILDIMAGE=' + options.buildImage);
+          }
+
+          if (options.runtimeImage) {
+            params.push('--build-arg', 'RUNTIMEIMAGE=' + options.runtimeImage);
+          }
+
+          if (!npm.jvmci) {
+            params.push('--build-arg', 'JVMCI=');
+          }
+
+          if (!options.jlink) {
+            params.push('--build-arg', 'JLINK=');
+          }
+
+          exec('docker', params, dir, process.env, {
             stopOnError: true,
             verbose: options.verbose
           }, function (code) {
@@ -502,7 +519,7 @@ program
           console.log();
 
           console.log(c.bold('  ' + jdk('java') + ' \\'));
-          if (npm.jvmci || process.env['JVMCI']) {
+          if (npm.jvmci) {
             console.log(c.bold('    --module-path=target/dist/compiler \\'));
             console.log(c.bold('    -XX:+UnlockExperimentalVMOptions \\'));
             console.log(c.bold('    -XX:+EnableJVMCI \\'));
