@@ -78,7 +78,7 @@
 
   try {
     // are we on java > 9
-    jvmLanguageLevel = parseInt(ystem.getProperty('java.specification.version'), 10);
+    jvmLanguageLevel = parseInt(System.getProperty('java.specification.version'), 10);
   } catch (e) {
     jvmLanguageLevel = 8;
   }
@@ -98,7 +98,7 @@
     try {
       var ManagementFactory = Java.type('java.lang.management.ManagementFactory');
       var name = ManagementFactory.getRuntimeMXBean().getName();
-      pid = parseInt(parseInt(name.substring(0, name.indexOf('@')), 10))
+      pid = parseInt(name.substring(0, name.indexOf('@')), 10);
     } catch (e) {
       // ignore...
     }
