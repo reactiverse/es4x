@@ -41,7 +41,7 @@ matrix:
       install: . ./install-jdk.sh --url https://github.com/oracle/graal/releases/download/vm-1.0.0-rc9/graalvm-ce-1.0.0-rc9-linux-amd64.tar.gz
   # OpenJ9
     - env: JDK='OpenJ9'
-      install: . ./install-jdk.sh --url https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk11u-2018-11-29-02-58/OpenJDK11U-jdk_x64_linux_openj9_2018-11-29-02-58.tar.gz
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
   allow_failures:
 #    # Non LTS releases are OK to fail
 #    - env: JDK='OpenJDK 9'
