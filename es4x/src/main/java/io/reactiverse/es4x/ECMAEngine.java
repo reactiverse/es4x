@@ -49,15 +49,26 @@ public interface ECMAEngine {
     String[] glob = hostClassFilter.split(",");
     Pattern[] patterns = new Pattern[glob.length];
     for (int i = 0; i < patterns.length; i++) {
-      patterns[i] = Pattern.compile(glob[i]
-        // replace dots
-        .replace(".", "\\.")
-        // replace stars
-        .replace("*", "[^\\.]+")
-        // replace double stars
-        .replace("[^\\.]+[^\\.]+", ".*")
-        // replace ?
-        .replace("?", "\\w")
+      boolean negate = false;
+      String regex = glob[i];
+
+      if (glob[i].charAt(0) == '!') {
+        negate = true;
+        regex = glob[i].substring(1);
+      }
+
+      patterns[i] = Pattern.compile(
+        (negate ? "^(?!" : "") +
+          regex
+            // replace dots
+            .replace(".", "\\.")
+            // replace stars
+            .replace("*", "[^\\.]+")
+            // replace double stars
+            .replace("[^\\.]+[^\\.]+", ".*")
+            // replace ?
+            .replace("?", "\\w") +
+          (negate ? "$).*$" : "")
       );
     }
 
