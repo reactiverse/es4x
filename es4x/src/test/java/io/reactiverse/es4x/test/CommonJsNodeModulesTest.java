@@ -11,9 +11,9 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.List;
 
+import static io.reactiverse.es4x.test.Helper.getRuntime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assume.assumeTrue;
 
 import static io.reactiverse.es4x.test.JS.*;
 
@@ -29,7 +29,6 @@ public class CommonJsNodeModulesTest {
   private Runtime runtime;
 
   public CommonJsNodeModulesTest(String engine) {
-    System.setProperty("es4x.engine", engine);
     engineName = engine;
   }
 
@@ -38,11 +37,7 @@ public class CommonJsNodeModulesTest {
 
   @Before
   public void initialize() {
-    try {
-      runtime = Runtime.getCurrent(rule.vertx());
-    } catch (IllegalStateException e) {
-      assumeTrue(engineName + " is not available", false);
-    }
+    runtime = getRuntime(rule.vertx(), engineName);
   }
 
   @Test

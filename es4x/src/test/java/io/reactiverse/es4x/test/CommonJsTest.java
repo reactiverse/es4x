@@ -11,12 +11,12 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.List;
 
+import static io.reactiverse.es4x.test.Helper.getRuntime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import static io.reactiverse.es4x.test.JS.*;
-import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
 public class CommonJsTest {
@@ -30,7 +30,6 @@ public class CommonJsTest {
   private Runtime runtime;
 
   public CommonJsTest(String engine) {
-    System.setProperty("es4x.engine", engine);
     engineName = engine;
   }
 
@@ -39,11 +38,7 @@ public class CommonJsTest {
 
   @Before
   public void initialize() {
-    try {
-      runtime = Runtime.getCurrent(rule.vertx());
-    } catch (IllegalStateException e) {
-      assumeTrue(engineName + " is not available", false);
-    }
+    runtime = getRuntime(rule.vertx(), engineName);
   }
 
   @Test

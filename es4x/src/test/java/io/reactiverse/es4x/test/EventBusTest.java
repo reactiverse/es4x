@@ -16,7 +16,7 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assume.assumeTrue;
+import static io.reactiverse.es4x.test.Helper.getRuntime;
 
 @RunWith(Parameterized.class)
 @Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
@@ -31,7 +31,6 @@ public class EventBusTest {
   private Runtime runtime;
 
   public EventBusTest(String engine) {
-    System.setProperty("es4x.engine", engine);
     engineName = engine;
   }
 
@@ -40,13 +39,8 @@ public class EventBusTest {
 
   @Before
   public void initialize() {
-    try {
-      runtime = Runtime.getCurrent(rule.vertx());
-
-      runtime.put("eb", rule.vertx().eventBus());
-    } catch (IllegalStateException e) {
-      assumeTrue(engineName + " is not available", false);
-    }
+    runtime = getRuntime(rule.vertx(), engineName);
+    runtime.put("eb", rule.vertx().eventBus());
   }
 
   @Test(timeout = 10000)

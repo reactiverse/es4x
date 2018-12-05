@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.Runtime;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -16,8 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.Assume.assumeTrue;
-
 @RunWith(Parameterized.class)
 @Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
 public class MultithreadTest {
@@ -29,22 +26,12 @@ public class MultithreadTest {
     return Arrays.asList("Nashorn" /*, "GraalJS" */);
   }
 
-  private final String engineName;
-  private Runtime runtime;
-
   public MultithreadTest(String engine) {
-    System.setProperty("es4x.engine", engine);
-    engineName = engine;
+    System.setProperty("es4x.engine", engine.toLowerCase());
   }
 
   @Rule
   public RunTestOnContext rule = new RunTestOnContext();
-
-  @Before
-  public void initialize() {
-    runtime = Runtime.getCurrent(rule.vertx());
-    assumeTrue(runtime.name().equalsIgnoreCase(engineName));
-  }
 
   @Test(timeout = 10000)
   public void shouldNotPoluteMTState(TestContext ctx) {

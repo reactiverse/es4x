@@ -14,9 +14,9 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.List;
 
+import static io.reactiverse.es4x.test.Helper.getRuntime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
 public class NativeJSONTest {
@@ -32,7 +32,6 @@ public class NativeJSONTest {
   private final String engineName;
 
   public NativeJSONTest(String engine) {
-    System.setProperty("es4x.engine", engine);
     engineName = engine;
   }
 
@@ -41,12 +40,8 @@ public class NativeJSONTest {
 
   @Before
   public void initialize() throws Exception {
-    try {
-      runtime = Runtime.getCurrent(rule.vertx());
-      JSON = runtime.eval("JSON");
-    } catch (IllegalStateException e) {
-      assumeTrue(engineName + " is not available", false);
-    }
+    runtime = getRuntime(rule.vertx(), engineName);
+    JSON = runtime.eval("JSON");
   }
 
   private Object stringify(Object... args) {

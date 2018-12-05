@@ -28,60 +28,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class GraalRuntime implements Runtime<Value> {
 
-  // this will keep a reference to the type used between the 2 runtimes
-  // the time should not change across instances so it is safe to assume static
-  private static final AtomicReference<Class<?>> INTEROP_TYPE = new AtomicReference<>();
-
-  static {
-    // if this code is used in a native image avoid the reflection guess game
-    // and hard code the expected class to be a PolyglotMap
-    if (System.getProperty("org.graalvm.nativeimage.imagecode") != null) {
-      try {
-        INTEROP_TYPE.set(Class.forName("com.oracle.truffle.polyglot.PolyglotMap"));
-      } catch (ClassNotFoundException e) {
-        // swallow the exception and try to get the right class at runtime
-      }
-    }
-  }
-
-  private static final Object lock = new Object();
-  // lazily create a polyglot engine
-  private static Engine engine;
-
   private final Context context;
   private final Value bindings;
   private final Value module;
-
-  private static Engine engine() {
-    synchronized (lock) {
-      if (engine == null) {
-        engine = Engine.create();
-      }
-    }
-    return engine;
-  }
-
-  public GraalRuntime(final Vertx vertx) {
-    this(
-      vertx,
-      // create the default context
-      Context
-        .newBuilder("js")
-        .allowHostAccess(true)
-        .allowCreateThread(true)
-        // by sharing the same engine we allow
-        // easier debugging and a single remote
-        // chromeinspector url
-        .engine(engine())
-        .build()
-    );
-  }
 
   private static String getCWD() {
     // clean up the current working dir
@@ -107,19 +60,6 @@ public class GraalRuntime implements Runtime<Value> {
   }
 
   public GraalRuntime(final Vertx vertx, Context context) {
-
-    // register the codec
-    if (INTEROP_TYPE.get() == null) {
-      final Consumer callback = value -> INTEROP_TYPE.compareAndSet(null, value.getClass());
-      context.eval(
-        Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").internal(true).buildLiteral()
-      ).execute(callback);
-    }
-
-    // register a default codec to allow JSON messages directly from GraalVM to the JVM world
-    vertx.eventBus()
-      .unregisterDefaultCodec(INTEROP_TYPE.get())
-      .registerDefaultCodec(INTEROP_TYPE.get(), new JSObjectMessageCodec<>());
 
     this.context = context;
     this.bindings = this.context.getBindings("js");
@@ -199,11 +139,6 @@ public class GraalRuntime implements Runtime<Value> {
     context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).buildLiteral());
     // keep a reference to module
     module = context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral());
-  }
-
-  @Override
-  public String name() {
-    return "GraalJS";
   }
 
   @Override
