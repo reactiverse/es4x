@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.impl.graal;
 
 import io.reactiverse.es4x.ECMAEngine;
@@ -19,6 +34,7 @@ public class GraalEngine implements ECMAEngine {
 
   private final Vertx vertx;
   private final Engine engine;
+  // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
 
   public GraalEngine(Vertx vertx) {
@@ -42,8 +58,11 @@ public class GraalEngine implements ECMAEngine {
   public Runtime<Value> newContext() {
     final Context.Builder builder = Context.newBuilder("js")
       .engine(engine)
-      .allowHostAccess(true)
-      .allowCreateThread(true);
+      // not sure if we should allow it...
+      .allowCreateThread(false)
+      // not sure if we should allow it...
+      .allowIO(false)
+      .allowHostAccess(true);
 
     final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
 
