@@ -5,8 +5,6 @@ import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.reactiverse.es4x.impl.nashorn.NashornEngine;
 import io.vertx.core.Vertx;
 
-import java.util.regex.Pattern;
-
 import static org.junit.Assume.assumeTrue;
 
 public class Helper {
