@@ -41,6 +41,10 @@ public class MultithreadTest {
     vertx.exceptionHandler(ctx::fail);
     // deploy 8 instances
     vertx.deployVerticle("js:./mt-verticle.js", new DeploymentOptions().setInstances(8), deploy -> {
+      if (deploy.failed()) {
+        // log the error (trying to find out why it fails on j9 travis)
+        deploy.cause().printStackTrace();
+      }
       ctx.assertTrue(deploy.succeeded());
 
       // will wait 1 second to let things start...
