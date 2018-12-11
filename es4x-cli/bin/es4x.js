@@ -451,7 +451,6 @@ program
   .option('-d, --docker', 'Also builds a Docker image')
   .option('--build-image [buildImage]', 'Docker build image (default: openjdk:11-oracle)')
   .option('--runtime-image [runtimeImage]', 'Docker build image (default: debian:stable-slim)')
-  .option('--no-jlink', 'Disable jlink on Docker build')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (options) {
 
@@ -463,7 +462,7 @@ program
         params.push('-Pjvmci');
       }
 
-      params.push('-f', path.resolve(dir, 'pom.xml'), 'package');
+      params.push('-f', path.resolve(dir, 'pom.xml'), 'clean', 'package');
 
       exec(mvn, params, __dirname + '/..', process.env, {stopOnError: true, verbose: options.verbose}, function (code) {
         if (code !== 0) {
@@ -477,8 +476,7 @@ program
 
           let params = [
             'build',
-            '.',
-            '-f', __dirname + '/../Dockerfile',
+            '-f', path.resolve(__dirname, '../Dockerfile'),
             '-t', npm.name + ':' + npm.version,
             '--build-arg', 'ARTIFACT=' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'
           ];
@@ -491,13 +489,13 @@ program
             params.push('--build-arg', 'RUNTIMEIMAGE=' + options.runtimeImage);
           }
 
-          if (!npm.jvmci) {
-            params.push('--build-arg', 'JVMCI=');
+          if (npm.jvmci) {
+            params.push('--target', 'jvmci');
+          } else {
+            params.push('--target', 'nojvmci');
           }
-
-          if (!options.jlink) {
-            params.push('--build-arg', 'JLINK=');
-          }
+          // context location
+          params.push('.');
 
           exec('docker', params, dir, process.env, {
             stopOnError: true,
