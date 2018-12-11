@@ -7,12 +7,9 @@ const spawn = require('child_process').spawn;
 const program = require('commander');
 const c = require('ansi-colors');
 const Mustache = require('mustache');
-const mkdirp = require('mkdirp');
 
 const version = require('../package.json').version;
 const dir = process.cwd();
-const isWindows = /^win/.test(process.platform);
-const graalVersion = '1.0.0-rc9';
 
 // quickly abort if there's no package.json
 if (!fs.existsSync(path.resolve(dir, 'package.json'))) {
@@ -21,28 +18,34 @@ if (!fs.existsSync(path.resolve(dir, 'package.json'))) {
 }
 
 const npm = require(path.resolve(dir, 'package.json'));
+const isWindows = /^win/.test(process.platform);
+const graalVersion = '1.0.0-rc9';
+const mvn = __dirname + '/../' + (isWindows ? 'mvnw.cmd' : 'mvnw');
 
 /**
  * Executes an external command.
  *
  * @param {String} command command to execute
  * @param {String[]} args arguments to the command
+ * @param {String} cwd CWD
  * @param {Object} env environment variables
  * @param {Object} options verbose logging (log command stdout)
  * @param {Function?} callback callback at command termination
  */
-function exec(command, args, env, options, callback) {
-  const proc = spawn(command, args, {env: env});
-  if (args && args.length > 0) {
-    const lastArg = args[args.length - 1];
-    console.log('Running: ' + c.bold(command) + ' ... ' + c.bold(lastArg));
-  } else {
-    console.log('Running: ' + c.bold(command));
-  }
+function exec(command, args, cwd, env, options, callback) {
+  const proc = spawn(command, args, {env: env, cwd: cwd});
+  let out = '';
+
+  const idx = command.lastIndexOf('/');
+  console.log('Running: ' + c.bold(idx === -1 ? command : (command.substring(idx + 1))) + ' ... ');
 
   proc.stdout.on('data', function (data) {
-    if (options.verbose) {
-      process.stdout.write(data);
+    if (options.collect) {
+      out += data;
+    } else {
+      if (options.verbose) {
+        process.stdout.write(data);
+      }
     }
   });
 
@@ -57,7 +60,7 @@ function exec(command, args, env, options, callback) {
         process.exit(code);
       }
     }
-    callback && callback(code);
+    callback && callback(code, out);
   });
 
   proc.on('error', function (err) {
@@ -70,61 +73,23 @@ function exec(command, args, env, options, callback) {
   });
 }
 
-function installMavenWrapper() {
-  mkdirp.sync(path.resolve(dir, '.mvn/wrapper'));
-  fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.jar'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.jar'));
-  fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.properties'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.properties'));
-  fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/MavenWrapperDownloader.java'), fs.readFileSync(__dirname + '/../.mvn/wrapper/MavenWrapperDownloader.java'));
-  fs.writeFileSync(path.resolve(dir, 'mvnw.cmd'), fs.readFileSync(__dirname + '/../mvnw.cmd'));
-  fs.writeFileSync(path.resolve(dir, 'mvnw'), fs.readFileSync(__dirname + '/../mvnw'));
-  try {
-    fs.chmodSync(path.resolve(dir, 'mvnw'), '0755');
-  } catch (e) {
-    // it's ok to fail if not windows i guess...
-    if (!isWindows) {
-      throw e;
-    }
-  }
-}
-
 /**
- * Helper to select local maven wrapper or system maven
+ * Helper to select what from JAVA_HOME/bin
  *
- * @returns {string} the maven command
+ * @returns {string} the what command
  */
-function getMaven() {
-  let mvn = isWindows ? 'mvnw.cmd' : './mvnw';
-  // check for wrapper
-  if (!fs.existsSync(path.resolve(dir, mvn))) {
-    try {
-      installMavenWrapper();
-    } catch (e) {
-      console.log(c.yellow.bold('Failed to install maven wrapper, falling back to the system default!'));
-      // don't care fallback to system wide maven
-      return 'mvn';
-    }
-  }
-
-  return path.resolve(dir, mvn);
-}
-
-/**
- * Helper to select java from JAVA_HOME or system maven
- *
- * @returns {string} the java command
- */
-function getJava() {
-  let java = isWindows ? 'java.exe' : 'java';
+function jdk(what) {
+  let bin = what + (isWindows ? '.exe' : '');
   let javaHome = process.env['JAVA_HOME'];
 
   if (javaHome) {
-    let resolved = path.resolve(javaHome, 'bin/' + java);
+    let resolved = path.resolve(javaHome, 'bin/' + bin);
     if (fs.existsSync(resolved)) {
       return resolved;
     }
   }
 
-  return java;
+  return bin;
 }
 
 function generateClassPath(callback) {
@@ -148,12 +113,29 @@ function generateClassPath(callback) {
       params.push('-Pjvmci');
     }
 
-    params.push('-f', path.resolve(dir, 'pom.xml'), 'generate-sources');
+    params.push('-f', path.resolve(dir, 'pom.xml'), '-DincludeScope=test', '-Dmdep.outputFile=target/classpath.txt', 'dependency:build-classpath');
 
-    return exec(getMaven(), params, process.env, { verbose: false, stopOnError: true }, readClassPath);
+    return exec(mvn, params, __dirname + '/..', process.env, {verbose: false, stopOnError: true}, readClassPath);
   }
 
   readClassPath();
+}
+
+function installJVMCICompiler(callback) {
+
+  if (!npm.jvmci) {
+    return callback();
+  }
+
+  if (!fs.existsSync(path.resolve(dir, 'target/dist/compiler'))) {
+    let params = [];
+
+    params.push('-f', path.resolve(dir, 'pom.xml'), '-Pjvmci', 'dependency:copy@copy-graalvm-compiler');
+
+    return exec(mvn, params, __dirname + '/..', process.env, {verbose: false, stopOnError: true}, callback);
+  }
+
+  callback();
 }
 
 program
@@ -165,14 +147,7 @@ program
   .option('-v, --verbose', 'Verbose logging')
   .description('Generate a pom.xml from the current package.json')
   .action(function (options) {
-    // if there is a local template, prefer it over ours...
-    let source = __dirname + '/../.pom.xml';
-
-    if (fs.existsSync(path.resolve(dir, '.pom.xml'))) {
-      source = path.resolve(dir, '.pom.xml');
-    }
-
-    const template = fs.readFileSync(source).toString('UTF-8');
+    const template = fs.readFileSync(__dirname + '/../pom.xml').toString('UTF-8');
 
     const dependencies = {};
     const files = npm.files || [];
@@ -279,15 +254,7 @@ program
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), Mustache.render(template, data));
       // init the maven bits
-      let params = [];
-
-      if (npm.jvmci) {
-        params.push('-Pjvmci');
-      }
-
-      params.push('-f', path.resolve(dir, 'pom.xml'), 'clean');
-
-      exec(getMaven(), params, process.env, {stopOnError: true, verbose: options.verbose});
+      exec(mvn, ['-f', path.resolve(dir, 'pom.xml'), 'clean'], __dirname + '/..', process.env, {stopOnError: true, verbose: options.verbose});
     } catch (e) {
       console.error(c.red.bold(e));
       process.exit(1);
@@ -303,12 +270,6 @@ program
   .option('-w, --watch [watch]', 'Watches for modifications on the given expression')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (cmd, args, options) {
-    // if it doesn't exist stop
-    if (!fs.existsSync(path.resolve(dir, 'pom.xml'))) {
-      console.error(c.red.bold('No \'pom.xml\' found, please init it first.'));
-      process.exit(1);
-    }
-
     // debug validation and they overlap
     if (options.debug && options.inspect) {
       console.error(c.red.bold('--debug and --inspect options are exclusive (choose one)'));
@@ -338,64 +299,67 @@ program
     // if the file 'target/classpath.txt' doesn't exist then we
     // need to run maven as a prepare step
     generateClassPath(function (classPath) {
-      let params = [];
+      // will install JVMCI compiler if needed
+      installJVMCICompiler(function () {
+        let params = [];
 
-      if (npm.jvmci || process.env['JVMCI']) {
-        // enable modules
-        params.push('--module-path=target/dist/compiler');
-        // enable JVMCI
-        params.push('-XX:+UnlockExperimentalVMOptions');
-        params.push('-XX:+EnableJVMCI');
-        // upgrade graal compiler
-        params.push('--upgrade-module-path=target/dist/compiler/compiler.jar');
-      }
+        if (npm.jvmci) {
+          // enable modules
+          params.push('--module-path=target/dist/compiler');
+          // enable JVMCI
+          params.push('-XX:+UnlockExperimentalVMOptions');
+          params.push('-XX:+EnableJVMCI');
+          // upgrade graal compiler
+          params.push('--upgrade-module-path=target/dist/compiler/compiler.jar');
+        }
 
-      if (options.debug) {
-        if (options.debug === true) {
-          console.log(c.yellow.bold('Debug socket listening at port: 9229'));
-          if (options.suspend) {
-            params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9229');
+        if (options.debug) {
+          if (options.debug === true) {
+            console.log(c.yellow.bold('Debug socket listening at port: 9229'));
+            if (options.suspend) {
+              params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9229');
+            } else {
+              params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9229');
+            }
           } else {
-            params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9229');
+            console.log(c.yellow.bold('Debug at: ' + options.debug));
+            params.push('-agentlib:jdwp=' + options.debug);
           }
-        } else {
-          console.log(c.yellow.bold('Debug at: ' + options.debug));
-          params.push('-agentlib:jdwp=' + options.debug);
         }
-      }
 
-      if (options.inspect) {
-        if (options.inspect === true) {
-          console.log(c.yellow.bold('Chrome devtools listening at port: 9229'));
-          params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
-          params.push('-Dpolyglot.inspect=9229');
-        } else {
-          console.log(c.yellow.bold('Chrome devtools listenting at: ' + options.inspect));
-          params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
-          params.push('-Dpolyglot.inspect=' + options.inspect);
+        if (options.inspect) {
+          if (options.inspect === true) {
+            console.log(c.yellow.bold('Chrome devtools listening at port: 9229'));
+            params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
+            params.push('-Dpolyglot.inspect=9229');
+          } else {
+            console.log(c.yellow.bold('Chrome devtools listenting at: ' + options.inspect));
+            params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
+            params.push('-Dpolyglot.inspect=' + options.inspect);
+          }
         }
-      }
 
-      params.push('-cp', classPath);
+        params.push('-cp', classPath);
 
-      if (options.debug || options.inspect) {
-        // in debug delay thread checks
-        params.push('-Dvertx.options.blockedThreadCheckInterval=100000')
-      }
+        if (options.debug || options.inspect) {
+          // in debug delay thread checks
+          params.push('-Dvertx.options.blockedThreadCheckInterval=100000')
+        }
 
-      params.push('io.vertx.core.Launcher');
-      params.push(cmd);
+        params.push('io.vertx.core.Launcher');
+        params.push(cmd);
 
-      if (options.watch) {
-        params.push('--redeploy=' + options.watch);
-        params.push('--on-redeploy=' + getMaven() + ' compile');
-        params.push('--launcher-class=io.vertx.core.Launcher');
-      }
+        if (options.watch) {
+          params.push('--redeploy=' + options.watch);
+          params.push('--on-redeploy=' + mvn + ' compile');
+          params.push('--launcher-class=io.vertx.core.Launcher');
+        }
 
-      params = params.concat(args);
+        params = params.concat(args);
 
-      // run the command
-      exec(getJava(), params, process.env, {verbose: true});
+        // run the command
+        exec(jdk('java'), params, dir, process.env, {verbose: true});
+      });
     });
   });
 
@@ -405,38 +369,41 @@ program
   .action(function (args) {
 
     generateClassPath(function (classPath) {
-      let params = [];
 
-      if (npm.jvmci || process.env['JVMCI']) {
-        // enable modules
-        params.push('--module-path=target/dist/compiler');
-        // enable JVMCI
-        params.push('-XX:+UnlockExperimentalVMOptions');
-        params.push('-XX:+EnableJVMCI');
-        // upgrade graal compiler
-        params.push('--upgrade-module-path=target/dist/compiler/compiler.jar');
-      }
+      installJVMCICompiler(function () {
+        let params = [];
 
-      params.push('-cp');
-      params.push(classPath);
+        if (npm.jvmci) {
+          // enable modules
+          params.push('--module-path=target/dist/compiler');
+          // enable JVMCI
+          params.push('-XX:+UnlockExperimentalVMOptions');
+          params.push('-XX:+EnableJVMCI');
+          // upgrade graal compiler
+          params.push('--upgrade-module-path=target/dist/compiler/compiler.jar');
+        }
 
-      params.push('io.vertx.core.Launcher');
-      params.push("run");
-      params.push("js:<shell>");
+        params.push('-cp');
+        params.push(classPath);
 
-      if (args && Array.isArray(args) && args.length > 0) {
-        params = params.concat(args);
-      }
+        params.push('io.vertx.core.Launcher');
+        params.push("run");
+        params.push("js:<shell>");
 
-      // Releasing stdin
-      process.stdin.setRawMode(false);
+        if (args && Array.isArray(args) && args.length > 0) {
+          params = params.concat(args);
+        }
 
-      spawn(getJava(), params, {stdio: [0, 1, 2]})
-        .on("exit", function (code) {
-          // Don't forget to switch pseudo terminal on again
-          process.stdin.setRawMode(true);
-          process.exit(code);
-        });
+        // Releasing stdin
+        process.stdin.setRawMode(false);
+
+        spawn(jdk('java'), params, {stdio: [0, 1, 2]})
+          .on("exit", function (code) {
+            // Don't forget to switch pseudo terminal on again
+            process.stdin.setRawMode(true);
+            process.exit(code);
+          });
+      });
     });
   });
 
@@ -481,31 +448,76 @@ program
 program
   .command('package')
   .description('Packages the application as a runnable jar to "target/dist"')
+  .option('-d, --docker', 'Also builds a Docker image')
+  .option('--build-image [buildImage]', 'Docker build image (default: openjdk:11-oracle)')
+  .option('--runtime-image [runtimeImage]', 'Docker build image (default: debian:stable-slim)')
   .option('-v, --verbose', 'Verbose logging')
-  .action(function(options) {
+  .action(function (options) {
 
-    generateClassPath(function (classPath) {
-      try {
-        // init the maven bits
-        let params = [];
+    installJVMCICompiler(function () {
+      // init the maven bits
+      let params = [];
 
-        if (npm.jvmci || process.env['JVMCI']) {
-          params.push('-Pjvmci');
+      if (npm.jvmci) {
+        params.push('-Pjvmci');
+      }
+
+      params.push('-f', path.resolve(dir, 'pom.xml'), 'clean', 'package');
+
+      exec(mvn, params, __dirname + '/..', process.env, {stopOnError: true, verbose: options.verbose}, function (code) {
+        if (code !== 0) {
+          console.error(c.red.bold('Maven exited with code: ' + code));
+          process.exit(1);
         }
 
-        params.push('-f', path.resolve(dir, 'pom.xml'), 'clean', 'package');
+        if (options.docker) {
+          // collect the variables
+          let jlink = (options.jlink === undefined ? true : options.jlink) || '';
 
-        exec(getMaven(), params, process.env, {stopOnError: true, verbose: options.verbose}, function (code) {
-          if (code !== 0) {
-            console.error(c.red.bold('Maven exited with code: ' + code));
-            process.exit(1);
+          let params = [
+            'build',
+            '-f', path.resolve(__dirname, '../Dockerfile'),
+            '-t', npm.name + ':' + npm.version,
+            '--build-arg', 'ARTIFACT=' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'
+          ];
+
+          if (options.buildImage) {
+            params.push('--build-arg', 'BUILDIMAGE=' + options.buildImage);
           }
 
+          if (options.runtimeImage) {
+            params.push('--build-arg', 'RUNTIMEIMAGE=' + options.runtimeImage);
+          }
+
+          if (npm.jvmci) {
+            params.push('--target', 'jvmci');
+          } else {
+            params.push('--target', 'nojvmci');
+          }
+          // context location
+          params.push('.');
+
+          exec('docker', params, dir, process.env, {
+            stopOnError: true,
+            verbose: options.verbose
+          }, function (code) {
+            if (code !== 0) {
+              console.error(c.red.bold('docker exited with code: ' + code));
+              process.exit(1);
+            }
+
+            console.log(c.green.bold('Run your application with:'));
+            console.log();
+
+            console.log(c.bold('  docker run --rm -it --net=host ' + npm.name + ':' + npm.version));
+            console.log();
+          });
+        } else {
           console.log(c.green.bold('Run your application with:'));
           console.log();
 
-          console.log(c.bold('  ' + getJava() + ' \\'));
-          if (npm.jvmci || process.env['JVMCI']) {
+          console.log(c.bold('  ' + jdk('java') + ' \\'));
+          if (npm.jvmci) {
             console.log(c.bold('    --module-path=target/dist/compiler \\'));
             console.log(c.bold('    -XX:+UnlockExperimentalVMOptions \\'));
             console.log(c.bold('    -XX:+EnableJVMCI \\'));
@@ -513,18 +525,15 @@ program
           }
           console.log(c.bold('    -jar target/dist/' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'));
           console.log();
-        });
-      } catch (e) {
-        console.error(c.red.bold(e));
-        process.exit(1);
-      }
+        }
+      });
     });
   });
 
 program
   .command('*')
   .description('Prints this help')
-  .action(function(env) {
+  .action(function (env) {
     program.help();
   });
 
