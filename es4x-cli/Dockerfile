@@ -40,7 +40,7 @@ RUN if [ "$(type jlink)" ]; then \
         mkdir /runtime ; \
       fi
 
-# final image images
+# final image without JVMCI
 FROM $RUNTIMEIMAGE AS nojvmci
 # collect artifacts
 COPY --from=build-base /runtime /usr
@@ -48,7 +48,7 @@ COPY --from=build-base /dist /dist
 # define entry point
 ENTRYPOINT [ "java", "-XX:+IgnoreUnrecognizedVMOptions", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:+UseContainerSupport", "-jar", "/dist/main.jar" ]
 
-# final image images
+# final image with JVMCI
 FROM $RUNTIMEIMAGE AS jvmci
 # collect artifacts
 COPY --from=build-base /runtime /usr
