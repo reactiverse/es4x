@@ -1,5 +1,3 @@
-# ES4X Asynchronous helpers
-
 Imagine the following piece of code:
 
 ```js

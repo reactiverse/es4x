@@ -1,5 +1,3 @@
-# GraalVM Support
-
 ES4X has GraalVM support. The same code will run either on Nashorn (JS Engine in JDK>=8) or GraalJS
 (if run on GraalVM or a JVMCI enabled JVM).
 
