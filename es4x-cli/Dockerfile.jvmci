@@ -1,0 +1,10 @@
+ARG BASEIMAGE=openjdk:11-oracle
+FROM $BASEIMAGE
+ARG JAR
+
+COPY target/dist/compiler /dist/compiler
+COPY target/dist/java-libs /dist/java-libs
+COPY target/dist/${JAR} /dist/main.jar
+
+# define entry point
+ENTRYPOINT [ "java", "-XX:+IgnoreUnrecognizedVMOptions", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:+UseContainerSupport", "--module-path=/dist/compiler", "-XX:+EnableJVMCI", "--upgrade-module-path=/dist/compiler/compiler.jar", "-jar", "/dist/main.jar" ]

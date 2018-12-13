@@ -29,9 +29,10 @@
     <profile>
       <id>jvmci</id>
       <activation>
-        <property>
-          <name>env.JVMCI</name>
-        </property>
+        <file>
+          <missing>${java.home}/lib/jvmci/graal.jar</missing>
+        </file>
+        <jdk>[1.11,)</jdk>
       </activation>
       <dependencies>
         <!-- GraalVM runtime -->
