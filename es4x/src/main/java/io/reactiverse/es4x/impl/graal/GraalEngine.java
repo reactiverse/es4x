@@ -46,6 +46,18 @@ public class GraalEngine implements ECMAEngine {
     this.engine = Engine.newBuilder()
       .logHandler(logHandler)
       .build();
+
+    if (!engine.getLanguages().containsKey("js")) {
+      throw new IllegalStateException("A language with id 'js' is not installed");
+    }
+
+    if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
+      System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      System.err.println("@ ES4X is using graaljs in interpreted mode! @");
+      System.err.println("@ Add the JVMCI compiler module in order to  @");
+      System.err.println("@ run in optimal mode!                       @");
+      System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    }
   }
 
   @Override
