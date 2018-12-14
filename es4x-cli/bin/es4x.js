@@ -251,38 +251,52 @@ program
   });
 
 program
-  .command('launcher <cmd> [args...]')
+  .command('exec [cmd]')
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-d, --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
   .option('-i, --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
   .option('-s, --suspend', 'While debug/inspect, suspend at start')
-  .option('-w, --watch [watch]', 'Watches for modifications on the given expression')
+  .option('-w, --watch <watch>', 'Watches for modifications on the given expression')
+  .option('-r, --redeploy <redeploy>', 'When watching will run the redeploy action before re-start')
   .option('-v, --verbose', 'Verbose logging')
-  .action(function (cmd, args, options) {
+  .action(function (cmd, options) {
     // debug validation and they overlap
     if (options.debug && options.inspect) {
       console.error(c.red.bold('--debug and --inspect options are exclusive (choose one)'));
       process.exit(1);
     }
 
-    const test = ('test' === cmd);
+    let args = [];
+    if (cmd === undefined) {
+      cmd = 'run';
+    }
 
-    if (!args || args.length === 0) {
-      // main verticle name is derived from main
-      if (!npm.main) {
-        console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
-        process.exit(1);
-      }
-
-      if (test) {
+    switch (cmd) {
+      case 'run':
+        // main verticle name is derived from main
+        if (!npm.main) {
+          console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
+          process.exit(1);
+        }
+        args = [npm.main];
+        break;
+      case 'test':
+        // main verticle name is derived from main
+        if (!npm.main) {
+          console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
+          process.exit(1);
+        }
         if (npm.main.endsWith('.js')) {
           args = [npm.main.substr(0, npm.main.length - 3) + '.test.js'];
         } else {
           args = [npm.main + '.test.js'];
         }
-      } else {
-        args = [npm.main];
-      }
+        break;
+      case 'shell':
+        // shell is a virtual command
+        cmd = 'run';
+        args = ['js:>'];
+        break;
     }
 
     // if the file 'target/classpath.txt' doesn't exist then we
@@ -340,46 +354,13 @@ program
 
       if (options.watch) {
         params.push('--redeploy=' + (options.watch === true ? path.resolve(dir, args[0]) : options.watch));
+        if (options.redeploy) {
+          params.push('--on-redeploy=' + options.redeploy);
+        }
         params.push('--launcher-class=io.vertx.core.Launcher');
       }
 
       params = params.concat(args);
-
-      // run the command
-      exec(jdk('java'), params, dir, process.env, {verbose: true});
-    });
-  });
-
-program
-  .command('shell [args...]')
-  .description('Starts a REPL with the current project in the classpath')
-  .action(function (args) {
-
-    generateClassPath(function (classPath) {
-
-      let jvmci = fs.existsSync(path.resolve(dir, 'target/dist/compiler'));
-      let params = [];
-
-      if (jvmci) {
-        // enable modules
-        params.push('--module-path=target/dist/compiler');
-        // enable JVMCI
-        params.push('-XX:+UnlockExperimentalVMOptions');
-        params.push('-XX:+EnableJVMCI');
-        // upgrade graal compiler
-        params.push('--upgrade-module-path=target/dist/compiler/compiler.jar');
-      }
-
-      params.push('-cp');
-      params.push(classPath);
-
-      params.push('io.vertx.core.Launcher');
-      params.push("run");
-      params.push("js:<shell>");
-
-      if (args && Array.isArray(args) && args.length > 0) {
-        params = params.concat(args);
-      }
 
       // Releasing stdin
       process.stdin.setRawMode(false);
@@ -409,9 +390,8 @@ program
     }
 
     npm.scripts.postinstall = 'es4x postinstall';
-    npm.scripts.start = 'es4x launcher run';
-    npm.scripts.test = 'es4x launcher test';
-    npm.scripts.shell = 'es4x shell';
+    npm.scripts.start = 'es4x exec';
+    npm.scripts.test = 'es4x exec test';
     npm.scripts.package = 'es4x package';
 
     try {

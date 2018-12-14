@@ -57,7 +57,7 @@ public class ESVerticleFactory implements VerticleFactory {
       fsVerticleName = verticleName;
     }
 
-    if ("<shell>".equals(fsVerticleName)) {
+    if (">".equals(fsVerticleName)) {
       return new REPLVerticle(runtime, shell);
     }
 
