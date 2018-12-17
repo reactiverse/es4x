@@ -1,5 +1,3 @@
-# GraalVM Support
-
 ES4X has GraalVM support. The same code will run either on Nashorn (JS Engine in JDK>=8) or GraalJS
 (if run on GraalVM or a JVMCI enabled JVM).
 
@@ -52,28 +50,3 @@ threads, then consider looking at the [Worker API](./WORKER).
 Currently you cannot generate native images with ES4X, the limitation is because the static analysis of the AOT compiler
 will not take in consideration the java code invoked from the script (so classes won't be available), plus the fact that
 the compiler has no support for jvm interop at runtime.
-
-## REPL / Shell
-
-Every ES4X project can run within a very simple REPL. This shell will take scripts **line** by **line** and evaluate the
-result, so there is currently no support for multiline scripts.
-
-To start a REPL you can execute:
-
-```sh
-java -cp your_fatjar.jar io.reactiverse.es4x.Shell
-```
-
-If you need to pass arguments to your REPL, say for example, that you would like to have `cluster` support, then use the
-`kebab` notation in the arguments as:
-
-```sh
-java -cp your_fatjar.jar io.reactiverse.es4x.Shell -clustered
-```
-
-If the last argument is not in the `kebab` format it is assumed that is the startup script and will be executed on
-start:
-
-```sh
-java -cp your_fatjar.jar io.reactiverse.es4x.Shell -clustered ./index.js
-```
