@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ## [0.6.1] - 2018-12-17
+- upgrade vertx to 3.6.2
 - Fixed issue loading JMVCI when missing compiler jar
 - fixed typpo locating the process id
 - add a package flag to build a docker image
