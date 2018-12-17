@@ -32,7 +32,7 @@ public class ShellTest {
   public void shouldRunAScript(TestContext should) throws Exception {
     final Async test = should.async();
     System.setProperty("script", "process.properties['result'] = 'OK';");
-    rule.vertx().deployVerticle("js:<shell>", deploy -> {
+    rule.vertx().deployVerticle("js:>", deploy -> {
       should.assertTrue(deploy.succeeded());
       rule.vertx().setTimer(300, t -> {
         should.assertEquals("OK", System.getProperty("result"));

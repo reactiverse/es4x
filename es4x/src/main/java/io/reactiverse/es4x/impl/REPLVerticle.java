@@ -69,7 +69,7 @@ public class REPLVerticle extends AbstractVerticle {
 
         try {
           System.out.println("\u001B[1;90m" + runtime.eval(statement, true) + "\u001B[0m");
-          System.out.print("> ");
+          System.out.print("js:> ");
           System.out.flush();
         } catch (ScriptException t) {
           if (t.isIncompleteSource()) {
@@ -90,7 +90,7 @@ public class REPLVerticle extends AbstractVerticle {
             });
           }
 
-          System.out.print("> ");
+          System.out.print("js:> ");
           System.out.flush();
         } catch (Throwable t) {
           String message = null;
@@ -117,7 +117,7 @@ public class REPLVerticle extends AbstractVerticle {
           }
 
           System.out.println(trace);
-          System.out.print("> ");
+          System.out.print("js:> ");
           System.out.flush();
         }
       });
@@ -131,7 +131,7 @@ public class REPLVerticle extends AbstractVerticle {
       } else {
         // delay the show of the prompt so it doesn't overlap with the startup logging
         vertx.setTimer(100, t -> {
-          System.out.print("> ");
+          System.out.print("js:> ");
           System.out.flush();
         });
       }

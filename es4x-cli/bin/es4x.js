@@ -36,8 +36,10 @@ function exec(command, args, cwd, env, options, callback) {
   const proc = spawn(command, args, {env: env, cwd: cwd});
   let out = '';
 
-  const idx = command.lastIndexOf('/');
-  console.log('Running: ' + c.bold(idx === -1 ? command : (command.substring(idx + 1))) + ' ... ');
+  if (!options.silent) {
+    const idx = command.lastIndexOf('/');
+    console.log('Running: ' + c.bold(idx === -1 ? command : (command.substring(idx + 1))) + ' ... ');
+  }
 
   proc.stdout.on('data', function (data) {
     if (options.collect) {
@@ -50,7 +52,9 @@ function exec(command, args, cwd, env, options, callback) {
   });
 
   proc.stderr.on('data', function (data) {
-    process.stderr.write(data);
+    if (!options.silent) {
+      process.stderr.write(data);
+    }
   });
 
   proc.on('close', function (code) {
@@ -107,35 +111,17 @@ function generateClassPath(callback) {
   };
 
   if (!fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
-    let params = [];
-
-    if (npm.jvmci) {
-      params.push('-Pjvmci');
-    }
-
-    params.push('-f', path.resolve(dir, 'pom.xml'), '-DincludeScope=test', '-Dmdep.outputFile=target/classpath.txt', 'dependency:build-classpath');
+    let params = [
+      '-f', path.resolve(dir, 'pom.xml'),
+      '-DincludeScope=test',
+      '-Dmdep.outputFile=target/classpath.txt',
+      'dependency:build-classpath'
+    ];
 
     return exec(mvn, params, __dirname + '/..', process.env, {verbose: false, stopOnError: true}, readClassPath);
   }
 
   readClassPath();
-}
-
-function installJVMCICompiler(callback) {
-
-  if (!npm.jvmci) {
-    return callback();
-  }
-
-  if (!fs.existsSync(path.resolve(dir, 'target/dist/compiler'))) {
-    let params = [];
-
-    params.push('-f', path.resolve(dir, 'pom.xml'), '-Pjvmci', 'dependency:copy@copy-graalvm-compiler');
-
-    return exec(mvn, params, __dirname + '/..', process.env, {verbose: false, stopOnError: true}, callback);
-  }
-
-  callback();
 }
 
 program
@@ -254,7 +240,10 @@ program
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), Mustache.render(template, data));
       // init the maven bits
-      exec(mvn, ['-f', path.resolve(dir, 'pom.xml'), 'clean'], __dirname + '/..', process.env, {stopOnError: true, verbose: options.verbose});
+      exec(mvn, ['-f', path.resolve(dir, 'pom.xml'), 'clean'], __dirname + '/..', process.env, {
+        stopOnError: true,
+        verbose: options.verbose
+      });
     } catch (e) {
       console.error(c.red.bold(e));
       process.exit(1);
@@ -262,12 +251,13 @@ program
   });
 
 program
-  .command('launcher <cmd> [args...]')
+  .command('exec <cmd> [args...]')
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-d, --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
   .option('-i, --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
   .option('-s, --suspend', 'While debug/inspect, suspend at start')
-  .option('-w, --watch [watch]', 'Watches for modifications on the given expression')
+  .option('-w, --watch <watch>', 'Watches for modifications on the given expression')
+  .option('-r, --redeploy <redeploy>', 'When watching will run the redeploy action before re-start')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (cmd, args, options) {
     // debug validation and they overlap
@@ -276,134 +266,111 @@ program
       process.exit(1);
     }
 
-    const test = ('test' === cmd);
-
-    if (!args || args.length === 0) {
-      // main verticle name is derived from main
-      if (!npm.main) {
-        console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
-        process.exit(1);
-      }
-
-      if (test) {
-        if (npm.main.endsWith('.js')) {
-          args = [npm.main.substr(0, npm.main.length - 3) + '.test.js'];
-        } else {
-          args = [npm.main + '.test.js'];
+    switch (cmd) {
+      case 'run':
+        if (args.length === 0) {
+          // main verticle name is derived from main
+          if (!npm.main) {
+            console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
+            process.exit(1);
+          }
+          args = [npm.main];
         }
-      } else {
-        args = [npm.main];
-      }
+        break;
+      case 'test':
+        // main verticle name is derived from main
+        if (args.length === 0) {
+          if (!npm.main) {
+            console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
+            process.exit(1);
+          }
+          if (npm.main.endsWith('.js')) {
+            args = [npm.main.substr(0, npm.main.length - 3) + '.test.js'];
+          } else {
+            args = [npm.main + '.test.js'];
+          }
+        }
+        break;
+      case 'shell':
+        // shell is a virtual command
+        cmd = 'run';
+        // add to the head
+        args.unshift('js:>');
+        break;
     }
 
     // if the file 'target/classpath.txt' doesn't exist then we
     // need to run maven as a prepare step
     generateClassPath(function (classPath) {
       // will install JVMCI compiler if needed
-      installJVMCICompiler(function () {
-        let params = [];
+      let jvmci = fs.existsSync(path.resolve(dir, 'target/dist/compiler'));
+      let params = [];
 
-        if (npm.jvmci) {
-          // enable modules
-          params.push('--module-path=target/dist/compiler');
-          // enable JVMCI
-          params.push('-XX:+UnlockExperimentalVMOptions');
-          params.push('-XX:+EnableJVMCI');
-          // upgrade graal compiler
-          params.push('--upgrade-module-path=target/dist/compiler/compiler.jar');
-        }
+      if (jvmci) {
+        // enable modules
+        params.push('--module-path=target/dist/compiler');
+        // enable JVMCI
+        params.push('-XX:+UnlockExperimentalVMOptions');
+        params.push('-XX:+EnableJVMCI');
+        // upgrade graal compiler
+        params.push('--upgrade-module-path=target/dist/compiler/compiler.jar');
+      }
 
-        if (options.debug) {
-          if (options.debug === true) {
-            console.log(c.yellow.bold('Debug socket listening at port: 9229'));
-            if (options.suspend) {
-              params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9229');
-            } else {
-              params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9229');
-            }
+      if (options.debug) {
+        if (options.debug === true) {
+          console.log(c.yellow.bold('Debug socket listening at port: 9229'));
+          if (options.suspend) {
+            params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9229');
           } else {
-            console.log(c.yellow.bold('Debug at: ' + options.debug));
-            params.push('-agentlib:jdwp=' + options.debug);
+            params.push('-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9229');
           }
+        } else {
+          console.log(c.yellow.bold('Debug at: ' + options.debug));
+          params.push('-agentlib:jdwp=' + options.debug);
         }
+      }
 
-        if (options.inspect) {
-          if (options.inspect === true) {
-            console.log(c.yellow.bold('Chrome devtools listening at port: 9229'));
-            params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
-            params.push('-Dpolyglot.inspect=9229');
-          } else {
-            console.log(c.yellow.bold('Chrome devtools listenting at: ' + options.inspect));
-            params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
-            params.push('-Dpolyglot.inspect=' + options.inspect);
-          }
+      if (options.inspect) {
+        if (options.inspect === true) {
+          console.log(c.yellow.bold('Chrome devtools listening at port: 9229'));
+          params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
+          params.push('-Dpolyglot.inspect=9229');
+        } else {
+          console.log(c.yellow.bold('Chrome devtools listenting at: ' + options.inspect));
+          params.push('-Dpolyglot.inspect.Suspend=' + !!options.suspend);
+          params.push('-Dpolyglot.inspect=' + options.inspect);
         }
+      }
 
-        params.push('-cp', classPath);
+      params.push('-cp', classPath);
 
-        if (options.debug || options.inspect) {
-          // in debug delay thread checks
-          params.push('-Dvertx.options.blockedThreadCheckInterval=100000')
+      if (options.debug || options.inspect) {
+        // in debug delay thread checks
+        params.push('-Dvertx.options.blockedThreadCheckInterval=100000')
+      }
+
+      params.push('io.vertx.core.Launcher');
+      params.push(cmd);
+
+      if (options.watch) {
+        params.push('--redeploy=' + (options.watch === true ? path.resolve(dir, args[0]) : options.watch));
+        if (options.redeploy) {
+          params.push('--on-redeploy=' + options.redeploy);
         }
+        params.push('--launcher-class=io.vertx.core.Launcher');
+      }
 
-        params.push('io.vertx.core.Launcher');
-        params.push(cmd);
+      params = params.concat(args);
 
-        if (options.watch) {
-          params.push('--redeploy=' + options.watch);
-          params.push('--on-redeploy=' + mvn + ' compile');
-          params.push('--launcher-class=io.vertx.core.Launcher');
-        }
+      // Releasing stdin
+      process.stdin.setRawMode(false);
 
-        params = params.concat(args);
-
-        // run the command
-        exec(jdk('java'), params, dir, process.env, {verbose: true});
-      });
-    });
-  });
-
-program
-  .command('shell [args...]')
-  .description('Starts a REPL with the current project in the classpath')
-  .action(function (args) {
-
-    generateClassPath(function (classPath) {
-
-      installJVMCICompiler(function () {
-        let params = [];
-
-        if (npm.jvmci) {
-          // enable modules
-          params.push('--module-path=target/dist/compiler');
-          // enable JVMCI
-          params.push('-XX:+UnlockExperimentalVMOptions');
-          params.push('-XX:+EnableJVMCI');
-          // upgrade graal compiler
-          params.push('--upgrade-module-path=target/dist/compiler/compiler.jar');
-        }
-
-        params.push('-cp');
-        params.push(classPath);
-
-        params.push('io.vertx.core.Launcher');
-        params.push("run");
-        params.push("js:<shell>");
-
-        if (args && Array.isArray(args) && args.length > 0) {
-          params = params.concat(args);
-        }
-
-        // Releasing stdin
-        process.stdin.setRawMode(false);
-
-        spawn(jdk('java'), params, {stdio: [0, 1, 2]})
-          .on("exit", function (code) {
-            // Don't forget to switch pseudo terminal on again
-            process.stdin.setRawMode(true);
-            process.exit(code);
-          });
-      });
+      spawn(jdk('java'), params, {stdio: [0, 1, 2]})
+        .on("exit", function (code) {
+          // Don't forget to switch pseudo terminal on again
+          process.stdin.setRawMode(true);
+          process.exit(code);
+        });
     });
   });
 
@@ -411,15 +378,6 @@ program
   .command('init')
   .description('Installs utility scripts into the current package.json')
   .action(function (options) {
-
-    for (var k in npm.scripts || {}) {
-      if (npm.scripts.hasOwnProperty(k)) {
-        if (('' + npm.scripts[k]).indexOf('es4x') !== -1) {
-          // there is already a reference to es4x, nothing else to do!
-          return;
-        }
-      }
-    }
 
     if (!npm.devDependencies) {
       npm.devDependencies = {};
@@ -432,9 +390,8 @@ program
     }
 
     npm.scripts.postinstall = 'es4x postinstall';
-    npm.scripts.start = 'es4x launcher run';
-    npm.scripts.test = 'es4x launcher test';
-    npm.scripts.shell = 'es4x shell';
+    npm.scripts.start = 'es4x exec run';
+    npm.scripts.test = 'es4x exec test';
     npm.scripts.package = 'es4x package';
 
     try {
@@ -448,85 +405,68 @@ program
 program
   .command('package')
   .description('Packages the application as a runnable jar to "target/dist"')
-  .option('-d, --docker', 'Also builds a Docker image')
-  .option('--build-image [buildImage]', 'Docker build image (default: openjdk:11-oracle)')
-  .option('--runtime-image [runtimeImage]', 'Docker build image (default: debian:stable-slim)')
+  .option('-d, --docker [image]', 'Build a Docker image')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (options) {
 
-    installJVMCICompiler(function () {
-      // init the maven bits
-      let params = [];
+    // init the maven bits
+    let params = [];
 
-      if (npm.jvmci) {
-        params.push('-Pjvmci');
+    params.push('-f', path.resolve(dir, 'pom.xml'), 'package');
+
+    exec(mvn, params, __dirname + '/..', process.env, {stopOnError: true, verbose: options.verbose}, function (code) {
+      if (code !== 0) {
+        console.error(c.red.bold('Maven exited with code: ' + code));
+        process.exit(1);
       }
 
-      params.push('-f', path.resolve(dir, 'pom.xml'), 'clean', 'package');
+      let jvmci = fs.existsSync(path.resolve(dir, 'target/dist/compiler'));
 
-      exec(mvn, params, __dirname + '/..', process.env, {stopOnError: true, verbose: options.verbose}, function (code) {
-        if (code !== 0) {
-          console.error(c.red.bold('Maven exited with code: ' + code));
-          process.exit(1);
+      if (options.docker) {
+        // collect the variables
+        let params = [
+          'build',
+          '-f', path.resolve(__dirname, '../Dockerfile' + (jvmci ? '.jvmci' : '')),
+          '-t', npm.name + ':' + npm.version,
+          '--build-arg', 'JAR=' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'
+        ];
+
+        if (options.docker !== true) {
+          params.push('--build-arg', 'BASEIMAGE=' + options.docker);
         }
 
-        if (options.docker) {
-          // collect the variables
-          let jlink = (options.jlink === undefined ? true : options.jlink) || '';
+        // context location
+        params.push('.');
 
-          let params = [
-            'build',
-            '-f', path.resolve(__dirname, '../Dockerfile'),
-            '-t', npm.name + ':' + npm.version,
-            '--build-arg', 'ARTIFACT=' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'
-          ];
-
-          if (options.buildImage) {
-            params.push('--build-arg', 'BUILDIMAGE=' + options.buildImage);
+        exec('docker', params, dir, process.env, {
+          stopOnError: true,
+          verbose: options.verbose
+        }, function (code) {
+          if (code !== 0) {
+            console.error(c.red.bold('docker exited with code: ' + code));
+            process.exit(1);
           }
 
-          if (options.runtimeImage) {
-            params.push('--build-arg', 'RUNTIMEIMAGE=' + options.runtimeImage);
-          }
-
-          if (npm.jvmci) {
-            params.push('--target', 'jvmci');
-          } else {
-            params.push('--target', 'nojvmci');
-          }
-          // context location
-          params.push('.');
-
-          exec('docker', params, dir, process.env, {
-            stopOnError: true,
-            verbose: options.verbose
-          }, function (code) {
-            if (code !== 0) {
-              console.error(c.red.bold('docker exited with code: ' + code));
-              process.exit(1);
-            }
-
-            console.log(c.green.bold('Run your application with:'));
-            console.log();
-
-            console.log(c.bold('  docker run --rm -it --net=host ' + npm.name + ':' + npm.version));
-            console.log();
-          });
-        } else {
           console.log(c.green.bold('Run your application with:'));
           console.log();
 
-          console.log(c.bold('  ' + jdk('java') + ' \\'));
-          if (npm.jvmci) {
-            console.log(c.bold('    --module-path=target/dist/compiler \\'));
-            console.log(c.bold('    -XX:+UnlockExperimentalVMOptions \\'));
-            console.log(c.bold('    -XX:+EnableJVMCI \\'));
-            console.log(c.bold('    --upgrade-module-path=target/dist/compiler/compiler.jar \\'));
-          }
-          console.log(c.bold('    -jar target/dist/' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'));
+          console.log(c.bold('  docker run --rm -it --net=host ' + npm.name + ':' + npm.version));
           console.log();
+        });
+      } else {
+        console.log(c.green.bold('Run your application with:'));
+        console.log();
+
+        console.log(c.bold('  ' + jdk('java') + ' \\'));
+        if (jvmci) {
+          console.log(c.bold('    --module-path=target/dist/compiler \\'));
+          console.log(c.bold('    -XX:+UnlockExperimentalVMOptions \\'));
+          console.log(c.bold('    -XX:+EnableJVMCI \\'));
+          console.log(c.bold('    --upgrade-module-path=target/dist/compiler/compiler.jar \\'));
         }
-      });
+        console.log(c.bold('    -jar target/dist/' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'));
+        console.log();
+      }
     });
   });
 
