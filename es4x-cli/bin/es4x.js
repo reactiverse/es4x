@@ -7,12 +7,9 @@ const spawn = require('child_process').spawn;
 const program = require('commander');
 const c = require('ansi-colors');
 const Mustache = require('mustache');
-const mkdirp = require('mkdirp');
 
 const version = require('../package.json').version;
 const dir = process.cwd();
-const isWindows = /^win/.test(process.platform);
-const graalVersion = '1.0.0-rc9';
 
 // quickly abort if there's no package.json
 if (!fs.existsSync(path.resolve(dir, 'package.json'))) {
@@ -21,33 +18,43 @@ if (!fs.existsSync(path.resolve(dir, 'package.json'))) {
 }
 
 const npm = require(path.resolve(dir, 'package.json'));
+const isWindows = /^win/.test(process.platform);
+const graalVersion = '1.0.0-rc9';
+const mvn = __dirname + '/../' + (isWindows ? 'mvnw.cmd' : 'mvnw');
 
 /**
  * Executes an external command.
  *
  * @param {String} command command to execute
  * @param {String[]} args arguments to the command
+ * @param {String} cwd CWD
  * @param {Object} env environment variables
  * @param {Object} options verbose logging (log command stdout)
  * @param {Function?} callback callback at command termination
  */
-function exec(command, args, env, options, callback) {
-  const proc = spawn(command, args, {env: env});
-  if (args && args.length > 0) {
-    const lastArg = args[args.length - 1];
-    console.log('Running: ' + c.bold(command) + ' ... ' + c.bold(lastArg));
-  } else {
-    console.log('Running: ' + c.bold(command));
+function exec(command, args, cwd, env, options, callback) {
+  const proc = spawn(command, args, {env: env, cwd: cwd});
+  let out = '';
+
+  if (!options.silent) {
+    const idx = command.lastIndexOf('/');
+    console.log('Running: ' + c.bold(idx === -1 ? command : (command.substring(idx + 1))) + ' ... ');
   }
 
   proc.stdout.on('data', function (data) {
-    if (options.verbose) {
-      process.stdout.write(data);
+    if (options.collect) {
+      out += data;
+    } else {
+      if (options.verbose) {
+        process.stdout.write(data);
+      }
     }
   });
 
   proc.stderr.on('data', function (data) {
-    process.stderr.write(data);
+    if (!options.silent) {
+      process.stderr.write(data);
+    }
   });
 
   proc.on('close', function (code) {
@@ -57,7 +64,7 @@ function exec(command, args, env, options, callback) {
         process.exit(code);
       }
     }
-    callback && callback(code);
+    callback && callback(code, out);
   });
 
   proc.on('error', function (err) {
@@ -70,61 +77,23 @@ function exec(command, args, env, options, callback) {
   });
 }
 
-function installMavenWrapper() {
-  mkdirp.sync(path.resolve(dir, '.mvn/wrapper'));
-  fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.jar'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.jar'));
-  fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/maven-wrapper.properties'), fs.readFileSync(__dirname + '/../.mvn/wrapper/maven-wrapper.properties'));
-  fs.writeFileSync(path.resolve(dir, '.mvn/wrapper/MavenWrapperDownloader.java'), fs.readFileSync(__dirname + '/../.mvn/wrapper/MavenWrapperDownloader.java'));
-  fs.writeFileSync(path.resolve(dir, 'mvnw.cmd'), fs.readFileSync(__dirname + '/../mvnw.cmd'));
-  fs.writeFileSync(path.resolve(dir, 'mvnw'), fs.readFileSync(__dirname + '/../mvnw'));
-  try {
-    fs.chmodSync(path.resolve(dir, 'mvnw'), '0755');
-  } catch (e) {
-    // it's ok to fail if not windows i guess...
-    if (!isWindows) {
-      throw e;
-    }
-  }
-}
-
 /**
- * Helper to select local maven wrapper or system maven
+ * Helper to select what from JAVA_HOME/bin
  *
- * @returns {string} the maven command
+ * @returns {string} the what command
  */
-function getMaven() {
-  let mvn = isWindows ? 'mvnw.cmd' : './mvnw';
-  // check for wrapper
-  if (!fs.existsSync(path.resolve(dir, mvn))) {
-    try {
-      installMavenWrapper();
-    } catch (e) {
-      console.log(c.yellow.bold('Failed to install maven wrapper, falling back to the system default!'));
-      // don't care fallback to system wide maven
-      return 'mvn';
-    }
-  }
-
-  return path.resolve(dir, mvn);
-}
-
-/**
- * Helper to select java from JAVA_HOME or system maven
- *
- * @returns {string} the java command
- */
-function getJava() {
-  let java = isWindows ? 'java.exe' : 'java';
+function jdk(what) {
+  let bin = what + (isWindows ? '.exe' : '');
   let javaHome = process.env['JAVA_HOME'];
 
   if (javaHome) {
-    let resolved = path.resolve(javaHome, 'bin/' + java);
+    let resolved = path.resolve(javaHome, 'bin/' + bin);
     if (fs.existsSync(resolved)) {
       return resolved;
     }
   }
 
-  return java;
+  return bin;
 }
 
 function generateClassPath(callback) {
@@ -142,15 +111,14 @@ function generateClassPath(callback) {
   };
 
   if (!fs.existsSync(path.resolve(dir, 'target/classpath.txt'))) {
-    let params = [];
+    let params = [
+      '-f', path.resolve(dir, 'pom.xml'),
+      '-DincludeScope=test',
+      '-Dmdep.outputFile=target/classpath.txt',
+      'dependency:build-classpath'
+    ];
 
-    if (npm.jvmci) {
-      params.push('-Pjvmci');
-    }
-
-    params.push('-f', path.resolve(dir, 'pom.xml'), 'generate-sources');
-
-    return exec(getMaven(), params, process.env, { verbose: false, stopOnError: true }, readClassPath);
+    return exec(mvn, params, __dirname + '/..', process.env, {verbose: false, stopOnError: true}, readClassPath);
   }
 
   readClassPath();
@@ -165,14 +133,7 @@ program
   .option('-v, --verbose', 'Verbose logging')
   .description('Generate a pom.xml from the current package.json')
   .action(function (options) {
-    // if there is a local template, prefer it over ours...
-    let source = __dirname + '/../.pom.xml';
-
-    if (fs.existsSync(path.resolve(dir, '.pom.xml'))) {
-      source = path.resolve(dir, '.pom.xml');
-    }
-
-    const template = fs.readFileSync(source).toString('UTF-8');
+    const template = fs.readFileSync(__dirname + '/../pom.xml').toString('UTF-8');
 
     const dependencies = {};
     const files = npm.files || [];
@@ -279,15 +240,10 @@ program
     try {
       fs.writeFileSync(path.resolve(dir, 'pom.xml'), Mustache.render(template, data));
       // init the maven bits
-      let params = [];
-
-      if (npm.jvmci) {
-        params.push('-Pjvmci');
-      }
-
-      params.push('-f', path.resolve(dir, 'pom.xml'), 'clean');
-
-      exec(getMaven(), params, process.env, {stopOnError: true, verbose: options.verbose});
+      exec(mvn, ['-f', path.resolve(dir, 'pom.xml'), 'clean'], __dirname + '/..', process.env, {
+        stopOnError: true,
+        verbose: options.verbose
+      });
     } catch (e) {
       console.error(c.red.bold(e));
       process.exit(1);
@@ -295,52 +251,62 @@ program
   });
 
 program
-  .command('launcher <cmd> [args...]')
+  .command('exec <cmd> [args...]')
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-d, --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
   .option('-i, --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
   .option('-s, --suspend', 'While debug/inspect, suspend at start')
-  .option('-w, --watch [watch]', 'Watches for modifications on the given expression')
+  .option('-w, --watch <watch>', 'Watches for modifications on the given expression')
+  .option('-r, --redeploy <redeploy>', 'When watching will run the redeploy action before re-start')
   .option('-v, --verbose', 'Verbose logging')
   .action(function (cmd, args, options) {
-    // if it doesn't exist stop
-    if (!fs.existsSync(path.resolve(dir, 'pom.xml'))) {
-      console.error(c.red.bold('No \'pom.xml\' found, please init it first.'));
-      process.exit(1);
-    }
-
     // debug validation and they overlap
     if (options.debug && options.inspect) {
       console.error(c.red.bold('--debug and --inspect options are exclusive (choose one)'));
       process.exit(1);
     }
 
-    const test = ('test' === cmd);
-
-    if (!args || args.length === 0) {
-      // main verticle name is derived from main
-      if (!npm.main) {
-        console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
-        process.exit(1);
-      }
-
-      if (test) {
-        if (npm.main.endsWith('.js')) {
-          args = [npm.main.substr(0, npm.main.length - 3) + '.test.js'];
-        } else {
-          args = [npm.main + '.test.js'];
+    switch (cmd) {
+      case 'run':
+        if (args.length === 0) {
+          // main verticle name is derived from main
+          if (!npm.main) {
+            console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
+            process.exit(1);
+          }
+          args = [npm.main];
         }
-      } else {
-        args = [npm.main];
-      }
+        break;
+      case 'test':
+        // main verticle name is derived from main
+        if (args.length === 0) {
+          if (!npm.main) {
+            console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
+            process.exit(1);
+          }
+          if (npm.main.endsWith('.js')) {
+            args = [npm.main.substr(0, npm.main.length - 3) + '.test.js'];
+          } else {
+            args = [npm.main + '.test.js'];
+          }
+        }
+        break;
+      case 'shell':
+        // shell is a virtual command
+        cmd = 'run';
+        // add to the head
+        args.unshift('js:>');
+        break;
     }
 
     // if the file 'target/classpath.txt' doesn't exist then we
     // need to run maven as a prepare step
     generateClassPath(function (classPath) {
+      // will install JVMCI compiler if needed
+      let jvmci = fs.existsSync(path.resolve(dir, 'target/dist/compiler'));
       let params = [];
 
-      if (npm.jvmci || process.env['JVMCI']) {
+      if (jvmci) {
         // enable modules
         params.push('--module-path=target/dist/compiler');
         // enable JVMCI
@@ -387,51 +353,19 @@ program
       params.push(cmd);
 
       if (options.watch) {
-        params.push('--redeploy=' + options.watch);
-        params.push('--on-redeploy=' + getMaven() + ' compile');
+        params.push('--redeploy=' + (options.watch === true ? path.resolve(dir, args[0]) : options.watch));
+        if (options.redeploy) {
+          params.push('--on-redeploy=' + options.redeploy);
+        }
         params.push('--launcher-class=io.vertx.core.Launcher');
       }
 
       params = params.concat(args);
 
-      // run the command
-      exec(getJava(), params, process.env, {verbose: true});
-    });
-  });
-
-program
-  .command('shell [args...]')
-  .description('Starts a REPL with the current project in the classpath')
-  .action(function (args) {
-
-    generateClassPath(function (classPath) {
-      let params = [];
-
-      if (npm.jvmci || process.env['JVMCI']) {
-        // enable modules
-        params.push('--module-path=target/dist/compiler');
-        // enable JVMCI
-        params.push('-XX:+UnlockExperimentalVMOptions');
-        params.push('-XX:+EnableJVMCI');
-        // upgrade graal compiler
-        params.push('--upgrade-module-path=target/dist/compiler/compiler.jar');
-      }
-
-      params.push('-cp');
-      params.push(classPath);
-
-      params.push('io.vertx.core.Launcher');
-      params.push("run");
-      params.push("js:<shell>");
-
-      if (args && Array.isArray(args) && args.length > 0) {
-        params = params.concat(args);
-      }
-
       // Releasing stdin
       process.stdin.setRawMode(false);
 
-      spawn(getJava(), params, {stdio: [0, 1, 2]})
+      spawn(jdk('java'), params, {stdio: [0, 1, 2]})
         .on("exit", function (code) {
           // Don't forget to switch pseudo terminal on again
           process.stdin.setRawMode(true);
@@ -445,15 +379,6 @@ program
   .description('Installs utility scripts into the current package.json')
   .action(function (options) {
 
-    for (var k in npm.scripts || {}) {
-      if (npm.scripts.hasOwnProperty(k)) {
-        if (('' + npm.scripts[k]).indexOf('es4x') !== -1) {
-          // there is already a reference to es4x, nothing else to do!
-          return;
-        }
-      }
-    }
-
     if (!npm.devDependencies) {
       npm.devDependencies = {};
     }
@@ -465,9 +390,8 @@ program
     }
 
     npm.scripts.postinstall = 'es4x postinstall';
-    npm.scripts.start = 'es4x launcher run';
-    npm.scripts.test = 'es4x launcher test';
-    npm.scripts.shell = 'es4x shell';
+    npm.scripts.start = 'es4x exec run';
+    npm.scripts.test = 'es4x exec test';
     npm.scripts.package = 'es4x package';
 
     try {
@@ -481,42 +405,67 @@ program
 program
   .command('package')
   .description('Packages the application as a runnable jar to "target/dist"')
+  .option('-d, --docker [image]', 'Build a Docker image')
   .option('-v, --verbose', 'Verbose logging')
-  .action(function(options) {
+  .action(function (options) {
 
-    generateClassPath(function (classPath) {
-      try {
-        // init the maven bits
-        let params = [];
+    // init the maven bits
+    let params = [];
 
-        if (npm.jvmci || process.env['JVMCI']) {
-          params.push('-Pjvmci');
+    params.push('-f', path.resolve(dir, 'pom.xml'), 'package');
+
+    exec(mvn, params, __dirname + '/..', process.env, {stopOnError: true, verbose: options.verbose}, function (code) {
+      if (code !== 0) {
+        console.error(c.red.bold('Maven exited with code: ' + code));
+        process.exit(1);
+      }
+
+      let jvmci = fs.existsSync(path.resolve(dir, 'target/dist/compiler'));
+
+      if (options.docker) {
+        // collect the variables
+        let params = [
+          'build',
+          '-f', path.resolve(__dirname, '../Dockerfile' + (jvmci ? '.jvmci' : '')),
+          '-t', npm.name + ':' + npm.version,
+          '--build-arg', 'JAR=' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'
+        ];
+
+        if (options.docker !== true) {
+          params.push('--build-arg', 'BASEIMAGE=' + options.docker);
         }
 
-        params.push('-f', path.resolve(dir, 'pom.xml'), 'clean', 'package');
+        // context location
+        params.push('.');
 
-        exec(getMaven(), params, process.env, {stopOnError: true, verbose: options.verbose}, function (code) {
+        exec('docker', params, dir, process.env, {
+          stopOnError: true,
+          verbose: options.verbose
+        }, function (code) {
           if (code !== 0) {
-            console.error(c.red.bold('Maven exited with code: ' + code));
+            console.error(c.red.bold('docker exited with code: ' + code));
             process.exit(1);
           }
 
           console.log(c.green.bold('Run your application with:'));
           console.log();
 
-          console.log(c.bold('  ' + getJava() + ' \\'));
-          if (npm.jvmci || process.env['JVMCI']) {
-            console.log(c.bold('    --module-path=target/dist/compiler \\'));
-            console.log(c.bold('    -XX:+UnlockExperimentalVMOptions \\'));
-            console.log(c.bold('    -XX:+EnableJVMCI \\'));
-            console.log(c.bold('    --upgrade-module-path=target/dist/compiler/compiler.jar \\'));
-          }
-          console.log(c.bold('    -jar target/dist/' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'));
+          console.log(c.bold('  docker run --rm -it --net=host ' + npm.name + ':' + npm.version));
           console.log();
         });
-      } catch (e) {
-        console.error(c.red.bold(e));
-        process.exit(1);
+      } else {
+        console.log(c.green.bold('Run your application with:'));
+        console.log();
+
+        console.log(c.bold('  ' + jdk('java') + ' \\'));
+        if (jvmci) {
+          console.log(c.bold('    --module-path=target/dist/compiler \\'));
+          console.log(c.bold('    -XX:+UnlockExperimentalVMOptions \\'));
+          console.log(c.bold('    -XX:+EnableJVMCI \\'));
+          console.log(c.bold('    --upgrade-module-path=target/dist/compiler/compiler.jar \\'));
+        }
+        console.log(c.bold('    -jar target/dist/' + (npm.artifactId || npm.name) + '-' + npm.version + '.jar'));
+        console.log();
       }
     });
   });
@@ -524,7 +473,7 @@ program
 program
   .command('*')
   .description('Prints this help')
-  .action(function(env) {
+  .action(function (env) {
     program.help();
   });
 

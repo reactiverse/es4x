@@ -9,7 +9,7 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assume.assumeTrue;
+import static io.reactiverse.es4x.test.Helper.getRuntime;
 
 @RunWith(Parameterized.class)
 public class ConsoleTest {
@@ -23,7 +23,6 @@ public class ConsoleTest {
   private Runtime runtime;
 
   public ConsoleTest(String engine) {
-    System.setProperty("es4x.engine", engine);
     engineName = engine;
   }
 
@@ -32,11 +31,7 @@ public class ConsoleTest {
 
   @Before
   public void initialize() {
-    try {
-      runtime = Runtime.getCurrent(rule.vertx());
-    } catch (IllegalStateException e) {
-      assumeTrue(engineName + " is not available", false);
-    }
+    runtime = getRuntime(rule.vertx(), engineName);
   }
 
   @Test

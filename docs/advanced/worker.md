@@ -1,5 +1,3 @@
-# ES4X Worker API
-
 [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) defines Web Workers as:
 
 > Web Workers is a simple means for web content to run scripts in background threads.

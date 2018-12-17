@@ -20,7 +20,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.NashornScriptEngine;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import javax.script.*;
 
@@ -30,20 +29,9 @@ public class NashornRuntime implements Runtime<Object> {
   private final JSObject require;
   private final Object module;
 
-  public NashornRuntime(final Vertx vertx) {
+  public NashornRuntime(final Vertx vertx, NashornScriptEngine engine) {
+    this.engine = engine;
     try {
-      // enable ES6 features
-      if (System.getProperty("nashorn.args") == null) {
-        System.setProperty("nashorn.args", "--language=es6");
-      }
-      // create a engine instance
-      engine = (NashornScriptEngine) new ScriptEngineManager().getEngineByName("nashorn");
-
-      // register a default codec to allow JSON messages directly from GraalVM to the JVM world
-      vertx.eventBus()
-        .unregisterDefaultCodec(ScriptObjectMirror.class)
-        .registerDefaultCodec(ScriptObjectMirror.class, new JSObjectMessageCodec());
-
       final Bindings engineBindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
       // remove the exit and quit functions
       engineBindings.remove("exit");
@@ -73,11 +61,6 @@ public class NashornRuntime implements Runtime<Object> {
     } catch (ScriptException | NoSuchMethodException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  @Override
-  public String name() {
-    return "Nashorn";
   }
 
   @Override

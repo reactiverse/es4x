@@ -206,14 +206,18 @@
       let root = roots[i];
 
       let result;
-      // node_modules do not start with a prefix
-      if (start !== './' && start !== '..') {
-        result = resolveAsNodeModule(id, root);
-      } else {
-        result =
-          resolveAsFile(id, root, '.js') ||
-          resolveAsFile(id, root, '.json') ||
-          resolveAsDirectory(id, root);
+      try {
+        // node_modules do not start with a prefix
+        if (start !== './' && start !== '..') {
+          result = resolveAsNodeModule(id, root);
+        } else {
+          result =
+            resolveAsFile(id, root, '.js') ||
+            resolveAsFile(id, root, '.json') ||
+            resolveAsDirectory(id, root);
+        }
+      } catch (ex) {
+        throw new ModuleError('Module "' + id + '" was not found', 'MODULE_NOT_FOUND');
       }
 
       if (result) {
@@ -314,27 +318,23 @@
     let base = root ? [root, id].join('/') : id;
     const uri = new URI([base, 'package.json'].join('/')).normalize();
     if (exists(uri)) {
-      try {
-        const body = readFile(uri);
-        const package_ = JSON.parse(body);
-        // add alias to alias cache
-        if (package_.es4xAlias) {
-          for (let k in package_.es4xAlias) {
-            if (package_.es4xAlias.hasOwnProperty(k)) {
-              Require.alias[new URI([base, 'node_modules', k].join('/')).normalize()] = new URI([base, package_.es4xAlias[k]].join('/')).normalize();
-            }
+      const body = readFile(uri);
+      const package_ = JSON.parse(body);
+      // add alias to alias cache
+      if (package_.es4xAlias) {
+        for (let k in package_.es4xAlias) {
+          if (package_.es4xAlias.hasOwnProperty(k)) {
+            Require.alias[new URI([base, 'node_modules', k].join('/')).normalize()] = new URI([base, package_.es4xAlias[k]].join('/')).normalize();
           }
         }
-        // resolve main if present
-        if (package_.main) {
-          return (resolveAsFile(package_.main, base) ||
-            resolveAsDirectory(package_.main, base));
-        }
-        // if no package.main exists, look for index.js
-        return resolveAsFile('index.js', base);
-      } catch (ex) {
-        throw new ModuleError('Cannot load JSON file', 'PARSE_ERROR', ex);
       }
+      // resolve main if present
+      if (package_.main) {
+        return (resolveAsFile(package_.main, base) ||
+          resolveAsDirectory(package_.main, base));
+      }
+      // if no package.main exists, look for index.js
+      return resolveAsFile('index.js', base);
     }
     return resolveAsFile('index.js', base);
   }

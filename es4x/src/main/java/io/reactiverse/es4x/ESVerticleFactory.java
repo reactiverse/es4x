@@ -27,11 +27,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ESVerticleFactory implements VerticleFactory {
 
   private final AtomicBoolean shell = new AtomicBoolean(false);
-  private Vertx vertx;
+
+  private ECMAEngine engine;
 
   @Override
   public void init(Vertx vertx) {
-    this.vertx = vertx;
+    this.engine = ECMAEngine.newEngine(vertx);
   }
 
   @Override
@@ -46,7 +47,7 @@ public class ESVerticleFactory implements VerticleFactory {
     final String fsVerticleName;
 
     synchronized (this) {
-      runtime = Runtime.getCurrent(vertx);
+      runtime = engine.newContext();
     }
 
     // extract prefix if present
@@ -56,7 +57,7 @@ public class ESVerticleFactory implements VerticleFactory {
       fsVerticleName = verticleName;
     }
 
-    if ("<shell>".equals(fsVerticleName)) {
+    if (">".equals(fsVerticleName)) {
       return new REPLVerticle(runtime, shell);
     }
 

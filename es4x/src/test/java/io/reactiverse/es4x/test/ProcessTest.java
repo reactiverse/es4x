@@ -13,9 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static io.reactiverse.es4x.test.Helper.getRuntime;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
 public class ProcessTest {
@@ -29,7 +29,6 @@ public class ProcessTest {
   private Runtime runtime;
 
   public ProcessTest(String engine) {
-    System.setProperty("es4x.engine", engine);
     engineName = engine;
   }
 
@@ -38,11 +37,7 @@ public class ProcessTest {
 
   @Before
   public void initialize() {
-    try {
-      runtime = Runtime.getCurrent(rule.vertx());
-    } catch (IllegalStateException e) {
-      assumeTrue(engineName + " is not available", false);
-    }
+    runtime = getRuntime(rule.vertx(), engineName);
   }
 
   @Test(timeout = 10000)

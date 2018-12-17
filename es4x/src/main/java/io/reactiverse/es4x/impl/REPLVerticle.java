@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.impl;
 
 import io.reactiverse.es4x.Runtime;
@@ -54,7 +69,7 @@ public class REPLVerticle extends AbstractVerticle {
 
         try {
           System.out.println("\u001B[1;90m" + runtime.eval(statement, true) + "\u001B[0m");
-          System.out.print("> ");
+          System.out.print("js:> ");
           System.out.flush();
         } catch (ScriptException t) {
           if (t.isIncompleteSource()) {
@@ -75,7 +90,7 @@ public class REPLVerticle extends AbstractVerticle {
             });
           }
 
-          System.out.print("> ");
+          System.out.print("js:> ");
           System.out.flush();
         } catch (Throwable t) {
           String message = null;
@@ -102,7 +117,7 @@ public class REPLVerticle extends AbstractVerticle {
           }
 
           System.out.println(trace);
-          System.out.print("> ");
+          System.out.print("js:> ");
           System.out.flush();
         }
       });
@@ -116,7 +131,7 @@ public class REPLVerticle extends AbstractVerticle {
       } else {
         // delay the show of the prompt so it doesn't overlap with the startup logging
         vertx.setTimer(100, t -> {
-          System.out.print("> ");
+          System.out.print("js:> ");
           System.out.flush();
         });
       }

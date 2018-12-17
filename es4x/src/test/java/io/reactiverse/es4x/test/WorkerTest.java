@@ -14,7 +14,7 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assume.assumeTrue;
+import static io.reactiverse.es4x.test.Helper.getRuntime;
 
 @RunWith(Parameterized.class)
 @Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
@@ -29,7 +29,7 @@ public class WorkerTest {
   private Runtime runtime;
 
   public WorkerTest(String engine) {
-    System.setProperty("es4x.engine", engine);
+    System.setProperty("es4x.engine", engine.toLowerCase());
     engineName = engine;
   }
 
@@ -38,11 +38,7 @@ public class WorkerTest {
 
   @Before
   public void initialize() {
-    try {
-      runtime = Runtime.getCurrent(rule.vertx());
-    } catch (IllegalStateException e) {
-      assumeTrue(engineName + " is not available", false);
-    }
+    runtime = getRuntime(rule.vertx(), engineName);
   }
 
   @Test(timeout = 30000)
@@ -55,6 +51,7 @@ public class WorkerTest {
     // @language=JavaScript
     String script =
       "Worker.create('workers/worker.js', function (create) {" +
+//        "console.log(create.cause());\n" +
         "var worker = create.result();\n" +
         "worker.onmessage = function (msg) {\n" +
         "  console.log('onmessage: ' + msg)\n" +

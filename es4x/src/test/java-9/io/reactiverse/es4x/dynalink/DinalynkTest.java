@@ -1,6 +1,7 @@
 package io.reactiverse.es4x.dynalink;
 
 import io.reactiverse.es4x.Runtime;
+import io.reactiverse.es4x.impl.nashorn.NashornEngine;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
@@ -27,9 +28,8 @@ public class DinalynkTest {
 
   @Before
   public void before() {
-    System.setProperty("es4x.engine", "Nashorn");
-    runtime = Runtime.getCurrent(rule.vertx());
-    assumeTrue(runtime.name().equalsIgnoreCase("Nashorn"));
+    System.setProperty("es4x.engine", "nashorn");
+    runtime = new NashornEngine(rule.vertx()).newContext();
   }
 
   public static String testJSON(JsonObject o) {

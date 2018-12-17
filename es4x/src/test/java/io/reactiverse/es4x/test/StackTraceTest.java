@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static io.reactiverse.es4x.AsyncError.*;
-import static org.junit.Assume.assumeTrue;
+import static io.reactiverse.es4x.test.Helper.getRuntime;
 
 @RunWith(Parameterized.class)
 @Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
@@ -33,17 +33,12 @@ public class StackTraceTest {
   public RunTestOnContext rule = new RunTestOnContext();
 
   public StackTraceTest(String engine) {
-    System.setProperty("es4x.engine", engine);
     engineName = engine;
   }
 
   @Before
   public void initialize() {
-    try {
-      runtime = Runtime.getCurrent(rule.vertx());
-    } catch (IllegalStateException e) {
-      assumeTrue(engineName + " is not available", false);
-    }
+    runtime = getRuntime(rule.vertx(), engineName);
   }
 
   @Test(timeout = 10000)
