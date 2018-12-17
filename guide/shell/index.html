@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
-        <meta name="description" content="A Modern EcmaScript runtime for Eclipse Vert.x">
+        <meta name="description" content="A Modern JavaScript runtime for Eclipse Vert.x">
       
       
         <link rel="canonical" href="https://reactiverse.io/es4x/guide/shell/">
@@ -37,12 +37,12 @@
       
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
-      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <link rel="shortcut icon" href="../../images/favicon.png">
       <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.1.0">
     
     
       
-        <title>Shell - EcmaScript for Eclipse Vert.x</title>
+        <title>Shell - ES for Eclipse Vert.x</title>
       
     
     
@@ -110,9 +110,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="https://reactiverse.io/es4x/" title="EcmaScript for Eclipse Vert.x" class="md-header-nav__button md-logo">
+        <a href="https://reactiverse.io/es4x/" title="ES for Eclipse Vert.x" class="md-header-nav__button md-logo">
           
-            <i class="md-icon"></i>
+            <img src="../../images/logo.svg" width="24" height="24">
           
         </a>
       </div>
@@ -124,7 +124,7 @@
           
             
               <span class="md-header-nav__topic">
-                EcmaScript for Eclipse Vert.x
+                ES for Eclipse Vert.x
               </span>
               <span class="md-header-nav__topic">
                 Shell
@@ -172,7 +172,7 @@
   
 
 
-  <a href="https://github.com/reactiverse/es4x" title="Go to repository" class="md-source" data-md-source="github">
+  <a href="https://github.com/reactiverse/es4x/" title="Go to repository" class="md-source" data-md-source="github">
     
       <div class="md-source__icon">
         <svg viewBox="0 0 24 24" width="24" height="24">
@@ -294,12 +294,12 @@
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="https://reactiverse.io/es4x/" title="EcmaScript for Eclipse Vert.x" class="md-nav__button md-logo">
+    <a href="https://reactiverse.io/es4x/" title="ES for Eclipse Vert.x" class="md-nav__button md-logo">
       
-        <i class="md-icon"></i>
+        <img src="../../images/logo.svg" width="48" height="48">
       
     </a>
-    EcmaScript for Eclipse Vert.x
+    ES for Eclipse Vert.x
   </label>
   
     <div class="md-nav__source">
@@ -309,7 +309,7 @@
   
 
 
-  <a href="https://github.com/reactiverse/es4x" title="Go to repository" class="md-source" data-md-source="github">
+  <a href="https://github.com/reactiverse/es4x/" title="Go to repository" class="md-source" data-md-source="github">
     
       <div class="md-source__icon">
         <svg viewBox="0 0 24 24" width="24" height="24">
@@ -439,6 +439,18 @@
   <li class="md-nav__item">
     <a href="../run/" title="Running" class="md-nav__link">
       Running
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../test/" title="Testing" class="md-nav__link">
+      Testing
     </a>
   </li>
 
@@ -647,15 +659,30 @@
             <article class="md-content__inner md-typeset">
               
                 
+                  <a href="https://github.com/reactiverse/es4x/edit/master/docs/guide/shell.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
                 
                   <h1>Shell</h1>
                 
-                <p>If you invoke the command:</p>
-<div class="codehilite"><pre><span></span>java -jar ... run <span class="s2">&quot;js:&lt;shell&gt;&quot;</span>
+                <p>There are situations where having a REPL or shell can be useful. ES4X provides such a feature out of the box by running
+the command:</p>
+<div class="codehilite"><pre><span></span>&gt; npm run shell
+
+js:&gt;
 </pre></div>
 
-<p>A bootstrapped shell will be available to run your code with all the components available in your classpath. You can
-then either start your application by requiring it's main module, or run any script in the <code>REPL</code>.</p>
+<p>And you are now able to REPL. For example:</p>
+<div class="codehilite"><pre><span></span><span class="nx">js</span><span class="o">:&gt;</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./index.js&#39;</span><span class="p">);</span>
+<span class="nx">Server</span> <span class="nx">listening</span> <span class="nx">at</span><span class="o">:</span> <span class="nx">http</span><span class="o">:</span><span class="c1">//localhost:8080/</span>
+
+<span class="nx">js</span><span class="o">:&gt;</span>
+</pre></div>
+
+<p>The shell can also be run without the need of <code>npm</code> using a <a href="../package/">packaged</a> runnable jar.</p>
+<div class="codehilite"><pre><span></span>java -jar your-package.jar run <span class="s2">&quot;js:&gt;&quot;</span>
+</pre></div>
+
+<p>A bootstrapped shell will be available to run your code with all the components available in your classpath.</p>
                 
                   
                 
