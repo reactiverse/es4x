@@ -44,7 +44,7 @@ Running: mvnw ...
 Running: docker ... 
 Run your application with:
 
-  docker run --rm -it --net=host empty-project:1.0.0
+  docker run --rm -it --net=host my-project:1.0.0
 ```
 
 Deploy your applications as a runnable jar or as a [Docker](https://www.docker.com/) container.

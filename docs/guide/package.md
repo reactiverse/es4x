@@ -15,18 +15,19 @@ When running this script you will see also the output command you need to use to
 
 ```bash
 # Running on a GraalVM JVM
-Running: /home/plopes/Projects/reactiverse/es4x/examples/empty-project/mvnw ... package
+Running: mvnw ... package
 Run your application with:
 
   java \
   -jar target/dist/empty-project-1.0.0-bin.jar
 ```
 
-Note that if you run with the environment flag `JVMCI` then you can run your app on JDK11 too but the start command
-will be a little more complex, this is what the script tells you e.g.:
+Note that if your environment supports `JVMCI` an extra directory will exist on the `target/dist` with the JVMCI
+compiler bits. This will allow the usage of `graaljs` on `JDK >=11`. In this case the startup command is slighter
+longer:
 
 ```bash
-Running: /home/plopes/Projects/reactiverse/es4x/examples/empty-project/mvnw ... package
+Running: mvnw ... package
 Run your application with:
 
   java \
@@ -38,3 +39,31 @@ Run your application with:
 ```
 
 To distribute just the application binaries all you need lives in `target/dist`.
+
+## Docker
+
+Docker images can also be created for you for this just pass the `-d` flag to the command:
+
+```bash
+npm run package -- -d
+```
+
+If your system is running on JVMCI enabled environment `JDK>=11` then a docker image with JMVCI will be created for you
+using the base image: `openjdk:11-oracle`. If you prefer to use a different base image for JVMCI then just specify the
+base image to use after the flag.
+
+```bash
+npm run package -- -d adoptopenjdk/openjdk11-openj9
+```
+
+### GraalVM
+
+If your environment was running on graalvm, then there isn't a JVMCI `compiler` in your `dist` directory, in this case
+the docker command will create a docker image based on `oracle/graalvm-ce:1.0.0-rc10`. The same rules apply for
+switching the base image.
+
+```bash
+# assuming there's a EE image in one of your
+# configured docker registries
+npm run package -- -d oracle/graalvm-ee:1.0.0-rc10
+```
