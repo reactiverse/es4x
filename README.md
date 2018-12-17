@@ -54,27 +54,12 @@ suite.test("my_test_case", function (context) {
 suite.run();
 ```
 
-Profit!
-
-## JDK11
-
-If you don't want to run on GraalVM JDK but prefer [OpenJDK11](https://adoptopenjdk.net/index.html?variant=openjdk11&jvmVariant=hotspot),
-or even [OpenJ9](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=openj9) all you need to do is **prefix**
-any `NPM` / `Maven` command with the variable `JVMCI=1`, e.g.:
 
 ```bash
-JVMCI=1 npm install
-JVMCI=1 npm start
+npm start
 ```
 
-This will assume you're running on plain JDK11, if you don't want to type the variable all the time or set it to your
-environment, you can add it to your `package.json` as:
-
-```json
-{
-  "jvmci": true
-}
-```
+Profit!
 
 ## Documentation
 
