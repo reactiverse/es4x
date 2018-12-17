@@ -251,7 +251,7 @@ program
   });
 
 program
-  .command('exec [cmd]')
+  .command('exec <cmd> [args...]')
   .description('Runs vertx launcher command (e.g.: run, bare, test, ...)')
   .option('-d, --debug [jdwp]', 'Enable debug mode (default: transport=dt_socket,server=y,suspend=n,address=9229)')
   .option('-i, --inspect [port]', 'Enable chrome devtools debug mode (default: 9229)')
@@ -259,43 +259,43 @@ program
   .option('-w, --watch <watch>', 'Watches for modifications on the given expression')
   .option('-r, --redeploy <redeploy>', 'When watching will run the redeploy action before re-start')
   .option('-v, --verbose', 'Verbose logging')
-  .action(function (cmd, options) {
+  .action(function (cmd, args, options) {
     // debug validation and they overlap
     if (options.debug && options.inspect) {
       console.error(c.red.bold('--debug and --inspect options are exclusive (choose one)'));
       process.exit(1);
     }
 
-    let args = [];
-    if (cmd === undefined) {
-      cmd = 'run';
-    }
-
     switch (cmd) {
       case 'run':
-        // main verticle name is derived from main
-        if (!npm.main) {
-          console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
-          process.exit(1);
+        if (args.length === 0) {
+          // main verticle name is derived from main
+          if (!npm.main) {
+            console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
+            process.exit(1);
+          }
+          args = [npm.main];
         }
-        args = [npm.main];
         break;
       case 'test':
         // main verticle name is derived from main
-        if (!npm.main) {
-          console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
-          process.exit(1);
-        }
-        if (npm.main.endsWith('.js')) {
-          args = [npm.main.substr(0, npm.main.length - 3) + '.test.js'];
-        } else {
-          args = [npm.main + '.test.js'];
+        if (args.length === 0) {
+          if (!npm.main) {
+            console.error(c.red.bold('No \'main\' or \'verticle\' was defined!'));
+            process.exit(1);
+          }
+          if (npm.main.endsWith('.js')) {
+            args = [npm.main.substr(0, npm.main.length - 3) + '.test.js'];
+          } else {
+            args = [npm.main + '.test.js'];
+          }
         }
         break;
       case 'shell':
         // shell is a virtual command
         cmd = 'run';
-        args = ['js:>'];
+        // add to the head
+        args.unshift('js:>');
         break;
     }
 
@@ -390,7 +390,7 @@ program
     }
 
     npm.scripts.postinstall = 'es4x postinstall';
-    npm.scripts.start = 'es4x exec';
+    npm.scripts.start = 'es4x exec run';
     npm.scripts.test = 'es4x exec test';
     npm.scripts.package = 'es4x package';
 
