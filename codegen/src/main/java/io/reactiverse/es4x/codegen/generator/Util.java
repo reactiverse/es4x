@@ -126,9 +126,9 @@ public final class Util {
         return type.getErased().getSimpleName();
       case HANDLER:
         if (type.isParameterized()) {
-          return "(res: " + genType(((ParameterizedTypeInfo) type).getArg(0)) + ") => void | Handler<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
+          return "((res: " + genType(((ParameterizedTypeInfo) type).getArg(0)) + ") => void) | Handler<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
         } else {
-          return "(res: any) => void | Handler<any>";
+          return "((res: any) => void) | Handler<any>";
         }
       case FUNCTION:
         if (type.isParameterized()) {
