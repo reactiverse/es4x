@@ -15,7 +15,7 @@
 
   <properties>
     <!-- ES4X version -->
-    <es4x.version>0.6.1</es4x.version>
+    <es4x.version>0.6.2-SNAPSHOT</es4x.version>
     <!-- This version matches the stack version to be used -->
     <stack.version>3.6.2</stack.version>
     <!-- This is the source group id -->
@@ -58,6 +58,8 @@
       }
     </npm-dependencies>
     <!-- language=json -->
+    <npm-dev-dependencies>null</npm-dev-dependencies>
+    <!-- language=json -->
     <package-json>
       {
         "name": "${npm-name}",
@@ -70,7 +72,8 @@
           "artifactId": "${project.artifactId}",
           "version": "${project.version}"
         },
-        "dependencies": ${npm-dependencies}
+        "dependencies": ${npm-dependencies},
+        "devDependencies": ${npm-dev-dependencies}
       }
     </package-json>
   </properties>
@@ -134,7 +137,7 @@
       <plugin>
         <groupId>org.bsc.maven</groupId>
         <artifactId>maven-processor-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.3</version>
         <configuration>
           <systemProperties>
             <java.util.logging.SimpleFormatter.format>%4$s: %3$s - %5$s %6$s%n

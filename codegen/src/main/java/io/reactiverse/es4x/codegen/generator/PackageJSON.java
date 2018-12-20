@@ -51,6 +51,7 @@ public class PackageJSON extends Generator<ModuleModel> {
     if (!Boolean.getBoolean("npm-meta-package")) {
       /* always overwritten */
       json.put("main", "index.js");
+      json.put("module", "module.mjs");
       json.put("types", "index.d.ts");
     }
 
@@ -64,11 +65,19 @@ public class PackageJSON extends Generator<ModuleModel> {
         kv.setValue(toSemVer((String) kv.getValue()));
       }
     }
+    if (json.containsKey("devDependencies")) {
+      if (json.getJsonObject("devDependencies") != null) {
+        for (Map.Entry<String, Object> kv : json.getJsonObject("devDependencies")) {
+          kv.setValue(toSemVer((String) kv.getValue()));
+        }
+      }
+    }
 
     return json.encodePrettily();
   }
 
   private String toSemVer(String string) {
+    String base = "0.0.0";
     char[] version = string.toCharArray();
     int dots = 0;
     for (int i = 0; i < version.length; i++) {
@@ -80,10 +89,14 @@ public class PackageJSON extends Generator<ModuleModel> {
       }
     }
 
+    if (dots == 2) {
+      return string;
+    }
+
     if (dots > 2) {
       return new String(version);
     }
 
-    return string;
+    return base.substring(0, 2 * dots) + new String(version);
   }
 }

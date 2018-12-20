@@ -27,6 +27,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,10 +40,18 @@ public final class Util {
   private final static JsonArray registry;
   private final static int year;
 
+  private final static Map<String, String> TYPES = new HashMap<>();
+
   static {
     /* parse the registry from the system property */
     registry = new JsonArray(System.getProperty("scope-registry", "[]"));
     year = Calendar.getInstance().get(Calendar.YEAR);
+
+    // register known java <-> js types
+    TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
+    TYPES.put("java.lang.CharSequence", "string");
+    TYPES.put("java.lang.Iterable<java.lang.String>", "string[]");
+    TYPES.put("java.lang.Iterable<java.lang.CharSequence>", "string[]");
   }
 
   public static String genType(TypeInfo type) {
@@ -145,11 +154,16 @@ public final class Util {
       case CLASS_TYPE:
         return "any /* TODO: class */";
       case OTHER:
-        return "any /* TODO: other */";
+        if (TYPES.containsKey(type.getName())) {
+          return TYPES.get(type.getName());
+        } else {
+          System.out.println("@@@ " + type.getName());
+          return "any /* " + type.getName() + " */";
+        }
+      default:
+        System.out.println("!!! " + type + " - " + type.getKind());
+        return "";
     }
-
-    System.out.println("!!! " + type + " - " + type.getKind());
-    return "";
   }
 
   public static String genGeneric(List<? extends TypeParamInfo> params) {

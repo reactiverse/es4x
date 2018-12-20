@@ -179,6 +179,32 @@ public class IndexDTS extends Generator<ClassModel> {
       writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
       moreMethods = true;
     }
+
+    // BEGIN of non polyglot methods...
+
+    for (MethodInfo method : model.getAnyJavaTypeMethods()) {
+      if (moreMethods || moreConstants) {
+        writer.print("\n");
+      }
+
+      if (method.getDoc() != null) {
+        writer.print("  /**\n");
+        writer.printf("   *%s\n", method.getDoc().toString().replace("\n", "\n   * "));
+        writer.print("   */\n");
+      }
+      writer.printf("  %s%s%s(", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()));
+      boolean more = false;
+      for (ParamInfo param : method.getParams()) {
+        if (more) {
+          writer.print(", ");
+        }
+        writer.printf("%s: %s%s", param.getName(), genType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
+        more = true;
+      }
+
+      writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
+      moreMethods = true;
+    }
     writer.print("}\n");
 
     return sw.toString();
