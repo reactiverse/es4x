@@ -156,6 +156,10 @@ public class GraalRuntime implements Runtime<Value> {
 
   @Override
   public Value main(String main) {
+    if (main.equals(".") || main.equals("..")) {
+      // invoke the main script
+      return invokeMethod(module, "runMain", main + "/");
+    }
     // patch the main path to be a relative path
     if (!main.startsWith("./") && !main.startsWith("/")) {
       main = "./" + main;
