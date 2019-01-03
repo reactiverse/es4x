@@ -41,6 +41,11 @@ public class ESVerticleFactory implements VerticleFactory {
   }
 
   @Override
+  public int order() {
+    return -1;
+  }
+
+  @Override
   public Verticle createVerticle(String verticleName, ClassLoader classLoader) {
 
     final Runtime runtime;
@@ -153,6 +158,7 @@ public class ESVerticleFactory implements VerticleFactory {
 
       @Override
       public void stop(Future<Void> stopFuture) {
+        // user should set process undeployHandler(() => {})
         if (self != null) {
           if (runtime.hasMember(self, "stop")) {
             try {
