@@ -26,14 +26,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class Util {
 
-  private Util () {
+  private Util() {
     throw new RuntimeException("Static Class");
   }
 
@@ -41,6 +38,8 @@ public final class Util {
   private final static int year;
 
   private final static Map<String, String> TYPES = new HashMap<>();
+
+  private final static Set<String> RESERVED = new HashSet<>();
 
   static {
     /* parse the registry from the system property */
@@ -52,6 +51,57 @@ public final class Util {
     TYPES.put("java.lang.CharSequence", "string");
     TYPES.put("java.lang.Iterable<java.lang.String>", "string[]");
     TYPES.put("java.lang.Iterable<java.lang.CharSequence>", "string[]");
+
+    // reserved typescript keywords
+    RESERVED.addAll(Arrays.asList(
+      "break",
+      "case",
+      "catch",
+      "class",
+      "const",
+      "continue",
+      "debugger",
+      "default",
+      "delete",
+      "do",
+      "else",
+      "enum",
+      "export",
+      "extends",
+      "false",
+      "finally",
+      "for",
+      "function",
+      "if",
+      "import",
+      "in",
+      "instanceof",
+      "new",
+      "null",
+      "return",
+      "super",
+      "switch",
+      "this",
+      "throw",
+      "true",
+      "try",
+      "typeof",
+      "var",
+      "void",
+      "while",
+      "with",
+      // strict mode reserved words
+      "as",
+      "implements",
+      "interface",
+      "let",
+      "package",
+      "private",
+      "protected",
+      "public",
+      "static",
+      "yield"
+    ));
   }
 
   public static String genType(TypeInfo type) {
@@ -279,5 +329,12 @@ public final class Util {
     writer.println(" * under the License.");
     writer.println(" */");
     writer.println();
+  }
+
+  public static String cleanReserved(String value) {
+    if (RESERVED.contains(value)) {
+      return "__" + value;
+    }
+    return value;
   }
 }
