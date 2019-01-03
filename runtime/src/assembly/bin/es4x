@@ -31,7 +31,7 @@ if [[ ! -f $JAVA_HOME/jre/lib/jvmci/graal.jar ]]; then
   fi
 fi
 
-# If user java libs exist, they take are choosen instead of $ES4X_DIR/lib/*
+# If user java libs exist, they take precedence over $ES4X_DIR/lib/*
 if [[ -d ./node_modules/java-libs ]]; then
   if [[ ! -z ${CLASSPATH+x} ]]; then
     CLASSPATH="$CLASSPATH:./node_modules/java-libs/*"
