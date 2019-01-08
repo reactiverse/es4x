@@ -136,19 +136,6 @@ public class ESVerticleFactory implements VerticleFactory {
                 return;
               }
             }
-          } else {
-            // if the main module exports 2 function we bind those to the verticle lifecycle
-            if (runtime.hasMember(self, "start")) {
-              try {
-                runtime.enter();
-                runtime.invokeMethod(self, "start");
-              } catch (RuntimeException e) {
-                startFuture.fail(e);
-                return;
-              } finally {
-                runtime.leave();
-              }
-            }
           }
         }
 
