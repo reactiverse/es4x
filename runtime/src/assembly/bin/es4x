@@ -1,90 +1,24 @@
-#!/usr/bin/env bash
-set -e
+#!/bin/sh
+(set -o igncr) 2>/dev/null && set -o igncr; # cygwin encoding fix
 
-ES4X_DIR="$( cd "$( dirname "$0" )/.." && pwd )"
+basedir=`dirname "$0"`
 
-if [[ -z ${JAVA_HOME+x} ]]; then
-  (>&2 echo 'ERR: $JAVA_HOME in not defined!')
-  exit 1
-fi
-
-if [[ -d node_modules ]]; then
-  if [[ ! -f ./node_modules/pom.xml ]]; then
-    # generate the temp pom.xml
-    $JAVA_HOME/bin/java -cp "$ES4X_DIR/lib/*:$ES4X_DIR/tasks/*" io.reactiverse.es4x.runtime.PostInstall
-  fi
-
-  if [[ ! -d node_modules/java-libs ]]; then
-    # will copy jars from maven to node modules (just once)
-    mvn -f ./node_modules/pom.xml -DoutputDirectory=./java-libs dependency:resolve dependency:copy-dependencies
-  fi
-fi
-
-if [[ ! -f $JAVA_HOME/jre/lib/jvmci/graal.jar ]]; then
-  # enable JVMCI
-  JVMCI="--module-path=$ES4X_DIR/jvmci-compiler -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=$ES4X_DIR/jvmci-compiler/compiler.jar"
-  # enable graaljs
-  if [[ ! -z ${CLASSPATH+x} ]]; then
-    CLASSPATH="$CLASSPATH:$ES4X_DIR/graaljs/*"
-  else
-    CLASSPATH="$ES4X_DIR/graaljs/*"
-  fi
-fi
-
-# If user java libs exist, they take precedence over $ES4X_DIR/lib/*
-if [[ -d ./node_modules/java-libs ]]; then
-  if [[ ! -z ${CLASSPATH+x} ]]; then
-    CLASSPATH="$CLASSPATH:./node_modules/java-libs/*"
-  else
-    CLASSPATH="./node_modules/java-libs/*"
-  fi
-else
-  if [[ ! -z ${CLASSPATH+x} ]]; then
-    CLASSPATH="$CLASSPATH:$ES4X_DIR/lib/*"
-  else
-    CLASSPATH="$ES4X_DIR/lib/*"
-  fi
-fi
-
-case "$#" in
-"0")
-  # no arguments
-  CMD='run'
-  VERTICLE='js:.'
-  $JAVA_HOME/bin/java -XX:+IgnoreUnrecognizedVMOptions -cp "$CLASSPATH" $JVMCI $JAVA_OPTS io.vertx.core.Launcher $CMD "$VERTICLE"
-  ;;
-"1")
-  # 1 argument
-  case "$1" in
-  "shell")
-    CMD='run'
-    VERTICLE='js:>'
-    $JAVA_HOME/bin/java -XX:+IgnoreUnrecognizedVMOptions -cp "$CLASSPATH" $JVMCI $JAVA_OPTS io.vertx.core.Launcher $CMD "$VERTICLE"
-    ;;
-  "package")
-    mvn package
-    ;;
-  "inspect")
-    CMD='run'
-    VERTICLE='js:.'
-    $JAVA_HOME/bin/java -XX:+IgnoreUnrecognizedVMOptions -cp "$CLASSPATH" $JVMCI $JAVA_OPTS -Dvertx.options.blockedThreadCheckInterval=100000 -Dpolyglot.inspect=5858 io.vertx.core.Launcher $CMD "$VERTICLE"
-    ;;
-  "test")
-    CMD='test'
-    VERTICLE='js:.'
-    $JAVA_HOME/bin/java -XX:+IgnoreUnrecognizedVMOptions -cp "$CLASSPATH" $JVMCI $JAVA_OPTS io.vertx.core.Launcher $CMD "$VERTICLE"
-    ;;
-  *)
-    CMD='run'
-    VERTICLE="js:$1"
-    $JAVA_HOME/bin/java -XX:+IgnoreUnrecognizedVMOptions -cp "$CLASSPATH" $JVMCI $JAVA_OPTS io.vertx.core.Launcher $CMD "$VERTICLE"
-    ;;
-  esac
-  ;;
-*)
-  set -- "${@:1:1}" "js:$2" "${@:3}"
-  $JAVA_HOME/bin/java -XX:+IgnoreUnrecognizedVMOptions -cp "$CLASSPATH" $JVMCI $JAVA_OPTS io.vertx.core.Launcher "$@"
-  ;;
+case `uname` in
+    *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
 esac
 
-exit $?
+JAVA_EXE="$JAVA_HOME/bin/java"
+if ! [[ -x "$JAVA_EXE" ]]; then
+  JAVA_EXE=java
+fi
+
+if ! [[ -d "node_modules/@lib" ]]; then
+  $basedir/es4x-pm install
+fi
+
+if [[ -d "node_modules/@jvmci" ]]; then
+  JVMCI="--module-path=node_modules/@jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=node_modules/@jvmci/compiler.jar"
+fi
+
+
+exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "node_modules/@lib/*" io.reactiverse.es4x.ES4X "$@"

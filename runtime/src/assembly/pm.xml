@@ -2,7 +2,7 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
 
-  <id>runtime</id>
+  <id>bin</id>
 
   <formats>
     <format>tar.gz</format>
@@ -20,7 +20,8 @@
       <directory>src/assembly/bin</directory>
       <outputDirectory>bin</outputDirectory>
       <includes>
-        <include>*.bat</include>
+        <include>es4x.cmd</include>
+        <include>es4x-pm.cmd</include>
       </includes>
       <lineEnding>dos</lineEnding>
     </fileSet>
@@ -29,6 +30,7 @@
       <outputDirectory>bin</outputDirectory>
       <includes>
         <include>es4x</include>
+        <include>es4x-pm</include>
       </includes>
       <lineEnding>unix</lineEnding>
       <fileMode>0755</fileMode>
@@ -41,24 +43,10 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>target/jvmci-compiler</directory>
-      <outputDirectory>jvmci-compiler</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>target/graaljs</directory>
-      <outputDirectory>graaljs</outputDirectory>
-      <includes>
-        <include>*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
       <directory>target</directory>
-      <outputDirectory>tasks</outputDirectory>
+      <outputDirectory>bin</outputDirectory>
       <includes>
-        <include>${project.artifactId}-${project.version}.jar</include>
+        <include>*.jar</include>
       </includes>
     </fileSet>
   </fileSets>

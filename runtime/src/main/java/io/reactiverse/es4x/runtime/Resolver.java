@@ -1,4 +1,4 @@
-package io.reactiverse.es4x.runtime.io.reactiverse.es4x.runtime;
+package io.reactiverse.es4x.runtime;
 
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
@@ -25,7 +25,6 @@ import org.eclipse.aether.util.repository.AuthenticationBuilder;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,24 +40,26 @@ public class Resolver {
   private LocalRepository localRepo;
   private final List<RemoteRepository> remotes = new ArrayList<>();
 
-  public Resolver() throws MalformedURLException {
+  Resolver() throws MalformedURLException {
     DefaultServiceLocator locator = getDefaultServiceLocator();
 
     system = locator.getService(RepositorySystem.class);
     localRepo = new LocalRepository(DEFAULT_MAVEN_LOCAL);
 
-//    // add user repo
-//
-//    URL url = new URL("");
-//    Authentication auth = extractAuth(url);
-//    if (auth != null) {
-//      url = new URL(url.getProtocol(), url.getHost(), url.getPort(), url.getFile());
-//    }
-//    RemoteRepository.Builder builder = new RemoteRepository.Builder("user", "default", url.toString());
-//    if (auth != null) {
-//      builder.setAuthentication(auth);
-//    }
-//    remotes.add(builder.build());
+    // add user repo
+    String registry = System.getProperty("maven.registry");
+    if (registry != null) {
+      URL url = new URL(registry);
+      Authentication auth = extractAuth(url);
+      if (auth != null) {
+        url = new URL(url.getProtocol(), url.getHost(), url.getPort(), url.getFile());
+      }
+      RemoteRepository.Builder builder = new RemoteRepository.Builder("registry", "default", url.toString());
+      if (auth != null) {
+        builder.setAuthentication(auth);
+      }
+      remotes.add(builder.build());
+    }
 
     remotes.add(
       new RemoteRepository
@@ -80,7 +81,7 @@ public class Resolver {
    * @param artifacts the artifact
    * @return the list of artifact
    */
-  public List<Artifact> resolve(List<String> artifacts) {
+  List<Artifact> resolve(String root, Collection<String> artifacts) {
 
     DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
     session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));
@@ -146,7 +147,7 @@ public class Resolver {
     try {
       CollectRequest collectRequest = new CollectRequest();
 
-      collectRequest.setRoot(new Dependency(new DefaultArtifact("io.reactiverse:es4x:0.6.1"), JavaScopes.COMPILE));
+      collectRequest.setRoot(new Dependency(new DefaultArtifact(root), JavaScopes.COMPILE));
 
       for (String artifact : artifacts) {
         collectRequest.addDependency(new Dependency(new DefaultArtifact(artifact), JavaScopes.COMPILE));
@@ -180,13 +181,6 @@ public class Resolver {
       return authBuilder.build();
     }
     return null;
-  }
-
-  public static void main(String[] args) throws MalformedURLException {
-    Resolver r = new Resolver();
-    for (Artifact a : r.resolve(Arrays.asList("io.vertx:vertx-web:3.6.2", "io.vertx:vertx-redis-client:3.6.2"))) {
-      System.out.println(a.getFile());
-    }
   }
 }
 

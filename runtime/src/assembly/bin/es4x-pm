@@ -1,0 +1,15 @@
+#!/bin/sh
+(set -o igncr) 2>/dev/null && set -o igncr; # cygwin encoding fix
+
+basedir=`dirname "$0"`
+
+case `uname` in
+    *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
+esac
+
+JAVA_EXE="$JAVA_HOME/bin/java"
+if ! [[ -x "$JAVA_EXE" ]]; then
+  JAVA_EXE=java
+fi
+
+exec "$JAVA_EXE" -jar "$basedir/es4x-pm.jar" "$@"
