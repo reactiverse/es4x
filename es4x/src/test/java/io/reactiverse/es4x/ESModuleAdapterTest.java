@@ -1,5 +1,6 @@
 package io.reactiverse.es4x;
 
+import io.reactiverse.es4x.impl.ESModuleIO;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,35 +11,35 @@ public class ESModuleAdapterTest {
   public void shouldAdaptWildcard() {
     assertEquals(
       "const myModule = require('/modules/my-module.js');",
-      ESModuleAdapter.adapt("import * as myModule from '/modules/my-module.js'"));
+      ESModuleIO.adapt("import * as myModule from '/modules/my-module.js'"));
   }
 
   @Test
   public void shouldAdaptSingleSelect() {
     assertEquals(
       "const myExport = require('/modules/my-module.js').myExport;",
-      ESModuleAdapter.adapt("import {myExport} from '/modules/my-module.js'"));
+      ESModuleIO.adapt("import {myExport} from '/modules/my-module.js'"));
   }
 
   @Test
   public void shouldAdaptMultiSelect() {
     assertEquals(
       "const foo = require('/modules/my-module.js').foo;const bar = require('/modules/my-module.js').bar;",
-      ESModuleAdapter.adapt("import {foo, bar} from '/modules/my-module.js'"));
+      ESModuleIO.adapt("import {foo, bar} from '/modules/my-module.js'"));
   }
 
   @Test
   public void shouldAdaptSelectAlias() {
     assertEquals(
       "const shortName = require('/modules/my-module.js').reallyReallyLongModuleExportName;",
-      ESModuleAdapter.adapt("import {reallyReallyLongModuleExportName as shortName} from '/modules/my-module.js';"));
+      ESModuleIO.adapt("import {reallyReallyLongModuleExportName as shortName} from '/modules/my-module.js';"));
   }
 
   @Test
   public void shouldAdaptMultiSelectAlias() {
     assertEquals(
       "const shortName = require('/modules/my-module.js').reallyReallyLongModuleExportName;const short = require('/modules/my-module.js').anotherLongModuleName;",
-      ESModuleAdapter.adapt(
+      ESModuleIO.adapt(
         "import {\n" +
           "  reallyReallyLongModuleExportName as shortName,\n" +
           "  anotherLongModuleName as short\n" +
@@ -53,7 +54,7 @@ public class ESModuleAdapterTest {
       "};\n" +
       "\n";
 
-    assertEquals(file, ESModuleAdapter.adapt(file));
+    assertEquals(file, ESModuleIO.adapt(file));
   }
 
   @Test
@@ -71,7 +72,7 @@ public class ESModuleAdapterTest {
         "suite.run();\n" +
         "\n",
 
-      ESModuleAdapter.adapt(
+      ESModuleIO.adapt(
         "import { TestSuite } from 'vertx-unit';\n" +
           "\n" +
           "const suite = TestSuite.create(\"the_test_suite\");\n" +
@@ -102,7 +103,7 @@ public class ESModuleAdapterTest {
       "    // Give the component that originally created this child.\n" +
       "    childOwner = ' It was passed a child from ' + element._owner.getName() + '\n";
 
-    assertEquals(file, ESModuleAdapter.adapt(file));
+    assertEquals(file, ESModuleIO.adapt(file));
   }
 
   @Test
@@ -148,7 +149,7 @@ public class ESModuleAdapterTest {
       " *\n" +
       " *   const Route = require('react-router').Route;const createRoutesFromReactChildren = require('react-router').createRoutesFromReactChildren;\n",
 
-      ESModuleAdapter.adapt("import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(8);\n" +
+      ESModuleIO.adapt("import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(8);\n" +
         "/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);\n" +
         "var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };\n" +
         "\n" +
@@ -207,6 +208,6 @@ public class ESModuleAdapterTest {
       "    router.accept(req);\n"+
       "}).listen(8080);";
 
-    assertNotEquals(ESModuleAdapter.adapt(file), file);
+    assertNotEquals(ESModuleIO.adapt(file), file);
   }
 }
