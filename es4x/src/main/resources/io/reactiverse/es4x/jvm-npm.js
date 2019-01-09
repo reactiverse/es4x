@@ -15,63 +15,10 @@
  */
 // Since we intend to use the Function constructor.
 (function (global) {
-  const fs = global.vertx.fileSystem();
   const System = Java.type('java.lang.System');
   const URI = Java.type('java.net.URI');
-  const ESModuleAdapter = Java.type('io.reactiverse.es4x.ESModuleAdapter');
-
-  function getParent(uri) {
-    if (!(uri instanceof URI)) {
-      try {
-        uri = new URI(uri);
-      } catch (e) {
-        // there is no parent
-        return null;
-      }
-    }
-    const path = uri.getPath();
-    let last = path.lastIndexOf('/');
-    if (path.length > last) {
-      return uri.getScheme() + ':' + path.substring(0, last);
-    }
-  }
-
-  function exists(uri) {
-    switch (uri.getScheme()) {
-      case 'jar':
-        return fs.existsBlocking(uri.getPath().substr(1));
-      case 'file':
-        return fs.existsBlocking(uri.getPath());
-      default:
-        return false;
-    }
-  }
-
-  function isFile(uri) {
-    switch (uri.getScheme()) {
-      case 'jar':
-        return fs.propsBlocking(uri.getPath().substr(1)).isRegularFile();
-      case 'file':
-        return fs.propsBlocking(uri.getPath()).isRegularFile();
-      default:
-        return false;
-    }
-  }
-
-  function readFile(uri) {
-    try {
-      switch (uri.getScheme()) {
-        case 'jar':
-          return ESModuleAdapter.adapt(fs.readFileBlocking(uri.getPath().substr(1)).toString());
-        case 'file':
-          return ESModuleAdapter.adapt(fs.readFileBlocking(uri.getPath()).toString());
-      }
-    } catch (e) {
-      throw new ModuleError('Cannot read file [' + uri + ']: ', 'IO_ERROR', e);
-    }
-    // if we fall through it's an error as we can't handle this scheme
-    throw new ModuleError('Cannot handle scheme [' + uri.getScheme() + ']: ', 'IO_ERROR');
-  }
+  const ESModuleIO = Java.type('io.reactiverse.es4x.impl.ESModuleIO');
+  const io = new ESModuleIO(global.vertx);
 
   function Module(id, parent, alias) {
     this.id = id;
@@ -102,8 +49,8 @@
 
   Module._load = function _load(uri, parent, main, workerAddress, alias) {
     const module = new Module(uri, parent, alias);
-    const body = readFile(uri);
-    const dir = getParent(uri);
+    const body = io.readFile(uri, !!main);
+    const dir = io.getParent(uri);
 
     let sourceURL = '<unknown>';
 
@@ -302,7 +249,7 @@
   global.require = Require;
 
   function loadJSON(uri) {
-    const json = JSON.parse(readFile(uri));
+    const json = JSON.parse(io.readFile(uri));
     Require.cache[uri] = json;
     return json;
   }
@@ -311,14 +258,14 @@
     let base = root ? [root, 'node_modules'].join('/') : 'node_modules';
     return resolveAsFile(id, base) ||
       resolveAsDirectory(id, base) ||
-      (root ? resolveAsNodeModule(id, getParent(root)) : false);
+      (root ? resolveAsNodeModule(id, io.getParent(root)) : false);
   }
 
   function resolveAsDirectory(id, root) {
     let base = root ? [root, id].join('/') : id;
     const uri = new URI([base, 'package.json'].join('/')).normalize();
-    if (exists(uri)) {
-      const body = readFile(uri);
+    if (io.exists(uri)) {
+      const body = io.readFile(uri);
       const package_ = JSON.parse(body);
       // add alias to alias cache
       if (package_.es4xAlias) {
@@ -343,13 +290,13 @@
     let uri;
     if (id.length > 0 && id[0] === '/') {
       uri = new URI('file://' + normalizeName(id, ext)).normalize();
-      if (!exists(uri)) {
+      if (!io.exists(uri)) {
         return resolveAsDirectory('file://' + id);
       }
     } else {
       uri = new URI(root ? [root, normalizeName(id, ext)].join('/') : normalizeName(id, ext)).normalize();
     }
-    if (exists(uri) && isFile(uri)) {
+    if (io.exists(uri) && io.isFile(uri)) {
       return uri;
     }
   }
