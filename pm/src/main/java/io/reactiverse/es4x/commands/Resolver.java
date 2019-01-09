@@ -1,4 +1,4 @@
-package io.reactiverse.es4x.runtime;
+package io.reactiverse.es4x.commands;
 
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
@@ -29,7 +29,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Resolver {
+final class Resolver {
 
   private static final String USER_HOME = System.getProperty("user.home");
   private static final String FILE_SEP = System.getProperty("file.separator");

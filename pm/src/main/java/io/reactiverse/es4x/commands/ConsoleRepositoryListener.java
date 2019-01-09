@@ -1,4 +1,4 @@
-package io.reactiverse.es4x.runtime;
+package io.reactiverse.es4x.commands;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -27,7 +27,7 @@ import org.eclipse.aether.RepositoryEvent;
 /**
  * A simplistic repository listener that logs events to the console.
  */
-public class ConsoleRepositoryListener
+final class ConsoleRepositoryListener
   extends AbstractRepositoryListener {
 
   private PrintStream out;

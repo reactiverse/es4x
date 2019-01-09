@@ -1,4 +1,4 @@
-package io.reactiverse.es4x.runtime;
+package io.reactiverse.es4x.commands;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -34,7 +34,7 @@ import org.eclipse.aether.transfer.TransferResource;
 /**
  * A simplistic transfer listener that logs uploads/downloads to the console.
  */
-public class ConsoleTransferListener
+final class ConsoleTransferListener
   extends AbstractTransferListener {
 
   private PrintStream out;

@@ -26,14 +26,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class REPLVerticle extends AbstractVerticle {
 
-  private final AtomicBoolean active;
-  private final Runtime runtime;
+  private static final AtomicBoolean ACTIVE = new AtomicBoolean(false);
 
+  private final Runtime runtime;
   private final StringBuilder buffer = new StringBuilder();
 
-  public REPLVerticle(Runtime runtime, AtomicBoolean active) {
+  public REPLVerticle(Runtime runtime) {
     this.runtime = runtime;
-    this.active = active;
   }
 
   private synchronized String updateBuffer(String line, boolean resetOrPrepend) {
@@ -56,8 +55,7 @@ public class REPLVerticle extends AbstractVerticle {
 
   @Override
   public void start() {
-
-    if (active.compareAndSet(false, true)) {
+    if (ACTIVE.compareAndSet(false, true)) {
       stdin = RecordParser.newDelimited(System.getProperty("line.separator"), line -> {
         // we really want the system charset to not mess up with user input
         final String statement = updateBuffer(line.toString(Charset.defaultCharset()), true);
@@ -81,9 +79,9 @@ public class REPLVerticle extends AbstractVerticle {
 
           if (t.isExit()) {
             // polyglot engine is requesting to exit
-            // REPL is cancelled, close the loader
+            // REPLVerticle is cancelled, close the loader
             cancel = true;
-            active.set(false);
+            ACTIVE.set(false);
             vertx.close(v -> {
               // force a error code out
               System.exit(1);
@@ -148,6 +146,12 @@ public class REPLVerticle extends AbstractVerticle {
           if (available > 0) {
             byte[] data = new byte[available];
             int bytes = System.in.read(data);
+            // end of stream
+            if (bytes == -1) {
+              cancel = true;
+              return;
+            }
+            // read incomplete
             if (bytes != available) {
               // not all data was read
               byte[] tmp = new byte[bytes];
@@ -167,7 +171,7 @@ public class REPLVerticle extends AbstractVerticle {
   @Override
   public void stop() {
     cancel = true;
-    active.set(false);
+    ACTIVE.set(false);
     System.out.println("\u001B[1mShell Terminated.\u001B[0m");
   }
 }

@@ -22,11 +22,7 @@ import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.spi.VerticleFactory;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class ESVerticleFactory implements VerticleFactory {
-
-  private final AtomicBoolean shell = new AtomicBoolean(false);
 
   private ECMAEngine engine;
 
@@ -63,7 +59,7 @@ public class ESVerticleFactory implements VerticleFactory {
     }
 
     if (">".equals(fsVerticleName)) {
-      return new REPLVerticle(runtime, shell);
+      return new REPLVerticle(runtime);
     }
 
     return new Verticle() {
@@ -139,7 +135,6 @@ public class ESVerticleFactory implements VerticleFactory {
           }
         }
 
-        // worker initialization is complete
         startFuture.complete();
       }
 

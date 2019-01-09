@@ -12,13 +12,20 @@ if ! [[ -x "$JAVA_EXE" ]]; then
   JAVA_EXE=java
 fi
 
-if ! [[ -d "node_modules/@lib" ]]; then
-  $basedir/es4x-pm install
+# if package.json exists but no node_modules/@lib -> run install
+if [[ -f "package.json" ]]; then
+  if ! [[ -d "node_modules/@lib" ]]; then
+    $basedir/es4x-pm install
+  fi
 fi
 
-if [[ -d "node_modules/@jvmci" ]]; then
-  JVMCI="--module-path=node_modules/@jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=node_modules/@jvmci/compiler.jar"
+# if no node_modules, use local jar as classpath
+if ! [[ -d "node_modules" ]]; then
+  exec "$JAVA_EXE" $JAVA_OPTS -jar $basedir/es4x-pm-bin.jar "$@"
+else
+  if [[ -d "node_modules/@jvmci" ]]; then
+    JVMCI="--module-path=node_modules/@jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=node_modules/@jvmci/compiler.jar"
+  fi
+
+  exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "node_modules/@lib/*" io.reactiverse.es4x.ES4X "$@"
 fi
-
-
-exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "node_modules/@lib/*" io.reactiverse.es4x.ES4X "$@"

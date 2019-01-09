@@ -7,4 +7,4 @@ IF NOT EXIST "%JAVA_EXE%" (
   SET "JAVA_EXE=java"
 )
 
-"%JAVA_EXE%" -jar "%~dp0\es4x-runtime.jar" %*
+"%JAVA_EXE%" -jar "%~dp0\es4x-pm-bin.jar" %*
