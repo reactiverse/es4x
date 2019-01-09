@@ -22,11 +22,7 @@ import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.spi.VerticleFactory;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class ESVerticleFactory implements VerticleFactory {
-
-  private final AtomicBoolean shell = new AtomicBoolean(false);
 
   private ECMAEngine engine;
 
@@ -38,6 +34,11 @@ public class ESVerticleFactory implements VerticleFactory {
   @Override
   public String prefix() {
     return "js";
+  }
+
+  @Override
+  public int order() {
+    return -1;
   }
 
   @Override
@@ -58,7 +59,7 @@ public class ESVerticleFactory implements VerticleFactory {
     }
 
     if (">".equals(fsVerticleName)) {
-      return new REPLVerticle(runtime, shell);
+      return new REPLVerticle(runtime);
     }
 
     return new Verticle() {
@@ -131,28 +132,15 @@ public class ESVerticleFactory implements VerticleFactory {
                 return;
               }
             }
-          } else {
-            // if the main module exports 2 function we bind those to the verticle lifecycle
-            if (runtime.hasMember(self, "start")) {
-              try {
-                runtime.enter();
-                runtime.invokeMethod(self, "start");
-              } catch (RuntimeException e) {
-                startFuture.fail(e);
-                return;
-              } finally {
-                runtime.leave();
-              }
-            }
           }
         }
 
-        // worker initialization is complete
         startFuture.complete();
       }
 
       @Override
       public void stop(Future<Void> stopFuture) {
+        // user should set process undeployHandler(() => {})
         if (self != null) {
           if (runtime.hasMember(self, "stop")) {
             try {

@@ -26,6 +26,8 @@ import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
 
 public class PackageJSON extends Generator<ModuleModel> {
 
+  private final String build = System.getenv("PRERELEASE");
+
   public PackageJSON() {
     kinds = new HashSet<>();
     kinds.add("module");
@@ -89,14 +91,16 @@ public class PackageJSON extends Generator<ModuleModel> {
       }
     }
 
+    String semver;
+
     if (dots == 2) {
-      return string;
+      semver = string;
+    } else if (dots > 2) {
+      semver = new String(version);
+    } else {
+      semver = base.substring(0, 2 * dots) + new String(version);
     }
 
-    if (dots > 2) {
-      return new String(version);
-    }
-
-    return base.substring(0, 2 * dots) + new String(version);
+    return build != null ? semver + "-" + build : semver;
   }
 }
