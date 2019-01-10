@@ -135,7 +135,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
           writer.printf("   *%s\n", property.getDoc().toString().replace("\n", "\n   * "));
           writer.print("   */\n");
         }
-        writer.printf("  %s(%s: %s): %s;\n", property.getSetterMethod(), entry.getKey(), genType(property.getType()), model.getType().getRaw().getSimpleName());
+        writer.printf("  %s(%s: %s): %s;\n", property.getSetterMethod(), cleanReserved(entry.getKey()), genType(property.getType()), model.getType().getRaw().getSimpleName());
       }
 
       if (property.isAdder()) {
@@ -147,7 +147,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
           writer.printf("   *%s\n", property.getDoc().toString().replace("\n", "\n   * "));
           writer.print("   */\n");
         }
-        writer.printf("  %s(%s: %s): %s;\n", property.getAdderMethod(), entry.getKey(), genType(property.getType()), model.getType().getRaw().getSimpleName());
+        writer.printf("  %s(%s: %s): %s;\n", property.getAdderMethod(), cleanReserved(entry.getKey()), genType(property.getType()), model.getType().getRaw().getSimpleName());
       }
 
       more = true;

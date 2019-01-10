@@ -30,14 +30,21 @@ public class ES4XGeneratorLoader implements GeneratorLoader {
 
     final List<Generator<?>> generators = new LinkedList<>();
 
+    // JS core
     generators.add(new IndexJS());
-    generators.add(new IndexDTS());
     generators.add(new OptionsJS());
-    generators.add(new OptionsDTS());
     generators.add(new EnumJS());
+    // d.ts
+    generators.add(new IndexDTS());
+    generators.add(new OptionsDTS());
     generators.add(new EnumDTS());
-    generators.add(new ReadmeMD());
+    // ES6 modules (for transpilers/optimizers)
+    generators.add(new ModuleMJS());
+    generators.add(new OptionsMJS());
+    generators.add(new EnumMJS());
+    // package
     generators.add(new PackageJSON());
+    generators.add(new ReadmeMD());
 
     return generators.stream();
 

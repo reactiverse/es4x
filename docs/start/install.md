@@ -1,5 +1,41 @@
 Assuming you’ve already installed [Node.js](https://nodejs.org/) and ([Java](https://adoptopenjdk.net/) or
-[GraalVM](http://www.graalvm.org/)), create a directory to hold your application, and make that your working directory.
+[GraalVM](http://www.graalvm.org/) \[Preferred\]), install the project management utilities development tool:
+
+```bash
+npm install -g es4x-pm
+# If you prefer not using NPM you can download the
+# package and add the bin directory to the PATH
+ES4X_VERSION=0.7.0 \
+  curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz \
+  | tar zx --strip-components=1 -C /usr/local
+```
+
+You should now have a `es4x` command available in your path, you can test it by running:
+
+```bash
+$ es4x --help
+
+Usage: java -jar /usr/local/bin/es4x-bin.jar [COMMAND] [OPTIONS]
+            [arg...]
+
+Commands:
+    bare         Creates a bare instance of vert.x.
+    dockerfile   Creates a generic Dockerfile for building and deploying the
+                 current project.
+    init         Initializes the 'package.json' to work with ES4X.
+    install      Installs required jars from maven to 'node_modules'.
+    list         List vert.x applications
+    run          Runs a JS script called <main-verticle> in its own instance of
+                 vert.x.
+    start        Start a vert.x application in background
+    stop         Stop a vert.x application
+    version      Displays the version.
+
+Run 'java -jar /usr/local/bin/es4x-bin.jar COMMAND --help' for
+more information on a command.
+```
+
+Create a directory to hold your application, and make that your working directory.
 
 ```bash
 mkdir myapp
@@ -26,7 +62,7 @@ accept the suggested default file name.
 Update the `package.json` to accomodate the ES4X scripts in the `myapp` directory. For example:
 
 ```bash
-npx es4x-cli init
+es4x init
 ```
 
 Now install `@vertx/core` and optionally `@vertx/web` and `@vertx/unit` dependencies by adding them to the

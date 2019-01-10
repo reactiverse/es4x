@@ -25,87 +25,6 @@
     <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
   </properties>
 
-  <profiles>
-    <profile>
-      <id>jvmci</id>
-      <activation>
-        <file>
-          <missing>${java.home}/lib/jvmci/graal.jar</missing>
-        </file>
-        <jdk>[1.11,)</jdk>
-      </activation>
-      <dependencies>
-        <!-- GraalVM runtime -->
-        <dependency>
-          <groupId>org.graalvm.truffle</groupId>
-          <artifactId>truffle-api</artifactId>
-          <version>[{{graalVersion}},)</version>
-          <scope>runtime</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.graalvm.js</groupId>
-          <artifactId>js</artifactId>
-          <version>[{{graalVersion}},)</version>
-          <scope>runtime</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.graalvm.tools</groupId>
-          <artifactId>profiler</artifactId>
-          <version>[{{graalVersion}},)</version>
-          <scope>runtime</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.graalvm.tools</groupId>
-          <artifactId>chromeinspector</artifactId>
-          <version>[{{graalVersion}},)</version>
-          <scope>runtime</scope>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>copy-graalvm-compiler</id>
-                <goals>
-                  <goal>copy</goal>
-                </goals>
-                <configuration>
-                  <artifactItems>
-                    <artifactItem>
-                      <groupId>org.graalvm.compiler</groupId>
-                      <artifactId>compiler</artifactId>
-                      <version>{{graalVersion}}</version>
-                      <type>jar</type>
-                      <destFileName>compiler.jar</destFileName>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.graalvm.truffle</groupId>
-                      <artifactId>truffle-api</artifactId>
-                      <version>{{graalVersion}}</version>
-                      <type>jar</type>
-                      <destFileName>truffle-api.jar</destFileName>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.graalvm.sdk</groupId>
-                      <artifactId>graal-sdk</artifactId>
-                      <version>{{graalVersion}}</version>
-                      <type>jar</type>
-                      <destFileName>graal-sdk.jar</destFileName>
-                    </artifactItem>
-                  </artifactItems>
-                  <outputDirectory>${project.build.directory}/dist/compiler</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
   <dependencies>
     {{#dependencies}}
     <dependency>
@@ -133,29 +52,7 @@
     </dependency>
   </dependencies>
   <build>
-    <defaultGoal>compile</defaultGoal>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <includeScope>compile</includeScope>
-              <includeScope>runtime</includeScope>
-              <outputDirectory>${project.build.directory}/dist/java-libs</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>false</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.1.0</version>
@@ -192,14 +89,14 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <mainClass>io.vertx.core.Launcher</mainClass>
-              <classpathPrefix>java-libs/</classpathPrefix>
+              <classpathPrefix>node-modules/java-libs/</classpathPrefix>
               <useUniqueVersions>false</useUniqueVersions>
             </manifest>
             <manifestEntries>
-              <Main-Verticle>js:./node_modules/empty-project</Main-Verticle>
+              <Main-Verticle>js:./node_modules/{{name}}</Main-Verticle>
             </manifestEntries>
           </archive>
-          <outputDirectory>${project.build.directory}/dist</outputDirectory>
+          <outputDirectory>${project.basedir}</outputDirectory>
         </configuration>
       </plugin>
     </plugins>

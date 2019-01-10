@@ -55,7 +55,7 @@ script:
   - mvn --settings settings.xml test -B
 
 after_success:
-- '[[ "${JDK}" = "GraalVM 1.0.0" ]] &&
+- '[[ "${JDK}" = "OpenJDK 11" ]] &&
    bash <(curl -s https://codecov.io/bash) || true'
 - '[[ "${TRAVIS_BRANCH}" = "develop" ]] &&
    [[ "${TRAVIS_PULL_REQUEST}" = "false" ]] &&

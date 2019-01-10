@@ -26,6 +26,8 @@ import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
 
 public class PackageJSON extends Generator<ModuleModel> {
 
+  private final String build = System.getenv("PRERELEASE");
+
   public PackageJSON() {
     kinds = new HashSet<>();
     kinds.add("module");
@@ -51,6 +53,7 @@ public class PackageJSON extends Generator<ModuleModel> {
     if (!Boolean.getBoolean("npm-meta-package")) {
       /* always overwritten */
       json.put("main", "index.js");
+      json.put("module", "module.mjs");
       json.put("types", "index.d.ts");
     }
 
@@ -64,14 +67,26 @@ public class PackageJSON extends Generator<ModuleModel> {
         kv.setValue(toSemVer((String) kv.getValue()));
       }
     }
+    if (json.containsKey("devDependencies")) {
+      if (json.getJsonObject("devDependencies") != null) {
+        for (Map.Entry<String, Object> kv : json.getJsonObject("devDependencies")) {
+          kv.setValue(toSemVer((String) kv.getValue()));
+        }
+      }
+    }
 
     return json.encodePrettily();
   }
 
   private String toSemVer(String string) {
+    String base = "0.0.0";
     char[] version = string.toCharArray();
     int dots = 0;
     for (int i = 0; i < version.length; i++) {
+      if (version[i] == '-') {
+        // start of prerelease
+        break;
+      }
       if (version[i] == '.') {
         dots++;
         if (dots > 2) {
@@ -80,10 +95,16 @@ public class PackageJSON extends Generator<ModuleModel> {
       }
     }
 
-    if (dots > 2) {
-      return new String(version);
+    String semver;
+
+    if (dots == 2) {
+      semver = string;
+    } else if (dots > 2) {
+      semver = new String(version);
+    } else {
+      semver = base.substring(0, 2 * dots) + new String(version);
     }
 
-    return string;
+    return build != null ? semver + "-" + build : semver;
   }
 }

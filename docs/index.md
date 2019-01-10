@@ -4,7 +4,7 @@
 npx es4x-cli init
 ```
 
-[![Travis branch](https://img.shields.io/travis/reactiverse/es4x/master.svg?style=for-the-badge)](https://travis-ci.org/reactiverse/es4x)
+[![Travis branch](https://img.shields.io/travis/reactiverse/es4x/master.svg?style=for-the-badge)](https://travis-ci.com/reactiverse/es4x)
 [![Maven Central](https://img.shields.io/maven-central/v/io.reactiverse/es4x.svg?style=for-the-badge)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.reactiverse%22%20AND%20a%3A%22es4x%22)
 [![Codecov branch](https://img.shields.io/codecov/c/github/reactiverse/es4x/develop.svg?style=for-the-badge)](https://codecov.io/gh/reactiverse/es4x)
 
@@ -38,13 +38,10 @@ on all known APIs.
 ## DevOps friendly
 
 ```bash
-$ npm run package -- -d
-
-Running: mvnw ... 
-Running: docker ... 
-Run your application with:
-
-  docker run --rm -it --net=host my-project:1.0.0
+$ es4x dockerfile
+$ docker build -t my-project:1.0.0 .
+$ # Run your application with:
+$ docker run --rm -it --net=host my-project:1.0.0
 ```
 
-Deploy your applications as a runnable jar or as a [Docker](https://www.docker.com/) container.
+Deploy your applications as a [Docker](https://www.docker.com/) container.

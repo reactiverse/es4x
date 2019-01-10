@@ -1,0 +1,44 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+
+  <id>bin</id>
+
+  <formats>
+    <format>tar.gz</format>
+    <format>zip</format>
+  </formats>
+
+  <fileSets>
+    <fileSet>
+      <includes>
+        <include>README*</include>
+        <include>LICENSE*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>src/assembly/bin</directory>
+      <outputDirectory>bin</outputDirectory>
+      <includes>
+        <include>es4x.cmd</include>
+      </includes>
+      <lineEnding>dos</lineEnding>
+    </fileSet>
+    <fileSet>
+      <directory>src/assembly/bin</directory>
+      <outputDirectory>bin</outputDirectory>
+      <includes>
+        <include>es4x</include>
+      </includes>
+      <lineEnding>unix</lineEnding>
+      <fileMode>0755</fileMode>
+    </fileSet>
+  </fileSets>
+
+  <files>
+    <file>
+      <source>${project.build.directory}/es4x-bin.jar</source>
+      <outputDirectory>bin</outputDirectory>
+    </file>
+  </files>
+</assembly>

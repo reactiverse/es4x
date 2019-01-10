@@ -6,17 +6,16 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.6.1</version>
+    <version>0.7.0</version>
     <relativePath>..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>es4x</artifactId>
-  <version>0.6.1</version>
+  <version>0.7.0</version>
 
   <properties>
-    <graal.version>1.0.0-rc9</graal.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -84,6 +83,42 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>graaljs</id>
+      <activation>
+        <file>
+          <missing>${java.home}/lib/jvmci/graal.jar</missing>
+        </file>
+        <jdk>[1.11,)</jdk>
+      </activation>
+      <dependencies>
+        <!-- GraalVM runtime -->
+        <dependency>
+          <groupId>org.graalvm.truffle</groupId>
+          <artifactId>truffle-api</artifactId>
+          <version>${graalvm.version}</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.graalvm.js</groupId>
+          <artifactId>js</artifactId>
+          <version>${graalvm.version}</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.graalvm.tools</groupId>
+          <artifactId>profiler</artifactId>
+          <version>${graalvm.version}</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.graalvm.tools</groupId>
+          <artifactId>chromeinspector</artifactId>
+          <version>${graalvm.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
   </profiles>
 
   <dependencies>
@@ -91,13 +126,12 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
       <version>${vertx.version}</version>
-      <!-- to allow other versions -->
-      <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.graalvm.sdk</groupId>
       <artifactId>graal-sdk</artifactId>
-      <version>${graal.version}</version>
+      <version>${graalvm.version}</version>
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
@@ -150,6 +184,18 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>io.reactiverse.es4x.ES4X</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
       </plugin>
     </plugins>
   </build>

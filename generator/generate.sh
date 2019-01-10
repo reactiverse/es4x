@@ -121,6 +121,7 @@ function vertx_io () {
 function reactiverse_io () {
   modules=(
     "io.reactiverse/reactive-pg-client"
+    "io.reactiverse/elasticsearch-client"
   )
 
   if [ ! "$1" = "local" ]; then

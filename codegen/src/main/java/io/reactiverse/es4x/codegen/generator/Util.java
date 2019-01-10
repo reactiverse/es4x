@@ -26,23 +26,82 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class Util {
 
-  private Util () {
+  private Util() {
     throw new RuntimeException("Static Class");
   }
 
   private final static JsonArray registry;
   private final static int year;
 
+  private final static Map<String, String> TYPES = new HashMap<>();
+
+  private final static Set<String> RESERVED = new HashSet<>();
+
   static {
     /* parse the registry from the system property */
     registry = new JsonArray(System.getProperty("scope-registry", "[]"));
     year = Calendar.getInstance().get(Calendar.YEAR);
+
+    // register known java <-> js types
+    TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
+    TYPES.put("java.lang.CharSequence", "string");
+    TYPES.put("java.lang.Iterable<java.lang.String>", "string[]");
+    TYPES.put("java.lang.Iterable<java.lang.CharSequence>", "string[]");
+
+    // reserved typescript keywords
+    RESERVED.addAll(Arrays.asList(
+      "break",
+      "case",
+      "catch",
+      "class",
+      "const",
+      "continue",
+      "debugger",
+      "default",
+      "delete",
+      "do",
+      "else",
+      "enum",
+      "export",
+      "extends",
+      "false",
+      "finally",
+      "for",
+      "function",
+      "if",
+      "import",
+      "in",
+      "instanceof",
+      "new",
+      "null",
+      "return",
+      "super",
+      "switch",
+      "this",
+      "throw",
+      "true",
+      "try",
+      "typeof",
+      "var",
+      "void",
+      "while",
+      "with",
+      // strict mode reserved words
+      "as",
+      "implements",
+      "interface",
+      "let",
+      "package",
+      "private",
+      "protected",
+      "public",
+      "static",
+      "yield"
+    ));
   }
 
   public static String genType(TypeInfo type) {
@@ -126,9 +185,9 @@ public final class Util {
         return type.getErased().getSimpleName();
       case HANDLER:
         if (type.isParameterized()) {
-          return "(res: " + genType(((ParameterizedTypeInfo) type).getArg(0)) + ") => void | Handler<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
+          return "((res: " + genType(((ParameterizedTypeInfo) type).getArg(0)) + ") => void) | Handler<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
         } else {
-          return "(res: any) => void | Handler<any>";
+          return "((res: any) => void) | Handler<any>";
         }
       case FUNCTION:
         if (type.isParameterized()) {
@@ -145,11 +204,16 @@ public final class Util {
       case CLASS_TYPE:
         return "any /* TODO: class */";
       case OTHER:
-        return "any /* TODO: other */";
+        if (TYPES.containsKey(type.getName())) {
+          return TYPES.get(type.getName());
+        } else {
+          System.out.println("@@@ " + type.getName());
+          return "any /* " + type.getName() + " */";
+        }
+      default:
+        System.out.println("!!! " + type + " - " + type.getKind());
+        return "";
     }
-
-    System.out.println("!!! " + type + " - " + type.getKind());
-    return "";
   }
 
   public static String genGeneric(List<? extends TypeParamInfo> params) {
@@ -265,5 +329,12 @@ public final class Util {
     writer.println(" * under the License.");
     writer.println(" */");
     writer.println();
+  }
+
+  public static String cleanReserved(String value) {
+    if (RESERVED.contains(value)) {
+      return "__" + value;
+    }
+    return value;
   }
 }
