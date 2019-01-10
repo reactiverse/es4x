@@ -1,7 +1,8 @@
 # Fast, unopinionated,<br/> minimalist JavaScript runtime for [Vert.x](https://vertx.io)
 
 ```
-npx es4x-cli init
+$ npm install -g es4x-pm
+$ es4x
 ```
 
 [![Travis branch](https://img.shields.io/travis/reactiverse/es4x/master.svg?style=for-the-badge)](https://travis-ci.com/reactiverse/es4x)

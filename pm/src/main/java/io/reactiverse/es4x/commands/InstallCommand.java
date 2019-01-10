@@ -283,7 +283,16 @@ public class InstallCommand extends DefaultCommand {
       "#!/bin/sh\n" +
       "(set -o igncr) 2>/dev/null && set -o igncr; # cygwin encoding fix\n" +
       "\n" +
-      "basedir=`dirname \"$0\"`\n" +
+      "# fight simlinks and avoid readlink -f which doesn't exist on Darwin and Solaris\n" +
+      "pushd . > /dev/null\n" +
+      "basedir=\"${BASH_SOURCE[0]}\";\n" +
+      "while([ -h \"${basedir}\" ]); do\n" +
+      "    cd \"`dirname \"${basedir}\"`\"\n" +
+      "    basedir=\"$(readlink \"`basename \"${basedir}\"`\")\";\n" +
+      "done\n" +
+      "cd \"`dirname \"${basedir}\"`\" > /dev/null\n" +
+      "basedir=\"`pwd`\";\n" +
+      "popd  > /dev/null\n" +
       "\n" +
       "case `uname` in\n" +
       "    *CYGWIN*) basedir=`cygpath -w \"$basedir\"`;;\n" +

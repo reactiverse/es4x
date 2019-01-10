@@ -55,7 +55,7 @@ public class DockerfileCommand extends DefaultCommand {
         if (in == null) {
           throw new IllegalStateException("Cannot load .dockerignore template.");
         }
-        Files.copy(in, dockerfile.toPath());
+        Files.copy(in, dockerignore.toPath());
       } catch (IOException e) {
         throw new CLIException(e.getMessage(), e);
       }
