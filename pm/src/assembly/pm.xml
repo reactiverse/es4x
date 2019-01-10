@@ -21,7 +21,6 @@
       <outputDirectory>bin</outputDirectory>
       <includes>
         <include>es4x.cmd</include>
-        <include>es4x-pm.cmd</include>
       </includes>
       <lineEnding>dos</lineEnding>
     </fileSet>
@@ -30,17 +29,16 @@
       <outputDirectory>bin</outputDirectory>
       <includes>
         <include>es4x</include>
-        <include>es4x-pm</include>
       </includes>
       <lineEnding>unix</lineEnding>
       <fileMode>0755</fileMode>
     </fileSet>
-    <fileSet>
-      <directory>target</directory>
-      <outputDirectory>bin</outputDirectory>
-      <includes>
-        <include>${project.artifactId}-bin.jar</include>
-      </includes>
-    </fileSet>
   </fileSets>
+
+  <files>
+    <file>
+      <source>${project.build.directory}/es4x-bin.jar</source>
+      <outputDirectory>bin</outputDirectory>
+    </file>
+  </files>
 </assembly>

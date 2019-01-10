@@ -20,13 +20,10 @@ COPY --from=NPM /usr/src/app /usr/src/app
 # use the copied workspace
 WORKDIR /usr/src/app
 # Fetch the java dependencies
-RUN es4x-pm install -f
+RUN es4x install -f -l app
 # Third stage (contain)
 FROM $BASEIMAGE
-# Copy the previous build step
-COPY --from=JVM /usr/local/bin/es4x /usr/local/bin/es4x
-# Should not be needed, but in case a script call happens always assume success
-RUN ln -s /usr/local/bin/es4x-pm /usr/bin/true
+# Collect the jars from the previous step
 COPY --from=JVM /usr/src/app /usr/src/app
 # use the copied workspace
 WORKDIR /usr/src/app
@@ -35,5 +32,4 @@ COPY . .
 # Define custom java options for containers
 ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:+UseContainerSupport"
 # define the entrypoint
-ENTRYPOINT [ "es4x" ]
-CMD [ "run", "./" ]
+ENTRYPOINT [ "./node_modules/.bin/app" ]

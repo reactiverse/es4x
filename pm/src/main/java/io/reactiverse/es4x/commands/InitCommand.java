@@ -1,3 +1,18 @@
+/*
+ * Copyright 2019 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.commands;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -44,14 +59,17 @@ public class InitCommand extends DefaultCommand {
       if (main == null) {
         main = "index.js";
       }
+
       String test = main;
       if (test.endsWith(".js")) {
         test = test.substring(0, test.length() - 3) + ".test.js";
       }
 
-      scripts.put("postinstall", "es4x-pm install");
-      scripts.put("start", "es4x run js:" + main);
-      scripts.put("test", "es4x test js:" + test);
+      String name = (String) npm.get("name");
+
+      scripts.put("postinstall", "es4x install -f");
+      scripts.put("start", name);
+      scripts.put("test", name + " test js:" + test);
 
       MAPPER.writeValue(file, npm);
 
