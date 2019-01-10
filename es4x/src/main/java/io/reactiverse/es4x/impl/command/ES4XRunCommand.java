@@ -28,7 +28,8 @@ public class ES4XRunCommand extends RunCommand {
    * @param verticle the verticle
    */
   @Override
-  @Argument(index = 0, argName = "main-verticle")
+  @Argument(index = 0, argName = "main-verticle", required = false)
+  @DefaultValue("js:>")
   @Description("The main verticle to deploy, it can be a script file or a package directory.")
   public void setMainVerticle(String verticle) {
     if (!verticle.contains(":")) {
