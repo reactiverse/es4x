@@ -83,6 +83,10 @@ public class PackageJSON extends Generator<ModuleModel> {
     char[] version = string.toCharArray();
     int dots = 0;
     for (int i = 0; i < version.length; i++) {
+      if (version[i] == '-') {
+        // start of prerelease
+        break;
+      }
       if (version[i] == '.') {
         dots++;
         if (dots > 2) {
