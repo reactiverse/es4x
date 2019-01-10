@@ -16,8 +16,7 @@ echo "
   \"author\": \"Paulo Lopes <pmlopes@gmail.com>\",
   \"license\": \"MIT\",
   \"bin\": {
-    \"es4x\": \"./bin/es4x\",
-    \"es4x-pm\": \"./bin/es4x-pm\"
+    \"es4x\": \"./bin/es4x\"
   }
 }
 " > package/package.json
