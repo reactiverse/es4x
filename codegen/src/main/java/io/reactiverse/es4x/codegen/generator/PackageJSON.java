@@ -69,9 +69,18 @@ public class PackageJSON extends Generator<ModuleModel> {
     }
     if (json.containsKey("devDependencies")) {
       if (json.getJsonObject("devDependencies") != null) {
-        for (Map.Entry<String, Object> kv : json.getJsonObject("devDependencies")) {
-          kv.setValue(toSemVer((String) kv.getValue()));
+        JsonObject deps = json.getJsonObject("devDependencies");
+        if (deps.size() == 0) {
+          // cleanup
+          json.remove("devDependencies");
+        } else {
+          for (Map.Entry<String, Object> kv : deps) {
+            kv.setValue(toSemVer((String) kv.getValue()));
+          }
         }
+      } else {
+        // cleanup
+        json.remove("devDependencies");
       }
     }
 
