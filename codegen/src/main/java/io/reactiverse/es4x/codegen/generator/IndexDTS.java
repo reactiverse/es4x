@@ -139,7 +139,7 @@ public class IndexDTS extends Generator<ClassModel> {
     boolean moreConstants = false;
     // this looks awkward (and it is) but TS does not allow static constants in interfaces
     // so they get listed on the abstract classes.
-    if (!model.isConcrete()) {
+    if (model.isConcrete()) {
       for (ConstantInfo constant : model.getConstants()) {
         if (moreConstants) {
           writer.print("\n");
@@ -206,6 +206,36 @@ public class IndexDTS extends Generator<ClassModel> {
       moreMethods = true;
     }
     writer.print("}\n");
+
+
+    if (!model.isConcrete()) {
+      // if the model is not concrete (interface) we need to merge types to allow declaring the constants
+      // from the java interface
+
+      if (!model.getConstants().isEmpty()) {
+        writer.print("\n");
+
+        writer.printf("export abstract class %s%s implements %s%s {\n", type.getSimpleName(), genGeneric(type.getParams()), type.getSimpleName(), genGeneric(type.getParams()));
+
+        moreConstants = false;
+
+        for (ConstantInfo constant : model.getConstants()) {
+          if (moreConstants) {
+            writer.print("\n");
+          }
+
+          if (constant.getDoc() != null) {
+            writer.print("  /**\n");
+            writer.printf("   *%s\n", constant.getDoc().toString().replace("\n", "\n   * "));
+            writer.print("   */\n");
+          }
+          writer.printf("  static readonly %s : %s;\n", constant.getName(), genType(constant.getType()));
+          moreConstants = true;
+        }
+
+        writer.print("}\n");
+      }
+    }
 
     return sw.toString();
   }
