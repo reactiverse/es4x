@@ -1,9 +1,6 @@
 # Fast, unopinionated,<br/> minimalist JavaScript runtime for [Vert.x](https://vertx.io)
 
-```
-$ npm install -g es4x-pm
-$ es4x
-```
+<asciinema-player src="cast/install.cast" rows="24" cols="120"></asciinema-player>
 
 [![Travis branch](https://img.shields.io/travis/reactiverse/es4x/master.svg?style=for-the-badge)](https://travis-ci.com/reactiverse/es4x)
 [![Maven Central](https://img.shields.io/maven-central/v/io.reactiverse/es4x.svg?style=for-the-badge)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.reactiverse%22%20AND%20a%3A%22es4x%22)
@@ -38,11 +35,6 @@ on all known APIs.
 
 ## DevOps friendly
 
-```bash
-$ es4x dockerfile
-$ docker build -t my-project:1.0.0 .
-$ # Run your application with:
-$ docker run --rm -it --net=host my-project:1.0.0
-```
+<asciinema-player src="cast/hello-world.cast" rows="24" cols="120"></asciinema-player>
 
 Deploy your applications as a [Docker](https://www.docker.com/) container.
