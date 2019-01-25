@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.7.1] - 2019-01-10
+- Fixed pm to work with symbolic links
+
+## [0.7.0] - 2019-01-10
+- new PM sub project to replace `es4x-cli`
+
 ## [0.6.1] - 2018-12-17
 - upgrade vertx to 3.6.2
 - Fixed issue loading JMVCI when missing compiler jar
