@@ -137,6 +137,8 @@ public class IndexDTS extends Generator<ClassModel> {
     writer.print(" {\n");
 
     boolean moreConstants = false;
+    boolean hasConstantInInterface = !model.isConcrete() && model.getConstants().size() > 0;
+
     // this looks awkward (and it is) but TS does not allow static constants in interfaces
     // so they get listed on the abstract classes.
     if (model.isConcrete()) {
@@ -156,7 +158,14 @@ public class IndexDTS extends Generator<ClassModel> {
     }
 
     boolean moreMethods = false;
+    boolean hasStaticMethodsInInterface = false;
+
     for (MethodInfo method : model.getMethods()) {
+      if (!model.isConcrete() && method.isStaticMethod()) {
+        hasStaticMethodsInInterface = true;
+        continue;
+      }
+
       if (moreMethods || moreConstants) {
         writer.print("\n");
       }
@@ -208,33 +217,58 @@ public class IndexDTS extends Generator<ClassModel> {
     writer.print("}\n");
 
 
-    if (!model.isConcrete()) {
-      // if the model is not concrete (interface) we need to merge types to allow declaring the constants
-      // from the java interface
+    // if the model is not concrete (interface) we need to merge types to allow declaring the constants
+    // from the java interface
 
-      if (!model.getConstants().isEmpty()) {
-        writer.print("\n");
+    if (hasConstantInInterface || hasStaticMethodsInInterface) {
+      writer.print("\n");
+      writer.printf("export abstract class %s%s implements %s%s {\n", type.getSimpleName(), genGeneric(type.getParams()), type.getSimpleName(), genGeneric(type.getParams()));
 
-        writer.printf("export abstract class %s%s implements %s%s {\n", type.getSimpleName(), genGeneric(type.getParams()), type.getSimpleName(), genGeneric(type.getParams()));
-
-        moreConstants = false;
-
-        for (ConstantInfo constant : model.getConstants()) {
-          if (moreConstants) {
-            writer.print("\n");
-          }
-
-          if (constant.getDoc() != null) {
-            writer.print("  /**\n");
-            writer.printf("   *%s\n", constant.getDoc().toString().replace("\n", "\n   * "));
-            writer.print("   */\n");
-          }
-          writer.printf("  static readonly %s : %s;\n", constant.getName(), genType(constant.getType()));
-          moreConstants = true;
+      moreConstants = false;
+      for (ConstantInfo constant : model.getConstants()) {
+        if (moreConstants) {
+          writer.print("\n");
         }
 
-        writer.print("}\n");
+        if (constant.getDoc() != null) {
+          writer.print("  /**\n");
+          writer.printf("   *%s\n", constant.getDoc().toString().replace("\n", "\n   * "));
+          writer.print("   */\n");
+        }
+        writer.printf("  static readonly %s : %s;\n", constant.getName(), genType(constant.getType()));
+        moreConstants = true;
       }
+
+      moreMethods = false;
+      for (MethodInfo method : model.getMethods()) {
+        if (!method.isStaticMethod()) {
+          continue;
+        }
+
+        if (moreMethods || moreConstants) {
+          writer.print("\n");
+        }
+
+        if (method.getDoc() != null) {
+          writer.print("  /**\n");
+          writer.printf("   *%s\n", method.getDoc().toString().replace("\n", "\n   * "));
+          writer.print("   */\n");
+        }
+        writer.printf("  static %s%s(", method.getName(), genGeneric(method.getTypeParams()));
+        boolean more = false;
+        for (ParamInfo param : method.getParams()) {
+          if (more) {
+            writer.print(", ");
+          }
+          writer.printf("%s: %s%s", cleanReserved(param.getName()), genType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
+          more = true;
+        }
+
+        writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
+        moreMethods = true;
+      }
+
+      writer.print("}\n");
     }
 
     return sw.toString();
