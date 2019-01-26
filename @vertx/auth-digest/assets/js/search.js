@@ -1,3 +1,0 @@
-var typedoc = typedoc || {};
-            typedoc.search = typedoc.search || {};
-            typedoc.search.data = {"kinds":{"128":"Class","2048":"Method"},"rows":[{"id":0,"kind":128,"name":"HtdigestAuth","url":"classes/htdigestauth.html","classes":"tsd-kind-class"},{"id":1,"kind":2048,"name":"create","url":"classes/htdigestauth.html#create","classes":"tsd-kind-method tsd-parent-kind-class tsd-is-static","parent":"HtdigestAuth"},{"id":2,"kind":2048,"name":"realm","url":"classes/htdigestauth.html#realm","classes":"tsd-kind-method tsd-parent-kind-class","parent":"HtdigestAuth"}]};

@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.1.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
     
     
       
@@ -46,7 +46,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.11e41852.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
       
         <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
       
@@ -57,7 +57,7 @@
       
     
     
-      <script src="../../assets/javascripts/modernizr.20ef595d.js"></script>
+      <script src="../../assets/javascripts/modernizr.8c900955.js"></script>
     
     
       
@@ -68,6 +68,8 @@
     
     <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
     
+    
+      <link rel="stylesheet" href="../../mkdocs-extra/asciinema-player.css">
     
     
   </head>
@@ -665,7 +667,39 @@
                   <h1>Installing</h1>
                 
                 <p>Assuming you’ve already installed <a href="https://nodejs.org/">Node.js</a> and (<a href="https://adoptopenjdk.net/">Java</a> or
-<a href="http://www.graalvm.org/">GraalVM</a>), create a directory to hold your application, and make that your working directory.</p>
+<a href="http://www.graalvm.org/">GraalVM</a> [Preferred]), install the project management utilities development tool:</p>
+<div class="codehilite"><pre><span></span>npm install -g es4x-pm
+<span class="c1"># If you prefer not using NPM you can download the</span>
+<span class="c1"># package and add the bin directory to the PATH</span>
+<span class="nv">ES4X_VERSION</span><span class="o">=</span><span class="m">0</span>.7.0 <span class="se">\</span>
+  curl -sL https://github.com/reactiverse/es4x/releases/download/<span class="si">${</span><span class="nv">ES4X_VERSION</span><span class="si">}</span>/es4x-pm-<span class="si">${</span><span class="nv">ES4X_VERSION</span><span class="si">}</span>-bin.tar.gz <span class="se">\</span>
+  <span class="p">|</span> tar zx --strip-components<span class="o">=</span><span class="m">1</span> -C /usr/local
+</pre></div>
+
+<p>You should now have a <code>es4x</code> command available in your path, you can test it by running:</p>
+<div class="codehilite"><pre><span></span>$ es4x --help
+
+Usage: java -jar /usr/local/bin/es4x-bin.jar <span class="o">[</span>COMMAND<span class="o">]</span> <span class="o">[</span>OPTIONS<span class="o">]</span>
+            <span class="o">[</span>arg...<span class="o">]</span>
+
+Commands:
+    bare         Creates a bare instance of vert.x.
+    dockerfile   Creates a generic Dockerfile <span class="k">for</span> building and deploying the
+                 current project.
+    init         Initializes the <span class="s1">&#39;package.json&#39;</span> to work with ES4X.
+    install      Installs required jars from maven to <span class="s1">&#39;node_modules&#39;</span>.
+    list         List vert.x applications
+    run          Runs a JS script called &lt;main-verticle&gt; in its own instance of
+                 vert.x.
+    start        Start a vert.x application in background
+    stop         Stop a vert.x application
+    version      Displays the version.
+
+Run <span class="s1">&#39;java -jar /usr/local/bin/es4x-bin.jar COMMAND --help&#39;</span> <span class="k">for</span>
+more information on a command.
+</pre></div>
+
+<p>Create a directory to hold your application, and make that your working directory.</p>
 <div class="codehilite"><pre><span></span>mkdir myapp
 <span class="nb">cd</span> myapp
 </pre></div>
@@ -683,7 +717,7 @@ simply hit RETURN to accept the defaults for most of them, with the following ex
 <p>Enter <code>app.js</code>, or whatever you want the name of the main file to be. If you want it to be <code>index.js</code>, hit RETURN to
 accept the suggested default file name.</p>
 <p>Update the <code>package.json</code> to accomodate the ES4X scripts in the <code>myapp</code> directory. For example:</p>
-<div class="codehilite"><pre><span></span>npx es4x-cli init
+<div class="codehilite"><pre><span></span>es4x init
 </pre></div>
 
 <p>Now install <code>@vertx/core</code> and optionally <code>@vertx/web</code> and <code>@vertx/unit</code> dependencies by adding them to the
@@ -784,14 +818,17 @@ npm install
       
     </div>
     
-      <script src="../../assets/javascripts/application.9e1f3b71.js"></script>
+      <script src="../../assets/javascripts/application.b41f3d20.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
+        <script src="../../mkdocs-extra/asciinema-player.js"></script>
+      
     
     
       
-        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(a){a.host!=document.location.host&&a.addEventListener("click",function(){var e=a.getAttribute("data-md-action")||"follow";ga("send","event","outbound",e,a.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+        <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(a){a.host!=document.location.host&&a.addEventListener("click",function(){var e=a.getAttribute("data-md-action")||"follow";ga("send","event","outbound",e,a.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
       
     
   </body>
