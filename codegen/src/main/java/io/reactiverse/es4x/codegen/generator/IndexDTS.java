@@ -16,6 +16,7 @@
 package io.reactiverse.es4x.codegen.generator;
 
 import io.vertx.codegen.*;
+import io.vertx.codegen.doc.Doc;
 import io.vertx.codegen.type.ApiTypeInfo;
 import io.vertx.codegen.type.ClassTypeInfo;
 import io.vertx.codegen.type.EnumTypeInfo;
@@ -128,9 +129,13 @@ public class IndexDTS extends Generator<ClassModel> {
     } else {
       if (model.getHandlerType() != null) {
         writer.printf(" extends Handler<%s>", genType(model.getHandlerType()));
-      }
-      if (!superTypes.isEmpty()) {
-        writer.printf(" extends %s", String.join(", ", superTypes));
+        if (!superTypes.isEmpty()) {
+          writer.printf(", %s", String.join(", ", superTypes));
+        }
+      } else {
+        if (!superTypes.isEmpty()) {
+          writer.printf(" extends %s", String.join(", ", superTypes));
+        }
       }
     }
 
@@ -147,11 +152,8 @@ public class IndexDTS extends Generator<ClassModel> {
           writer.print("\n");
         }
 
-        if (constant.getDoc() != null) {
-          writer.print("  /**\n");
-          writer.printf("   *%s\n", constant.getDoc().toString().replace("\n", "\n   * "));
-          writer.print("   */\n");
-        }
+        generateDoc(writer, constant.getDoc());
+
         writer.printf("  static readonly %s : %s;\n", constant.getName(), genType(constant.getType()));
         moreConstants = true;
       }
@@ -170,22 +172,7 @@ public class IndexDTS extends Generator<ClassModel> {
         writer.print("\n");
       }
 
-      if (method.getDoc() != null) {
-        writer.print("  /**\n");
-        writer.printf("   *%s\n", method.getDoc().toString().replace("\n", "\n   * "));
-        writer.print("   */\n");
-      }
-      writer.printf("  %s%s%s(", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()));
-      boolean more = false;
-      for (ParamInfo param : method.getParams()) {
-        if (more) {
-          writer.print(", ");
-        }
-        writer.printf("%s: %s%s", cleanReserved(param.getName()), genType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
-        more = true;
-      }
-
-      writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
+      generateMethod(writer, type, method);
       moreMethods = true;
     }
 
@@ -196,22 +183,7 @@ public class IndexDTS extends Generator<ClassModel> {
         writer.print("\n");
       }
 
-      if (method.getDoc() != null) {
-        writer.print("  /**\n");
-        writer.printf("   *%s\n", method.getDoc().toString().replace("\n", "\n   * "));
-        writer.print("   */\n");
-      }
-      writer.printf("  %s%s%s(", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()));
-      boolean more = false;
-      for (ParamInfo param : method.getParams()) {
-        if (more) {
-          writer.print(", ");
-        }
-        writer.printf("%s: %s%s", cleanReserved(param.getName()), genType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
-        more = true;
-      }
-
-      writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
+      generateMethod(writer, type, method);
       moreMethods = true;
     }
     writer.print("}\n");
@@ -230,11 +202,8 @@ public class IndexDTS extends Generator<ClassModel> {
           writer.print("\n");
         }
 
-        if (constant.getDoc() != null) {
-          writer.print("  /**\n");
-          writer.printf("   *%s\n", constant.getDoc().toString().replace("\n", "\n   * "));
-          writer.print("   */\n");
-        }
+        generateDoc(writer, constant.getDoc());
+
         writer.printf("  static readonly %s : %s;\n", constant.getName(), genType(constant.getType()));
         moreConstants = true;
       }
@@ -249,22 +218,7 @@ public class IndexDTS extends Generator<ClassModel> {
           writer.print("\n");
         }
 
-        if (method.getDoc() != null) {
-          writer.print("  /**\n");
-          writer.printf("   *%s\n", method.getDoc().toString().replace("\n", "\n   * "));
-          writer.print("   */\n");
-        }
-        writer.printf("  static %s%s(", method.getName(), genGeneric(method.getTypeParams()));
-        boolean more = false;
-        for (ParamInfo param : method.getParams()) {
-          if (more) {
-            writer.print(", ");
-          }
-          writer.printf("%s: %s%s", cleanReserved(param.getName()), genType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
-          more = true;
-        }
-
-        writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
+        generateMethod(writer, type, method);
         moreMethods = true;
       }
 
@@ -272,5 +226,39 @@ public class IndexDTS extends Generator<ClassModel> {
     }
 
     return sw.toString();
+  }
+
+
+  private void generateDoc(PrintWriter writer, Doc doc) {
+    if (doc != null) {
+      writer.print("  /**\n");
+      writer.printf("   *%s\n", doc.toString().replace("\n", "\n   * "));
+      writer.print("   */\n");
+    }
+  }
+
+  private void generateMethod(PrintWriter writer, ClassTypeInfo type, MethodInfo method) {
+
+    generateDoc(writer, method.getDoc());
+
+    if (getOverrideArgs(type.getSimpleName(), method.getName()) != null) {
+      writer.printf("  %s%s%s(%s", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()), getOverrideArgs(type.getSimpleName(), method.getName()));
+    } else {
+      writer.printf("  %s%s%s(", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()));
+      boolean more = false;
+      for (ParamInfo param : method.getParams()) {
+        if (more) {
+          writer.print(", ");
+        }
+        writer.printf("%s: %s%s", cleanReserved(param.getName()), genType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
+        more = true;
+      }
+    }
+
+    if (getOverrideReturn(type.getSimpleName(), method.getName()) != null) {
+      writer.printf(") : %s%s;\n", getOverrideReturn(type.getSimpleName(), method.getName()), method.getReturnType().isNullable() ? " | null" : "");
+    } else {
+      writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
+    }
   }
 }

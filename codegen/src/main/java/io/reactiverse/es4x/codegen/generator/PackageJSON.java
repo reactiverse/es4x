@@ -44,7 +44,7 @@ public class PackageJSON extends Generator<ModuleModel> {
   public String render(ModuleModel model, int index, int size, Map<String, Object> session) {
 
     /* attempt to merge from the environment config */
-    JsonObject json = new JsonObject(System.getProperty("package-json", "{}"));
+    JsonObject json = new JsonObject(System.getProperty("package-json", "{\"version\": \"0.0.0\", \"private\": true, \"name\": \"noname\"}"));
 
     if (json.getString("name") == null || json.getString("name").equals("")) {
       json.put("name", getNPMScope(model.getModule()));
