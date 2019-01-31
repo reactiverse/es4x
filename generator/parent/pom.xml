@@ -15,9 +15,9 @@
 
   <properties>
     <!-- ES4X version -->
-    <es4x.version>0.7.0</es4x.version>
+    <es4x.version>0.7.2</es4x.version>
     <!-- This version matches the stack version to be used -->
-    <stack.version>3.6.2</stack.version>
+    <stack.version>3.6.3</stack.version>
     <!-- This is the source group id -->
     <maven.groupId>io.vertx</maven.groupId>
 
@@ -58,7 +58,7 @@
       }
     </npm-dependencies>
     <!-- language=json -->
-    <npm-dev-dependencies>null</npm-dev-dependencies>
+    <npm-dev-dependencies>{}</npm-dev-dependencies>
     <!-- language=json -->
     <package-json>
       {
@@ -85,7 +85,7 @@
       <artifactId>vertx-codegen</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
-       <version>${stack.version}</version>
+      <version>${stack.version}</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
@@ -115,7 +115,7 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <id>unpack-vertx-core</id>
+            <id>unpack-sources</id>
             <phase>generate-sources</phase>
             <goals>
               <goal>unpack-dependencies</goal>

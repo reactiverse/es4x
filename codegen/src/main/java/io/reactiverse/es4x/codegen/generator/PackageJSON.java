@@ -44,7 +44,7 @@ public class PackageJSON extends Generator<ModuleModel> {
   public String render(ModuleModel model, int index, int size, Map<String, Object> session) {
 
     /* attempt to merge from the environment config */
-    JsonObject json = new JsonObject(System.getProperty("package-json", "{}"));
+    JsonObject json = new JsonObject(System.getProperty("package-json", "{\"version\": \"0.0.0\", \"private\": true, \"name\": \"noname\"}"));
 
     if (json.getString("name") == null || json.getString("name").equals("")) {
       json.put("name", getNPMScope(model.getModule()));
@@ -69,9 +69,18 @@ public class PackageJSON extends Generator<ModuleModel> {
     }
     if (json.containsKey("devDependencies")) {
       if (json.getJsonObject("devDependencies") != null) {
-        for (Map.Entry<String, Object> kv : json.getJsonObject("devDependencies")) {
-          kv.setValue(toSemVer((String) kv.getValue()));
+        JsonObject deps = json.getJsonObject("devDependencies");
+        if (deps.size() == 0) {
+          // cleanup
+          json.remove("devDependencies");
+        } else {
+          for (Map.Entry<String, Object> kv : deps) {
+            kv.setValue(toSemVer((String) kv.getValue()));
+          }
         }
+      } else {
+        // cleanup
+        json.remove("devDependencies");
       }
     }
 

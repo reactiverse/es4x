@@ -6,14 +6,14 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.7.1</version>
+    <version>0.7.2</version>
     <relativePath>..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>es4x</artifactId>
-  <version>0.7.1</version>
+  <version>0.7.2</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -86,9 +86,6 @@
     <profile>
       <id>graaljs</id>
       <activation>
-        <file>
-          <missing>${java.home}/lib/jvmci/graal.jar</missing>
-        </file>
         <jdk>[1.11,)</jdk>
       </activation>
       <dependencies>
@@ -169,7 +166,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.2</version>
+        <version>0.8.3</version>
         <executions>
           <execution>
             <goals>

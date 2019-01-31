@@ -41,6 +41,8 @@ public final class Util {
 
   private final static Set<String> RESERVED = new HashSet<>();
 
+  private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
+
   static {
     /* parse the registry from the system property */
     registry = new JsonArray(System.getProperty("scope-registry", "[]"));
@@ -336,5 +338,54 @@ public final class Util {
       return "__" + value;
     }
     return value;
+  }
+
+  private static JsonObject getOverride(String type) {
+    JsonObject overrides = OVERRIDES.get(type);
+
+    if (overrides == null) {
+      String raw = includeFileIfPresent(type + ".override.json");
+      if (raw.equals("")) {
+        overrides = new JsonObject();
+      } else {
+        overrides = new JsonObject(raw);
+      }
+      OVERRIDES.put(type, overrides);
+    }
+
+    return overrides;
+  }
+
+
+  public static String getOverrideArgs(String type, String method) {
+    JsonObject overrides = getOverride(type);
+
+    Object result = overrides.getValue(method);
+
+    if (result == null) {
+       return null;
+    }
+
+    if (result instanceof String) {
+      return (String) result;
+    }
+
+    return ((JsonObject) result).getString("args");
+  }
+
+  public static String getOverrideReturn(String type, String method) {
+    JsonObject overrides = getOverride(type);
+
+    Object result = overrides.getValue(method);
+
+    if (result == null) {
+      return null;
+    }
+
+    if (result instanceof JsonObject) {
+      return ((JsonObject) result).getString("return");
+    }
+
+    return null;
   }
 }

@@ -43,14 +43,14 @@ public class ES4XRunCommand extends RunCommand {
   @Description("Specifies the node inspector port to listen on (GraalJS required).")
   public void setInspect(int inspect) {
     System.setProperty("polyglot.inspect", Integer.toString(inspect));
-    System.setProperty("vertx.options.blockedThreadCheckInterval", "100000");
+    System.setProperty("vertx.options.blockedThreadCheckInterval", "1000000");
   }
 
-  @Option(longName = "inspect-brk", argName = "inspector-port")
+  @Option(longName = "inspect-brk", argName = "inspector-brk-port")
   @Description("Breaks on start the node inspector listening on given port (GraalJS required).")
   public void setInspectBrk(int inspect) {
     System.setProperty("polyglot.inspect", Integer.toString(inspect));
     System.setProperty("polyglot.inspect.Suspend", "true");
-    System.setProperty("vertx.options.blockedThreadCheckInterval", "100000");
+    System.setProperty("vertx.options.blockedThreadCheckInterval", "1000000");
   }
 }
