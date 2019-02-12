@@ -8,8 +8,9 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 # If you are not building your code for production
-# remove the argument
-RUN npm install --only=production
+# remove the final argument
+# npm is run with unsafe permissions because the default docker user is root
+RUN npm --unsafe-perm install --only=production
 # Second stage (build the JVM related code)
 FROM $BASEIMAGE AS JVM
 ARG ES4X_VERSION=${project.version}

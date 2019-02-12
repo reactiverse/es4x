@@ -80,6 +80,37 @@ public class InstallCommand extends DefaultCommand {
     this.launcher = launcher;
   }
 
+  private static void processPackageJson(File json, Set<String> dependencies) throws IOException {
+    if (json.exists()) {
+      Map npm = MAPPER.readValue(json, Map.class);
+      if (npm.containsKey("maven")) {
+        final Map maven = (Map) npm.get("maven");
+        // add this dependency
+        dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
+      }
+
+      if (npm.containsKey("mvnDependencies")) {
+        final List maven = (List) npm.get("mvnDependencies");
+        for (Object el : maven) {
+          // add this dependency
+          dependencies.add((String) el);
+        }
+      }
+
+      // only run if not production
+      if (!isProduction()) {
+        if (npm.containsKey("mvnDevDependencies")) {
+          final List maven = (List) npm.get("mvnDependencies");
+          for (Object el : maven) {
+            // add this dependency
+            dependencies.add((String) el);
+          }
+        }
+      }
+    }
+
+  }
+
   private static void processModules(File dir, Set<String> dependencies) throws IOException {
     File[] mods = dir.listFiles(File::isDirectory);
     if (mods != null) {
@@ -92,14 +123,9 @@ public class InstallCommand extends DefaultCommand {
 
         File json = new File(mod, "package.json");
 
-        if (json.exists()) {
-          Map npm = MAPPER.readValue(json, Map.class);
-          if (npm.containsKey("maven")) {
-            final Map maven = (Map) npm.get("maven");
-            // add this dependency
-            dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
-          }
-        }
+        // process
+        processPackageJson(json, dependencies);
+
         File submod = new File(mod, "node_modules");
         if (submod.exists() && submod.isDirectory()) {
           processModules(submod, dependencies);
@@ -190,6 +216,14 @@ public class InstallCommand extends DefaultCommand {
     final File base = new File("node_modules");
     final Set<String> dependencies = new HashSet<>();
 
+    // process mvnDependencies from CWD package.json
+    try {
+      processPackageJson(new File("package.json"), dependencies);
+    } catch (IOException e) {
+      throw new CLIException(e.getMessage(), e);
+    }
+
+    // crawl node modules
     if (base.exists() && base.isDirectory()) {
       try {
         processModules(base, dependencies);
@@ -341,6 +375,22 @@ public class InstallCommand extends DefaultCommand {
     final File exe = new File(bin, launcher + ".cmd");
     try (FileOutputStream out = new FileOutputStream(exe)) {
       out.write(script.getBytes(StandardCharsets.UTF_8));
+    }
+  }
+
+  private static boolean isProduction() {
+    // NODE_ENV set to production
+    if ("production".equalsIgnoreCase(System.getenv("NODE_ENV"))) {
+      return true;
+    }
+
+    boolean hasVertxEnvironment = System.getenv().containsKey("VERTX_ENVIRONMENT");
+    // not set means prod
+    if (!hasVertxEnvironment) {
+      return true;
+    } else {
+      String envvar = System.getenv("VERTX_ENVIRONMENT");
+      return "production".equalsIgnoreCase(envvar) || "".equals(envvar);
     }
   }
 }

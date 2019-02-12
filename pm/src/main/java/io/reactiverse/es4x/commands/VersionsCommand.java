@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@Name("version")
+@Name("versions")
 @Summary(" Displays the versions.")
-public class VersionCommand extends io.vertx.core.impl.launcher.commands.VersionCommand {
+public class VersionsCommand extends io.vertx.core.impl.launcher.commands.VersionCommand {
 
   private static final Properties VERSIONS = new Properties();
 

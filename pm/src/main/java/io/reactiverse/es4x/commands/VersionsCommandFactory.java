@@ -17,9 +17,9 @@ package io.reactiverse.es4x.commands;
 
 import io.vertx.core.spi.launcher.DefaultCommandFactory;
 
-public class VersionCommandFactory extends DefaultCommandFactory<VersionCommand> {
+public class VersionsCommandFactory extends DefaultCommandFactory<VersionsCommand> {
 
-  public VersionCommandFactory() {
-    super(VersionCommand.class);
+  public VersionsCommandFactory() {
+    super(VersionsCommand.class);
   }
 }

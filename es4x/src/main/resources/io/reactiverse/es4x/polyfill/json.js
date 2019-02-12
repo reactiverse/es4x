@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 (function (JSON) {
+  var Json = Java.type('io.vertx.core.json.Json');
   var JsonArray = Java.type('io.vertx.core.json.JsonArray');
   var JsonObject = Java.type('io.vertx.core.json.JsonObject');
 
@@ -33,11 +34,11 @@
     }
     // convert from map to object
     if (val instanceof Map) {
-      return new JsonObject(val).encode();
+      return new Json.encode(val);
     }
     // convert from list to array
     if (val instanceof List) {
-      return new JsonArray(val).encode();
+      return new Json.encode(val);
     }
     if (val instanceof Instant) {
       return val.toString();
