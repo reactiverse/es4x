@@ -314,7 +314,7 @@ public class InstallCommand extends DefaultCommand {
   private void createUNIXScript(File bin, String launcher) throws IOException {
 
     String script =
-      "#!/bin/sh\n" +
+      "#!/usr/bin/env bash\n" +
       "(set -o igncr) 2>/dev/null && set -o igncr; # cygwin encoding fix\n" +
       "\n" +
       "# fight simlinks and avoid readlink -f which doesn't exist on Darwin and Solaris\n" +
