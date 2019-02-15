@@ -31,14 +31,14 @@ import java.util.jar.Attributes;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
+import static io.reactiverse.es4x.commands.Helper.*;
+
 @Name("install")
 @Summary("Installs required jars from maven to 'node_modules'.")
 public class InstallCommand extends DefaultCommand {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final Properties VERSIONS = new Properties();
-
-  private static String OS = System.getProperty("os.name").toLowerCase();
 
   static {
     MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
@@ -50,19 +50,6 @@ public class InstallCommand extends DefaultCommand {
     } catch (IOException e) {
       throw new IllegalStateException(e.getMessage());
     }
-  }
-
-  private static boolean isWindows() {
-    return OS.contains("win");
-  }
-
-  private static boolean isUnix() {
-    return
-        OS.contains("nix") ||
-        OS.contains("nux") ||
-        OS.contains("aix") ||
-        OS.contains("mac") ||
-        OS.contains("sunos");
   }
 
   private boolean force;
@@ -147,11 +134,19 @@ public class InstallCommand extends DefaultCommand {
       final String vm = System.getProperty("java.vm.name");
       if (!vm.toLowerCase().contains("graalvm")) {
         if (version >= 11) {
-          System.err.println("\u001B[1m\u001B[33mInstalling JVMCI to run GraalJS on stock JDK!\u001B[0m");
+          System.err.println("\u001B[1m\u001B[33mInstalling GraalJS on stock JDK!\u001B[0m");
           // graaljs + dependencies
           installGraalJS(artifacts);
-          // jvmci compiler + dependencies
-          installGraalJMVCICompiler();
+          // verify if the current JDK contains the jdk.internal.vm.ci module
+          try {
+            String modules = exec(javaHomePrefix() + "java", "--list-modules");
+            if (modules.contains("jdk.internal.vm.ci")) {
+              // jvmci compiler + dependencies
+              installGraalJMVCICompiler();
+            }
+          } catch (IOException | InterruptedException e) {
+            System.err.println("\u001B[1m\u001B[31m" + e.getMessage() + "\u001B[0m");
+          }
         } else {
           System.err.println("\u001B[1m\u001B[31mCurrent JDK only supports Nashorn!\u001B[0m");
         }
