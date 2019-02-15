@@ -34,6 +34,8 @@ public class JLinkCommand extends DefaultCommand {
     try {
       final double version = Double.parseDouble(System.getProperty("java.specification.version"));
       if (version >= 11) {
+        // TODO: read the main attribute from package json to know the launcher name
+
         // Collect the jmods used in the application
         String mods = exec(javaHomePrefix() + "jdeps", "--module-path", "node_modules/.libs", "--print-module-deps", "node_modules/.bin/launcher.jar");
 
