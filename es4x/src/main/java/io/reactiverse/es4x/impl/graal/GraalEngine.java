@@ -52,11 +52,7 @@ public class GraalEngine implements ECMAEngine {
     }
 
     if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
-      System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-      System.err.println("@ ES4X is using graaljs in interpreted mode! @");
-      System.err.println("@ Add the JVMCI compiler module in order to  @");
-      System.err.println("@ run in optimal mode!                       @");
-      System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      System.err.println("\u001B[1m\u001B[33mES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!\u001B[0m");
     }
   }
 
