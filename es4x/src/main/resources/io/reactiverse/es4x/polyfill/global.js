@@ -70,7 +70,7 @@
     // NO-OP
   };
 
-  var System = Java.type('java.lang.System');
+  const System = Java.type('java.lang.System');
 
   // process
   var jvmLanguageLevel;

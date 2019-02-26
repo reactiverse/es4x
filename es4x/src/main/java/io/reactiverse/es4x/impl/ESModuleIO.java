@@ -171,12 +171,13 @@ public class ESModuleIO {
           int i = 2;
           for (; i < contLen; ++i) {
             char code = content.charAt(i);
-            if (code == '\n' || code == '\r')
+            if (code == '\n' || code == '\r') {
               break;
+            }
           }
-          if (i == contLen)
+          if (i == contLen) {
             content = "";
-          else {
+          } else {
             // Note that this actually includes the newline character(s) in the
             // new output.
             content = content.substring(i);

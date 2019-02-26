@@ -69,15 +69,15 @@
     return str;
   }
 
-  var counters = {};
-  var timers = {};
+  const counters = {};
+  const timers = {};
 
-  var RESET = '\u001B[0m';
-  var BOLD = '\u001B[1m';
-  var RED = '\u001B[31m';
-  var GREEN = '\u001B[32m';
-  var YELLOW = '\u001B[33m';
-  var BLUE = '\u001B[34m';
+  const RESET = '\u001B[0m';
+  const BOLD = '\u001B[1m';
+  const RED = '\u001B[31m';
+  const GREEN = '\u001B[32m';
+  const YELLOW = '\u001B[33m';
+  const BLUE = '\u001B[34m';
 
   global['console'] = {
     'assert': function (expression, message) {

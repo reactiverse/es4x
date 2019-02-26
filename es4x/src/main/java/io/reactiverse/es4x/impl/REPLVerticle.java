@@ -90,14 +90,14 @@ public class REPLVerticle extends AbstractVerticle {
 
           System.out.print("js:> ");
           System.out.flush();
-        } catch (Throwable t) {
+        } catch (Exception ex) {
           String message = null;
           String trace = null;
 
           // collect the trace back to a string
           try (StringWriter sw = new StringWriter()) {
             PrintWriter pw = new PrintWriter(sw);
-            t.printStackTrace(pw);
+            ex.printStackTrace(pw);
             String sStackTrace = sw.toString(); // stack trace as a string
             int idx = sStackTrace.indexOf("\n\tat");
             if (idx != -1) {

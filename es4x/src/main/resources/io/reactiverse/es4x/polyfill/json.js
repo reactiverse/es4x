@@ -14,17 +14,19 @@
  *  limitations under the License.
  */
 (function (JSON) {
-  var Json = Java.type('io.vertx.core.json.Json');
-  var JsonArray = Java.type('io.vertx.core.json.JsonArray');
-  var JsonObject = Java.type('io.vertx.core.json.JsonObject');
+  'use strict';
 
-  var Map = Java.type('java.util.Map');
-  var List = Java.type('java.util.List');
-  var Instant = Java.type('java.time.Instant');
+  const Json = Java.type('io.vertx.core.json.Json');
+  const JsonArray = Java.type('io.vertx.core.json.JsonArray');
+  const JsonObject = Java.type('io.vertx.core.json.JsonObject');
+
+  const Map = Java.type('java.util.Map');
+  const List = Java.type('java.util.List');
+  const Instant = Java.type('java.time.Instant');
 
   // this will wrap the original function to handle Vert.x native types too
-  var _stringify = JSON.stringify;
-  var _parse = JSON.parse;
+  const _stringify = JSON.stringify;
+  const _parse = JSON.parse;
 
   // patch the original JSON object
   JSON.stringify = function () {

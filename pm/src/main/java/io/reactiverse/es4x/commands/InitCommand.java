@@ -27,6 +27,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
 
+import static io.reactiverse.es4x.commands.Helper.err;
+
 @Name("init")
 @Summary("Initializes the 'package.json' to work with ES4X.")
 public class InitCommand extends DefaultCommand {
@@ -48,11 +50,12 @@ public class InitCommand extends DefaultCommand {
         // Load the file from the class path
         try (InputStream in = InitCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/package.json")) {
           if (in == null) {
-            throw new IllegalStateException("Cannot load package.json template.");
+            err("Cannot load package.json template.");
+          } else {
+            Files.copy(in, file.toPath());
           }
-          Files.copy(in, file.toPath());
         } catch (IOException e) {
-          throw new CLIException(e.getMessage(), e);
+          err(e.getMessage());
         }
       }
 
@@ -83,7 +86,7 @@ public class InitCommand extends DefaultCommand {
       MAPPER.writeValue(file, npm);
 
     } catch (IOException e) {
-      throw new CLIException(e.getMessage(), e);
+      err(e.getMessage());
     }
   }
 }

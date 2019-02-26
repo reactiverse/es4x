@@ -44,11 +44,12 @@ public class InstallCommand extends DefaultCommand {
     MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
     try (InputStream is = InstallCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/VERSIONS.properties")) {
       if (is == null) {
-        throw new IllegalStateException("Cannot find 'META-INF/es4x-commands/VERSIONS.properties' on classpath");
+        err("Cannot find 'META-INF/es4x-commands/VERSIONS.properties' on classpath");
+      } else {
+        VERSIONS.load(is);
       }
-      VERSIONS.load(is);
     } catch (IOException e) {
-      throw new IllegalStateException(e.getMessage());
+      err(e.getMessage());
     }
   }
 
@@ -164,7 +165,7 @@ public class InstallCommand extends DefaultCommand {
     File libs = new File(base, ".lib");
     if (!libs.exists()) {
       if (!libs.mkdirs()) {
-        throw new IllegalStateException("Failed to mkdirs 'node_modules/.lib'.");
+        err("Failed to mkdirs 'node_modules/.lib'.");
       }
     }
 
@@ -179,7 +180,7 @@ public class InstallCommand extends DefaultCommand {
         }
       }
     } catch (IOException e) {
-      throw new CLIException(e.getMessage(), e);
+      err(e.getMessage());
     }
   }
 
@@ -189,7 +190,7 @@ public class InstallCommand extends DefaultCommand {
     File libs = new File(base, ".jvmci");
     if (!libs.exists()) {
       if (!libs.mkdirs()) {
-        throw new IllegalStateException("Failed to mkdirs 'node_modules/.jvmci'.");
+        err("Failed to mkdirs 'node_modules/.jvmci'.");
       }
     }
 
@@ -203,7 +204,7 @@ public class InstallCommand extends DefaultCommand {
         }
       }
     } catch (IOException e) {
-      throw new CLIException(e.getMessage(), e);
+      err(e.getMessage());
     }
   }
 
@@ -215,7 +216,7 @@ public class InstallCommand extends DefaultCommand {
     try {
       processPackageJson(new File("package.json"), dependencies);
     } catch (IOException e) {
-      throw new CLIException(e.getMessage(), e);
+      err(e.getMessage());
     }
 
     // crawl node modules
@@ -223,7 +224,7 @@ public class InstallCommand extends DefaultCommand {
       try {
         processModules(base, dependencies);
       } catch (IOException e) {
-        throw new CLIException(e.getMessage(), e);
+        err(e.getMessage());
       }
     }
 
@@ -237,7 +238,7 @@ public class InstallCommand extends DefaultCommand {
 
           if (!libs.exists()) {
             if (!libs.mkdirs()) {
-              throw new IllegalStateException("Failed to mkdirs 'node_modules/.lib'.");
+              err("Failed to mkdirs 'node_modules/.lib'.");
             }
           }
           artifacts.add("../.lib/" + a.getFile().getName());
@@ -247,7 +248,7 @@ public class InstallCommand extends DefaultCommand {
           }
         }
       } catch (IOException e) {
-        throw new CLIException(e.getMessage(), e);
+        err(e.getMessage());
       }
     }
   }
@@ -264,7 +265,7 @@ public class InstallCommand extends DefaultCommand {
           if (npm.containsKey("name")) {
             launcher = (String) npm.get("name");
           } else {
-            throw new IllegalStateException("'package.json' doesn't contain a 'name' property!");
+            err("'package.json' doesn't contain a 'name' property!");
           }
         }
 
@@ -272,7 +273,7 @@ public class InstallCommand extends DefaultCommand {
         File bin = new File(base, ".bin");
         if (!bin.exists()) {
           if (!bin.mkdirs()) {
-            throw new IllegalStateException("Failed to mkdirs 'node_modules/.bin'.");
+            err("Failed to mkdirs 'node_modules/.bin'.");
           }
         }
 
@@ -301,7 +302,7 @@ public class InstallCommand extends DefaultCommand {
         }
 
       } catch (IOException e) {
-        throw new CLIException(e.getMessage(), e);
+        err(e.getMessage());
       }
     }
   }
@@ -345,7 +346,7 @@ public class InstallCommand extends DefaultCommand {
 
     // this is a best effort
     if (!exe.setExecutable(true, false)) {
-      throw new IllegalStateException("Cannot set script 'node_modules/.bin/" + launcher + "'executable!");
+      err("Cannot set script 'node_modules/.bin/" + launcher + "'executable!");
     }
   }
 
