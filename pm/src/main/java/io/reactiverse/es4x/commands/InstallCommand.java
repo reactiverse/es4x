@@ -234,7 +234,18 @@ public class InstallCommand extends DefaultCommand {
       try {
         Resolver resolver = new Resolver();
 
-        for (Artifact a : resolver.resolve("io.reactiverse:es4x:" + VERSIONS.getProperty("es4x"), dependencies)) {
+        // lookup root
+        String root = "io.reactiverse:es4x:" + VERSIONS.getProperty("es4x");
+
+        for (String el : dependencies) {
+          // ensure we respect the wish of the user
+          if (el.startsWith("io.reactiverse:es4x:")) {
+            root = el;
+            break;
+          }
+        }
+
+        for (Artifact a : resolver.resolve(root, dependencies)) {
 
           if (!libs.exists()) {
             if (!libs.mkdirs()) {

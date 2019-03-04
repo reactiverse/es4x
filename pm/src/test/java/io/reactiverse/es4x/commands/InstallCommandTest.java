@@ -31,6 +31,7 @@ public class InstallCommandTest {
         put("@vertx/unit", "3.6.3");
       }});
       put("mvnDependencies", new ArrayList() {{
+        add("io.reactiverse:es4x:0.7.2");
         add("io.vertx:vertx-core:3.6.3");
         add("io.vertx:vertx-unit:3.6.3");
       }});
