@@ -101,8 +101,8 @@ final class Resolver {
     DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
     session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));
 
-    session.setTransferListener( new ConsoleTransferListener() );
-    session.setRepositoryListener( new ConsoleRepositoryListener() );
+    session.setTransferListener(new ConsoleTransferListener());
+    session.setRepositoryListener(new ConsoleRepositoryListener());
 
     DependencyFilter filter =
       DependencyFilterUtils.andFilter(

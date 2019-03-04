@@ -44,7 +44,7 @@ public class InitCommand extends DefaultCommand {
   public void run() throws CLIException {
     try {
 
-      final File file = new File("package.json");
+      final File file = new File(getCwd(), "package.json");
 
       if (!file.exists()) {
         // Load the file from the class path

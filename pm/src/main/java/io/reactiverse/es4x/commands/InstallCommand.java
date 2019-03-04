@@ -127,7 +127,7 @@ public class InstallCommand extends DefaultCommand {
     final Set<String> artifacts = new HashSet<>();
     installNodeModules(artifacts);
 
-    final File base = new File("node_modules");
+    final File base = new File(getCwd(), "node_modules");
     final File libs = new File(base, ".lib");
 
     if (force || libs.exists()) {
@@ -160,7 +160,7 @@ public class InstallCommand extends DefaultCommand {
   }
 
   private void installGraalJS(Set<String> artifacts) throws CLIException {
-    final File base = new File("node_modules");
+    final File base = new File(getCwd(),"node_modules");
 
     File libs = new File(base, ".lib");
     if (!libs.exists()) {
@@ -185,7 +185,7 @@ public class InstallCommand extends DefaultCommand {
   }
 
   private void installGraalJMVCICompiler() throws CLIException {
-    final File base = new File("node_modules");
+    final File base = new File(getCwd(), "node_modules");
 
     File libs = new File(base, ".jvmci");
     if (!libs.exists()) {
@@ -209,12 +209,12 @@ public class InstallCommand extends DefaultCommand {
   }
 
   private void installNodeModules(Set<String> artifacts) throws CLIException {
-    final File base = new File("node_modules");
+    final File base = new File(getCwd(), "node_modules");
     final Set<String> dependencies = new HashSet<>();
 
     // process mvnDependencies from CWD package.json
     try {
-      processPackageJson(new File("package.json"), dependencies);
+      processPackageJson(new File(getCwd(), "package.json"), dependencies);
     } catch (IOException e) {
       err(e.getMessage());
     }
@@ -255,7 +255,7 @@ public class InstallCommand extends DefaultCommand {
 
   private void createLauncher(Set<String> artifacts) throws CLIException {
 
-    File json = new File("package.json");
+    File json = new File(getCwd(), "package.json");
 
     if (json.exists()) {
 
@@ -269,7 +269,7 @@ public class InstallCommand extends DefaultCommand {
           }
         }
 
-        final File base = new File("node_modules");
+        final File base = new File(getCwd(), "node_modules");
         File bin = new File(base, ".bin");
         if (!bin.exists()) {
           if (!bin.mkdirs()) {

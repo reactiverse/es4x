@@ -29,54 +29,49 @@
   const _parse = JSON.parse;
 
   // patch the original JSON object
-  JSON.stringify = function () {
-    var val = arguments[0];
-    if (val instanceof JsonArray || val instanceof JsonObject) {
-      return val.encode();
+  JSON.stringify = function (value, replacer, space) {
+    if (value && Java.isJavaObject(value)) {
+      if (value instanceof JsonArray || value instanceof JsonObject) {
+        return value.encode();
+      }
+      if (value instanceof Map || value instanceof List) {
+        return new Json.encode(value);
+      }
+      if (value instanceof Instant) {
+        return value.toString();
+      }
     }
-    // convert from map to object
-    if (val instanceof Map) {
-      return new Json.encode(val);
-    }
-    // convert from list to array
-    if (val instanceof List) {
-      return new Json.encode(val);
-    }
-    if (val instanceof Instant) {
-      return val.toString();
-    }
-
-    return _stringify.apply(JSON, Array.prototype.slice.call(arguments))
+    return _stringify(value, replacer, space);
   };
 
   // patch the original JSON object
-  JSON.parse = function () {
-    var val = arguments[0];
-    if (val instanceof JsonArray) {
-      return val.getList();
+  JSON.parse = function (text, reviver) {
+    if (text && Java.isJavaObject(text)) {
+      if (text instanceof JsonArray) {
+        return text.getList();
+      }
+      if (text instanceof JsonObject) {
+        return text.getMap();
+      }
     }
-    if (val instanceof JsonObject) {
-      return val.getMap();
-    }
-
-    return _parse.apply(JSON, Array.prototype.slice.call(arguments))
+    return _parse(text, reviver);
   };
-
-  // enhancement that converts json to java native objects
-  JSON.wrap = function (arg) {
-    if (arg === null || arg === undefined) {
-      return null;
-    }
-
-    if (Array.isArray(arg)) {
-      return new JsonArray(arg);
-    }
-
-    if (typeof arg === 'object') {
-      return new JsonObject(arg);
-    }
-
-    // fallback
-    return arg;
-  };
+  //
+  // // enhancement that converts json to java native objects
+  // JSON.wrap = function (arg) {
+  //   if (arg === null || arg === undefined) {
+  //     return null;
+  //   }
+  //
+  //   if (Array.isArray(arg)) {
+  //     return new JsonArray(arg);
+  //   }
+  //
+  //   if (typeof arg === 'object') {
+  //     return new JsonObject(arg);
+  //   }
+  //
+  //   // fallback
+  //   return arg;
+  // };
 })(JSON);

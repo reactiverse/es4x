@@ -31,9 +31,7 @@ public class DockerfileCommand extends DefaultCommand {
 
   @Override
   public void run() throws CLIException {
-    File cwd = new File(System.getProperty("user.dir"));
-
-    File dockerfile = new File(cwd, "Dockerfile");
+    File dockerfile = new File(getCwd(), "Dockerfile");
 
     if (dockerfile.exists()) {
       err("Dockerfile already exists.");
@@ -50,7 +48,7 @@ public class DockerfileCommand extends DefaultCommand {
       err(e.getMessage());
     }
 
-    File dockerignore = new File(cwd, ".dockerignore");
+    File dockerignore = new File(getCwd(), ".dockerignore");
 
     if (!dockerignore.exists()) {
       // Load the file from the class path

@@ -55,7 +55,7 @@ public class JLinkCommand extends DefaultCommand {
       final double version = Double.parseDouble(System.getProperty("java.specification.version"));
       if (version >= 11) {
 
-        final File json = new File("package.json");
+        final File json = new File(getCwd(), "package.json");
         if (!json.exists()) {
           err("No 'package.json' in the current working directory.");
         }
