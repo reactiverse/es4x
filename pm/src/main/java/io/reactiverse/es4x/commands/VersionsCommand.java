@@ -26,7 +26,7 @@ import java.util.Properties;
 import static io.reactiverse.es4x.commands.Helper.err;
 
 @Name("versions")
-@Summary(" Displays the versions.")
+@Summary("Displays the versions.")
 public class VersionsCommand extends io.vertx.core.impl.launcher.commands.VersionCommand {
 
   private static final Properties VERSIONS = new Properties();
