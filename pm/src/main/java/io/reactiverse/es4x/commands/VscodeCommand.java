@@ -41,7 +41,7 @@ public class VscodeCommand extends DefaultCommand {
 
 	private static void processLauncher(File json) throws IOException {
 		Map launch = MAPPER.readValue(json, Map.class);
-		if (launch.containsKey("configurations") == false) {
+		if (!launch.containsKey("configurations")) {
 			launch.put("configurations", new ArrayList<>());
 		}
 		final List configurations = (List) launch.get("configurations");

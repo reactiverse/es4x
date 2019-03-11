@@ -38,6 +38,5 @@ public class InstallCommandTest {
     }});
 
     command.run();
-    System.out.println();
   }
 }
