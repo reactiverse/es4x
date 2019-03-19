@@ -22,6 +22,8 @@ import io.vertx.core.impl.launcher.commands.RunCommand;
 @Summary("Runs a JS script called <main-verticle> in its own instance of vert.x.")
 public class ES4XRunCommand extends RunCommand {
 
+  private String verticle;
+
   /**
    * Sets the main verticle that is deployed.
    *
@@ -29,13 +31,17 @@ public class ES4XRunCommand extends RunCommand {
    */
   @Override
   @Argument(index = 0, argName = "main-verticle", required = false)
-  @DefaultValue("js:>")
+  @DefaultValue(">")
   @Description("The main verticle to deploy, it can be a script file or a package directory.")
   public void setMainVerticle(String verticle) {
-    if (!verticle.contains(":")) {
-      super.setMainVerticle("js:" + verticle);
-    } else {
-      super.setMainVerticle(verticle);
+    this.verticle = verticle;
+  }
+
+  @Option(longName = "mjs", argName = "module-js", flag = true)
+  @Description("Specifies that the runtime should allow .mjs modules.")
+  public void setMjs(boolean mjs) {
+    if (mjs) {
+      System.setProperty("es4x.mjs", "true");
     }
   }
 
@@ -52,5 +58,18 @@ public class ES4XRunCommand extends RunCommand {
     System.setProperty("polyglot.inspect", Integer.toString(inspect));
     System.setProperty("polyglot.inspect.Suspend", "true");
     System.setProperty("vertx.options.blockedThreadCheckInterval", "1000000");
+  }
+
+  @Override
+  public void run() {
+    boolean mjs = verticle.endsWith(".mjs") || Boolean.getBoolean("es4x.mjs");
+    // force swapping verticle factory
+    if (!verticle.contains(":")) {
+      super.setMainVerticle((mjs ? "mjs:" : "js:") + verticle);
+    } else {
+      super.setMainVerticle(verticle);
+    }
+    // delegate to default implementation
+    super.run();
   }
 }

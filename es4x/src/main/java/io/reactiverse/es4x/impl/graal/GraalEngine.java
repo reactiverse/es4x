@@ -66,10 +66,15 @@ public class GraalEngine implements ECMAEngine {
   public Runtime<Value> newContext() {
     final Context.Builder builder = Context.newBuilder("js")
       .engine(engine)
-      // not sure if we should allow it...
+      .fileSystem(new VertxFileSystem(vertx))
+      // IO is allowed because it delegates to the
+      // vertx filesystem implementation
+      .allowIO(true)
+      // do not allow creation of threads as it breaks the JS model
+      // multi threading is allowed using workers
       .allowCreateThread(false)
-      // not sure if we should allow it...
-      .allowIO(false)
+      // host access is required to function properly however
+      // users might declare filters
       .allowHostAccess(true);
 
     final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
@@ -96,7 +101,7 @@ public class GraalEngine implements ECMAEngine {
         .registerDefaultCodec(value.getClass(), new JSObjectMessageCodec());
 
       context.eval(
-        Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").internal(true).buildLiteral()
+        Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
       ).execute(callback);
     }
 

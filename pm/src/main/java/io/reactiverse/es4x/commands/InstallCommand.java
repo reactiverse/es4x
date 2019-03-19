@@ -391,13 +391,6 @@ public class InstallCommand extends DefaultCommand {
       return true;
     }
 
-    boolean hasVertxEnvironment = System.getenv().containsKey("VERTX_ENVIRONMENT");
-    // not set means prod
-    if (!hasVertxEnvironment) {
-      return true;
-    } else {
-      String envvar = System.getenv("VERTX_ENVIRONMENT");
-      return "production".equalsIgnoreCase(envvar) || "".equals(envvar);
-    }
+    return "production".equalsIgnoreCase(System.getenv("ES4X_ENV"));
   }
 }

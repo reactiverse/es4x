@@ -152,13 +152,19 @@ public class ESModuleIO {
         throw new IOException("Cannot handle scheme [" + uri.getScheme() + "]");
     }
 
-    return adapt(main ? stripShebang(buffer.toString()) : stripBOM(buffer.toString()));
+    if (main) {
+      String content = stripShebang(buffer.toString());
+      return Boolean.getBoolean("ex4x.mjs") ? content : adapt(content);
+    } else {
+      String content = stripBOM(buffer.toString());
+      return Boolean.getBoolean("ex4x.mjs") ? content : adapt(content);
+    }
   }
 
   /**
    * Find end of shebang line and slice it off
    */
-  private String stripShebang(String content) {
+  public static String stripShebang(String content) {
     // Remove shebang
     int contLen = content.length();
     if (contLen >= 2) {
@@ -193,7 +199,7 @@ public class ESModuleIO {
    * because the buffer-to-string conversion in `fs.readFileSync()`
    * translates it to FEFF, the UTF-16 BOM.
    */
-  private String stripBOM(String content) {
+  public static String stripBOM(String content) {
     if (content.charAt(0) == 0xFEFF) {
       content = content.substring(1);
     }

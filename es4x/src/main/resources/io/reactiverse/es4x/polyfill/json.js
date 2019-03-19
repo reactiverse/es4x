@@ -56,22 +56,22 @@
     }
     return _parse(text, reviver);
   };
-  //
-  // // enhancement that converts json to java native objects
-  // JSON.wrap = function (arg) {
-  //   if (arg === null || arg === undefined) {
-  //     return null;
-  //   }
-  //
-  //   if (Array.isArray(arg)) {
-  //     return new JsonArray(arg);
-  //   }
-  //
-  //   if (typeof arg === 'object') {
-  //     return new JsonObject(arg);
-  //   }
-  //
-  //   // fallback
-  //   return arg;
-  // };
+
+  // enhancement that converts json to java native objects
+  JSON.wrap = function (arg) {
+    if (arg === null || arg === undefined) {
+      return null;
+    }
+
+    if (Array.isArray(arg)) {
+      return new JsonArray(arg);
+    }
+
+    if (typeof arg === 'object') {
+      return new JsonObject(arg);
+    }
+
+    // fallback
+    return arg;
+  };
 })(JSON);

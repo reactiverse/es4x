@@ -96,7 +96,7 @@ public class NashornRuntime implements Runtime<Object> {
   }
 
   @Override
-  public Object eval(String script, boolean literal) throws ScriptException {
+  public Object eval(String script, String name, boolean literal) throws ScriptException {
     return engine.eval(script);
   }
 

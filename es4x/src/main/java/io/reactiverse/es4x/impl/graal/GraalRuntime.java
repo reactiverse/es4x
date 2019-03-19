@@ -36,6 +36,8 @@ public class GraalRuntime implements Runtime<Value> {
   private final Value bindings;
   private final Value module;
 
+  private String contentType = "application/javascript";
+
   private static String getCWD() {
     // clean up the current working dir
     String cwdOverride = System.getProperty("vertx.cwd");
@@ -117,7 +119,7 @@ public class GraalRuntime implements Runtime<Value> {
 
               source = Source.newBuilder("js", script, name.toString()).uri(uri).build();
             } else {
-              source = Source.newBuilder("js", script, "<module-wrapper>").build();
+              source = Source.newBuilder("js", script, "<module-wrapper>").cached(false).build();
             }
           } else {
             throw new RuntimeException("TypeError: cannot load [" + value.getClass() + "]");
@@ -139,6 +141,14 @@ public class GraalRuntime implements Runtime<Value> {
     context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).buildLiteral());
     // keep a reference to module
     module = context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral());
+  }
+
+  @Override
+  public void setContentType(String contentType) {
+    if (contentType == null) {
+      throw new IllegalArgumentException("ContentType cannot be null");
+    }
+    this.contentType = contentType;
   }
 
   @Override
@@ -175,10 +185,11 @@ public class GraalRuntime implements Runtime<Value> {
   }
 
   @Override
-  public Value eval(String script, boolean literal) {
+  public Value eval(String script, String name, boolean literal) {
     final Source source = Source
-      .newBuilder("js", script, "<shell>")
+      .newBuilder("js", script, name)
       .interactive(literal)
+      .mimeType(contentType)
       .buildLiteral();
 
     if (literal) {
