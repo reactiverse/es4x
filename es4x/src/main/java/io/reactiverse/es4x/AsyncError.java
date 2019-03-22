@@ -76,8 +76,8 @@ public final class AsyncError {
     return patchStackTrace(asyncResult.cause(), jsAsyncStackLine);
   }
 
-  private AsyncError() {
-    throw new RuntimeException("Not Instantiable");
+  private AsyncError() throws IllegalAccessException {
+    throw new IllegalAccessException("Not Instantiable");
   }
 
   private static final Pattern STACKTRACE = Pattern.compile("at (<.+?> )?\\(?(.+?):(\\d+)(:\\d+)?\\)?");

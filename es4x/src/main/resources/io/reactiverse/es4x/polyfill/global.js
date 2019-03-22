@@ -16,6 +16,8 @@
 (function (global) {
   'use strict';
 
+  var System = Java.type('java.lang.System');
+
   global.setTimeout = function (callback, timeout) {
     var args = Array.prototype.slice.call(arguments, 2);
 
@@ -69,8 +71,6 @@
   global.clearImmediate = function (id) {
     // NO-OP
   };
-
-  var System = Java.type('java.lang.System');
 
   // process
   var jvmLanguageLevel;

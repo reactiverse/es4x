@@ -16,7 +16,7 @@
 (function (global) {
   'use strict';
 
-  var Vertx = Java.type('io.vertx.core.Vertx');
+  const Vertx = Java.type('io.vertx.core.Vertx');
 
   function noop() {}
 

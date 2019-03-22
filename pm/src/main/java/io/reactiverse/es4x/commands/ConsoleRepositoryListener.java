@@ -27,8 +27,7 @@ import org.eclipse.aether.RepositoryEvent;
 /**
  * A simplistic repository listener that logs events to the console.
  */
-final class ConsoleRepositoryListener
-  extends AbstractRepositoryListener {
+final class ConsoleRepositoryListener extends AbstractRepositoryListener {
 
   private PrintStream out;
 

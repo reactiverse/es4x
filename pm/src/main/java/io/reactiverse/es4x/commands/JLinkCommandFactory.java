@@ -17,9 +17,9 @@ package io.reactiverse.es4x.commands;
 
 import io.vertx.core.spi.launcher.DefaultCommandFactory;
 
-public class VersionCommandFactory extends DefaultCommandFactory<VersionCommand> {
+public class JLinkCommandFactory extends DefaultCommandFactory<JLinkCommand> {
 
-  public VersionCommandFactory() {
-    super(VersionCommand.class);
+  public JLinkCommandFactory() {
+    super(JLinkCommand.class);
   }
 }

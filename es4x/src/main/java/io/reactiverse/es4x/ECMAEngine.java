@@ -44,15 +44,11 @@ public interface ECMAEngine {
     }
 
     if ("nashorn".equals(userSelectedEngine)) {
-      try {
-        System.setProperty("es4x.engine", "nashorn");
-        return new NashornEngine(vertx);
-      } catch (NoClassDefFoundError | IllegalStateException e1) {
-        // in the case classes are missing, nashorn is removed from the JDK
-      }
+      System.setProperty("es4x.engine", "nashorn");
+      return new NashornEngine(vertx);
     }
 
-    throw new RuntimeException("Unsupported runtime [" + userSelectedEngine + "]");
+    throw new IllegalStateException("Unsupported runtime [" + userSelectedEngine + "]");
   }
 
   default Pattern[] allowedHostClassFilters() {

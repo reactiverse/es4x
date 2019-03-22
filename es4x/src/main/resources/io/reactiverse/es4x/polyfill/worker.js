@@ -25,7 +25,7 @@
    * A Worker is a Worker verticle that is deployed and connected to the eventbus.
    *
    * @param {String} deploymentId the verticle deploymentId
-   * @param {?Boolean} remote is this deploymentId local
+   * @param {Boolean?} remote is this deploymentId local
    * @constructor
    */
   function Worker(deploymentId, remote) {

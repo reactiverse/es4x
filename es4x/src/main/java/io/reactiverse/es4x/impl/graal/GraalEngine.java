@@ -52,11 +52,7 @@ public class GraalEngine implements ECMAEngine {
     }
 
     if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
-      System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-      System.err.println("@ ES4X is using graaljs in interpreted mode! @");
-      System.err.println("@ Add the JVMCI compiler module in order to  @");
-      System.err.println("@ run in optimal mode!                       @");
-      System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      System.err.println("\u001B[1m\u001B[33mES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!\u001B[0m");
     }
   }
 
@@ -70,10 +66,15 @@ public class GraalEngine implements ECMAEngine {
   public Runtime<Value> newContext() {
     final Context.Builder builder = Context.newBuilder("js")
       .engine(engine)
-      // not sure if we should allow it...
+      .fileSystem(new VertxFileSystem(vertx))
+      // IO is allowed because it delegates to the
+      // vertx filesystem implementation
+      .allowIO(true)
+      // do not allow creation of threads as it breaks the JS model
+      // multi threading is allowed using workers
       .allowCreateThread(false)
-      // not sure if we should allow it...
-      .allowIO(false)
+      // host access is required to function properly however
+      // users might declare filters
       .allowHostAccess(true);
 
     final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
@@ -100,7 +101,7 @@ public class GraalEngine implements ECMAEngine {
         .registerDefaultCodec(value.getClass(), new JSObjectMessageCodec());
 
       context.eval(
-        Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").internal(true).buildLiteral()
+        Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
       ).execute(callback);
     }
 

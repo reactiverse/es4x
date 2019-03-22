@@ -24,7 +24,10 @@ import io.vertx.core.cli.annotations.Summary;
 import io.vertx.core.spi.launcher.DefaultCommand;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
+
+import static io.reactiverse.es4x.commands.Helper.err;
 
 @Name("init")
 @Summary("Initializes the 'package.json' to work with ES4X.")
@@ -41,10 +44,19 @@ public class InitCommand extends DefaultCommand {
   public void run() throws CLIException {
     try {
 
-      final File file = new File("package.json");
+      final File file = new File(getCwd(), "package.json");
 
       if (!file.exists()) {
-        throw new IllegalStateException("'package.json' doesn't exists!");
+        // Load the file from the class path
+        try (InputStream in = InitCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/package.json")) {
+          if (in == null) {
+            err("Cannot load package.json template.");
+          } else {
+            Files.copy(in, file.toPath());
+          }
+        } catch (IOException e) {
+          err(e.getMessage());
+        }
       }
 
       Map npm = MAPPER.readValue(file, Map.class);
@@ -74,7 +86,7 @@ public class InitCommand extends DefaultCommand {
       MAPPER.writeValue(file, npm);
 
     } catch (IOException e) {
-      throw new CLIException(e.getMessage(), e);
+      err(e.getMessage());
     }
   }
 }

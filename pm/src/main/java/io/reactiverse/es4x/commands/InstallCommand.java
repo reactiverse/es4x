@@ -31,6 +31,8 @@ import java.util.jar.Attributes;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
+import static io.reactiverse.es4x.commands.Helper.*;
+
 @Name("install")
 @Summary("Installs required jars from maven to 'node_modules'.")
 public class InstallCommand extends DefaultCommand {
@@ -38,31 +40,17 @@ public class InstallCommand extends DefaultCommand {
   private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final Properties VERSIONS = new Properties();
 
-  private static String OS = System.getProperty("os.name").toLowerCase();
-
   static {
     MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
     try (InputStream is = InstallCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/VERSIONS.properties")) {
       if (is == null) {
-        throw new IllegalStateException("Cannot find 'META-INF/es4x-commands/VERSIONS.properties' on classpath");
+        err("Cannot find 'META-INF/es4x-commands/VERSIONS.properties' on classpath");
+      } else {
+        VERSIONS.load(is);
       }
-      VERSIONS.load(is);
     } catch (IOException e) {
-      throw new IllegalStateException(e.getMessage());
+      err(e.getMessage());
     }
-  }
-
-  private static boolean isWindows() {
-    return OS.contains("win");
-  }
-
-  private static boolean isUnix() {
-    return
-        OS.contains("nix") ||
-        OS.contains("nux") ||
-        OS.contains("aix") ||
-        OS.contains("mac") ||
-        OS.contains("sunos");
   }
 
   private boolean force;
@@ -80,6 +68,37 @@ public class InstallCommand extends DefaultCommand {
     this.launcher = launcher;
   }
 
+  private static void processPackageJson(File json, Set<String> dependencies) throws IOException {
+    if (json.exists()) {
+      Map npm = MAPPER.readValue(json, Map.class);
+      if (npm.containsKey("maven")) {
+        final Map maven = (Map) npm.get("maven");
+        // add this dependency
+        dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
+      }
+
+      if (npm.containsKey("mvnDependencies")) {
+        final List maven = (List) npm.get("mvnDependencies");
+        for (Object el : maven) {
+          // add this dependency
+          dependencies.add((String) el);
+        }
+      }
+
+      // only run if not production
+      if (!isProduction()) {
+        if (npm.containsKey("mvnDevDependencies")) {
+          final List maven = (List) npm.get("mvnDependencies");
+          for (Object el : maven) {
+            // add this dependency
+            dependencies.add((String) el);
+          }
+        }
+      }
+    }
+
+  }
+
   private static void processModules(File dir, Set<String> dependencies) throws IOException {
     File[] mods = dir.listFiles(File::isDirectory);
     if (mods != null) {
@@ -92,14 +111,9 @@ public class InstallCommand extends DefaultCommand {
 
         File json = new File(mod, "package.json");
 
-        if (json.exists()) {
-          Map npm = MAPPER.readValue(json, Map.class);
-          if (npm.containsKey("maven")) {
-            final Map maven = (Map) npm.get("maven");
-            // add this dependency
-            dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
-          }
-        }
+        // process
+        processPackageJson(json, dependencies);
+
         File submod = new File(mod, "node_modules");
         if (submod.exists() && submod.isDirectory()) {
           processModules(submod, dependencies);
@@ -113,7 +127,7 @@ public class InstallCommand extends DefaultCommand {
     final Set<String> artifacts = new HashSet<>();
     installNodeModules(artifacts);
 
-    final File base = new File("node_modules");
+    final File base = new File(getCwd(), "node_modules");
     final File libs = new File(base, ".lib");
 
     if (force || libs.exists()) {
@@ -121,11 +135,19 @@ public class InstallCommand extends DefaultCommand {
       final String vm = System.getProperty("java.vm.name");
       if (!vm.toLowerCase().contains("graalvm")) {
         if (version >= 11) {
-          System.err.println("\u001B[1m\u001B[33mInstalling JVMCI to run GraalJS on stock JDK!\u001B[0m");
+          System.err.println("\u001B[1m\u001B[33mInstalling GraalJS on stock JDK!\u001B[0m");
           // graaljs + dependencies
           installGraalJS(artifacts);
-          // jvmci compiler + dependencies
-          installGraalJMVCICompiler();
+          // verify if the current JDK contains the jdk.internal.vm.ci module
+          try {
+            String modules = exec(javaHomePrefix() + "java", "--list-modules");
+            if (modules.contains("jdk.internal.vm.ci")) {
+              // jvmci compiler + dependencies
+              installGraalJMVCICompiler();
+            }
+          } catch (IOException | InterruptedException e) {
+            System.err.println("\u001B[1m\u001B[31m" + e.getMessage() + "\u001B[0m");
+          }
         } else {
           System.err.println("\u001B[1m\u001B[31mCurrent JDK only supports Nashorn!\u001B[0m");
         }
@@ -138,12 +160,12 @@ public class InstallCommand extends DefaultCommand {
   }
 
   private void installGraalJS(Set<String> artifacts) throws CLIException {
-    final File base = new File("node_modules");
+    final File base = new File(getCwd(),"node_modules");
 
     File libs = new File(base, ".lib");
     if (!libs.exists()) {
       if (!libs.mkdirs()) {
-        throw new IllegalStateException("Failed to mkdirs 'node_modules/.lib'.");
+        err("Failed to mkdirs 'node_modules/.lib'.");
       }
     }
 
@@ -158,17 +180,17 @@ public class InstallCommand extends DefaultCommand {
         }
       }
     } catch (IOException e) {
-      throw new CLIException(e.getMessage(), e);
+      err(e.getMessage());
     }
   }
 
   private void installGraalJMVCICompiler() throws CLIException {
-    final File base = new File("node_modules");
+    final File base = new File(getCwd(), "node_modules");
 
     File libs = new File(base, ".jvmci");
     if (!libs.exists()) {
       if (!libs.mkdirs()) {
-        throw new IllegalStateException("Failed to mkdirs 'node_modules/.jvmci'.");
+        err("Failed to mkdirs 'node_modules/.jvmci'.");
       }
     }
 
@@ -182,19 +204,27 @@ public class InstallCommand extends DefaultCommand {
         }
       }
     } catch (IOException e) {
-      throw new CLIException(e.getMessage(), e);
+      err(e.getMessage());
     }
   }
 
   private void installNodeModules(Set<String> artifacts) throws CLIException {
-    final File base = new File("node_modules");
+    final File base = new File(getCwd(), "node_modules");
     final Set<String> dependencies = new HashSet<>();
 
+    // process mvnDependencies from CWD package.json
+    try {
+      processPackageJson(new File(getCwd(), "package.json"), dependencies);
+    } catch (IOException e) {
+      err(e.getMessage());
+    }
+
+    // crawl node modules
     if (base.exists() && base.isDirectory()) {
       try {
         processModules(base, dependencies);
       } catch (IOException e) {
-        throw new CLIException(e.getMessage(), e);
+        err(e.getMessage());
       }
     }
 
@@ -204,11 +234,22 @@ public class InstallCommand extends DefaultCommand {
       try {
         Resolver resolver = new Resolver();
 
-        for (Artifact a : resolver.resolve("io.reactiverse:es4x:" + VERSIONS.getProperty("es4x"), dependencies)) {
+        // lookup root
+        String root = "io.reactiverse:es4x:" + VERSIONS.getProperty("es4x");
+
+        for (String el : dependencies) {
+          // ensure we respect the wish of the user
+          if (el.startsWith("io.reactiverse:es4x:")) {
+            root = el;
+            break;
+          }
+        }
+
+        for (Artifact a : resolver.resolve(root, dependencies)) {
 
           if (!libs.exists()) {
             if (!libs.mkdirs()) {
-              throw new IllegalStateException("Failed to mkdirs 'node_modules/.lib'.");
+              err("Failed to mkdirs 'node_modules/.lib'.");
             }
           }
           artifacts.add("../.lib/" + a.getFile().getName());
@@ -218,14 +259,14 @@ public class InstallCommand extends DefaultCommand {
           }
         }
       } catch (IOException e) {
-        throw new CLIException(e.getMessage(), e);
+        err(e.getMessage());
       }
     }
   }
 
   private void createLauncher(Set<String> artifacts) throws CLIException {
 
-    File json = new File("package.json");
+    File json = new File(getCwd(), "package.json");
 
     if (json.exists()) {
 
@@ -235,15 +276,15 @@ public class InstallCommand extends DefaultCommand {
           if (npm.containsKey("name")) {
             launcher = (String) npm.get("name");
           } else {
-            throw new IllegalStateException("'package.json' doesn't contain a 'name' property!");
+            err("'package.json' doesn't contain a 'name' property!");
           }
         }
 
-        final File base = new File("node_modules");
+        final File base = new File(getCwd(), "node_modules");
         File bin = new File(base, ".bin");
         if (!bin.exists()) {
           if (!bin.mkdirs()) {
-            throw new IllegalStateException("Failed to mkdirs 'node_modules/.bin'.");
+            err("Failed to mkdirs 'node_modules/.bin'.");
           }
         }
 
@@ -272,7 +313,7 @@ public class InstallCommand extends DefaultCommand {
         }
 
       } catch (IOException e) {
-        throw new CLIException(e.getMessage(), e);
+        err(e.getMessage());
       }
     }
   }
@@ -280,7 +321,7 @@ public class InstallCommand extends DefaultCommand {
   private void createUNIXScript(File bin, String launcher) throws IOException {
 
     String script =
-      "#!/bin/sh\n" +
+      "#!/usr/bin/env bash\n" +
       "(set -o igncr) 2>/dev/null && set -o igncr; # cygwin encoding fix\n" +
       "\n" +
       "# fight simlinks and avoid readlink -f which doesn't exist on Darwin and Solaris\n" +
@@ -316,7 +357,7 @@ public class InstallCommand extends DefaultCommand {
 
     // this is a best effort
     if (!exe.setExecutable(true, false)) {
-      throw new IllegalStateException("Cannot set script 'node_modules/.bin/" + launcher + "'executable!");
+      err("Cannot set script 'node_modules/.bin/" + launcher + "'executable!");
     }
   }
 
@@ -342,5 +383,14 @@ public class InstallCommand extends DefaultCommand {
     try (FileOutputStream out = new FileOutputStream(exe)) {
       out.write(script.getBytes(StandardCharsets.UTF_8));
     }
+  }
+
+  private static boolean isProduction() {
+    // NODE_ENV set to production
+    if ("production".equalsIgnoreCase(System.getenv("NODE_ENV"))) {
+      return true;
+    }
+
+    return "production".equalsIgnoreCase(System.getenv("ES4X_ENV"));
   }
 }
