@@ -37,7 +37,7 @@ public class ESModuleTest {
     // allows transparent access like in every other vert.x API
     Object result = runtime.eval("import {foo, bar} from 'mjs/foobar.mjs';\n" +
         "foo();\n" +
-        "bar();\n");
+        "bar();\n", "durp.mjs", false);
 
     should.assertEquals("bar", result.toString());
   }

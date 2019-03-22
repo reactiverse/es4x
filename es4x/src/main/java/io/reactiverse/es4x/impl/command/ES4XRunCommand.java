@@ -23,6 +23,7 @@ import io.vertx.core.impl.launcher.commands.RunCommand;
 public class ES4XRunCommand extends RunCommand {
 
   private String verticle;
+  private boolean esm;
 
   /**
    * Sets the main verticle that is deployed.
@@ -37,12 +38,10 @@ public class ES4XRunCommand extends RunCommand {
     this.verticle = verticle;
   }
 
-  @Option(longName = "mjs", argName = "module-js", flag = true)
-  @Description("Specifies that the runtime should allow .mjs modules.")
-  public void setMjs(boolean mjs) {
-    if (mjs) {
-      System.setProperty("es4x.mjs", "true");
-    }
+  @Option(longName = "esm", argName = "es-module", flag = true)
+  @Description("[EXPERIMENTAL] Specifies that the runtime should allow .mjs modules.")
+  public void setEsm(boolean esm) {
+    this.esm = esm;
   }
 
   @Option(longName = "inspect", argName = "inspector-port")
@@ -62,7 +61,7 @@ public class ES4XRunCommand extends RunCommand {
 
   @Override
   public void run() {
-    boolean mjs = verticle.endsWith(".mjs") || Boolean.getBoolean("es4x.mjs");
+    boolean mjs = verticle.endsWith(".mjs") || esm;
     // force swapping verticle factory
     if (!verticle.contains(":")) {
       super.setMainVerticle((mjs ? "mjs:" : "js:") + verticle);
