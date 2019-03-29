@@ -63,7 +63,7 @@ public class InstallCommand extends DefaultCommand {
   }
 
   @Option(longName = "launcher", shortName = "l")
-  @Description("Will always install a basic runtime in the current working dir.")
+  @Description("Set the launcher name.")
   public void setLauncher(String launcher) {
     this.launcher = launcher;
   }
@@ -154,9 +154,8 @@ public class InstallCommand extends DefaultCommand {
       }
     }
 
-    if (force || artifacts.size() > 0) {
-      createLauncher(artifacts);
-    }
+    // always create a launcher even if no dependencies are needed
+    createLauncher(artifacts);
   }
 
   private void installGraalJS(Set<String> artifacts) throws CLIException {
@@ -269,15 +268,23 @@ public class InstallCommand extends DefaultCommand {
     File json = new File(getCwd(), "package.json");
 
     if (json.exists()) {
-
       try {
+        Map npm = MAPPER.readValue(json, Map.class);
+
         if (launcher == null) {
-          Map npm = MAPPER.readValue(json, Map.class);
           if (npm.containsKey("name")) {
             launcher = (String) npm.get("name");
           } else {
             err("'package.json' doesn't contain a 'name' property!");
           }
+        }
+
+        // default main script
+        String main = "index.js";
+
+        // if package json declares a different main, then it shall be used
+        if (npm.containsKey("main")) {
+          main = (String) npm.get("main");
         }
 
         final File base = new File(getCwd(), "node_modules");
@@ -297,7 +304,7 @@ public class InstallCommand extends DefaultCommand {
         attributes.put(new Attributes.Name("Build-Jdk"), System.getProperty("java.version"));
         attributes.put(Attributes.Name.MAIN_CLASS, ES4X.class.getName());
         attributes.put(Attributes.Name.CLASS_PATH, String.join(" ", artifacts));
-        attributes.put(new Attributes.Name("Main-Verticle"), "js:./");
+        attributes.put(new Attributes.Name("Main-Verticle"), (main.endsWith(".mjs") ? "mjs:" : "js:") + main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
 
         try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, launcher + ".jar")), manifest)) {
