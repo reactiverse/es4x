@@ -73,7 +73,24 @@ public interface Runtime<T> {
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  T eval(String script, String name, boolean literal) throws Exception;
+  T eval(String script, String name, String contentType, boolean literal) throws Exception;
+
+  /**
+   * Evals a given sript string.
+   *
+   * @param script string containing code.
+   * @param name string containing name of the script (e.g.: the filename).
+   * @param literal literals are non listed on debug sessions
+   * @return returns the evaluation result.
+   * @throws Exception on error
+   */
+  default T eval(String script, String name, boolean literal) throws Exception {
+    if (name.endsWith(".mjs")) {
+      return eval(script, name, "application/javascript+module", false);
+    } else {
+      return eval(script, name, "application/javascript", false);
+    }
+  }
 
   /**
    * Evals a given sript string.
@@ -132,13 +149,6 @@ public interface Runtime<T> {
    * explicitly leave the script engine scope.
    */
   default void leave() {
-  }
-
-  /**
-   * explicitly set the script source content-type.
-   */
-  default void setContentType(String contentType) {
-    throw new UnsupportedOperationException("The current engine does not support custom content-type");
   }
 
   /**

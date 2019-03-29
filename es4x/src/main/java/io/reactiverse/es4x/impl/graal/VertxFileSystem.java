@@ -1,25 +1,102 @@
 package io.reactiverse.es4x.impl.graal;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.VertxInternal;
 import org.graalvm.polyglot.io.FileSystem;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.*;
 import java.nio.file.attribute.FileAttribute;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public final class VertxFileSystem implements FileSystem {
 
+  private static final ObjectMapper MAPPER = new ObjectMapper();
+
+  static {
+    MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+  }
+
   private final VertxInternal vertx;
+  private final List<String> extensions = Arrays.asList(".mjs", ".js");
 
   public VertxFileSystem(final Vertx vertx) {
     Objects.requireNonNull(vertx, "vertx must be non null.");
     this.vertx = (VertxInternal) vertx;
+  }
+
+  private File resolve(String path) throws IOException {
+    File resolved;
+
+    if (path.startsWith(".") || path.startsWith("/")) {
+      resolved = resolveFile(vertx.resolveFile(path));
+
+      if (resolved == null) {
+        resolved = resolveDir(vertx.resolveFile(path));
+      }
+    } else {
+      // module
+      resolved = resolveFile(vertx.resolveFile("node_modules/" + path));
+
+      if (resolved == null) {
+        resolved = resolveDir(vertx.resolveFile("node_modules/" + path));
+      }
+    }
+
+    return resolved;
+  }
+
+  private File resolveFile(File file) throws IOException {
+    if (file.isFile()) {
+      return file.getCanonicalFile();
+    }
+
+    for (String ext : extensions) {
+      file = vertx.resolveFile(file.getPath() + ext);
+
+      if (file.isFile()) {
+        return file.getCanonicalFile();
+      }
+    }
+
+    return null;
+  }
+
+  private File resolveDir(File dir) throws IOException {
+    File pkgfile = new File(dir, "package.json");
+    if (pkgfile.isFile()) {
+      try {
+        Map pkg = MAPPER.readValue(pkgfile, Map.class);
+        if (pkg.containsKey("module") && pkg.get("module") instanceof String) {
+          String module = (String) pkg.get("module");
+
+          if (".".equals(module) || "./".equals(module)) {
+            module = "index";
+          }
+
+          // attempt to load
+          File resolved = resolveFile(new File(dir, module));
+          if (resolved == null) {
+            resolved = resolveDir(new File(dir, module));
+          }
+
+          if (resolved != null) {
+            return resolved.getCanonicalFile();
+          }
+        }
+      } catch (IOException e) {
+        // can't parse, assume invalid
+        return null;
+      }
+    }
+
+    return resolveFile(new File(dir, "index"));
   }
 
   @Override
@@ -29,8 +106,16 @@ public final class VertxFileSystem implements FileSystem {
 
   @Override
   public Path parsePath(String path) {
-    // TODO: follow http://2ality.com/2018/12/nodejs-esm-phases.html
-    return vertx.resolveFile(path).toPath();
+    try {
+      File resolved = resolve(path);
+      // can't resolve
+      if (resolved == null) {
+        throw new FileNotFoundException(path);
+      }
+      return resolved.toPath();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -126,13 +211,18 @@ public final class VertxFileSystem implements FileSystem {
     return resolvedPath.toRealPath(linkOptions);
   }
 
-  private Path resolveRelative(Path path) {
+  private Path resolveRelative(Path path) throws IOException {
     if (path.isAbsolute()) {
       return path;
     }
     // force all resolutions to go over vertx file resolver to allow
     // getting the right path objects even if on the classpath
-    return vertx.resolveFile(path.toString()).toPath();
+    File resolved = resolve(path.toString());
+    if (resolved == null) {
+      throw new FileNotFoundException(path.toString());
+    }
+
+    return resolved.toPath();
   }
 
   private static boolean isFollowLinks(final LinkOption... linkOptions) {
