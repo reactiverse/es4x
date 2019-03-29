@@ -46,7 +46,7 @@ public class ESModuleTest {
     // mjs/foobar.mjs is not on the CWD but on the classpath
     // all IO is captured by a Vert.x file system implementation that
     // allows transparent access like in every other vert.x API
-    Object result = runtime.eval("import { a } from './mjs/moduleA'\n a();\n");
+    Object result = runtime.eval("import { a } from './mjs/moduleA'\n a();\n", "script.mjs", false);
 
     should.assertEquals("bar", result.toString());
   }
