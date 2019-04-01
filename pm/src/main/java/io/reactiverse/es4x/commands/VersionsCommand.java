@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static io.reactiverse.es4x.commands.Helper.err;
+import static io.reactiverse.es4x.commands.Helper.fatal;
 
 @Name("versions")
 @Summary("Displays the versions.")
@@ -34,12 +34,12 @@ public class VersionsCommand extends io.vertx.core.impl.launcher.commands.Versio
   static {
     try (InputStream is = InstallCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/VERSIONS.properties")) {
       if (is == null) {
-        err("Cannot find 'META-INF/es4x-commands/VERSIONS.properties' on classpath");
+        fatal("Cannot find 'META-INF/es4x-commands/VERSIONS.properties' on classpath");
       } else {
         VERSIONS.load(is);
       }
     } catch (IOException e) {
-      err(e.getMessage());
+      fatal(e.getMessage());
     }
   }
 

@@ -31,6 +31,8 @@ public class NashornEngine implements ECMAEngine {
   private final NashornScriptEngineFactory factory;
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
 
+  private static boolean nag = true;
+
   public NashornEngine(Vertx vertx) {
     this.vertx = vertx;
     // enable ES6 features
@@ -39,6 +41,11 @@ public class NashornEngine implements ECMAEngine {
     }
     // create the factory
     this.factory = new NashornScriptEngineFactory();
+
+    if (nag) {
+      nag = false;
+      System.err.println("\u001B[1m\u001B[33mES4X is using nashorn! Only ES5.1 features are available!\u001B[0m");
+    }
   }
 
   @Override

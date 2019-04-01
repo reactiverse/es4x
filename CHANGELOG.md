@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] -
 - Removed `es4x-cli` as it has been replaced with `es4x-pm`
+- ESM resolver can resolve npm modules that declare a `module` property.
 
 ## [0.7.3] - 2019-03-22
 - Fixes bash script for debian like systems 

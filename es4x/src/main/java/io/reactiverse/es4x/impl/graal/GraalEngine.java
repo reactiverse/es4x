@@ -36,6 +36,7 @@ public class GraalEngine implements ECMAEngine {
   private final Engine engine;
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
+  private static boolean nag = true;
 
   public GraalEngine(Vertx vertx) {
     this.vertx = vertx;
@@ -51,8 +52,11 @@ public class GraalEngine implements ECMAEngine {
       throw new IllegalStateException("A language with id 'js' is not installed");
     }
 
-    if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
-      System.err.println("\u001B[1m\u001B[33mES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!\u001B[0m");
+    if (nag) {
+      nag = false;
+      if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
+        System.err.println("\u001B[1m\u001B[33mES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!\u001B[0m");
+      }
     }
   }
 

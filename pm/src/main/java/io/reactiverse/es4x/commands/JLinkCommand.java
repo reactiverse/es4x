@@ -15,8 +15,6 @@
  */
 package io.reactiverse.es4x.commands;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.Description;
 import io.vertx.core.cli.annotations.Name;
@@ -33,12 +31,6 @@ import static io.reactiverse.es4x.commands.Helper.*;
 @Name("jlink")
 @Summary("Creates a slim runtime (requires java >= 11).")
 public class JLinkCommand extends DefaultCommand {
-
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-
-  static {
-    MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-  }
 
   private String launcher;
 
@@ -57,15 +49,15 @@ public class JLinkCommand extends DefaultCommand {
 
         final File json = new File(getCwd(), "package.json");
         if (!json.exists()) {
-          err("No 'package.json' in the current working directory.");
+          fatal("No 'package.json' in the current working directory.");
         }
 
         if (launcher == null) {
-          Map npm = MAPPER.readValue(json, Map.class);
+          Map npm = read(json);
           if (npm.containsKey("name")) {
             launcher = (String) npm.get("name");
           } else {
-            err("'package.json' doesn't contain a 'name' property.");
+            fatal("'package.json' doesn't contain a 'name' property.");
           }
         }
 
@@ -89,10 +81,10 @@ public class JLinkCommand extends DefaultCommand {
         // jlink
         exec(javaHomePrefix() + "jlink", "--no-header-files", "--no-man-pages", "--compress=2", "-strip-debug", "--add-modules", mods, "--output", "/jre");
       } else {
-        err("Your JDK version does not support jlink (< 11)");
+        fatal("Your JDK version does not support jlink (< 11)");
       }
     } catch (IOException | InterruptedException e) {
-      err(e.getMessage());
+      fatal(e.getMessage());
     }
   }
 }

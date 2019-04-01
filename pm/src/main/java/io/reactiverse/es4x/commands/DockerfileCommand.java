@@ -23,7 +23,7 @@ import io.vertx.core.spi.launcher.DefaultCommand;
 import java.io.*;
 import java.nio.file.Files;
 
-import static io.reactiverse.es4x.commands.Helper.err;
+import static io.reactiverse.es4x.commands.Helper.fatal;
 
 @Name("dockerfile")
 @Summary("Creates a generic Dockerfile for building and deploying the current project.")
@@ -34,18 +34,18 @@ public class DockerfileCommand extends DefaultCommand {
     File dockerfile = new File(getCwd(), "Dockerfile");
 
     if (dockerfile.exists()) {
-      err("Dockerfile already exists.");
+      fatal("Dockerfile already exists.");
     }
 
     // Load the file from the class path
     try (InputStream in = DockerfileCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/Dockerfile")) {
       if (in == null) {
-        err("Cannot load Dockerfile template.");
+        fatal("Cannot load Dockerfile template.");
       } else {
         Files.copy(in, dockerfile.toPath());
       }
     } catch (IOException e) {
-      err(e.getMessage());
+      fatal(e.getMessage());
     }
 
     File dockerignore = new File(getCwd(), ".dockerignore");
@@ -54,12 +54,12 @@ public class DockerfileCommand extends DefaultCommand {
       // Load the file from the class path
       try (InputStream in = DockerfileCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/.dockerignore")) {
         if (in == null) {
-          err("Cannot load .dockerignore template.");
+          fatal("Cannot load .dockerignore template.");
         } else {
           Files.copy(in, dockerignore.toPath());
         }
       } catch (IOException e) {
-        err(e.getMessage());
+        fatal(e.getMessage());
       }
     }
   }
