@@ -108,6 +108,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="websocketbase.html#isssl" class="tsd-kind-icon">is<wbr>Ssl</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="websocketbase.html#localaddress" class="tsd-kind-icon">local<wbr>Address</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="websocketbase.html#pause" class="tsd-kind-icon">pause</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="websocketbase.html#pipe" class="tsd-kind-icon">pipe</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="websocketbase.html#pipeto" class="tsd-kind-icon">pipe<wbr>To</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="websocketbase.html#ponghandler" class="tsd-kind-icon">pong<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="websocketbase.html#remoteaddress" class="tsd-kind-icon">remote<wbr>Address</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="websocketbase.html#resume" class="tsd-kind-icon">resume</a></li>
@@ -142,12 +144,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9345</li>
+									<li>Defined in index.d.ts:9979</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>When a {@code Websocket} is created it automatically registers an event handler with the event bus - the ID of that
+									<p>When a {@code WebSocket} is created it automatically registers an event handler with the event bus - the ID of that
 										handler is given by this method.
 										<p>
 											Given this ID, a different event loop can send a binary frame to that event handler using the event bus and
@@ -170,7 +172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9473</li>
+									<li>Defined in index.d.ts:10107</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -206,7 +208,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9503</li>
+									<li>Defined in index.d.ts:10137</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -221,13 +223,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9505</li>
+									<li>Defined in index.d.ts:10147</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Close the WebSocket sending a close frame with specified status code. You can give a look at various close payloads
+										here: RFC6455 <a href="https://tools.ietf.org/html/rfc6455#section-7.4.1">section 7.4.1</a>
+										<p/>
+										No more messages can be sent.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>statusCode: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Status code</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -235,16 +248,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9507</li>
+									<li>Defined in index.d.ts:10158</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Close sending a close frame with specified status code and reason. You can give a look at various close payloads
+										here: RFC6455 <a href="https://tools.ietf.org/html/rfc6455#section-7.4.1">section 7.4.1</a>
+										<p/>
+										No more messages can be sent.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>statusCode: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Status code</p>
+									</div>
 								</li>
 								<li>
 									<h5>reason: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>reason of closure</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -261,7 +288,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9446</li>
+									<li>Defined in index.d.ts:10080</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -296,7 +323,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#drainhandler">drainHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9333</li>
+									<li>Defined in index.d.ts:9967</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -321,7 +348,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9307</li>
+									<li>Defined in index.d.ts:9914</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -341,7 +368,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9495</li>
+									<li>Defined in index.d.ts:10129</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -364,7 +391,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#endhandler">endHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9327</li>
+									<li>Defined in index.d.ts:9961</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -388,7 +415,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#exceptionhandler">exceptionHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9317</li>
+									<li>Defined in index.d.ts:9951</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -412,7 +439,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9325</li>
+									<li>Defined in index.d.ts:9959</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -435,7 +462,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9454</li>
+									<li>Defined in index.d.ts:10088</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -468,7 +495,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#handler">handler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9319</li>
+									<li>Defined in index.d.ts:9953</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -491,7 +518,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9528</li>
+									<li>Defined in index.d.ts:10179</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -511,7 +538,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9521</li>
+									<li>Defined in index.d.ts:10172</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -532,10 +559,97 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9321</li>
+									<li>Defined in index.d.ts:9955</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="websocketbase.html" class="tsd-signature-type">WebSocketBase</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+					<a name="pipe" class="tsd-anchor"></a>
+					<h3>pipe</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">pipe<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><a href="../classes/buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#pipe">pipe</a></p>
+								<ul>
+									<li>Defined in index.d.ts:9931</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Pause this stream and return a <a href="../classes/pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="writestream.html">WriteStream</a>.
+										<p/>
+										The stream will be resumed when the pipe will be wired to a {@code WriteStream}.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><a href="../classes/buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a pipe</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+					<a name="pipeto" class="tsd-anchor"></a>
+					<h3>pipe<wbr>To</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">pipe<wbr>To<span class="tsd-signature-symbol">(</span>dst<span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="../classes/buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">pipe<wbr>To<span class="tsd-signature-symbol">(</span>dst<span class="tsd-signature-symbol">: </span><a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="../classes/buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#pipeto">pipeTo</a></p>
+								<ul>
+									<li>Defined in index.d.ts:9937</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Like {@link #pipeTo(WriteStream, Handler)} but with no completion handler.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dst: <a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="../classes/buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#pipeto">pipeTo</a></p>
+								<ul>
+									<li>Defined in index.d.ts:9949</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Pipe this {@code ReadStream} to the {@code WriteStream}.
+										<p>
+											Elements emitted by this stream will be written to the write stream until this stream ends or fails.
+											<p>
+												Once this stream has ended or failed, the write stream will be ended and the {@code handler} will be
+											called with the result.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dst: <a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="../classes/buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the destination write stream</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -549,18 +663,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9489</li>
+									<li>Defined in index.d.ts:10123</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set a pong message handler on the connection.  This handler will be invoked every time a pong message is received
-										on the server, and can be used by both clients and servers since the RFC 6455 Sections 5.5.2 and 5.5.3 do not
+									<p>Set a pong frame handler on the connection.  This handler will be invoked every time a pong frame is received
+										on the server, and can be used by both clients and servers since the RFC 6455 <a href="https://tools.ietf.org/html/rfc6455#section-5.5.2">section 5.5.2</a> and <a href="https://tools.ietf.org/html/rfc6455#section-5.5.3">section 5.5.3</a> do not
 										specify whether the client or server sends a ping.
 										<p>
 											Pong frames may be at most 125 bytes (octets).
 											<p>
-												There is no ping handler since pings should immediately be responded to with a pong with identical content
+												There is no ping handler since ping frames should immediately be responded to with a pong frame with identical content
 												<p>
 												Pong frames may be received unsolicited.</p>
 								</div>
@@ -589,7 +703,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9514</li>
+									<li>Defined in index.d.ts:10165</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -610,7 +724,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9323</li>
+									<li>Defined in index.d.ts:9957</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="websocketbase.html" class="tsd-signature-type">WebSocketBase</a></h4>
@@ -628,7 +742,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#setwritequeuemaxsize">setWriteQueueMaxSize</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9331</li>
+									<li>Defined in index.d.ts:9965</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -651,7 +765,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9537</li>
+									<li>Defined in index.d.ts:10188</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -677,12 +791,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9365</li>
+									<li>Defined in index.d.ts:9999</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns the websocket sub protocol selected by the websocket handshake.
+									<p>Returns the WebSocket sub protocol selected by the WebSocket handshake.
 										<p/>
 											On the server, the value will be {@code null} when the handler receives the websocket callback as the
 										handshake will not be completed yet.</p>
@@ -702,12 +816,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9356</li>
+									<li>Defined in index.d.ts:9990</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>When a {@code Websocket} is created it automatically registers an event handler with the eventbus, the ID of that
+									<p>When a {@code WebSocket} is created it automatically registers an event handler with the eventbus, the ID of that
 										handler is given by {@code textHandlerID}.
 										<p>
 											Given this ID, a different event loop can send a text frame to that event handler using the event bus and
@@ -729,7 +843,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9463</li>
+									<li>Defined in index.d.ts:10097</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -763,7 +877,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#write">write</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9329</li>
+									<li>Defined in index.d.ts:9963</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -786,7 +900,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9398</li>
+									<li>Defined in index.d.ts:10032</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -819,7 +933,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9389</li>
+									<li>Defined in index.d.ts:10023</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -851,7 +965,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9381</li>
+									<li>Defined in index.d.ts:10015</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -883,7 +997,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9373</li>
+									<li>Defined in index.d.ts:10007</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -915,18 +1029,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9421</li>
+									<li>Defined in index.d.ts:10055</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Writes a ping to the connection. This will be written in a single frame. Ping frames may be at most 125 bytes (octets).
+									<p>Writes a ping frame to the connection. This will be written in a single frame. Ping frames may be at most 125 bytes (octets).
 										<p>
 											This method should not be used to write application data and should only be used for implementing a keep alive or
-											to ensure the client is still responsive, see RFC 6455 Section 5.5.2.
+											to ensure the client is still responsive, see RFC 6455 Section <a href="https://tools.ietf.org/html/rfc6455#section-5.5.2">section 5.5.2</a>.
 											<p>
-												There is no pingHandler because RFC 6455 section 5.5.2 clearly states that the only response to a ping is a pong
-											with identical contents.</p>
+												There is no handler for ping frames because RFC 6455  clearly
+											states that the only response to a ping frame is a pong frame with identical contents.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -953,18 +1067,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9436</li>
+									<li>Defined in index.d.ts:10070</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Writes a pong to the connection. This will be written in a single frame. Pong frames may be at most 125 bytes (octets).
+									<p>Writes a pong frame to the connection. This will be written in a single frame. Pong frames may be at most 125 bytes (octets).
 										<p>
 											This method should not be used to write application data and should only be used for implementing a keep alive or
-											to ensure the client is still responsive, see RFC 6455 Section 5.5.2.
+											to ensure the client is still responsive, see RFC 6455 <a href="https://tools.ietf.org/html/rfc6455#section-5.5.2">section 5.5.2</a>.
 											<p>
-												There is no need to manually write a Pong, as the server and client both handle responding to a ping with a pong
-												automatically and this is exposed to users.RFC 6455 Section 5.5.3 states that pongs may be sent unsolicited in order
+												There is no need to manually write a pong frame, as the server and client both handle responding to a ping from with a pong from
+												automatically and this is exposed to users. RFC 6455 <a href="https://tools.ietf.org/html/rfc6455#section-5.5.3">section 5.5.3</a> states that pongs may be sent unsolicited in order
 											to implement a one way heartbeat.</p>
 								</div>
 							</div>
@@ -993,7 +1107,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#writequeuefull">writeQueueFull</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9315</li>
+									<li>Defined in index.d.ts:9922</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1017,7 +1131,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9407</li>
+									<li>Defined in index.d.ts:10041</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1098,6 +1212,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="websocketbase.html#pause" class="tsd-kind-icon">pause</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+								<a href="websocketbase.html#pipe" class="tsd-kind-icon">pipe</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+								<a href="websocketbase.html#pipeto" class="tsd-kind-icon">pipe<wbr>To</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="websocketbase.html#ponghandler" class="tsd-kind-icon">pong<wbr>Handler</a>
