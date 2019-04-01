@@ -154,10 +154,10 @@ public class ESModuleIO {
 
     if (main) {
       String content = stripShebang(buffer.toString());
-      return Boolean.getBoolean("ex4x.mjs") ? content : adapt(content);
+      return adapt(content);
     } else {
       String content = stripBOM(buffer.toString());
-      return Boolean.getBoolean("ex4x.mjs") ? content : adapt(content);
+      return adapt(content);
     }
   }
 

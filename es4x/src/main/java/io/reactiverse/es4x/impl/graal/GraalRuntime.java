@@ -36,8 +36,6 @@ public class GraalRuntime implements Runtime<Value> {
   private final Value bindings;
   private final Value module;
 
-  private String contentType = "application/javascript";
-
   private static String getCWD() {
     // clean up the current working dir
     String cwdOverride = System.getProperty("vertx.cwd");
@@ -144,14 +142,6 @@ public class GraalRuntime implements Runtime<Value> {
   }
 
   @Override
-  public void setContentType(String contentType) {
-    if (contentType == null) {
-      throw new IllegalArgumentException("ContentType cannot be null");
-    }
-    this.contentType = contentType;
-  }
-
-  @Override
   public void config(final JsonObject config) {
     if (config != null) {
       // add config as a global
@@ -185,7 +175,7 @@ public class GraalRuntime implements Runtime<Value> {
   }
 
   @Override
-  public Value eval(String script, String name, boolean literal) {
+  public Value eval(String script, String name, String contentType, boolean literal) {
     final Source source = Source
       .newBuilder("js", script, name)
       .interactive(literal)

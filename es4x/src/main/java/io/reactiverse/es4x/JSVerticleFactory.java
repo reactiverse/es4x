@@ -28,11 +28,6 @@ public final class JSVerticleFactory extends ESVerticleFactory {
   }
 
   @Override
-  Runtime createRuntime(ECMAEngine engine) {
-    return engine.newContext();
-  }
-
-  @Override
   Verticle createVerticle(Runtime runtime, String fsVerticleName) {
     return new Verticle() {
 

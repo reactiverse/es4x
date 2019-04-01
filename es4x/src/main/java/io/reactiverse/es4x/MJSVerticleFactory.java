@@ -26,14 +26,6 @@ import io.vertx.core.file.FileSystem;
 public final class MJSVerticleFactory extends ESVerticleFactory {
 
   @Override
-  Runtime createRuntime(ECMAEngine engine) {
-    final Runtime rt = engine.newContext();
-    // assume mjs as default script content type
-    rt.setContentType("application/javascript+module");
-    return rt;
-  }
-
-  @Override
   public String prefix() {
     return "mjs";
   }
@@ -74,6 +66,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
             // strip the shebang if present
             ESModuleIO.stripShebang(buffer.toString()),
             fsVerticleName,
+            "application/javascript+module",
             false);
           startFuture.complete();
         } catch (RuntimeException e) {
