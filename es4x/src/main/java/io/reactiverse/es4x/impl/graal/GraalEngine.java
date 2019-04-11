@@ -19,11 +19,14 @@ import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.jul.ES4XFormatter;
 import io.vertx.core.Vertx;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.Engine;
-import org.graalvm.polyglot.Source;
-import org.graalvm.polyglot.Value;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import org.graalvm.polyglot.*;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.logging.ConsoleHandler;
@@ -68,6 +71,9 @@ public class GraalEngine implements ECMAEngine {
   @Override
   @SuppressWarnings("unchecked")
   public Runtime<Value> newContext() {
+
+    final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
+
     final Context.Builder builder = Context.newBuilder("js")
       .engine(engine)
       .fileSystem(new VertxFileSystem(vertx))
@@ -79,20 +85,67 @@ public class GraalEngine implements ECMAEngine {
       .allowCreateThread(false)
       // host access is required to function properly however
       // users might declare filters
-      .allowHostAccess(true);
-
-    final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
-
-    if (allowedHostAccessClassFilters != null) {
-      builder.hostClassFilter(fqcn -> {
-        for (Pattern filter : allowedHostAccessClassFilters) {
-          if (filter.matcher(fqcn).matches()) {
-            return true;
+      .allowHostClassLookup(fqcn -> {
+        if (allowedHostAccessClassFilters == null) {
+          return true;
+        } else {
+          for (Pattern filter : allowedHostAccessClassFilters) {
+            if (filter.matcher(fqcn).matches()) {
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      });
-    }
+      })
+      .allowHostAccess(HostAccess.newBuilder()
+        .allowPublicAccess(true)
+        .allowArrayAccess(true)
+        .allowListAccess(true)
+        // map native JSON Object to Vert.x JSONObject
+        .targetTypeMapping(
+          Value.class,
+          JsonObject.class,
+          Value::hasMembers,
+          v -> {
+            if (v.isNull()) {
+              return null;
+            }
+            return new JsonObject(v.as(Map.class));
+          })
+        // map native JSON Array to Vert.x JSONObject
+        .targetTypeMapping(
+          Value.class,
+          JsonArray.class,
+          Value::hasArrayElements,
+          v -> {
+            if (v.isNull()) {
+              return null;
+            }
+            return new JsonArray(v.as(List.class));
+          })
+        // map native Date to Instant
+        .targetTypeMapping(
+          Value.class,
+          Instant.class,
+          Value::hasMembers,
+          v -> {
+            if (v.isNull()) {
+              return null;
+            }
+            return Instant.ofEpochMilli(v.invokeMember("getTime").asLong());
+          })
+        // map native Date to java.util.Date
+        .targetTypeMapping(
+          Value.class,
+          Date.class,
+          Value::hasMembers,
+          v -> {
+            if (v.isNull()) {
+              return null;
+            }
+            return new Date(v.invokeMember("getTime").asLong());
+          })
+        .build());
 
     // the instance
     final Context context = builder.build();
