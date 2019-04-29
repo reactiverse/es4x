@@ -35,7 +35,7 @@ matrix:
 #    - env: JDK='Oracle JDK 11'
 #      install: . ./install-jdk.sh -F 11 -L BCL
     - env: JDK='OpenJDK 11'
-      install: . ./install-jdk.sh -F 11 -L GPL
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
   # GraalVM
     - env: JDK='GraalVM 1.0.0'
       install: . ./install-jdk.sh --url https://github.com/oracle/graal/releases/download/vm-1.0.0-rc16/graalvm-ce-1.0.0-rc16-linux-amd64.tar.gz
