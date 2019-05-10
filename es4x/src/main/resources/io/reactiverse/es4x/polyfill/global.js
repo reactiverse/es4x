@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-(function (global) {
+(function (global, verticle) {
   'use strict';
 
   var System = Java.type('java.lang.System');
@@ -126,11 +126,17 @@
       });
     },
 
+    on: function (event, callback) {
+      if (verticle) {
+        verticle.on(event, callback);
+      }
+    },
+
     stdout: System.out,
     stderr: System.err,
     stdin: System.in,
     // non standard
     properties: System.getProperties(),
-  }
+  };
 
-})(global || this);
+})(global || this, verticle);

@@ -16,6 +16,7 @@
 package io.reactiverse.es4x.impl.nashorn;
 
 import io.reactiverse.es4x.Runtime;
+import io.reactiverse.es4x.impl.EventEmitterImpl;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import jdk.nashorn.api.scripting.JSObject;
@@ -23,7 +24,7 @@ import jdk.nashorn.api.scripting.NashornScriptEngine;
 
 import javax.script.*;
 
-public class NashornRuntime implements Runtime<Object> {
+public class NashornRuntime extends EventEmitterImpl implements Runtime<Object> {
 
   private final NashornScriptEngine engine;
   private final JSObject require;
@@ -48,7 +49,9 @@ public class NashornRuntime implements Runtime<Object> {
       // add polyfills
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/object.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/json.js");
+      put("verticle", this);
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/global.js");
+      put("verticle", null);
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/date.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/console.js");
       engine.invokeFunction("load", "classpath:io/reactiverse/es4x/polyfill/promise.js");

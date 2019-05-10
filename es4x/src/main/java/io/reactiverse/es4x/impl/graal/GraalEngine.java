@@ -37,6 +37,8 @@ public class GraalEngine implements ECMAEngine {
 
   private final Vertx vertx;
   private final Engine engine;
+  private final HostAccess hostAccess;
+
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
   private static boolean nag = true;
@@ -61,6 +63,56 @@ public class GraalEngine implements ECMAEngine {
         System.err.println("\u001B[1m\u001B[33mES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!\u001B[0m");
       }
     }
+
+    hostAccess = HostAccess.newBuilder()
+      .allowPublicAccess(true)
+      .allowArrayAccess(true)
+      .allowListAccess(true)
+      // map native JSON Object to Vert.x JSONObject
+      .targetTypeMapping(
+        Value.class,
+        JsonObject.class,
+        Value::hasMembers,
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          return new JsonObject(v.as(Map.class));
+        })
+      // map native JSON Array to Vert.x JSONObject
+      .targetTypeMapping(
+        Value.class,
+        JsonArray.class,
+        Value::hasArrayElements,
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          return new JsonArray(v.as(List.class));
+        })
+      // map native Date to Instant
+      .targetTypeMapping(
+        Value.class,
+        Instant.class,
+        Value::hasMembers,
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          return Instant.ofEpochMilli(v.invokeMember("getTime").asLong());
+        })
+      // map native Date to java.util.Date
+      .targetTypeMapping(
+        Value.class,
+        Date.class,
+        Value::hasMembers,
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          return new Date(v.invokeMember("getTime").asLong());
+        })
+      .build();
   }
 
   @Override
@@ -97,55 +149,7 @@ public class GraalEngine implements ECMAEngine {
           return false;
         }
       })
-      .allowHostAccess(HostAccess.newBuilder()
-        .allowPublicAccess(true)
-        .allowArrayAccess(true)
-        .allowListAccess(true)
-        // map native JSON Object to Vert.x JSONObject
-        .targetTypeMapping(
-          Value.class,
-          JsonObject.class,
-          Value::hasMembers,
-          v -> {
-            if (v.isNull()) {
-              return null;
-            }
-            return new JsonObject(v.as(Map.class));
-          })
-        // map native JSON Array to Vert.x JSONObject
-        .targetTypeMapping(
-          Value.class,
-          JsonArray.class,
-          Value::hasArrayElements,
-          v -> {
-            if (v.isNull()) {
-              return null;
-            }
-            return new JsonArray(v.as(List.class));
-          })
-        // map native Date to Instant
-        .targetTypeMapping(
-          Value.class,
-          Instant.class,
-          Value::hasMembers,
-          v -> {
-            if (v.isNull()) {
-              return null;
-            }
-            return Instant.ofEpochMilli(v.invokeMember("getTime").asLong());
-          })
-        // map native Date to java.util.Date
-        .targetTypeMapping(
-          Value.class,
-          Date.class,
-          Value::hasMembers,
-          v -> {
-            if (v.isNull()) {
-              return null;
-            }
-            return new Date(v.invokeMember("getTime").asLong());
-          })
-        .build());
+      .allowHostAccess(hostAccess);
 
     // allow specifying the custom ecma version
     if (System.getProperties().containsKey("js.ecmascript-version")) {

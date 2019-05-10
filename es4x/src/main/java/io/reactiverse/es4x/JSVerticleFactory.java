@@ -34,8 +34,6 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       private Vertx vertx;
       private Context context;
 
-      private Object self;
-
       @Override
       public Vertx getVertx() {
         return vertx;
@@ -51,6 +49,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       public void start(Future<Void> startFuture) throws Exception {
         final String address;
         final boolean worker;
+        final Object self;
 
         if (context != null) {
           address = context.deploymentID();
@@ -107,24 +106,17 @@ public final class JSVerticleFactory extends ESVerticleFactory {
 
       @Override
       public void stop(Future<Void> stopFuture) {
-        // user should set process undeployHandler(() => {})
-        if (self != null) {
-          if (runtime.hasMember(self, "stop")) {
-            try {
-              runtime.enter();
-              runtime.invokeMethod(self, "stop");
-            } catch (RuntimeException e) {
-              stopFuture.fail(e);
-              return;
-            } finally {
-              // done!
-              runtime.leave();
-            }
-          }
+        try {
+          runtime.enter();
+          runtime.emit("undeploy");
+          runtime.leave();
+          runtime.close();
+          stopFuture.complete();
+        } catch (RuntimeException e) {
+          runtime.leave();
+          runtime.close();
+          stopFuture.fail(e);
         }
-        // close the loader
-        runtime.close();
-        stopFuture.complete();
       }
     };
   }

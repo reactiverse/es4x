@@ -16,6 +16,7 @@
 package io.reactiverse.es4x.impl.graal;
 
 import io.reactiverse.es4x.Runtime;
+import io.reactiverse.es4x.impl.EventEmitterImpl;
 import io.reactiverse.es4x.impl.ScriptException;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -30,7 +31,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.function.Function;
 
-public class GraalRuntime implements Runtime<Value> {
+public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
 
   private final Context context;
   private final Value bindings;
@@ -132,7 +133,9 @@ public class GraalRuntime implements Runtime<Value> {
 
     // load all the polyfills
     context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).buildLiteral());
+    bindings.putMember("verticle", this);
     context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).buildLiteral());
+    bindings.removeMember("verticle");
     context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).buildLiteral());
     context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).buildLiteral());
     context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).buildLiteral());

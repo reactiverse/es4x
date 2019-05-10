@@ -17,7 +17,7 @@ package io.reactiverse.es4x;
 
 import io.vertx.core.json.JsonObject;
 
-public interface Runtime<T> {
+public interface Runtime<T> extends EventEmitter {
 
   /**
    * passes the given configuration to the runtime.
@@ -86,9 +86,9 @@ public interface Runtime<T> {
    */
   default T eval(String script, String name, boolean literal) throws Exception {
     if (name.endsWith(".mjs")) {
-      return eval(script, name, "application/javascript+module", false);
+      return eval(script, name, "application/javascript+module", literal);
     } else {
-      return eval(script, name, "application/javascript", false);
+      return eval(script, name, "application/javascript", literal);
     }
   }
 
