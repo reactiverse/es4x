@@ -68,6 +68,8 @@ public class GraalEngine implements ECMAEngine {
       .allowPublicAccess(true)
       .allowArrayAccess(true)
       .allowListAccess(true)
+      // TODO: enable once graal 19 SDK is on maven
+      //.allowAllImplementations(true)
       // map native JSON Object to Vert.x JSONObject
       .targetTypeMapping(
         Value.class,

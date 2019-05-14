@@ -56,12 +56,12 @@ public interface Runtime<T> extends EventEmitter {
    * Evals a given sript string.
    *
    * @param script string containing code.
-   * @param literal literals are non listed on debug sessions
+   * @param interactive literals are non listed on debug sessions
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  default T eval(String script, boolean literal) throws Exception {
-    return eval(script, "<eval>", literal);
+  default T eval(String script, boolean interactive) throws Exception {
+    return eval(script, "<eval>", interactive);
   }
 
   /**
@@ -69,11 +69,11 @@ public interface Runtime<T> extends EventEmitter {
    *
    * @param script string containing code.
    * @param name string containing name of the script (e.g.: the filename).
-   * @param literal literals are non listed on debug sessions
+   * @param interactive literals are non listed on debug sessions
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  T eval(String script, String name, String contentType, boolean literal) throws Exception;
+  T eval(String script, String name, String contentType, boolean interactive) throws Exception;
 
   /**
    * Evals a given sript string.

@@ -37,28 +37,15 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
   private final Value bindings;
   private final Value module;
 
-  private static String getCWD() {
-    // clean up the current working dir
-    String cwdOverride = System.getProperty("vertx.cwd");
-    String cwd;
-    // are the any overrides?
-    if (cwdOverride != null) {
-      cwd = new File(cwdOverride).getAbsolutePath();
-    } else {
-      // ensure it's not null
-      cwd = System.getProperty("user.dir", "");
-    }
-
-    // all paths are unix paths
-    cwd = cwd.replace('\\', '/');
-    // ensure it ends with /
-    if (cwd.charAt(cwd.length() - 1) != '/') {
-      cwd += '/';
-    }
-
-    // append the required prefix
-    return "file://" + cwd;
-  }
+  private static final Source[] POLYFILLS = new Source[] {
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).name("es4x_internal/json.js").buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).name("es4x_internal/global.js").buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).name("es4x_internal/date.js").buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).name("es4x_internal/console.js").buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).name("es4x_internal/promise.js").buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).name("es4x_internal/worker.js").buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).name("es4x_internal/cjs-loader.js").buildLiteral()
+  };
 
   public GraalRuntime(final Vertx vertx, Context context) {
 
@@ -72,7 +59,7 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
     bindings.putMember("vertx", vertx);
 
     // clean up the current working dir
-    final String cwd = getCWD();
+    final String cwd = "file://" + VertxFileSystem.getCWD();
 
     // override the default load function to allow proper mapping of file for debugging
     bindings.putMember("load", new Function<Object, Value>() {
@@ -132,16 +119,14 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
     });
 
     // load all the polyfills
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).buildLiteral());
     bindings.putMember("verticle", this);
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).buildLiteral());
+    for (int i = 0; i < POLYFILLS.length - 1; i++) {
+      context.eval(POLYFILLS[i]);
+    }
     bindings.removeMember("verticle");
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).buildLiteral());
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).buildLiteral());
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).buildLiteral());
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).buildLiteral());
+
     // keep a reference to module
-    module = context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral());
+    module = context.eval(POLYFILLS[POLYFILLS.length -1]);
   }
 
   @Override
@@ -178,14 +163,14 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
   }
 
   @Override
-  public Value eval(String script, String name, String contentType, boolean literal) {
+  public Value eval(String script, String name, String contentType, boolean interactive) {
     final Source source = Source
       .newBuilder("js", script, name)
-      .interactive(literal)
+      .interactive(interactive)
       .mimeType(contentType)
       .buildLiteral();
 
-    if (literal) {
+    if (interactive) {
       try {
         return context.eval(source);
       } catch (PolyglotException e) {

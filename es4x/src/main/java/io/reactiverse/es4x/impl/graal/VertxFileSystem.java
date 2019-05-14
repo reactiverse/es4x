@@ -25,6 +25,30 @@ public final class VertxFileSystem implements FileSystem {
 
   private final VertxInternal vertx;
   private final List<String> extensions = Arrays.asList(".mjs", ".js");
+  private final Path EMPTY = Paths.get("");
+
+  static String getCWD() {
+    // clean up the current working dir
+    String cwdOverride = System.getProperty("vertx.cwd");
+    String cwd;
+    // are the any overrides?
+    if (cwdOverride != null) {
+      cwd = new File(cwdOverride).getAbsolutePath();
+    } else {
+      // ensure it's not null
+      cwd = System.getProperty("user.dir", "");
+    }
+
+    // all paths are unix paths
+    cwd = cwd.replace('\\', '/');
+    // ensure it ends with /
+    if (cwd.charAt(cwd.length() - 1) != '/') {
+      cwd += '/';
+    }
+
+    return cwd;
+  }
+
 
   public VertxFileSystem(final Vertx vertx) {
     Objects.requireNonNull(vertx, "vertx must be non null.");
@@ -106,15 +130,20 @@ public final class VertxFileSystem implements FileSystem {
 
   @Override
   public Path parsePath(String path) {
+    // EMPTY shortcut
+    if ("".equals(path)) {
+      return EMPTY;
+    }
+
     try {
       File resolved = resolve(path);
       // can't resolve
       if (resolved == null) {
-        throw new FileNotFoundException(path);
+        throw new InvalidPathException(path, "Does not resolve to a File");
       }
       return resolved.toPath();
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new InvalidPathException(path, e.getMessage());
     }
   }
 

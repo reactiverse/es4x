@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased] -
+- Verticle events are now triggered from the `process.on` event emitter.
+- Updated to Graal rc16
 - Removed `es4x-cli` as it has been replaced with `es4x-pm`
 - ESM resolver can resolve npm modules that declare a `module` property.
 
