@@ -24,9 +24,6 @@ matrix:
     - env: JDK='OpenJDK 12'
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk12?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
   # GraalVM
-    # GraalVM RC
-    - env: JDK='GraalVM 1.0.0'
-      install: . ./install-jdk.sh --url https://github.com/oracle/graal/releases/download/vm-1.0.0-rc16/graalvm-ce-1.0.0-rc16-linux-amd64.tar.gz
     - env: JDK='GraalVM 19'
       install: . ./install-jdk.sh --url "https://github.com/oracle/graal/releases/download/vm-19.0.0/graalvm-ce-linux-amd64-19.0.0.tar.gz"
   # OpenJ9
@@ -34,12 +31,12 @@ matrix:
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
   allow_failures:
     - env: JDK='OpenJ9'
-    - env: JDK='GraalVM 19'
+    - env: JDK='OpenJDK 12'
 
 script:
   - mvn test -B
 
 after_success:
 #- '[[ "${TRAVIS_BRANCH}" = "develop" ]] && [[ "${TRAVIS_PULL_REQUEST}" = "false" ]] && [[ "${JDK}" = "OpenJDK 11" ]] && mvn --settings settings.xml -DskipTests deploy -B || true'
-- '[[ "${JDK}" = "GraalVM 1.0.0" ]] && mvn -f generator/pom.xml || true'
-- '[[ "${JDK}" = "GraalVM 1.0.0" ]] && bash <(curl -s https://codecov.io/bash) || true'
+- '[[ "${JDK}" = "OpenJDK 11" ]] && mvn -f generator/pom.xml || true'
+- '[[ "${JDK}" = "OpenJDK 11" ]] && bash <(curl -s https://codecov.io/bash) || true'
