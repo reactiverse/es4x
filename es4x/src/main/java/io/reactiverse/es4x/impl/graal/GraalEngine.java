@@ -64,11 +64,7 @@ public class GraalEngine implements ECMAEngine {
       }
     }
 
-    hostAccess = HostAccess.newBuilder()
-      .allowPublicAccess(true)
-      .allowArrayAccess(true)
-      .allowListAccess(true)
-      .allowAllImplementations(true)
+    hostAccess = HostAccess.newBuilder(HostAccess.ALL)
       // map native JSON Object to Vert.x JSONObject
       .targetTypeMapping(
         Value.class,
