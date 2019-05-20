@@ -149,9 +149,7 @@ public class GraalEngine implements ECMAEngine {
       .allowHostAccess(hostAccess);
 
     // allow specifying the custom ecma version
-    if (System.getProperties().containsKey("js.ecmascript-version")) {
-      builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version"));
-    }
+    builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version", "2019"));
 
     // the instance
     final Context context = builder.build();

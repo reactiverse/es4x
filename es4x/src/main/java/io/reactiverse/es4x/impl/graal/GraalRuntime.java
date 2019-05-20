@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -52,9 +53,10 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
     this.context = context;
     this.bindings = this.context.getBindings("js");
 
-    // remove the exit and quit functions
-    bindings.removeMember("exit");
-    bindings.removeMember("quit");
+    // remove specific features that we don't want to expose
+    for (String identifier : Arrays.asList("exit", "quit", "Packages", "java", "javafx", "javax", "com", "org", "edu")) {
+      bindings.removeMember(identifier);
+    }
     // add vertx as a global
     bindings.putMember("vertx", vertx);
 

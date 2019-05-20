@@ -4,6 +4,7 @@ import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,5 +50,14 @@ public class ESModuleTest {
     Object result = runtime.eval("import { a } from './mjs/moduleA'\n a();\n", "script.mjs", false);
 
     should.assertEquals("bar", result.toString());
+  }
+
+  @Test
+  @Ignore
+  public void testMeta(TestContext should) throws Exception {
+
+    Object result = runtime.eval("import { f } from './mjs/meta'\n f();\n", "script.mjs", false);
+
+    should.assertEquals("./mjs/meta", result.toString());
   }
 }
