@@ -39,13 +39,13 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
   private final Value module;
 
   private static final Source[] POLYFILLS = new Source[] {
-    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).name("es4x_internal/json.js").buildLiteral(),
-    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).name("es4x_internal/global.js").buildLiteral(),
-    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).name("es4x_internal/date.js").buildLiteral(),
-    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).name("es4x_internal/console.js").buildLiteral(),
-    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).name("es4x_internal/promise.js").buildLiteral(),
-    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).name("es4x_internal/worker.js").buildLiteral(),
-    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).name("es4x_internal/cjs-loader.js").buildLiteral()
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral()
   };
 
   public GraalRuntime(final Vertx vertx, Context context) {
@@ -104,8 +104,7 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
                 // absolute uri
                 uri = new URI("file://" + name);
               }
-
-              source = Source.newBuilder("js", script, name.toString()).uri(uri).build();
+              source = Source.newBuilder("js", script, uri.getPath()).uri(uri).build();
             } else {
               source = Source.newBuilder("js", script, "<module-wrapper>").cached(false).build();
             }

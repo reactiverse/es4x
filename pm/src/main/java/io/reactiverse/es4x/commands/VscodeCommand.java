@@ -42,9 +42,11 @@ public class VscodeCommand extends DefaultCommand {
     final File pkg = new File(getCwd(), "package.json");
 
     String app = "Launch";
+    String executable = null;
 
     if (pkg.exists()) {
       Map pkgJson = read(pkg);
+      executable = "./node_modules/.bin/" + pkgJson.get("name");
       app = "Launch " + pkgJson.get("name");
     }
 
@@ -76,13 +78,16 @@ public class VscodeCommand extends DefaultCommand {
 		config.put("type", "node");
 		config.put("request", "launch");
 		config.put("cwd", "${workspaceFolder}");
-		config.put("runtimeExecutable", "npm");
-		List<String> npmArgs = new ArrayList<>();
-		npmArgs.add("run-script");
-		npmArgs.add("start");
-		npmArgs.add("--");
-		npmArgs.add("-inspect=5858");
-		config.put("runtimeArgs", npmArgs);
+    config.put("runtimeExecutable", executable == null ? "npm" : executable);
+		List<String> args = new ArrayList<>();
+		if (executable == null) {
+		  // delegate to npm
+      args.add("run-script");
+      args.add("start");
+      args.add("--");
+    }
+    args.add("--inspect=5858");
+		config.put("runtimeArgs", args);
 		config.put("port", "5858");
 		config.put("outputCapture", "std");
 		// server ready
@@ -112,7 +117,7 @@ public class VscodeCommand extends DefaultCommand {
 			} catch (IOException e) {
 				fatal(e.getMessage());
 			}
-		}
+    }
 
 		if (launcher) {
 			try {
