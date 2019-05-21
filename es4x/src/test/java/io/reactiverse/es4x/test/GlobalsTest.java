@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -94,6 +95,7 @@ public class GlobalsTest {
 
   @Test(timeout = 10000)
   public void testDateToInstant(TestContext ctx) throws Exception {
-    runtime.eval("console.log(new Date().toInstant());");
+    runtime.put("instant", Instant.now());
+    runtime.eval("console.log(Date.fromInstant(instant))");
   }
 }
