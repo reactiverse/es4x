@@ -9,9 +9,9 @@ function one() {
       // stitched to the original exception
       var trace = err.getStackTrace();
       should.assertTrue(trace.length > 3);
-      should.assertEquals('stacktraces/index.js', trace[0].getFileName());
-      should.assertEquals('stacktraces/index.js', trace[1].getFileName());
-      should.assertEquals('stacktraces/index.js', trace[2].getFileName());
+      should.assertNotEquals(-1, trace[0].getFileName().indexOf('stacktraces/index.js'));
+      should.assertNotEquals(-1, trace[1].getFileName().indexOf('stacktraces/index.js'));
+      should.assertNotEquals(-1, trace[2].getFileName().indexOf('stacktraces/index.js'));
       console.trace(err);
       test.complete();
       return;
