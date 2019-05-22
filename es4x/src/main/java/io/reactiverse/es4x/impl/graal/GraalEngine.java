@@ -21,6 +21,8 @@ import io.reactiverse.es4x.jul.ES4XFormatter;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.*;
 
 import java.time.Instant;
@@ -34,6 +36,8 @@ import java.util.logging.Handler;
 import java.util.regex.Pattern;
 
 public class GraalEngine implements ECMAEngine {
+
+  private static final Logger LOG = LoggerFactory.getLogger(GraalEngine.class);
 
   private final Vertx vertx;
   private final Engine engine;
@@ -60,7 +64,7 @@ public class GraalEngine implements ECMAEngine {
     if (nag) {
       nag = false;
       if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
-        System.err.println("\u001B[1m\u001B[33mES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!\u001B[0m");
+        LOG.warn("ES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!");
       }
     }
 
