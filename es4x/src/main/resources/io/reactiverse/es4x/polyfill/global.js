@@ -107,7 +107,7 @@
   global.process = {
     env: System.getenv(),
     pid: pid,
-    engine: System.getProperty('es4x.engine'),
+    engine: 'graaljs',
 
     exit: function (exitCode) {
       vertx.close(function (res) {
@@ -136,7 +136,17 @@
     stderr: System.err,
     stdin: System.in,
     // non standard
-    properties: System.getProperties(),
+    properties: new Proxy({}, {
+      set: function (obj, prop, value) {
+        if (typeof prop !== 'string') {
+          throw new TypeError('Property name must be a String');
+        }
+        return System.setProperty(prop, value);
+      },
+      get: function (obj, prop) {
+        return System.getProperty(prop);
+      }
+    }),
   };
 
 })(global || this, verticle);

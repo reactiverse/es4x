@@ -5,29 +5,14 @@ import io.vertx.core.VertxOptions;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
-import io.vertx.ext.unit.junit.VertxUnitRunnerWithParametersFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-import java.util.Arrays;
-import java.util.List;
-
-@RunWith(Parameterized.class)
-@Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
+@RunWith(VertxUnitRunner.class)
 public class CodecTest {
 
-  @Parameterized.Parameters
-  public static List<String> engines() {
-    return Arrays.asList("Nashorn", "GraalJS");
-  }
-
-  public CodecTest(String engine) {
-    System.setProperty("es4x.engine", engine.toLowerCase());
-  }
-
   @Test(timeout = 10000)
-  public void testAlias(TestContext should) throws Exception {
+  public void testAlias(TestContext should) {
     final Async test = should.async();
     Vertx.clusteredVertx(new VertxOptions(), clusteredVertx -> {
       should.assertTrue(clusteredVertx.succeeded());
