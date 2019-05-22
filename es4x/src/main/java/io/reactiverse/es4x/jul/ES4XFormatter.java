@@ -89,7 +89,7 @@ public class ES4XFormatter extends Formatter {
     }
     if (INFO.equals(l)) {
       if (ansi) {
-        return "\u001B[1m\u001B[31m";
+        return "\u001B[1m\u001B[34m";
       } else {
         return "[INFO] ";
       }

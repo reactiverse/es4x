@@ -18,6 +18,8 @@ package io.reactiverse.es4x.impl;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.file.FileSystem;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,7 +30,7 @@ import java.util.regex.Pattern;
 
 public class ESModuleIO {
 
-  private static final boolean DEBUG = Boolean.getBoolean("es2cjs.debug");
+  private static final Logger LOGGER = LoggerFactory.getLogger(ESModuleIO.class);
 
   private static final Pattern importDef = Pattern.compile("import (\\* as [a-zA-Z_$][0-9a-zA-Z_$]*|\\{.+?}) from ['\"]([0-9a-zA-Z_$@./\\- ]+)['\"];?", Pattern.DOTALL);
   private static final Pattern exportDef = Pattern.compile("\\{(.+?)}", Pattern.DOTALL);
@@ -54,9 +56,7 @@ public class ESModuleIO {
   public static String adapt(String statement) {
     return replace(statement, importDef, importMatcher -> {
 
-      if (DEBUG) {
-        System.out.println(importMatcher.group(0));
-      }
+      LOGGER.debug(importMatcher.group(0));
 
       final String exports = importMatcher.group(1);
       final String module = importMatcher.group(2);

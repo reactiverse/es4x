@@ -63,10 +63,8 @@ public class JLinkCommand extends DefaultCommand {
 
         // Collect the jmods used in the application
         String mods = exec(javaHomePrefix() + "jdeps", "--module-path", "node_modules/.lib", "--print-module-deps", "node_modules/.bin/" + launcher + ".jar");
-
         // trim any new line
         mods = mods.replaceAll("\r?\n", "");
-
         // enable jvmci if supported
         String modules = exec(javaHomePrefix() + "java", "--list-modules");
         if (modules.contains("jdk.internal.vm.ci")) {
@@ -77,9 +75,6 @@ public class JLinkCommand extends DefaultCommand {
           // clean up
           mods = mods.replaceAll(",,", ",");
         }
-
-        System.out.println(mods);
-
         // jlink
         exec(javaHomePrefix() + "jlink", "--no-header-files", "--no-man-pages", "--compress=2", "-strip-debug", "--add-modules", mods, "--output", "jre");
       } else {

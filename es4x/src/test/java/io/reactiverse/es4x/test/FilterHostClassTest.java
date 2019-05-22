@@ -1,5 +1,7 @@
 package io.reactiverse.es4x.test;
 
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -12,6 +14,9 @@ import org.junit.runner.RunWith;
 
 @RunWith(VertxUnitRunner.class)
 public class FilterHostClassTest {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(FilterHostClassTest.class);
+
 
   @BeforeClass
   public static void before() {
@@ -32,7 +37,7 @@ public class FilterHostClassTest {
     final Async async = ctx.async();
     rule.vertx().deployVerticle("js:./verticle3.js", deploy -> {
       ctx.assertFalse(deploy.succeeded());
-      System.out.println(deploy.cause());
+      LOGGER.error("SHOULD FAIL", deploy.cause());
       // fails because we excluded the class "java.nio.file.FileAlreadyExistsException"
       async.complete();
     });
