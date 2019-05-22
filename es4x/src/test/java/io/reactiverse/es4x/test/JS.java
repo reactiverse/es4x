@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import jdk.nashorn.api.scripting.JSObject;
 import org.graalvm.polyglot.Value;
 
 public final class JS {
@@ -10,9 +9,6 @@ public final class JS {
   }
 
   static boolean isFunction(Object obj) {
-    if (obj instanceof JSObject) {
-      return ((JSObject) obj).isFunction();
-    }
     if (obj instanceof Value) {
       return ((Value) obj).canExecute();
     }
@@ -20,9 +16,6 @@ public final class JS {
   }
 
   static Object getMember(Object obj, String member) {
-    if (obj instanceof JSObject) {
-      return ((JSObject) obj).getMember(member);
-    }
     if (obj instanceof Value) {
       return ((Value) obj).getMember(member);
     }
@@ -31,9 +24,6 @@ public final class JS {
   }
 
   static <T> T getMember(Object obj, String member, Class<T> asClass) {
-    if (obj instanceof JSObject) {
-      return (T) ((JSObject) obj).getMember(member);
-    }
     if (obj instanceof Value) {
       return ((Value) obj).getMember(member).as(asClass);
     }
@@ -42,9 +32,6 @@ public final class JS {
   }
 
   static Object call(Object thiz, Object fn, Object... args) {
-    if (fn instanceof JSObject) {
-      return ((JSObject) fn).call(thiz, args);
-    }
     if (fn instanceof Value) {
       return ((Value) fn).execute(args);
     }
@@ -53,10 +40,6 @@ public final class JS {
   }
 
   static <T> T callAs(Object thiz, Object fn, Class<T> asType, Object... args) {
-    if (fn instanceof JSObject) {
-      return (T) ((JSObject) fn).call(thiz, args);
-    }
-
     if (fn instanceof Value) {
       return ((Value) fn).execute(args).as(asType);
     }

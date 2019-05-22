@@ -16,7 +16,6 @@
 package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.graal.GraalEngine;
-import io.reactiverse.es4x.impl.nashorn.NashornEngine;
 import io.vertx.core.Vertx;
 
 import java.util.regex.Pattern;

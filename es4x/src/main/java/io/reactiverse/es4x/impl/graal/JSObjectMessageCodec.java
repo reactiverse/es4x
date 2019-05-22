@@ -23,9 +23,10 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
-final class JSObjectMessageCodec<T> extends AbstractJSObjectMessageCodec<T> {
+import java.util.List;
+import java.util.Map;
 
-  private static final Source stringify = Source.newBuilder("js", "JSON.stringify", "<codec>").internal(true).buildLiteral();
+final class JSObjectMessageCodec<T> extends AbstractJSObjectMessageCodec<T> {
 
   @Override
   public void encodeToWire(Buffer buffer, T jsObject) {
@@ -41,10 +42,20 @@ final class JSObjectMessageCodec<T> extends AbstractJSObjectMessageCodec<T> {
       return;
     }
 
-    final Context ctx = Context.getCurrent();
-    Buffer encoded = Buffer.buffer(ctx.eval(stringify).execute(value).asString());
-    buffer.appendInt(encoded.length());
-    buffer.appendBuffer(buffer);
+
+    if (value.hasArrayElements()) {
+      final Buffer encoded = new JsonArray(value.as(List.class)).toBuffer();
+      buffer.appendInt(encoded.length());
+      buffer.appendBuffer(buffer);
+    }
+
+    if (value.hasMembers()) {
+      final Buffer encoded = new JsonObject(value.as(Map.class)).toBuffer();
+      buffer.appendInt(encoded.length());
+      buffer.appendBuffer(buffer);
+    }
+
+    throw new ClassCastException("type is not Object or Array");
   }
 
   @Override
@@ -60,17 +71,12 @@ final class JSObjectMessageCodec<T> extends AbstractJSObjectMessageCodec<T> {
       return null;
     }
 
-    final Context ctx = Context.getCurrent();
-    String encoded = ctx.eval(stringify).execute(value).asString();
-
-    char c = encoded.charAt(0);
-
-    // encoded messages are expected not to be pretty printed
-    if (c == '{') {
-      return new JsonObject(encoded);
+    if (value.hasArrayElements()) {
+      return new JsonArray(value.as(List.class));
     }
-    if (c == '[') {
-      return new JsonArray(encoded);
+
+    if (value.hasMembers()) {
+      return new JsonObject(value.as(Map.class));
     }
 
     throw new ClassCastException("type is not Object or Array");
