@@ -149,7 +149,7 @@ public class InstallCommand extends DefaultCommand {
             err(e.getMessage());
           }
         } else {
-          warn("Current JDK supports Nashorn [ES5.1] or GraalJS Interpreted!");
+          warn("Current JDK only supports GraalJS in Interpreted mode!");
         }
       }
     }
