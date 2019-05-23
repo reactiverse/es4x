@@ -95,7 +95,7 @@ public class GraalEngine implements ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Instant.class,
-        Value::hasMembers,
+        v -> v.hasMembers() && v.hasMember("getTime"),
         v -> {
           if (v.isNull()) {
             return null;
@@ -106,14 +106,22 @@ public class GraalEngine implements ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Date.class,
-        Value::hasMembers,
+        v -> v.hasMembers() && v.hasMember("getTime"),
         v -> {
           if (v.isNull()) {
             return null;
           }
           return new Date(v.invokeMember("getTime").asLong());
         })
+      // Ensure Arrays are exposed as List when the Java API is accepting Object
+      .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();
+  }
+
+  private void registerCodec(Class className) {
+    vertx.eventBus()
+      .unregisterDefaultCodec(className)
+      .registerDefaultCodec(className, new JSObjectMessageCodec(className.getName()));
   }
 
   @Override
@@ -161,12 +169,14 @@ public class GraalEngine implements ECMAEngine {
     // install the codec if needed
     if (codecInstalled.compareAndSet(false, true)) {
       // register a default codec to allow JSON messages directly from GraalJS to the JVM world
-      final Consumer callback = value -> vertx.eventBus()
-        .unregisterDefaultCodec(value.getClass())
-        .registerDefaultCodec(value.getClass(), new JSObjectMessageCodec());
+      final Consumer callback = value -> registerCodec(value.getClass());
 
       context.eval(
         Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
+      ).execute(callback);
+
+      context.eval(
+        Source.newBuilder("js", "(function (fn) { fn([]); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
       ).execute(callback);
     }
 

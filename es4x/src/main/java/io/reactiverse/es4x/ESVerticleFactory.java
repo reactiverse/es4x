@@ -39,12 +39,8 @@ public abstract class ESVerticleFactory implements VerticleFactory {
   @Override
   public Verticle createVerticle(String verticleName, ClassLoader classLoader) {
 
-    final Runtime runtime;
     final String fsVerticleName = VerticleFactory.removePrefix(verticleName);
-
-    synchronized (this) {
-      runtime = engine.newContext();
-    }
+    final Runtime runtime = engine.newContext();
 
     if (">".equals(fsVerticleName)) {
       return new REPLVerticle(runtime);

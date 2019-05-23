@@ -19,64 +19,54 @@ import io.reactiverse.es4x.impl.AbstractJSObjectMessageCodec;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.Source;
-import org.graalvm.polyglot.Value;
 
 import java.util.List;
 import java.util.Map;
 
-final class JSObjectMessageCodec<T> extends AbstractJSObjectMessageCodec<T> {
+final class JSObjectMessageCodec extends AbstractJSObjectMessageCodec {
+
+  public JSObjectMessageCodec(String codecName) {
+    super(codecName);
+  }
 
   @Override
-  public void encodeToWire(Buffer buffer, T jsObject) {
+  public void encodeToWire(Buffer buffer, Object jsObject) {
 
-    final Value value = Value.asValue(jsObject);
-
-    if (value.isHostObject() || value.isString() || value.isNumber() || value.isBoolean() || value.isNativePointer() || value.isProxyObject()) {
-      throw new ClassCastException("type is not Object or Array");
-    }
-
-    if (value.isNull()) {
+    if (jsObject == null) {
       buffer.appendInt(0);
       return;
     }
 
-
-    if (value.hasArrayElements()) {
-      final Buffer encoded = new JsonArray(value.as(List.class)).toBuffer();
+    if (jsObject instanceof List) {
+      final Buffer encoded = new JsonArray((List) jsObject).toBuffer();
       buffer.appendInt(encoded.length());
       buffer.appendBuffer(buffer);
+      return;
     }
 
-    if (value.hasMembers()) {
-      final Buffer encoded = new JsonObject(value.as(Map.class)).toBuffer();
+    if (jsObject instanceof Map) {
+      final Buffer encoded = new JsonObject((Map) jsObject).toBuffer();
       buffer.appendInt(encoded.length());
       buffer.appendBuffer(buffer);
+      return;
     }
 
     throw new ClassCastException("type is not Object or Array");
   }
 
   @Override
-  public Object transform(T jsObject) {
+  public Object transform(Object jsObject) {
 
-    final Value value = Value.asValue(jsObject);
-
-    if (value.isHostObject() || value.isString() || value.isNumber() || value.isBoolean() || value.isNativePointer() || value.isProxyObject()) {
-      throw new ClassCastException("type is not Object or Array");
-    }
-
-    if (value.isNull()) {
+    if (jsObject == null) {
       return null;
     }
 
-    if (value.hasArrayElements()) {
-      return new JsonArray(value.as(List.class));
+    if (jsObject instanceof List) {
+      return new JsonArray((List) jsObject).copy();
     }
 
-    if (value.hasMembers()) {
-      return new JsonObject(value.as(Map.class));
+    if (jsObject instanceof Map) {
+      return new JsonObject((Map) jsObject).copy();
     }
 
     throw new ClassCastException("type is not Object or Array");

@@ -20,7 +20,13 @@ import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-public abstract class AbstractJSObjectMessageCodec<T> implements MessageCodec<T, Object> {
+public abstract class AbstractJSObjectMessageCodec implements MessageCodec<Object, Object> {
+
+  private final String codecName;
+
+  public AbstractJSObjectMessageCodec(String codecName) {
+    this.codecName = codecName;
+  }
 
   @Override
   public Object decodeFromWire(int pos, Buffer buffer) {
@@ -46,7 +52,7 @@ public abstract class AbstractJSObjectMessageCodec<T> implements MessageCodec<T,
 
   @Override
   public String name() {
-    return getClass().getSimpleName();
+    return codecName;
   }
 
   @Override
