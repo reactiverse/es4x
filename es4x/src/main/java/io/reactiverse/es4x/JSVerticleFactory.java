@@ -109,13 +109,12 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         try {
           runtime.enter();
           runtime.emit("undeploy");
-          runtime.leave();
-          runtime.close();
           stopFuture.complete();
         } catch (RuntimeException e) {
+          stopFuture.fail(e);
+        } finally {
           runtime.leave();
           runtime.close();
-          stopFuture.fail(e);
         }
       }
     };
