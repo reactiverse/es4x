@@ -21,6 +21,8 @@ import io.reactiverse.es4x.jul.ES4XFormatter;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.*;
 
 import java.time.Instant;
@@ -34,6 +36,8 @@ import java.util.logging.Handler;
 import java.util.regex.Pattern;
 
 public class GraalEngine implements ECMAEngine {
+
+  private static final Logger LOG = LoggerFactory.getLogger(GraalEngine.class);
 
   private final Vertx vertx;
   private final Engine engine;
@@ -60,7 +64,7 @@ public class GraalEngine implements ECMAEngine {
     if (nag) {
       nag = false;
       if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
-        System.err.println("\u001B[1m\u001B[33mES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!\u001B[0m");
+        LOG.warn("ES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!");
       }
     }
 
@@ -91,7 +95,7 @@ public class GraalEngine implements ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Instant.class,
-        Value::hasMembers,
+        v -> v.hasMembers() && v.hasMember("getTime"),
         v -> {
           if (v.isNull()) {
             return null;
@@ -102,14 +106,22 @@ public class GraalEngine implements ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Date.class,
-        Value::hasMembers,
+        v -> v.hasMembers() && v.hasMember("getTime"),
         v -> {
           if (v.isNull()) {
             return null;
           }
           return new Date(v.invokeMember("getTime").asLong());
         })
+      // Ensure Arrays are exposed as List when the Java API is accepting Object
+      .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();
+  }
+
+  private void registerCodec(Class className) {
+    vertx.eventBus()
+      .unregisterDefaultCodec(className)
+      .registerDefaultCodec(className, new JSObjectMessageCodec(className.getName()));
   }
 
   @Override
@@ -157,12 +169,14 @@ public class GraalEngine implements ECMAEngine {
     // install the codec if needed
     if (codecInstalled.compareAndSet(false, true)) {
       // register a default codec to allow JSON messages directly from GraalJS to the JVM world
-      final Consumer callback = value -> vertx.eventBus()
-        .unregisterDefaultCodec(value.getClass())
-        .registerDefaultCodec(value.getClass(), new JSObjectMessageCodec());
+      final Consumer callback = value -> registerCodec(value.getClass());
 
       context.eval(
         Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
+      ).execute(callback);
+
+      context.eval(
+        Source.newBuilder("js", "(function (fn) { fn([]); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
       ).execute(callback);
     }
 

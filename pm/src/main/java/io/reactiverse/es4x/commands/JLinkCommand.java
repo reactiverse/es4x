@@ -62,24 +62,21 @@ public class JLinkCommand extends DefaultCommand {
         }
 
         // Collect the jmods used in the application
-        String mods = exec(javaHomePrefix() + "jdeps", "--module-path", "node_modules/.libs", "--print-module-deps", "node_modules/.bin/" + launcher + ".jar");
-
-        // remove nashorn is jvmci is supported
+        String mods = exec(javaHomePrefix() + "jdeps", "--module-path", "node_modules/.lib", "--print-module-deps", "node_modules/.bin/" + launcher + ".jar");
+        // trim any new line
+        mods = mods.replaceAll("\r?\n", "");
+        // enable jvmci if supported
         String modules = exec(javaHomePrefix() + "java", "--list-modules");
         if (modules.contains("jdk.internal.vm.ci")) {
           if (!mods.contains("jdk.internal.vm.ci")) {
             // add the jvmci module
             mods = mods + ",jdk.internal.vm.ci";
           }
-          // remove nashorn
-          mods = mods.replace("jdk.scripting.nashorn", "");
-          mods = mods.replace("jdk.dynalink", "");
           // clean up
           mods = mods.replaceAll(",,", ",");
         }
-
         // jlink
-        exec(javaHomePrefix() + "jlink", "--no-header-files", "--no-man-pages", "--compress=2", "-strip-debug", "--add-modules", mods, "--output", "/jre");
+        exec(javaHomePrefix() + "jlink", "--no-header-files", "--no-man-pages", "--compress=2", "-strip-debug", "--add-modules", mods, "--output", "jre");
       } else {
         fatal("Your JDK version does not support jlink (< 11)");
       }

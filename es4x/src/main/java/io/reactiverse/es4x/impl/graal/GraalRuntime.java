@@ -17,7 +17,6 @@ package io.reactiverse.es4x.impl.graal;
 
 import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.impl.EventEmitterImpl;
-import io.reactiverse.es4x.impl.ScriptException;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.*;
@@ -171,17 +170,7 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
       .mimeType(contentType)
       .buildLiteral();
 
-    if (interactive) {
-      try {
-        return context.eval(source);
-      } catch (PolyglotException e) {
-        // in this special case we wrap and hide the polyglot type
-        // so we can keep a contract outside graal
-        throw new ScriptException(e, e.isIncompleteSource(), e.isExit());
-      }
-    } else {
-      return context.eval(source);
-    }
+    return context.eval(source);
   }
 
   @Override

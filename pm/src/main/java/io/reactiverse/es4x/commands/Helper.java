@@ -73,15 +73,15 @@ final class Helper {
   }
 
   static void fatal(String message) {
-    System.err.println("\u001B[1m\u001B[33m" + message + "\u001B[0m");
+    System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
     System.exit(1);
   }
 
   static void err(String message) {
-    System.err.println("\u001B[1m\u001B[33m" + message + "\u001B[0m");
+    System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
   }
 
   static void warn(String message) {
-    System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
+    System.err.println("\u001B[1m\u001B[33m" + message + "\u001B[0m");
   }
 }

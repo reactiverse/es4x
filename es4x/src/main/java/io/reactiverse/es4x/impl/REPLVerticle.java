@@ -18,7 +18,10 @@ package io.reactiverse.es4x.impl;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.parsetools.RecordParser;
+import org.graalvm.polyglot.PolyglotException;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -27,6 +30,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class REPLVerticle extends AbstractVerticle {
 
   private static final AtomicBoolean ACTIVE = new AtomicBoolean(false);
+
+  private final Logger log = LoggerFactory.getLogger(REPLVerticle.class);
 
   private final Runtime runtime;
   private final StringBuilder buffer = new StringBuilder();
@@ -69,7 +74,7 @@ public class REPLVerticle extends AbstractVerticle {
           System.out.println("\u001B[1;90m" + runtime.eval(statement, true) + "\u001B[0m");
           System.out.print("js:> ");
           System.out.flush();
-        } catch (ScriptException t) {
+        } catch (PolyglotException t) {
           if (t.isIncompleteSource()) {
             updateBuffer(statement, false);
             return;
@@ -91,30 +96,7 @@ public class REPLVerticle extends AbstractVerticle {
           System.out.print("js:> ");
           System.out.flush();
         } catch (Exception ex) {
-          String message = null;
-          String trace = null;
-
-          // collect the trace back to a string
-          try (StringWriter sw = new StringWriter()) {
-            PrintWriter pw = new PrintWriter(sw);
-            ex.printStackTrace(pw);
-            String sStackTrace = sw.toString(); // stack trace as a string
-            int idx = sStackTrace.indexOf("\n\tat");
-            if (idx != -1) {
-              message = sStackTrace.substring(0, idx);
-              trace = sStackTrace.substring(idx);
-            } else {
-              trace = sStackTrace;
-            }
-          } catch (IOException e) {
-            // ignore...
-          }
-
-          if (message != null) {
-            System.out.print("\u001B[1m\u001B[31m" + message + "\u001B[0m");
-          }
-
-          System.out.println(trace);
+          log.error(ex.getMessage(), ex);
           System.out.print("js:> ");
           System.out.flush();
         }
