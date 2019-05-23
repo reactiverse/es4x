@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased] -
+- Ugrade to Vert.x 3.7.1
+- Avoid calling graaljs APIs from the EventBus codec
 - Global log formatter used across graal and vert.x
 - Fixed EventBus codec for Graal objects
 - Removed Nashorn
