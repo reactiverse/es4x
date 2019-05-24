@@ -8,4 +8,4 @@ vertx
   })
   .listen(8080);
 
-console.log('Server listening at: http://localhost:8080/');
+console.log('Vert.x started on port 8080');
