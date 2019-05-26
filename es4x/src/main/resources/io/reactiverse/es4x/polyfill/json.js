@@ -34,9 +34,6 @@
       if (value instanceof JsonArray || value instanceof JsonObject) {
         return value.encode();
       }
-      if (value instanceof Map || value instanceof List) {
-        return new Json.encode(value);
-      }
       if (value instanceof Instant) {
         return value.toString();
       }
