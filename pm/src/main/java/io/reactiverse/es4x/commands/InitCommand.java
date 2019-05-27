@@ -67,11 +67,9 @@ public class InitCommand extends DefaultCommand {
         test = test.substring(0, test.length() - 3) + ".test.js";
       }
 
-      String name = (String) npm.get("name");
-
-      scripts.put("postinstall", "es4x install -f");
-      scripts.put("start", name);
-      scripts.put("test", name + " test js:" + test);
+      scripts.put("postinstall", "es4x install");
+      scripts.put("start", "es4x-launcher");
+      scripts.put("test", "es4x-launcher" + " test js:" + test);
 
       write(file, npm);
 

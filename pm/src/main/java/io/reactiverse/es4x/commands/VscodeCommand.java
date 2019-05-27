@@ -29,12 +29,13 @@ import static io.reactiverse.es4x.commands.Helper.*;
 @Summary("Launcher for vscode project.")
 public class VscodeCommand extends DefaultCommand {
 
-	private boolean launcher;
+	private String launcher;
 
-	@Option(longName = "launcher", shortName = "l", flag = true)
-	@Description("Will install a basic launch config in the current project.")
-	public void setLauncher(boolean create) {
-		this.launcher = create;
+	@Option(longName = "launcher", shortName = "l")
+	@Description("The launcher name")
+  @DefaultValue("${workspaceFolder}/node_modules/.bin/es4x-launcher")
+	public void setLauncher(String launcher) {
+		this.launcher = launcher;
 	}
 
 	private void processLauncher(File json) throws IOException {
@@ -42,11 +43,9 @@ public class VscodeCommand extends DefaultCommand {
     final File pkg = new File(getCwd(), "package.json");
 
     String app = "Launch";
-    String executable = null;
 
     if (pkg.exists()) {
       Map pkgJson = read(pkg);
-      executable = "./node_modules/.bin/" + pkgJson.get("name");
       app = "Launch " + pkgJson.get("name");
     }
 
@@ -78,21 +77,24 @@ public class VscodeCommand extends DefaultCommand {
 		config.put("type", "node");
 		config.put("request", "launch");
 		config.put("cwd", "${workspaceFolder}");
-    config.put("runtimeExecutable", executable == null ? "npm" : executable);
+    config.put("runtimeExecutable", launcher);
 		List<String> args = new ArrayList<>();
-		if (executable == null) {
+		if ("npm".equals(launcher)) {
 		  // delegate to npm
-      args.add("run-script");
       args.add("start");
       args.add("--");
     }
+    if ("yarn".equals(launcher)) {
+      // delegate to npm
+      args.add("start");
+    }
     args.add("--inspect=5858");
 		config.put("runtimeArgs", args);
-		config.put("port", "5858");
+		config.put("port", 5858);
 		config.put("outputCapture", "std");
 		// server ready
     Map<String, Object> serverReady = new LinkedHashMap<>();
-    serverReady.put("pattern", "Listening on port ([0-9]+)");
+    serverReady.put("pattern", "started on port ([0-9]+)");
     serverReady.put("uriFormat", "http://localhost:%s");
     serverReady.put("action", "openExternally");
     config.put("serverReadyAction", serverReady);
@@ -119,12 +121,10 @@ public class VscodeCommand extends DefaultCommand {
 			}
     }
 
-		if (launcher) {
-			try {
-				processLauncher(vscodefile);
-			} catch (IOException e) {
-				fatal(e.getMessage());
-			}
-		}
+    try {
+      processLauncher(vscodefile);
+    } catch (IOException e) {
+      fatal(e.getMessage());
+    }
 	}
 }

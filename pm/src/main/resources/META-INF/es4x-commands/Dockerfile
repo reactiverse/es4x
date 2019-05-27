@@ -23,8 +23,8 @@ COPY --from=NPM /usr/src/app /usr/src/app
 WORKDIR /usr/src/app
 # Download the ES4X runtime tool
 RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | tar zx --strip-components=1 -C /usr/local
-# Install the Java Dependencies and create a launcher named app
-RUN es4x install -f -l app
+# Install the Java Dependencies
+RUN es4x install -f
 
 # Third stage (contain)
 FROM $BASEIMAGE
@@ -37,4 +37,4 @@ COPY . .
 # Define custom java options for containers
 ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:+UseContainerSupport"
 # define the entrypoint
-ENTRYPOINT [ "./node_modules/.bin/app" ]
+ENTRYPOINT [ "./node_modules/.bin/es4x-launcher" ]

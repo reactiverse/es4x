@@ -28,7 +28,7 @@ public class ES4X extends Launcher {
    *
    * @param args the user command line arguments.
    */
-  public static void main(String[] args) {
+  public static void main(String... args) {
 
     final ES4X launcher = new ES4X();
     // remove the default run command

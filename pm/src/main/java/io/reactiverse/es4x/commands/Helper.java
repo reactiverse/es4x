@@ -65,11 +65,17 @@ final class Helper {
     jdeps.redirectOutput(ProcessBuilder.Redirect.appendTo(tmp));
     Process p = jdeps.start();
     int exit = p.waitFor();
-    if (exit == 0) {
-      return new String(Files.readAllBytes(tmp.toPath()));
-    }
 
-    throw new IOException(command[0] + " exit with status: " + exit);
+    final String result = new String(Files.readAllBytes(tmp.toPath()));
+
+    if (exit == 0) {
+      return result;
+    } else {
+      // warn what was captured from stdout
+      warn(result);
+      // throw
+      throw new IOException(command[0] + " exit with status: " + exit);
+    }
   }
 
   static void fatal(String message) {

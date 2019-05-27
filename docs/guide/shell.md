@@ -2,15 +2,14 @@ There are situations where having a REPL or shell can be useful. ES4X provides s
 the command:
 
 ```bash
-> npm run shell
+> npm run "js:>"
 
 js:>
 ```
 
 And you are now able to REPL. For example:
 
-```js
-
+```
 js:> require('./index.js');
 Server listening at: http://localhost:8080/
 

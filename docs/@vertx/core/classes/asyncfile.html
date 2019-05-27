@@ -124,7 +124,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:98</li>
+									<li>Defined in index.d.ts:119</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -137,7 +137,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:106</li>
+									<li>Defined in index.d.ts:127</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -169,7 +169,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:82</li>
+									<li>Defined in index.d.ts:97</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -186,25 +186,60 @@
 					<a name="end" class="tsd-anchor"></a>
 					<h3>end</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:33</li>
+									<li>Defined in index.d.ts:36</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Same as {@link #end()} but writes some data to the stream before ending.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>implspec</dt>
+									<dd><p>The default default implementation calls sequentially {@link #write(Object)} then {@link #end()}</p>
+									</dd>
+									<dt>apinote</dt>
+									<dd><p>Implementations might want to perform a single operation</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>t: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the data to write</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:42</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as {@link #end(T)} but with an {@code handler} called when the operation completes</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -213,7 +248,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:92</li>
+									<li>Defined in index.d.ts:107</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -221,6 +256,25 @@
 									<p>Close the file, see {@link #close()}.</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:113</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Close the file, see {@link #close(Handler)}.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -235,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:76</li>
+									<li>Defined in index.d.ts:85</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -258,7 +312,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:84</li>
+									<li>Defined in index.d.ts:99</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -282,7 +336,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:86</li>
+									<li>Defined in index.d.ts:101</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -306,7 +360,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:154</li>
+									<li>Defined in index.d.ts:175</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -324,7 +378,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:160</li>
+									<li>Defined in index.d.ts:181</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -352,7 +406,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:183</li>
+									<li>Defined in index.d.ts:204</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -372,7 +426,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:70</li>
+									<li>Defined in index.d.ts:79</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -396,7 +450,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:72</li>
+									<li>Defined in index.d.ts:81</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="asyncfile.html" class="tsd-signature-type">AsyncFile</a></h4>
@@ -414,7 +468,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:50</li>
+									<li>Defined in index.d.ts:59</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -441,7 +495,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:56</li>
+									<li>Defined in index.d.ts:65</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -460,7 +514,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:68</li>
+									<li>Defined in index.d.ts:77</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -499,7 +553,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:143</li>
+									<li>Defined in index.d.ts:164</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -563,7 +617,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:74</li>
+									<li>Defined in index.d.ts:83</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="asyncfile.html" class="tsd-signature-type">AsyncFile</a></h4>
@@ -580,7 +634,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:192</li>
+									<li>Defined in index.d.ts:213</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -613,7 +667,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:168</li>
+									<li>Defined in index.d.ts:189</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -645,7 +699,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:176</li>
+									<li>Defined in index.d.ts:197</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -678,7 +732,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#setwritequeuemaxsize">setWriteQueueMaxSize</a></p>
 								<ul>
-									<li>Defined in index.d.ts:80</li>
+									<li>Defined in index.d.ts:95</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -696,13 +750,14 @@
 					<h3>write</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="asyncfile.html" class="tsd-signature-type">AsyncFile</a></li>
+						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="asyncfile.html" class="tsd-signature-type">AsyncFile</a></li>
 						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="asyncfile.html" class="tsd-signature-type">AsyncFile</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:78</li>
+									<li>Defined in index.d.ts:87</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -716,7 +771,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:124</li>
+									<li>Defined in index.d.ts:93</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as {@link #write(Buffer)} but with an {@code handler} called when the operation completes</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="asyncfile.html" class="tsd-signature-type">AsyncFile</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:145</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -769,7 +846,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#writequeuefull">writeQueueFull</a></p>
 								<ul>
-									<li>Defined in index.d.ts:41</li>
+									<li>Defined in index.d.ts:50</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

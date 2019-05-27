@@ -50,18 +50,11 @@ public class InstallCommand extends DefaultCommand {
   }
 
   private boolean force;
-  private String launcher;
 
   @Option(longName = "force", shortName = "f", flag = true)
   @Description("Will always install a basic runtime in the current working dir.")
   public void setForce(boolean force) {
     this.force = force;
-  }
-
-  @Option(longName = "launcher", shortName = "l")
-  @Description("Set the launcher name.")
-  public void setLauncher(String launcher) {
-    this.launcher = launcher;
   }
 
   private static void processPackageJson(File json, Set<String> dependencies) throws IOException {
@@ -270,15 +263,6 @@ public class InstallCommand extends DefaultCommand {
     if (json.exists()) {
       try {
         Map npm = read(json);
-
-        if (launcher == null) {
-          if (npm.containsKey("name")) {
-            launcher = (String) npm.get("name");
-          } else {
-            fatal("'package.json' doesn't contain a 'name' property!");
-          }
-        }
-
         // default main script
         String main = "index.js";
 
@@ -307,16 +291,16 @@ public class InstallCommand extends DefaultCommand {
         attributes.put(new Attributes.Name("Main-Verticle"), (main.endsWith(".mjs") ? "mjs:" : "js:") + main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
 
-        try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, launcher + ".jar")), manifest)) {
+        try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, "es4x-launcher.jar")), manifest)) {
           // nothing to be added!
         }
 
         // create the launcher scripts
         if (isUnix()) {
-          createUNIXScript(bin, launcher);
+          createUNIXScript(bin);
         }
         if (isWindows()) {
-          createDOSScript(bin, launcher);
+          createDOSScript(bin);
         }
 
       } catch (IOException e) {
@@ -325,7 +309,7 @@ public class InstallCommand extends DefaultCommand {
     }
   }
 
-  private void createUNIXScript(File bin, String launcher) throws IOException {
+  private void createUNIXScript(File bin) throws IOException {
 
     String script =
       "#!/usr/bin/env bash\n" +
@@ -355,20 +339,20 @@ public class InstallCommand extends DefaultCommand {
       "  JVMCI=\"--module-path=$basedir/../.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=$basedir/../.jvmci/compiler.jar\"\n" +
       "fi\n" +
       "\n" +
-      "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -jar \"$basedir/" + launcher + ".jar\" \"$@\"\n";
+      "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -jar \"$basedir/es4x-launcher.jar\" \"$@\"\n";
 
-    final File exe = new File(bin, launcher);
+    final File exe = new File(bin, "es4x-launcher");
     try (FileOutputStream out = new FileOutputStream(exe)) {
       out.write(script.getBytes(StandardCharsets.UTF_8));
     }
 
     // this is a best effort
     if (!exe.setExecutable(true, false)) {
-      fatal("Cannot set script 'node_modules/.bin/" + launcher + "'executable!");
+      fatal("Cannot set script 'node_modules/.bin/es4x-launcher' executable!");
     }
   }
 
-  private void createDOSScript(File bin, String launcher) throws IOException {
+  private void createDOSScript(File bin) throws IOException {
 
     String script =
       "@ECHO OFF\n" +
@@ -384,9 +368,9 @@ public class InstallCommand extends DefaultCommand {
         "  SET \"JVMCI=--module-path=%~dp0\\..\\.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=%~dp0\\..\\.jvmci\\compiler.jar\"\n" +
         ")\n" +
         "\n" +
-        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions \"%JVMCI%\" \"%JAVA_OPTS%\" -jar \"%~dp0\\" + launcher + ".jar\" %*\n";
+        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions \"%JVMCI%\" \"%JAVA_OPTS%\" -jar \"%~dp0\\es4x-launcher.jar\" %*\n";
 
-    final File exe = new File(bin, launcher + ".cmd");
+    final File exe = new File(bin, "es4x-launcher.cmd");
     try (FileOutputStream out = new FileOutputStream(exe)) {
       out.write(script.getBytes(StandardCharsets.UTF_8));
     }

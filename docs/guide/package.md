@@ -1,69 +1,88 @@
-It is common to package JVM applications as runnable `JAR` files, the `es4x-cli` creates a `pom.xml` with the
-`maven-jar-plugin` configured for this:
+Packaging applications should follow the `NPM` style:
 
 ```sh
-npm run package
+npm pack
 ```
 
-And a new `JAR` file should be built in your `target/dist` directory.
+[npm pack](https://docs.npmjs.com/cli/pack) will produce a `TGZ` with your application which you can move to other
+location. However applications can also be [published](https://docs.npmjs.com/cli/publish) to a NPM registry.
 
-Packaging will re-arrange your application code to be moved to the directory `node_modules/your-module-name` so
-it can be used from other JARs. In order for this to work correctly, the current `node_modules` are also
-bundled in the jar as well as all files listed under the `files` property of your `package.json`.
+It is important to notice that in order to work with `published/packed` the target environment needs to have access to
+the package [es4x-pm](https://www.npmjs.com/package/es4x-pm) as it will be required to install the `java` bits. 
 
-When running this script you will see also the output command you need to use to run your application e.g.:
-
-```bash
-# Running on a GraalVM JVM
-Running: mvnw ... package
-Run your application with:
-
-  java \
-  -jar target/dist/empty-project-1.0.0-bin.jar
-```
-
-Note that if your environment supports `JVMCI` an extra directory will exist on the `target/dist` with the JVMCI
-compiler bits. This will allow the usage of `graaljs` on `JDK >=11`. In this case the startup command is slighter
-longer:
-
-```bash
-Running: mvnw ... package
-Run your application with:
-
-  java \
-  --module-path=target/dist/compiler \
-  -XX:+UnlockExperimentalVMOptions \
-  -XX:+EnableJVMCI \
-  --upgrade-module-path=target/dist/compiler/compiler.jar \
-  -jar target/dist/empty-project-1.0.0-bin-jvmci.jar
-```
-
-To distribute just the application binaries all you need lives in `target/dist`.
 
 ## Docker
 
-Docker images can also be created for you for this just pass the `-d` flag to the command:
+Docker images can also be created for you for.
 
 ```bash
-npm run package -- -d
+es4x dockerfile
 ```
 
-If your system is running on JVMCI enabled environment `JDK>=11` then a docker image with JMVCI will be created for you
-using the base image: `openjdk:11-oracle`. If you prefer to use a different base image for JVMCI then just specify the
-base image to use after the flag.
+This will produce a simple `dockerfile` that you can customize to your needs, by default the file will be a 3 stage
+build.
+
+1. On the first stage `node` is used to install all `NPM` dependencies
+2. On the second stage `java` is used to install the `Maven` dependencies
+3. On the final stage the GraalVM image is used to run the application
+
+By default [oracle/graalvm-ce](https://hub.docker.com/r/oracle/graalvm-ce) docker image is used, but it can be replace
+with any other JDK image (please prefer versions 11 or above) with support for JVMCI.
 
 ```bash
-npm run package -- -d adoptopenjdk/openjdk11-openj9
+docker build . -arg BASEIMAGE=openjdk:11
 ```
 
-### GraalVM
+## JLink
 
-If your environment was running on graalvm, then there isn't a JVMCI `compiler` in your `dist` directory, in this case
-the docker command will create a docker image based on `oracle/graalvm-ce:1.0.0-rc10`. The same rules apply for
-switching the base image.
+Java 11 supports [jlink](https://docs.oracle.com/en/java/javase/11/tools/jlink.html). You can use the jlink tool to
+assemble and optimize a set of modules and their dependencies into a custom runtime image.
 
 ```bash
-# assuming there's a EE image in one of your
-# configured docker registries
-npm run package -- -d oracle/graalvm-ee:1.0.0-rc10
+es4x jlink
 ```
+
+This will produce a **optimized** runtime, which means it can be used instead of relying on a full JDK installation.
+As comparision, a hello world application will produce a runtime weighting about **80Mb**, while a full JDK installation
+requires around **200Mb**.
+
+This feature can be using in colaboration with `Dockerfile`. Instead of using the graal base image, use the `OpenJDK`
+base image. Then on the second stage, run jlink:
+
+```dockerfile
+# Second stage (build the JVM related code)
+FROM openjdk:11 AS JVM
+ARG ES4X_VERSION=${project.version}
+# force es4x maven resolution only to consider production dependencies
+ENV ES4X_ENV=production
+# Copy the previous build step
+COPY --from=NPM /usr/src/app /usr/src/app
+# use the copied workspace
+WORKDIR /usr/src/app
+# Download the ES4X runtime tool
+RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | \
+    tar zx --strip-components=1 -C /usr/local
+# Install the Java Dependencies
+RUN es4x install -f
+# Create the optimized runtime
+RUN es4x jlink -t /usr/local
+``` 
+
+This will produce the optimized runtime to jre, which can be used with a small base image for the final stage:
+
+```dockerfile
+FROM debian:slim
+# Collect the jars from the previous step
+COPY --from=JVM /usr/local /usr/local
+COPY --from=JVM /usr/src/app /usr/src/app
+# use the copied workspace
+WORKDIR /usr/src/app
+# Bundle app source
+COPY . .
+# Define custom java options for containers
+ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:+UseContainerSupport"
+# define the entrypoint
+ENTRYPOINT [ "./node_modules/.bin/es4x-launcher" ]
+```
+
+This will produce a small final image but a larger layer as you're packaging the optimized runtime too.
