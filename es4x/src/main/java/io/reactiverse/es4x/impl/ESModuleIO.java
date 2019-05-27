@@ -72,6 +72,12 @@ public class ESModuleIO {
       } else {
         sb.append(adaptImport(exports.trim(), module));
       }
+      // ensure that the line numbers match
+      for (int i = 0; i < exports.length(); i++) {
+        if (exports.charAt(i) == '\r' || exports.charAt(i) == '\n') {
+          sb.append(exports.charAt(i));
+        }
+      }
 
       return sb.toString();
     });

@@ -38,7 +38,7 @@ public class ESModuleAdapterTest {
   @Test
   public void shouldAdaptMultiSelectAlias() {
     assertEquals(
-      "const shortName = require('/modules/my-module.js').reallyReallyLongModuleExportName;const short = require('/modules/my-module.js').anotherLongModuleName;",
+      "const shortName = require('/modules/my-module.js').reallyReallyLongModuleExportName;const short = require('/modules/my-module.js').anotherLongModuleName;\n\n\n",
       ESModuleIO.adapt(
         "import {\n" +
           "  reallyReallyLongModuleExportName as shortName,\n" +
