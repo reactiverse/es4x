@@ -19,11 +19,16 @@ import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.jul.ES4XFormatter;
 import io.vertx.core.Vertx;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.Engine;
-import org.graalvm.polyglot.Source;
-import org.graalvm.polyglot.Value;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
+import org.graalvm.polyglot.*;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.logging.ConsoleHandler;
@@ -32,10 +37,15 @@ import java.util.regex.Pattern;
 
 public class GraalEngine implements ECMAEngine {
 
+  private static final Logger LOG = LoggerFactory.getLogger(GraalEngine.class);
+
   private final Vertx vertx;
   private final Engine engine;
+  private final HostAccess hostAccess;
+
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
+  private static boolean nag = true;
 
   public GraalEngine(Vertx vertx) {
     this.vertx = vertx;
@@ -51,9 +61,67 @@ public class GraalEngine implements ECMAEngine {
       throw new IllegalStateException("A language with id 'js' is not installed");
     }
 
-    if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
-      System.err.println("\u001B[1m\u001B[33mES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!\u001B[0m");
+    if (nag) {
+      nag = false;
+      if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
+        LOG.warn("ES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!");
+      }
     }
+
+    hostAccess = HostAccess.newBuilder(HostAccess.ALL)
+      // map native JSON Object to Vert.x JSONObject
+      .targetTypeMapping(
+        Value.class,
+        JsonObject.class,
+        Value::hasMembers,
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          return new JsonObject(v.as(Map.class));
+        })
+      // map native JSON Array to Vert.x JSONObject
+      .targetTypeMapping(
+        Value.class,
+        JsonArray.class,
+        Value::hasArrayElements,
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          return new JsonArray(v.as(List.class));
+        })
+      // map native Date to Instant
+      .targetTypeMapping(
+        Value.class,
+        Instant.class,
+        v -> v.hasMembers() && v.hasMember("getTime"),
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          return Instant.ofEpochMilli(v.invokeMember("getTime").asLong());
+        })
+      // map native Date to java.util.Date
+      .targetTypeMapping(
+        Value.class,
+        Date.class,
+        v -> v.hasMembers() && v.hasMember("getTime"),
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          return new Date(v.invokeMember("getTime").asLong());
+        })
+      // Ensure Arrays are exposed as List when the Java API is accepting Object
+      .targetTypeMapping(List.class, Object.class, null, v -> v)
+      .build();
+  }
+
+  private void registerCodec(Class className) {
+    vertx.eventBus()
+      .unregisterDefaultCodec(className)
+      .registerDefaultCodec(className, new JSObjectMessageCodec(className.getName()));
   }
 
   @Override
@@ -64,6 +132,9 @@ public class GraalEngine implements ECMAEngine {
   @Override
   @SuppressWarnings("unchecked")
   public Runtime<Value> newContext() {
+
+    final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
+
     final Context.Builder builder = Context.newBuilder("js")
       .engine(engine)
       .fileSystem(new VertxFileSystem(vertx))
@@ -75,20 +146,22 @@ public class GraalEngine implements ECMAEngine {
       .allowCreateThread(false)
       // host access is required to function properly however
       // users might declare filters
-      .allowHostAccess(true);
-
-    final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
-
-    if (allowedHostAccessClassFilters != null) {
-      builder.hostClassFilter(fqcn -> {
-        for (Pattern filter : allowedHostAccessClassFilters) {
-          if (filter.matcher(fqcn).matches()) {
-            return true;
+      .allowHostClassLookup(fqcn -> {
+        if (allowedHostAccessClassFilters == null) {
+          return true;
+        } else {
+          for (Pattern filter : allowedHostAccessClassFilters) {
+            if (filter.matcher(fqcn).matches()) {
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      });
-    }
+      })
+      .allowHostAccess(hostAccess);
+
+    // allow specifying the custom ecma version
+    builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version", "2019"));
 
     // the instance
     final Context context = builder.build();
@@ -96,12 +169,14 @@ public class GraalEngine implements ECMAEngine {
     // install the codec if needed
     if (codecInstalled.compareAndSet(false, true)) {
       // register a default codec to allow JSON messages directly from GraalJS to the JVM world
-      final Consumer callback = value -> vertx.eventBus()
-        .unregisterDefaultCodec(value.getClass())
-        .registerDefaultCodec(value.getClass(), new JSObjectMessageCodec());
+      final Consumer callback = value -> registerCodec(value.getClass());
 
       context.eval(
         Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
+      ).execute(callback);
+
+      context.eval(
+        Source.newBuilder("js", "(function (fn) { fn([]); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
       ).execute(callback);
     }
 

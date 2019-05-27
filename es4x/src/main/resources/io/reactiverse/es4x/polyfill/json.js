@@ -16,12 +16,8 @@
 (function (JSON) {
   'use strict';
 
-  const Json = Java.type('io.vertx.core.json.Json');
   const JsonArray = Java.type('io.vertx.core.json.JsonArray');
   const JsonObject = Java.type('io.vertx.core.json.JsonObject');
-
-  const Map = Java.type('java.util.Map');
-  const List = Java.type('java.util.List');
   const Instant = Java.type('java.time.Instant');
 
   // this will wrap the original function to handle Vert.x native types too
@@ -33,9 +29,6 @@
     if (value && Java.isJavaObject(value)) {
       if (value instanceof JsonArray || value instanceof JsonObject) {
         return value.encode();
-      }
-      if (value instanceof Map || value instanceof List) {
-        return new Json.encode(value);
       }
       if (value instanceof Instant) {
         return value.toString();

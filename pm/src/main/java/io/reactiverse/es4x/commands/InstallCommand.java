@@ -15,8 +15,6 @@
  */
 package io.reactiverse.es4x.commands;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reactiverse.es4x.ES4X;
 import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.*;
@@ -37,24 +35,21 @@ import static io.reactiverse.es4x.commands.Helper.*;
 @Summary("Installs required jars from maven to 'node_modules'.")
 public class InstallCommand extends DefaultCommand {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final Properties VERSIONS = new Properties();
 
   static {
-    MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
     try (InputStream is = InstallCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/VERSIONS.properties")) {
       if (is == null) {
-        err("Cannot find 'META-INF/es4x-commands/VERSIONS.properties' on classpath");
+        fatal("Cannot find 'META-INF/es4x-commands/VERSIONS.properties' on classpath");
       } else {
         VERSIONS.load(is);
       }
     } catch (IOException e) {
-      err(e.getMessage());
+      fatal(e.getMessage());
     }
   }
 
   private boolean force;
-  private String launcher;
 
   @Option(longName = "force", shortName = "f", flag = true)
   @Description("Will always install a basic runtime in the current working dir.")
@@ -62,15 +57,9 @@ public class InstallCommand extends DefaultCommand {
     this.force = force;
   }
 
-  @Option(longName = "launcher", shortName = "l")
-  @Description("Will always install a basic runtime in the current working dir.")
-  public void setLauncher(String launcher) {
-    this.launcher = launcher;
-  }
-
   private static void processPackageJson(File json, Set<String> dependencies) throws IOException {
     if (json.exists()) {
-      Map npm = MAPPER.readValue(json, Map.class);
+      Map npm = read(json);
       if (npm.containsKey("maven")) {
         final Map maven = (Map) npm.get("maven");
         // add this dependency
@@ -134,29 +123,32 @@ public class InstallCommand extends DefaultCommand {
       final double version = Double.parseDouble(System.getProperty("java.specification.version"));
       final String vm = System.getProperty("java.vm.name");
       if (!vm.toLowerCase().contains("graalvm")) {
+
+        // not on graal, install graaljs and dependencies
+        warn("Installing GraalJS...");
+        // graaljs + dependencies
+        installGraalJS(artifacts);
+
         if (version >= 11) {
-          System.err.println("\u001B[1m\u001B[33mInstalling GraalJS on stock JDK!\u001B[0m");
-          // graaljs + dependencies
-          installGraalJS(artifacts);
           // verify if the current JDK contains the jdk.internal.vm.ci module
           try {
             String modules = exec(javaHomePrefix() + "java", "--list-modules");
             if (modules.contains("jdk.internal.vm.ci")) {
+              warn("Installing JVMCI Compiler...");
               // jvmci compiler + dependencies
               installGraalJMVCICompiler();
             }
           } catch (IOException | InterruptedException e) {
-            System.err.println("\u001B[1m\u001B[31m" + e.getMessage() + "\u001B[0m");
+            err(e.getMessage());
           }
         } else {
-          System.err.println("\u001B[1m\u001B[31mCurrent JDK only supports Nashorn!\u001B[0m");
+          warn("Current JDK only supports GraalJS in Interpreted mode!");
         }
       }
     }
 
-    if (force || artifacts.size() > 0) {
-      createLauncher(artifacts);
-    }
+    // always create a launcher even if no dependencies are needed
+    createLauncher(artifacts);
   }
 
   private void installGraalJS(Set<String> artifacts) throws CLIException {
@@ -165,7 +157,7 @@ public class InstallCommand extends DefaultCommand {
     File libs = new File(base, ".lib");
     if (!libs.exists()) {
       if (!libs.mkdirs()) {
-        err("Failed to mkdirs 'node_modules/.lib'.");
+        fatal("Failed to mkdirs 'node_modules/.lib'.");
       }
     }
 
@@ -180,7 +172,7 @@ public class InstallCommand extends DefaultCommand {
         }
       }
     } catch (IOException e) {
-      err(e.getMessage());
+      fatal(e.getMessage());
     }
   }
 
@@ -190,7 +182,7 @@ public class InstallCommand extends DefaultCommand {
     File libs = new File(base, ".jvmci");
     if (!libs.exists()) {
       if (!libs.mkdirs()) {
-        err("Failed to mkdirs 'node_modules/.jvmci'.");
+        fatal("Failed to mkdirs 'node_modules/.jvmci'.");
       }
     }
 
@@ -204,7 +196,7 @@ public class InstallCommand extends DefaultCommand {
         }
       }
     } catch (IOException e) {
-      err(e.getMessage());
+      fatal(e.getMessage());
     }
   }
 
@@ -216,7 +208,7 @@ public class InstallCommand extends DefaultCommand {
     try {
       processPackageJson(new File(getCwd(), "package.json"), dependencies);
     } catch (IOException e) {
-      err(e.getMessage());
+      fatal(e.getMessage());
     }
 
     // crawl node modules
@@ -224,7 +216,7 @@ public class InstallCommand extends DefaultCommand {
       try {
         processModules(base, dependencies);
       } catch (IOException e) {
-        err(e.getMessage());
+        fatal(e.getMessage());
       }
     }
 
@@ -249,7 +241,7 @@ public class InstallCommand extends DefaultCommand {
 
           if (!libs.exists()) {
             if (!libs.mkdirs()) {
-              err("Failed to mkdirs 'node_modules/.lib'.");
+              fatal("Failed to mkdirs 'node_modules/.lib'.");
             }
           }
           artifacts.add("../.lib/" + a.getFile().getName());
@@ -259,7 +251,7 @@ public class InstallCommand extends DefaultCommand {
           }
         }
       } catch (IOException e) {
-        err(e.getMessage());
+        fatal(e.getMessage());
       }
     }
   }
@@ -269,22 +261,21 @@ public class InstallCommand extends DefaultCommand {
     File json = new File(getCwd(), "package.json");
 
     if (json.exists()) {
-
       try {
-        if (launcher == null) {
-          Map npm = MAPPER.readValue(json, Map.class);
-          if (npm.containsKey("name")) {
-            launcher = (String) npm.get("name");
-          } else {
-            err("'package.json' doesn't contain a 'name' property!");
-          }
+        Map npm = read(json);
+        // default main script
+        String main = "index.js";
+
+        // if package json declares a different main, then it shall be used
+        if (npm.containsKey("main")) {
+          main = (String) npm.get("main");
         }
 
         final File base = new File(getCwd(), "node_modules");
         File bin = new File(base, ".bin");
         if (!bin.exists()) {
           if (!bin.mkdirs()) {
-            err("Failed to mkdirs 'node_modules/.bin'.");
+            fatal("Failed to mkdirs 'node_modules/.bin'.");
           }
         }
 
@@ -297,28 +288,28 @@ public class InstallCommand extends DefaultCommand {
         attributes.put(new Attributes.Name("Build-Jdk"), System.getProperty("java.version"));
         attributes.put(Attributes.Name.MAIN_CLASS, ES4X.class.getName());
         attributes.put(Attributes.Name.CLASS_PATH, String.join(" ", artifacts));
-        attributes.put(new Attributes.Name("Main-Verticle"), "js:./");
+        attributes.put(new Attributes.Name("Main-Verticle"), (main.endsWith(".mjs") ? "mjs:" : "js:") + main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
 
-        try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, launcher + ".jar")), manifest)) {
+        try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, "es4x-launcher.jar")), manifest)) {
           // nothing to be added!
         }
 
         // create the launcher scripts
         if (isUnix()) {
-          createUNIXScript(bin, launcher);
+          createUNIXScript(bin);
         }
         if (isWindows()) {
-          createDOSScript(bin, launcher);
+          createDOSScript(bin);
         }
 
       } catch (IOException e) {
-        err(e.getMessage());
+        fatal(e.getMessage());
       }
     }
   }
 
-  private void createUNIXScript(File bin, String launcher) throws IOException {
+  private void createUNIXScript(File bin) throws IOException {
 
     String script =
       "#!/usr/bin/env bash\n" +
@@ -348,20 +339,20 @@ public class InstallCommand extends DefaultCommand {
       "  JVMCI=\"--module-path=$basedir/../.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=$basedir/../.jvmci/compiler.jar\"\n" +
       "fi\n" +
       "\n" +
-      "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -jar \"$basedir/" + launcher + ".jar\" \"$@\"\n";
+      "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -jar \"$basedir/es4x-launcher.jar\" \"$@\"\n";
 
-    final File exe = new File(bin, launcher);
+    final File exe = new File(bin, "es4x-launcher");
     try (FileOutputStream out = new FileOutputStream(exe)) {
       out.write(script.getBytes(StandardCharsets.UTF_8));
     }
 
     // this is a best effort
     if (!exe.setExecutable(true, false)) {
-      err("Cannot set script 'node_modules/.bin/" + launcher + "'executable!");
+      fatal("Cannot set script 'node_modules/.bin/es4x-launcher' executable!");
     }
   }
 
-  private void createDOSScript(File bin, String launcher) throws IOException {
+  private void createDOSScript(File bin) throws IOException {
 
     String script =
       "@ECHO OFF\n" +
@@ -377,9 +368,9 @@ public class InstallCommand extends DefaultCommand {
         "  SET \"JVMCI=--module-path=%~dp0\\..\\.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=%~dp0\\..\\.jvmci\\compiler.jar\"\n" +
         ")\n" +
         "\n" +
-        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions \"%JVMCI%\" \"%JAVA_OPTS%\" -jar \"%~dp0\\" + launcher + ".jar\" %*\n";
+        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions \"%JVMCI%\" \"%JAVA_OPTS%\" -jar \"%~dp0\\es4x-launcher.jar\" %*\n";
 
-    final File exe = new File(bin, launcher + ".cmd");
+    final File exe = new File(bin, "es4x-launcher.cmd");
     try (FileOutputStream out = new FileOutputStream(exe)) {
       out.write(script.getBytes(StandardCharsets.UTF_8));
     }

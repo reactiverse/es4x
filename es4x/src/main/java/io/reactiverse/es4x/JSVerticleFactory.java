@@ -28,18 +28,11 @@ public final class JSVerticleFactory extends ESVerticleFactory {
   }
 
   @Override
-  Runtime createRuntime(ECMAEngine engine) {
-    return engine.newContext();
-  }
-
-  @Override
   Verticle createVerticle(Runtime runtime, String fsVerticleName) {
     return new Verticle() {
 
       private Vertx vertx;
       private Context context;
-
-      private Object self;
 
       @Override
       public Vertx getVertx() {
@@ -56,6 +49,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       public void start(Future<Void> startFuture) throws Exception {
         final String address;
         final boolean worker;
+        final Object self;
 
         if (context != null) {
           address = context.deploymentID();
@@ -112,24 +106,16 @@ public final class JSVerticleFactory extends ESVerticleFactory {
 
       @Override
       public void stop(Future<Void> stopFuture) {
-        // user should set process undeployHandler(() => {})
-        if (self != null) {
-          if (runtime.hasMember(self, "stop")) {
-            try {
-              runtime.enter();
-              runtime.invokeMethod(self, "stop");
-            } catch (RuntimeException e) {
-              stopFuture.fail(e);
-              return;
-            } finally {
-              // done!
-              runtime.leave();
-            }
-          }
+        try {
+          runtime.enter();
+          runtime.emit("undeploy");
+          stopFuture.complete();
+        } catch (RuntimeException e) {
+          stopFuture.fail(e);
+        } finally {
+          runtime.leave();
+          runtime.close();
         }
-        // close the loader
-        runtime.close();
-        stopFuture.complete();
       }
     };
   }

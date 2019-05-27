@@ -12,9 +12,7 @@ Create a project:
 # create a generic project
 mkdir my-app
 cd my-app
-npm init -y
-# init the es4x bits
-npx es4x-cli init
+npx es4x-pm init
 # add dependencies
 npm install @vertx/unit --save-dev
 npm install @vertx/core --save-prod

@@ -15,7 +15,6 @@
  */
 package io.reactiverse.es4x.commands;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.*;
 import io.vertx.core.spi.launcher.DefaultCommand;
@@ -27,40 +26,81 @@ import java.util.*;
 import static io.reactiverse.es4x.commands.Helper.*;
 
 @Name("vscode")
-@Summary("Play with your vscode project.")
+@Summary("Launcher for vscode project.")
 public class VscodeCommand extends DefaultCommand {
 
-	private static final ObjectMapper MAPPER = new ObjectMapper();
-	private boolean launcher;
+	private String launcher;
 
-	@Option(longName = "launcher", shortName = "l", flag = true)
-	@Description("Will install a basic launch config in the current project.")
-	public void setLauncher(boolean create) {
-		this.launcher = create;
+	@Option(longName = "launcher", shortName = "l")
+	@Description("The launcher name")
+  @DefaultValue("${workspaceFolder}/node_modules/.bin/es4x-launcher")
+	public void setLauncher(String launcher) {
+		this.launcher = launcher;
 	}
 
-	private static void processLauncher(File json) throws IOException {
-		Map launch = MAPPER.readValue(json, Map.class);
-		if (!launch.containsKey("configurations")) {
+	private void processLauncher(File json) throws IOException {
+
+    final File pkg = new File(getCwd(), "package.json");
+
+    String app = "Launch";
+
+    if (pkg.exists()) {
+      Map pkgJson = read(pkg);
+      app = "Launch " + pkgJson.get("name");
+    }
+
+    Map launch = read(json);
+
+    if (!launch.containsKey("configurations")) {
 			launch.put("configurations", new ArrayList<>());
 		}
+
 		final List configurations = (List) launch.get("configurations");
-		Map<String, Object> config = new LinkedHashMap<String, Object>();
-		config.put("name", "Launch via npm");
+
+    // replace the launcher if already present
+    Object toRemove = null;
+
+    for (Object c : configurations) {
+      Map<String, Object> config = (Map<String, Object>) c;
+      if (app.equals(config.get("name"))) {
+        toRemove = c;
+        break;
+      }
+    }
+
+    if (toRemove != null) {
+      configurations.remove(toRemove);
+    }
+
+		Map<String, Object> config = new LinkedHashMap<>();
+		config.put("name", app);
 		config.put("type", "node");
 		config.put("request", "launch");
 		config.put("cwd", "${workspaceFolder}");
-		config.put("runtimeExecutable", "npm");
-		List<String> npmArgs = new ArrayList<String>();
-		npmArgs.add("run-script");
-		npmArgs.add("start");
-		npmArgs.add("--");
-		npmArgs.add("-inspect=5858");
-		config.put("runtimeArgs", npmArgs);
-		config.put("port", "5858");
+    config.put("runtimeExecutable", launcher);
+		List<String> args = new ArrayList<>();
+		if ("npm".equals(launcher)) {
+		  // delegate to npm
+      args.add("start");
+      args.add("--");
+    }
+    if ("yarn".equals(launcher)) {
+      // delegate to npm
+      args.add("start");
+    }
+    args.add("--inspect=5858");
+		config.put("runtimeArgs", args);
+		config.put("port", 5858);
 		config.put("outputCapture", "std");
+		// server ready
+    Map<String, Object> serverReady = new LinkedHashMap<>();
+    serverReady.put("pattern", "started on port ([0-9]+)");
+    serverReady.put("uriFormat", "http://localhost:%s");
+    serverReady.put("action", "openExternally");
+    config.put("serverReadyAction", serverReady);
+
 		configurations.add(config);
-		MAPPER.writeValue(json, launch);
+		write(json, launch);
 	}
 
 	@Override
@@ -69,24 +109,22 @@ public class VscodeCommand extends DefaultCommand {
 
 		if (!vscodefile.exists()) {
 			new File(getCwd(), ".vscode").mkdirs();
-			try (InputStream in = InitCommand.class.getClassLoader()
+			try (InputStream in = VscodeCommand.class.getClassLoader()
 					.getResourceAsStream("META-INF/es4x-commands/vscode-launcher.json")) {
 				if (in == null) {
-					err("Cannot load vscode launcher.json template.");
+					fatal("Cannot load vscode launcher.json template.");
 				} else {
 					Files.copy(in, vscodefile.toPath());
 				}
 			} catch (IOException e) {
-				err(e.getMessage());
+				fatal(e.getMessage());
 			}
-		}
+    }
 
-		if (this.launcher) {
-			try {
-				processLauncher(vscodefile);
-			} catch (IOException e) {
-				err(e.getMessage());
-			}
-		}
+    try {
+      processLauncher(vscodefile);
+    } catch (IOException e) {
+      fatal(e.getMessage());
+    }
 	}
 }

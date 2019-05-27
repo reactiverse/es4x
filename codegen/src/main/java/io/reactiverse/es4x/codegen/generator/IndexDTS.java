@@ -111,9 +111,9 @@ public class IndexDTS extends Generator<ClassModel> {
     final Set<String> superTypes = new HashSet<>();
     model.getAbstractSuperTypes().forEach(ti -> superTypes.add(genType(ti)));
 
-    if (model.getHandlerType() != null) {
+    if (model.isHandler()) {
       if (model.isConcrete()) {
-        superTypes.add("Handler<" + genType(model.getHandlerType()) + ">");
+        superTypes.add("Handler<" + genType(model.getHandlerArg()) + ">");
       }
     }
 
@@ -127,8 +127,8 @@ public class IndexDTS extends Generator<ClassModel> {
         writer.printf(" implements %s", String.join(", ", superTypes));
       }
     } else {
-      if (model.getHandlerType() != null) {
-        writer.printf(" extends Handler<%s>", genType(model.getHandlerType()));
+      if (model.isHandler()) {
+        writer.printf(" extends Handler<%s>", genType(model.getHandlerArg()));
         if (!superTypes.isEmpty()) {
           writer.printf(", %s", String.join(", ", superTypes));
         }

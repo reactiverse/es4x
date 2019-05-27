@@ -34,19 +34,13 @@ public abstract class ESVerticleFactory implements VerticleFactory {
     return -1;
   }
 
-  abstract Runtime createRuntime(ECMAEngine engine);
-
   abstract Verticle createVerticle(Runtime runtime, String fsVerticleName);
 
   @Override
   public Verticle createVerticle(String verticleName, ClassLoader classLoader) {
 
-    final Runtime runtime;
     final String fsVerticleName = VerticleFactory.removePrefix(verticleName);
-
-    synchronized (this) {
-      runtime = createRuntime(engine);
-    }
+    final Runtime runtime = engine.newContext();
 
     if (">".equals(fsVerticleName)) {
       return new REPLVerticle(runtime);

@@ -3,7 +3,7 @@
 When working on [GraalVM](https://graalvm.org) or a JDK with the graalvm (JVMCI) bits, start your application as:
 
 ```sh
-npm start -- -i
+npm start -- --inspector=9229
 ```
 
 This will start a Chrome inspector debugger agent on port 9229 that you can attach for a remote
@@ -28,14 +28,30 @@ The usage of Chrome devtools is not a hard requirement. You can also debug the a
 [Visual Studio Code](https://code.visualstudio.com). Create a runner configuration as:
 
 
+```
+es4x vscode
+```
+
+This will create a `launcher.json` similar to this:
+
 ```json
 {
-  "type": "node",
-  "request": "attach",
-  "name": "es4x app",
-  "port": "9229",
-  "localRoot": "/",
-  "remoteRoot": "/"
+  "version" : "0.2.0",
+  "configurations" : [ {
+    "name" : "Launch empty-project",
+    "type" : "node",
+    "request" : "launch",
+    "cwd" : "${workspaceFolder}",
+    "runtimeExecutable" : "${workspaceFolder}/node_modules/.bin/es4x-launcher",
+    "runtimeArgs" : [ "--inspect=5858" ],
+    "port" : 5858,
+    "outputCapture" : "std",
+    "serverReadyAction" : {
+      "pattern" : "started on port ([0-9]+)",
+      "uriFormat" : "http://localhost:%s",
+      "action" : "openExternally"
+    }
+  } ]
 }
 ```
 
@@ -43,15 +59,5 @@ And attach your debugger.
 
 ![vscode-chrome-inspector](res/vscode-debug.png)
 
-## Debug Nashorn code
-
-Nashorn is now a deprecated technology and a fallback when there's no `graaljs` available. It is still possible to debug
-in this scenario, but it will require the usage of java tools. Currently this has only been tested on `IntelliJ IDEA`.
-
-To debug your application start it as:
-
-```sh
-npm start -- -d
-```
-
-And use the standard java debugger to attach and debug the code.
+If you print the message `Server started on port 8000` it will be captured by visual studio and a browser window will
+open the url in question.

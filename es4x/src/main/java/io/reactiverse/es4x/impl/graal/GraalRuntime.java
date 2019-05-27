@@ -16,7 +16,7 @@
 package io.reactiverse.es4x.impl.graal;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.ScriptException;
+import io.reactiverse.es4x.impl.EventEmitterImpl;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.*;
@@ -27,53 +27,40 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 
-public class GraalRuntime implements Runtime<Value> {
+public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
 
   private final Context context;
   private final Value bindings;
   private final Value module;
 
-  private String contentType = "application/javascript";
-
-  private static String getCWD() {
-    // clean up the current working dir
-    String cwdOverride = System.getProperty("vertx.cwd");
-    String cwd;
-    // are the any overrides?
-    if (cwdOverride != null) {
-      cwd = new File(cwdOverride).getAbsolutePath();
-    } else {
-      // ensure it's not null
-      cwd = System.getProperty("user.dir", "");
-    }
-
-    // all paths are unix paths
-    cwd = cwd.replace('\\', '/');
-    // ensure it ends with /
-    if (cwd.charAt(cwd.length() - 1) != '/') {
-      cwd += '/';
-    }
-
-    // append the required prefix
-    return "file://" + cwd;
-  }
+  private static final Source[] POLYFILLS = new Source[] {
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).buildLiteral(),
+    Source.newBuilder("js", GraalRuntime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral()
+  };
 
   public GraalRuntime(final Vertx vertx, Context context) {
 
     this.context = context;
     this.bindings = this.context.getBindings("js");
 
-    // remove the exit and quit functions
-    bindings.removeMember("exit");
-    bindings.removeMember("quit");
+    // remove specific features that we don't want to expose
+    for (String identifier : Arrays.asList("exit", "quit", "Packages", "java", "javafx", "javax", "com", "org", "edu")) {
+      bindings.removeMember(identifier);
+    }
     // add vertx as a global
     bindings.putMember("vertx", vertx);
 
     // clean up the current working dir
-    final String cwd = getCWD();
+    final String cwd = "file://" + VertxFileSystem.getCWD();
 
     // override the default load function to allow proper mapping of file for debugging
     bindings.putMember("load", new Function<Object, Value>() {
@@ -116,8 +103,7 @@ public class GraalRuntime implements Runtime<Value> {
                 // absolute uri
                 uri = new URI("file://" + name);
               }
-
-              source = Source.newBuilder("js", script, name.toString()).uri(uri).build();
+              source = Source.newBuilder("js", script, uri.getPath()).uri(uri).build();
             } else {
               source = Source.newBuilder("js", script, "<module-wrapper>").cached(false).build();
             }
@@ -133,22 +119,14 @@ public class GraalRuntime implements Runtime<Value> {
     });
 
     // load all the polyfills
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).buildLiteral());
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).buildLiteral());
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).buildLiteral());
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).buildLiteral());
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).buildLiteral());
-    context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).buildLiteral());
-    // keep a reference to module
-    module = context.eval(Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral());
-  }
-
-  @Override
-  public void setContentType(String contentType) {
-    if (contentType == null) {
-      throw new IllegalArgumentException("ContentType cannot be null");
+    bindings.putMember("verticle", this);
+    for (int i = 0; i < POLYFILLS.length - 1; i++) {
+      context.eval(POLYFILLS[i]);
     }
-    this.contentType = contentType;
+    bindings.removeMember("verticle");
+
+    // keep a reference to module
+    module = context.eval(POLYFILLS[POLYFILLS.length -1]);
   }
 
   @Override
@@ -185,24 +163,14 @@ public class GraalRuntime implements Runtime<Value> {
   }
 
   @Override
-  public Value eval(String script, String name, boolean literal) {
+  public Value eval(String script, String name, String contentType, boolean interactive) {
     final Source source = Source
       .newBuilder("js", script, name)
-      .interactive(literal)
+      .interactive(interactive)
       .mimeType(contentType)
       .buildLiteral();
 
-    if (literal) {
-      try {
-        return context.eval(source);
-      } catch (PolyglotException e) {
-        // in this special case we wrap and hide the polyglot type
-        // so we can keep a contract outside graal
-        throw new ScriptException(e, e.isIncompleteSource(), e.isExit());
-      }
-    } else {
-      return context.eval(source);
-    }
+    return context.eval(source);
   }
 
   @Override

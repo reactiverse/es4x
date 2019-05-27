@@ -26,14 +26,6 @@ import io.vertx.core.file.FileSystem;
 public final class MJSVerticleFactory extends ESVerticleFactory {
 
   @Override
-  Runtime createRuntime(ECMAEngine engine) {
-    final Runtime rt = engine.newContext();
-    // assume mjs as default script content type
-    rt.setContentType("application/javascript+module");
-    return rt;
-  }
-
-  @Override
   public String prefix() {
     return "mjs";
   }
@@ -43,9 +35,6 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
     return new Verticle() {
 
       private Vertx vertx;
-      private Context context;
-
-      private Object self;
 
       @Override
       public Vertx getVertx() {
@@ -55,7 +44,6 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       @Override
       public void init(Vertx vertx, Context context) {
         this.vertx = vertx;
-        this.context = context;
       }
 
       @Override
@@ -70,10 +58,11 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
 
           // the main script buffer
           final Buffer buffer = fs.readFileBlocking(fsVerticleName);
-          self = runtime.eval(
+          runtime.eval(
             // strip the shebang if present
             ESModuleIO.stripShebang(buffer.toString()),
             fsVerticleName,
+            "application/javascript+module",
             false);
           startFuture.complete();
         } catch (RuntimeException e) {
@@ -84,23 +73,18 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
 
       @Override
       public void stop(Future<Void> stopFuture) {
-        if (self != null) {
-          if (runtime.hasMember(self, "undeployHandler")) {
-            try {
-              runtime.enter();
-              runtime.invokeMethod(self, "undeployHandler");
-            } catch (RuntimeException e) {
-              stopFuture.fail(e);
-              return;
-            } finally {
-              // done!
-              runtime.leave();
-            }
-          }
+        try {
+          runtime.enter();
+          runtime.emit("undeploy");
+          runtime.leave();
+          runtime.close();
+          stopFuture.complete();
+        } catch (RuntimeException e) {
+          // done!
+          runtime.leave();
+          runtime.close();
+          stopFuture.fail(e);
         }
-        // close the loader
-        runtime.close();
-        stopFuture.complete();
       }
     };
   }

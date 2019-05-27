@@ -18,14 +18,17 @@
 
   const Instant = Java.type('java.time.Instant');
 
-  Date.prototype.toInstant = function () {
-    return Instant.ofEpochMilli(this.getTime());
-  };
-
   Date.fromInstant = function (instant) {
-    let date = new Date();
-    date.setTime(instant.toEpochMilli());
-    return date;
+    if (instant !== null && instant !== undefined) {
+      if (instant instanceof Instant) {
+        let date = new Date();
+        date.setTime(instant.toEpochMilli());
+        return date;
+      }
+      throw new TypeError('Not an java.time.Instant');
+    } else {
+      return instant;
+    }
   };
 
 })();

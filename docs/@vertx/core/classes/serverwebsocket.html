@@ -102,11 +102,14 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#localaddress" class="tsd-kind-icon">local<wbr>Address</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#path" class="tsd-kind-icon">path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#pause" class="tsd-kind-icon">pause</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#pipe" class="tsd-kind-icon">pipe</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#pipeto" class="tsd-kind-icon">pipe<wbr>To</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#ponghandler" class="tsd-kind-icon">pong<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#query" class="tsd-kind-icon">query</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#reject" class="tsd-kind-icon">reject</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#remoteaddress" class="tsd-kind-icon">remote<wbr>Address</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#resume" class="tsd-kind-icon">resume</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#sethandshake" class="tsd-kind-icon">set<wbr>Handshake</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#setwritequeuemaxsize" class="tsd-kind-icon">set<wbr>Write<wbr>Queue<wbr>Max<wbr>Size</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#sslsession" class="tsd-kind-icon">ssl<wbr>Session</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="serverwebsocket.html#subprotocol" class="tsd-kind-icon">sub<wbr>Protocol</a></li>
@@ -139,16 +142,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8386</li>
+									<li>Defined in index.d.ts:9205</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Accept the WebSocket and terminate the WebSocket handshake.
 										<p/>
-											This method should be called from the websocket handler to explicitely accept the websocker and
+											This method should be called from the WebSocket handler to explicitly accept the WebSocket and
 										terminate the WebSocket handshake.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>IllegalStateException when the WebSocket handshake is already set</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
@@ -165,12 +173,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#binaryhandlerid">binaryHandlerID</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8192</li>
+									<li>Defined in index.d.ts:8972</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>When a {@code Websocket} is created it automatically registers an event handler with the event bus - the ID of that
+									<p>When a {@code WebSocket} is created it automatically registers an event handler with the event bus - the ID of that
 										handler is given by this method.
 										<p>
 											Given this ID, a different event loop can send a binary frame to that event handler using the event bus and
@@ -193,7 +201,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8269</li>
+									<li>Defined in index.d.ts:9040</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -221,38 +229,29 @@
 					<a name="close" class="tsd-anchor"></a>
 					<h3>close</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span>statusCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span>statusCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span>statusCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, reason<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span>statusCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, reason<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#close">close</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8299</li>
+									<li>Defined in index.d.ts:9074</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Close the WebSocket sending the default close frame.
-										<p/>
-										No more messages can be sent.</p>
+									<p>Same as {@link #close()} but with an {@code handler} called when the operation completes</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#close">close</a></p>
-								<ul>
-									<li>Defined in index.d.ts:8301</li>
-								</ul>
-							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>statusCode: <span class="tsd-signature-type">number</span></h5>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -261,9 +260,93 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#close">close</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8303</li>
+									<li>Defined in index.d.ts:9084</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Close the WebSocket sending a close frame with specified status code. You can give a look at various close payloads
+										here: RFC6455 <a href="https://tools.ietf.org/html/rfc6455#section-7.4.1">section 7.4.1</a>
+										<p/>
+										No more messages can be sent.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>statusCode: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Status code</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9090</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as {@link #close(short)} but with an {@code handler} called when the operation completes</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>statusCode: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#close">close</a></p>
+								<ul>
+									<li>Defined in index.d.ts:9101</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Close sending a close frame with specified status code and reason. You can give a look at various close payloads
+										here: RFC6455 <a href="https://tools.ietf.org/html/rfc6455#section-7.4.1">section 7.4.1</a>
+										<p/>
+										No more messages can be sent.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>statusCode: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Status code</p>
+									</div>
+								</li>
+								<li>
+									<h5>reason: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>reason of closure</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9107</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as {@link #close(short, String)} but with an {@code handler} called when the operation completes</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -272,7 +355,27 @@
 								<li>
 									<h5>reason: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#close">close</a></p>
+								<ul>
+									<li>Defined in index.d.ts:9257</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>{@inheritDoc}</p>
+								</div>
+								<p>
+									The WebSocket handshake will be accepted when it hasn't yet been settled or when an asynchronous handshake
+									is in progress.
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -287,7 +390,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8352</li>
+									<li>Defined in index.d.ts:9170</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -310,7 +413,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8342</li>
+									<li>Defined in index.d.ts:9148</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -327,26 +430,61 @@
 					<a name="end" class="tsd-anchor"></a>
 					<h3>end</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8172</li>
+									<li>Defined in index.d.ts:8919</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Same as {@link #end()} but writes some data to the stream before ending.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>implspec</dt>
+									<dd><p>The default default implementation calls sequentially {@link #write(Object)} then {@link #end()}</p>
+									</dd>
+									<dt>apinote</dt>
+									<dd><p>Implementations might want to perform a single operation</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>t: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the data to write</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:8925</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as {@link #end(T)} but with an {@code handler} called when the operation completes</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -355,7 +493,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8291</li>
+									<li>Defined in index.d.ts:9062</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -363,6 +501,25 @@
 									<p>Calls {@link #close()}</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9068</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls {@link #close(Handler)}</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -377,7 +534,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8336</li>
+									<li>Defined in index.d.ts:9140</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -400,7 +557,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8326</li>
+									<li>Defined in index.d.ts:9130</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -424,7 +581,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8334</li>
+									<li>Defined in index.d.ts:9138</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -447,7 +604,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8354</li>
+									<li>Defined in index.d.ts:9172</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -470,7 +627,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8328</li>
+									<li>Defined in index.d.ts:9132</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -493,7 +650,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8377</li>
+									<li>Defined in index.d.ts:9195</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -514,7 +671,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#isssl">isSsl</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8324</li>
+									<li>Defined in index.d.ts:9128</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -535,7 +692,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#localaddress">localAddress</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8317</li>
+									<li>Defined in index.d.ts:9121</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -555,7 +712,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8363</li>
+									<li>Defined in index.d.ts:9181</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -576,10 +733,96 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8330</li>
+									<li>Defined in index.d.ts:9134</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pipe" class="tsd-anchor"></a>
+					<h3>pipe</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">pipe<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#pipe">pipe</a></p>
+								<ul>
+									<li>Defined in index.d.ts:8942</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Pause this stream and return a <a href="pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="../interfaces/writestream.html">WriteStream</a>.
+										<p/>
+										The stream will be resumed when the pipe will be wired to a {@code WriteStream}.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a pipe</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pipeto" class="tsd-anchor"></a>
+					<h3>pipe<wbr>To</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">pipe<wbr>To<span class="tsd-signature-symbol">(</span>dst<span class="tsd-signature-symbol">: </span><a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">pipe<wbr>To<span class="tsd-signature-symbol">(</span>dst<span class="tsd-signature-symbol">: </span><a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#pipeto">pipeTo</a></p>
+								<ul>
+									<li>Defined in index.d.ts:8948</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Like {@link #pipeTo(WriteStream, Handler)} but with no completion handler.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dst: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:8960</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Pipe this {@code ReadStream} to the {@code WriteStream}.
+										<p>
+											Elements emitted by this stream will be written to the write stream until this stream ends or fails.
+											<p>
+												Once this stream has ended or failed, the write stream will be ended and the {@code handler} will be
+											called with the result.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dst: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the destination write stream</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -593,18 +836,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8285</li>
+									<li>Defined in index.d.ts:9056</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set a pong message handler on the connection.  This handler will be invoked every time a pong message is received
-										on the server, and can be used by both clients and servers since the RFC 6455 Sections 5.5.2 and 5.5.3 do not
+									<p>Set a pong frame handler on the connection.  This handler will be invoked every time a pong frame is received
+										on the server, and can be used by both clients and servers since the RFC 6455 <a href="https://tools.ietf.org/html/rfc6455#section-5.5.2">section 5.5.2</a> and <a href="https://tools.ietf.org/html/rfc6455#section-5.5.3">section 5.5.3</a> do not
 										specify whether the client or server sends a ping.
 										<p>
 											Pong frames may be at most 125 bytes (octets).
 											<p>
-												There is no ping handler since pings should immediately be responded to with a pong with identical content
+												There is no ping handler since ping frames should immediately be responded to with a pong frame with identical content
 												<p>
 												Pong frames may be received unsolicited.</p>
 								</div>
@@ -633,7 +876,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8370</li>
+									<li>Defined in index.d.ts:9188</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -657,26 +900,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8398</li>
+									<li>Defined in index.d.ts:9218</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Reject the WebSocket.
 										<p>
-											Calling this method from the websocket handler when it is first passed to you gives you the opportunity to reject
-											the websocket, which will cause the websocket handshake to fail by returning
+											Calling this method from the WebSocket handler when it is first passed to you gives you the opportunity to reject
+											the WebSocket, which will cause the WebSocket handshake to fail by returning
 											a {@literal 502} response code.
 											<p>
 											You might use this method, if for example you only want to accept WebSockets with a particular path.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>IllegalStateException when the WebSocket handshake is already set</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8404</li>
+									<li>Defined in index.d.ts:9224</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -705,7 +953,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#remoteaddress">remoteAddress</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8310</li>
+									<li>Defined in index.d.ts:9114</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -726,10 +974,59 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8332</li>
+									<li>Defined in index.d.ts:9136</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sethandshake" class="tsd-anchor"></a>
+					<h3>set<wbr>Handshake</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Handshake<span class="tsd-signature-symbol">(</span>future<span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9247</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set an asynchronous result for the handshake, upon completion of the specified {@code future}, the
+									WebSocket will either be</p>
+								</div>
+								<ul>
+									<li>accepted when the {@code future} succeeds with the HTTP {@literal 101} status code</li>
+									<li>rejected when the {@code future} is succeeds with an HTTP status code different than {@literal 101}</li>
+									<li>rejected when the {@code future} fails with the HTTP status code {@code 500}</li>
+								</ul>
+								<p> The provided future might be completed by the WebSocket itself, e.g calling the {@link #close()} method
+									will try to accept the handshake and close the WebSocket afterward. Thus it is advised to try to complete
+									the {@code future} with {@link Future#tryComplete} or {@link Future#tryFail}.
+									<p>
+										This method should be called from the WebSocket handler to explicitly set an asynchronous handshake.
+										<p>
+										Calling this method will override the {@code future} completion handler.</p>
+										<dl class="tsd-comment-tags">
+											<dt>throws</dt>
+											<dd><p>IllegalStateException when the WebSocket has already an asynchronous result</p>
+											</dd>
+										</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>future: <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the future to complete with</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -744,7 +1041,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#setwritequeuemaxsize">setWriteQueueMaxSize</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8340</li>
+									<li>Defined in index.d.ts:9146</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -768,7 +1065,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#sslsession">sslSession</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8413</li>
+									<li>Defined in index.d.ts:9266</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -795,12 +1092,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#subprotocol">subProtocol</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8212</li>
+									<li>Defined in index.d.ts:8992</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns the websocket sub protocol selected by the websocket handshake.
+									<p>Returns the WebSocket sub protocol selected by the WebSocket handshake.
 										<p/>
 											On the server, the value will be {@code null} when the handler receives the websocket callback as the
 										handshake will not be completed yet.</p>
@@ -821,12 +1118,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#texthandlerid">textHandlerID</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8203</li>
+									<li>Defined in index.d.ts:8983</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>When a {@code Websocket} is created it automatically registers an event handler with the eventbus, the ID of that
+									<p>When a {@code WebSocket} is created it automatically registers an event handler with the eventbus, the ID of that
 										handler is given by {@code textHandlerID}.
 										<p>
 											Given this ID, a different event loop can send a text frame to that event handler using the event bus and
@@ -848,7 +1145,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8259</li>
+									<li>Defined in index.d.ts:9030</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -881,7 +1178,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8356</li>
+									<li>Defined in index.d.ts:9174</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -893,19 +1190,37 @@
 					<h3>write</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
+						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#write">write</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8338</li>
+									<li>Defined in index.d.ts:9142</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9144</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
@@ -917,19 +1232,37 @@
 					<h3>write<wbr>Binary<wbr>Message</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">write<wbr>Binary<wbr>Message<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Binary<wbr>Message<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#writebinarymessage">writeBinaryMessage</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8350</li>
+									<li>Defined in index.d.ts:9162</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9164</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
@@ -941,19 +1274,37 @@
 					<h3>write<wbr>Final<wbr>Binary<wbr>Frame</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">write<wbr>Final<wbr>Binary<wbr>Frame<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Final<wbr>Binary<wbr>Frame<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#writefinalbinaryframe">writeFinalBinaryFrame</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8348</li>
+									<li>Defined in index.d.ts:9158</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9160</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
@@ -965,19 +1316,37 @@
 					<h3>write<wbr>Final<wbr>Text<wbr>Frame</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">write<wbr>Final<wbr>Text<wbr>Frame<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Final<wbr>Text<wbr>Frame<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#writefinaltextframe">writeFinalTextFrame</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8346</li>
+									<li>Defined in index.d.ts:9154</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>text: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9156</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>text: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
@@ -989,19 +1358,37 @@
 					<h3>write<wbr>Frame</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">write<wbr>Frame<span class="tsd-signature-symbol">(</span>frame<span class="tsd-signature-symbol">: </span><a href="websocketframe.html" class="tsd-signature-type">WebSocketFrame</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Frame<span class="tsd-signature-symbol">(</span>frame<span class="tsd-signature-symbol">: </span><a href="websocketframe.html" class="tsd-signature-type">WebSocketFrame</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#writeframe">writeFrame</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8344</li>
+									<li>Defined in index.d.ts:9150</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>frame: <a href="websocketframe.html" class="tsd-signature-type">WebSocketFrame</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9152</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>frame: <a href="websocketframe.html" class="tsd-signature-type">WebSocketFrame</a></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
@@ -1019,18 +1406,18 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#writeping">writePing</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8235</li>
+									<li>Defined in index.d.ts:9006</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Writes a ping to the connection. This will be written in a single frame. Ping frames may be at most 125 bytes (octets).
+									<p>Writes a ping frame to the connection. This will be written in a single frame. Ping frames may be at most 125 bytes (octets).
 										<p>
 											This method should not be used to write application data and should only be used for implementing a keep alive or
-											to ensure the client is still responsive, see RFC 6455 Section 5.5.2.
+											to ensure the client is still responsive, see RFC 6455 Section <a href="https://tools.ietf.org/html/rfc6455#section-5.5.2">section 5.5.2</a>.
 											<p>
-												There is no pingHandler because RFC 6455 section 5.5.2 clearly states that the only response to a ping is a pong
-											with identical contents.</p>
+												There is no handler for ping frames because RFC 6455  clearly
+											states that the only response to a ping frame is a pong frame with identical contents.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1058,18 +1445,18 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#writepong">writePong</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8250</li>
+									<li>Defined in index.d.ts:9021</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Writes a pong to the connection. This will be written in a single frame. Pong frames may be at most 125 bytes (octets).
+									<p>Writes a pong frame to the connection. This will be written in a single frame. Pong frames may be at most 125 bytes (octets).
 										<p>
 											This method should not be used to write application data and should only be used for implementing a keep alive or
-											to ensure the client is still responsive, see RFC 6455 Section 5.5.2.
+											to ensure the client is still responsive, see RFC 6455 <a href="https://tools.ietf.org/html/rfc6455#section-5.5.2">section 5.5.2</a>.
 											<p>
-												There is no need to manually write a Pong, as the server and client both handle responding to a ping with a pong
-												automatically and this is exposed to users.RFC 6455 Section 5.5.3 states that pongs may be sent unsolicited in order
+												There is no need to manually write a pong frame, as the server and client both handle responding to a ping from with a pong from
+												automatically and this is exposed to users. RFC 6455 <a href="https://tools.ietf.org/html/rfc6455#section-5.5.3">section 5.5.3</a> states that pongs may be sent unsolicited in order
 											to implement a one way heartbeat.</p>
 								</div>
 							</div>
@@ -1098,7 +1485,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#writequeuefull">writeQueueFull</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8180</li>
+									<li>Defined in index.d.ts:8933</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1116,33 +1503,41 @@
 					<a name="writetextmessage" class="tsd-anchor"></a>
 					<h3>write<wbr>Text<wbr>Message</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">write<wbr>Text<wbr>Message<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/websocketbase.html" class="tsd-signature-type">WebSocketBase</a></li>
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Text<wbr>Message<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Text<wbr>Message<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/websocketbase.html">WebSocketBase</a>.<a href="../interfaces/websocketbase.html#writetextmessage">writeTextMessage</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8221</li>
+									<li>Defined in index.d.ts:9166</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Writes a (potentially large) piece of text data to the connection. This data might be written as multiple frames
-									if it exceeds the maximum WebSocket frame size.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>text: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the data to write</p>
-									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/websocketbase.html" class="tsd-signature-type">WebSocketBase</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
+							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:9168</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>text: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1215,6 +1610,12 @@
 								<a href="serverwebsocket.html#pause" class="tsd-kind-icon">pause</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="serverwebsocket.html#pipe" class="tsd-kind-icon">pipe</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="serverwebsocket.html#pipeto" class="tsd-kind-icon">pipe<wbr>To</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="serverwebsocket.html#ponghandler" class="tsd-kind-icon">pong<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -1228,6 +1629,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="serverwebsocket.html#resume" class="tsd-kind-icon">resume</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="serverwebsocket.html#sethandshake" class="tsd-kind-icon">set<wbr>Handshake</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="serverwebsocket.html#setwritequeuemaxsize" class="tsd-kind-icon">set<wbr>Write<wbr>Queue<wbr>Max<wbr>Size</a>

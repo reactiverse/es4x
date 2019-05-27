@@ -6,14 +6,14 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.7.3</version>
+    <version>0.8.0</version>
     <relativePath>..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>es4x</artifactId>
-  <version>0.7.3</version>
+  <version>0.8.0</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,64 +29,11 @@
 
   <profiles>
     <profile>
-      <id>java9</id>
-      <activation>
-        <jdk>[1.9,)</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-              <execution>
-                <id>add-sources</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>add-source</goal>
-                </goals>
-                <configuration>
-                  <sources>
-                    <source>src/main/java-9</source>
-                  </sources>
-                </configuration>
-              </execution>
-              <execution>
-                <id>add-test-sources</id>
-                <phase>generate-test-sources</phase>
-                <goals>
-                  <goal>add-test-source</goal>
-                </goals>
-                <configuration>
-                  <sources>
-                    <source>src/test/java-9</source>
-                  </sources>
-                </configuration>
-              </execution>
-              <execution>
-                <id>add-resources</id>
-                <phase>generate-resources</phase>
-                <goals>
-                  <goal>add-resource</goal>
-                </goals>
-                <configuration>
-                  <resources>
-                    <resource>
-                      <directory>src/main/resources-9</directory>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>graaljs</id>
       <activation>
-        <jdk>[1.11,)</jdk>
+        <file>
+          <missing>${java.home}/../GRAALVM-README.md</missing>
+        </file>
       </activation>
       <dependencies>
         <!-- GraalVM runtime -->
@@ -129,7 +76,6 @@
       <artifactId>graal-sdk</artifactId>
       <version>${graalvm.version}</version>
       <scope>provided</scope>
-      <optional>true</optional>
     </dependency>
     <!-- testing -->
     <dependency>
@@ -165,7 +111,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.3</version>
+        <version>0.8.4</version>
         <executions>
           <execution>
             <goals>
@@ -184,7 +130,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.2</version>
         <configuration>
           <archive>
             <manifest>

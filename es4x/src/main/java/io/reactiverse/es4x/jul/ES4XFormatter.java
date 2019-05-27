@@ -15,170 +15,122 @@
  */
 package io.reactiverse.es4x.jul;
 
-import jdk.nashorn.api.scripting.NashornException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.logging.*;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.IdentityHashMap;
-import java.util.Set;
-import java.util.logging.Formatter;
-import java.util.logging.LogRecord;
+import static java.util.logging.Level.*;
 
 public class ES4XFormatter extends Formatter {
 
-  private static final String format = "%5$s %6$s%n";
+  private static final boolean ansi = System.console() != null;
 
-  private final Date dat = new Date();
-
+  @Override
   public synchronized String format(LogRecord record) {
-    dat.setTime(record.getMillis());
-    String source;
-    if (record.getSourceClassName() != null) {
-      source = record.getSourceClassName();
-      if (record.getSourceMethodName() != null) {
-        source += " " + record.getSourceMethodName();
+
+    Throwable thrown = record.getThrown();
+    String message = record.getMessage();
+
+    String thrownMessage = null;
+    String thrownTrace = null;
+
+    if (thrown != null) {
+      // collect the trace back to a string
+      try (StringWriter sw = new StringWriter()) {
+        PrintWriter pw = new PrintWriter(sw);
+        // print the thrown to String
+        thrown.printStackTrace(pw);
+        String sStackTrace = sw.toString(); // stack trace as a string
+        int idx = sStackTrace.indexOf("\n\tat");
+        if (idx != -1) {
+          thrownMessage = sStackTrace.substring(0, idx);
+          thrownTrace = sStackTrace.substring(idx);
+        } else {
+          thrownTrace = sStackTrace;
+        }
+      } catch (IOException e) {
+        // ignore...
       }
-    } else {
-      source = record.getLoggerName();
-    }
-    String message = formatMessage(record);
-    CharSequence throwable = "";
-    if (record.getThrown() != null) {
-      throwable = formatStackTrace(record.getThrown());
     }
 
-    return String.format(format,
-      dat,
-      source,
-      record.getLoggerName(),
-      record.getLevel(),
-      message,
-      throwable);
+    StringBuilder sb = new StringBuilder();
+
+    sb.append(prefix(record.getLevel()));
+    sb.append(message);
+    if (thrownMessage != null) {
+      sb.append(" caused by ");
+      sb.append(thrownMessage);
+    }
+    sb.append(suffix(record.getLevel()));
+    if (thrownTrace != null) {
+      sb.append(thrownTrace);
+    } else {
+      sb.append(System.lineSeparator());
+    }
+
+    return sb.toString();
   }
 
-  private static CharSequence formatStackTrace(Throwable self) {
-    final StringBuffer buffer = new StringBuffer();
-
-    Set<Throwable> dejaVu = Collections.newSetFromMap(new IdentityHashMap<>());
-    dejaVu.add(self);
-
-    StackTraceElement[] trace;
-
-    if (self instanceof NashornException) {
-      buffer
-        .append(self.getLocalizedMessage())
-        .append(System.lineSeparator());
-
-      buffer
-        .append("\tat (")
-        .append(((NashornException) self).getFileName())
-        .append(":")
-        .append(((NashornException) self).getLineNumber())
-        .append(":")
-        .append(((NashornException) self).getColumnNumber())
-        .append(")")
-        .append(System.lineSeparator());
-
-      trace = NashornException.getScriptFrames(self);
-
-      for (StackTraceElement traceElement : trace) {
-        buffer
-          .append("\tat ")
-          .append(traceElement.getMethodName())
-          .append(" (")
-          .append(traceElement.getFileName())
-          .append(":")
-          .append(traceElement.getLineNumber())
-          .append(")")
-          .append(System.lineSeparator());
-      }
-    } else {
-      buffer
-        .append(self)
-        .append(System.lineSeparator());
-
-      trace = self.getStackTrace();
-      for (StackTraceElement traceElement : trace) {
-        buffer
-          .append("\tat ")
-          .append(traceElement)
-          .append(System.lineSeparator());
-      }
-    }
-
-    Throwable[] suppressed = self.getSuppressed();
-
-    for (Throwable se : suppressed) {
-      printEnclosedStackTrace(se, buffer, trace, "Suppressed: ", "\t", dejaVu);
-    }
-
-    Throwable ourCause = self.getCause();
-    if (ourCause != null) {
-      printEnclosedStackTrace(ourCause, buffer, trace, "Caused by: ", "", dejaVu);
-    }
-
-    return buffer;
-  }
-
-  private static void printEnclosedStackTrace(Throwable self, StringBuffer buffer, StackTraceElement[] enclosingTrace, String caption, String prefix, Set<Throwable> dejaVu) {
-    if (dejaVu.contains(self)) {
-      buffer
-        .append("\t[CIRCULAR REFERENCE:")
-        .append(self)
-        .append("]")
-        .append(System.lineSeparator());
-    } else {
-
-      dejaVu.add(self);
-
-      StackTraceElement[] trace;
-
-      if (self instanceof NashornException) {
-        trace = NashornException.getScriptFrames(self);
+  private static String prefix(Level l) {
+    if (SEVERE.equals(l)) {
+      if (ansi) {
+        return "\u001B[1m\u001B[31m";
       } else {
-        trace = self.getStackTrace();
+        return "[SEVERE] ";
       }
-
-      int m = trace.length - 1;
-
-      for (int n = enclosingTrace.length - 1; m >= 0 && n >= 0 && trace[m].equals(enclosingTrace[n]); --n) {
-        --m;
+    }
+    if (WARNING.equals(l)) {
+      if (ansi) {
+        return "\u001B[1m\u001B[33m";
+      } else {
+        return "[WARNING] ";
       }
-
-      int framesInCommon = trace.length - 1 - m;
-      buffer
-        .append(prefix)
-        .append(caption)
-        .append(self)
-        .append(System.lineSeparator());
-
-      for (int i = 0; i <= m; ++i) {
-        buffer
-          .append(prefix)
-          .append("\tat ")
-          .append(trace[i])
-          .append(System.lineSeparator());
+    }
+    if (INFO.equals(l)) {
+      if (ansi) {
+        return "\u001B[1m\u001B[34m";
+      } else {
+        return "[INFO] ";
       }
-
-      if (framesInCommon != 0) {
-        buffer
-          .append(prefix)
-          .append("\t... ")
-          .append(framesInCommon)
-          .append(" more")
-          .append(System.lineSeparator());
+    }
+    if (CONFIG.equals(l)) {
+      if (ansi) {
+        return "\u001B[1m\u001B[36m";
+      } else {
+        return "[CONFIG] ";
       }
-
-      Throwable[] suppressed = self.getSuppressed();
-
-      for (Throwable se : suppressed) {
-        printEnclosedStackTrace(se, buffer, trace, "Suppressed: ", prefix + "\t", dejaVu);
+    }
+    if (FINE.equals(l)) {
+      if (ansi) {
+        return "\u001B[1m\u001B[94m";
+      } else {
+        return "[FINE] ";
       }
-
-      Throwable ourCause = self.getCause();
-      if (ourCause != null) {
-        printEnclosedStackTrace(ourCause, buffer, trace, "Caused by: ", prefix, dejaVu);
+    }
+    if (FINER.equals(l)) {
+      if (ansi) {
+        return "\u001B[94m";
+      } else {
+        return "[FINER] ";
       }
+    }
+    if (FINEST.equals(l)) {
+      if (ansi) {
+        return "\u001B[94m";
+      } else {
+        return "[FINEST] ";
+      }
+    }
+
+    return "[" + l.getName().toUpperCase() + "]";
+  }
+
+  private static String suffix(Level l) {
+    if (ansi) {
+      return "\u001B[0m";
+    } else {
+      return "";
     }
   }
 }

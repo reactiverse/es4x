@@ -1,11 +1,11 @@
-ES4X has GraalVM support. The same code will run either on Nashorn (JS Engine in JDK>=8) or GraalJS
-(if run on GraalVM or a JVMCI enabled JVM).
+ES4X has GraalVM support. The same code will run either in **interpreted** mode on Java 8/11 and OpenJ9 or **compiled**
+mode on JDK >= 11 (with JVMCI support) or GraalJS.
 
 There are benefits on using GraalJS namely the updated language support >=ES6 and support out of the box for generators,
 promises, etc....
 
-The *downsides* are that the engine is not in 1 to 1 parity of features to the old Nashorn, for example, Nashorn allows
-the usage of property names to refer to getters and setters, while Graal is strict. For example:
+Java intertop follows the **exact** class/method name from Java. For example, the usage of property names to refer to
+getters and setters, must use the *getter* and *setter*. For example:
 
 ```java
 class Hello {
@@ -21,14 +21,14 @@ class Hello {
 }
 ```
 
-When using this Java Object from Nashorn one could get and set the name as:
+When using this Java Object from Graal, this will not work:
 
 ```js
 var hello = new Hello();
 // get the name
-var name = hello.name;
+var name = hello.name; // FAIL
 // set the name
-hello.name = 'Paulo';
+hello.name = 'Paulo';  // FAIL
 ```
 
 This is not valid in Graal and should be:
@@ -41,8 +41,7 @@ var name = hello.getName();
 hello.setName('Paulo');
 ```
 
-While Nashorn would not complain when using threads or being executed from different threads, GraalJS will not allow
-this, so you should ensure that you're always executing in the right context. If there is a need to work with multiple
+GraalJS will not allow multi thread access to the same script context. If there is a need to work with multiple
 threads, then consider looking at the [Worker API](./WORKER).
 
 ## Native Images
@@ -50,3 +49,5 @@ threads, then consider looking at the [Worker API](./WORKER).
 Currently you cannot generate native images with ES4X, the limitation is because the static analysis of the AOT compiler
 will not take in consideration the java code invoked from the script (so classes won't be available), plus the fact that
 the compiler has no support for jvm interop at runtime.
+
+There is work in progress in this are so it might be possible in the future.

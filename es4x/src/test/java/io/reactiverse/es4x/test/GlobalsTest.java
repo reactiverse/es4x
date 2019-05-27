@@ -1,43 +1,29 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
+import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
-import io.vertx.ext.unit.junit.VertxUnitRunnerWithParametersFactory;
+import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-import java.util.Arrays;
-import java.util.List;
+import java.time.Instant;
 
-import static io.reactiverse.es4x.test.Helper.getRuntime;
-
-@RunWith(Parameterized.class)
-@Parameterized.UseParametersRunnerFactory(VertxUnitRunnerWithParametersFactory.class)
+@RunWith(VertxUnitRunner.class)
 public class GlobalsTest {
 
-  @Parameterized.Parameters
-  public static List<String> engines() {
-    return Arrays.asList("Nashorn", "GraalJS");
-  }
-
-  private final String engineName;
   private Runtime runtime;
-
-  public GlobalsTest(String engine) {
-    engineName = engine;
-  }
 
   @Rule
   public RunTestOnContext rule = new RunTestOnContext();
 
   @Before
   public void initialize() {
-    runtime = getRuntime(rule.vertx(), engineName);
+    runtime = new GraalEngine(rule.vertx()).newContext();
   }
 
   @Test(timeout = 10000)
@@ -94,6 +80,7 @@ public class GlobalsTest {
 
   @Test(timeout = 10000)
   public void testDateToInstant(TestContext ctx) throws Exception {
-    runtime.eval("console.log(new Date().toInstant());");
+    runtime.put("instant", Instant.now());
+    runtime.eval("console.log(Date.fromInstant(instant))");
   }
 }

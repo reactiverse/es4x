@@ -15,9 +15,6 @@
  */
 package io.reactiverse.es4x.commands;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.Name;
 import io.vertx.core.cli.annotations.Summary;
@@ -27,18 +24,11 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
 
-import static io.reactiverse.es4x.commands.Helper.err;
+import static io.reactiverse.es4x.commands.Helper.*;
 
 @Name("init")
 @Summary("Initializes the 'package.json' to work with ES4X.")
 public class InitCommand extends DefaultCommand {
-
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-
-  static {
-    MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-    MAPPER.configure(SerializationFeature.INDENT_OUTPUT, true);
-  }
 
   @Override
   public void run() throws CLIException {
@@ -50,16 +40,16 @@ public class InitCommand extends DefaultCommand {
         // Load the file from the class path
         try (InputStream in = InitCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/package.json")) {
           if (in == null) {
-            err("Cannot load package.json template.");
+            fatal("Cannot load package.json template.");
           } else {
             Files.copy(in, file.toPath());
           }
         } catch (IOException e) {
-          err(e.getMessage());
+          fatal(e.getMessage());
         }
       }
 
-      Map npm = MAPPER.readValue(file, Map.class);
+      Map npm = read(file);
       Map scripts = (Map) npm.get("scripts");
 
       if (scripts == null) {
@@ -77,16 +67,14 @@ public class InitCommand extends DefaultCommand {
         test = test.substring(0, test.length() - 3) + ".test.js";
       }
 
-      String name = (String) npm.get("name");
+      scripts.put("postinstall", "es4x install");
+      scripts.put("start", "es4x-launcher");
+      scripts.put("test", "es4x-launcher" + " test js:" + test);
 
-      scripts.put("postinstall", "es4x install -f");
-      scripts.put("start", name);
-      scripts.put("test", name + " test js:" + test);
-
-      MAPPER.writeValue(file, npm);
+      write(file, npm);
 
     } catch (IOException e) {
-      err(e.getMessage());
+      fatal(e.getMessage());
     }
   }
 }

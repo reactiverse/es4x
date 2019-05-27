@@ -17,7 +17,7 @@ package io.reactiverse.es4x;
 
 import io.vertx.core.json.JsonObject;
 
-public interface Runtime<T> {
+public interface Runtime<T> extends EventEmitter {
 
   /**
    * passes the given configuration to the runtime.
@@ -56,13 +56,24 @@ public interface Runtime<T> {
    * Evals a given sript string.
    *
    * @param script string containing code.
-   * @param literal literals are non listed on debug sessions
+   * @param interactive literals are non listed on debug sessions
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  default T eval(String script, boolean literal) throws Exception {
-    return eval(script, "<eval>", literal);
+  default T eval(String script, boolean interactive) throws Exception {
+    return eval(script, "<eval>", interactive);
   }
+
+  /**
+   * Evals a given sript string.
+   *
+   * @param script string containing code.
+   * @param name string containing name of the script (e.g.: the filename).
+   * @param interactive literals are non listed on debug sessions
+   * @return returns the evaluation result.
+   * @throws Exception on error
+   */
+  T eval(String script, String name, String contentType, boolean interactive) throws Exception;
 
   /**
    * Evals a given sript string.
@@ -73,7 +84,13 @@ public interface Runtime<T> {
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  T eval(String script, String name, boolean literal) throws Exception;
+  default T eval(String script, String name, boolean literal) throws Exception {
+    if (name.endsWith(".mjs")) {
+      return eval(script, name, "application/javascript+module", literal);
+    } else {
+      return eval(script, name, "application/javascript", literal);
+    }
+  }
 
   /**
    * Evals a given sript string.
@@ -132,13 +149,6 @@ public interface Runtime<T> {
    * explicitly leave the script engine scope.
    */
   default void leave() {
-  }
-
-  /**
-   * explicitly set the script source content-type.
-   */
-  default void setContentType(String contentType) {
-    throw new UnsupportedOperationException("The current engine does not support custom content-type");
   }
 
   /**

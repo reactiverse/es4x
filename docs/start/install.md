@@ -5,7 +5,7 @@ Assuming you’ve already installed [Node.js](https://nodejs.org/) and ([Java](h
 npm install -g es4x-pm
 # If you prefer not using NPM you can download the
 # package and add the bin directory to the PATH
-ES4X_VERSION=0.7.0 \
+ES4X_VERSION=0.8.0 \
   curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz \
   | tar zx --strip-components=1 -C /usr/local
 ```

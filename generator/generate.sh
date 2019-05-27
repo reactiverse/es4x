@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+#set -e
 
 REGISTRY="https://registry.npmjs.org"
 
@@ -84,6 +84,7 @@ function vertx_io () {
     "io.vertx/vertx-web-api-contract"
     "io.vertx/vertx-web-client"
     "io.vertx/vertx-web-common"
+    "io.vertx/vertx-web-graphql"
     "io.vertx/vertx-web-templ-freemarker"
     "io.vertx/vertx-web-templ-handlebars"
     "io.vertx/vertx-web-templ-jade"

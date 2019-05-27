@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-(function (global) {
+(function (global, verticle) {
   'use strict';
 
   var System = Java.type('java.lang.System');
@@ -107,7 +107,7 @@
   global.process = {
     env: System.getenv(),
     pid: pid,
-    engine: System.getProperty('es4x.engine'),
+    engine: 'graaljs',
 
     exit: function (exitCode) {
       vertx.close(function (res) {
@@ -126,11 +126,27 @@
       });
     },
 
+    on: function (event, callback) {
+      if (verticle) {
+        verticle.on(event, callback);
+      }
+    },
+
     stdout: System.out,
     stderr: System.err,
     stdin: System.in,
     // non standard
-    properties: System.getProperties(),
-  }
+    properties: new Proxy({}, {
+      set: function (obj, prop, value) {
+        if (typeof prop !== 'string') {
+          throw new TypeError('Property name must be a String');
+        }
+        return System.setProperty(prop, value);
+      },
+      get: function (obj, prop) {
+        return System.getProperty(prop);
+      }
+    }),
+  };
 
-})(global || this);
+})(global || this, verticle);
