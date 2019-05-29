@@ -15,6 +15,8 @@ public class InitCommandTest {
   @Test
   public void shouldCreateAnEmptyProject() {
     command.setCwd(IOUtils.mkTempDir());
+    // the project name will be derived from the CWD
+    String projectName = command.getCwd().getName();
 
     File packageJson = new File(command.getCwd(), "package.json");
     packageJson.deleteOnExit();
@@ -24,7 +26,7 @@ public class InitCommandTest {
     assertTrue(packageJson.exists());
 
     Map json = IOUtils.read(packageJson);
-    assertEquals("empty", json.get("name"));
+    assertEquals(projectName, json.get("name"));
     assertEquals("index.js", json.get("main"));
 
     Map scripts = (Map) json.get("scripts");
