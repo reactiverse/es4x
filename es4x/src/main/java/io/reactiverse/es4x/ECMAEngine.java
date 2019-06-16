@@ -17,6 +17,7 @@ package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.core.Vertx;
+import org.graalvm.polyglot.io.FileSystem;
 
 import java.util.regex.Pattern;
 
@@ -74,4 +75,6 @@ public interface ECMAEngine {
    * @return new context.
    */
   <T> Runtime<T> newContext();
+
+  FileSystem fileSystem();
 }

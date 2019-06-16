@@ -21,7 +21,10 @@ import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.file.FileSystem;
+import org.graalvm.polyglot.io.FileSystem;
+
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 
 public final class MJSVerticleFactory extends ESVerticleFactory {
 
@@ -48,23 +51,21 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
 
       @Override
       public void start(Future<Void> startFuture) throws Exception {
-        final FileSystem fs = vertx.fileSystem();
+        final FileSystem fs = engine.fileSystem();
 
         try {
-          if (!fs.existsBlocking(fsVerticleName)) {
-            startFuture.fail("File Not Found: " + fsVerticleName);
-            return;
-          }
-
+          final Path scriptPath = fs.parsePath(fsVerticleName);
           // the main script buffer
-          final Buffer buffer = fs.readFileBlocking(fsVerticleName);
+          final Buffer buffer = vertx.fileSystem().readFileBlocking(scriptPath.toString());
           runtime.eval(
             // strip the shebang if present
             ESModuleIO.stripShebang(buffer.toString()),
-            fsVerticleName,
+            scriptPath.toString(),
             "application/javascript+module",
             false);
           startFuture.complete();
+        } catch (InvalidPathException e) {
+          startFuture.fail("File Not Found: " + fsVerticleName);
         } catch (RuntimeException e) {
           e.printStackTrace();
           startFuture.fail(e.getCause());

@@ -24,6 +24,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.*;
+import org.graalvm.polyglot.io.FileSystem;
 
 import java.time.Instant;
 import java.util.Date;
@@ -42,6 +43,7 @@ public class GraalEngine implements ECMAEngine {
   private final Vertx vertx;
   private final Engine engine;
   private final HostAccess hostAccess;
+  private final FileSystem fileSystem;
 
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
@@ -116,6 +118,8 @@ public class GraalEngine implements ECMAEngine {
       // Ensure Arrays are exposed as List when the Java API is accepting Object
       .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();
+
+    fileSystem = new VertxFileSystem(vertx);
   }
 
   private void registerCodec(Class className) {
@@ -130,6 +134,11 @@ public class GraalEngine implements ECMAEngine {
   }
 
   @Override
+  public FileSystem fileSystem() {
+    return fileSystem;
+  }
+
+  @Override
   @SuppressWarnings("unchecked")
   public Runtime<Value> newContext() {
 
@@ -137,7 +146,7 @@ public class GraalEngine implements ECMAEngine {
 
     final Context.Builder builder = Context.newBuilder("js")
       .engine(engine)
-      .fileSystem(new VertxFileSystem(vertx))
+      .fileSystem(fileSystem)
       // IO is allowed because it delegates to the
       // vertx filesystem implementation
       .allowIO(true)

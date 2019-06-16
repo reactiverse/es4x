@@ -22,11 +22,13 @@ import io.vertx.core.spi.VerticleFactory;
 
 public abstract class ESVerticleFactory implements VerticleFactory {
 
-  private ECMAEngine engine;
+  protected ECMAEngine engine;
 
   @Override
-  public void init(Vertx vertx) {
-    this.engine = ECMAEngine.newEngine(vertx);
+  public void init(final Vertx vertx) {
+    synchronized (vertx) {
+      this.engine = ECMAEngine.newEngine(vertx);
+    }
   }
 
   @Override
