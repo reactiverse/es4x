@@ -106,7 +106,13 @@ public class ESModuleIO {
   }
 
   public String getParent(String uri) throws URISyntaxException {
-    return getParent(new URI(uri));
+    switch (uri) {
+      case "jar:":
+      case "file:":
+        throw new RuntimeException("Cannot get parent of root.");
+      default:
+        return getParent(new URI(uri));
+    }
   }
 
   public String getParent(URI uri) {
@@ -115,10 +121,15 @@ public class ESModuleIO {
     if (path.length() > last) {
       return uri.getScheme() + ':' + path.substring(0, last);
     }
-    return null;
+    throw new RuntimeException("Cannot get parent of root.");
   }
 
   public boolean exists(URI uri) {
+
+    if (uri == null) {
+      return false;
+    }
+
     switch (uri.getScheme()) {
       case "jar":
         return fs.existsBlocking(uri.getPath().substring(1));

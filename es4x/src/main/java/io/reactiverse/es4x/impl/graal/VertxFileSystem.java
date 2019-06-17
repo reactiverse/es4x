@@ -221,6 +221,10 @@ public final class VertxFileSystem implements FileSystem {
 
   @Override
   public Path toAbsolutePath(Path path) {
+    // special case
+    if ("".equals(path.toString())) {
+      return EMPTY;
+    }
     // force all resolutions to go over vertx file resolver to allow
     // getting the right path objects even if on the classpath
     final Path resolved = vertx.resolveFile(path.toString()).toPath();

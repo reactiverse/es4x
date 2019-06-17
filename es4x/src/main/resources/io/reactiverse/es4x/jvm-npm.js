@@ -20,7 +20,7 @@
   const ESModuleIO = Java.type('io.reactiverse.es4x.impl.ESModuleIO');
   const io = new ESModuleIO(global.vertx);
 
-  function Module(id, parent, alias) {
+  function Module(id, parent) {
     this.id = id;
     this.parent = parent;
     this.children = [];
@@ -32,7 +32,7 @@
         return this._exports;
       }.bind(this),
       set: function (val) {
-        Require.cache[alias ? alias.toString() : this.filename] = val;
+        Require.cache[this.filename] = val;
         this._exports = val;
       }.bind(this)
     });
@@ -47,8 +47,8 @@
     }.bind(this);
   }
 
-  Module._load = function _load(uri, parent, main, workerAddress, alias) {
-    const module = new Module(uri, parent, alias);
+  Module._load = function _load(uri, parent, main, workerAddress) {
+    const module = new Module(uri, parent);
     const body = io.readFile(uri, !!main);
     const dir = io.getParent(uri);
 
@@ -137,8 +137,6 @@
 
     if (Require.cache[uri]) {
       return Require.cache[uri];
-    } else if (Require.alias[uri]) {
-      return Module._load(Require.alias[uri], parent, undefined, undefined, uri);
     } else if (uri.getPath().endsWith('.js')) {
       return Module._load(uri, parent);
     } else if (uri.getPath().endsWith('.json')) {
@@ -271,7 +269,11 @@
       if (package_.es4xAlias) {
         for (let k in package_.es4xAlias) {
           if (package_.es4xAlias.hasOwnProperty(k)) {
-            Require.alias[new URI([base, 'node_modules', k].join('/')).normalize()] = new URI([base, package_.es4xAlias[k]].join('/')).normalize();
+            let key = new URI([base, 'node_modules', k].join('/')).normalize();
+            if (Require.alias[key]) {
+              console.warn('Replacing alias [' + key + ']');
+            }
+            Require.alias[key] = new URI([base, package_.es4xAlias[k]].join('/')).normalize();
           }
         }
       }
@@ -296,6 +298,9 @@
     } else {
       uri = new URI(root ? [root, normalizeName(id, ext)].join('/') : normalizeName(id, ext)).normalize();
     }
+    // perform alias
+    uri = Require.alias[uri] || uri;
+
     if (io.exists(uri) && io.isFile(uri)) {
       return uri;
     }
