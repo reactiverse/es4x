@@ -73,10 +73,18 @@ public class IndexDTS extends Generator<ClassModel> {
 
     boolean imports = false;
 
+    @SuppressWarnings("unchecked")
+    Map<String, String> aliasMap = (Map<String, String>) session.computeIfAbsent("aliasMap", (a) -> new HashMap<String, String>());
     for (ApiTypeInfo referencedType : model.getReferencedTypes()) {
       if (!isImported(referencedType, session)) {
         if (!referencedType.getRaw().getModuleName().equals(type.getModuleName())) {
-          writer.printf("import { %s } from '%s';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
+          String simpleName = referencedType.getSimpleName();
+          if (simpleName.equals(model.getIfaceSimpleName())) {
+            String aliasName = simpleName + "Super";
+            simpleName = simpleName + " as " + aliasName;
+            aliasMap.put(referencedType.getName(), aliasName);
+          }
+          writer.printf("import { %s } from '%s';\n", simpleName, getNPMScope(referencedType.getRaw().getModule()));
           imports = true;
         }
       }
@@ -121,7 +129,8 @@ public class IndexDTS extends Generator<ClassModel> {
 
     if (model.isConcrete()) {
       if (model.getConcreteSuperType() != null) {
-        writer.printf(" extends %s", genType(model.getConcreteSuperType()));
+        String simpleName = aliasMap.get(model.getConcreteSuperType().getName());
+        writer.printf(" extends %s", simpleName != null ? simpleName : genType(model.getConcreteSuperType()));
       }
       if (!superTypes.isEmpty()) {
         writer.printf(" implements %s", String.join(", ", superTypes));
