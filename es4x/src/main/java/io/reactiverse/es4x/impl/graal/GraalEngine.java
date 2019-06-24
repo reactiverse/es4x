@@ -18,6 +18,7 @@ package io.reactiverse.es4x.impl.graal;
 import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.jul.ES4XFormatter;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -115,6 +116,19 @@ public class GraalEngine implements ECMAEngine {
           }
           return new Date(v.invokeMember("getTime").asLong());
         })
+      // map Promise to io.vertx.core.Future
+      .targetTypeMapping(
+        Value.class,
+        Future.class,
+        v -> v.hasMembers() && v.hasMember("then"),
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          final Future future = Future.future();
+          v.invokeMember("then", future);
+          return future;
+        })
       // Ensure Arrays are exposed as List when the Java API is accepting Object
       .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();
@@ -126,11 +140,6 @@ public class GraalEngine implements ECMAEngine {
     vertx.eventBus()
       .unregisterDefaultCodec(className)
       .registerDefaultCodec(className, new JSObjectMessageCodec(className.getName()));
-  }
-
-  @Override
-  public String name() {
-    return "graaljs";
   }
 
   @Override

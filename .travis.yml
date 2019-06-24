@@ -37,6 +37,5 @@ script:
   - mvn test -B
 
 after_success:
-#- '[[ "${TRAVIS_BRANCH}" = "develop" ]] && [[ "${TRAVIS_PULL_REQUEST}" = "false" ]] && [[ "${JDK}" = "OpenJDK 11" ]] && mvn --settings settings.xml -DskipTests deploy -B || true'
 - '[[ "${JDK}" = "OpenJDK 11" ]] && mvn -f generator/pom.xml || true'
 - '[[ "${JDK}" = "OpenJDK 11" ]] && bash <(curl -s https://codecov.io/bash) || true'

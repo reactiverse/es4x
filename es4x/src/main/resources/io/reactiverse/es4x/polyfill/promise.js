@@ -17,6 +17,7 @@
   'use strict';
 
   const Vertx = Java.type('io.vertx.core.Vertx');
+  const Future = Java.type('io.vertx.core.Future');
 
   function noop() {}
 
@@ -29,7 +30,23 @@
 
   function Promise(fn) {
     if (typeof this !== 'object') throw new TypeError('Promises must be constructed via new');
-    if (typeof fn !== 'function') throw new TypeError('not a function');
+    
+    if (fn && fn instanceof Future) {
+      // adapt it to a promise
+      const future = fn;
+      fn = function (resolve, reject) {
+        future.setHandler(function (ar) {
+          if (ar.succeeded()) {
+            resolve(ar.result());
+          } else {
+            reject(ar.cause());
+          }
+        })
+      }
+    } else {
+      if (typeof fn !== 'function') throw new TypeError('not a function');
+    }
+    
     this._state = 0;
     this._handled = false;
     this._value = undefined;
@@ -151,6 +168,16 @@
 
   Promise.prototype.then = function (onFulfilled, onRejected) {
     var prom = new Promise(noop);
+    // handle Future as Promise
+    if (onRejected === undefined && onFulfilled && onFulfilled instanceof Future) {
+      const future = onFulfilled;
+      onFulfilled = function (value) {
+        future.complete(value);
+      };
+      onRejected = function (reason) {
+        future.fail(reason);
+      };
+    }
 
     handle(this, new Handler(onFulfilled, onRejected, prom));
     return prom;

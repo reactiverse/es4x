@@ -63,13 +63,6 @@ public interface ECMAEngine {
   }
 
   /**
-   * return the engine name
-   *
-   * @return engine name.
-   */
-  String name();
-
-  /**
    * return a new context for this engine.
    *
    * @return new context.
