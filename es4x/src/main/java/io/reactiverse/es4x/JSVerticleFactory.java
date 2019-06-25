@@ -53,7 +53,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
 
         if (context != null) {
           address = context.deploymentID();
-          worker = context.isWorkerContext() || context.isMultiThreadedWorkerContext();
+          worker = context.isWorkerContext();
           // expose config
           if (context.config() != null) {
             runtime.config(context.config());

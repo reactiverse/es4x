@@ -6,14 +6,20 @@ This is the EcmaScript (5.1+) language support for [Eclipse Vert.x](http://vertx
 
 ## Usage
 
+```bash
+# add es4x-pm globally
+npm install -g es4x-pm
+```
+
 Create a project:
 
 ```
 # create a generic project
 mkdir my-app
 cd my-app
-npx es4x-pm init
-# add dependencies
+# init the project
+es4x init
+# add other dependencies...
 npm install @vertx/unit --save-dev
 npm install @vertx/core --save-prod
 # will trigger the download
