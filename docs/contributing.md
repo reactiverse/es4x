@@ -76,3 +76,114 @@ go ahead.
 
 After your PR is merged, you can safely delete your branch and pull the changes
 from the main (upstream) repository.
+
+## Building the world
+
+In other to build the `world` you will need several tools installed in your host
+environment:
+
+* [GraalVM](https://www.graalvm.org/downloads/)
+* [Apache Maven](https://maven.apache.org/)
+* [Node.js](https://nodejs.org/en/download/)
+* [NPM](https://www.npmjs.com/)
+
+If you have `GraalVM` and `Maven` installed you might skip the installation of `Node.js`
+and `NPM` although the `node` binary included with `GraalVM` is known to have some
+performance issues with some of `npm` packages such as `TypeScript Compiler`.
+ 
+### Modules
+
+This projects is composed of several main modules/components:
+
+1. [es4x](https://github.com/reactiverse/es4x/tree/develop/es4x) the main java code that
+   bootstraps the GraalJS and Vert.x
+2. [pm](https://github.com/reactiverse/es4x/tree/develop/pm) the package manager utility
+3. [codegen](https://github.com/reactiverse/es4x/tree/develop/codegen) the codegen library
+   that will generate the `npm` package counterparts for `vert.x` modules
+4. [generator](https://github.com/reactiverse/es4x/tree/develop/generator) maven script that
+   generates the `npm` full package for a given `vert.x` module
+5. [docs](https://github.com/reactiverse/es4x/tree/develop/docs) the directory you're seeing
+   right now.
+
+### Build the Java part
+
+Building the java part is as simple as:
+
+```bash
+mvn -Pcodegen install
+```
+
+Use the profile `codegen` if you want to generate the npm modules too. Otherwise only:
+
+* es4x
+* pm
+* codegen
+
+Are built.
+
+### Deploying the NPM modules
+
+During development you might want to deploy to a local NPM registry, one of these registries
+you can use is [verdaccio](https://verdaccio.org/).
+
+```bash
+npm install -g verdaccio
+```
+
+Once you have it installed follow the instructions to login:
+
+```bash
+npm adduser --registry "http://localhost:4873"
+```
+
+!!! warning "package upload limits"
+
+> Currently the `pm` package is quite large and will not be handled by default by `verdaccio` in
+  order to get the upload to work you will need to update the default config and restart.
+
+Edit the file `~/.config/verdaccio/config.yaml` and add:
+
+```yaml
+# max package size
+max_body_size: 100mb
+```
+
+Once you have a local registry configured you can deploy the `npm` packages locally:
+
+```bash
+cd generator
+mvn -Dnpm-registry="http://localhost:4873" \
+    clean \
+    generate-sources \
+    exec:exec@npm-publish
+```
+
+!!! warning "API docs"
+
+> If you would like to have API docs for the generated packages then you will need a few extra
+  tools and an extra maven.
+
+```bash
+# install the API doc generator
+npm install -g typedoc
+# deploy to verdaccion and generate docs to the docs folder
+cd generator
+mvn -Dnpm-registry="http://localhost:4873" \
+    clean \
+    generate-sources \
+    exec:exec@npm-publish \
+    exec:exec@typedoc
+```
+
+### Deploy PM to npm
+
+For convenience, the `pm` project can also be deployed to the NPM registry, in order to achieve this:
+
+```bash
+cd pm
+mvn package
+./publish
+```
+
+This will generate the maven fat jar and the final script will convert it to a npm package and deploy to
+your local verdaccio installation.
