@@ -16,10 +16,7 @@
 package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.ESModuleIO;
-import io.vertx.core.Context;
-import io.vertx.core.Future;
-import io.vertx.core.Verticle;
-import io.vertx.core.Vertx;
+import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import org.graalvm.polyglot.io.FileSystem;
 
@@ -50,7 +47,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void start(Future<Void> startFuture) throws Exception {
+      public void start(Promise<Void> startFuture) throws Exception {
         final FileSystem fs = engine.fileSystem();
 
         try {
@@ -73,7 +70,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void stop(Future<Void> stopFuture) {
+      public void stop(Promise<Void> stopFuture) {
         try {
           runtime.enter();
           runtime.emit("undeploy");

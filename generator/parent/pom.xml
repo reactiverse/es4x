@@ -132,6 +132,24 @@
               <outputDirectory>${project.build.directory}/sources/${project.artifactId}</outputDirectory>
             </configuration>
           </execution>
+          <execution>
+            <id>unpack-asciidocs</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+              <includeGroupIds>${maven.groupId}</includeGroupIds>
+              <includeArtifactIds>${project.artifactId}</includeArtifactIds>
+              <includeTypes>jar</includeTypes>
+              <includeClassifiers>sources</includeClassifiers>
+              <includes>**/*.adoc</includes>
+              <excludes>override/**.*</excludes>
+              <outputDirectory>${project.build.directory}/asciidoc/${project.artifactId}</outputDirectory>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -155,12 +173,35 @@
             <configuration>
               <processors>
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
+                <processor>io.vertx.docgen.DocGenProcessor</processor>
               </processors>
               <optionMap>
                 <codegen.output>${project.basedir}</codegen.output>
+                <docgen.source>${project.build.directory}/asciidoc/${project.artifactId}</docgen.source>
+                <docgen.output>${project.basedir}/../../../docs/manual/${npm-name}</docgen.output>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.asciidoctor</groupId>
+        <artifactId>asciidoctor-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>${project.build.directory}/asciidoc/${project.artifactId}</sourceDirectory>
+              <sourceDocumentName>index.adoc</sourceDocumentName>
+              <outputDirectory>${project.build.directory}/site</outputDirectory>
+              <backend>html</backend>
+              <doctype>book</doctype>
+            </configuration>
+            <phase>process-classes</phase>
           </execution>
         </executions>
       </plugin>

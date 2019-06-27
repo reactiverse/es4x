@@ -15,10 +15,7 @@
  */
 package io.reactiverse.es4x;
 
-import io.vertx.core.Context;
-import io.vertx.core.Future;
-import io.vertx.core.Verticle;
-import io.vertx.core.Vertx;
+import io.vertx.core.*;
 
 public final class JSVerticleFactory extends ESVerticleFactory {
 
@@ -46,7 +43,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void start(Future<Void> startFuture) throws Exception {
+      public void start(Promise<Void> startFuture) throws Exception {
         final String address;
         final boolean worker;
         final Object self;
@@ -105,7 +102,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void stop(Future<Void> stopFuture) {
+      public void stop(Promise<Void> stopFuture) {
         try {
           runtime.enter();
           runtime.emit("undeploy");
