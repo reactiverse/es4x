@@ -15,5 +15,5 @@ futureTest1()
     test.complete();
   })
   .catch(function (err) {
-    print(err)
+    should.fail(err)
   });
