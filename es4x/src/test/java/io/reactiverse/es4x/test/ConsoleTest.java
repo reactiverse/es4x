@@ -64,4 +64,19 @@ public class ConsoleTest {
     runtime.eval("console.time('durp'); for (var i = 0; i < 1000; i++); console.timeEnd('durp')");
     runtime.eval("console.timeEnd('durp');");
   }
+
+  @Test
+  public void testConsoleError() throws Exception {
+    runtime.eval("console.log('text')");
+    runtime.eval("console.log(1)");
+    runtime.eval("console.log(false)");
+    runtime.eval("console.log(null)");
+    runtime.eval("console.log(undefined)");
+    runtime.eval("console.log(function () {})");
+    runtime.eval("console.log(new TypeError('Oops'))");
+    runtime.eval("console.log([1, 2, 3])");
+    runtime.eval("console.log({key: 'value'})");
+    runtime.eval("console.log(new Date())");
+    runtime.eval("console.log(/abc/g)");
+  }
 }
