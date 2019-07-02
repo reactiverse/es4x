@@ -1,13 +1,11 @@
 async function futureTest1 () {
-  let server = await {
-    then: vertx
+  let server = await vertx
       .createHttpServer()
       .requestHandler(req => {
       })
-      .listen(0)
-  };
+      .listen(0);
 
-  should.assertEquals('io.vertx.core.http.impl.HttpServerImpl', server.getClass().getName());
+  console.log('Server Ready!');
 }
 
 futureTest1()
