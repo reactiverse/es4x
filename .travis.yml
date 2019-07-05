@@ -37,5 +37,5 @@ script:
   - mvn test -B
 
 after_success:
-- '[[ "${JDK}" = "OpenJDK 11" ]] && mvn -f generator/pom.xml || true'
+- '[[ "${JDK}" = "OpenJDK 11" ]] && mvn -f generator/pom.xml -q || true'
 - '[[ "${JDK}" = "OpenJDK 11" ]] && bash <(curl -s https://codecov.io/bash) || true'
