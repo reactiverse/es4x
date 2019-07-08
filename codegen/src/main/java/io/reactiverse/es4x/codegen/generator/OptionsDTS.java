@@ -67,24 +67,34 @@ public class OptionsDTS extends Generator<DataObjectModel> {
       if (!isImported(referencedType, session)) {
         if (referencedType.getKind() == ClassKind.ENUM) {
           if (referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
+            // ignore missing imports
+            writer.println("// @ts-ignore");
             writer.printf("import { %s } from './enums';\n", referencedType.getSimpleName());
             imports = true;
           } else {
+            // ignore missing imports
+            writer.println("// @ts-ignore");
             writer.printf("import { %s } from '%s/enums';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
             imports = true;
           }
         }
         if (referencedType.getKind() == ClassKind.DATA_OBJECT) {
           if (!referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
+            // ignore missing imports
+            writer.println("// @ts-ignore");
             writer.printf("import { %s } from '%s/options';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
             imports = true;
           }
         }
         if (referencedType.getKind() == ClassKind.API) {
           if (referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
+            // ignore missing imports
+            writer.println("// @ts-ignore");
             writer.printf("import { %s } from './index';\n", referencedType.getSimpleName());
             imports = true;
           } else {
+            // ignore missing imports
+            writer.println("// @ts-ignore");
             writer.printf("import { %s } from '%s';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
             imports = true;
           }

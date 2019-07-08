@@ -84,6 +84,8 @@ public class IndexDTS extends Generator<ClassModel> {
             simpleName = simpleName + " as " + aliasName;
             aliasMap.put(referencedType.getName(), aliasName);
           }
+          // ignore missing imports
+          writer.println("// @ts-ignore");
           writer.printf("import { %s } from '%s';\n", simpleName, getNPMScope(referencedType.getRaw().getModule()));
           imports = true;
         }
@@ -92,9 +94,13 @@ public class IndexDTS extends Generator<ClassModel> {
     for (ClassTypeInfo dataObjectType : model.getReferencedDataObjectTypes()) {
       if (!isImported(dataObjectType, session)) {
         if (dataObjectType.getRaw().getModuleName().equals(type.getModuleName())) {
+          // ignore missing imports
+          writer.println("// @ts-ignore");
           writer.printf("import { %s } from './options';\n", dataObjectType.getSimpleName());
           imports = true;
         } else {
+          // ignore missing imports
+          writer.println("// @ts-ignore");
           writer.printf("import { %s } from '%s/options';\n", dataObjectType.getSimpleName(), getNPMScope(dataObjectType.getRaw().getModule()));
           imports = true;
         }
@@ -103,9 +109,13 @@ public class IndexDTS extends Generator<ClassModel> {
     for (EnumTypeInfo enumType : model.getReferencedEnumTypes()) {
       if (!isImported(enumType, session)) {
         if (enumType.getRaw().getModuleName().equals(type.getModuleName())) {
+          // ignore missing imports
+          writer.println("// @ts-ignore");
           writer.printf("import { %s } from './enums';\n", enumType.getSimpleName());
           imports = true;
         } else {
+          // ignore missing imports
+          writer.println("// @ts-ignore");
           writer.printf("import { %s } from '%s/enums';\n", enumType.getSimpleName(), getNPMScope(enumType.getRaw().getModule()));
           imports = true;
         }
