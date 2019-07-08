@@ -67,7 +67,7 @@ public interface ECMAEngine {
    *
    * @return new context.
    */
-  <T> Runtime<T> newContext();
+  Runtime newContext();
 
   FileSystem fileSystem();
 }

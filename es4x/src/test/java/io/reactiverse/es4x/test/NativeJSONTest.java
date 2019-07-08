@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 public class NativeJSONTest {
 
   private Runtime runtime;
-  private Object JSON;
+  private Value JSON;
 
   @Rule
   public RunTestOnContext rule = new RunTestOnContext();
@@ -31,13 +31,7 @@ public class NativeJSONTest {
   }
 
   private Object stringify(Object... args) {
-    Object res = runtime.invokeMethod(JSON, "stringify", args);
-    // Graal engine always wraps
-    if (res instanceof Value) {
-      return ((Value) res).asString();
-    }
-
-    return res;
+    return JSON.invokeMember("stringify", args).asString();
   }
 
   @Test
@@ -59,9 +53,7 @@ public class NativeJSONTest {
     Object result = runtime.eval("JSON.stringify({foo: 'bar'})");
     assertNotNull(result);
     // Graal engine always wraps
-    if (result instanceof Value) {
-      result = ((Value) result).asString();
-    }
+    result = ((Value) result).asString();
     assertEquals("{\"foo\":\"bar\"}", result);
   }
 
@@ -70,9 +62,7 @@ public class NativeJSONTest {
     Object result = runtime.eval("JSON.stringify(['foo', 'bar'])");
     assertNotNull(result);
     // Graal engine always wraps
-    if (result instanceof Value) {
-      result = ((Value) result).asString();
-    }
+    result = ((Value) result).asString();
     assertEquals("[\"foo\",\"bar\"]", result);
   }
 }

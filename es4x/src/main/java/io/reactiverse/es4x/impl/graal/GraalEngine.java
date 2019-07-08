@@ -148,8 +148,7 @@ public class GraalEngine implements ECMAEngine {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public Runtime<Value> newContext() {
+  public Runtime newContext() {
 
     final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
 
