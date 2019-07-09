@@ -53,6 +53,16 @@ public final class Util {
     TYPES.put("java.lang.CharSequence", "string");
     TYPES.put("java.lang.Iterable<java.lang.String>", "string[]");
     TYPES.put("java.lang.Iterable<java.lang.CharSequence>", "string[]");
+    TYPES.put("java.lang.Boolean[]", "boolean[]");
+    TYPES.put("java.lang.Double[]", "number[]");
+    TYPES.put("java.lang.Float[]", "number[]");
+    TYPES.put("java.lang.Integer[]", "number[]");
+    TYPES.put("java.lang.Long[]", "number[]");
+    TYPES.put("java.lang.Short[]", "number[]");
+    TYPES.put("java.lang.String[]", "string[]");
+    TYPES.put("java.time.Instant", "Date");
+//    TYPES.put("io.vertx.core.Future", "PromiseLike");
+//    TYPES.put("io.vertx.core.Promise", "PromiseLike | Promise");
 
     // reserved typescript keywords
     RESERVED.addAll(Arrays.asList(
@@ -167,7 +177,11 @@ public final class Util {
             sb.append(genType(t));
             first = false;
           }
-          return type.getRaw().getSimpleName() + "<" + sb.toString() + ">";
+          if (TYPES.containsKey(type.getRaw().getName())) {
+            return TYPES.get(type.getRaw().getName()) + "<" + sb.toString() + ">";
+          } else {
+            return type.getRaw().getSimpleName() + "<" + sb.toString() + ">";
+          }
         } else {
           // TS is strict with generics, you can't define/use a generic type with out its generic <T>
           if (type.getRaw() != null && type.getRaw().getParams().size() > 0) {
@@ -178,9 +192,17 @@ public final class Util {
               sb.append("any");
               first = false;
             }
-            return type.getSimpleName() + "<" + sb.toString() + ">";
+            if (TYPES.containsKey(type.getName())) {
+              return TYPES.get(type.getName()) + "<" + sb.toString() + ">";
+            } else {
+              return type.getSimpleName() + "<" + sb.toString() + ">";
+            }
           } else {
-            return type.getErased().getSimpleName();
+            if (TYPES.containsKey(type.getErased().getName())) {
+              return TYPES.get(type.getErased().getName());
+            } else {
+              return type.getErased().getSimpleName();
+            }
           }
         }
       case DATA_OBJECT:

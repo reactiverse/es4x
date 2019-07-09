@@ -65,6 +65,7 @@ public class IndexDTS extends Generator<ClassModel> {
         writer.print("  result() : T | null;\n");
         writer.print("}\n\n");
       } else {
+        writer.println("// @ts-ignore");
         writer.print("import { Handler, AsyncResult } from '@vertx/core';\n\n");
       }
     } else {
@@ -128,6 +129,11 @@ public class IndexDTS extends Generator<ClassModel> {
 
     final Set<String> superTypes = new HashSet<>();
     model.getAbstractSuperTypes().forEach(ti -> superTypes.add(genType(ti)));
+
+    // special case
+    if ("io.vertx.core.Future".equals(type.getName())) {
+      superTypes.add("PromiseLike" + genGeneric(type.getParams()));
+    }
 
     if (model.isHandler()) {
       if (model.isConcrete()) {
@@ -205,6 +211,22 @@ public class IndexDTS extends Generator<ClassModel> {
       generateMethod(writer, type, method);
       moreMethods = true;
     }
+
+    // special case
+
+    if ("io.vertx.core.Future".equals(type.getName())) {
+      if (moreMethods || moreConstants) {
+        writer.print("\n");
+      }
+      writer.println("  /**");
+      writer.println("   * Attaches callbacks for the resolution and/or rejection of the Promise.");
+      writer.println("   * @param onfulfilled The callback to execute when the Promise is resolved.");
+      writer.println("   * @param onrejected The callback to execute when the Promise is rejected.");
+      writer.println("   * @returns A Promise for the completion of which ever callback is executed.");
+      writer.println("   */");
+      writer.println("   then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): PromiseLike<TResult1 | TResult2>;");
+    }
+
     writer.print("}\n");
 
 
