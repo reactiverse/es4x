@@ -16,7 +16,12 @@ case `uname` in
     *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
 esac
 
-JAVA_EXE="$JAVA_HOME/bin/java"
+# Attempt to use GRAALVM_HOME
+JAVA_EXE="$GRAALVM_HOME/bin/java"
+if ! [[ -x "$JAVA_EXE" ]]; then
+  # Attempt to use JAVA_HOME
+  JAVA_EXE="$JAVA_HOME/bin/java"
+fi
 if ! [[ -x "$JAVA_EXE" ]]; then
   JAVA_EXE=java
 fi

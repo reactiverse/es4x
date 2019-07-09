@@ -150,7 +150,7 @@ public class GraalEngine implements ECMAEngine {
   @Override
   public Runtime newContext() {
 
-    final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
+    final Pattern[] allowedHostAccessClassFilters = ECMAEngine.allowedHostClassFilters();
 
     final Context.Builder builder = Context.newBuilder("js")
       .engine(engine)

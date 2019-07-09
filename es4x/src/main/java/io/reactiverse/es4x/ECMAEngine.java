@@ -27,7 +27,7 @@ public interface ECMAEngine {
     return new GraalEngine(vertx);
   }
 
-  default Pattern[] allowedHostClassFilters() {
+  static Pattern[] allowedHostClassFilters() {
     String hostClassFilter = System.getProperty("es4x.host.class.filter", System.getenv("ES4XHOSTCLASSFILTER"));
     if (hostClassFilter == null || hostClassFilter.length() == 0) {
       return null;
