@@ -34,19 +34,21 @@ public final class Util {
     throw new RuntimeException("Static Class");
   }
 
-  private final static JsonArray registry;
-  private final static int year;
+  private final static JsonArray REGISTRY;
+  private final static int YEAR;
 
   private final static Map<String, String> TYPES = new HashMap<>();
 
   private final static Set<String> RESERVED = new HashSet<>();
 
   private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
+  private final static JsonArray OPTIONAL_DEPENDENCIES;
 
   static {
     /* parse the registry from the system property */
-    registry = new JsonArray(System.getProperty("scope-registry", "[]"));
-    year = Calendar.getInstance().get(Calendar.YEAR);
+    REGISTRY = new JsonArray(System.getProperty("scope-registry", "[]"));
+    YEAR = Calendar.getInstance().get(Calendar.YEAR);
+    OPTIONAL_DEPENDENCIES = new JsonArray(System.getProperty("npm-optional-dependencies", "[]"));
 
     // register known java <-> js types
     TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
@@ -114,6 +116,10 @@ public final class Util {
       "static",
       "yield"
     ));
+  }
+
+  public static boolean isOptionalModule(String name) {
+    return OPTIONAL_DEPENDENCIES.contains(name);
   }
 
   public static String genType(TypeInfo type) {
@@ -279,8 +285,8 @@ public final class Util {
     String scope = "";
     String name = "";
 
-    /* get from registry */
-    for (Object el : registry) {
+    /* get from REGISTRY */
+    for (Object el : REGISTRY) {
       JsonObject entry = (JsonObject) el;
 
       if (entry.getString("group").equals(module.getGroupPackage())) {
@@ -338,7 +344,7 @@ public final class Util {
 
   public static void generateLicense(PrintWriter writer) {
     writer.println("/*");
-    writer.println(" * Copyright " + year + " ES4X");
+    writer.println(" * Copyright " + YEAR + " ES4X");
     writer.println(" *");
     writer.println(" * ES4X licenses this file to you under the Apache License, version 2.0");
     writer.println(" * (the \"License\"); you may not use this file except in compliance with the");

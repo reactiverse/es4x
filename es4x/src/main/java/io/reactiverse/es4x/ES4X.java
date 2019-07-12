@@ -21,7 +21,7 @@ import io.vertx.core.Launcher;
 
 import java.io.File;
 
-public class ES4X extends Launcher {
+public final class ES4X extends Launcher {
 
   /**
    * Main entry point.
