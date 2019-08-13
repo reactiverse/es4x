@@ -103,7 +103,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void stop(Promise<Void> stopFuture) {
+      public void stop(Future<Void> stopFuture) {
         try {
           runtime.enter();
           runtime.emit("undeploy");

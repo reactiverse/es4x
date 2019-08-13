@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed es4x npm installer for Windows
 - Added support for vendor jars
 - Started removing abstraction code needed during nashorn time
+- Added support for vert.x Future/Promise as JS Thenable
 
 
 ## [0.8.0] - 2019-05-27

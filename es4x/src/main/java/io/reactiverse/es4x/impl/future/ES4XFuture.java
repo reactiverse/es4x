@@ -20,8 +20,8 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.impl.NoStackTraceThrowable;
-import io.vertx.core.impl.logging.Logger;
-import io.vertx.core.impl.logging.LoggerFactory;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.Value;
 
 class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
@@ -93,10 +93,8 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
   }
 
   @Override
-  public Value then(Value... arguments) {
+  public void then(Value onFulfilled, Value onRejected) {
     // Both onFulfilled and onRejected are optional arguments
-    final Value onFulfilled = Thenable.getFunction(arguments, 0);
-    final Value onRejected = Thenable.getFunction(arguments, 1);
 
     setHandler(ar -> {
       if (ar.succeeded()) {
@@ -118,14 +116,12 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
         }
       }
     });
-
-    return null;
   }
 
-  @Override
-  public synchronized Handler<AsyncResult<T>> getHandler() {
-    return handler;
-  }
+//  @Override
+//  public synchronized Handler<AsyncResult<T>> getHandler() {
+//    return handler;
+//  }
 
   @Override
   public void complete(T result) {

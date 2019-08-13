@@ -18,23 +18,15 @@ package io.reactiverse.es4x.impl.future;
 import org.graalvm.polyglot.Value;
 
 /**
- * Thenable Object.
+ * Thenable is an object or that defines a then method. It follows the JavaScript Promise conventions.
  */
 @FunctionalInterface
 public interface Thenable {
 
-  Object then(Value... arguments);
-
-  static Value getFunction(Value[] arguments, int index) {
-    if (arguments != null) {
-      if (arguments.length > index) {
-        Value value = arguments[index];
-        if (value.canExecute()) {
-          return value;
-        }
-      }
-    }
-
-    return null;
-  }
+  /**
+   * After some event "then" call one of the argument functions.
+   * @param onResolve an optional function to be executed on success (resolve)
+   * @param onReject an optional function to be executed on failure (reject)
+   */
+  void then(Value onResolve, Value onReject);
 }

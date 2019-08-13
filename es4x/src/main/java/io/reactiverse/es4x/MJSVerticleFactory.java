@@ -47,7 +47,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void start(Promise<Void> startFuture) throws Exception {
+      public void start(Future<Void> startFuture) throws Exception {
         final FileSystem fs = engine.fileSystem();
 
         try {
@@ -70,7 +70,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void stop(Promise<Void> stopFuture) {
+      public void stop(Future<Void> stopFuture) {
         try {
           runtime.enter();
           runtime.emit("undeploy");

@@ -19,8 +19,8 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
-import io.vertx.core.impl.logging.Logger;
-import io.vertx.core.impl.logging.LoggerFactory;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.Value;
 
 /**
@@ -52,30 +52,26 @@ class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
   }
 
   @Override
-  public Value then(Value... arguments) {
-    final Value resolve = Thenable.getFunction(arguments, 0);
-    final Value reject = Thenable.getFunction(arguments, 1);
+  public void then(Value onFulfilled, Value onRejected) {
 
     try {
-      if (resolve != null) {
-        resolve.executeVoid(result());
+      if (onFulfilled != null) {
+        onFulfilled.executeVoid(result());
       }
     } catch (RuntimeException e) {
       // resolve failed, attempt to reject
-      if (reject != null) {
-        reject.execute(e);
+      if (onRejected != null) {
+        onRejected.execute(e);
       } else {
         LOG.warn("Possible Unhandled Promise Rejection: " + e.getMessage());
       }
     }
-
-    return null;
   }
 
-  @Override
-  public Handler<AsyncResult<T>> getHandler() {
-    return null;
-  }
+//  @Override
+//  public Handler<AsyncResult<T>> getHandler() {
+//    return null;
+//  }
 
   @Override
   public void complete(T result) {

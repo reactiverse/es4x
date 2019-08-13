@@ -57,20 +57,16 @@ public class ES4XFailedFuture<T> implements Future<T>, Promise<T>, Thenable {
   }
 
   @Override
-  public Value then(Value... arguments) {
-    final Value reject = Thenable.getFunction(arguments, 1);
-
-    if (reject != null) {
-      reject.execute(cause());
+  public void then(Value onFulfilled, Value onRejected) {
+    if (onRejected != null) {
+      onRejected.execute(cause());
     }
-
-    return null;
   }
 
-  @Override
-  public Handler<AsyncResult<T>> getHandler() {
-    return null;
-  }
+//  @Override
+//  public Handler<AsyncResult<T>> getHandler() {
+//    return null;
+//  }
 
   @Override
   public void complete(T result) {
