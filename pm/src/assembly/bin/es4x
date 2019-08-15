@@ -26,4 +26,16 @@ if ! [[ -x "$JAVA_EXE" ]]; then
   JAVA_EXE=java
 fi
 
-exec "$JAVA_EXE" -jar "$basedir/es4x-bin.jar" "$@"
+# Use JVMCI if installed
+if [[ -d "node_modules/.jvmci" ]]; then
+  JVMCI="--module-path=node_modules/.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=node_modules/.jvmci/compiler.jar"
+fi
+
+# If exists node_modules/.bin/es4x-launcher.jar
+# use it's class path (else rely on default runtime)
+APP_RUNTIME="node_modules/.bin/es4x-launcher.jar"
+if ! [[ -x "APP_RUNTIME" ]]; then
+  APP_RUNTIME="$basedir/../runtime/*"
+fi
+
+exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "$APP_RUNTIME:$basedir/../es4x-pm-*.jar" io.reactiverse.es4x.ES4X "$@"

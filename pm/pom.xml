@@ -28,6 +28,7 @@
       <groupId>io.reactiverse</groupId>
       <artifactId>es4x</artifactId>
       <version>${project.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -105,41 +106,37 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.8</version>
         <executions>
           <execution>
-            <phase>package</phase>
+            <id>copy-dependencies</id>
+            <phase>process-resources</phase>
             <goals>
-              <goal>shade</goal>
+              <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <filters>
-                <filter>
-                  <excludes>
-                    <exclude>META-INF/*.SF</exclude>
-                    <exclude>META-INF/*.DSA</exclude>
-                    <exclude>META-INF/*.RSA</exclude>
-                  </excludes>
-                </filter>
-              </filters>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <manifestEntries>
-                    <Main-Class>io.reactiverse.es4x.ES4X</Main-Class>
-                  </manifestEntries>
-                </transformer>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                  <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource>
-                  <resource>META-INF/services/io.vertx.core.spi.launcher.CommandFactory</resource>
-                </transformer>
-              </transformers>
-              <artifactSet>
-              </artifactSet>
-              <outputFile>${project.build.directory}/es4x-bin.jar</outputFile>
+              <includeScope>provided</includeScope>
+              <outputDirectory>${project.build.directory}/runtime</outputDirectory>
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.1.2</version>
+        <configuration>
+          <archive>
+            <index>true</index>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+            <manifestEntries>
+              <url>${project.url}</url>
+            </manifestEntries>
+          </archive>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

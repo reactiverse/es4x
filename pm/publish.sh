@@ -5,6 +5,8 @@ mkdir package
 VERSION=$(cat classes/META-INF/es4x-commands/VERSIONS.properties | grep es4x | cut -c6-)
 tar -zxvf es4x-pm-${VERSION}-bin.tar.gz --strip-components=1 -C package
 
+sed -i "s/%%VERSION%%/${VERSION}/g" package/bin/es4x-cli.js
+
 echo "
 {
   \"name\": \"es4x-pm\",
