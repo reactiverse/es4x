@@ -26,4 +26,9 @@ public class AliasTest {
   public void testAlias() throws Exception {
     runtime.eval("require('./alias')");
   }
+
+  @Test//(timeout = 10000)
+  public void testAlias2() throws Exception {
+    runtime.eval("require('./alias2')");
+  }
 }

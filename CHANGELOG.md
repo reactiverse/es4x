@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.8.1] - 2019-08-15
+- Fixed start scripts for Windows
+- Fixed es4x npm installer for Windows
+- Added support for vendor jars
+- Started removing abstraction code needed during nashorn time
+- Added support for vert.x Future/Promise as JS Thenable
+
+
 ## [0.8.0] - 2019-05-27
 - Simple ESM module app boots
 - VSCode command generates a working debug config

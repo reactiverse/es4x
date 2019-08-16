@@ -16,8 +16,9 @@
 package io.reactiverse.es4x;
 
 import io.vertx.core.json.JsonObject;
+import org.graalvm.polyglot.Value;
 
-public interface Runtime<T> extends EventEmitter {
+public interface Runtime extends EventEmitter {
 
   /**
    * passes the given configuration to the runtime.
@@ -32,7 +33,7 @@ public interface Runtime<T> extends EventEmitter {
    * @param module a module
    * @return return the module
    */
-  T require(String module);
+  Value require(String module);
 
   /**
    * Requires the main module as a commonjs module, the
@@ -41,7 +42,7 @@ public interface Runtime<T> extends EventEmitter {
    * @param main the main module
    * @return the module
    */
-  T main(String main);
+  Value main(String main);
 
   /**
    * Loads a JS Worker, meaning it will become a Vert.x Worker.
@@ -50,7 +51,7 @@ public interface Runtime<T> extends EventEmitter {
    * @param address the eventbus address
    * @return the module
    */
-  T worker(String main, String address);
+  Value worker(String main, String address);
 
   /**
    * Evals a given sript string.
@@ -60,7 +61,7 @@ public interface Runtime<T> extends EventEmitter {
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  default T eval(String script, boolean interactive) throws Exception {
+  default Value eval(String script, boolean interactive) throws Exception {
     return eval(script, "<eval>", interactive);
   }
 
@@ -73,7 +74,7 @@ public interface Runtime<T> extends EventEmitter {
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  T eval(String script, String name, String contentType, boolean interactive) throws Exception;
+  Value eval(String script, String name, String contentType, boolean interactive) throws Exception;
 
   /**
    * Evals a given sript string.
@@ -84,7 +85,7 @@ public interface Runtime<T> extends EventEmitter {
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  default T eval(String script, String name, boolean literal) throws Exception {
+  default Value eval(String script, String name, boolean literal) throws Exception {
     if (name.endsWith(".mjs")) {
       return eval(script, name, "application/javascript+module", literal);
     } else {
@@ -99,37 +100,9 @@ public interface Runtime<T> extends EventEmitter {
    * @return returns the evaluation result.
    * @throws Exception on error
    */
-  default T eval(String script) throws Exception {
+  default Value eval(String script) throws Exception {
     return eval(script, false);
   }
-
-  /**
-   * Performs property lookups on a given evaluated object.
-   *
-   * @param thiz the evaluated object
-   * @param key  the key to lookup
-   * @return the value associated with the key
-   */
-  boolean hasMember(T thiz, String key);
-
-  /**
-   * Invokes a method on an evaluated object.
-   *
-   * @param thiz the evaluated object
-   * @param method the method name to invoke
-   * @param args the vararg arguments list
-   * @return the call result
-   */
-  T invokeMethod(T thiz, String method, Object... args);
-
-  /**
-   * Invokes function on the global scope.
-   *
-   * @param function the function name to invoke
-   * @param args the vararg arguments list
-   * @return the call result
-   */
-  T invokeFunction(String function, Object... args);
 
   /**
    * Puts a value to the global scope.
@@ -142,14 +115,12 @@ public interface Runtime<T> extends EventEmitter {
   /**
    * explicitly enter the script engine scope.
    */
-  default void enter() {
-  }
+  void enter();
 
   /**
    * explicitly leave the script engine scope.
    */
-  default void leave() {
-  }
+  void leave();
 
   /**
    * close the current runtime and shutdown all the engine related resources.

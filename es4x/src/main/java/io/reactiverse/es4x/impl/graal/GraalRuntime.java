@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 
-public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
+public class GraalRuntime extends EventEmitterImpl implements Runtime {
 
   private final Context context;
   private final Value bindings;
@@ -144,22 +144,14 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
 
   @Override
   public Value main(String main) {
-    if (main.equals(".") || main.equals("..")) {
-      // invoke the main script
-      return invokeMethod(module, "runMain", main + "/");
-    }
-    // patch the main path to be a relative path
-    if (!main.startsWith("./") && !main.startsWith("/")) {
-      main = "./" + main;
-    }
     // invoke the main script
-    return invokeMethod(module, "runMain", main);
+    return module.invokeMember("runMain", main);
   }
 
   @Override
   public Value worker(String main, String address) {
     // invoke the main script
-    return invokeMethod(module, "runWorker", main, address);
+    return module.invokeMember("runWorker", main, address);
   }
 
   @Override
@@ -171,28 +163,6 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime<Value> {
       .buildLiteral();
 
     return context.eval(source);
-  }
-
-  @Override
-  public boolean hasMember(Value object, String key) {
-    if (object != null) {
-      return object.hasMember(key);
-    }
-    return false;
-  }
-
-  @Override
-  public Value invokeMethod(Value thiz, String method, Object... args) {
-    Value fn = thiz.getMember(method);
-    if (fn != null && !fn.isNull()) {
-      return fn.execute(args);
-    }
-    return null;
-  }
-
-  @Override
-  public Value invokeFunction(String function, Object... args) {
-    return context.eval("js", function).execute(args);
   }
 
   @Override

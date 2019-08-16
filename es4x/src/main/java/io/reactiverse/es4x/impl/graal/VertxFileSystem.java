@@ -18,14 +18,14 @@ import java.util.*;
 public final class VertxFileSystem implements FileSystem {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final List<String> EXTENSIONS = Arrays.asList(".mjs", ".js");
+  private static final Path EMPTY = Paths.get("");
 
   static {
     MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
   }
 
   private final VertxInternal vertx;
-  private final List<String> extensions = Arrays.asList(".mjs", ".js");
-  private final Path EMPTY = Paths.get("");
 
   static String getCWD() {
     // clean up the current working dir
@@ -81,8 +81,11 @@ public final class VertxFileSystem implements FileSystem {
       return file.getCanonicalFile();
     }
 
-    for (String ext : extensions) {
-      file = vertx.resolveFile(file.getPath() + ext);
+    // keep a reference as we will use it in a loop
+    final String path = file.getPath();
+
+    for (String ext : EXTENSIONS) {
+      file = vertx.resolveFile(path + ext);
 
       if (file.isFile()) {
         return file.getCanonicalFile();
@@ -218,6 +221,10 @@ public final class VertxFileSystem implements FileSystem {
 
   @Override
   public Path toAbsolutePath(Path path) {
+    // special case
+    if ("".equals(path.toString())) {
+      return EMPTY;
+    }
     // force all resolutions to go over vertx file resolver to allow
     // getting the right path objects even if on the classpath
     final Path resolved = vertx.resolveFile(path.toString()).toPath();

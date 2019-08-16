@@ -15,10 +15,8 @@
  */
 package io.reactiverse.es4x;
 
-import io.vertx.core.Context;
-import io.vertx.core.Future;
-import io.vertx.core.Verticle;
-import io.vertx.core.Vertx;
+import io.vertx.core.*;
+import org.graalvm.polyglot.Value;
 
 public final class JSVerticleFactory extends ESVerticleFactory {
 
@@ -49,11 +47,11 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       public void start(Future<Void> startFuture) throws Exception {
         final String address;
         final boolean worker;
-        final Object self;
+        final Value self;
 
         if (context != null) {
           address = context.deploymentID();
-          worker = context.isWorkerContext() || context.isMultiThreadedWorkerContext();
+          worker = context.isWorkerContext();
           // expose config
           if (context.config() != null) {
             runtime.config(context.config());
@@ -68,9 +66,9 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         try {
           runtime.enter();
           if (worker) {
-            self = runtime.worker(fsVerticleName, address);
+            self = runtime.worker(mainScript(fsVerticleName), address);
           } else {
-            self = runtime.main(fsVerticleName);
+            self = runtime.main(mainScript(fsVerticleName));
           }
         } catch (RuntimeException e) {
           startFuture.fail(e);
@@ -82,16 +80,16 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         if (self != null) {
           if (worker) {
             // if it is a worker and there is a onmessage handler we need to bind it to the eventbus
-            if (runtime.hasMember(self, "onmessage")) {
+            if (self.hasMember("onmessage")) {
               try {
                 // if the worker has specified a onmessage function we need to bind it to the eventbus
-                final Object JSON = runtime.eval("JSON");
+                final Value JSON = runtime.eval("JSON");
 
                 vertx.eventBus().consumer(address + ".out", msg -> {
                   // parse the json back to the engine runtime type
-                  Object json = runtime.invokeMethod(JSON, "parse", msg.body());
+                  Value json = JSON.invokeMember("parse", msg.body());
                   // deliver it to the handler
-                  runtime.invokeMethod(self, "onmessage", json);
+                  self.invokeMember("onmessage", json);
                 });
               } catch (RuntimeException e) {
                 startFuture.fail(e);

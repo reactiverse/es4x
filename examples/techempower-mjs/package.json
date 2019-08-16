@@ -1,0 +1,23 @@
+{
+  "name": "benchmark",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index.mjs",
+  "dependencies": {
+    "@vertx/core": "latest",
+    "@vertx/web": "latest",
+    "@vertx/web-templ-handlebars": "latest",
+    "@reactiverse/reactive-pg-client": "latest"
+  },
+  "mvnDependencies": [
+    "io.netty:netty-transport-native-epoll:jar:linux-x86_64:4.1.35.Final"
+  ],
+  "files": [
+    "util.js",
+    "templates/fortunes.hbs"
+  ],
+  "scripts": {
+    "start": "es4x-launcher",
+    "postinstall": "es4x install -f"
+  }
+}

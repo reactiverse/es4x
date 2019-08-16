@@ -64,6 +64,72 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Key store options configuring a list of private key and its certificate based on
+							<i>Privacy-enhanced Electronic Email</i> (PEM) files.
+							<p></p>
+					</div>
+					<p> A key file must contain a <b>non encrypted</b> private key in <b>PKCS8</b> format wrapped in a PEM
+						block, for example:
+						<p></p>
+						<pre>
+ -----BEGIN PRIVATE KEY-----
+ MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDV6zPk5WqLwS0a
+ ...
+ K5xBhtm1AhdnZjx5KfW3BecE
+ -----END PRIVATE KEY-----
+ </pre><p>
+							<p> Or contain a <b>non encrypted</b> private key in <b>PKCS1</b> format wrapped in a PEM
+								block, for example:
+								<p></p>
+								<pre>
+ -----BEGIN RSA PRIVATE KEY-----
+ MIIEowIBAAKCAQEAlO4gbHeFb/fmbUF/tOJfNPJumJUEqgzAzx8MBXv9Acyw9IRa
+ ...
+ zJ14Yd+t2fsLYVs2H0gxaA4DW6neCzgY3eKpSU0EBHUCFSXp/1+/
+ -----END RSA PRIVATE KEY-----
+ </pre><p>
+									<p> A certificate file must contain an X.509 certificate wrapped in a PEM block, for example:
+										<p></p>
+										<pre>
+ -----BEGIN CERTIFICATE-----
+ MIIDezCCAmOgAwIBAgIEZOI/3TANBgkqhkiG9w0BAQsFADBuMRAwDgYDVQQGEwdV
+ ...
+ +tmLSvYS39O2nqIzzAUfztkYnUlZmB0l/mKkVqbGJA==
+ -----END CERTIFICATE-----
+ </pre>
+										<p> Keys and certificates can either be loaded by Vert.x from the filesystem:
+											<p>
+												<pre>
+ HttpServerOptions options = new HttpServerOptions();
+ options.setPemKeyCertOptions(new PemKeyCertOptions().setKeyPath(&quot;/mykey.pem&quot;).setCertPath(&quot;/mycert.pem&quot;));
+ </pre></p>
+											<p> Or directly provided as a buffer:<p></p>
+												<pre>
+ Buffer key = vertx.fileSystem().readFileSync("/mykey.pem");
+ Buffer cert = vertx.fileSystem().readFileSync("/mycert.pem");
+ options.setPemKeyCertOptions(new PemKeyCertOptions().setKeyValue(key).setCertValue(cert));
+ </pre>
+												<p> Several key/certificate pairs can be used:
+													<p>
+														<pre>
+ HttpServerOptions options = new HttpServerOptions();
+ options.setPemKeyCertOptions(new PemKeyCertOptions()
+    .addKeyPath(&quot;/mykey1.pem&quot;).addCertPath(&quot;/mycert1.pem&quot;)
+    .addKeyPath(&quot;/mykey2.pem&quot;).addCertPath(&quot;/mycert2.pem&quot;));
+ </pre></p>
+													<dl class="tsd-comment-tags">
+														<dt>author</dt>
+														<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
+														</dd>
+														<dt>author</dt>
+														<dd><p><a href="http://tfox.org">Tim Fox</a></p>
+														</dd>
+													</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -119,7 +185,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6545</li>
+									<li>Defined in options.d.ts:6760</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
@@ -127,7 +193,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6547</li>
+									<li>Defined in options.d.ts:6762</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -153,7 +219,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6555</li>
+									<li>Defined in options.d.ts:6770</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -176,7 +242,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6587</li>
+									<li>Defined in options.d.ts:6802</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -199,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6571</li>
+									<li>Defined in options.d.ts:6786</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -222,7 +288,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6603</li>
+									<li>Defined in options.d.ts:6818</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -245,7 +311,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6635</li>
+									<li>Defined in options.d.ts:6850</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -268,7 +334,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6667</li>
+									<li>Defined in options.d.ts:6882</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -291,7 +357,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6619</li>
+									<li>Defined in options.d.ts:6834</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -314,7 +380,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6651</li>
+									<li>Defined in options.d.ts:6866</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -337,7 +403,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6563</li>
+									<li>Defined in options.d.ts:6778</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -369,7 +435,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6579</li>
+									<li>Defined in options.d.ts:6794</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -401,7 +467,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6595</li>
+									<li>Defined in options.d.ts:6810</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -433,7 +499,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6611</li>
+									<li>Defined in options.d.ts:6826</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -465,7 +531,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6627</li>
+									<li>Defined in options.d.ts:6842</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -497,7 +563,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6643</li>
+									<li>Defined in options.d.ts:6858</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -529,7 +595,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6659</li>
+									<li>Defined in options.d.ts:6874</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -561,7 +627,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6675</li>
+									<li>Defined in options.d.ts:6890</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

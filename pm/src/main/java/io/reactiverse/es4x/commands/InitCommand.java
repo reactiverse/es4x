@@ -50,6 +50,22 @@ public class InitCommand extends DefaultCommand {
       }
 
       Map npm = read(file);
+      String name = (String) npm.get("name");
+
+      if (name == null) {
+        // this was a new project, either derive the name from the cwd or set to "unnamed"
+        File cwd = getCwd();
+        if (cwd != null) {
+          name = cwd.getName();
+        }
+
+        if (name == null || "".equals(name)) {
+          name = "unnamed";
+        }
+
+        npm.put("name", name);
+      }
+
       Map scripts = (Map) npm.get("scripts");
 
       if (scripts == null) {

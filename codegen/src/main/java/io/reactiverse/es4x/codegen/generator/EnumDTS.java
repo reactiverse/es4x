@@ -52,6 +52,12 @@ public class EnumDTS extends Generator<EnumModel> {
       writer.print("\n");
     }
 
+    if (model.getDoc() != null) {
+      writer.print("/**\n");
+      writer.printf(" *%s\n", model.getDoc().toString().replace("\n", "\n * "));
+      writer.print("*/\n");
+    }
+
     writer.printf("export enum %s {\n", model.getType().getRaw().getSimpleName());
     for (int i = 0; i < model.getValues().size(); i++) {
       EnumValueInfo value = model.getValues().get(i);

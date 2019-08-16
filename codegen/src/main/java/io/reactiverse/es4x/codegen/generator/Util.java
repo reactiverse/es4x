@@ -34,25 +34,37 @@ public final class Util {
     throw new RuntimeException("Static Class");
   }
 
-  private final static JsonArray registry;
-  private final static int year;
+  private final static JsonArray REGISTRY;
+  private final static int YEAR;
 
   private final static Map<String, String> TYPES = new HashMap<>();
 
   private final static Set<String> RESERVED = new HashSet<>();
 
   private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
+  private final static JsonArray OPTIONAL_DEPENDENCIES;
 
   static {
     /* parse the registry from the system property */
-    registry = new JsonArray(System.getProperty("scope-registry", "[]"));
-    year = Calendar.getInstance().get(Calendar.YEAR);
+    REGISTRY = new JsonArray(System.getProperty("scope-registry", "[]"));
+    YEAR = Calendar.getInstance().get(Calendar.YEAR);
+    OPTIONAL_DEPENDENCIES = new JsonArray(System.getProperty("npm-optional-dependencies", "[]"));
 
     // register known java <-> js types
     TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
     TYPES.put("java.lang.CharSequence", "string");
     TYPES.put("java.lang.Iterable<java.lang.String>", "string[]");
     TYPES.put("java.lang.Iterable<java.lang.CharSequence>", "string[]");
+    TYPES.put("java.lang.Boolean[]", "boolean[]");
+    TYPES.put("java.lang.Double[]", "number[]");
+    TYPES.put("java.lang.Float[]", "number[]");
+    TYPES.put("java.lang.Integer[]", "number[]");
+    TYPES.put("java.lang.Long[]", "number[]");
+    TYPES.put("java.lang.Short[]", "number[]");
+    TYPES.put("java.lang.String[]", "string[]");
+    TYPES.put("java.time.Instant", "Date");
+//    TYPES.put("io.vertx.core.Future", "PromiseLike");
+//    TYPES.put("io.vertx.core.Promise", "PromiseLike | Promise");
 
     // reserved typescript keywords
     RESERVED.addAll(Arrays.asList(
@@ -104,6 +116,10 @@ public final class Util {
       "static",
       "yield"
     ));
+  }
+
+  public static boolean isOptionalModule(String name) {
+    return OPTIONAL_DEPENDENCIES.contains(name);
   }
 
   public static String genType(TypeInfo type) {
@@ -167,7 +183,11 @@ public final class Util {
             sb.append(genType(t));
             first = false;
           }
-          return type.getRaw().getSimpleName() + "<" + sb.toString() + ">";
+          if (TYPES.containsKey(type.getRaw().getName())) {
+            return TYPES.get(type.getRaw().getName()) + "<" + sb.toString() + ">";
+          } else {
+            return type.getRaw().getSimpleName() + "<" + sb.toString() + ">";
+          }
         } else {
           // TS is strict with generics, you can't define/use a generic type with out its generic <T>
           if (type.getRaw() != null && type.getRaw().getParams().size() > 0) {
@@ -178,9 +198,17 @@ public final class Util {
               sb.append("any");
               first = false;
             }
-            return type.getSimpleName() + "<" + sb.toString() + ">";
+            if (TYPES.containsKey(type.getName())) {
+              return TYPES.get(type.getName()) + "<" + sb.toString() + ">";
+            } else {
+              return type.getSimpleName() + "<" + sb.toString() + ">";
+            }
           } else {
-            return type.getErased().getSimpleName();
+            if (TYPES.containsKey(type.getErased().getName())) {
+              return TYPES.get(type.getErased().getName());
+            } else {
+              return type.getErased().getSimpleName();
+            }
           }
         }
       case DATA_OBJECT:
@@ -257,8 +285,8 @@ public final class Util {
     String scope = "";
     String name = "";
 
-    /* get from registry */
-    for (Object el : registry) {
+    /* get from REGISTRY */
+    for (Object el : REGISTRY) {
       JsonObject entry = (JsonObject) el;
 
       if (entry.getString("group").equals(module.getGroupPackage())) {
@@ -316,7 +344,7 @@ public final class Util {
 
   public static void generateLicense(PrintWriter writer) {
     writer.println("/*");
-    writer.println(" * Copyright " + year + " ES4X");
+    writer.println(" * Copyright " + YEAR + " ES4X");
     writer.println(" *");
     writer.println(" * ES4X licenses this file to you under the Apache License, version 2.0");
     writer.println(" * (the \"License\"); you may not use this file except in compliance with the");

@@ -65,6 +65,9 @@ public class IndexDTS extends Generator<ClassModel> {
         writer.print("  result() : T | null;\n");
         writer.print("}\n\n");
       } else {
+        if (isOptionalModule("@vertx/core")) {
+          writer.println("// @ts-ignore");
+        }
         writer.print("import { Handler, AsyncResult } from '@vertx/core';\n\n");
       }
     } else {
@@ -73,10 +76,22 @@ public class IndexDTS extends Generator<ClassModel> {
 
     boolean imports = false;
 
+    @SuppressWarnings("unchecked")
+    Map<String, String> aliasMap = (Map<String, String>) session.computeIfAbsent("aliasMap", (a) -> new HashMap<String, String>());
     for (ApiTypeInfo referencedType : model.getReferencedTypes()) {
       if (!isImported(referencedType, session)) {
         if (!referencedType.getRaw().getModuleName().equals(type.getModuleName())) {
-          writer.printf("import { %s } from '%s';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
+          String simpleName = referencedType.getSimpleName();
+          if (simpleName.equals(model.getIfaceSimpleName())) {
+            String aliasName = simpleName + "Super";
+            simpleName = simpleName + " as " + aliasName;
+            aliasMap.put(referencedType.getName(), aliasName);
+          }
+          // ignore missing imports
+          if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
+            writer.println("// @ts-ignore");
+          }
+          writer.printf("import { %s } from '%s';\n", simpleName, getNPMScope(referencedType.getRaw().getModule()));
           imports = true;
         }
       }
@@ -111,17 +126,29 @@ public class IndexDTS extends Generator<ClassModel> {
     final Set<String> superTypes = new HashSet<>();
     model.getAbstractSuperTypes().forEach(ti -> superTypes.add(genType(ti)));
 
+    // special case
+    if ("io.vertx.core.Future".equals(type.getName())) {
+      superTypes.add("PromiseLike" + genGeneric(type.getParams()));
+    }
+
     if (model.isHandler()) {
       if (model.isConcrete()) {
         superTypes.add("Handler<" + genType(model.getHandlerArg()) + ">");
       }
     }
 
+    if (model.getDoc() != null) {
+      writer.print("/**\n");
+      writer.printf(" *%s\n", model.getDoc().toString().replace("\n", "\n * "));
+      writer.print("*/\n");
+    }
+
     writer.printf("export %s %s%s", model.isConcrete() ? "abstract class" : "interface", type.getSimpleName(), genGeneric(type.getParams()));
 
     if (model.isConcrete()) {
       if (model.getConcreteSuperType() != null) {
-        writer.printf(" extends %s", genType(model.getConcreteSuperType()));
+        String simpleName = aliasMap.get(model.getConcreteSuperType().getName());
+        writer.printf(" extends %s", simpleName != null ? simpleName : genType(model.getConcreteSuperType()));
       }
       if (!superTypes.isEmpty()) {
         writer.printf(" implements %s", String.join(", ", superTypes));
@@ -186,6 +213,22 @@ public class IndexDTS extends Generator<ClassModel> {
       generateMethod(writer, type, method);
       moreMethods = true;
     }
+
+    // special case
+
+    if ("io.vertx.core.Future".equals(type.getName())) {
+      if (moreMethods || moreConstants) {
+        writer.print("\n");
+      }
+      writer.println("  /**");
+      writer.println("   * Attaches callbacks for the resolution and/or rejection of the Promise.");
+      writer.println("   * @param onfulfilled The callback to execute when the Promise is resolved.");
+      writer.println("   * @param onrejected The callback to execute when the Promise is rejected.");
+      writer.println("   * @returns A Promise for the completion of which ever callback is executed.");
+      writer.println("   */");
+      writer.println("   then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): PromiseLike<TResult1 | TResult2>;");
+    }
+
     writer.print("}\n");
 
 

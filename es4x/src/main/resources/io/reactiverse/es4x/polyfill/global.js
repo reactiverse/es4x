@@ -16,10 +16,10 @@
 (function (global, verticle) {
   'use strict';
 
-  var System = Java.type('java.lang.System');
+  const System = Java.type('java.lang.System');
 
   global.setTimeout = function (callback, timeout) {
-    var args = Array.prototype.slice.call(arguments, 2);
+    const args = Array.prototype.slice.call(arguments, 2);
 
     if (Number(timeout) === 0) {
       // special case
@@ -34,7 +34,7 @@
   };
 
   global.setInterval = function (callback, timeout) {
-    var args = Array.prototype.slice.call(arguments, 2);
+    const args = Array.prototype.slice.call(arguments, 2);
 
     if (Number(timeout) === 0) {
       // special case
@@ -49,7 +49,7 @@
   };
 
   global.setImmediate = function (callback) {
-    var args = Array.prototype.slice.call(arguments, 1);
+    const args = Array.prototype.slice.call(arguments, 1);
 
     vertx.runOnContext(function (v) {
       callback.apply(global, args);
@@ -73,8 +73,8 @@
   };
 
   // process
-  var jvmLanguageLevel;
-  var pid = undefined;
+  let jvmLanguageLevel;
+  let pid = undefined;
 
   try {
     // are we on java > 9
@@ -86,7 +86,7 @@
   if (jvmLanguageLevel >= 9) {
     // try to use the new pid API
     try {
-      var ProcessHandle = Java.type('java.lang.ProcessHandle');
+      const ProcessHandle = Java.type('java.lang.ProcessHandle');
       pid = ProcessHandle.current().pid();
     } catch (e) {
       // ignore...
@@ -96,8 +96,8 @@
   if (jvmLanguageLevel === 8 || pid === undefined) {
     // try to use the ManagementFactory MXBean
     try {
-      var ManagementFactory = Java.type('java.lang.management.ManagementFactory');
-      var name = ManagementFactory.getRuntimeMXBean().getName();
+      const ManagementFactory = Java.type('java.lang.management.ManagementFactory');
+      const name = ManagementFactory.getRuntimeMXBean().getName();
       pid = parseInt(name.substring(0, name.indexOf('@')), 10);
     } catch (e) {
       // ignore...
@@ -120,7 +120,7 @@
     },
 
     nextTick: function (callback) {
-      var args = Array.prototype.slice.call(arguments, 1);
+      const args = Array.prototype.slice.call(arguments, 1);
       vertx.runOnContext(function () {
         callback.apply(global, args);
       });

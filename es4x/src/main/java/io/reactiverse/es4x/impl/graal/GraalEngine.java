@@ -18,12 +18,15 @@ package io.reactiverse.es4x.impl.graal;
 import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.jul.ES4XFormatter;
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.*;
+import org.graalvm.polyglot.io.FileSystem;
 
 import java.time.Instant;
 import java.util.Date;
@@ -42,6 +45,7 @@ public class GraalEngine implements ECMAEngine {
   private final Vertx vertx;
   private final Engine engine;
   private final HostAccess hostAccess;
+  private final FileSystem fileSystem;
 
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
@@ -113,9 +117,37 @@ public class GraalEngine implements ECMAEngine {
           }
           return new Date(v.invokeMember("getTime").asLong());
         })
+      // map Promise to io.vertx.core.Future
+      .targetTypeMapping(
+        Value.class,
+        Future.class,
+        v -> v.hasMembers() && v.hasMember("then"),
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          final Promise promise = Promise.promise();
+          v.invokeMember("then", promise);
+          return promise.future();
+        })
+      // map Promise to io.vertx.core.Promise
+      .targetTypeMapping(
+        Value.class,
+        Promise.class,
+        v -> v.hasMembers() && v.hasMember("then"),
+        v -> {
+          if (v.isNull()) {
+            return null;
+          }
+          final Promise promise = Promise.promise();
+          v.invokeMember("then", promise);
+          return promise;
+        })
       // Ensure Arrays are exposed as List when the Java API is accepting Object
       .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();
+
+    fileSystem = new VertxFileSystem(vertx);
   }
 
   private void registerCodec(Class className) {
@@ -125,19 +157,18 @@ public class GraalEngine implements ECMAEngine {
   }
 
   @Override
-  public String name() {
-    return "graaljs";
+  public FileSystem fileSystem() {
+    return fileSystem;
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public Runtime<Value> newContext() {
+  public Runtime newContext() {
 
-    final Pattern[] allowedHostAccessClassFilters = allowedHostClassFilters();
+    final Pattern[] allowedHostAccessClassFilters = ECMAEngine.allowedHostClassFilters();
 
     final Context.Builder builder = Context.newBuilder("js")
       .engine(engine)
-      .fileSystem(new VertxFileSystem(vertx))
+      .fileSystem(fileSystem)
       // IO is allowed because it delegates to the
       // vertx filesystem implementation
       .allowIO(true)

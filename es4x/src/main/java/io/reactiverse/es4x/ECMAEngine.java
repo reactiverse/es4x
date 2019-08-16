@@ -17,6 +17,7 @@ package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.core.Vertx;
+import org.graalvm.polyglot.io.FileSystem;
 
 import java.util.regex.Pattern;
 
@@ -26,7 +27,7 @@ public interface ECMAEngine {
     return new GraalEngine(vertx);
   }
 
-  default Pattern[] allowedHostClassFilters() {
+  static Pattern[] allowedHostClassFilters() {
     String hostClassFilter = System.getProperty("es4x.host.class.filter", System.getenv("ES4XHOSTCLASSFILTER"));
     if (hostClassFilter == null || hostClassFilter.length() == 0) {
       return null;
@@ -62,16 +63,11 @@ public interface ECMAEngine {
   }
 
   /**
-   * return the engine name
-   *
-   * @return engine name.
-   */
-  String name();
-
-  /**
    * return a new context for this engine.
    *
    * @return new context.
    */
-  <T> Runtime<T> newContext();
+  Runtime newContext();
+
+  FileSystem fileSystem();
 }

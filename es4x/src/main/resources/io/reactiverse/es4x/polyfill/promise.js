@@ -30,6 +30,7 @@
   function Promise(fn) {
     if (typeof this !== 'object') throw new TypeError('Promises must be constructed via new');
     if (typeof fn !== 'function') throw new TypeError('not a function');
+
     this._state = 0;
     this._handled = false;
     this._value = undefined;
@@ -49,12 +50,12 @@
     }
     self._handled = true;
     Promise._immediateFn(self._context, function () {
-      var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
+      const cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
       if (cb === null) {
         (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
         return;
       }
-      var ret;
+      let ret;
       try {
         ret = cb(self._value);
       } catch (e) {
@@ -73,7 +74,7 @@
         reject(self, TypeError('A promise cannot be resolved with itself.'));
       } else {
         if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
-          var then = newValue.then;
+          const then = newValue.then;
           if (newValue instanceof Promise) {
             self._state = 3;
             self._value = newValue;
@@ -108,7 +109,9 @@
       });
     }
 
-    for (var i = 0, len = self._deferreds.length; i < len; i++) {
+    let i = 0;
+    const len = self._deferreds.length;
+    for (; i < len; i++) {
       handle(self, self._deferreds[i]);
     }
     self._deferreds = null;
@@ -127,7 +130,7 @@
    * Makes no guarantees about asynchrony.
    */
   function doResolve(fn, self) {
-    var done = false;
+    let done = false;
     try {
       fn(function (value) {
         if (done) return;
@@ -151,7 +154,6 @@
 
   Promise.prototype.then = function (onFulfilled, onRejected) {
     var prom = new Promise(noop);
-
     handle(this, new Handler(onFulfilled, onRejected, prom));
     return prom;
   };
@@ -172,16 +174,16 @@
   };
 
   Promise.all = function (arr) {
-    var args = Array.prototype.slice.call(arr);
+    const args = Array.prototype.slice.call(arr);
 
     return new Promise(function (resolve, reject) {
       if (args.length === 0) return resolve([]);
-      var remaining = args.length;
+      let remaining = args.length;
 
       function res(i, val) {
         try {
           if (val && (typeof val === 'object' || typeof val === 'function')) {
-            var then = val.then;
+            const then = val.then;
             if (typeof then === 'function') {
               then.call(val, function (val) {
                 res(i, val);
@@ -222,7 +224,9 @@
 
   Promise.race = function (values) {
     return new Promise(function (resolve, reject) {
-      for (var i = 0, len = values.length; i < len; i++) {
+      let i = 0;
+      const len = values.length;
+      for (; i < len; i++) {
         values[i].then(resolve, reject);
       }
     });

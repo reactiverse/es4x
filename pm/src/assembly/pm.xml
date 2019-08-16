@@ -9,6 +9,13 @@
     <format>zip</format>
   </formats>
 
+  <dependencySets>
+    <dependencySet>
+      <unpack>false</unpack>
+      <scope>runtime</scope>
+    </dependencySet>
+  </dependencySets>
+
   <fileSets>
     <fileSet>
       <includes>
@@ -29,16 +36,14 @@
       <outputDirectory>bin</outputDirectory>
       <includes>
         <include>es4x</include>
+        <include>es4x-cli.js</include>
       </includes>
       <lineEnding>unix</lineEnding>
       <fileMode>0755</fileMode>
     </fileSet>
+    <fileSet>
+      <directory>${project.build.directory}/runtime</directory>
+      <outputDirectory>runtime</outputDirectory>
+    </fileSet>
   </fileSets>
-
-  <files>
-    <file>
-      <source>${project.build.directory}/es4x-bin.jar</source>
-      <outputDirectory>bin</outputDirectory>
-    </file>
-  </files>
 </assembly>

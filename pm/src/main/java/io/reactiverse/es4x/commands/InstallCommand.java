@@ -50,11 +50,24 @@ public class InstallCommand extends DefaultCommand {
   }
 
   private boolean force;
+  private List<String> vendor;
 
   @Option(longName = "force", shortName = "f", flag = true)
   @Description("Will always install a basic runtime in the current working dir.")
   public void setForce(boolean force) {
     this.force = force;
+  }
+
+  @Option(longName = "vendor", shortName = "v")
+  @Description("Specify a comma separated list of vendor jars")
+  public void setVendor(String vendor) {
+    if (vendor != null) {
+      this.vendor = new ArrayList<>();
+      for (String v : vendor.split(":")) {
+        // the jar lives in node_modules/.bin (rebase to the project root)
+        this.vendor.add("../../" + v);
+      }
+    }
   }
 
   private static void processPackageJson(File json, Set<String> dependencies) throws IOException {
@@ -287,7 +300,11 @@ public class InstallCommand extends DefaultCommand {
         attributes.put(new Attributes.Name("Built-By"), System.getProperty("user.name"));
         attributes.put(new Attributes.Name("Build-Jdk"), System.getProperty("java.version"));
         attributes.put(Attributes.Name.MAIN_CLASS, ES4X.class.getName());
-        attributes.put(Attributes.Name.CLASS_PATH, String.join(" ", artifacts));
+        String classpath = String.join(" ", artifacts);
+        if (vendor != null && vendor.size() > 0) {
+          classpath += " " + String.join(" ", vendor);
+        }
+        attributes.put(Attributes.Name.CLASS_PATH, classpath);
         attributes.put(new Attributes.Name("Main-Verticle"), (main.endsWith(".mjs") ? "mjs:" : "js:") + main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
 
@@ -365,10 +382,10 @@ public class InstallCommand extends DefaultCommand {
         ")\n" +
         "\n" +
         "IF EXIST \"%~dp0\\..\\.jvmci\" (\n" +
-        "  SET \"JVMCI=--module-path=%~dp0\\..\\.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=%~dp0\\..\\.jvmci\\compiler.jar\"\n" +
+        "  SET \"JVMCI=--module-path=\"\"%~dp0\\..\\.jvmci\"\" -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=\"\"%~dp0\\..\\.jvmci\\compiler.jar\"\"\"\n" +
         ")\n" +
         "\n" +
-        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions \"%JVMCI%\" \"%JAVA_OPTS%\" -jar \"%~dp0\\es4x-launcher.jar\" %*\n";
+        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %JAVA_OPTS% -jar \"%~dp0\\es4x-launcher.jar\" %*\n";
 
     final File exe = new File(bin, "es4x-launcher.cmd");
     try (FileOutputStream out = new FileOutputStream(exe)) {

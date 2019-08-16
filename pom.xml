@@ -11,7 +11,7 @@
 
   <groupId>io.reactiverse</groupId>
   <artifactId>es4x-parent</artifactId>
-  <version>0.8.0</version>
+  <version>0.8.1</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -21,8 +21,8 @@
     <maven.compiler.testSource>1.8</maven.compiler.testSource>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Dependency versions -->
-    <vertx.version>3.7.1</vertx.version>
-    <graalvm.version>19.0.0</graalvm.version>
+    <vertx.version>3.8.0</vertx.version>
+    <graalvm.version>19.1.1</graalvm.version>
   </properties>
 
   <licenses>
@@ -75,6 +75,21 @@
     <module>codegen</module>
     <module>pm</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <id>codegen</id>
+      <activation>
+        <property>
+          <name>env.TRAVIS</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <modules>
+        <module>generator</module>
+      </modules>
+    </profile>
+  </profiles>
 
   <build>
     <pluginManagement>

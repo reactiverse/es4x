@@ -6,6 +6,7 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
+import org.graalvm.polyglot.Value;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,9 +38,9 @@ public class LoggerTest {
 
   @Test
   public void shouldPrettyPrintException() {
-    Object module = runtime.require("./exp.js");
+    Value module = runtime.require("./exp.js");
     try {
-      runtime.invokeMethod(module, "a");
+      module.invokeMember("a");
     } catch (RuntimeException e) {
       log.error("Error from Script", e);
     }

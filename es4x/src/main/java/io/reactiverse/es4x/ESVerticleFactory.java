@@ -22,11 +22,13 @@ import io.vertx.core.spi.VerticleFactory;
 
 public abstract class ESVerticleFactory implements VerticleFactory {
 
-  private ECMAEngine engine;
+  protected ECMAEngine engine;
 
   @Override
-  public void init(Vertx vertx) {
-    this.engine = ECMAEngine.newEngine(vertx);
+  public void init(final Vertx vertx) {
+    synchronized (vertx) {
+      this.engine = ECMAEngine.newEngine(vertx);
+    }
   }
 
   @Override
@@ -47,5 +49,21 @@ public abstract class ESVerticleFactory implements VerticleFactory {
     }
 
     return createVerticle(runtime, fsVerticleName);
+  }
+
+  public String mainScript(String fsVerticleName) {
+    String main = fsVerticleName;
+
+    if (fsVerticleName.equals(".") || fsVerticleName.equals("..")) {
+      // invoke the main script
+      main = fsVerticleName + "/";
+    } else {
+      // patch the main path to be a relative path
+      if (!fsVerticleName.startsWith("./") && !fsVerticleName.startsWith("/")) {
+        main = "./" + fsVerticleName;
+      }
+    }
+
+    return main;
   }
 }
