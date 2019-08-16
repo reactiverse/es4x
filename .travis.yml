@@ -18,11 +18,9 @@ before_install:
 
 matrix:
   include:
-  # JDK
-    - env: JDK='Oracle JDK 8'
-      jdk: oraclejdk8
+  # OpenJDK
     - env: JDK='OpenJDK 8'
-      jdk: openjdk8
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk8?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
     - env: JDK='OpenJDK 11'
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
     - env: JDK='OpenJDK 12'
