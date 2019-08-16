@@ -38,7 +38,7 @@ matrix:
     - env: JDK='OpenJDK 12'
 
 script:
-  - mvn test -B
+  - mvn clean package
 
 after_success:
 - '[[ "${JDK}" = "OpenJDK 11" ]] && mvn -f generator/pom.xml -q || true'
