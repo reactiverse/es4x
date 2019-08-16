@@ -64,6 +64,31 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A predicate on <a href="httpresponse.html">HttpResponse</a>.
+							<p>
+								By default, a Vert.x Web Client request ends with an error only if something wrong happens at the network level.
+								In other words, a {@code 404 Not Found} response, or a response with the wrong content type, are <em>NOT</em> considered as failures.
+								<p>
+									<a href="responsepredicate.html">Response predicates</a> can fail a request when the response does not match some criteria.
+									<p>
+										Custom predicate instances can be used with {@link HttpRequest#expect(Function)}.
+										<p>
+											As a convenience, a few predicates for common uses cases are predefined. For example:
+											<ul>
+												<li>{@link #SC_SUCCESS} to verify that the response has a {@code 2xx} code, or</li>
+												<li>{@link #JSON} to verify that the response body contains JSON data.</li>
+												<li>...</li>
+											</ul>
+											Predefined predicates use the default error converter (discarding the body).
+											<p>
+												However, you can create a new <a href="responsepredicate.html">ResponsePredicate</a> instance from an existing one using {@link #create(Function)} or
+											{@link #create(Function, ErrorConverter)} when the body is required to build the validation failure.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -164,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">JSON<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:791</li>
+							<li>Defined in index.d.ts:897</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -179,7 +204,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>ACCEPTED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:467</li>
+							<li>Defined in index.d.ts:573</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -194,7 +219,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>BAD_<wbr>GATEWAY<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:743</li>
+							<li>Defined in index.d.ts:849</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -209,7 +234,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>BAD_<wbr>REQUEST<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:563</li>
+							<li>Defined in index.d.ts:669</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -224,7 +249,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>CLIENT_<wbr>ERRORS<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:557</li>
+							<li>Defined in index.d.ts:663</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -239,7 +264,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>CONFLICT<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:617</li>
+							<li>Defined in index.d.ts:723</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -254,7 +279,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>CONTINUE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:425</li>
+							<li>Defined in index.d.ts:531</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -269,7 +294,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>CREATED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:461</li>
+							<li>Defined in index.d.ts:567</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -284,7 +309,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>EARLY_<wbr>HINTS<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:443</li>
+							<li>Defined in index.d.ts:549</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -299,7 +324,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>EXPECTATION_<wbr>FAILED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:665</li>
+							<li>Defined in index.d.ts:771</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -314,7 +339,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>FAILED_<wbr>DEPENDENCY<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:689</li>
+							<li>Defined in index.d.ts:795</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -329,7 +354,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>FORBIDDEN<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:581</li>
+							<li>Defined in index.d.ts:687</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -344,7 +369,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>FOUND<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:521</li>
+							<li>Defined in index.d.ts:627</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -359,7 +384,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>GATEWAY_<wbr>TIMEOUT<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:755</li>
+							<li>Defined in index.d.ts:861</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -374,7 +399,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>GONE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:623</li>
+							<li>Defined in index.d.ts:729</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -389,7 +414,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>HTTP_<wbr>VERSION_<wbr>NOT_<wbr>SUPPORTED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:761</li>
+							<li>Defined in index.d.ts:867</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -404,7 +429,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>INFORMATIONAL_<wbr>RESPONSE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:419</li>
+							<li>Defined in index.d.ts:525</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -419,7 +444,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>INSUFFICIENT_<wbr>STORAGE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:773</li>
+							<li>Defined in index.d.ts:879</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -434,7 +459,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>INTERNAL_<wbr>SERVER_<wbr>ERROR<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:731</li>
+							<li>Defined in index.d.ts:837</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -449,7 +474,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>LENGTH_<wbr>REQUIRED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:629</li>
+							<li>Defined in index.d.ts:735</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -464,7 +489,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>LOCKED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:683</li>
+							<li>Defined in index.d.ts:789</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -479,7 +504,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>METHOD_<wbr>NOT_<wbr>ALLOWED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:593</li>
+							<li>Defined in index.d.ts:699</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -494,7 +519,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>MISDIRECTED_<wbr>REQUEST<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:671</li>
+							<li>Defined in index.d.ts:777</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -509,7 +534,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>MOVED_<wbr>PERMANENTLY<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:515</li>
+							<li>Defined in index.d.ts:621</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -524,7 +549,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>MULTIPLE_<wbr>CHOICES<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:509</li>
+							<li>Defined in index.d.ts:615</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -539,7 +564,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>MULTI_<wbr>STATUS<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:497</li>
+							<li>Defined in index.d.ts:603</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -554,7 +579,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>NETWORK_<wbr>AUTHENTICATION_<wbr>REQUIRED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:785</li>
+							<li>Defined in index.d.ts:891</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -569,7 +594,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>NON_<wbr>AUTHORITATIVE_<wbr>INFORMATION<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:473</li>
+							<li>Defined in index.d.ts:579</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -584,7 +609,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>NOT_<wbr>ACCEPTABLE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:599</li>
+							<li>Defined in index.d.ts:705</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -599,7 +624,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>NOT_<wbr>EXTENDED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:779</li>
+							<li>Defined in index.d.ts:885</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -614,7 +639,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>NOT_<wbr>FOUND<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:587</li>
+							<li>Defined in index.d.ts:693</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -629,7 +654,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>NOT_<wbr>IMPLEMENTED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:737</li>
+							<li>Defined in index.d.ts:843</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -644,7 +669,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>NOT_<wbr>MODIFIED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:533</li>
+							<li>Defined in index.d.ts:639</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -659,7 +684,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>NO_<wbr>CONTENT<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:479</li>
+							<li>Defined in index.d.ts:585</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -674,7 +699,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>OK<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:455</li>
+							<li>Defined in index.d.ts:561</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -689,7 +714,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>PARTIAL_<wbr>CONTENT<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:491</li>
+							<li>Defined in index.d.ts:597</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -704,7 +729,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>PAYMENT_<wbr>REQUIRED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:575</li>
+							<li>Defined in index.d.ts:681</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -719,7 +744,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>PERMANENT_<wbr>REDIRECT<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:551</li>
+							<li>Defined in index.d.ts:657</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -734,7 +759,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>PRECONDITION_<wbr>FAILED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:635</li>
+							<li>Defined in index.d.ts:741</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -749,7 +774,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>PRECONDITION_<wbr>REQUIRED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:707</li>
+							<li>Defined in index.d.ts:813</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -764,7 +789,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>PROCESSING<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:437</li>
+							<li>Defined in index.d.ts:543</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -779,7 +804,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>PROXY_<wbr>AUTHENTICATION_<wbr>REQUIRED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:605</li>
+							<li>Defined in index.d.ts:711</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -794,7 +819,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>REDIRECTION<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:503</li>
+							<li>Defined in index.d.ts:609</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -809,7 +834,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>REQUESTED_<wbr>RANGE_<wbr>NOT_<wbr>SATISFIABLE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:659</li>
+							<li>Defined in index.d.ts:765</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -824,7 +849,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>REQUEST_<wbr>ENTITY_<wbr>TOO_<wbr>LARGE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:641</li>
+							<li>Defined in index.d.ts:747</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -839,7 +864,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>REQUEST_<wbr>HEADER_<wbr>FIELDS_<wbr>TOO_<wbr>LARGE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:719</li>
+							<li>Defined in index.d.ts:825</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -854,7 +879,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>REQUEST_<wbr>TIMEOUT<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:611</li>
+							<li>Defined in index.d.ts:717</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -869,7 +894,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>REQUEST_<wbr>URI_<wbr>TOO_<wbr>LONG<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:647</li>
+							<li>Defined in index.d.ts:753</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -884,7 +909,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>RESET_<wbr>CONTENT<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:485</li>
+							<li>Defined in index.d.ts:591</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -899,7 +924,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>SEE_<wbr>OTHER<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:527</li>
+							<li>Defined in index.d.ts:633</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -914,7 +939,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>SERVER_<wbr>ERRORS<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:725</li>
+							<li>Defined in index.d.ts:831</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -929,7 +954,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>SERVICE_<wbr>UNAVAILABLE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:749</li>
+							<li>Defined in index.d.ts:855</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -944,7 +969,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>SUCCESS<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:449</li>
+							<li>Defined in index.d.ts:555</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -959,7 +984,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>SWITCHING_<wbr>PROTOCOLS<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:431</li>
+							<li>Defined in index.d.ts:537</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -974,7 +999,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>TEMPORARY_<wbr>REDIRECT<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:545</li>
+							<li>Defined in index.d.ts:651</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -989,7 +1014,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>TOO_<wbr>MANY_<wbr>REQUESTS<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:713</li>
+							<li>Defined in index.d.ts:819</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1004,7 +1029,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>UNAUTHORIZED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:569</li>
+							<li>Defined in index.d.ts:675</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1019,7 +1044,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>UNORDERED_<wbr>COLLECTION<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:695</li>
+							<li>Defined in index.d.ts:801</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1034,7 +1059,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>UNPROCESSABLE_<wbr>ENTITY<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:677</li>
+							<li>Defined in index.d.ts:783</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1049,7 +1074,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>UNSUPPORTED_<wbr>MEDIA_<wbr>TYPE<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:653</li>
+							<li>Defined in index.d.ts:759</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1064,7 +1089,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>UPGRADE_<wbr>REQUIRED<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:701</li>
+							<li>Defined in index.d.ts:807</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1079,7 +1104,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>USE_<wbr>PROXY<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:539</li>
+							<li>Defined in index.d.ts:645</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1094,7 +1119,7 @@
 					<div class="tsd-signature tsd-kind-icon">SC_<wbr>VARIANT_<wbr>ALSO_<wbr>NEGOTIATES<span class="tsd-signature-symbol">:</span> <a href="responsepredicate.html" class="tsd-signature-type">ResponsePredicate</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:767</li>
+							<li>Defined in index.d.ts:873</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -1116,7 +1141,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:842</li>
+									<li>Defined in index.d.ts:948</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1137,7 +1162,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:813</li>
+									<li>Defined in index.d.ts:919</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1159,7 +1184,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:820</li>
+									<li>Defined in index.d.ts:926</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1191,7 +1216,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:827</li>
+									<li>Defined in index.d.ts:933</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1231,7 +1256,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:835</li>
+									<li>Defined in index.d.ts:941</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1287,7 +1312,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:798</li>
+									<li>Defined in index.d.ts:904</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1309,7 +1334,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:806</li>
+									<li>Defined in index.d.ts:912</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

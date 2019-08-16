@@ -64,6 +64,20 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The composite future wraps a list of <a href="future.html">futures</a>, it is useful when several futures
+							needs to be coordinated.
+						The handlers set for the coordinated futures are overridden by the handler of the composite future.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>author</dt>
+						<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -75,6 +89,12 @@
 							</li>
 						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><a href="compositefuture.html" class="tsd-signature-type">CompositeFuture</a><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -101,6 +121,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="compositefuture.html#sethandler" class="tsd-kind-icon">set<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="compositefuture.html#size" class="tsd-kind-icon">size</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="compositefuture.html#succeeded" class="tsd-kind-icon">succeeded</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="compositefuture.html#then" class="tsd-kind-icon">then</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="compositefuture.html#trycomplete" class="tsd-kind-icon">try<wbr>Complete</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="compositefuture.html#tryfail" class="tsd-kind-icon">try<wbr>Fail</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="compositefuture.html#all" class="tsd-kind-icon">all</a></li>
@@ -127,7 +148,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#cause">cause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1589</li>
+									<li>Defined in index.d.ts:1651</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -160,13 +181,18 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#complete">complete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1315</li>
+									<li>Defined in index.d.ts:1393</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Set the result. Any handler will be called, if there is one, and the future will be marked as completed.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>instead create a <a href="promise.html">Promise</a> and use {@link Promise#complete(Object)}</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -183,7 +209,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#complete">complete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1575</li>
+									<li>Defined in index.d.ts:1637</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -206,7 +232,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#completer">completer</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1388</li>
+									<li>Defined in index.d.ts:1450</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,7 +254,6 @@
 					<a name="compose" class="tsd-anchor"></a>
 					<h3>compose</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">compose&lt;U&gt;<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="compositefuture.html" class="tsd-signature-type">CompositeFuture</a><span class="tsd-signature-symbol">&gt;</span>, next<span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
 						<li class="tsd-signature tsd-kind-icon">compose&lt;U&gt;<span class="tsd-signature-symbol">(</span>mapper<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -236,48 +261,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#compose">compose</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1347</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Compose this future with a provided {@code next} future.<p></p>
-								</div>
-								<p> When this (the one on which {@code compose} is called) future succeeds, the {@code handler} will be called with
-									the completed value, this handler should complete the next future.<p></p>
-									<p> If the {@code handler} throws an exception, the returned future will be failed with this exception.<p></p>
-										<p> When this future fails, the failure will be propagated to the {@code next} future and the {@code handler}
-										will not be called.</p>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>U</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="compositefuture.html" class="tsd-signature-type">CompositeFuture</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
-								</li>
-								<li>
-									<h5>next: <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the next future</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>the next future, used for chaining</p>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#compose">compose</a></p>
-								<ul>
-									<li>Defined in index.d.ts:1364</li>
+									<li>Defined in index.d.ts:1426</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -341,13 +325,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#fail">fail</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3309</li>
+									<li>Defined in index.d.ts:3520</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>instead create a <a href="promise.html">Promise</a> and use {@link Promise#fail(Throwable)}</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -364,13 +353,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#fail">fail</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3316</li>
+									<li>Defined in index.d.ts:3528</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Try to set the failure. When it happens, any handler will be called, if there is one, and the future will be marked as completed.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>instead create a <a href="promise.html">Promise</a> and use {@link Promise#fail(String)}</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -396,7 +390,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#failed">failed</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1603</li>
+									<li>Defined in index.d.ts:1665</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -428,7 +422,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#iscomplete">isComplete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1610</li>
+									<li>Defined in index.d.ts:1672</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -460,7 +454,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#map">map</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1380</li>
+									<li>Defined in index.d.ts:1442</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -522,7 +516,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#mapempty">mapEmpty</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3450</li>
+									<li>Defined in index.d.ts:3649</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -556,7 +550,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#otherwise">otherwise</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1413</li>
+									<li>Defined in index.d.ts:1475</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -603,7 +597,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#otherwise">otherwise</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1425</li>
+									<li>Defined in index.d.ts:1487</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -638,7 +632,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#otherwiseempty">otherwiseEmpty</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1438</li>
+									<li>Defined in index.d.ts:1500</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -665,7 +659,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#recover">recover</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1397</li>
+									<li>Defined in index.d.ts:1459</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -717,7 +711,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#result">result</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1330</li>
+									<li>Defined in index.d.ts:1409</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -740,7 +734,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1617</li>
+									<li>Defined in index.d.ts:1679</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -778,7 +772,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#sethandler">setHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1569</li>
+									<li>Defined in index.d.ts:1631</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -801,7 +795,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1624</li>
+									<li>Defined in index.d.ts:1686</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -822,7 +816,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#succeeded">succeeded</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1596</li>
+									<li>Defined in index.d.ts:1658</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -843,6 +837,54 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="then" class="tsd-anchor"></a>
+					<h3>then</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">then&lt;TResult1, TResult2&gt;<span class="tsd-signature-symbol">(</span>onfulfilled<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, onrejected<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TResult1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TResult2</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#then">then</a></p>
+								<ul>
+									<li>Defined in index.d.ts:3715</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Attaches callbacks for the resolution and/or rejection of the Promise.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TResult1</h4>
+								</li>
+								<li>
+									<h4>TResult2</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> onfulfilled: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback to execute when the Promise is resolved.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> onrejected: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback to execute when the Promise is rejected.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TResult1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TResult2</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A Promise for the completion of which ever callback is executed.</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="trycomplete" class="tsd-anchor"></a>
 					<h3>try<wbr>Complete</h3>
@@ -855,13 +897,18 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#trycomplete">tryComplete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1323</li>
+									<li>Defined in index.d.ts:1402</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>instead create a <a href="promise.html">Promise</a> and use {@link Promise#tryComplete(Object)}</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -879,7 +926,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#trycomplete">tryComplete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1582</li>
+									<li>Defined in index.d.ts:1644</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -904,13 +951,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#tryfail">tryFail</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3339</li>
+									<li>Defined in index.d.ts:3554</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Try to set the failure. When it happens, any handler will be called, if there is one, and the future will be marked as completed.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>instead create a <a href="promise.html">Promise</a> and use {@link Promise#tryFail(Throwable)}</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -928,13 +980,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#tryfail">tryFail</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3347</li>
+									<li>Defined in index.d.ts:3563</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Try to set the failure. When it happens, any handler will be called, if there is one, and the future will be marked as completed.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>instead create a <a href="promise.html">Promise</a> and use {@link Promise#tryFail(String)}</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -965,7 +1022,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1449</li>
+									<li>Defined in index.d.ts:1511</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1005,7 +1062,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1455</li>
+									<li>Defined in index.d.ts:1517</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1042,7 +1099,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1461</li>
+									<li>Defined in index.d.ts:1523</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1085,7 +1142,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1467</li>
+									<li>Defined in index.d.ts:1529</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1134,7 +1191,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1473</li>
+									<li>Defined in index.d.ts:1535</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1189,7 +1246,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1481</li>
+									<li>Defined in index.d.ts:1543</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1223,7 +1280,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1492</li>
+									<li>Defined in index.d.ts:1554</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1263,7 +1320,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1498</li>
+									<li>Defined in index.d.ts:1560</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1300,7 +1357,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1504</li>
+									<li>Defined in index.d.ts:1566</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1343,7 +1400,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1510</li>
+									<li>Defined in index.d.ts:1572</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1392,7 +1449,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1516</li>
+									<li>Defined in index.d.ts:1578</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1447,7 +1504,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1524</li>
+									<li>Defined in index.d.ts:1586</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1478,7 +1535,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#failedfuture">failedFuture</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3259</li>
+									<li>Defined in index.d.ts:3467</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1511,7 +1568,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#failedfuture">failedFuture</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3268</li>
+									<li>Defined in index.d.ts:3476</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1546,7 +1603,7 @@
 					<a name="future" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> future</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">future&lt;T&gt;<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">future&lt;T&gt;<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 						<li class="tsd-signature tsd-kind-icon">future&lt;T&gt;<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -1554,7 +1611,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#future-1">future</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3225</li>
+									<li>Defined in index.d.ts:3432</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1574,7 +1631,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the handler</p>
 									</div>
@@ -1587,13 +1644,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#future-1">future</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3233</li>
+									<li>Defined in index.d.ts:3441</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Create a future that hasn&#39;t completed yet</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>instead use {@link Promise#promise()}</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
@@ -1624,7 +1686,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1535</li>
+									<li>Defined in index.d.ts:1597</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1664,7 +1726,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1541</li>
+									<li>Defined in index.d.ts:1603</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1701,7 +1763,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1547</li>
+									<li>Defined in index.d.ts:1609</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1744,7 +1806,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1553</li>
+									<li>Defined in index.d.ts:1615</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1793,7 +1855,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1559</li>
+									<li>Defined in index.d.ts:1621</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1848,7 +1910,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1567</li>
+									<li>Defined in index.d.ts:1629</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1879,7 +1941,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#succeededfuture">succeededFuture</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3241</li>
+									<li>Defined in index.d.ts:3449</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1903,7 +1965,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#succeededfuture">succeededFuture</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3250</li>
+									<li>Defined in index.d.ts:3458</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2001,6 +2063,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="compositefuture.html#succeeded" class="tsd-kind-icon">succeeded</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+								<a href="compositefuture.html#then" class="tsd-kind-icon">then</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="compositefuture.html#trycomplete" class="tsd-kind-icon">try<wbr>Complete</a>

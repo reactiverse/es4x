@@ -64,6 +64,19 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Functional interface that allows users to implement custom RBAC verifiers for OAuth2/OpenId Connect.</p>
+					</div>
+					<p> Users are to implement the <code>isAuthorized</code> method to verify authorities. For provides that do not
+						export the permissions/roles in the token, this interface allows you to communicate with 3rd party services
+					such as graph APIs to collect the required data.</p>
+					<p> The contract is that once an authority is checked for a given user, it&#39;s value is cached during the execution
+						of the request. If a user is stored to a persistent storage, or the token is introspected, the cache is cleared
+					and a new call will be handled to the implementation.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -97,7 +110,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:706</li>
+									<li>Defined in index.d.ts:813</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

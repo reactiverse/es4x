@@ -64,6 +64,32 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An HTTP response.
+							<p>
+								The usual HTTP response attributes are available:
+								<ul>
+									<li>{@link #statusCode()} the HTTP status code</li>
+									<li>{@link #statusMessage()} the HTTP status message</li>
+									<li>{@link #headers()} the HTTP headers</li>
+									<li>{@link #version()} the HTTP version</li>
+								</ul>
+								<p>
+									The body of the response is returned by {@link #body()} decoded as the format specified by the {@link io.vertx.ext.web.codec.BodyCodec} that
+									built the response.
+									<p>
+										Keep in mind that using this {@code HttpResponse} impose to fully buffer the response body and should be used for payload
+									that can fit in memory.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>author</dt>
+						<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
@@ -94,6 +120,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#bodyasjsonobject" class="tsd-kind-icon">body<wbr>AsJson<wbr>Object</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#bodyasstring" class="tsd-kind-icon">body<wbr>AsString</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#cookies" class="tsd-kind-icon">cookies</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#followedredirects" class="tsd-kind-icon">followed<wbr>Redirects</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#getheader" class="tsd-kind-icon">get<wbr>Header</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#gettrailer" class="tsd-kind-icon">get<wbr>Trailer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpresponse.html#headers" class="tsd-kind-icon">headers</a></li>
@@ -118,7 +145,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:369</li>
+									<li>Defined in index.d.ts:446</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -141,7 +168,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:376</li>
+									<li>Defined in index.d.ts:453</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -164,7 +191,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:411</li>
+									<li>Defined in index.d.ts:495</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -199,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:404</li>
+									<li>Defined in index.d.ts:488</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -222,7 +249,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:397</li>
+									<li>Defined in index.d.ts:481</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -246,7 +273,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:383</li>
+									<li>Defined in index.d.ts:467</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -260,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:390</li>
+									<li>Defined in index.d.ts:474</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -289,13 +316,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:362</li>
+									<li>Defined in index.d.ts:439</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 							<p>the Set-Cookie headers (including trailers)</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="followedredirects" class="tsd-anchor"></a>
+					<h3>followed<wbr>Redirects</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">followed<wbr>Redirects<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:460</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+							<p>the list of all followed redirects, including the final location.</p>
 						</li>
 					</ul>
 				</section>
@@ -309,7 +356,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:340</li>
+									<li>Defined in index.d.ts:417</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -344,7 +391,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:355</li>
+									<li>Defined in index.d.ts:432</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -379,7 +426,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:332</li>
+									<li>Defined in index.d.ts:409</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -399,7 +446,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:318</li>
+									<li>Defined in index.d.ts:395</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -419,7 +466,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:325</li>
+									<li>Defined in index.d.ts:402</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -439,7 +486,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:347</li>
+									<li>Defined in index.d.ts:424</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -459,7 +506,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:311</li>
+									<li>Defined in index.d.ts:388</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -512,6 +559,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpresponse.html#cookies" class="tsd-kind-icon">cookies</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpresponse.html#followedredirects" class="tsd-kind-icon">followed<wbr>Redirects</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpresponse.html#getheader" class="tsd-kind-icon">get<wbr>Header</a>
