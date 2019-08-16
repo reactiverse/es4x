@@ -1,32 +1,23 @@
 {
-  "name": "techempower-benchmark",
-  "version": "1.0.0",
+  "name": "benchmark",
+  "version": "0.0.1",
   "private": true,
-  "description": "An implementation of the techempower benchmark",
   "main": "index.js",
-  "scripts": {
-    "postinstall": "vertx-scripts init",
-    "test": "vertx-scripts launcher test -v",
-    "start": "vertx-scripts launcher run",
-    "package": "vertx-scripts package"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "vertx-scripts": "latest",
-    "@vertx/unit": "latest"
-  },
   "dependencies": {
     "@vertx/core": "latest",
     "@vertx/web": "latest",
+    "@vertx/web-templ-handlebars": "latest",
     "@reactiverse/reactive-pg-client": "latest"
   },
-  "mvnDependencies": {
-    "io.vertx:vertx-web-templ-handlebars": "3.5.2"
-  },
+  "mvnDependencies": [
+    "io.netty:netty-transport-native-epoll:jar:linux-x86_64:4.1.35.Final"
+  ],
   "files": [
     "util.js",
     "templates/fortunes.hbs"
-  ]
+  ],
+  "scripts": {
+    "start": "es4x-launcher",
+    "postinstall": "es4x install -f"
+  }
 }

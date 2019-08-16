@@ -96,6 +96,12 @@ public class OptionsDTS extends Generator<DataObjectModel> {
       writer.print("\n");
     }
 
+    if (model.getDoc() != null) {
+      writer.print("/**\n");
+      writer.printf(" *%s\n", model.getDoc().toString().replace("\n", "\n * "));
+      writer.print("*/\n");
+    }
+
     writer.printf("export %sclass %s {\n", model.isConcrete() ? "" : "abstract ", model.getType().getRaw().getSimpleName());
 
     // TODO: handle extends/implements

@@ -162,6 +162,8 @@
     <!-- This is the source group id -->
     <maven.groupId>io.vertx</maven.groupId>
 
+    <npm-skip>true</npm-skip>
+
     <!-- language=json -->
     <scope-registry>
       [
@@ -346,6 +348,9 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
+        <configuration>
+          <skip>${npm-skip}</skip>
+        </configuration>
         <executions>
           <execution>
             <id>npm-publish</id>

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-mvn clean package
+#mvn clean package
 cd target
 mkdir package
 VERSION=$(cat classes/META-INF/es4x-commands/VERSIONS.properties | grep es4x | cut -c6-)

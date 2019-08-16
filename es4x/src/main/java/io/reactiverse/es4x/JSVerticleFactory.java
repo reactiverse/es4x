@@ -66,9 +66,9 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         try {
           runtime.enter();
           if (worker) {
-            self = runtime.worker(fsVerticleName, address);
+            self = runtime.worker(mainScript(fsVerticleName), address);
           } else {
-            self = runtime.main(fsVerticleName);
+            self = runtime.main(mainScript(fsVerticleName));
           }
         } catch (RuntimeException e) {
           startFuture.fail(e);

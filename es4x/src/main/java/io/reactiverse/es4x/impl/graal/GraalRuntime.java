@@ -144,14 +144,6 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime {
 
   @Override
   public Value main(String main) {
-    if (main.equals(".") || main.equals("..")) {
-      // invoke the main script
-      return module.invokeMember("runMain", main + "/");
-    }
-    // patch the main path to be a relative path
-    if (!main.startsWith("./") && !main.startsWith("/")) {
-      main = "./" + main;
-    }
     // invoke the main script
     return module.invokeMember("runMain", main);
   }

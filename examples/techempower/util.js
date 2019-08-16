@@ -18,11 +18,8 @@ module.exports = {
     if (param == null) {
       return 1;
     }
-    try {
-      let parsedValue = parseInt(param, 10);
-      return Math.min(500, Math.max(1, parsedValue));
-    } catch (e) {
-      return 1;
-    }
+
+    // invalid params are converted to 1
+    return Math.min(500, parseInt(param, 10) || 1);
   }
 };
