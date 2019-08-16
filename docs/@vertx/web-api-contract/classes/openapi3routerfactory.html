@@ -64,6 +64,47 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Interface for OpenAPI3RouterFactory. <br/>
+							To add an handler, use {@link OpenAPI3RouterFactory#addHandlerByOperationId(String, Handler)}<br/>
+							Usage example:
+							<pre>
+ {@code
+ OpenAPI3RouterFactory.create(vertx, &quot;src/resources/spec.yaml&quot;, asyncResult -&gt; {
+  if (!asyncResult.succeeded()) {
+     // IO failure or spec invalid
+  } else {
+     OpenAPI3RouterFactory routerFactory = asyncResult.result();
+     routerFactory.addHandlerByOperationId(&quot;operation_id&quot;, routingContext -&gt; {
+        // Do something
+     }, routingContext -&gt; {
+        // Do something with failure handler
+     });
+     Router router = routerFactory.getRouter();
+  }
+ });
+ }
+ </pre>
+							<br/>
+							Handlers are loaded in this order:<br/>
+							<ol>
+								<li>Body handler (Customizable with {@link this#setBodyHandler(BodyHandler)}</li>
+								<li>Custom global handlers configurable with {@link this#addGlobalHandler(Handler)}</li>
+								<li>Global security handlers defined in upper spec level</li>
+								<li>Operation specific security handlers</li>
+								<li>Generated validation handler</li>
+								<li>User handlers or &quot;Not implemented&quot; handler</li>
+						</ol></p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>author</dt>
+						<dd><p>Francesco Guardiani @slinkydeveloper</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -119,7 +160,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:398</li>
+									<li>Defined in index.d.ts:475</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -151,7 +192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:362</li>
+									<li>Defined in index.d.ts:439</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -181,7 +222,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:389</li>
+									<li>Defined in index.d.ts:466</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -213,7 +254,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:296</li>
+									<li>Defined in index.d.ts:373</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -244,7 +285,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:380</li>
+									<li>Defined in index.d.ts:457</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -281,7 +322,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/routerfactory.html">RouterFactory</a>.<a href="../interfaces/routerfactory.html#getoptions">getOptions</a></p>
 								<ul>
-									<li>Defined in index.d.ts:309</li>
+									<li>Defined in index.d.ts:386</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,7 +345,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/routerfactory.html">RouterFactory</a>.<a href="../interfaces/routerfactory.html#getrouter">getRouter</a></p>
 								<ul>
-									<li>Defined in index.d.ts:317</li>
+									<li>Defined in index.d.ts:394</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -329,7 +370,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/routerfactory.html">RouterFactory</a>.<a href="../interfaces/routerfactory.html#getvalidationfailurehandler">getValidationFailureHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:324</li>
+									<li>Defined in index.d.ts:401</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -356,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:407</li>
+									<li>Defined in index.d.ts:484</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -388,7 +429,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:417</li>
+									<li>Defined in index.d.ts:494</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -421,7 +462,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:424</li>
+									<li>Defined in index.d.ts:501</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -445,7 +486,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/routerfactory.html">RouterFactory</a>.<a href="../interfaces/routerfactory.html#setbodyhandler">setBodyHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:353</li>
+									<li>Defined in index.d.ts:430</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -474,7 +515,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:369</li>
+									<li>Defined in index.d.ts:446</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -525,7 +566,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:345</li>
+									<li>Defined in index.d.ts:422</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -562,7 +603,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/routerfactory.html">RouterFactory</a>.<a href="../interfaces/routerfactory.html#setoptions">setOptions</a></p>
 								<ul>
-									<li>Defined in index.d.ts:303</li>
+									<li>Defined in index.d.ts:380</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -590,7 +631,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:334</li>
+									<li>Defined in index.d.ts:411</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -626,7 +667,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:433</li>
+									<li>Defined in index.d.ts:510</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -657,7 +698,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:444</li>
+									<li>Defined in index.d.ts:521</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

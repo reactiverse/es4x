@@ -64,6 +64,35 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a stream of items that can be read from.
+							<p>
+								Any class that implements this interface can be used by a <a href="../classes/pump.html">Pump</a> to pump data from it
+								to a <a href="writestream.html">WriteStream</a>.
+								<p>
+									<h3>Streaming mode</h3>
+									The stream is either in <i>flowing</i> or <i>fetch</i> mode.
+									<ul>
+										<i>Initially the stream is in <i>flowing</i> mode.</i>
+										<li>When the stream is in <i>flowing</i> mode, elements are delivered to the {@code handler}.</li>
+										<li>When the stream is in <i>fetch</i> mode, only the number of requested elements will be delivered to the {@code handler}.</li>
+									</ul>
+									The mode can be changed with the {@link #pause()}, {@link #resume()} and {@link #fetch} methods:
+									<ul>
+										<li>Calling {@link #resume()} sets the <i>flowing</i> mode</li>
+										<li>Calling {@link #pause()} sets the <i>fetch</i> mode and resets the demand to {@code 0}</li>
+										<li>Calling {@link #fetch(long)} requests a specific amount of elements and adds it to the actual demand</li>
+								</ul></p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>author</dt>
+						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
@@ -138,7 +167,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9121</li>
+									<li>Defined in index.d.ts:9653</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -168,7 +197,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="streambase.html">StreamBase</a>.<a href="streambase.html#exceptionhandler">exceptionHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9080</li>
+									<li>Defined in index.d.ts:9612</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -200,7 +229,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9114</li>
+									<li>Defined in index.d.ts:9646</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -231,7 +260,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9087</li>
+									<li>Defined in index.d.ts:9619</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -260,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9096</li>
+									<li>Defined in index.d.ts:9628</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -285,7 +314,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9130</li>
+									<li>Defined in index.d.ts:9662</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -311,7 +340,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9136</li>
+									<li>Defined in index.d.ts:9668</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -330,7 +359,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9148</li>
+									<li>Defined in index.d.ts:9680</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -369,7 +398,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9105</li>
+									<li>Defined in index.d.ts:9637</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

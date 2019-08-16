@@ -64,6 +64,49 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A helper class which allows you to easily parse protocols which are delimited by a sequence of bytes, or fixed
+							size records.
+							<p>
+								Instances of this class take as input {@link io.vertx.core.buffer.Buffer} instances containing raw bytes,
+								and output records.
+								<p>
+									For example, if I had a simple ASCII text protocol delimited by &#39;\n&#39; and the input was the following:
+									<p>
+										<pre>
+ buffer1:HELLO\nHOW ARE Y
+ buffer2:OU?\nI AM
+ buffer3: DOING OK
+ buffer4:\n
+ </pre>
+										Then the output would be:<p>
+											<pre>
+ buffer1:HELLO
+ buffer2:HOW ARE YOU?
+ buffer3:I AM DOING OK
+ </pre>
+											Instances of this class can be changed between delimited mode and fixed size record mode on the fly as
+											individual records are read, this allows you to parse protocols where, for example, the first 5 records might
+											all be fixed size (of potentially different sizes), followed by some delimited records, followed by more fixed
+											size records.
+											<p>
+												Instances of this class can&#39;t currently be used for protocols where the text is encoded with something other than
+												a 1-1 byte-char mapping.
+												<p>
+												Please see the documentation for more information.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>author</dt>
+						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
+						</dd>
+						<dt>author</dt>
+						<dd><p><a href="mailto:larsdtimm@gmail.com">Lars Timm</a></p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -119,7 +162,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9278</li>
+									<li>Defined in index.d.ts:9844</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -144,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9288</li>
+									<li>Defined in index.d.ts:9854</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -178,7 +221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9327</li>
+									<li>Defined in index.d.ts:9893</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -201,7 +244,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9317</li>
+									<li>Defined in index.d.ts:9883</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -225,7 +268,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9323</li>
+									<li>Defined in index.d.ts:9889</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -248,7 +291,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9297</li>
+									<li>Defined in index.d.ts:9863</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -281,7 +324,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9315</li>
+									<li>Defined in index.d.ts:9881</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -312,7 +355,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9319</li>
+									<li>Defined in index.d.ts:9885</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -335,7 +378,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9308</li>
+									<li>Defined in index.d.ts:9874</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -371,7 +414,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9321</li>
+									<li>Defined in index.d.ts:9887</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -389,7 +432,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9159</li>
+									<li>Defined in index.d.ts:9725</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -416,7 +459,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9165</li>
+									<li>Defined in index.d.ts:9731</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -435,7 +478,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9177</li>
+									<li>Defined in index.d.ts:9743</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -475,7 +518,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9325</li>
+									<li>Defined in index.d.ts:9891</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -492,7 +535,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9179</li>
+									<li>Defined in index.d.ts:9745</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -520,7 +563,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9188</li>
+									<li>Defined in index.d.ts:9754</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -549,7 +592,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9199</li>
+									<li>Defined in index.d.ts:9765</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -580,7 +623,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9209</li>
+									<li>Defined in index.d.ts:9775</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -605,7 +648,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9218</li>
+									<li>Defined in index.d.ts:9784</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -629,7 +672,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9227</li>
+									<li>Defined in index.d.ts:9793</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -658,7 +701,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9238</li>
+									<li>Defined in index.d.ts:9804</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -700,7 +743,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9248</li>
+									<li>Defined in index.d.ts:9814</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -725,7 +768,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9257</li>
+									<li>Defined in index.d.ts:9823</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -754,7 +797,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9268</li>
+									<li>Defined in index.d.ts:9834</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

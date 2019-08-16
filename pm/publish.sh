@@ -24,4 +24,12 @@ echo "
 " > package/package.json
 
 cd package
-npm publish --registry http://localhost:4873
+
+REGISTRY="https://registry.npmjs.org"
+
+if [ "$1" = "local" ]; then
+  REGISTRY="http://localhost:4873"
+fi
+
+# publish
+npm publish --registry $REGISTRY

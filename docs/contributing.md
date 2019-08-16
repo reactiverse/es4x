@@ -166,7 +166,7 @@ mvn -Dnpm-registry="http://localhost:4873" \
 ```bash
 # install the API doc generator
 npm install -g typedoc
-# deploy to verdaccion and generate docs to the docs folder
+# deploy to verdaccio and generate docs to the docs folder
 cd generator
 mvn -Dnpm-registry="http://localhost:4873" \
     clean \
@@ -182,7 +182,7 @@ For convenience, the `pm` project can also be deployed to the NPM registry, in o
 ```bash
 cd pm
 mvn package
-./publish
+./publish.sh local
 ```
 
 This will generate the maven fat jar and the final script will convert it to a npm package and deploy to
