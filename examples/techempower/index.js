@@ -5,17 +5,17 @@ import {Router} from '@vertx/web';
 
 import {PgClient, Tuple} from '@reactiverse/reactive-pg-client';
 import {PgPoolOptions} from '@reactiverse/reactive-pg-client/options';
+import {HandlebarsTemplateEngine} from '@vertx/web-templ-handlebars'
 
 const util = require('./util');
-const HandlebarsTemplateEngine = Java.type('io.vertx.ext.web.templ.HandlebarsTemplateEngine');
 
 const SERVER = 'vertx.js';
 
 const app = Router.router(vertx);
-const template = HandlebarsTemplateEngine.create();
-let date = new Date().toString();
+const template = HandlebarsTemplateEngine.create(vertx);
+let date = new Date().toUTCString();
 
-vertx.setPeriodic(1000, t => date = new Date().toString());
+vertx.setPeriodic(1000, t => date = new Date().toUTCString());
 
 /*
  * This test exercises the framework fundamentals including keep-alive support, request routing, request header
@@ -36,6 +36,9 @@ const SELECT_FORTUNE = "SELECT id, message from FORTUNE";
 let client = PgClient.pool(
   vertx,
   new PgPoolOptions()
+    .setCachePreparedStatements(true)
+    .setMaxSize(1)
+    .setHost('localhost')
     .setUser('benchmarkdbuser')
     .setPassword('benchmarkdbpass')
     .setDatabase('hello_world'));
@@ -143,10 +146,8 @@ app.get("/fortunes").handler(ctx => {
       return 0;
     });
 
-    ctx.put("fortunes", fortunes);
-
     // and now delegate to the engine to render it.
-    template.render(ctx, "templates", "/fortunes.hbs", res => {
+    template.render({fortunes: fortunes}, "templates/fortunes.hbs", res => {
       if (res.succeeded()) {
         ctx.response()
           .putHeader("Server", SERVER)
@@ -186,7 +187,8 @@ app.route("/updates").handler(ctx => {
 
         const row = ar.result().iterator().next();
 
-        worlds[index] = {id: row.getInteger(0), randomNumber: util.randomWorld()};
+        worlds[index] = {id: row.getInteger(0), randomNumber: row.getInteger(1)};
+        worlds[index].randomNumber = util.randomWorld();
         if (++queryCount === queries) {
           worlds.sort((a, b) => {
             return a.id - b.id;
@@ -237,7 +239,7 @@ app.get("/plaintext").handler(ctx => {
 
 vertx
   .createHttpServer()
-  .requestHandler(req => app.accept(req))
+  .requestHandler(app)
   .listen(8080);
 
 console.log('Server listening at: http://localhost:8080/');

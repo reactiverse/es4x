@@ -137,6 +137,12 @@ public class IndexDTS extends Generator<ClassModel> {
       }
     }
 
+    if (model.getDoc() != null) {
+      writer.print("/**\n");
+      writer.printf(" *%s\n", model.getDoc().toString().replace("\n", "\n * "));
+      writer.print("*/\n");
+    }
+
     writer.printf("export %s %s%s", model.isConcrete() ? "abstract class" : "interface", type.getSimpleName(), genGeneric(type.getParams()));
 
     if (model.isConcrete()) {

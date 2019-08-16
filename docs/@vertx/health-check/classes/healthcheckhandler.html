@@ -64,6 +64,27 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A Vert.x Web handler on which you register health check procedure. It computes the outcome status (<code>UP</code> or <code>DOWN</code>)
+							. When the handler process a HTTP request, it computes the global outcome and build a HTTP response as follows:
+							<p>
+								<ul>
+									<li>204 - status is <code>UP</code> but no procedures installed (no payload)</li>
+									<li>200 - status is <code>UP</code>, the payload contains the result of the installed procedures</li>
+									<li>503 - status is <code>DOWN</code>, the payload contains the result of the installed procedures</li>
+									<li>500 - status is <code>DOWN</code>, the payload contains the result of the installed procedures, one of the
+									procedure has failed</li>
+							</ul></p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>author</dt>
+						<dd><p><a href="http://escoffier.me">Clement Escoffier</a></p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -107,7 +128,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:26</li>
+									<li>Defined in index.d.ts:40</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -124,22 +145,22 @@
 					<a name="register" class="tsd-anchor"></a>
 					<h3>register</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, procedure<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><a href="status.html" class="tsd-signature-type">Status</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="healthcheckhandler.html" class="tsd-signature-type">HealthCheckHandler</a></li>
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, procedure<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><a href="status.html" class="tsd-signature-type">Status</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="healthcheckhandler.html" class="tsd-signature-type">HealthCheckHandler</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, procedure<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="status.html" class="tsd-signature-type">Status</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="healthcheckhandler.html" class="tsd-signature-type">HealthCheckHandler</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, procedure<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="status.html" class="tsd-signature-type">Status</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="healthcheckhandler.html" class="tsd-signature-type">HealthCheckHandler</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:78</li>
+									<li>Defined in index.d.ts:92</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Registers a health check procedure.
 										<p>
-											The procedure is a {@link Handler} taking a {@link Future} of <a href="status.html">Status</a> as parameter. Procedures are
-											asynchronous, and <strong>must</strong> complete or fail the given {@link Future}. If the future object is
+											The procedure is a {@link Handler} taking a {@link Promise} of <a href="status.html">Status</a> as parameter. Procedures are
+											asynchronous, and <strong>must</strong> complete or fail the given {@link Promise}. If the future object is
 											failed, the procedure outcome is considered as <code>DOWN</code>. If the future is completed without any object, the
 											procedure outcome is considered as <code>UP</code>. If the future is completed with a (not-null) <a href="status.html">Status</a>, the
 											procedure outcome is the received status.
@@ -156,7 +177,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>procedure: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><a href="status.html" class="tsd-signature-type">Status</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>procedure: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="status.html" class="tsd-signature-type">Status</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the procedure, must not be {@code null}</p>
 									</div>
@@ -168,15 +189,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:94</li>
+									<li>Defined in index.d.ts:108</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Registers a health check procedure.
 										<p>
-											The procedure is a {@link Handler} taking a {@link Future} of <a href="status.html">Status</a> as parameter. Procedures are
-											asynchronous, and <strong>must</strong> complete or fail the given {@link Future}. If the future object is
+											The procedure is a {@link Handler} taking a {@link Promise} of <a href="status.html">Status</a> as parameter. Procedures are
+											asynchronous, and <strong>must</strong> complete or fail the given {@link Promise}. If the future object is
 											failed, the procedure outcome is considered as <code>DOWN</code>. If the future is completed without any object, the
 											procedure outcome is considered as <code>UP</code>. If the future is completed with a (not-null) <a href="status.html">Status</a>, the
 										procedure outcome is the received status.</p>
@@ -197,7 +218,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>procedure: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><a href="status.html" class="tsd-signature-type">Status</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>procedure: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="status.html" class="tsd-signature-type">Status</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the procedure, must not be {@code null}</p>
 									</div>
@@ -218,7 +239,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:102</li>
+									<li>Defined in index.d.ts:116</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -251,7 +272,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:36</li>
+									<li>Defined in index.d.ts:50</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -281,7 +302,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:45</li>
+									<li>Defined in index.d.ts:59</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -315,7 +336,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:53</li>
+									<li>Defined in index.d.ts:67</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -341,7 +362,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:61</li>
+									<li>Defined in index.d.ts:75</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

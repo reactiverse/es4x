@@ -6,13 +6,13 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.8.1-SNAPSHOT</version>
+    <version>0.8.1</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>io.reactiverse.es4x</groupId>
   <artifactId>es4x-generator</artifactId>
-  <version>0.8.1-SNAPSHOT</version>
+  <version>0.8.1</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -161,6 +161,8 @@
     <stack.version>3.8.0</stack.version>
     <!-- This is the source group id -->
     <maven.groupId>io.vertx</maven.groupId>
+
+    <npm-skip>true</npm-skip>
 
     <!-- language=json -->
     <scope-registry>
@@ -346,6 +348,9 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
+        <configuration>
+          <skip>${npm-skip}</skip>
+        </configuration>
         <executions>
           <execution>
             <id>npm-publish</id>

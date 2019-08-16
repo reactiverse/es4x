@@ -51,7 +51,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
         final FileSystem fs = engine.fileSystem();
 
         try {
-          final Path scriptPath = fs.parsePath(fsVerticleName);
+          final Path scriptPath = fs.parsePath(mainScript(fsVerticleName));
           // the main script buffer
           final Buffer buffer = vertx.fileSystem().readFileBlocking(scriptPath.toString());
           runtime.eval(
@@ -64,8 +64,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
         } catch (InvalidPathException e) {
           startFuture.fail("File Not Found: " + fsVerticleName);
         } catch (RuntimeException e) {
-          e.printStackTrace();
-          startFuture.fail(e.getCause());
+          startFuture.fail(e);
         }
       }
 
