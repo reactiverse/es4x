@@ -45,7 +45,13 @@ arguments.push('-cp');
 let launcher = path.join('node_modules', '.bin', 'es4x-launcher.jar');
 let pm = `es4x-pm-${VERSION}.jar`;
 if (existsSync(path.join(process.cwd(), launcher))) {
-  arguments.push(`${launcher}${path.delimiter}${path.join(__dirname, '..', pm)}`);
+  // in the case that there is a launcher we also require a .lib
+  let lib = path.join('node_modules', '.lib');
+  if (existsSync(path.join(process.cwd(), lib))) {
+    arguments.push(`${launcher}${path.delimiter}${path.join(__dirname, '..', pm)}`);
+  } else {
+    arguments.push(`${launcher}${path.delimiter}${path.join(__dirname, '..', 'runtime', '*')}${path.delimiter}${path.join(__dirname, '..', pm)}`);
+  }
 } else {
   arguments.push(`${path.join(__dirname, '..', 'runtime', '*')}${path.delimiter}${path.join(__dirname, '..', pm)}`);
 }
