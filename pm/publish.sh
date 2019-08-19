@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 #mvn clean package
 cd target
 mkdir package
@@ -32,4 +33,4 @@ if [ "$1" = "local" ]; then
 fi
 
 # publish
-npm publish --registry $REGISTRY
+#npm publish --registry $REGISTRY

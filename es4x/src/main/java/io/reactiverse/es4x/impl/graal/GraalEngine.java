@@ -46,6 +46,7 @@ public class GraalEngine implements ECMAEngine {
   private final Engine engine;
   private final HostAccess hostAccess;
   private final FileSystem fileSystem;
+  private final PolyglotAccess polyglotAccess;
 
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
@@ -71,6 +72,9 @@ public class GraalEngine implements ECMAEngine {
         LOG.warn("ES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!");
       }
     }
+
+    // enable or disable the polyglot access
+    polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
 
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
       // map native JSON Object to Vert.x JSONObject
@@ -189,7 +193,8 @@ public class GraalEngine implements ECMAEngine {
           return false;
         }
       })
-      .allowHostAccess(hostAccess);
+      .allowHostAccess(hostAccess)
+      .allowPolyglotAccess(polyglotAccess);
 
     // allow specifying the custom ecma version
     builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version", "2019"));
