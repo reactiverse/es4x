@@ -18,7 +18,7 @@ package io.reactiverse.es4x.impl.command;
 import io.vertx.core.cli.annotations.*;
 import io.vertx.core.impl.launcher.commands.RunCommand;
 
-@Name("run")
+@Name(value = "run", priority = 1000)
 @Summary("Runs a JS script called <main-verticle> in its own instance of vert.x.")
 public class ES4XRunCommand extends RunCommand {
 
@@ -39,9 +39,16 @@ public class ES4XRunCommand extends RunCommand {
   }
 
   @Option(longName = "esm", argName = "es-module", flag = true)
-  @Description("[EXPERIMENTAL] Specifies that the runtime should allow .mjs modules.")
+  @Description("Assume .mjs module when no extension is provided.")
   public void setEsm(boolean esm) {
     this.esm = esm;
+  }
+
+  @Option(longName = "polyglot", argName = "polyglot-access", flag = true)
+  @Description("Enable GraalVM Polyglot access (default: false).")
+  @DefaultValue("false")
+  public void setPolyglot(boolean polyglot) {
+    System.setProperty("es4x.polyglot", Boolean.toString(polyglot));
   }
 
   @Option(longName = "inspect", argName = "inspector-port")

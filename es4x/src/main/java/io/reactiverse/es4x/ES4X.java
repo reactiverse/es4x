@@ -15,8 +15,6 @@
  */
 package io.reactiverse.es4x;
 
-import io.reactiverse.es4x.impl.command.ES4XRunCommand;
-import io.reactiverse.es4x.impl.command.ES4XStartCommand;
 import io.vertx.core.Launcher;
 
 import java.io.File;
@@ -31,14 +29,6 @@ public final class ES4X extends Launcher {
   public static void main(String... args) {
 
     final ES4X launcher = new ES4X();
-    // remove the default run command
-    launcher.unregister("run");
-    // apply the custom run command
-    launcher.register(ES4XRunCommand.class);
-    // remove the default start command
-    launcher.unregister("start");
-    // apply the custom start command
-    launcher.register(ES4XStartCommand.class);
 
     // small behavior change
     if (args.length == 1) {
