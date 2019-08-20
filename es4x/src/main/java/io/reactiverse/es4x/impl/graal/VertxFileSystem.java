@@ -25,6 +25,7 @@ public final class VertxFileSystem implements FileSystem {
     MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
   }
 
+  private final String prefix = System.getProperty("es4x.prefix", "");
   private final VertxInternal vertx;
 
   static String getCWD() {
@@ -136,6 +137,11 @@ public final class VertxFileSystem implements FileSystem {
     // EMPTY shortcut
     if ("".equals(path)) {
       return EMPTY;
+    }
+
+    // apply the prefix is the path is relative
+    if (path.charAt(0) == '.' && prefix.length() > 0) {
+      path = prefix + path;
     }
 
     try {

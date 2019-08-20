@@ -38,27 +38,36 @@ public class ES4XRunCommand extends RunCommand {
     this.verticle = verticle;
   }
 
-  @Option(longName = "esm", argName = "es-module", flag = true)
+  @Option(argName = "es-module", longName = "esm", flag = true)
   @Description("Assume .mjs module when no extension is provided.")
   public void setEsm(boolean esm) {
     this.esm = esm;
   }
 
-  @Option(longName = "polyglot", argName = "polyglot-access", flag = true)
+  @Option(argName = "prefix", longName = "prefix-path")
+  @Description("The the prefix to apply to relative modules (for compiled languages). (e.g.: ./dist).")
+  public void setPrefix(String prefix) {
+    if (!prefix.endsWith("/")) {
+      prefix += "/";
+    }
+    System.setProperty("es4x.prefix", prefix);
+  }
+
+  @Option(argName = "polyglot", longName = "polyglot-access", flag = true)
   @Description("Enable GraalVM Polyglot access (default: false).")
   @DefaultValue("false")
   public void setPolyglot(boolean polyglot) {
     System.setProperty("es4x.polyglot", Boolean.toString(polyglot));
   }
 
-  @Option(longName = "inspect", argName = "inspector-port")
+  @Option(argName = "inspect", longName = "inspector-port")
   @Description("Specifies the node inspector port to listen on (GraalJS required).")
   public void setInspect(int inspect) {
     System.setProperty("polyglot.inspect", Integer.toString(inspect));
     System.setProperty("vertx.options.blockedThreadCheckInterval", "1000000");
   }
 
-  @Option(longName = "inspect-brk", argName = "inspector-brk-port")
+  @Option(argName = "inspect-brk", longName = "inspector-brk-port")
   @Description("Breaks on start the node inspector listening on given port (GraalJS required).")
   public void setInspectBrk(int inspect) {
     System.setProperty("polyglot.inspect", Integer.toString(inspect));
