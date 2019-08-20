@@ -178,7 +178,7 @@ public class InstallCommand extends DefaultCommand {
       Resolver resolver = new Resolver();
 
       for (Artifact a : resolver.resolve("org.graalvm.js:js:" + VERSIONS.getProperty("graalvm"), Arrays.asList("org.graalvm.tools:profiler:" + VERSIONS.getProperty("graalvm"), "org.graalvm.tools:chromeinspector:" + VERSIONS.getProperty("graalvm")))) {
-        artifacts.add("../.lib/" + a.getFile().getName());
+        artifacts.add(".." + File.separator + ".lib" + File.separator +  a.getFile().getName());
         File destination = new File(libs, a.getFile().getName());
         if (!destination.exists()) {
             Files.copy(a.getFile().toPath(), destination.toPath());
@@ -257,7 +257,7 @@ public class InstallCommand extends DefaultCommand {
               fatal("Failed to mkdirs 'node_modules/.lib'.");
             }
           }
-          artifacts.add("../.lib/" + a.getFile().getName());
+          artifacts.add(".." + File.separator + ".lib" + File.separator + a.getFile().getName());
           File destination = new File(libs, a.getFile().getName());
           if (!destination.exists()) {
             Files.copy(a.getFile().toPath(), destination.toPath());
