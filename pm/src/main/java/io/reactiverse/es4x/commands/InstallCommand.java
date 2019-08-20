@@ -63,9 +63,9 @@ public class InstallCommand extends DefaultCommand {
   public void setVendor(String vendor) {
     if (vendor != null) {
       this.vendor = new ArrayList<>();
-      for (String v : vendor.split(":")) {
+      for (String v : vendor.split(",")) {
         // the jar lives in node_modules/.bin (rebase to the project root)
-        this.vendor.add("../../" + v);
+        this.vendor.add(".." + File.separator + ".." + File.separator + v);
       }
     }
   }
@@ -277,7 +277,7 @@ public class InstallCommand extends DefaultCommand {
       try {
         Map npm = read(json);
         // default main script
-        String main = "index.js";
+        String main = ".";
 
         // if package json declares a different main, then it shall be used
         if (npm.containsKey("main")) {
@@ -305,7 +305,7 @@ public class InstallCommand extends DefaultCommand {
           classpath += " " + String.join(" ", vendor);
         }
         attributes.put(Attributes.Name.CLASS_PATH, classpath);
-        attributes.put(new Attributes.Name("Main-Verticle"), (main.endsWith(".mjs") ? "mjs:" : "js:") + main);
+        attributes.put(new Attributes.Name("Main-Verticle"), main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
 
         try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, "es4x-launcher.jar")), manifest)) {
