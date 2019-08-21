@@ -1,3 +1,5 @@
+# Async Error Tracing
+
 Imagine the following piece of code:
 
 ```js
