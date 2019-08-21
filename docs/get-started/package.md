@@ -1,3 +1,5 @@
+# Package
+
 Packaging applications should follow the `NPM` style:
 
 ```sh

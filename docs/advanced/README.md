@@ -1,10 +1,12 @@
-ES4X has GraalVM support. The same code will run either in **interpreted** mode on Java 8/11 and OpenJ9 or **compiled**
-mode on JDK >= 11 (with JVMCI support) or GraalJS.
+# GraalVM
+
+ES4X uses GraalVM, however the same code will run either in **interpreted** mode on Java 8, 9, 10 and OpenJ9 or
+**compiled** mode on JDK >= 11 (with JVMCI support) or GraalVM.
 
 There are benefits on using GraalJS namely the updated language support >=ES6 and support out of the box for generators,
 promises, etc....
 
-Java intertop follows the **exact** class/method name from Java. For example, the usage of property names to refer to
+Java interop follows the **exact** class/method name from Java. For example, the usage of property names to refer to
 getters and setters, must use the *getter* and *setter*. For example:
 
 ```java

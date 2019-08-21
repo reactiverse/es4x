@@ -1,4 +1,7 @@
-# Contributing
+---
+title: Contributing
+lang: 'en'
+---
 
 Interested in contributing to the ES4X? Want to report a bug? Before
 you do, please read the following guidelines.

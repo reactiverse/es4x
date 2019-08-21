@@ -1,3 +1,5 @@
+# Debug
+
 ## Chrome Inspector
 
 When working on [GraalVM](https://graalvm.org) or a JDK with the graalvm (JVMCI) bits, start your application as:
@@ -18,7 +20,7 @@ To start debugging, open the following URL in Chrome:
 Server listening at: http://localhost:8080/
 ```
 
-![chrome-inspector](res/debug.png)
+![chrome-inspector](./res/debug.png)
 
 You will be able to set breakpoints, debug etc...
 
@@ -57,7 +59,7 @@ This will create a `launcher.json` similar to this:
 
 And attach your debugger.
 
-![vscode-chrome-inspector](res/vscode-debug.png)
+![vscode-chrome-inspector](./res/vscode-debug.png)
 
 If you print the message `Server started on port 8000` it will be captured by visual studio and a browser window will
 open the url in question.
