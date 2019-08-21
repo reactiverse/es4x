@@ -1,11 +1,13 @@
 module.exports = {
 
   base: '/es4x/',
-  dest: 'docs',
 
   head: [
-    [ 'link', { rel: "shortcut icon", type: "image/png", href: "/favicon.png" } ]
+    [ 'link', { rel: "shortcut icon", type: "image/png", href: "/es4x/favicon.png" } ]
   ],
+
+  // look at: https://github.com/vuejs/vuepress/blob/0.x/docs/.vuepress/config.js
+  // for info on how to translate to other languages
 
   locales: {
     // The key is the path for the locale to be nested under.
@@ -20,7 +22,7 @@ module.exports = {
       title: '???',
       description: '???'
     },
-    '/pt': {
+    '/pt/': {
       lang: 'pt-PT'
     }
   },
