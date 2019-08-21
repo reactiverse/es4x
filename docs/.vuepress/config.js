@@ -3,7 +3,7 @@ module.exports = {
   base: '/es4x/',
 
   head: [
-    [ 'link', { rel: "shortcut icon", type: "image/png", href: "/es4x/favicon.png" } ]
+    [ 'link', { rel: "shortcut icon", type: "image/png", href: "/favicon.png" } ]
   ],
 
   // look at: https://github.com/vuejs/vuepress/blob/0.x/docs/.vuepress/config.js
