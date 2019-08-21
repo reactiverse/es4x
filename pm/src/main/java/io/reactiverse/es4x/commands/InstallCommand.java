@@ -90,7 +90,7 @@ public class InstallCommand extends DefaultCommand {
       // only run if not production
       if (!isProduction()) {
         if (npm.containsKey("mvnDevDependencies")) {
-          final List maven = (List) npm.get("mvnDependencies");
+          final List maven = (List) npm.get("mvnDevDependencies");
           for (Object el : maven) {
             // add this dependency
             dependencies.add((String) el);
