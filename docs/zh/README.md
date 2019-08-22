@@ -38,10 +38,10 @@ vertx.createHttpServer()
 EOF > index.js
 
 # 安装依赖 （npm 及 maven）
-yarn # OR npm install
+yarn # 或 npm install
 
 # 跑起来  
-yarn start # OR npm start
+yarn start # 或 npm start
 ```
 
 ::: 警告 兼容性 请注意 ES4X 需要 [GraalVM](https://www.graalvm.org) 或者 Java >= 8.:::
