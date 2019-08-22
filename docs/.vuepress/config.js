@@ -19,8 +19,8 @@ module.exports = {
     },
     '/zh/': {
       lang: 'zh-CN',
-      title: '???',
-      description: '???'
+      title: '基于Eclipse Vert.x的ES',
+      description: '一款先进的基于Eclipse Vert.x的JavaScript运行时'
     },
     '/pt/': {
       lang: 'pt-PT',
