@@ -191,11 +191,11 @@ module.exports = {
               },
               nav: [
                 {
-                  text: '介绍',
+                  text: '由此开始',
                   link: '/get-started/',
                 },
                 {
-                  text: '进阶',
+                  text: '进阶内容',
                   link: '/advanced/'
                 },
                 {
@@ -210,25 +210,25 @@ module.exports = {
               sidebar: {
                 '/get-started/': [
                   {
-                    title: '介绍',
+                    title: '由此开始',
                     collapsable: false,
                     children: [
                       '',
-                      'install',
+                      '安装',
                       'hello-world',
-                      'run',
-                      'test',
-                      'debug',
-                      'package',
-                      'shell',
-                      'contributing',
-                      'license'
+                      '执行',
+                      '测试',
+                      '调试',
+                      '打包',
+                      '命令行',
+                      '贡献',
+                      '许可'
                     ]
                   }
                 ],
                 '/advanced/': [
                   {
-                    title: '进阶',
+                    title: '进阶内容',
                     collapsable: false,
                     children: [
                       '',
@@ -240,7 +240,7 @@ module.exports = {
                 ],
                 '/api/': [
                   {
-                    title: 'API',
+                    title: 'API参考',
                     collapsable: false,
                     children: [
                       ''
