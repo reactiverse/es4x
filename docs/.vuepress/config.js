@@ -177,8 +177,78 @@ module.exports = {
             }
           ]
         },
-      }
-
+      },
+      '/zh/': {
+              label: '简体中文',
+              selectText: '语言',
+              editLinkText: '在Github上编辑此页面',
+              lastUpdated: '上次更新',
+              serviceWorker: {
+                updatePopup: {
+                  message: "有新内容发布。",
+                  buttonText: "更新"
+                }
+              },
+              nav: [
+                {
+                  text: '介绍',
+                  link: '/get-started/',
+                },
+                {
+                  text: '进阶',
+                  link: '/advanced/'
+                },
+                {
+                  text: 'API参考',
+                  link: '/api/'
+                },
+                {
+                  text: '更新日志',
+                  link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
+                },
+              ],
+              sidebar: {
+                '/get-started/': [
+                  {
+                    title: '介绍',
+                    collapsable: false,
+                    children: [
+                      '',
+                      'install',
+                      'hello-world',
+                      'run',
+                      'test',
+                      'debug',
+                      'package',
+                      'shell',
+                      'contributing',
+                      'license'
+                    ]
+                  }
+                ],
+                '/advanced/': [
+                  {
+                    title: '进阶',
+                    collapsable: false,
+                    children: [
+                      '',
+                      'async-errors',
+                      'worker',
+                      'graphql'
+                    ]
+                  }
+                ],
+                '/api/': [
+                  {
+                    title: 'API',
+                    collapsable: false,
+                    children: [
+                      ''
+                    ]
+                  }
+                ]
+              },
+            }
     }
   }
 };
