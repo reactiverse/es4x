@@ -192,15 +192,15 @@ module.exports = {
               nav: [
                 {
                   text: '由此开始',
-                  link: '/get-started/',
+                  link: '/zh/get-started/',
                 },
                 {
                   text: '进阶内容',
-                  link: '/advanced/'
+                  link: '/zh/advanced/'
                 },
                 {
                   text: 'API参考',
-                  link: '/api/'
+                  link: '/zh/api/'
                 },
                 {
                   text: '更新日志',
@@ -214,15 +214,15 @@ module.exports = {
                     collapsable: false,
                     children: [
                       '',
-                      '安装',
+                      'install',
                       'hello-world',
-                      '执行',
-                      '测试',
-                      '调试',
-                      '打包',
-                      '命令行',
-                      '贡献',
-                      '许可'
+                      'run',
+                      'test',
+                      'debug',
+                      'package',
+                      'shell',
+                      'contributing',
+                      'license'
                     ]
                   }
                 ],
