@@ -44,6 +44,4 @@ yarn # OR npm install
 yarn start # OR npm start
 ```
 
-::: 警告 兼容性 请留意  
-ES4X 需要 [GraalVM](https://www.graalvm.org) or Java >= 8.
-:::
+::: 警告 兼容性 请注意 ES4X 需要 [GraalVM](https://www.graalvm.org) or Java >= 8.:::
