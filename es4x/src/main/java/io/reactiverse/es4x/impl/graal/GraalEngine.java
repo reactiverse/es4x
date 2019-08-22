@@ -99,28 +99,6 @@ public class GraalEngine implements ECMAEngine {
           }
           return new JsonArray(v.as(List.class));
         })
-      // map native Date to Instant
-      .targetTypeMapping(
-        Value.class,
-        Instant.class,
-        v -> v.hasMembers() && v.hasMember("getTime"),
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          return Instant.ofEpochMilli(v.invokeMember("getTime").asLong());
-        })
-      // map native Date to java.util.Date
-      .targetTypeMapping(
-        Value.class,
-        Date.class,
-        v -> v.hasMembers() && v.hasMember("getTime"),
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          return new Date(v.invokeMember("getTime").asLong());
-        })
       // map Promise to io.vertx.core.Future
       .targetTypeMapping(
         Value.class,
