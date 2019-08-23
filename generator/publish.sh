@@ -11,5 +11,12 @@ fi
 if [ "$1" = "local" ]; then
   mvn -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-publish
 else
-  mvn -fae -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@npm-publish
+  echo "login as vertx"
+  npm adduser --registry "$REGISTRY"
+  mvn -fae -Pio.vertx -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
+
+  echo "login as reactiverse"
+  npm adduser --registry "$REGISTRY"
+  mvn -fae -Pio.reactiverse -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
+
 fi
