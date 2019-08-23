@@ -82,10 +82,13 @@ public class InitCommand extends DefaultCommand {
       if (test.endsWith(".js")) {
         test = test.substring(0, test.length() - 3) + ".test.js";
       }
+      if (test.endsWith(".mjs")) {
+        test = test.substring(0, test.length() - 3) + ".test.mjs";
+      }
 
       scripts.put("postinstall", "es4x install");
-      scripts.put("start", "es4x-launcher");
-      scripts.put("test", "es4x-launcher" + " test js:" + test);
+      scripts.put("start", "es4x");
+      scripts.put("test", "es4x test " + test);
 
       write(file, npm);
 
