@@ -19,8 +19,8 @@ module.exports = {
     },
     '/zh/': {
       lang: 'zh-CN',
-      title: '???',
-      description: '???'
+      title: '基于Eclipse Vert.x的ES',
+      description: '一款先进的基于Eclipse Vert.x的JavaScript运行时'
     },
     '/pt/': {
       lang: 'pt-PT',
@@ -177,8 +177,78 @@ module.exports = {
             }
           ]
         },
-      }
-
+      },
+      '/zh/': {
+              label: '简体中文',
+              selectText: '语言',
+              editLinkText: '在Github上编辑此页面',
+              lastUpdated: '上次更新',
+              serviceWorker: {
+                updatePopup: {
+                  message: "有新内容发布。",
+                  buttonText: "更新"
+                }
+              },
+              nav: [
+                {
+                  text: '由此开始',
+                  link: '/zh/get-started/',
+                },
+                {
+                  text: '进阶内容',
+                  link: '/zh/advanced/'
+                },
+                {
+                  text: 'API参考',
+                  link: '/zh/api/'
+                },
+                {
+                  text: '更新日志',
+                  link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
+                },
+              ],
+              sidebar: {
+                '/get-started/': [
+                  {
+                    title: '由此开始',
+                    collapsable: false,
+                    children: [
+                      '',
+                      'install',
+                      'hello-world',
+                      'run',
+                      'test',
+                      'debug',
+                      'package',
+                      'shell',
+                      'contributing',
+                      'license'
+                    ]
+                  }
+                ],
+                '/advanced/': [
+                  {
+                    title: '进阶内容',
+                    collapsable: false,
+                    children: [
+                      '',
+                      'async-errors',
+                      'worker',
+                      'graphql'
+                    ]
+                  }
+                ],
+                '/api/': [
+                  {
+                    title: 'API参考',
+                    collapsable: false,
+                    children: [
+                      ''
+                    ]
+                  }
+                ]
+              },
+            }
     }
   }
 };
