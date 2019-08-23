@@ -20,7 +20,7 @@ When working on CI environments where the amount of packages is limited, the pac
 unzipping the prepackaged tar/zip file.
 
 ```bash
-ES4X='0.8.2' \
+ES4X='0.9.0' \
   curl -sL \
   https://github.com/reactiverse/es4x/releases/download/$ES4X/es4x-pm-$ES4X-bin.tar.gz \
   | tar zx --strip-components=1 -C /usr/local
