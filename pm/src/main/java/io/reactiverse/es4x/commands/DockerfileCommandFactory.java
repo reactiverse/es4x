@@ -20,6 +20,6 @@ import io.vertx.core.spi.launcher.DefaultCommandFactory;
 public class DockerfileCommandFactory extends DefaultCommandFactory<DockerfileCommand> {
 
   public DockerfileCommandFactory() {
-    super(DockerfileCommand.class);
+    super(DockerfileCommand.class, DockerfileCommand::new);
   }
 }

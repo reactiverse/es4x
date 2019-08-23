@@ -20,6 +20,6 @@ import io.vertx.core.spi.launcher.DefaultCommandFactory;
 public class JLinkCommandFactory extends DefaultCommandFactory<JLinkCommand> {
 
   public JLinkCommandFactory() {
-    super(JLinkCommand.class);
+    super(JLinkCommand.class, JLinkCommand::new);
   }
 }

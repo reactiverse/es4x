@@ -20,6 +20,6 @@ import io.vertx.core.spi.launcher.DefaultCommandFactory;
 public class InstallCommandFactory extends DefaultCommandFactory<InstallCommand> {
 
   public InstallCommandFactory() {
-    super(InstallCommand.class);
+    super(InstallCommand.class, InstallCommand::new);
   }
 }
