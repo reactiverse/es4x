@@ -63,9 +63,9 @@ public class InstallCommand extends DefaultCommand {
   public void setVendor(String vendor) {
     if (vendor != null) {
       this.vendor = new ArrayList<>();
-      for (String v : vendor.split(":")) {
+      for (String v : vendor.split(",")) {
         // the jar lives in node_modules/.bin (rebase to the project root)
-        this.vendor.add("../../" + v);
+        this.vendor.add(".." + File.separator + ".." + File.separator + v);
       }
     }
   }
@@ -90,7 +90,7 @@ public class InstallCommand extends DefaultCommand {
       // only run if not production
       if (!isProduction()) {
         if (npm.containsKey("mvnDevDependencies")) {
-          final List maven = (List) npm.get("mvnDependencies");
+          final List maven = (List) npm.get("mvnDevDependencies");
           for (Object el : maven) {
             // add this dependency
             dependencies.add((String) el);
@@ -178,7 +178,7 @@ public class InstallCommand extends DefaultCommand {
       Resolver resolver = new Resolver();
 
       for (Artifact a : resolver.resolve("org.graalvm.js:js:" + VERSIONS.getProperty("graalvm"), Arrays.asList("org.graalvm.tools:profiler:" + VERSIONS.getProperty("graalvm"), "org.graalvm.tools:chromeinspector:" + VERSIONS.getProperty("graalvm")))) {
-        artifacts.add("../.lib/" + a.getFile().getName());
+        artifacts.add(".." + File.separator + ".lib" + File.separator +  a.getFile().getName());
         File destination = new File(libs, a.getFile().getName());
         if (!destination.exists()) {
             Files.copy(a.getFile().toPath(), destination.toPath());
@@ -257,7 +257,7 @@ public class InstallCommand extends DefaultCommand {
               fatal("Failed to mkdirs 'node_modules/.lib'.");
             }
           }
-          artifacts.add("../.lib/" + a.getFile().getName());
+          artifacts.add(".." + File.separator + ".lib" + File.separator + a.getFile().getName());
           File destination = new File(libs, a.getFile().getName());
           if (!destination.exists()) {
             Files.copy(a.getFile().toPath(), destination.toPath());
@@ -277,7 +277,7 @@ public class InstallCommand extends DefaultCommand {
       try {
         Map npm = read(json);
         // default main script
-        String main = "index.js";
+        String main = ".";
 
         // if package json declares a different main, then it shall be used
         if (npm.containsKey("main")) {
@@ -305,7 +305,7 @@ public class InstallCommand extends DefaultCommand {
           classpath += " " + String.join(" ", vendor);
         }
         attributes.put(Attributes.Name.CLASS_PATH, classpath);
-        attributes.put(new Attributes.Name("Main-Verticle"), (main.endsWith(".mjs") ? "mjs:" : "js:") + main);
+        attributes.put(new Attributes.Name("Main-Verticle"), main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
 
         try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, "es4x-launcher.jar")), manifest)) {

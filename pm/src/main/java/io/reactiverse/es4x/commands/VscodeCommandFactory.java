@@ -20,6 +20,6 @@ import io.vertx.core.spi.launcher.DefaultCommandFactory;
 public class VscodeCommandFactory extends DefaultCommandFactory<VscodeCommand> {
 
   public VscodeCommandFactory() {
-    super(VscodeCommand.class);
+    super(VscodeCommand.class, VscodeCommand::new);
   }
 }

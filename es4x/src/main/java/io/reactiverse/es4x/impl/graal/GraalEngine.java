@@ -28,8 +28,6 @@ import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -46,6 +44,7 @@ public class GraalEngine implements ECMAEngine {
   private final Engine engine;
   private final HostAccess hostAccess;
   private final FileSystem fileSystem;
+  private final PolyglotAccess polyglotAccess;
 
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
@@ -72,51 +71,22 @@ public class GraalEngine implements ECMAEngine {
       }
     }
 
+    // enable or disable the polyglot access
+    polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
+
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
       // map native JSON Object to Vert.x JSONObject
       .targetTypeMapping(
-        Value.class,
+        Map.class,
         JsonObject.class,
-        Value::hasMembers,
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          return new JsonObject(v.as(Map.class));
-        })
-      // map native JSON Array to Vert.x JSONObject
+        null,
+        JsonObject::new)
+      // map native JSON Array to Vert.x JSONArray
       .targetTypeMapping(
-        Value.class,
+        List.class,
         JsonArray.class,
-        Value::hasArrayElements,
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          return new JsonArray(v.as(List.class));
-        })
-      // map native Date to Instant
-      .targetTypeMapping(
-        Value.class,
-        Instant.class,
-        v -> v.hasMembers() && v.hasMember("getTime"),
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          return Instant.ofEpochMilli(v.invokeMember("getTime").asLong());
-        })
-      // map native Date to java.util.Date
-      .targetTypeMapping(
-        Value.class,
-        Date.class,
-        v -> v.hasMembers() && v.hasMember("getTime"),
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          return new Date(v.invokeMember("getTime").asLong());
-        })
+        null,
+        JsonArray::new)
       // map Promise to io.vertx.core.Future
       .targetTypeMapping(
         Value.class,
@@ -189,7 +159,8 @@ public class GraalEngine implements ECMAEngine {
           return false;
         }
       })
-      .allowHostAccess(hostAccess);
+      .allowHostAccess(hostAccess)
+      .allowPolyglotAccess(polyglotAccess);
 
     // allow specifying the custom ecma version
     builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version", "2019"));

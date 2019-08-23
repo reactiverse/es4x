@@ -7,18 +7,21 @@ const { spawnSync } = require('child_process');
 const VERSION='%%VERSION%%';
 
 let java = 'java';
+let skipJvmci = false;
 
 if (process.env['GRAALVM_HOME']) {
 // Attempt to use GRAALVM_HOME
   let xjava = path.join(process.env['GRAALVM_HOME'], 'bin', 'java');
   if (existsSync(xjava)) {
     java = xjava;
+    skipJvmci = existsSync(path.join(process.env['GRAALVM_HOME'], 'bin', 'gu'));
   } else {
     if (process.env['JAVA_HOME']) {
       // Attempt to use JAVA_HOME
       let xjava = path.join(process.env['JAVA_HOME'], 'bin', 'java');
       if (existsSync(xjava)) {
         java = xjava;
+        skipJvmci = existsSync(path.join(process.env['JAVA_HOME'], 'bin', 'gu'))
       }
     }
   }
@@ -28,14 +31,16 @@ let arguments = [
   '-XX:+IgnoreUnrecognizedVMOptions'
 ];
 
-// Use JVMCI if installed
-let jvmci = path.join('node_modules', '.jvmci');
+// Use JVMCI if installed and not skipping
+if (!skipJvmci) {
+  let jvmci = path.join('node_modules', '.jvmci');
 
-if (existsSync(path.join(process.cwd(), jvmci))) {
-  arguments.push(`--module-path=${jvmci}`);
-  arguments.push('-XX:+UnlockExperimentalVMOptions');
-  arguments.push('-XX:+EnableJVMCI');
-  arguments.push(`--upgrade-module-path=${path.join(jvmci, 'compiler.jar')}`);
+  if (existsSync(path.join(process.cwd(), jvmci))) {
+    arguments.push(`--module-path=${jvmci}`);
+    arguments.push('-XX:+UnlockExperimentalVMOptions');
+    arguments.push('-XX:+EnableJVMCI');
+    arguments.push(`--upgrade-module-path=${path.join(jvmci, 'compiler.jar')}`);
+  }
 }
 
 arguments.push('-cp');

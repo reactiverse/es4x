@@ -20,6 +20,6 @@ import io.vertx.core.spi.launcher.DefaultCommandFactory;
 public class VersionsCommandFactory extends DefaultCommandFactory<VersionsCommand> {
 
   public VersionsCommandFactory() {
-    super(VersionsCommand.class);
+    super(VersionsCommand.class, VersionsCommand::new);
   }
 }
