@@ -45,5 +45,5 @@ yarn start # 或 npm start
 ```
 
 ::: warning   
-兼容性 请注意 ES4X 需要 [GraalVM](https://www.graalvm.org) 或者 Java >= 8.
+兼容性 请注意 ES4X 需要 [GraalVM](https://www.graalvm.org) 或者 Java >= 8.   
 :::
