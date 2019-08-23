@@ -3,7 +3,9 @@ module.exports = {
   base: '/es4x/',
 
   head: [
-    ['link', {rel: "shortcut icon", type: "image/png", href: "/favicon.png"}]
+    ['link', {rel: "shortcut icon", type: "image/png", href: "/favicon.png"}],
+    ['link', {rel: "stylesheet", type: "text/css", href:"/player/asciinema-player.css"}],
+    ['script', {src: "/player/asciinema-player.js"}]
   ],
 
   // look at: https://github.com/vuejs/vuepress/blob/0.x/docs/.vuepress/config.js
