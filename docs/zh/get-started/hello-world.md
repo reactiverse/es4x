@@ -69,8 +69,8 @@ es4x init
 
 `post-install` 命令会代理es4x来处理 `maven` maven依赖以及创建 `es4x-launcher` 脚本
 
-::: 提示
-`es4x-launcher` 脚本会确保应用使用es4x运行时运行以及测试而不是 `nodejs`
+::: 提示  
+`es4x-launcher` 脚本会确保应用使用es4x运行时运行以及测试而不是 `nodejs`  
 :::
 
 ### create-vertx-app 命令
@@ -134,7 +134,9 @@ ES6的module语法可以在 `.js` 文件中使用。ES4X会把这些语法翻译
 
 ES4X也支持 `.mjs` 文件。在这个情况下module的处理方式不会使用 `commonjs` `require()` 而是使用 graaljs 的native module加载器。
 
-使用graaljs的 `.mjs` 文件支持 `import` 和 `export` 以及可以作为符合ES6规范的一种设计。  ::: 提示
+使用graaljs的 `.mjs` 文件支持 `import` 和 `export` 以及可以作为符合ES6规范的一种设计。  
+
+::: 提示
 为了开启 `.mjs` 支持有两种方式：在 `JavaScript` 文件中使用 `.mjs` 扩展或者启动应用时添加标记 `-esm`  
 :::  
 
