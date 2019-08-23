@@ -31,8 +31,8 @@ public class InitCommandTest {
 
     Map scripts = (Map) json.get("scripts");
     assertNotNull(scripts);
-    assertEquals("es4x-launcher", scripts.get("start"));
-    assertEquals("es4x-launcher test js:index.test.js", scripts.get("test"));
+    assertEquals("es4x", scripts.get("start"));
+    assertEquals("es4x test index.test.js", scripts.get("test"));
     assertEquals("es4x install", scripts.get("postinstall"));
   }
 
@@ -54,8 +54,8 @@ public class InitCommandTest {
 
     Map scripts = (Map) json.get("scripts");
     assertNotNull(scripts);
-    assertEquals("es4x-launcher", scripts.get("start"));
-    assertEquals("es4x-launcher test js:index.test.js", scripts.get("test"));
+    assertEquals("es4x", scripts.get("start"));
+    assertEquals("es4x test index.test.js", scripts.get("test"));
     assertEquals("es4x install", scripts.get("postinstall"));
   }
 }
