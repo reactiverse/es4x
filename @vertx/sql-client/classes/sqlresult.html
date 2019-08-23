@@ -105,6 +105,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sqlresult.html#columnsnames" class="tsd-kind-icon">columns<wbr>Names</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sqlresult.html#next" class="tsd-kind-icon">next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="sqlresult.html#property" class="tsd-kind-icon">property</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sqlresult.html#rowcount" class="tsd-kind-icon">row<wbr>Count</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sqlresult.html#size" class="tsd-kind-icon">size</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sqlresult.html#value" class="tsd-kind-icon">value</a></li>
@@ -125,12 +126,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:636</li>
+									<li>Defined in index.d.ts:639</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get the names of columns in the PgResult.</p>
+									<p>Get the names of columns in the SqlResult.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -148,7 +149,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:658</li>
+									<li>Defined in index.d.ts:670</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -162,6 +163,47 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="property" class="tsd-anchor"></a>
+					<h3>property</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">property&lt;V&gt;<span class="tsd-signature-symbol">(</span>propertyKind<span class="tsd-signature-symbol">: </span><a href="propertykind.html" class="tsd-signature-type">PropertyKind</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">V</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:655</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the property with the specified <a href="propertykind.html">PropertyKind</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>V</h4>
+									<div class="tsd-comment tsd-typography">
+										<p>the type of the property value</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>propertyKind: <a href="propertykind.html" class="tsd-signature-type">PropertyKind</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the kind of the property</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
+							<p>the value of the property</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="rowcount" class="tsd-anchor"></a>
 					<h3>row<wbr>Count</h3>
@@ -172,20 +214,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:629</li>
+									<li>Defined in index.d.ts:632</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get the number of the affected rows in the operation to this PgResult.
-										<p/>
-											The meaning depends on the executed statement:
-											<ul>
-												<li>INSERT: the number of rows inserted</li>
-												<li>DELETE: the number of rows deleted</li>
-												<li>UPDATE: the number of rows updated</li>
-												<li>SELECT: the number of rows retrieved</li>
-										</ul></p>
+									<p>Get the number of the affected rows in the operation to this SqlResult.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -203,12 +237,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:643</li>
+									<li>Defined in index.d.ts:646</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get the number of rows in the PgResult.</p>
+									<p>Get the number of rows retrieved in the SqlResult.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -226,7 +260,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:650</li>
+									<li>Defined in index.d.ts:662</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -263,6 +297,9 @@
 					<li class=" tsd-kind-class">
 						<a href="preparedquery.html" class="tsd-kind-icon">Prepared<wbr>Query</a>
 					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="propertykind.html" class="tsd-kind-icon">Property<wbr>Kind</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="row.html" class="tsd-kind-icon">Row</a>
 					</li>
@@ -294,6 +331,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="sqlresult.html#next" class="tsd-kind-icon">next</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="sqlresult.html#property" class="tsd-kind-icon">property</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="sqlresult.html#rowcount" class="tsd-kind-icon">row<wbr>Count</a>

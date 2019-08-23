@@ -113,6 +113,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="websocketbase.html#binarymessagehandler" class="tsd-kind-icon">binary<wbr>Message<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="websocketbase.html#close" class="tsd-kind-icon">close</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="websocketbase.html#closehandler" class="tsd-kind-icon">close<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="websocketbase.html#closereason" class="tsd-kind-icon">close<wbr>Reason</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="websocketbase.html#closestatuscode" class="tsd-kind-icon">close<wbr>Status<wbr>Code</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="websocketbase.html#drainhandler" class="tsd-kind-icon">drain<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="websocketbase.html#end" class="tsd-kind-icon">end</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="websocketbase.html#endhandler" class="tsd-kind-icon">end<wbr>Handler</a></li>
@@ -160,7 +162,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11550</li>
+									<li>Defined in index.d.ts:11729</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -188,7 +190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11708</li>
+									<li>Defined in index.d.ts:11900</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -227,7 +229,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11744</li>
+									<li>Defined in index.d.ts:11936</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -242,7 +244,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11750</li>
+									<li>Defined in index.d.ts:11942</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -261,7 +263,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11760</li>
+									<li>Defined in index.d.ts:11952</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -286,7 +288,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11766</li>
+									<li>Defined in index.d.ts:11958</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -308,7 +310,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11777</li>
+									<li>Defined in index.d.ts:11969</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -339,7 +341,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11783</li>
+									<li>Defined in index.d.ts:11975</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -373,14 +375,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11681</li>
+									<li>Defined in index.d.ts:11873</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Set a close handler. This will be called when the WebSocket is closed.
 										<p/>
-										After this callback, no more messages are expected.</p>
+											After this callback, no more messages are expected. When the WebSocket received a close frame, the
+										{@link #closeStatusCode()} will return the status code and {@link #closeReason()} will return the reason.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -397,6 +400,50 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="closereason" class="tsd-anchor"></a>
+					<h3>close<wbr>Reason</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">close<wbr>Reason<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:11761</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the reason message received when the WebSocket was closed by the other side, otherwise {@code null}.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="closestatuscode" class="tsd-anchor"></a>
+					<h3>close<wbr>Status<wbr>Code</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">close<wbr>Status<wbr>Code<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:11755</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the status code received when the WebSocket was closed by the other side, otherwise {@code null}.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="drainhandler" class="tsd-anchor"></a>
 					<h3>drain<wbr>Handler</h3>
@@ -408,7 +455,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#drainhandler">drainHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11538</li>
+									<li>Defined in index.d.ts:11717</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -435,7 +482,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11477</li>
+									<li>Defined in index.d.ts:11656</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -466,7 +513,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11483</li>
+									<li>Defined in index.d.ts:11662</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -489,7 +536,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11730</li>
+									<li>Defined in index.d.ts:11922</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -503,7 +550,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11736</li>
+									<li>Defined in index.d.ts:11928</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -532,7 +579,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#endhandler">endHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11530</li>
+									<li>Defined in index.d.ts:11709</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -556,7 +603,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#exceptionhandler">exceptionHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11520</li>
+									<li>Defined in index.d.ts:11699</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -580,7 +627,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11528</li>
+									<li>Defined in index.d.ts:11707</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -603,7 +650,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11689</li>
+									<li>Defined in index.d.ts:11881</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -636,7 +683,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#handler">handler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11522</li>
+									<li>Defined in index.d.ts:11701</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -659,7 +706,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11811</li>
+									<li>Defined in index.d.ts:12003</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -679,7 +726,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11804</li>
+									<li>Defined in index.d.ts:11996</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -699,7 +746,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11797</li>
+									<li>Defined in index.d.ts:11989</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -720,7 +767,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11524</li>
+									<li>Defined in index.d.ts:11703</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="websocketbase.html" class="tsd-signature-type">WebSocketBase</a></h4>
@@ -738,7 +785,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11500</li>
+									<li>Defined in index.d.ts:11679</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -765,7 +812,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11506</li>
+									<li>Defined in index.d.ts:11685</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -785,7 +832,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11518</li>
+									<li>Defined in index.d.ts:11697</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -824,7 +871,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11724</li>
+									<li>Defined in index.d.ts:11916</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -864,7 +911,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11790</li>
+									<li>Defined in index.d.ts:11982</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -885,7 +932,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="readstream.html">ReadStream</a>.<a href="readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11526</li>
+									<li>Defined in index.d.ts:11705</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="websocketbase.html" class="tsd-signature-type">WebSocketBase</a></h4>
@@ -903,7 +950,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#setwritequeuemaxsize">setWriteQueueMaxSize</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11536</li>
+									<li>Defined in index.d.ts:11715</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -926,7 +973,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11820</li>
+									<li>Defined in index.d.ts:12012</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -952,7 +999,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11570</li>
+									<li>Defined in index.d.ts:11749</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -977,7 +1024,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11561</li>
+									<li>Defined in index.d.ts:11740</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1004,7 +1051,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11698</li>
+									<li>Defined in index.d.ts:11890</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1039,7 +1086,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#write">write</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11532</li>
+									<li>Defined in index.d.ts:11711</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1054,7 +1101,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#write">write</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11534</li>
+									<li>Defined in index.d.ts:11713</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1081,7 +1128,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11621</li>
+									<li>Defined in index.d.ts:11812</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1105,7 +1152,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11627</li>
+									<li>Defined in index.d.ts:11818</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1137,7 +1184,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11606</li>
+									<li>Defined in index.d.ts:11797</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1160,7 +1207,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11612</li>
+									<li>Defined in index.d.ts:11803</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1192,7 +1239,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11592</li>
+									<li>Defined in index.d.ts:11783</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1215,7 +1262,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11598</li>
+									<li>Defined in index.d.ts:11789</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1247,7 +1294,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11578</li>
+									<li>Defined in index.d.ts:11769</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1270,7 +1317,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11584</li>
+									<li>Defined in index.d.ts:11775</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1301,7 +1348,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11656</li>
+									<li>Defined in index.d.ts:11847</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1339,7 +1386,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11671</li>
+									<li>Defined in index.d.ts:11862</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1379,7 +1426,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="writestream.html">WriteStream</a>.<a href="writestream.html#writequeuefull">writeQueueFull</a></p>
 								<ul>
-									<li>Defined in index.d.ts:11491</li>
+									<li>Defined in index.d.ts:11670</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1404,7 +1451,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11636</li>
+									<li>Defined in index.d.ts:11827</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1428,7 +1475,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11642</li>
+									<li>Defined in index.d.ts:11833</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1477,6 +1524,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="websocketbase.html#closehandler" class="tsd-kind-icon">close<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="websocketbase.html#closereason" class="tsd-kind-icon">close<wbr>Reason</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="websocketbase.html#closestatuscode" class="tsd-kind-icon">close<wbr>Status<wbr>Code</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="websocketbase.html#drainhandler" class="tsd-kind-icon">drain<wbr>Handler</a>
