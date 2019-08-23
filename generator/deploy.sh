@@ -9,7 +9,7 @@ fi
 
 # build
 if [ "$1" = "local" ]; then
-  mvn -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-publish
+  mvn -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-publish
 else
-  mvn -fae -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@npm-publish
+  mvn -fae -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@npm-publish
 fi

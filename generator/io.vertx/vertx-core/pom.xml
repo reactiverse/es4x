@@ -18,18 +18,19 @@
   <properties>
     <maven.groupId>io.vertx</maven.groupId>
     <npm-name>@vertx/core</npm-name>
+    <npm-version>${stack.version}</npm-version>
     <npm-skip>false</npm-skip>
 
     <!-- language=json -->
     <package-json>
       {
         "description": "${project.description}",
-        "version": "${project.version}",
+        "version": "${npm-version}",
         "license": "Apache Software License 2.0",
         "maven": {
           "groupId": "io.vertx",
           "artifactId": "vertx-core",
-          "version": "${project.version}"
+          "version": "${npm-version}"
         }
       }
     </package-json>
@@ -40,12 +41,12 @@
     <dependency>
       <groupId>${maven.groupId}</groupId>
       <artifactId>${project.artifactId}</artifactId>
-      <version>${stack.version}</version>
+      <version>${npm-version}</version>
     </dependency>
     <dependency>
       <groupId>${maven.groupId}</groupId>
       <artifactId>${project.artifactId}</artifactId>
-      <version>${stack.version}</version>
+      <version>${npm-version}</version>
       <scope>provided</scope>
       <classifier>sources</classifier>
     </dependency>
