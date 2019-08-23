@@ -15,8 +15,19 @@
  */
 package io.reactiverse.es4x.impl.command;
 
+import io.reactiverse.es4x.ES4X;
+import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.*;
+import io.vertx.core.impl.launcher.VertxCommandLauncher;
 import io.vertx.core.impl.launcher.commands.RunCommand;
+import io.vertx.core.spi.launcher.ExecutionContext;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 @Name(value = "run", priority = 1000)
 @Summary("Runs a JS script called <main-verticle> in its own instance of vert.x.")
@@ -32,7 +43,6 @@ public class ES4XRunCommand extends RunCommand {
    */
   @Override
   @Argument(index = 0, argName = "main-verticle", required = false)
-  @DefaultValue(">")
   @Description("The main verticle to deploy, it can be a script file or a package directory.")
   public void setMainVerticle(String verticle) {
     this.verticle = verticle;
@@ -75,8 +85,40 @@ public class ES4XRunCommand extends RunCommand {
     System.setProperty("vertx.options.blockedThreadCheckInterval", "1000000");
   }
 
+  private String getFromManifest(String key) {
+    try {
+      Enumeration<URL> resources = ES4XRunCommand.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
+      while (resources.hasMoreElements()) {
+        try (InputStream stream = resources.nextElement().openStream()) {
+          Manifest manifest = new Manifest(stream);
+          Attributes attributes = manifest.getMainAttributes();
+          String mainClass = attributes.getValue("Main-Class");
+          if (ES4X.class.getName().equals(mainClass)) {
+            String value = attributes.getValue(key);
+            if (value != null) {
+              return value;
+            }
+          }
+        }
+      }
+    } catch (IOException e) {
+      // ignore
+      return null;
+    }
+    return null;
+  }
+
   @Override
   public void run() {
+
+    if (verticle == null) {
+      verticle = getFromManifest("Main-Verticle");
+    }
+
+    if (verticle == null) {
+      verticle = ">";
+    }
+
     boolean mjs = verticle.endsWith(".mjs") || esm;
     // force swapping verticle factory
     if (!verticle.contains(":")) {
