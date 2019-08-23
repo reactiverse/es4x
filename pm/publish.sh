@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-mvn clean package
+#mvn clean package
 cd target
+rm -Rf package || true
 mkdir package
 VERSION=$(cat classes/META-INF/es4x-commands/VERSIONS.properties | grep es4x | cut -c6-)
 tar -zxvf es4x-pm-${VERSION}-bin.tar.gz --strip-components=1 -C package
@@ -31,6 +32,9 @@ REGISTRY="https://registry.npmjs.org"
 
 if [ "$1" = "local" ]; then
   REGISTRY="http://localhost:4873"
+else
+  echo "login as es4x"
+  npm adduser --registry "$REGISTRY"
 fi
 
 # publish
