@@ -28,8 +28,6 @@ import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -79,26 +77,16 @@ public class GraalEngine implements ECMAEngine {
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
       // map native JSON Object to Vert.x JSONObject
       .targetTypeMapping(
-        Value.class,
+        Map.class,
         JsonObject.class,
-        Value::hasMembers,
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          return new JsonObject(v.as(Map.class));
-        })
-      // map native JSON Array to Vert.x JSONObject
+        null,
+        JsonObject::new)
+      // map native JSON Array to Vert.x JSONArray
       .targetTypeMapping(
-        Value.class,
+        List.class,
         JsonArray.class,
-        Value::hasArrayElements,
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          return new JsonArray(v.as(List.class));
-        })
+        null,
+        JsonArray::new)
       // map Promise to io.vertx.core.Future
       .targetTypeMapping(
         Value.class,
