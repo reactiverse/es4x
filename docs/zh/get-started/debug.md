@@ -1,15 +1,14 @@
-# Debug
+# 调试
 
 ## Chrome Inspector
 
-When working on [GraalVM](https://graalvm.org) or a JDK with the graalvm (JVMCI) bits, start your application as:
+在[GraalVM](https://graalvm.org)或者 a JDK with the graalvm (JVMCI) bits 上工作时，可以通过下面的命令启动您的应用：
 
 ```sh
 npm start -- --inspector=9229
 ```
 
-This will start a Chrome inspector debugger agent on port 9229 that you can attach for a remote
-debug session from your Browser.
+这将在端口9229上启动一个Chrome inspector调试器代理，您可以通过浏览器来附加到这个远程调试会话。
 
 ```
 Chrome devtools listening at port: 9229
@@ -22,19 +21,17 @@ Server listening at: http://localhost:8080/
 
 ![chrome-inspector](./res/debug.png)
 
-You will be able to set breakpoints, debug etc...
+此时您可以设置断点、调试……
 
-## Debug from VSCode
+## 使用VSCode调试
 
-The usage of Chrome devtools is not a hard requirement. You can also debug the application using
-[Visual Studio Code](https://code.visualstudio.com). Create a runner configuration as:
-
+Chrome devtools并不是一个硬性要求。您还可以使用[Visual Studio Code](https://code.visualstudio.com)来调试您的应用。通过下面的命令来创建配置：
 
 ```
 es4x vscode
 ```
 
-This will create a `launcher.json` similar to this:
+这将会创建一个与下面内容相似的`launcher.json`文件：
 
 ```json
 {
@@ -57,9 +54,8 @@ This will create a `launcher.json` similar to this:
 }
 ```
 
-And attach your debugger.
+附加您的调试器。
 
 ![vscode-chrome-inspector](./res/vscode-debug.png)
 
-If you print the message `Server started on port 8000` it will be captured by visual studio and a browser window will
-open the url in question.
+如果您在应用中打印了`Server started on port 8000`，它将会被Visual Studio捕获并通过浏览器打开捕获到的链接。
