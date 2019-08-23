@@ -49,7 +49,7 @@ End test suite the_test_suite , run: 1, Failures: 0, Errors: 0
 
 ::: warning
 
-使用`npm`/`yarn`运行脚本前,需要显示地在`package.json`中引入`test`脚本文件.
+使用`npm`/`yarn`运行脚本前,需要显示地在`package.json`中引入`test`脚本文件。
 就像这样:
 
 ```json{4}
