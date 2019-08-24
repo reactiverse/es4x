@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2019-08-23
+- Upgrade to Graal 19.2.0
+- Upgrade to Vert.x 3.8.1
+- New website that allow multi language
+- es4x command can now merge the classpath of the project
+  allowing sharing commands during development
+- ES4X commands are now properly registered using the service loader
+- A new flag `--polyglot` enables Graal `Polyglot` access
+- A new flag `--prefix` allows usage from outside the `CWD`
+- Generator fixes to allow easier builds
+- Fix broken redeploy/start command.
+
 ## [0.8.2] - 2019-08-16
 - Fixed missing pom from maven central
 

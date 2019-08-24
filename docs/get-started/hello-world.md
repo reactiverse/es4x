@@ -84,7 +84,7 @@ With the `create-vertx-app` you can quickly bootstrap your ES4X TypeScript or Ja
 application with a new keystrokes. If GUI is the preferred way to create applications, then
 the same generator can be used as a [PWA](https://vertx-starter.jetdrone.xyz/#npm).
 
-![es4x-ts](./res/es4x-ts.gif)
+<asciinema :src="$withBase('/cast/es4x-ts.cast')" cols="80" rows="24" />
 
 ## Adding dependencies
 

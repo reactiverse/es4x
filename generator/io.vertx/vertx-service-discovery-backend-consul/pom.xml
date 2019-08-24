@@ -6,18 +6,19 @@
   <parent>
     <groupId>io.reactiverse.es4x</groupId>
     <artifactId>es4x-generator</artifactId>
-    <version>0.8.3-SNAPSHOT</version>
+    <version>0.9.1-SNAPSHOT</version>
     <relativePath>../..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>vertx-service-discovery-backend-consul</artifactId>
-  <version>3.8.0</version>
+  <version>0.9.1-SNAPSHOT</version>
 
   <properties>
     <maven.groupId>io.vertx</maven.groupId>
     <npm-name>@vertx/service-discovery-backend-consul</npm-name>
+    <npm-version>${stack.version}</npm-version>
     <npm-skip>false</npm-skip>
 
     <npm-meta-package>true</npm-meta-package>
@@ -36,12 +37,12 @@
     <dependency>
       <groupId>${maven.groupId}</groupId>
       <artifactId>${project.artifactId}</artifactId>
-      <version>${project.version}</version>
+      <version>${npm-version}</version>
     </dependency>
     <dependency>
       <groupId>${maven.groupId}</groupId>
       <artifactId>${project.artifactId}</artifactId>
-      <version>${project.version}</version>
+      <version>${npm-version}</version>
       <scope>provided</scope>
       <classifier>sources</classifier>
     </dependency>

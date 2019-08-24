@@ -8,17 +8,18 @@
   <parent>
     <groupId>io.reactiverse.es4x</groupId>
     <artifactId>es4x-generator</artifactId>
-    <version>0.8.1-SNAPSHOT</version>
+    <version>0.9.1-SNAPSHOT</version>
     <relativePath>../..</relativePath>
   </parent>
 
   <artifactId>hot-reload</artifactId>
-  <version>0.0.5</version>
+  <version>0.9.1-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 
   <properties>
     <maven.groupId>xyz.jetdrone</maven.groupId>
+    <npm-version>0.0.5</npm-version>
     <npm-skip>false</npm-skip>
     <!-- language=json -->
     <npm-dev-dependencies>
@@ -31,32 +32,25 @@
   </properties>
 
   <dependencies>
-    <!-- CODEGEN -->
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-codegen</artifactId>
-      <scope>provided</scope>
-      <optional>true</optional>
-      <version>${stack.version}</version>
-    </dependency>
-    <!-- SOURCE TO GENERATE -->
-    <dependency>
-      <groupId>${maven.groupId}</groupId>
-      <artifactId>${project.artifactId}</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${maven.groupId}</groupId>
-      <artifactId>${project.artifactId}</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-      <classifier>sources</classifier>
-    </dependency>
+    <!-- Optional -->
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web</artifactId>
       <version>${stack.version}</version>
       <optional>true</optional>
+    </dependency>
+    <!-- SOURCE TO GENERATE -->
+    <dependency>
+      <groupId>${maven.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${npm-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${maven.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${npm-version}</version>
+      <scope>provided</scope>
+      <classifier>sources</classifier>
     </dependency>
   </dependencies>
 
