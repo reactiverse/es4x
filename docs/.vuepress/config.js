@@ -228,7 +228,7 @@ module.exports = {
                     ]
                   }
                 ],
-                '/advanced/': [
+                '/zh/advanced/': [
                   {
                     title: '进阶内容',
                     collapsable: false,
