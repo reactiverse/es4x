@@ -1,6 +1,6 @@
 # 介绍
 
-ES4X是一个支持EcmaScript >=5应用的小型运行时。该运行时借助[vert.x](https://vertx.io)并使用了[graaljs](https://github.com/graalvm/graaljs)实现。JavaScript是一个需要运行时支持的语言，但node.js并非唯一的运行时，JavaScript可**不**借助`nodejs`运行。
+ES4X是一款支持EcmaScript >=5应用的小型运行时。该运行时借助[vert.x](https://vertx.io)并使用了[graaljs](https://github.com/graalvm/graaljs)实现。JavaScript是一个需要运行时支持的语言，但`nodejs`并非唯一的运行时，JavaScript可**不**借助`nodejs`运行。
 
 ## 工作原理
 
