@@ -49,7 +49,7 @@ lang: 'zh'
 
 ## 构建 world
 
-另一方面，构建`world`时，您需要在本地主机环境安装几个工具:
+另一方面，构建`world`时，您需要在本地主机环境安装几个工具：
 
 * [GraalVM](https://www.graalvm.org/downloads/)
 * [Apache Maven](https://maven.apache.org/)
@@ -70,7 +70,7 @@ lang: 'zh'
 
 ### 构建java部分
 
-构建java部分很简单，具体如下:
+构建java部分很简单，具体如下：
 
 ```bash
 mvn -Pcodegen install
@@ -84,7 +84,7 @@ mvn -Pcodegen install
 
 ### 部署npm模块
 
-在开发期间，您可能希望部署到本地NPM注册中心，你可以用 其中一个注册中心:
+在开发期间，您可能希望部署到本地NPM注册中心，你可以用 其中一个注册中心：
  [verdaccio](https://verdaccio.org/)。
 
 ```bash
@@ -102,7 +102,7 @@ npm adduser --registry "http://localhost:4873"
 > Currently the `pm` package is quite large and will not be handled by default by `verdaccio` in
   order to get the upload to work you will need to update the default config and restart.
 
-编辑文件 `~/.config/verdaccio/config.yaml` 并添加如下代码:
+编辑文件 `~/.config/verdaccio/config.yaml` 并添加如下代码：
 
 ```yaml
 # max package size
