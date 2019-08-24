@@ -49,7 +49,7 @@ lang: 'zh'
 
 ## 创世
 
-想要创造世界，您需要在本地主机环境安装几个工具：
+想要构建整个工程，您需要在本地主机环境安装几个工具：
 
 * [GraalVM](https://www.graalvm.org/downloads/)
 * [Apache Maven](https://maven.apache.org/)
