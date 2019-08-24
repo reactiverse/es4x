@@ -136,7 +136,7 @@ mvn -Dnpm-registry="http://localhost:4873" \
     exec:exec@typedoc
 ```
 
-### 将PM部署与npm
+### 将PM部署于npm
 
 为了方便，`pm`工程也可以部署到NPM注册中心，按照如下指示即可达成：
 
