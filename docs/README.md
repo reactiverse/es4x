@@ -2,7 +2,7 @@
 home: true
 heroImage: /hero.png
 actionText: Get Started →
-actionLink: /get-started/
+actionLink: /zh/get-started/
 footer: MIT Licensed | Copyright © 2018-present Paulo Lopes
 ---
 
