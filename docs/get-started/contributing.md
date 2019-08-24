@@ -82,7 +82,7 @@ from the main (upstream) repository.
 
 ## Building the world
 
-In other to build the `world` you will need several tools installed in your host
+In order to build the `world` you will need several tools installed in your host
 environment:
 
 * [GraalVM](https://www.graalvm.org/downloads/)

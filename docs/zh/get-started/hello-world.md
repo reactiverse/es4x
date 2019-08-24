@@ -1,4 +1,4 @@
-# 你好，世界
+# Hello World
 
 在 `hello-es4x.js` 文件中您可以创建最简单的应用：
 

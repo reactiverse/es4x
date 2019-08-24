@@ -1,5 +1,5 @@
 ---
-title: Contributing
+title: 贡献
 lang: 'zh'
 ---
 
@@ -47,9 +47,9 @@ lang: 'zh'
 
 在您的PR被合并之后，您可以安全的删除您的分支并从主仓库当中拉取这些修改。
 
-## 构建 world
+## 创世
 
-另一方面，构建`world`时，您需要在本地主机环境安装几个工具：
+想要构建整个工程，您需要在本地主机环境安装几个工具：
 
 * [GraalVM](https://www.graalvm.org/downloads/)
 * [Apache Maven](https://maven.apache.org/)
@@ -136,7 +136,7 @@ mvn -Dnpm-registry="http://localhost:4873" \
     exec:exec@typedoc
 ```
 
-### 将PM部署与npm
+### 将PM部署于npm
 
 为了方便，`pm`工程也可以部署到NPM注册中心，按照如下指示即可达成：
 
