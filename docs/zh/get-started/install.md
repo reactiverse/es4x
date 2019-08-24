@@ -17,7 +17,7 @@ yarn global add es4x-pm # 或 npm install -g es4x-pm
 当在有包数量限制的持续集成环境中工作时，可以解压预先打包好的tar/zip文件来安装包管理器（pm）。
 
 ```bash
-ES4X='0.8.2' \
+ES4X='0.9.0' \
   curl -sL \
   https://github.com/reactiverse/es4x/releases/download/$ES4X/es4x-pm-$ES4X-bin.tar.gz \
   | tar zx --strip-components=1 -C /usr/local
