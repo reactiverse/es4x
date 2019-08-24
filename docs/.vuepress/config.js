@@ -202,7 +202,7 @@ module.exports = {
                 },
                 {
                   text: 'API参考',
-                  link: '/zh/api/'
+                  link: '/api/'
                 },
                 {
                   text: '更新日志',
