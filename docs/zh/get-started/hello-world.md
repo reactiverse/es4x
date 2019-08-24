@@ -1,4 +1,4 @@
-# 你好，世界
+# Hello World
 
 在 `hello-es4x.js` 文件中您可以创建最简单的应用：
 
@@ -17,7 +17,7 @@ vertx.createHttpServer()
 $ es4x hello-es4x.js
 ```
 
-::: 提示  
+::: tip  
 在UNIX系统中，脚本文件可以被作为可执行文件，使用shebang  `#!/usr/bin/env es4x` 可以使这些脚本自动执行  
 ::: 
 
@@ -27,7 +27,7 @@ $ curl localhost:9090
 Hello ES4X world!
 ```
 
-::: 警告  
+::: warning  
 使用 `es4x` 命令可以直接运行除去 `vertx` 之外没有其他的依赖的小型脚本文件。对于更复杂的项目应该使用项目或包管理工具  
 :::
 
@@ -69,7 +69,7 @@ es4x init
 
 `post-install` 命令会代理es4x来处理 `maven` maven依赖以及创建 `es4x-launcher` 脚本
 
-::: 提示  
+::: tip  
 `es4x-launcher` 脚本会确保应用使用es4x运行时运行以及测试而不是 `nodejs`  
 :::
 
@@ -77,7 +77,7 @@ es4x init
 
 使用 `create-vertx-app` 命令，您可以迅速的创建一个基于TypeScript或JavaScript的ES4X应用。如果您偏向于使用GUI来创建应用，那么这个生成器可以被作为[PWA](https://vertx-starter.jetdrone.xyz/#npm)来使用
 
-![es4x-ts](./res/es4x-ts.gif)
+<asciinema :src="$withBase('/cast/es4x-ts.cast')" cols="80" rows="24" />
 
 ## 添加依赖
 
@@ -97,7 +97,7 @@ npm install
 
 在所有的ES4X应用中，全局对象 `vertx` 是 *vert.x* 配置好的实例，它可以被用在应用中。
 
-::: 提示  
+::: tip  
 为了在 [Visual Studio Code](https://code.visualstudio.com/) 中使用代码补全，脚本文件第一行应该这么写：
 
 ```js
@@ -126,7 +126,7 @@ console.log('Server listening at: http://localhost:8080/')
 ```
 
 这个应用启动了一个服务器并监听8080端口等待链接，对于所有请求根URL(`/`)的都返回 "`Hello from Vert.x Web!`"，对于其他URL的请求都返回 **404 Not Found**。  
-::: 警告  
+::: warning  
 ES6的module语法可以在 `.js` 文件中使用。ES4X会把这些语法翻译成 `commonjs` `require()` 声明，但是 `exports` 将不会被翻译。这个特性只是为了辅助使用有自动import功能的IDE，比如 `Visual Studio Code`  
 :::
 
@@ -136,10 +136,10 @@ ES4X也支持 `.mjs` 文件。在这个情况下module的处理方式不会使�
 
 使用graaljs的 `.mjs` 文件支持 `import` 和 `export` 以及可以作为符合ES6规范的一种设计。  
 
-::: 提示  
+::: tip  
 为了开启 `.mjs` 支持有两种方式：在 `JavaScript` 文件中使用 `.mjs` 扩展或者启动应用时添加标记 `-esm`  
 :::  
 
-::: 警告
+::: warning
 在同一个项目中不能混用 `commonjs` 和 `esm`，如果您不确定的话使用 `commonjs`  
 :::

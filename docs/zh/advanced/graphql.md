@@ -2,8 +2,8 @@
 
 ## GraphQL
 
-* [vertx-graphql](https://vertx-graphql.github.io/) 用ES4X创建一个GraphQL HTTP服务器,
-ES4X是Vert.x的一个快速,无条件,简约的 JavaScript运行时
+* [vertx-graphql](https://vertx-graphql.github.io/) 用ES4X创建一个GraphQL HTTP服务器，
+ES4X是Vert.x的一个快速，无条件，简约的 JavaScript运行时
 
 ```js
 /// <reference types="@vertx/core/runtime" />

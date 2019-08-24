@@ -1,6 +1,6 @@
 # 异步的错误溯源
 
-想象一下下面的代码:
+想象一下以下代码：
 
 ```js
 function one() {
@@ -40,16 +40,16 @@ function four(callback) {
 one();
 ```
 
-如果你运行上面的代码,你将看到如下的错误信息:
+如果您运行上述代码，您将会看到如下的错误信息：
 
 ```
 Error
     at Timer.callback (example.js:34)
 ```
 
-对于debug来说,这是非常蛋疼的. 
+对于debug来说，这是非常蛋疼的。 
 
-为了简化这一点,ES4X将所有的异常堆栈信息整合在了一起，你可以使用一个函数包主它，每次只需要处理回调而不是直接传递错误
+为了简化这一点，ES4X将所有的异常堆栈信息整合在了一起，你可以使用一个函数包主它，每次只需要处理回调而不是直接传递错误
 
 ```js
 var asyncError = require('async-error');
@@ -113,7 +113,7 @@ function four(callback) {
 one();
 ```
 
-当文件 `durpa/durp.txt` 不存在时，你将会看到:
+当文件 `durpa/durp.txt` 不存在时，您将会看到：
 
 ```
 Error: File not found!
@@ -124,7 +124,7 @@ Error: File not found!
     at classpath:io/reactiverse/es4x/polyfill/global.js:25:18
 ```
 
-如果错误发生在JS中,或者:
+上述错误发生在JS中，亦或是：
 
 ```
 io.vertx.core.file.FileSystemException: java.nio.file.NoSuchFileException: durpa/durp.txt
@@ -151,4 +151,4 @@ Caused by: java.nio.file.NoSuchFileException: durpa/durp.txt
 	... 7 more
 ```
 
-错误发生在Java中
+上述错误发生在Java中
