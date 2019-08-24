@@ -77,7 +77,7 @@ es4x init
 
 使用 `create-vertx-app` 命令，您可以迅速的创建一个基于TypeScript或JavaScript的ES4X应用。如果您偏向于使用GUI来创建应用，那么这个生成器可以被作为[PWA](https://vertx-starter.jetdrone.xyz/#npm)来使用
 
-![es4x-ts](./res/es4x-ts.gif)
+<asciinema :src="$withBase('/cast/es4x-ts.cast')" cols="80" rows="24" />
 
 ## 添加依赖
 
