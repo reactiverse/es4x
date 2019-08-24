@@ -44,7 +44,7 @@ hello.setName('Paulo');
 ```
 
 GraalJS will not allow multi thread access to the same script context. If there is a need to work with multiple
-threads, then consider looking at the [Worker API](./WORKER).
+threads, then consider looking at the [Worker API](./worker).
 
 ## Native Images
 

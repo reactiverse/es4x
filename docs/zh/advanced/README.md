@@ -41,7 +41,7 @@ var name = hello.getName();
 // set the name
 hello.setName('Paulo');
 ```
-GraalJS 不允许多线程访问同样的脚本上下文.如果你需要多线程,请移步[Worker API](./WORKER).
+GraalJS 不允许多线程访问同样的脚本上下文.如果你需要多线程,请移步[Worker API](./worker).
 
 ## Native Images
 
