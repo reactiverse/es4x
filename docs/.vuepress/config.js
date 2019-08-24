@@ -210,7 +210,7 @@ module.exports = {
                 },
               ],
               sidebar: {
-                '/get-started/': [
+                '/zh/get-started/': [
                   {
                     title: '由此开始',
                     collapsable: false,
