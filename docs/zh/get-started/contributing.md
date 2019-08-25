@@ -148,4 +148,4 @@ mvn package
 ./publish.sh local
 ```
 
-这样会生成maven fat jar，并且最后的脚本会将它转换进npm包 而后部署到你的本地`verdaccio`
+这样会生成maven fat jar，并且最后的脚本会将它转换进npm包，而后部署到您本地的`verdaccio`中
