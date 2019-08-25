@@ -161,10 +161,12 @@ mvn -Dnpm-registry="http://localhost:4873" \
     exec:exec@npm-publish
 ```
 
-!!! warning "API docs"
+::: warning "API docs"
 
-> If you would like to have API docs for the generated packages then you will need a few extra
-  tools and an extra maven.
+If you would like to have API docs for the generated packages then you will need a few extra
+tools and an extra maven.
+
+:::
 
 ```bash
 # install the API doc generator
