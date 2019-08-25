@@ -97,10 +97,11 @@ npm install -g verdaccio
 npm adduser --registry "http://localhost:4873"
 ```
 
-!!! 警告 "包上传限制"
+::: warning "包上传限制"
 
-> Currently the `pm` package is quite large and will not be handled by default by `verdaccio` in
-  order to get the upload to work you will need to update the default config and restart.
+当前`pm`包体积较大，且不会被`verdaccio`自动获取。为了让上传功能能够工作，您需要更新缺省的配置并重启。
+
+:::
 
 编辑文件 `~/.config/verdaccio/config.yaml` 并添加如下代码：
 
@@ -119,10 +120,11 @@ mvn -Dnpm-registry="http://localhost:4873" \
     exec:exec@npm-publish
 ```
 
-!!! 警告 "API 文档"
+::: warning "API 文档"
 
-> If you would like to have API docs for the generated packages then you will need a few extra
-  tools and an extra maven.
+如您想生成对应的API文档，那么您需要一些额外的工具和maven命令。
+
+:::
 
 ```bash
 # install the API doc generator
