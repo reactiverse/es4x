@@ -139,10 +139,11 @@ Once you have it installed follow the instructions to login:
 npm adduser --registry "http://localhost:4873"
 ```
 
-!!! warning "package upload limits"
+::: warning "package upload limits"
 
-> Currently the `pm` package is quite large and will not be handled by default by `verdaccio` in
-  order to get the upload to work you will need to update the default config and restart.
+Currently the `pm` package is quite large and will not be handled by default by `verdaccio` in order to get the upload to work you will need to update the default config and restart.
+
+:::
 
 Edit the file `~/.config/verdaccio/config.yaml` and add:
 
