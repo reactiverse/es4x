@@ -97,7 +97,7 @@ npm install -g verdaccio
 npm adduser --registry "http://localhost:4873"
 ```
 
-::: warning "包上传限制"
+::: warning 包上传限制
 
 当前`pm`包体积较大，且不会被`verdaccio`自动获取。为了让上传功能能够工作，您需要更新缺省的配置并重启。
 
@@ -120,7 +120,7 @@ mvn -Dnpm-registry="http://localhost:4873" \
     exec:exec@npm-publish
 ```
 
-::: warning "API 文档"
+::: warning API 文档
 
 如您想生成对应的API文档，那么您需要一些额外的工具和maven命令。
 
