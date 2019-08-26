@@ -10,7 +10,7 @@ npm pack
 location. However applications can also be [published](https://docs.npmjs.com/cli/publish) to a NPM registry.
 
 It is important to notice that in order to work with `published/packed` the target environment needs to have access to
-the package [es4x-pm](https://www.npmjs.com/package/es4x-pm) as it will be required to install the `java` bits. 
+the package [es4x-pm](https://www.npmjs.com/package/es4x-pm) as it will be required to install the `java` bits.
 
 
 ## Docker
@@ -32,7 +32,7 @@ By default [oracle/graalvm-ce](https://hub.docker.com/r/oracle/graalvm-ce) docke
 with any other JDK image (please prefer versions 11 or above) with support for JVMCI.
 
 ```bash
-docker build . -arg BASEIMAGE=openjdk:11
+docker build . --build-arg BASEIMAGE=openjdk:11
 ```
 
 ## JLink
@@ -68,7 +68,7 @@ RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSIO
 RUN es4x install -f
 # Create the optimized runtime
 RUN es4x jlink -t /usr/local
-``` 
+```
 
 This will produce the optimized runtime to jre, which can be used with a small base image for the final stage:
 
