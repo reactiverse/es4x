@@ -28,7 +28,7 @@ es4x dockerfile
 默认情况下，我们使用[oracle/graalvm-ce](https://hub.docker.com/r/oracle/graalvm-ce)docker镜像，但是你也可以用其他含有openJdk并支持JVMCI的镜像(请使用java11及以上的版本)。
 
 ```bash
-docker build . -arg BASEIMAGE=openjdk:11
+docker build . --build-arg BASEIMAGE=openjdk:11
 ```
 
 ## JLink
