@@ -1,10 +1,10 @@
 # GraalVM
 
-ES4X 使用的是Graalvm，但同样的代码可用 Java8，9，10 及 OpenJ9 **解释执行** 或使用 JDK >=11 (有支持 JVMCI) 和 GraalVM **编译执行**。
+ES4X 使用的是Graalvm，但同样的代码可用 Java8，9，10 及 OpenJ9 **解释执行** 或使用 JDK >=11 (支持 JVMCI) 和 GraalVM **编译执行**。
 
-推荐使用GraalJS，因其支持 ES版本 >= 6的JS 并提供开箱即用的generators，promises等工具。
+推荐使用GraalJS，因其提供支持 ES版本 >= 6的JS 及提供开箱即用的generators，promises等工具。
 
-与Java交互需**严格**遵循Java中类/方法的名称。例如获取类的属性时，必须使用getter和setter。举个例子：
+与Java交互需**严格**遵循Java中类/方法的名称。例如获取类的属性时，必需使用getter和setter。举个例子：
 
 ```java
 class Hello {
@@ -20,7 +20,7 @@ class Hello {
 }
 ```
 
-当您在Graal中使用Java对象时，下面的代码将是无效的
+当您在Graal中使用Java对象时，下面的代码将是无效的：
 
 ```js
 var hello = new Hello();
@@ -30,7 +30,7 @@ var name = hello.name; // FAIL
 hello.name = 'Paulo';  // FAIL
 ```
 
-在Graal中您应该这样：
+在Graal中您应该这样写：
 
 ```js
 var hello = new Hello();
