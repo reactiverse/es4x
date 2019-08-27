@@ -18,13 +18,12 @@ package io.reactiverse.es4x.impl.graal;
 import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.reactiverse.es4x.jul.ES4XFormatter;
-import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
 
@@ -87,19 +86,6 @@ public class GraalEngine implements ECMAEngine {
         JsonArray.class,
         null,
         JsonArray::new)
-      // map Promise to io.vertx.core.Future
-      .targetTypeMapping(
-        Value.class,
-        Future.class,
-        v -> v.hasMembers() && v.hasMember("then"),
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          final Promise promise = Promise.promise();
-          v.invokeMember("then", promise);
-          return promise.future();
-        })
       // map Promise to io.vertx.core.Promise
       .targetTypeMapping(
         Value.class,
@@ -109,9 +95,7 @@ public class GraalEngine implements ECMAEngine {
           if (v.isNull()) {
             return null;
           }
-          final Promise promise = Promise.promise();
-          v.invokeMember("then", promise);
-          return promise;
+          return new VertxPromise(v);
         })
       // Ensure Arrays are exposed as List when the Java API is accepting Object
       .targetTypeMapping(List.class, Object.class, null, v -> v)

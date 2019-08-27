@@ -20,8 +20,8 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.impl.NoStackTraceThrowable;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import org.graalvm.polyglot.Value;
 
 class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
@@ -43,6 +43,7 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
   /**
    * The result of the operation. This will be null if the operation failed.
    */
+  @Override
   public synchronized T result() {
     return result;
   }
@@ -50,6 +51,7 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
   /**
    * An exception describing failure. This will be null if the operation succeeded.
    */
+  @Override
   public synchronized Throwable cause() {
     return throwable;
   }
@@ -57,6 +59,7 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
   /**
    * Did it succeeed?
    */
+  @Override
   public synchronized boolean succeeded() {
     return succeeded;
   }
@@ -64,6 +67,7 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
   /**
    * Did it fail?
    */
+  @Override
   public synchronized boolean failed() {
     return failed;
   }
@@ -71,6 +75,7 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
   /**
    * Has it completed?
    */
+  @Override
   public synchronized boolean isComplete() {
     return failed || succeeded;
   }
@@ -78,6 +83,7 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
   /**
    * Set a handler for the result. It will get called when it's complete
    */
+  @Override
   public Future<T> setHandler(Handler<AsyncResult<T>> handler) {
     boolean callHandler;
     synchronized (this) {
@@ -118,10 +124,10 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
     });
   }
 
-//  @Override
-//  public synchronized Handler<AsyncResult<T>> getHandler() {
-//    return handler;
-//  }
+  @Override
+  public synchronized Handler<AsyncResult<T>> getHandler() {
+    return handler;
+  }
 
   @Override
   public void complete(T result) {
@@ -172,14 +178,6 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
   @Override
   public boolean tryComplete() {
     return tryComplete(null);
-  }
-
-  public void handle(Future<T> ar) {
-    if (ar.succeeded()) {
-      complete(ar.result());
-    } else {
-      fail(ar.cause());
-    }
   }
 
   @Override

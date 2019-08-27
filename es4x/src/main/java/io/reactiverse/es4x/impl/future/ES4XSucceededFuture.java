@@ -19,8 +19,8 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import org.graalvm.polyglot.Value;
 
 /**
@@ -68,10 +68,10 @@ class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
     }
   }
 
-//  @Override
-//  public Handler<AsyncResult<T>> getHandler() {
-//    return null;
-//  }
+  @Override
+  public Handler<AsyncResult<T>> getHandler() {
+    return null;
+  }
 
   @Override
   public void complete(T result) {

@@ -44,7 +44,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void start(Future<Void> startFuture) throws Exception {
+      public void start(Promise<Void> startFuture) throws Exception {
         final String address;
         final boolean worker;
         final Value self;
@@ -103,7 +103,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void stop(Future<Void> stopFuture) {
+      public void stop(Promise<Void> stopFuture) {
         try {
           runtime.enter();
           runtime.emit("undeploy");

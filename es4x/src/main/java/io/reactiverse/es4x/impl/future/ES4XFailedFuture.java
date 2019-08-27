@@ -63,10 +63,10 @@ public class ES4XFailedFuture<T> implements Future<T>, Promise<T>, Thenable {
     }
   }
 
-//  @Override
-//  public Handler<AsyncResult<T>> getHandler() {
-//    return null;
-//  }
+  @Override
+  public Handler<AsyncResult<T>> getHandler() {
+    return null;
+  }
 
   @Override
   public void complete(T result) {
