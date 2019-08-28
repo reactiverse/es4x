@@ -23,7 +23,7 @@ $ es4x hello-es4x.js
 
 新建终端窗口并输入：
 ```bash
-$ curl localhost:9090
+$ curl localhost:8080
 Hello ES4X world!
 ```
 

@@ -25,7 +25,7 @@ auto-runnable.
 And in a second terminal:
 
 ```bash
-$ curl localhost:9090
+$ curl localhost:8080
 Hello ES4X world!
 ```
 
