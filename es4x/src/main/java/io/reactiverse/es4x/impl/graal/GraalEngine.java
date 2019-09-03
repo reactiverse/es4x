@@ -87,19 +87,6 @@ public class GraalEngine implements ECMAEngine {
         JsonArray.class,
         null,
         JsonArray::new)
-      // map Promise to io.vertx.core.Future
-      .targetTypeMapping(
-        Value.class,
-        Future.class,
-        v -> v.hasMembers() && v.hasMember("then"),
-        v -> {
-          if (v.isNull()) {
-            return null;
-          }
-          final Promise promise = Promise.promise();
-          v.invokeMember("then", promise);
-          return promise.future();
-        })
       // map Promise to io.vertx.core.Promise
       .targetTypeMapping(
         Value.class,
@@ -109,9 +96,7 @@ public class GraalEngine implements ECMAEngine {
           if (v.isNull()) {
             return null;
           }
-          final Promise promise = Promise.promise();
-          v.invokeMember("then", promise);
-          return promise;
+          return new VertxPromise(v);
         })
       // Ensure Arrays are exposed as List when the Java API is accepting Object
       .targetTypeMapping(List.class, Object.class, null, v -> v)
