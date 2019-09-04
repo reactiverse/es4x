@@ -127,7 +127,7 @@ public class IndexDTS extends Generator<ClassModel> {
     model.getAbstractSuperTypes().forEach(ti -> superTypes.add(genType(ti)));
 
     // special case
-    if ("io.vertx.core.Future".equals(type.getName())) {
+    if ("io.vertx.core.Future".equals(type.getName()) || "io.vertx.core.Promise".equals(type.getName())) {
       superTypes.add("PromiseLike" + genGeneric(type.getParams()));
     }
 
@@ -214,9 +214,9 @@ public class IndexDTS extends Generator<ClassModel> {
       moreMethods = true;
     }
 
-    // special case
+    // special cases
 
-    if ("io.vertx.core.Future".equals(type.getName())) {
+    if ("io.vertx.core.Future".equals(type.getName()) || "io.vertx.core.Promise".equals(type.getName())) {
       if (moreMethods || moreConstants) {
         writer.print("\n");
       }
@@ -293,7 +293,7 @@ public class IndexDTS extends Generator<ClassModel> {
         if (more) {
           writer.print(", ");
         }
-        writer.printf("%s: %s%s", cleanReserved(param.getName()), genType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
+        writer.printf("%s: %s%s", cleanReserved(param.getName()), genType(param.getType(), true), param.getType().isNullable() ? " | null | undefined" : "");
         more = true;
       }
     }

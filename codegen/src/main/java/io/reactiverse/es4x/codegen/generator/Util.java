@@ -62,9 +62,14 @@ public final class Util {
     TYPES.put("java.lang.Long[]", "number[]");
     TYPES.put("java.lang.Short[]", "number[]");
     TYPES.put("java.lang.String[]", "string[]");
+
     TYPES.put("java.time.Instant", "Date");
-//    TYPES.put("io.vertx.core.Future", "PromiseLike");
-//    TYPES.put("io.vertx.core.Promise", "PromiseLike | Promise");
+    TYPES.put("java.time.LocalDate", "Date");
+//    TYPES.put("java.time.LocalTime", "Date");
+    TYPES.put("java.time.LocalDateTime", "Date");
+    TYPES.put("java.time.ZonedDateTime", "Date");
+//    TYPES.put("java.time.ZoneId", "Date");
+//    TYPES.put("java.time.Duration", "Date");
 
     // reserved typescript keywords
     RESERVED.addAll(Arrays.asList(
@@ -123,6 +128,10 @@ public final class Util {
   }
 
   public static String genType(TypeInfo type) {
+    return genType(type, false);
+  }
+
+  public static String genType(TypeInfo type, boolean promisify) {
 
     switch (type.getKind()) {
       case STRING:
@@ -186,10 +195,13 @@ public final class Util {
           if (TYPES.containsKey(type.getRaw().getName())) {
             return TYPES.get(type.getRaw().getName()) + "<" + sb.toString() + ">";
           } else {
+            if (promisify && "io.vertx.core.Promise".equals(type.getRaw().getName())) {
+              return "PromiseLike<" + sb.toString() + ">";
+            }
             return type.getRaw().getSimpleName() + "<" + sb.toString() + ">";
           }
         } else {
-          // TS is strict with generics, you can't define/use a generic type with out its generic <T>
+          // TS is strict with generics, you can't define/use a generic type without its generic <T>
           if (type.getRaw() != null && type.getRaw().getParams().size() > 0) {
             for (TypeParamInfo t : type.getRaw().getParams()) {
               if (!first) {
@@ -201,12 +213,18 @@ public final class Util {
             if (TYPES.containsKey(type.getName())) {
               return TYPES.get(type.getName()) + "<" + sb.toString() + ">";
             } else {
+              if (promisify && "io.vertx.core.Promise".equals(type.getName())) {
+                return "PromiseLike<" + sb.toString() + ">";
+              }
               return type.getSimpleName() + "<" + sb.toString() + ">";
             }
           } else {
             if (TYPES.containsKey(type.getErased().getName())) {
               return TYPES.get(type.getErased().getName());
             } else {
+              if (promisify && "io.vertx.core.Promise".equals(type.getErased().getName())) {
+                return "PromiseLike<any>";
+              }
               return type.getErased().getSimpleName();
             }
           }
