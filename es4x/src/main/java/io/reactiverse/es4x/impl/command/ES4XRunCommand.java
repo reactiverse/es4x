@@ -16,11 +16,8 @@
 package io.reactiverse.es4x.impl.command;
 
 import io.reactiverse.es4x.ES4X;
-import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.*;
-import io.vertx.core.impl.launcher.VertxCommandLauncher;
 import io.vertx.core.impl.launcher.commands.RunCommand;
-import io.vertx.core.spi.launcher.ExecutionContext;
 
 import java.io.IOException;
 import java.io.InputStream;
