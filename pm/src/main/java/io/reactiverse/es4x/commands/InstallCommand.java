@@ -278,10 +278,17 @@ public class InstallCommand extends DefaultCommand {
         Map npm = read(json);
         // default main script
         String main = ".";
+        String verticleFactory = "js";
 
         // if package json declares a different main, then it shall be used
         if (npm.containsKey("main")) {
           main = (String) npm.get("main");
+        }
+
+        // if package json declares a different main, then it shall be used
+        if (npm.containsKey("module")) {
+          main = (String) npm.get("module");
+          verticleFactory = "mjs";
         }
 
         final File base = new File(getCwd(), "node_modules");
@@ -307,6 +314,7 @@ public class InstallCommand extends DefaultCommand {
         attributes.put(Attributes.Name.CLASS_PATH, classpath);
         attributes.put(new Attributes.Name("Main-Verticle"), main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
+        attributes.put(new Attributes.Name("Default-Verticle-Factory"), verticleFactory);
 
         try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, "es4x-launcher.jar")), manifest)) {
           // nothing to be added!

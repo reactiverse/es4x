@@ -16,10 +16,37 @@
 package io.reactiverse.es4x;
 
 import io.vertx.core.Launcher;
+import io.vertx.core.VertxOptions;
 
 import java.io.File;
+import java.util.function.Consumer;
 
 public final class ES4X extends Launcher {
+
+  @Override
+  public void beforeStartingVertx(VertxOptions options) {
+    processProperty("prefix", null, prefix -> {
+      if (prefix != null) {
+        if (!prefix.endsWith("/")) {
+          prefix += "/";
+        }
+        System.setProperty("es4x.prefix", prefix);
+      }
+    });
+
+    processProperty("polyglot", "true", polyglot -> System.setProperty("es4x.polyglot", polyglot));
+
+    processProperty("inspect", "9229", inspect -> {
+      System.setProperty("polyglot.inspect", inspect);
+      options.setBlockedThreadCheckInterval(1000000);
+    });
+
+    processProperty("inspect-brk", "9229", inspect -> {
+      System.setProperty("polyglot.inspect", inspect);
+      System.setProperty("polyglot.inspect.Suspend", "true");
+      options.setBlockedThreadCheckInterval(1000000);
+    });
+  }
 
   /**
    * Main entry point.
@@ -43,5 +70,18 @@ public final class ES4X extends Launcher {
 
     // default behavior
     launcher.dispatch(args);
+  }
+
+  private static void processProperty(String name, String defaultEmpty, Consumer<String> consumer) {
+    String value = System.getProperty(name);
+
+    if (value != null) {
+      try {
+        consumer.accept("".equals(value) ? defaultEmpty : value);
+        System.clearProperty(name);
+      } catch (RuntimeException e) {
+        System.exit(1);
+      }
+    }
   }
 }

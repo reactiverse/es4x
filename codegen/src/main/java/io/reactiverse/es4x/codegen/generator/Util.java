@@ -214,7 +214,7 @@ public final class Util {
               return TYPES.get(type.getName()) + "<" + sb.toString() + ">";
             } else {
               if (promisify && "io.vertx.core.Promise".equals(type.getName())) {
-                return "PromiseLike<" + sb.toString() + ">";
+                return type.getSimpleName() + "<" + sb.toString() + "> | PromiseLike<" + sb.toString() + ">";
               }
               return type.getSimpleName() + "<" + sb.toString() + ">";
             }
@@ -223,7 +223,7 @@ public final class Util {
               return TYPES.get(type.getErased().getName());
             } else {
               if (promisify && "io.vertx.core.Promise".equals(type.getErased().getName())) {
-                return "PromiseLike<any>";
+                return type.getErased().getSimpleName() + " | PromiseLike<any>";
               }
               return type.getErased().getSimpleName();
             }

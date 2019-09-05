@@ -90,7 +90,7 @@ public class GraalEngine implements ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Promise.class,
-        v -> v.hasMembers() && v.hasMember("then"),
+        v -> !v.isHostObject() && v.hasMembers() && v.hasMember("then"),
         v -> {
           if (v.isNull()) {
             return null;
