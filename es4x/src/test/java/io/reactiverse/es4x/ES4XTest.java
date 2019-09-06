@@ -18,9 +18,11 @@ public class ES4XTest {
     System.clearProperty("prefix");
     System.clearProperty("polyglot");
     System.clearProperty("inspect");
+    System.clearProperty("inspect-brk");
     System.clearProperty("es4x.prefix");
     System.clearProperty("es4x.polyglot");
     System.clearProperty("polyglot.inspect");
+    System.clearProperty("polyglot.inspect.Suspend");
   }
 
   @Test
