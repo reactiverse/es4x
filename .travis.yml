@@ -36,7 +36,7 @@ matrix:
     - env: JDK='OpenJDK 12'
 
 script:
-  - mvn clean package
+  - mvn clean verify
 
 after_success:
 - '[[ "${JDK}" = "OpenJDK 11" ]] && bash <(curl -s https://codecov.io/bash) || true'
