@@ -5,7 +5,7 @@
 When working on [GraalVM](https://graalvm.org) or a JDK with the graalvm (JVMCI) bits, start your application as:
 
 ```sh
-npm start -- --inspector=9229
+npm start -- -Dinspect
 ```
 
 This will start a Chrome inspector debugger agent on port 9229 that you can attach for a remote
@@ -45,7 +45,7 @@ This will create a `launcher.json` similar to this:
     "request" : "launch",
     "cwd" : "${workspaceFolder}",
     "runtimeExecutable" : "${workspaceFolder}/node_modules/.bin/es4x-launcher",
-    "runtimeArgs" : [ "--inspect=5858" ],
+    "runtimeArgs" : [ "-Dinspect=5858" ],
     "port" : 5858,
     "outputCapture" : "std",
     "serverReadyAction" : {

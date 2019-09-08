@@ -156,7 +156,7 @@ With graaljs `.mjs` support both `import` and `export` will work as per design o
 
 ::: tip
 To enable `.mjs` support either use the extension `.mjs` in your `JavaScript` files, or start your application with the
-flag `-esm`.
+flag `-Desm`.
 :::
 
 ::: warning

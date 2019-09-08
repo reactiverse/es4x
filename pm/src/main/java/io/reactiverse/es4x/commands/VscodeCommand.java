@@ -88,7 +88,7 @@ public class VscodeCommand extends DefaultCommand {
       // delegate to npm
       args.add("start");
     }
-    args.add("--inspect=5858");
+    args.add("-Dinspect=5858");
 		config.put("runtimeArgs", args);
 		config.put("port", 5858);
 		config.put("outputCapture", "std");
