@@ -128,10 +128,6 @@ public final class Util {
   }
 
   public static String genType(TypeInfo type) {
-    return genType(type, false);
-  }
-
-  public static String genType(TypeInfo type, boolean promisify) {
 
     switch (type.getKind()) {
       case STRING:
@@ -195,9 +191,6 @@ public final class Util {
           if (TYPES.containsKey(type.getRaw().getName())) {
             return TYPES.get(type.getRaw().getName()) + "<" + sb.toString() + ">";
           } else {
-            if (promisify && "io.vertx.core.Promise".equals(type.getRaw().getName())) {
-              return "PromiseLike<" + sb.toString() + ">";
-            }
             return type.getRaw().getSimpleName() + "<" + sb.toString() + ">";
           }
         } else {
@@ -213,18 +206,12 @@ public final class Util {
             if (TYPES.containsKey(type.getName())) {
               return TYPES.get(type.getName()) + "<" + sb.toString() + ">";
             } else {
-              if (promisify && "io.vertx.core.Promise".equals(type.getName())) {
-                return type.getSimpleName() + "<" + sb.toString() + "> | PromiseLike<" + sb.toString() + ">";
-              }
               return type.getSimpleName() + "<" + sb.toString() + ">";
             }
           } else {
             if (TYPES.containsKey(type.getErased().getName())) {
               return TYPES.get(type.getErased().getName());
             } else {
-              if (promisify && "io.vertx.core.Promise".equals(type.getErased().getName())) {
-                return type.getErased().getSimpleName() + " | PromiseLike<any>";
-              }
               return type.getErased().getSimpleName();
             }
           }
