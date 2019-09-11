@@ -137,7 +137,7 @@ ES4X也支持 `.mjs` 文件。在这个情况下module的处理方式不会使�
 使用graaljs的 `.mjs` 文件支持 `import` 和 `export` 以及可以作为符合ES6规范的一种设计。  
 
 ::: tip  
-为了开启 `.mjs` 支持有两种方式：在 `JavaScript` 文件中使用 `.mjs` 扩展或者启动应用时添加标记 `-esm`  
+为了开启 `.mjs` 支持有两种方式：在 `JavaScript` 文件中使用 `.mjs` 扩展或者启动应用时添加标记 `-Desm`  
 :::  
 
 ::: warning

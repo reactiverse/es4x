@@ -27,9 +27,7 @@ public class CodecTest {
       vertx.deployVerticle("js:cluster/receiver.js", deployReceiver -> {
         should.assertTrue(deployReceiver.succeeded());
 
-        vertx.deployVerticle("js:cluster/sender.js", deploySender -> {
-          should.assertTrue(deploySender.succeeded());
-        });
+        vertx.deployVerticle("js:cluster/sender.js", deploySender -> should.assertTrue(deploySender.succeeded()));
       });
     });
   }

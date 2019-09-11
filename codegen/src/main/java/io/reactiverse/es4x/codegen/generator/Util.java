@@ -43,12 +43,14 @@ public final class Util {
 
   private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
   private final static JsonArray OPTIONAL_DEPENDENCIES;
+  private final static JsonArray CLASS_BLACKLIST;
 
   static {
     /* parse the registry from the system property */
     REGISTRY = new JsonArray(System.getProperty("scope-registry", "[]"));
     YEAR = Calendar.getInstance().get(Calendar.YEAR);
     OPTIONAL_DEPENDENCIES = new JsonArray(System.getProperty("npm-optional-dependencies", "[]"));
+    CLASS_BLACKLIST = new JsonArray(System.getProperty("npm-class-blacklist", "[]"));
 
     // register known java <-> js types
     TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
@@ -62,9 +64,14 @@ public final class Util {
     TYPES.put("java.lang.Long[]", "number[]");
     TYPES.put("java.lang.Short[]", "number[]");
     TYPES.put("java.lang.String[]", "string[]");
+
     TYPES.put("java.time.Instant", "Date");
-//    TYPES.put("io.vertx.core.Future", "PromiseLike");
-//    TYPES.put("io.vertx.core.Promise", "PromiseLike | Promise");
+    TYPES.put("java.time.LocalDate", "Date");
+//    TYPES.put("java.time.LocalTime", "Date");
+    TYPES.put("java.time.LocalDateTime", "Date");
+    TYPES.put("java.time.ZonedDateTime", "Date");
+//    TYPES.put("java.time.ZoneId", "Date");
+//    TYPES.put("java.time.Duration", "Date");
 
     // reserved typescript keywords
     RESERVED.addAll(Arrays.asList(
@@ -120,6 +127,10 @@ public final class Util {
 
   public static boolean isOptionalModule(String name) {
     return OPTIONAL_DEPENDENCIES.contains(name);
+  }
+
+  public static boolean isBlacklistedClass(String name) {
+    return CLASS_BLACKLIST.contains(name);
   }
 
   public static String genType(TypeInfo type) {
@@ -189,7 +200,7 @@ public final class Util {
             return type.getRaw().getSimpleName() + "<" + sb.toString() + ">";
           }
         } else {
-          // TS is strict with generics, you can't define/use a generic type with out its generic <T>
+          // TS is strict with generics, you can't define/use a generic type without its generic <T>
           if (type.getRaw() != null && type.getRaw().getParams().size() > 0) {
             for (TypeParamInfo t : type.getRaw().getParams()) {
               if (!first) {

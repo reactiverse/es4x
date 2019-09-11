@@ -16,12 +16,8 @@ case `uname` in
     *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
 esac
 
-# Attempt to use GRAALVM_HOME
-JAVA_EXE="$GRAALVM_HOME/bin/java"
-if ! [[ -x "$JAVA_EXE" ]]; then
-  # Attempt to use JAVA_HOME
-  JAVA_EXE="$JAVA_HOME/bin/java"
-fi
+# Attempt to use JAVA_HOME
+JAVA_EXE="$JAVA_HOME/bin/java"
 if ! [[ -x "$JAVA_EXE" ]]; then
   JAVA_EXE=java
 fi
@@ -38,4 +34,4 @@ if ! [[ -x "APP_RUNTIME" ]]; then
   APP_RUNTIME="$basedir/../runtime/*"
 fi
 
-exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "$APP_RUNTIME:$basedir/../es4x-pm-*.jar" io.reactiverse.es4x.ES4X "$@"
+exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "$APP_RUNTIME:$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X "$@"
