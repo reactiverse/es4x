@@ -43,12 +43,14 @@ public final class Util {
 
   private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
   private final static JsonArray OPTIONAL_DEPENDENCIES;
+  private final static JsonArray CLASS_BLACKLIST;
 
   static {
     /* parse the registry from the system property */
     REGISTRY = new JsonArray(System.getProperty("scope-registry", "[]"));
     YEAR = Calendar.getInstance().get(Calendar.YEAR);
     OPTIONAL_DEPENDENCIES = new JsonArray(System.getProperty("npm-optional-dependencies", "[]"));
+    CLASS_BLACKLIST = new JsonArray(System.getProperty("npm-class-blacklist", "[]"));
 
     // register known java <-> js types
     TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
@@ -125,6 +127,10 @@ public final class Util {
 
   public static boolean isOptionalModule(String name) {
     return OPTIONAL_DEPENDENCIES.contains(name);
+  }
+
+  public static boolean isBlacklistedClass(String name) {
+    return CLASS_BLACKLIST.contains(name);
   }
 
   public static String genType(TypeInfo type) {

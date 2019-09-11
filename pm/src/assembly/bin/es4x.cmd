@@ -1,12 +1,8 @@
 @ECHO OFF
 
 SETLOCAL
-:: Attempt to use GRAALVM_HOME
-SET "JAVA_EXE=%GRAALVM_HOME%\bin\java.exe"
-IF NOT EXIST "%JAVA_EXE%" (
-  :: Attempt to use JAVA_HOME
-  SET "JAVA_EXE=%JAVA_HOME%\bin\java.exe"
-)
+:: Attempt to use JAVA_HOME
+SET "JAVA_EXE=%JAVA_HOME%\bin\java.exe"
 IF NOT EXIST "%JAVA_EXE%" (
   SET "JAVA_EXE=java"
 )
@@ -23,4 +19,4 @@ IF NOT EXIST "%APP_RUNTIME%" (
   SET "APP_RUNTIME=%~dp0\..\runtime\*"
 )
 
-"$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "%APP_RUNTIME%;%~dp0\..\es4x-pm-*.jar" io.reactiverse.es4x.ES4X %*
+"$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "%APP_RUNTIME%;%~dp0\..\es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X %*

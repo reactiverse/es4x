@@ -46,6 +46,10 @@ public class IndexDTS extends Generator<ClassModel> {
   @Override
   public String render(ClassModel model, int index, int size, Map<String, Object> session) {
 
+    if (isBlacklistedClass(model.getType().getName())) {
+      return null;
+    }
+
     StringWriter sw = new StringWriter();
     PrintWriter writer = new PrintWriter(sw);
 

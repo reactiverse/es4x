@@ -4,26 +4,15 @@ const { existsSync } = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 
-const VERSION='%%VERSION%%';
-
 let java = 'java';
 let skipJvmci = false;
 
-if (process.env['GRAALVM_HOME']) {
-// Attempt to use GRAALVM_HOME
-  let xjava = path.join(process.env['GRAALVM_HOME'], 'bin', 'java');
+if (process.env['JAVA_HOME']) {
+  // Attempt to use JAVA_HOME
+  let xjava = path.join(process.env['JAVA_HOME'], 'bin', 'java');
   if (existsSync(xjava)) {
     java = xjava;
-    skipJvmci = existsSync(path.join(process.env['GRAALVM_HOME'], 'bin', 'gu'));
-  } else {
-    if (process.env['JAVA_HOME']) {
-      // Attempt to use JAVA_HOME
-      let xjava = path.join(process.env['JAVA_HOME'], 'bin', 'java');
-      if (existsSync(xjava)) {
-        java = xjava;
-        skipJvmci = existsSync(path.join(process.env['JAVA_HOME'], 'bin', 'gu'))
-      }
-    }
+    skipJvmci = existsSync(path.join(process.env['JAVA_HOME'], 'bin', 'gu'))
   }
 }
 
@@ -48,7 +37,7 @@ arguments.push('-cp');
 // If exists node_modules/.bin/es4x-launcher.jar
 // use it's class path (else rely on default runtime)
 let launcher = path.join('node_modules', '.bin', 'es4x-launcher.jar');
-let pm = `es4x-pm-${VERSION}.jar`;
+let pm = 'es4x-pm-${project.version}.jar';
 if (existsSync(path.join(process.cwd(), launcher))) {
   // in the case that there is a launcher we also require a .lib
   let lib = path.join('node_modules', '.lib');

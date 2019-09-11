@@ -52,6 +52,10 @@ public class OptionsDTS extends Generator<DataObjectModel> {
   @Override
   public String render(DataObjectModel model, int index, int size, Map<String, Object> session) {
 
+    if (isBlacklistedClass(model.getType().getName())) {
+      return null;
+    }
+
     StringWriter sw = new StringWriter();
     PrintWriter writer = new PrintWriter(sw);
 
@@ -70,12 +74,20 @@ public class OptionsDTS extends Generator<DataObjectModel> {
             writer.printf("import { %s } from './enums';\n", referencedType.getSimpleName());
             imports = true;
           } else {
+            // ignore missing imports
+            if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
+              writer.println("// @ts-ignore");
+            }
             writer.printf("import { %s } from '%s/enums';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
             imports = true;
           }
         }
         if (referencedType.getKind() == ClassKind.DATA_OBJECT) {
           if (!referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
+            // ignore missing imports
+            if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
+              writer.println("// @ts-ignore");
+            }
             writer.printf("import { %s } from '%s/options';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
             imports = true;
           }
@@ -85,6 +97,10 @@ public class OptionsDTS extends Generator<DataObjectModel> {
             writer.printf("import { %s } from './index';\n", referencedType.getSimpleName());
             imports = true;
           } else {
+            // ignore missing imports
+            if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
+              writer.println("// @ts-ignore");
+            }
             writer.printf("import { %s } from '%s';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
             imports = true;
           }

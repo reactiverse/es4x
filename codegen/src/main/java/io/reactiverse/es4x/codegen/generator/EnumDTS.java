@@ -24,6 +24,8 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Map;
 
+import static io.reactiverse.es4x.codegen.generator.Util.isBlacklistedClass;
+
 public class EnumDTS extends Generator<EnumModel> {
 
   public EnumDTS() {
@@ -42,6 +44,10 @@ public class EnumDTS extends Generator<EnumModel> {
 
   @Override
   public String render(EnumModel model, int index, int size, Map<String, Object> session) {
+
+    if (isBlacklistedClass(model.getType().getName())) {
+      return null;
+    }
 
     StringWriter sw = new StringWriter();
     PrintWriter writer = new PrintWriter(sw);
