@@ -1,6 +1,8 @@
 package io.reactiverse.es4x.commands;
 
+import io.reactiverse.es4x.commands.proxies.JsonArrayProxy;
 import io.reactiverse.es4x.commands.proxies.JsonObjectProxy;
+import io.vertx.core.impl.launcher.commands.VersionCommand;
 import org.eclipse.aether.artifact.Artifact;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,7 +22,7 @@ public class ProxyGeneratorTest {
   public static void beforeClass() throws Exception {
     Resolver resolver = new Resolver();
 
-    for (Artifact a : resolver.resolve("io.vertx:vertx-core:3.8.1", Collections.emptyList())) {
+    for (Artifact a : resolver.resolve("io.vertx:vertx-core:" + VersionCommand.getVersion(), Collections.emptyList())) {
       if ("io.vertx".equals(a.getGroupId()) && "vertx-core".equals(a.getArtifactId())) {
         coreJar = a.getFile();
         break;
@@ -39,12 +41,20 @@ public class ProxyGeneratorTest {
       JarEntry je;
       while ((je = jar.getNextJarEntry()) != null) {
         if ("io/vertx/core/json/JsonObject.class".equals(je.getName())) {
-          assertNotNull(new JsonObjectProxy().rewrite(jar));
-          break;
+          byte[] bytes = new JsonObjectProxy().rewrite(jar);
+          assertNotNull(bytes);
+          new File("target/classes/io/vertx/core/json").mkdirs();
+          try (OutputStream writer = new FileOutputStream("target/classes/io/vertx/core/json/JsonObject.class")) {
+            writer.write(bytes);
+          }
         }
         if ("io/vertx/core/json/JsonArray.class".equals(je.getName())) {
-          // TODO:!!!
-          break;
+          byte[] bytes = new JsonArrayProxy().rewrite(jar);
+          assertNotNull(bytes);
+          new File("target/classes/io/vertx/core/json").mkdirs();
+          try (OutputStream writer = new FileOutputStream("target/classes/io/vertx/core/json/JsonArray.class")) {
+            writer.write(bytes);
+          }
         }
       }
     }

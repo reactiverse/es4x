@@ -20,7 +20,6 @@ import io.reactiverse.es4x.impl.EventEmitterImpl;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.*;
-import org.graalvm.polyglot.proxy.ProxyObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,7 +133,7 @@ public class GraalRuntime extends EventEmitterImpl implements Runtime {
   public void config(final JsonObject config) {
     if (config != null) {
       // add config as a global
-      bindings.putMember("config", ProxyObject.fromMap(config.getMap()));
+      bindings.putMember("config", config);
     }
   }
 
