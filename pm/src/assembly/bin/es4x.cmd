@@ -1,8 +1,11 @@
 @ECHO OFF
 
 SETLOCAL
+SET "JAVA_EXE=java"
 :: Attempt to use JAVA_HOME
-SET "JAVA_EXE=%JAVA_HOME%\bin\java.exe"
+IF DEFINED JAVA_HOME (
+  SET "JAVA_EXE=%JAVA_HOME%\bin\java.exe"
+)
 IF NOT EXIST "%JAVA_EXE%" (
   SET "JAVA_EXE=java"
 )

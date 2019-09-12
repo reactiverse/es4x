@@ -27,122 +27,80 @@ public class JsonArrayProxy extends ClassVisitor {
   public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
     String[] newInterfaces = new String[interfaces.length + 1];
     System.arraycopy(interfaces, 0, newInterfaces, 0, interfaces.length);
-    newInterfaces[interfaces.length] = "org/graalvm/polyglot/proxy/ProxyObject";
-    String newSignature = signature + "Lorg/graalvm/polyglot/proxy/ProxyObject;";
+    newInterfaces[interfaces.length] = "org/graalvm/polyglot/proxy/ProxyArray";
+    String newSignature = signature + "Lorg/graalvm/polyglot/proxy/ProxyArray;";
     super.visit(version, access, name, newSignature, superName, newInterfaces);
   }
 
   @Override
   public void visitEnd() {
-    generateGetMember();
-    generateGetMemberKeys();
-    generateHasMember();
-    generatePutMember();
-    generateRemoveMember();
+    generateGet();
+    generateSet();
+    generateRemove();
+    generateGetSize();
     super.visitEnd();
   }
 
-  private void generateGetMember() {
-    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getMember", "(Ljava/lang/String;)Ljava/lang/Object;", null, null);
+  private void generateGet() {
+    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "get", "(J)Ljava/lang/Object;", null, null);
     mv.visitCode();
-    mv.visitVarInsn(ALOAD, 1);
-    mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "valueOf", "(Ljava/lang/String;)Ljava/lang/Integer;", false);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
-    mv.visitVarInsn(ISTORE, 2);
     mv.visitVarInsn(ALOAD, 0);
-    mv.visitVarInsn(ILOAD, 2);
+    mv.visitVarInsn(LLOAD, 1);
+    mv.visitInsn(L2I);
     mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonArray", "getValue", "(I)Ljava/lang/Object;", false);
     mv.visitInsn(ARETURN);
-    mv.visitMaxs(2, 3);
-    mv.visitEnd();
-  }
-
-  private void generateGetMemberKeys() {
-    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getMemberKeys", "()Ljava/lang/Object;", null, null);
-    mv.visitCode();
-    mv.visitVarInsn(ALOAD, 0);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonArray", "size", "()I", false);
-    mv.visitTypeInsn(ANEWARRAY, "java/lang/String");
-    mv.visitVarInsn(ASTORE, 1);
-    mv.visitInsn(ICONST_0);
-    mv.visitVarInsn(ISTORE, 2);
-    Label forLabel = new Label();
-    mv.visitLabel(forLabel);
-      mv.visitVarInsn(ILOAD, 2);
-      mv.visitVarInsn(ALOAD, 1);
-      mv.visitInsn(ARRAYLENGTH);
-      Label maxLabel = new Label();
-      mv.visitJumpInsn(IF_ICMPGE, maxLabel);
-      mv.visitVarInsn(ALOAD, 1);
-      mv.visitVarInsn(ILOAD, 2);
-      mv.visitVarInsn(ILOAD, 2);
-      mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "toString", "(I)Ljava/lang/String;", false);
-      mv.visitInsn(AASTORE);
-      mv.visitIincInsn(2, 1);
-      mv.visitJumpInsn(GOTO, forLabel);
-    mv.visitLabel(maxLabel);
-    mv.visitVarInsn(ALOAD, 1);
-    mv.visitInsn(ARETURN);
     mv.visitMaxs(3, 3);
-    mv.visitEnd();
   }
 
-  private void generateHasMember() {
-    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "hasMember", "(Ljava/lang/String;)Z", null, null);
+  private void generateSet() {
+    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "set", "(JLorg/graalvm/polyglot/Value;)V", null, null);
     mv.visitCode();
-    mv.visitVarInsn(ALOAD, 1);
-    mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "valueOf", "(Ljava/lang/String;)Ljava/lang/Integer;", false);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
-    mv.visitVarInsn(ISTORE, 2);
-    mv.visitVarInsn(ILOAD, 2);
-    Label zeroLabel = new Label();
-    mv.visitJumpInsn(IFGE, zeroLabel);
+    mv.visitVarInsn(ALOAD, 0);
+    mv.visitFieldInsn(GETFIELD, "io/vertx/core/json/JsonArray", "list", "Ljava/util/List;");
+    mv.visitVarInsn(LLOAD, 1);
+    mv.visitInsn(L2I);
+    mv.visitVarInsn(ALOAD, 3);
+    mv.visitLdcInsn(Type.getType("Ljava/lang/Object;"));
+    mv.visitMethodInsn(INVOKEVIRTUAL, "org/graalvm/polyglot/Value", "as", "(Ljava/lang/Class;)Ljava/lang/Object;", false);
     mv.visitInsn(ICONST_0);
-    mv.visitInsn(IRETURN);
-    mv.visitLabel(zeroLabel);
-    mv.visitVarInsn(ILOAD, 2);
+    mv.visitMethodInsn(INVOKESTATIC, "io/vertx/core/json/Json", "checkAndCopy", "(Ljava/lang/Object;Z)Ljava/lang/Object;", false);
+    mv.visitMethodInsn(INVOKEINTERFACE, "java/util/List", "set", "(ILjava/lang/Object;)Ljava/lang/Object;", true);
+    mv.visitInsn(POP);
+    mv.visitInsn(RETURN);
+    mv.visitMaxs(4, 4);
+  }
+
+  private void generateGetSize() {
+    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getSize", "()J", null, null);
+    mv.visitCode();
     mv.visitVarInsn(ALOAD, 0);
     mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonArray", "size", "()I", false);
-    Label maxLabel = new Label();
-    mv.visitJumpInsn(IF_ICMPGE, maxLabel);
-    mv.visitInsn(ICONST_1);
-    mv.visitInsn(IRETURN);
-    mv.visitLabel(maxLabel);
-    mv.visitInsn(ICONST_0);
-    mv.visitInsn(IRETURN);
-    mv.visitMaxs(2, 3);
-    mv.visitEnd();
+    mv.visitInsn(I2L);
+    mv.visitInsn(LRETURN);
+    mv.visitMaxs(2, 1);
   }
 
-  private void generatePutMember() {
-    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "putMember", "(Ljava/lang/String;Lorg/graalvm/polyglot/Value;)V", null, null);
+  private void generateRemove() {
+    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "remove", "(J)Z", null, null);
     mv.visitCode();
-    mv.visitTypeInsn(NEW, "java/lang/UnsupportedOperationException");
-    mv.visitInsn(DUP);
-    mv.visitMethodInsn(INVOKESPECIAL, "java/lang/UnsupportedOperationException", "<init>", "()V", false);
-    mv.visitInsn(ATHROW);
-    mv.visitMaxs(2, 3);
-    mv.visitEnd();
-  }
-
-  private void generateRemoveMember() {
-    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "removeMember", "(Ljava/lang/String;)Z", null, null);
-    mv.visitCode();
-    mv.visitVarInsn(ALOAD, 1);
-    mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "valueOf", "(Ljava/lang/String;)Ljava/lang/Integer;", false);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
-    mv.visitVarInsn(ISTORE, 2);
+    mv.visitVarInsn(LLOAD, 1);
     mv.visitVarInsn(ALOAD, 0);
-    mv.visitVarInsn(ILOAD, 2);
+    mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonArray", "size", "()I", false);
+    mv.visitInsn(I2L);
+    mv.visitInsn(LCMP);
+    Label lgt = new Label();
+    mv.visitJumpInsn(IFGE, lgt);
+    mv.visitVarInsn(ALOAD, 0);
+    mv.visitVarInsn(LLOAD, 1);
+    mv.visitInsn(L2I);
     mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonArray", "remove", "(I)Ljava/lang/Object;", false);
-    Label falseLabel = new Label();
-    mv.visitJumpInsn(IFNULL, falseLabel);
+    mv.visitInsn(POP);
     mv.visitLdcInsn(true);
     mv.visitInsn(IRETURN);
-    mv.visitLabel(falseLabel);
+    mv.visitLabel(lgt);
     mv.visitLdcInsn(false);
     mv.visitInsn(IRETURN);
-    mv.visitMaxs(2, 3);
+    mv.visitMaxs(4, 3);
     mv.visitEnd();
   }
 

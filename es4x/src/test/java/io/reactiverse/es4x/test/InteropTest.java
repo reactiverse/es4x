@@ -52,6 +52,7 @@ public class InteropTest {
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +
         "var m = interop.getMap();" +
+        "print(Object.values(m));" +
         "print(m); print(m['k1']); print(m.k2); print(m.k3); print(m.k4);");
   }
 
@@ -74,6 +75,7 @@ public class InteropTest {
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +
         "var l = interop.getList();" +
-        "print(l); print(l[0]); print(l[1]);");
+        "print(l); print(l[0]); print(l[1]);" +
+        "l[2] = true;");
   }
 }

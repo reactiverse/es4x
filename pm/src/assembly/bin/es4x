@@ -4,11 +4,11 @@
 # fight simlinks and avoid readlink -f which doesn't exist on Darwin and Solaris
 pushd . > /dev/null
 basedir="${BASH_SOURCE[0]}";
-while([ -h "${basedir}" ]); do
-    cd "`dirname "${basedir}"`"
-    basedir="$(readlink "`basename "${basedir}"`")";
+while([ -h "$basedir" ]); do
+    cd "`dirname "$basedir"`"
+    basedir="$(readlink "`basename "$basedir"`")";
 done
-cd "`dirname "${basedir}"`" > /dev/null
+cd "`dirname "$basedir"`" > /dev/null
 basedir="`pwd`";
 popd  > /dev/null
 
@@ -17,9 +17,13 @@ case `uname` in
 esac
 
 # Attempt to use JAVA_HOME
-JAVA_EXE="$JAVA_HOME/bin/java"
-if ! [[ -x "$JAVA_EXE" ]]; then
+if [ -z ${JAVA_HOME+x} ]; then
   JAVA_EXE=java
+else
+  JAVA_EXE="$JAVA_HOME/bin/java"
+  if ! [[ -x "$JAVA_EXE" ]]; then
+    JAVA_EXE=java
+  fi
 fi
 
 # Use JVMCI if installed
@@ -30,7 +34,7 @@ fi
 # If exists node_modules/.bin/es4x-launcher.jar
 # use it's class path (else rely on default runtime)
 APP_RUNTIME="node_modules/.bin/es4x-launcher.jar"
-if ! [[ -x "APP_RUNTIME" ]]; then
+if ! [[ -f "$APP_RUNTIME" ]]; then
   APP_RUNTIME="$basedir/../runtime/*"
 fi
 
