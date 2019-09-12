@@ -3,6 +3,8 @@ package io.reactiverse.es4x;
 import io.reactiverse.es4x.impl.ESModuleIO;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+
 import static org.junit.Assert.*;
 
 public class ESModuleAdapterTest {
@@ -209,5 +211,19 @@ public class ESModuleAdapterTest {
       "}).listen(8080);";
 
     assertNotEquals(ESModuleIO.adapt(file), file);
+  }
+
+  @Test
+  public void shouldRemoveShebang() {
+    String file = "#!/usr/bin/env es4x\n" +
+      "console.log('HELLO');\n";
+
+    assertFalse(ESModuleIO.stripShebang(file).startsWith("#!/usr/bin/env es4x\n"));
+  }
+
+  @Test
+  public void testStripBOM() throws UnsupportedEncodingException {
+    String file = new String(new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF, ' ' }, "UTF-8");
+    assertEquals(" ", ESModuleIO.stripBOM(file));
   }
 }

@@ -46,6 +46,10 @@ public class IndexDTS extends Generator<ClassModel> {
   @Override
   public String render(ClassModel model, int index, int size, Map<String, Object> session) {
 
+    if (isBlacklistedClass(model.getType().getName())) {
+      return null;
+    }
+
     StringWriter sw = new StringWriter();
     PrintWriter writer = new PrintWriter(sw);
 
@@ -221,9 +225,9 @@ public class IndexDTS extends Generator<ClassModel> {
         writer.print("\n");
       }
       writer.println("  /**");
-      writer.println("   * Attaches callbacks for the resolution and/or rejection of the Promise.");
-      writer.println("   * @param onfulfilled The callback to execute when the Promise is resolved.");
-      writer.println("   * @param onrejected The callback to execute when the Promise is rejected.");
+      writer.println("   * Attaches callbacks for the resolution and/or rejection of the Future.");
+      writer.println("   * @param onfulfilled The callback to execute when the Future is resolved.");
+      writer.println("   * @param onrejected The callback to execute when the Future is rejected.");
       writer.println("   * @returns A Promise for the completion of which ever callback is executed.");
       writer.println("   */");
       writer.println("   then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): PromiseLike<TResult1 | TResult2>;");

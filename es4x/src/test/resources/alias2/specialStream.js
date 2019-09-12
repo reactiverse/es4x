@@ -1,1 +1,1 @@
-module.exports = "World!"
+module.exports = "World!";

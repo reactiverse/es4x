@@ -24,26 +24,30 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>src/assembly/bin</directory>
-      <outputDirectory>bin</outputDirectory>
-      <includes>
-        <include>es4x.cmd</include>
-      </includes>
-      <lineEnding>dos</lineEnding>
-    </fileSet>
-    <fileSet>
-      <directory>src/assembly/bin</directory>
-      <outputDirectory>bin</outputDirectory>
-      <includes>
-        <include>es4x</include>
-        <include>es4x-cli.js</include>
-      </includes>
-      <lineEnding>unix</lineEnding>
-      <fileMode>0755</fileMode>
-    </fileSet>
-    <fileSet>
       <directory>${project.build.directory}/runtime</directory>
       <outputDirectory>runtime</outputDirectory>
     </fileSet>
   </fileSets>
+  <files>
+    <file>
+      <source>src/assembly/bin/es4x.cmd</source>
+      <outputDirectory>bin</outputDirectory>
+      <filtered>true</filtered>
+      <lineEnding>dos</lineEnding>
+    </file>
+    <file>
+      <source>src/assembly/bin/es4x</source>
+      <outputDirectory>bin</outputDirectory>
+      <filtered>true</filtered>
+      <lineEnding>unix</lineEnding>
+      <fileMode>0755</fileMode>
+    </file>
+    <file>
+      <source>src/assembly/bin/es4x-cli.js</source>
+      <outputDirectory>bin</outputDirectory>
+      <filtered>true</filtered>
+      <lineEnding>unix</lineEnding>
+      <fileMode>0755</fileMode>
+    </file>
+  </files>
 </assembly>

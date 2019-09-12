@@ -6,13 +6,13 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>io.reactiverse.es4x</groupId>
   <artifactId>es4x-generator</artifactId>
-  <version>0.9.0</version>
+  <version>0.9.1</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -233,7 +233,10 @@
         "devDependencies": ${npm-dev-dependencies}
       }
     </package-json>
+    <!-- language=json -->
     <npm-optional-dependencies>[]</npm-optional-dependencies>
+    <!-- language=json -->
+    <npm-class-blacklist>[]</npm-class-blacklist>
   </properties>
 
   <dependencies>
@@ -352,6 +355,10 @@
                 <property>
                   <name>npm-optional-dependencies</name>
                   <value>${npm-optional-dependencies}</value>
+                </property>
+                <property>
+                  <name>npm-class-blacklist</name>
+                  <value>${npm-class-blacklist}</value>
                 </property>
               </properties>
             </configuration>

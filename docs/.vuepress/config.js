@@ -3,7 +3,9 @@ module.exports = {
   base: '/es4x/',
 
   head: [
-    ['link', {rel: "shortcut icon", type: "image/png", href: "/favicon.png"}]
+    ['link', {rel: "shortcut icon", type: "image/png", href: "/favicon.png"}],
+    ['link', {rel: "stylesheet", type: "text/css", href:"/player/asciinema-player.css"}],
+    ['script', {src: "/player/asciinema-player.js"}]
   ],
 
   // look at: https://github.com/vuejs/vuepress/blob/0.x/docs/.vuepress/config.js
@@ -200,7 +202,7 @@ module.exports = {
                 },
                 {
                   text: 'API参考',
-                  link: '/zh/api/'
+                  link: '/api/'
                 },
                 {
                   text: '更新日志',
@@ -208,7 +210,7 @@ module.exports = {
                 },
               ],
               sidebar: {
-                '/get-started/': [
+                '/zh/get-started/': [
                   {
                     title: '由此开始',
                     collapsable: false,
@@ -226,7 +228,7 @@ module.exports = {
                     ]
                   }
                 ],
-                '/advanced/': [
+                '/zh/advanced/': [
                   {
                     title: '进阶内容',
                     collapsable: false,

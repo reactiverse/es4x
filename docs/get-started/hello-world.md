@@ -25,7 +25,7 @@ auto-runnable.
 And in a second terminal:
 
 ```bash
-$ curl localhost:9090
+$ curl localhost:8080
 Hello ES4X world!
 ```
 
@@ -84,7 +84,7 @@ With the `create-vertx-app` you can quickly bootstrap your ES4X TypeScript or Ja
 application with a new keystrokes. If GUI is the preferred way to create applications, then
 the same generator can be used as a [PWA](https://vertx-starter.jetdrone.xyz/#npm).
 
-![es4x-ts](./res/es4x-ts.gif)
+<asciinema :src="$withBase('/cast/es4x-ts.cast')" cols="80" rows="24" />
 
 ## Adding dependencies
 
@@ -156,7 +156,7 @@ With graaljs `.mjs` support both `import` and `export` will work as per design o
 
 ::: tip
 To enable `.mjs` support either use the extension `.mjs` in your `JavaScript` files, or start your application with the
-flag `-esm`.
+flag `-Desm`.
 :::
 
 ::: warning

@@ -24,8 +24,6 @@ import static java.util.logging.Level.*;
 
 public class ES4XFormatter extends Formatter {
 
-  private static final boolean ansi = System.console() != null;
-
   @Override
   public synchronized String format(LogRecord record) {
 
@@ -73,37 +71,32 @@ public class ES4XFormatter extends Formatter {
   }
 
   private static String prefix(Level l) {
-    if (ansi) {
-      if (SEVERE.equals(l)) {
-          return "\u001B[1m\u001B[31m";
-      }
-      if (WARNING.equals(l)) {
-          return "\u001B[1m\u001B[33m";
-      }
-      if (INFO.equals(l)) {
-          return "\u001B[1m\u001B[34m";
-      }
-      if (CONFIG.equals(l)) {
-          return "\u001B[1m\u001B[36m";
-      }
-      if (FINE.equals(l)) {
-          return "\u001B[1m\u001B[94m";
-      }
-      if (FINER.equals(l)) {
-          return "\u001B[94m";
-      }
-      if (FINEST.equals(l)) {
-          return "\u001B[94m";
-      }
+    if (SEVERE.equals(l)) {
+        return "\u001B[1m\u001B[31m";
+    }
+    if (WARNING.equals(l)) {
+        return "\u001B[1m\u001B[33m";
+    }
+    if (INFO.equals(l)) {
+        return "\u001B[1m\u001B[34m";
+    }
+    if (CONFIG.equals(l)) {
+        return "\u001B[1m\u001B[36m";
+    }
+    if (FINE.equals(l)) {
+        return "\u001B[1m\u001B[94m";
+    }
+    if (FINER.equals(l)) {
+        return "\u001B[94m";
+    }
+    if (FINEST.equals(l)) {
+        return "\u001B[94m";
     }
 
     return "[" + l.getName().toUpperCase() + "] ";
   }
 
   private static String suffix(Level l) {
-    if (ansi) {
-      return "\u001B[0m";
-    }
-    return "";
+    return "\u001B[0m";
   }
 }

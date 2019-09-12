@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.9.1] - 2019-09-12
+- Fix issue with `pm` launcher that doesn't add itself to the classpath
+- Fix issue with `pm` lancher that picks the wrong java if `GRAALVM_HOME`
+  was defined
+- Moved `esm`, `polyglot`, etc... run flags to jvm flags in order to be
+  usable from any command
+- Updated codegen to support more temporal types as they are supported
+  by graal itself
+- Added a few more tests to ES4X
+- Instrumented `JsonObject` to be a Graal `ProxyObject` (this allows
+  using it as a native object)
+- Instrumented `JsonArray` to be a Graal `ProxyArray` (this is a
+  preparation for hanlding it as a native array)
+
 ## [0.9.0] - 2019-08-23
 - Upgrade to Graal 19.2.0
 - Upgrade to Vert.x 3.8.1

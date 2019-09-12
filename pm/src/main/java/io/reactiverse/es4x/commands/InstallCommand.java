@@ -16,6 +16,8 @@
 package io.reactiverse.es4x.commands;
 
 import io.reactiverse.es4x.ES4X;
+import io.reactiverse.es4x.commands.proxies.JsonArrayProxy;
+import io.reactiverse.es4x.commands.proxies.JsonObjectProxy;
 import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.*;
 import io.vertx.core.spi.launcher.DefaultCommand;
@@ -25,9 +27,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.jar.Attributes;
-import java.util.jar.JarOutputStream;
-import java.util.jar.Manifest;
+import java.util.jar.*;
 
 import static io.reactiverse.es4x.commands.Helper.*;
 
@@ -51,6 +51,7 @@ public class InstallCommand extends DefaultCommand {
 
   private boolean force;
   private List<String> vendor;
+  private File coreJar;
 
   @Option(longName = "force", shortName = "f", flag = true)
   @Description("Will always install a basic runtime in the current working dir.")
@@ -259,6 +260,12 @@ public class InstallCommand extends DefaultCommand {
           }
           artifacts.add(".." + File.separator + ".lib" + File.separator + a.getFile().getName());
           File destination = new File(libs, a.getFile().getName());
+
+          // locate core jar
+          if ("io.vertx".equals(a.getGroupId()) && "vertx-core".equals(a.getArtifactId())) {
+            coreJar = a.getFile();
+          }
+
           if (!destination.exists()) {
             Files.copy(a.getFile().toPath(), destination.toPath());
           }
@@ -278,10 +285,21 @@ public class InstallCommand extends DefaultCommand {
         Map npm = read(json);
         // default main script
         String main = ".";
+        String verticleFactory = "js";
 
         // if package json declares a different main, then it shall be used
         if (npm.containsKey("main")) {
           main = (String) npm.get("main");
+          // allow main to be a mjs
+          if (main != null && main.endsWith(".mjs")) {
+            verticleFactory = "mjs";
+          }
+        }
+
+        // if package json declares a different main, then it shall be used
+        if (npm.containsKey("module")) {
+          main = (String) npm.get("module");
+          verticleFactory = "mjs";
         }
 
         final File base = new File(getCwd(), "node_modules");
@@ -307,9 +325,28 @@ public class InstallCommand extends DefaultCommand {
         attributes.put(Attributes.Name.CLASS_PATH, classpath);
         attributes.put(new Attributes.Name("Main-Verticle"), main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
+        attributes.put(new Attributes.Name("Default-Verticle-Factory"), verticleFactory);
 
         try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, "es4x-launcher.jar")), manifest)) {
-          // nothing to be added!
+          if (coreJar != null) {
+            try (InputStream in = new FileInputStream(coreJar)) {
+              try (JarInputStream jar = new JarInputStream(in)) {
+                JarEntry je;
+                while ((je = jar.getNextJarEntry()) != null) {
+                  if ("io/vertx/core/json/JsonObject.class".equals(je.getName())) {
+                    target.putNextEntry(je);
+                    target.write(new JsonObjectProxy().rewrite(jar));
+                    target.closeEntry();
+                  }
+                  if ("io/vertx/core/json/JsonArray.class".equals(je.getName())) {
+                    target.putNextEntry(je);
+                    target.write(new JsonArrayProxy().rewrite(jar));
+                    target.closeEntry();
+                  }
+                }
+              }
+            }
+          }
         }
 
         // create the launcher scripts
