@@ -290,6 +290,10 @@ public class InstallCommand extends DefaultCommand {
         // if package json declares a different main, then it shall be used
         if (npm.containsKey("main")) {
           main = (String) npm.get("main");
+          // allow main to be a mjs
+          if (main != null && main.endsWith(".mjs")) {
+            verticleFactory = "mjs";
+          }
         }
 
         // if package json declares a different main, then it shall be used
@@ -325,18 +329,20 @@ public class InstallCommand extends DefaultCommand {
 
         try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, "es4x-launcher.jar")), manifest)) {
           if (coreJar != null) {
-            try (JarInputStream jar = new JarInputStream(new FileInputStream(coreJar))) {
-              JarEntry je;
-              while ((je = jar.getNextJarEntry()) != null) {
-                if ("io/vertx/core/json/JsonObject.class".equals(je.getName())) {
-                  target.putNextEntry(je);
-                  target.write(new JsonObjectProxy().rewrite(jar));
-                  target.closeEntry();
-                }
-                if ("io/vertx/core/json/JsonArray.class".equals(je.getName())) {
-                  target.putNextEntry(je);
-                  target.write(new JsonArrayProxy().rewrite(jar));
-                  target.closeEntry();
+            try (InputStream in = new FileInputStream(coreJar)) {
+              try (JarInputStream jar = new JarInputStream(in)) {
+                JarEntry je;
+                while ((je = jar.getNextJarEntry()) != null) {
+                  if ("io/vertx/core/json/JsonObject.class".equals(je.getName())) {
+                    target.putNextEntry(je);
+                    target.write(new JsonObjectProxy().rewrite(jar));
+                    target.closeEntry();
+                  }
+                  if ("io/vertx/core/json/JsonArray.class".equals(je.getName())) {
+                    target.putNextEntry(je);
+                    target.write(new JsonArrayProxy().rewrite(jar));
+                    target.closeEntry();
+                  }
                 }
               }
             }
