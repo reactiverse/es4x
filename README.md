@@ -4,6 +4,12 @@ This is the EcmaScript (5.1+) language support for [Eclipse Vert.x](http://vertx
 
 [![Build Status](https://travis-ci.com/reactiverse/es4x.svg?branch=develop)](https://travis-ci.com/reactiverse/es4x) [![Join the chat at https://gitter.im/es4x/Lobby](https://badges.gitter.im/es4x/Lobby.svg)](https://gitter.im/es4x/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+## Why?
+
+[![10 things I've learned making the fastest JS runtime in the world](https://img.youtube.com/vi/JUJ85k3aEg4/0.jpg)](https://www.youtube.com/watch?v=JUJ85k3aEg4)
+
+JavaScript is fast, and this is the way to make it even faster 🚀🚀🚀
+
 ## Usage
 
 ```bash
