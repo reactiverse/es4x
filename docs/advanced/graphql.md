@@ -43,7 +43,7 @@ vertx
   .createHttpServer()
   .requestHandler(app)
   .listen(port, host, listen => {
-    if (listen.failed()) {
+    if (listen.succeeded()) {
       console.log(`🚀 GraphQL ready at http://${host}:${port}${server.graphqlPath}`)
     } else {
       console.log('Failed to bind!');
