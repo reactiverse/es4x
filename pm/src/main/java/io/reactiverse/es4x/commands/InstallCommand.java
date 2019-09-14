@@ -344,7 +344,11 @@ public class InstallCommand extends DefaultCommand {
                     target.closeEntry();
                   }
                 }
+              } catch (RuntimeException e) {
+                warn(e.getMessage());
               }
+            } catch (RuntimeException e) {
+              warn(e.getMessage());
             }
           }
         }
