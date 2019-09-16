@@ -1,7 +1,7 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -24,7 +24,7 @@ public class LoggerTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
+    runtime = new ECMAEngine(rule.vertx()).newContext();
   }
 
   @Test

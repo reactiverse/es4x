@@ -1,6 +1,5 @@
 package io.reactiverse.es4x;
 
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -9,8 +8,6 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.fail;
 
 @RunWith(VertxUnitRunner.class)
 public class ESModuleTest {
@@ -22,10 +19,7 @@ public class ESModuleTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
-    if (runtime == null) {
-      fail("NULL runtime");
-    }
+    runtime = new ECMAEngine(rule.vertx()).newContext();
   }
 
   @Test

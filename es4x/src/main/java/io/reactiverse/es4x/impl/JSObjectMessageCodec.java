@@ -20,11 +20,14 @@ import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-public abstract class AbstractJSObjectMessageCodec implements MessageCodec<Object, Object> {
+import java.util.List;
+import java.util.Map;
+
+public final class JSObjectMessageCodec implements MessageCodec<Object, Object> {
 
   private final String codecName;
 
-  public AbstractJSObjectMessageCodec(String codecName) {
+  public JSObjectMessageCodec(String codecName) {
     this.codecName = codecName;
   }
 
@@ -58,5 +61,48 @@ public abstract class AbstractJSObjectMessageCodec implements MessageCodec<Objec
   @Override
   public byte systemCodecID() {
     return -1;
+  }
+
+  @Override
+  public void encodeToWire(Buffer buffer, Object jsObject) {
+
+    if (jsObject == null) {
+      buffer.appendInt(0);
+      return;
+    }
+
+    if (jsObject instanceof List) {
+      final Buffer encoded = new JsonArray((List) jsObject).toBuffer();
+      buffer.appendInt(encoded.length());
+      buffer.appendBuffer(buffer);
+      return;
+    }
+
+    if (jsObject instanceof Map) {
+      final Buffer encoded = new JsonObject((Map) jsObject).toBuffer();
+      buffer.appendInt(encoded.length());
+      buffer.appendBuffer(buffer);
+      return;
+    }
+
+    throw new ClassCastException("type is not Object or Array");
+  }
+
+  @Override
+  public Object transform(Object jsObject) {
+
+    if (jsObject == null) {
+      return null;
+    }
+
+    if (jsObject instanceof List) {
+      return new JsonArray((List) jsObject).copy();
+    }
+
+    if (jsObject instanceof Map) {
+      return new JsonObject((Map) jsObject).copy();
+    }
+
+    throw new ClassCastException("type is not Object or Array");
   }
 }

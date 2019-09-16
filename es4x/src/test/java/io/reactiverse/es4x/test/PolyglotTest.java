@@ -1,7 +1,7 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.graalvm.polyglot.Value;
@@ -23,7 +23,7 @@ public class PolyglotTest {
   @Before
   public void initialize() {
     System.setProperty("es4x.polyglot", "true");
-    runtime = new GraalEngine(rule.vertx()).newContext();
+    runtime = new ECMAEngine(rule.vertx()).newContext();
     System.setProperty("es4x.polyglot", "false");
   }
 

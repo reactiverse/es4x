@@ -27,7 +27,7 @@ public abstract class ESVerticleFactory implements VerticleFactory {
   @Override
   public void init(final Vertx vertx) {
     synchronized (vertx) {
-      this.engine = ECMAEngine.newEngine(vertx);
+      this.engine = new ECMAEngine(vertx);
     }
   }
 

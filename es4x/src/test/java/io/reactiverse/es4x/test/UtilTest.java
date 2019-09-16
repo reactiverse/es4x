@@ -1,7 +1,7 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -21,7 +21,7 @@ public class UtilTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
+    runtime = new ECMAEngine(rule.vertx()).newContext();
   }
 
   @Test(timeout = 10000)

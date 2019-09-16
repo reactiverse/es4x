@@ -13,7 +13,7 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x.impl.graal;
+package io.reactiverse.es4x.impl;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,7 +43,7 @@ public final class VertxFileSystem implements FileSystem {
   private final String prefix = System.getProperty("es4x.prefix", "");
   private final VertxInternal vertx;
 
-  static String getCWD() {
+  public static String getCWD() {
     // clean up the current working dir
     String cwdOverride = System.getProperty("vertx.cwd");
     String cwd;

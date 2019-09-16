@@ -1,7 +1,7 @@
 package io.reactiverse.es4x.test;
 
+import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
@@ -23,7 +23,7 @@ public class EventBusTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
+    runtime = new ECMAEngine(rule.vertx()).newContext();
     runtime.put("eb", rule.vertx().eventBus());
   }
 
