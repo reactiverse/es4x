@@ -52,4 +52,10 @@ if (existsSync(path.join(process.cwd(), launcher))) {
 
 arguments.push('io.reactiverse.es4x.ES4X');
 
-spawnSync(java, arguments.concat(process.argv.slice(2)), { cwd: process.cwd(), stdio: 'inherit' });
+let result = spawnSync(java, arguments.concat(process.argv.slice(2)), { cwd: process.cwd(), stdio: 'inherit' });
+
+// collect the error if any and log
+if (result.error) {
+  console.error(`es4x-pm ERROR: ${result.error.message}`);
+  process.exit(1);
+}
