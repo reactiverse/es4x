@@ -47,6 +47,22 @@ public class InteropTest {
   }
 
   @Test
+  public void testAutocastJSObjectToMap() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "interop.shouldBaAMap({k:1});");
+  }
+
+  @Test
+  public void testAutocastJSObjectToList() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "interop.shouldBaAList([1,null,true]);");
+  }
+
+  @Test
   public void testMapInterop() throws Exception {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +

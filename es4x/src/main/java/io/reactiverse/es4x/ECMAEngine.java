@@ -15,10 +15,12 @@
  */
 package io.reactiverse.es4x;
 
+import io.netty.buffer.Unpooled;
 import io.reactiverse.es4x.impl.JSObjectMessageCodec;
 import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.reactiverse.es4x.jul.ES4XFormatter;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
@@ -26,6 +28,7 @@ import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -121,6 +124,12 @@ public final class ECMAEngine {
         JsonArray.class,
         null,
         JsonArray::new)
+      // map native buffer to Vert.x Buffer
+      .targetTypeMapping(
+        ByteBuffer.class,
+        Buffer.class,
+        null,
+        b -> Buffer.buffer(Unpooled.wrappedBuffer(b)))
       // Ensure Arrays are exposed as List when the Java API is accepting Object
       .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();
