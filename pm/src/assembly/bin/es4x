@@ -31,11 +31,14 @@ if [[ -d "node_modules/.jvmci" ]]; then
   JVMCI="--module-path=node_modules/.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=node_modules/.jvmci/compiler.jar"
 fi
 
-# If exists node_modules/.bin/es4x-launcher.jar
-# use it's class path (else rely on default runtime)
-APP_RUNTIME="node_modules/.bin/es4x-launcher.jar"
-if ! [[ -f "$APP_RUNTIME" ]]; then
-  APP_RUNTIME="$basedir/../runtime/*"
+# If exists node_modules/.bin/es4x-launcher.jar && node_modules/.lib
+# use it's class path (else rely on PM runtime)
+if [[ -f "node_modules/.bin/es4x-launcher.jar" ]] && [[ -d "node_modules/.lib" ]]; then
+  APP_RUNTIME="node_modules/.bin/es4x-launcher.jar:$basedir/../es4x-pm-${project.version}.jar"
+  APP_MAIN="io.reactiverse.es4x.ES4X"
+else
+  APP_MAIN="io.reactiverse.es4x.cli.PM"
+  APP_RUNTIME="$basedir/../es4x-pm-${project.version}.jar"
 fi
 
-exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "$APP_RUNTIME:$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X "$@"
+exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "$APP_RUNTIME" $APP_MAIN "$@"

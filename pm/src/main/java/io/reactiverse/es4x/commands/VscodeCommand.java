@@ -45,11 +45,11 @@ public class VscodeCommand extends DefaultCommand {
     String app = "Launch";
 
     if (pkg.exists()) {
-      Map pkgJson = read(pkg);
+      Map pkgJson = JSON.parse(pkg, Map.class);
       app = "Launch " + pkgJson.get("name");
     }
 
-    Map launch = read(json);
+    Map launch = JSON.parse(json, Map.class);
 
     if (!launch.containsKey("configurations")) {
 			launch.put("configurations", new ArrayList<>());
@@ -100,7 +100,7 @@ public class VscodeCommand extends DefaultCommand {
     config.put("serverReadyAction", serverReady);
 
 		configurations.add(config);
-		write(json, launch);
+    JSON.encode(json, launch);
 	}
 
 	@Override

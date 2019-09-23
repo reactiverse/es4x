@@ -17,9 +17,17 @@ IF EXIST "node_modules/.jvmci" (
 
 :: If exists node_modules/.bin/es4x-launcher.jar
 :: use it's class path (else rely on default runtime)
-SET "APP_RUNTIME=node_modules\.bin\es4x-launcher.jar"
-IF NOT EXIST "%APP_RUNTIME%" (
-  SET "APP_RUNTIME=%~dp0\..\runtime\*"
+IF EXIST "node_modules\.bin\es4x-launcher.jar" (
+  IF EXIST "node_modules\.lib" (
+    SET "APP_RUNTIME=node_modules\.bin\es4x-launcher.jar;%~dp0\..\es4x-pm-${project.version}.jar"
+    SET "APP_MAIN=io.reactiverse.es4x.ES4X"
+  ) ELSE (
+    SET "APP_RUNTIME=%~dp0\..\es4x-pm-${project.version}.jar"
+    SET "APP_MAIN=io.reactiverse.es4x.cli.PM"
+  )
+) ELSE (
+  SET "APP_RUNTIME=%~dp0\..\es4x-pm-${project.version}.jar"
+  SET "APP_MAIN=io.reactiverse.es4x.cli.PM"
 )
 
-"$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "%APP_RUNTIME%;%~dp0\..\es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X %*
+"$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %JAVA_OPTS% -cp "%APP_RUNTIME%" %APP_MAIN% %*

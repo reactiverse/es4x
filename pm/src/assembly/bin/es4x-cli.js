@@ -2,7 +2,7 @@
 
 const { existsSync } = require('fs');
 const path = require('path');
-const { spawnSync } = require('child_process');
+const { spawn } = require('child_process');
 
 let java = 'java';
 let skipJvmci = false;
@@ -43,19 +43,26 @@ if (existsSync(path.join(process.cwd(), launcher))) {
   let lib = path.join('node_modules', '.lib');
   if (existsSync(path.join(process.cwd(), lib))) {
     arguments.push(`${launcher}${path.delimiter}${path.join(__dirname, '..', pm)}`);
+    arguments.push('io.reactiverse.es4x.ES4X');
   } else {
-    arguments.push(`${launcher}${path.delimiter}${path.join(__dirname, '..', 'runtime', '*')}${path.delimiter}${path.join(__dirname, '..', pm)}`);
+    // there's no .lib fallback to PM
+    arguments.push(`${path.join(__dirname, '..', pm)}`);
+    arguments.push('io.reactiverse.es4x.cli.PM');
   }
 } else {
-  arguments.push(`${path.join(__dirname, '..', 'runtime', '*')}${path.delimiter}${path.join(__dirname, '..', pm)}`);
+  arguments.push(`${path.join(__dirname, '..', pm)}`);
+  arguments.push('io.reactiverse.es4x.cli.PM');
 }
 
-arguments.push('io.reactiverse.es4x.ES4X');
+const subProcess = spawn(java, arguments.concat(process.argv.slice(2)), { cwd: process.cwd(), stdio: 'inherit' });
 
-let result = spawnSync(java, arguments.concat(process.argv.slice(2)), { cwd: process.cwd(), stdio: 'inherit' });
-
-// collect the error if any and log
-if (result.error) {
-  console.error(`es4x-pm ERROR: ${result.error.message}`);
+subProcess.on('error', (err) => {
+  console.error(`es4x-pm ERROR: ${err}`);
   process.exit(1);
-}
+});
+
+subProcess.on('close', (code) => {
+  if (code !== 0) {
+    console.log(`java process exited with code ${code}`);
+  }
+});
