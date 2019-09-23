@@ -23,7 +23,7 @@ import org.graalvm.polyglot.io.FileSystem;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 
-public final class MJSVerticleFactory extends ESVerticleFactory {
+public class MJSVerticleFactory extends ESVerticleFactory {
 
   @Override
   public String prefix() {
@@ -31,7 +31,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
   }
 
   @Override
-  Verticle createVerticle(Runtime runtime, String fsVerticleName) {
+  protected Verticle createVerticle(Runtime runtime, String fsVerticleName) {
     return new Verticle() {
 
       private Vertx vertx;

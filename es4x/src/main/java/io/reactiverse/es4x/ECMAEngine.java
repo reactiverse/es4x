@@ -147,12 +147,17 @@ public final class ECMAEngine {
     return fileSystem;
   }
 
+
+  public synchronized Runtime newContext() {
+    return newContext(null);
+  }
+
   /**
    * return a new context for this engine.
    *
    * @return new context.
    */
-  public synchronized Runtime newContext() {
+  public synchronized Runtime newContext(Source[] customPolyfills) {
 
     final Pattern[] allowedHostAccessClassFilters = ECMAEngine.allowedHostClassFilters();
 
@@ -203,6 +208,6 @@ public final class ECMAEngine {
     }
 
     // setup complete
-    return new Runtime(vertx, context);
+    return new Runtime(vertx, context, customPolyfills);
   }
 }
