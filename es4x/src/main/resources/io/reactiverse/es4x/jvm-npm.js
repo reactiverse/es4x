@@ -320,14 +320,6 @@
     this.cause = cause;
   }
 
-  // Helper function until ECMAScript 6 is complete
-  if (typeof String.prototype.endsWith !== 'function') {
-    String.prototype.endsWith = function (suffix) {
-      if (!suffix) return false;
-      return this.indexOf(suffix, this.length - suffix.length) !== -1;
-    };
-  }
-
   ModuleError.prototype = new Error();
   ModuleError.prototype.constructor = ModuleError;
 
