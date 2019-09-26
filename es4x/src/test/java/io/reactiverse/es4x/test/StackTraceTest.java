@@ -11,7 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.reactiverse.es4x.AsyncError.asyncError;
+import static io.reactiverse.es4x.impl.AsyncError.asyncError;
 
 @RunWith(VertxUnitRunner.class)
 public class StackTraceTest {

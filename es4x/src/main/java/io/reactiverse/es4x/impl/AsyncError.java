@@ -13,7 +13,7 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x;
+package io.reactiverse.es4x.impl;
 
 import io.vertx.core.AsyncResult;
 
