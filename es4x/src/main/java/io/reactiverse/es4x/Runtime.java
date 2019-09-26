@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 
-public final class Runtime extends EventEmitterImpl {
+public class Runtime extends EventEmitterImpl {
 
   private final Context context;
   private final Value bindings;
@@ -49,7 +49,10 @@ public final class Runtime extends EventEmitterImpl {
     Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral()
   };
 
-  public Runtime(final Vertx vertx, Context context) {
+  public Runtime(final Vertx vertx, final Context context) {
+    this(vertx, context, null);
+  }
+  public Runtime(final Vertx vertx, final Context context, Source[] customPolyfills) {
 
     this.context = context;
     this.bindings = this.context.getBindings("js");
@@ -124,6 +127,11 @@ public final class Runtime extends EventEmitterImpl {
     bindings.putMember("verticle", this);
     for (int i = 0; i < POLYFILLS.length - 1; i++) {
       context.eval(POLYFILLS[i]);
+    }
+    if(customPolyfills != null) {
+      for (int i = 0; i < customPolyfills.length; i++) {
+        context.eval(customPolyfills[i]);
+      }
     }
     bindings.removeMember("verticle");
 
