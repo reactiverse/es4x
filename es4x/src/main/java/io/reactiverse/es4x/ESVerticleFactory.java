@@ -36,7 +36,7 @@ public abstract class ESVerticleFactory implements VerticleFactory {
     return -1;
   }
 
-  abstract Verticle createVerticle(Runtime runtime, String fsVerticleName);
+  protected  abstract Verticle createVerticle(Runtime runtime, String fsVerticleName);
 
   @Override
   public Verticle createVerticle(String verticleName, ClassLoader classLoader) {

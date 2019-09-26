@@ -26,7 +26,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
   }
 
   @Override
-  Verticle createVerticle(Runtime runtime, String fsVerticleName) {
+  protected Verticle createVerticle(Runtime runtime, String fsVerticleName) {
     return new Verticle() {
 
       private Vertx vertx;
