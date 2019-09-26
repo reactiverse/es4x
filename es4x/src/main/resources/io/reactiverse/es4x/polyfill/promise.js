@@ -153,7 +153,7 @@
   };
 
   Promise.prototype.then = function (onFulfilled, onRejected) {
-    var prom = new Promise(noop);
+    let prom = new Promise(noop);
     handle(this, new Handler(onFulfilled, onRejected, prom));
     return prom;
   };
@@ -200,7 +200,7 @@
         }
       }
 
-      for (var i = 0; i < args.length; i++) {
+      for (let i = 0; i < args.length; i++) {
         res(i, args[i]);
       }
     });

@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -12,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static io.reactiverse.es4x.test.JS.commonjs;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -25,8 +25,8 @@ public class NativeJSONTest {
   public RunTestOnContext rule = new RunTestOnContext();
 
   @Before
-  public void initialize() throws Exception {
-    runtime = new ECMAEngine(rule.vertx()).newContext();
+  public void initialize() {
+    runtime = commonjs(rule.vertx());
     JSON = runtime.eval("JSON");
   }
 
@@ -49,7 +49,7 @@ public class NativeJSONTest {
   }
 
   @Test
-  public void testOriginalObject() throws Exception {
+  public void testOriginalObject() {
     Object result = runtime.eval("JSON.stringify({foo: 'bar'})");
     assertNotNull(result);
     // Graal engine always wraps
@@ -58,7 +58,7 @@ public class NativeJSONTest {
   }
 
   @Test
-  public void testOriginalArray() throws Exception {
+  public void testOriginalArray() {
     Object result = runtime.eval("JSON.stringify(['foo', 'bar'])");
     assertNotNull(result);
     // Graal engine always wraps

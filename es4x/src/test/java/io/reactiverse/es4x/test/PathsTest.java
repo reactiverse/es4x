@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
@@ -13,6 +12,8 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 
+import static io.reactiverse.es4x.test.JS.commonjs;
+
 @RunWith(VertxUnitRunner.class)
 public class PathsTest {
 
@@ -23,11 +24,11 @@ public class PathsTest {
 
   @Before
   public void initialize() {
-    runtime = new ECMAEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
   }
 
   @Test(timeout = 10000)
-  public void testPaths(TestContext ctx) throws Exception {
+  public void testPaths(TestContext ctx) {
 
     final Async async = ctx.async();
 
@@ -45,7 +46,7 @@ public class PathsTest {
   }
 
   @Test(timeout = 10000)
-  public void testPathsWin(TestContext ctx) throws Exception {
+  public void testPathsWin(TestContext ctx) {
 
     final Async async = ctx.async();
 
@@ -79,7 +80,7 @@ public class PathsTest {
   }
 
   @Test(timeout = 10000)
-  public void testPathsNodePath(TestContext ctx) throws Exception {
+  public void testPathsNodePath(TestContext ctx) {
 
     final Async async = ctx.async();
 
@@ -102,7 +103,7 @@ public class PathsTest {
   }
 
   @Test(timeout = 10000)
-  public void testPathsNodePathWin(TestContext ctx) throws Exception {
+  public void testPathsNodePathWin(TestContext ctx) {
 
     final Async async = ctx.async();
 

@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -8,6 +7,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static io.reactiverse.es4x.test.JS.commonjs;
 
 @RunWith(VertxUnitRunner.class)
 public class InteropTest {
@@ -19,11 +20,11 @@ public class InteropTest {
 
   @Before
   public void initialize() {
-    runtime = new ECMAEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
   }
 
   @Test
-  public void testJSONObjectInterop() throws Exception {
+  public void testJSONObjectInterop() {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
       "var interop = new Interop();" +
@@ -31,7 +32,7 @@ public class InteropTest {
   }
 
   @Test
-  public void testJSONArrayInterop() throws Exception {
+  public void testJSONArrayInterop() {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +
@@ -39,7 +40,7 @@ public class InteropTest {
   }
 
   @Test
-  public void testInstantInterop() throws Exception {
+  public void testInstantInterop() {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +
@@ -63,7 +64,7 @@ public class InteropTest {
   }
 
   @Test
-  public void testMapInterop() throws Exception {
+  public void testMapInterop() {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +
@@ -73,7 +74,7 @@ public class InteropTest {
   }
 
   @Test
-  public void testMapBaseInterop() throws Exception {
+  public void testMapBaseInterop() {
     runtime.eval(
       "var HashMap = Java.type('java.util.HashMap');\n" +
         "var map = new HashMap();\n" +
@@ -86,7 +87,7 @@ public class InteropTest {
   }
 
   @Test
-  public void testListInterop() throws Exception {
+  public void testListInterop() {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +

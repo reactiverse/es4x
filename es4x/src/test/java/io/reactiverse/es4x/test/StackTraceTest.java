@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
@@ -12,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static io.reactiverse.es4x.impl.AsyncError.asyncError;
+import static io.reactiverse.es4x.test.JS.commonjs;
 
 @RunWith(VertxUnitRunner.class)
 public class StackTraceTest {
@@ -23,11 +23,11 @@ public class StackTraceTest {
 
   @Before
   public void initialize() {
-    runtime = new ECMAEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
   }
 
   @Test(timeout = 10000)
-  public void shouldGenerateUsefulStackTrace(TestContext should) throws Exception {
+  public void shouldGenerateUsefulStackTrace(TestContext should) {
     final Async test = should.async();
     // pass the assertion to the engine
     runtime.put("should", should);
@@ -37,7 +37,7 @@ public class StackTraceTest {
   }
 
   @Test(timeout = 10000)
-  public void shouldGenerateUsefulStackTraceFromJS(TestContext should) throws Exception {
+  public void shouldGenerateUsefulStackTraceFromJS(TestContext should) {
     final Async test = should.async();
     // pass the assertion to the engine
     runtime.put("should", should);

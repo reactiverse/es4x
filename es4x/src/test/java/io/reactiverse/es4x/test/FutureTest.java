@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
@@ -10,6 +9,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static io.reactiverse.es4x.test.JS.commonjs;
+import static io.reactiverse.es4x.test.JS.require;
 
 @RunWith(VertxUnitRunner.class)
 public class FutureTest {
@@ -21,7 +23,7 @@ public class FutureTest {
 
   @Before
   public void initialize() {
-    runtime = new ECMAEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
   }
 
   @Test(timeout = 10000)
@@ -32,7 +34,7 @@ public class FutureTest {
     runtime.put("should", should);
     runtime.put("test", test);
     // run a small script
-    runtime.require("./future/future.js");
+    require(runtime, "./future/future.js");
   }
 
   @Test(timeout = 10000)
@@ -43,7 +45,7 @@ public class FutureTest {
     runtime.put("should", should);
     runtime.put("test", test);
     // run a small script
-    runtime.require("./future/future2.js");
+    require(runtime, "./future/future2.js");
   }
 
   @Test(timeout = 10000)
@@ -54,6 +56,6 @@ public class FutureTest {
     runtime.put("should", should);
     runtime.put("test", test);
     // run a small script
-    runtime.require("./future/issue184.js");
+    require(runtime, "./future/issue184.js");
   }
 }

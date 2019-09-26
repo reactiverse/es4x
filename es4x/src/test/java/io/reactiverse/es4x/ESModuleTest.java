@@ -23,7 +23,7 @@ public class ESModuleTest {
   }
 
   @Test
-  public void testInline(TestContext should) throws Exception {
+  public void testInline(TestContext should) {
 
     // mjs/foobar.mjs is not on the CWD but on the classpath
     // all IO is captured by a Vert.x file system implementation that
@@ -36,7 +36,7 @@ public class ESModuleTest {
   }
 
   @Test
-  public void testRelative(TestContext should) throws Exception {
+  public void testRelative(TestContext should) {
 
     // mjs/foobar.mjs is not on the CWD but on the classpath
     // all IO is captured by a Vert.x file system implementation that
@@ -48,7 +48,7 @@ public class ESModuleTest {
 
   @Test
   @Ignore
-  public void testMeta(TestContext should) throws Exception {
+  public void testMeta(TestContext should) {
 
     Object result = runtime.eval("import { f } from './mjs/meta'\n f();\n", "script.mjs", false);
 

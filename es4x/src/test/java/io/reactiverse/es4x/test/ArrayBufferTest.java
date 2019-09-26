@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.test;
 
-import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -9,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static io.reactiverse.es4x.test.JS.commonjs;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(VertxUnitRunner.class)
@@ -21,11 +21,11 @@ public class ArrayBufferTest {
 
   @Before
   public void initialize() {
-    runtime = new ECMAEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
   }
 
   @Test
-  public void testBasicConsole() throws Exception {
+  public void testBasicConsole() {
     assertEquals(
       8,
       runtime.eval(

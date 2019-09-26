@@ -3,7 +3,7 @@ package io.reactiverse.es4x;
 import io.reactiverse.es4x.impl.ESModuleIO;
 import org.junit.Test;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.*;
 
@@ -222,8 +222,8 @@ public class ESModuleAdapterTest {
   }
 
   @Test
-  public void testStripBOM() throws UnsupportedEncodingException {
-    String file = new String(new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF, ' ' }, "UTF-8");
+  public void testStripBOM() {
+    String file = new String(new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF, ' ' }, StandardCharsets.UTF_8);
     assertEquals(" ", ESModuleIO.stripBOM(file));
   }
 }

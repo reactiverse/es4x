@@ -33,26 +33,12 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 
-public class Runtime extends EventEmitterImpl {
+public final class Runtime extends EventEmitterImpl {
 
   private final Context context;
   private final Value bindings;
-  private final Value module;
 
-  private static final Source[] POLYFILLS = new Source[] {
-    Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/json.js")).buildLiteral(),
-    Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/global.js")).buildLiteral(),
-    Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/date.js")).buildLiteral(),
-    Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/console.js")).buildLiteral(),
-    Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/promise.js")).buildLiteral(),
-    Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/polyfill/worker.js")).buildLiteral(),
-    Source.newBuilder("js", Runtime.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral()
-  };
-
-  public Runtime(final Vertx vertx, final Context context) {
-    this(vertx, context, null);
-  }
-  public Runtime(final Vertx vertx, final Context context, Source[] customPolyfills) {
+  Runtime(final Vertx vertx, final Context context, Source... scripts) {
 
     this.context = context;
     this.bindings = this.context.getBindings("js");
@@ -125,18 +111,12 @@ public class Runtime extends EventEmitterImpl {
 
     // load all the polyfills
     bindings.putMember("verticle", this);
-    for (int i = 0; i < POLYFILLS.length - 1; i++) {
-      context.eval(POLYFILLS[i]);
-    }
-    if(customPolyfills != null) {
-      for (int i = 0; i < customPolyfills.length; i++) {
-        context.eval(customPolyfills[i]);
+    if(scripts != null) {
+      for (Source script : scripts) {
+        context.eval(script);
       }
     }
     bindings.removeMember("verticle");
-
-    // keep a reference to module
-    module = context.eval(POLYFILLS[POLYFILLS.length -1]);
   }
 
   /**
@@ -144,7 +124,7 @@ public class Runtime extends EventEmitterImpl {
    *
    * @param config given configuration.
    */
-  void config(final JsonObject config) {
+  public void config(final JsonObject config) {
     if (config != null) {
       // add config as a global
       bindings.putMember("config", config);
@@ -152,41 +132,7 @@ public class Runtime extends EventEmitterImpl {
   }
 
   /**
-   * Require a module following the commonjs spec
-   *
-   * @param module a module
-   * @return return the module
-   */
-  public Value require(String module) {
-    return bindings.getMember("require").execute(module);
-  }
-
-  /**
-   * Requires the main module as a commonjs module, the
-   * module returned will be flagged as a main module.
-   *
-   * @param main the main module
-   * @return the module
-   */
-  public Value main(String main) {
-    // invoke the main script
-    return module.invokeMember("runMain", main);
-  }
-
-  /**
-   * Loads a JS Worker, meaning it will become a Vert.x Worker.
-   *
-   * @param main    the main entry script
-   * @param address the eventbus address
-   * @return the module
-   */
-  public Value worker(String main, String address) {
-    // invoke the main script
-    return module.invokeMember("runWorker", main, address);
-  }
-
-  /**
-   * Evals a given sript string.
+   * Evals a given script string.
    *
    * @param script string containing code.
    * @param name string containing name of the script (e.g.: the filename).
@@ -204,6 +150,16 @@ public class Runtime extends EventEmitterImpl {
   }
 
   /**
+   * Evals a given script string.
+   *
+   * @param source source containing code.
+   * @return returns the evaluation result.
+   */
+  public Value eval(Source source) {
+    return context.eval(source);
+  }
+
+  /**
    * Puts a value to the global scope.
    *
    * @param name the key to identify the value in the global scope
@@ -211,6 +167,16 @@ public class Runtime extends EventEmitterImpl {
    */
   public void put(String name, Object value) {
     bindings.putMember(name, value);
+  }
+
+  /**
+   * Gets a value from the global scope.
+   *
+   * @param name the key to identify the value in the global scope
+   * @return the value
+   */
+  public Value get(String name) {
+    return bindings.getMember(name);
   }
 
   /**
@@ -223,14 +189,14 @@ public class Runtime extends EventEmitterImpl {
   /**
    * explicitly enter the script engine scope.
    */
-  void enter() {
+  public void enter() {
     context.enter();
   }
 
   /**
    * explicitly leave the script engine scope.
    */
-  void leave() {
+  public void leave() {
     context.leave();
   }
 

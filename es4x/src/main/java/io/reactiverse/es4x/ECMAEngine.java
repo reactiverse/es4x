@@ -148,16 +148,14 @@ public final class ECMAEngine {
   }
 
 
-  public synchronized Runtime newContext() {
-    return newContext(null);
-  }
-
   /**
    * return a new context for this engine.
    *
+   * @param scripts scripts that shall be run at the creation of the runtime,
+   *                usually for polyfills, initialization, customization.
    * @return new context.
    */
-  public synchronized Runtime newContext(Source[] customPolyfills) {
+  public synchronized Runtime newContext(Source... scripts) {
 
     final Pattern[] allowedHostAccessClassFilters = ECMAEngine.allowedHostClassFilters();
 
@@ -208,6 +206,6 @@ public final class ECMAEngine {
     }
 
     // setup complete
-    return new Runtime(vertx, context, customPolyfills);
+    return new Runtime(vertx, context, scripts);
   }
 }
