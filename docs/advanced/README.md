@@ -52,4 +52,4 @@ Currently you cannot generate native images with ES4X, the limitation is because
 will not take in consideration the java code invoked from the script (so classes won't be available), plus the fact that
 the compiler has no support for jvm interop at runtime.
 
-There is work in progress in this are so it might be possible in the future.
+There is work in progress in this area so it might be possible in the future.
