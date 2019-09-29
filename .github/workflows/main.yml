@@ -1,0 +1,19 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a multi-line script
+      run: |
+        cd generator
+        mvn -Pio.vertx,io.reactiverse clean generate-sources exec:exec@typedoc
+        cd ..
+        npm run docs:build
+        npm run docs:publish
+        
