@@ -12,7 +12,11 @@ jobs:
     - name: Run a multi-line script
       run: |
         mvn -Pcodegen install
+        npm install -g verdaccio
+        npm adduser --registry "http://localhost:4873"
+        npm install -g typedoc
         cd generator
+        mvn -Dnpm-registry="http://localhost:4873" clean generate-sources exec:exec@npm-publish
         mvn -Pio.vertx,io.reactiverse clean generate-sources exec:exec@typedoc
         cd ..
         npm run docs:build
