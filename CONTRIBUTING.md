@@ -4,22 +4,22 @@ lang: 'en'
 ---
 
 Interested in contributing to the ES4X? Want to report a bug? Before
-you do, please read the following guidelines.
+you do, please read the following guidelines properly.
 
 ## Submission context
 
 ### Got a question or problem?
 
-For quick questions there's no need to open an issue as you can reach us on
+For quick question there's no need to open an issue as you can reach us on
 [gitter.im][1].
 
   [1]: https://gitter.im/es4x/Lobby
 
-### Found a bug?
+### Found  bugs?
 
 If you found a bug in the source code, you can help us by submitting an issue
 to the [issue tracker][2] in our GitHub repository. Even better, you can submit
-a Pull Request with a fix. However, before doing so, please read the
+a Pull Request with a fix. However, before doing so, please read the following
 [submission guidelines][3].
 
   [2]: https://github.com/reactiverse/es4x/issues
