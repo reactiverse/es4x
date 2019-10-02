@@ -11,8 +11,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: Run a multi-line script
       run: |
-        mvn -Pcodegen install
-        npm install verdaccio
         npm install typedoc
         cd generator
         mvn -Pio.vertx,io.reactiverse clean generate-sources exec:exec@typedoc
