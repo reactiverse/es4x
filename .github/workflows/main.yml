@@ -13,6 +13,7 @@ jobs:
       run: |
         mvn -Pcodegen install
         sudo npm install -g typedoc
+        sudo npm install verdaccio
         cd generator
         mvn -Pio.vertx,io.reactiverse clean generate-sources exec:exec@typedoc
         cd ..
