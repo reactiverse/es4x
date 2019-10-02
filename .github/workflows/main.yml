@@ -17,6 +17,7 @@ jobs:
         cd generator
         mvn -Pio.vertx,io.reactiverse clean generate-sources exec:exec@typedoc
         cd ..
+        npm install
         npm run docs:build
         npm run docs:publish
         
