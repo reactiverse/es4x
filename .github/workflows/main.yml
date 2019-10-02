@@ -12,6 +12,7 @@ jobs:
     - name: Run a multi-line script
       run: |
         mvn -Pcodegen install
+        sudo npm install -g typedoc
         cd generator
         mvn -Pio.vertx,io.reactiverse clean generate-sources exec:exec@typedoc
         cd ..
