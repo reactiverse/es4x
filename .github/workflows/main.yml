@@ -11,9 +11,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: build website
       run: |
-        npm install -g
-        sudo npm install -g typedoc
-        sudo npm install verdaccio
+        sudo npm install -g
         cd generator
         mvn -Pcodegen,io.vertx,io.reactiverse clean install generate-sources exec:exec@typedoc
         cd ..
