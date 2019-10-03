@@ -9,13 +9,13 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Run a multi-line script
+    - name: build website
       run: |
-        mvn -Pcodegen install
+        npm install -g
         sudo npm install -g typedoc
         sudo npm install verdaccio
         cd generator
-        mvn -Pio.vertx,io.reactiverse clean generate-sources exec:exec@typedoc
+        mvn -Pcodegen,io.vertx,io.reactiverse clean install generate-sources exec:exec@typedoc
         cd ..
         npm install
         npm run docs:build
