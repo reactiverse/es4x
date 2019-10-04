@@ -10,12 +10,14 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: build website
+      with:
+        node-version: '10.x'
+        java-version: '8.0.'
+        architecture: x64
       run: |
         sudo npm install -g
-        cd generator
-        mvn -Pcodegen,io.vertx,io.reactiverse clean install generate-sources exec:exec@typedoc
-        cd ..
-        npm install
+        npm run pretsdocs
+        npm run tsdocs
         npm run docs:build
         npm run docs:publish
         
