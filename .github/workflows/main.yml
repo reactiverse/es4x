@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [6, 8, 10]
+        node: [10.x]
         java: [8.x]
     steps:
     - name: SetUp node
@@ -20,8 +20,7 @@ jobs:
         java-version: ${{ matrix.java }}
         architecture: x64
     - name: Build docs site
-      uses: actions/checkout@v1
-    - run: |
+      run: |
         sudo npm install -g
         npm run pretsdocs
         npm run tsdocs
