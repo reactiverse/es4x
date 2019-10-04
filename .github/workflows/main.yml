@@ -8,19 +8,18 @@ jobs:
     strategy:
       matrix:
         node: [10.x]
-        java: [8.x]
+        java: [1.8]
     steps:
-    - name: SetUp node
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
     - name: SetUp java
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
         architecture: x64
-    - name: Build docs site
-      run: |
+    - name: SetUp node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - run: |
         sudo npm install -g
         npm run pretsdocs
         npm run tsdocs
