@@ -15,11 +15,9 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
         architecture: x64
-    - name: SetUp node
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
-    - run: |
+    - name: Build docs site
+      uses: actions/checkout@v1
+      run: |
         sudo npm install -g
         npm run pretsdocs
         npm run tsdocs
