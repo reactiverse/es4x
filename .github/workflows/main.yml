@@ -5,23 +5,13 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [10.x]
-        java: [1.8]
-    steps:
-    - name: SetUp java
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.java }}
-        architecture: x64
     - name: Build docs site
       uses: actions/checkout@v1
     - run: |
         sudo npm install -g npm
         sudo npm install -g
-        sudo npm run pretsdocs
-        sudo npm run tsdocs
-        sudo npm run docs:build
-        sudo npm run docs:publish
+        npm run pretsdocs
+        npm run tsdocs
+        npm run docs:build
+        npm run docs:publish
         
