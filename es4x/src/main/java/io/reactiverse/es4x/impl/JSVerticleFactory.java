@@ -36,7 +36,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
     final Runtime runtime = super.createRuntime(engine);
     // we need to setup the script loader
     module = runtime.eval(
-      Source.newBuilder("js", JSVerticleFactory.class.getResource("../jvm-npm.js")).buildLiteral()
+      Source.newBuilder("js", JSVerticleFactory.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral()
     );
 
     return runtime;

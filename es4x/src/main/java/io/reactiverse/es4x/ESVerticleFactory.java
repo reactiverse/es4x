@@ -26,8 +26,8 @@ import org.graalvm.polyglot.Source;
  * this class and only need to implement the 2 abstract methods:
  *
  * <ul>
- * <li>createRuntime</li> to create the runtime where scripts will run
- * <li>createVerticle</li> to create the verticle that wraps the script
+ *  <li>{@link #createRuntime(ECMAEngine)} to create the runtime where scripts will run</li>
+ *  <li>{@link #createVerticle(Runtime, String)} to create the verticle that wraps the script</li>
  * </ul>
  */
 public abstract class ESVerticleFactory implements VerticleFactory {

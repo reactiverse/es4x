@@ -48,6 +48,7 @@ import java.util.Map;
  *
  * @author Steve Purcell
  * @author penSec.IT UG (haftungsbeschränkt)
+ * @author Paulo Lopes
  *
  * @version 2.0
  */
@@ -62,7 +63,7 @@ public class CmdLineParser {
 
   /**
    * Thrown when the parsed command-line contains an option that is not
-   * recognised. <code>getMessage()</code> returns
+   * recognised. {@code getMessage()} returns
    * an error string suitable for reporting the error to the user (in
    * English).
    */
@@ -89,7 +90,7 @@ public class CmdLineParser {
   /**
    * Thrown when the parsed commandline contains multiple concatenated
    * short options, such as -abcd, where one is unknown.
-   * <code>getMessage()</code> returns an english human-readable error
+   * {@code getMessage()} returns an english human-readable error
    * string.
    * @author Vidar Holen
    */
@@ -109,7 +110,7 @@ public class CmdLineParser {
   /**
    * Thrown when the parsed commandline contains multiple concatenated
    * short options, such as -abcd, where one or more requires a value.
-   * <code>getMessage()</code> returns an english human-readable error
+   * {@code getMessage()} returns an english human-readable error
    * string.
    * @author Vidar Holen
    */
@@ -132,13 +133,13 @@ public class CmdLineParser {
 
   /**
    * Thrown when an illegal or missing value is given by the user for
-   * an option that takes a value. <code>getMessage()</code> returns
+   * an option that takes a value. {@code getMessage()} returns
    * an error string suitable for reporting the error to the user (in
    * English).
    *
-   * No generic class can ever extend <code>java.lang.Throwable</code>, so we
-   * have to return <code>Option&lt;?&gt;</code> instead of
-   * <code>Option&lt;T&gt;</code>.
+   * No generic class can ever extend {@code java.lang.Throwable}, so we
+   * have to return {@code Option<?>} instead of
+   * {@code Option<T>}.
    */
   public static class IllegalOptionValueException extends OptionException {
     public <T> IllegalOptionValueException( Option<T> opt, String value ) {
@@ -201,6 +202,7 @@ public class CmdLineParser {
 
     /**
      * Tells whether or not this option wants a value
+     * @return true if the options wants a value
      */
     public boolean wantsValue() {
       return this.wantsValue;
@@ -221,6 +223,10 @@ public class CmdLineParser {
     /**
      * Override to extract and convert an option value passed on the
      * command-line
+     * @param arg  the value
+     * @param locale the locale used to parse
+     * @return the parsed value
+     * @throws IllegalOptionValueException if cannot parse
      */
     protected T parseValue(String arg, Locale locale)
       throws IllegalOptionValueException {
@@ -231,6 +237,7 @@ public class CmdLineParser {
     /**
      * Override to define default value returned by getValue if option does
      * not want a value
+     * @return the default value for the option (null)
      */
     protected T getDefaultValue() {
       return null;
@@ -324,8 +331,8 @@ public class CmdLineParser {
         throws IllegalOptionValueException {
         try {
           NumberFormat format = NumberFormat.getNumberInstance(locale);
-          Number num = (Number)format.parse(arg);
-          return new Double(num.doubleValue());
+          Number num = format.parse(arg);
+          return num.doubleValue();
         } catch (ParseException e) {
           throw new IllegalOptionValueException(this, arg);
         }
@@ -352,6 +359,9 @@ public class CmdLineParser {
 
   /**
    * Add the specified Option to the list of accepted options
+   * @param opt the option to add
+   * @param <T> the kind of option
+   * @return the opt param
    */
   public final <T> Option<T> addOption( Option<T> opt ) {
     if ( opt.shortForm() != null ) {
@@ -363,6 +373,8 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding a string option.
+   * @param shortForm the short form character
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<String> addStringOption( char shortForm, String longForm ) {
@@ -371,6 +383,7 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding a string option.
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<String> addStringOption( String longForm ) {
@@ -379,6 +392,8 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding an integer option.
+   * @param shortForm the short form character
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<Integer> addIntegerOption( char shortForm, String longForm ) {
@@ -387,6 +402,7 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding an integer option.
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<Integer> addIntegerOption( String longForm ) {
@@ -395,6 +411,8 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding a long integer option.
+   * @param shortForm the short form character
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<Long> addLongOption( char shortForm, String longForm ) {
@@ -403,6 +421,7 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding a long integer option.
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<Long> addLongOption( String longForm ) {
@@ -411,6 +430,8 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding a double option.
+   * @param shortForm the short form character
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<Double> addDoubleOption( char shortForm, String longForm ) {
@@ -419,6 +440,7 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding a double option.
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<Double> addDoubleOption( String longForm ) {
@@ -427,6 +449,8 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding a boolean option.
+   * @param shortForm the short form character
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<Boolean> addBooleanOption( char shortForm, String longForm ) {
@@ -435,6 +459,7 @@ public class CmdLineParser {
 
   /**
    * Convenience method for adding a boolean option.
+   * @param longForm the long form string
    * @return the new Option
    */
   public final Option<Boolean> addBooleanOption( String longForm ) {
@@ -444,6 +469,9 @@ public class CmdLineParser {
   /**
    * Equivalent to {@link #getOptionValue(Option, Object) getOptionValue(o,
    * null)}.
+   * @param o the option to extract the value
+   * @param <T> the kind of option
+   * @return the value or null
    */
   public final <T> T getOptionValue( Option<T> o ) {
     return getOptionValue(o, null);
@@ -451,6 +479,9 @@ public class CmdLineParser {
 
 
   /**
+   * @param o the option to extract the value
+   * @param def the default value if vallue is null or empty
+   * @param <T> the kind of option
    * @return the parsed value of the given Option, or the given default 'def'
    * if the option was not set
    */
@@ -474,11 +505,13 @@ public class CmdLineParser {
 
 
   /**
+   * @param option the option to extract the value
+   * @param <T> the kind of option
    * @return A Collection giving the parsed values of all the occurrences of
    * the given Option, or an empty Collection if the option was not set.
    */
   public final <T> Collection<T> getOptionValues(Option<T> option) {
-    Collection<T> result = new ArrayList<T>();
+    Collection<T> result = new ArrayList<>();
 
     while (true) {
       T o = getOptionValue(option, null);
@@ -503,6 +536,9 @@ public class CmdLineParser {
    * Extract the options and non-option arguments from the given
    * list of command-line arguments. The default locale is used for
    * parsing options whose values might be locale-specific.
+   *
+   * @param argv the command line arguments to parse
+   * @throws OptionException if cannot parse the options
    */
   public final void parse( String[] argv ) throws OptionException {
     parse(argv, Locale.getDefault());
@@ -512,13 +548,17 @@ public class CmdLineParser {
    * Extract the options and non-option arguments from the given
    * list of command-line arguments. The specified locale is used for
    * parsing options whose values might be locale-specific.
+   *
+   * @param argv the command line arguments to parse
+   * @param locale the locale to use during the parsing
+   * @throws OptionException if cannot parse the options
    */
   public final void parse( String[] argv, Locale locale )
     throws OptionException {
 
-    ArrayList<Object> otherArgs = new ArrayList<Object>();
+    ArrayList<Object> otherArgs = new ArrayList<>();
     int position = 0;
-    this.values = new HashMap<String, List<?>>(10);
+    this.values = new HashMap<>(10);
     while ( position < argv.length ) {
       String curArg = argv[position];
       if ( curArg.startsWith("-") ) {
@@ -595,7 +635,7 @@ public class CmdLineParser {
     List<T> v = (List<T>) values.get(lf);
 
     if (v == null) {
-      v = new ArrayList<T>();
+      v = new ArrayList<>();
       values.put(lf, v);
     }
 
@@ -604,6 +644,6 @@ public class CmdLineParser {
 
 
   private String[] remainingArgs = null;
-  private Map<String, Option<?>> options = new HashMap<String, Option<?>>(10);
-  private Map<String, List<?>> values = new HashMap<String, List<?>>(10);
+  private Map<String, Option<?>> options = new HashMap<>(10);
+  private Map<String, List<?>> values = new HashMap<>(10);
 }

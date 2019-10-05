@@ -136,6 +136,7 @@ public final class Runtime extends EventEmitterImpl {
    *
    * @param script string containing code.
    * @param name string containing name of the script (e.g.: the filename).
+   * @param contentType the script content type
    * @param interactive literals are non listed on debug sessions
    * @return returns the evaluation result.
    */
