@@ -118,14 +118,14 @@
 					<a name="bridge" class="tsd-anchor"></a>
 					<h3>bridge</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">bridge<span class="tsd-signature-symbol">(</span>bridgeOptions<span class="tsd-signature-symbol">: </span><a href="bridgeoptions.html" class="tsd-signature-type">BridgeOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sockjshandler.html" class="tsd-signature-type">SockJSHandler</a></li>
-						<li class="tsd-signature tsd-kind-icon">bridge<span class="tsd-signature-symbol">(</span>bridgeOptions<span class="tsd-signature-symbol">: </span><a href="bridgeoptions.html" class="tsd-signature-type">BridgeOptions</a>, bridgeEventHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="bridgeevent.html" class="tsd-signature-type">BridgeEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sockjshandler.html" class="tsd-signature-type">SockJSHandler</a></li>
+						<li class="tsd-signature tsd-kind-icon">bridge<span class="tsd-signature-symbol">(</span>bridgeOptions<span class="tsd-signature-symbol">: </span><a href="bridgeoptions.html" class="tsd-signature-type">BridgeOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
+						<li class="tsd-signature tsd-kind-icon">bridge<span class="tsd-signature-symbol">(</span>bridgeOptions<span class="tsd-signature-symbol">: </span><a href="bridgeoptions.html" class="tsd-signature-type">BridgeOptions</a>, bridgeEventHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="bridgeevent.html" class="tsd-signature-type">BridgeEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3162</li>
+									<li>Defined in index.d.ts:3278</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -144,13 +144,13 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="sockjshandler.html" class="tsd-signature-type">SockJSHandler</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
+							<h4 class="tsd-returns-title">Returns <a href="router.html" class="tsd-signature-type">Router</a></h4>
+							<p>a router to be mounted on an existing router</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3172</li>
+									<li>Defined in index.d.ts:3288</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -174,8 +174,8 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="sockjshandler.html" class="tsd-signature-type">SockJSHandler</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
+							<h4 class="tsd-returns-title">Returns <a href="router.html" class="tsd-signature-type">Router</a></h4>
+							<p>a router to be mounted on an existing router</p>
 						</li>
 					</ul>
 				</section>
@@ -183,19 +183,29 @@
 					<a name="handle" class="tsd-anchor"></a>
 					<h3>handle</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">handle<span class="tsd-signature-symbol">(</span>arg0<span class="tsd-signature-symbol">: </span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<span class="tsd-signature-symbol">(</span>routingContext<span class="tsd-signature-symbol">: </span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3126</li>
+									<li>Defined in index.d.ts:3296</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>mount the router as a sub-router instead. This method will not properly handle errors.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>arg0: <a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a></h5>
+									<h5>routingContext: <a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the rounting context</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -206,13 +216,13 @@
 					<a name="sockethandler" class="tsd-anchor"></a>
 					<h3>socket<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">socket<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="sockjssocket.html" class="tsd-signature-type">SockJSSocket</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sockjshandler.html" class="tsd-signature-type">SockJSHandler</a></li>
+						<li class="tsd-signature tsd-kind-icon">socket<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="sockjssocket.html" class="tsd-signature-type">SockJSSocket</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3152</li>
+									<li>Defined in index.d.ts:3268</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -230,8 +240,8 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="sockjshandler.html" class="tsd-signature-type">SockJSHandler</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
+							<h4 class="tsd-returns-title">Returns <a href="router.html" class="tsd-signature-type">Router</a></h4>
+							<p>a router to be mounted on an existing router</p>
 						</li>
 					</ul>
 				</section>
@@ -246,7 +256,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3134</li>
+									<li>Defined in index.d.ts:3250</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -269,7 +279,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3143</li>
+									<li>Defined in index.d.ts:3259</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
