@@ -59,6 +59,7 @@ public final class AsyncError {
    * at the moment this function is invoked.
    *
    * @param throwable a throwable object
+   * @param jsAsyncStackLine the js async stack line to be inserted
    * @return the enhanced throwable
    */
   public static Throwable asyncError(Throwable throwable, String jsAsyncStackLine) {
@@ -70,6 +71,8 @@ public final class AsyncError {
    * execution stack trace at the moment this function is invoked.
    *
    * @param asyncResult a asyncResult object
+   * @param jsAsyncStackLine the js async stack line to be inserted
+   * @param <T> the kind of async result
    * @return the enhanced throwable
    */
   public static <T> Throwable asyncError(AsyncResult<T> asyncResult, String jsAsyncStackLine) {
