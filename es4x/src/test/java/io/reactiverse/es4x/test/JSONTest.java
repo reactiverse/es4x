@@ -1,13 +1,14 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static io.reactiverse.es4x.test.JS.commonjs;
 
 @RunWith(VertxUnitRunner.class)
 public class JSONTest {
@@ -19,11 +20,11 @@ public class JSONTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
   }
 
   @Test
-  public void shouldStringify() throws Exception {
+  public void shouldStringify() {
     runtime.eval("console.log(JSON.stringify({}))");
     runtime.eval("console.log(JSON.stringify([]))");
     runtime.eval("console.log(JSON.stringify({K:1}))");

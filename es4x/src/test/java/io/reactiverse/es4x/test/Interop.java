@@ -7,6 +7,8 @@ import org.graalvm.polyglot.proxy.ProxyArray;
 import org.graalvm.polyglot.proxy.ProxyObject;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Map;
 
 public class Interop {
 
@@ -20,6 +22,18 @@ public class Interop {
 
   public void printInstant(Instant json) {
     System.out.println(json);
+  }
+
+  public void shouldBaAList(Object obj) {
+    if (!(obj instanceof List)) {
+      throw new RuntimeException("obj not List");
+    }
+  }
+
+  public void shouldBaAMap(Object obj) {
+    if (!(obj instanceof Map)) {
+      throw new RuntimeException("obj not Map");
+    }
   }
 
   public ProxyObject getMap() {

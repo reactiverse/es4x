@@ -180,6 +180,8 @@ public class ESModuleIO {
 
   /**
    * Find end of shebang line and slice it off
+   * @param content the content to search
+   * @return the striped content
    */
   public static String stripShebang(String content) {
     // Remove shebang
@@ -215,6 +217,8 @@ public class ESModuleIO {
    * Remove byte order marker. This catches EF BB BF (the UTF-8 BOM)
    * because the buffer-to-string conversion in `fs.readFileSync()`
    * translates it to FEFF, the UTF-16 BOM.
+   * @param content the content to search
+   * @return the striped content
    */
   public static String stripBOM(String content) {
     if (content.charAt(0) == 0xFEFF) {

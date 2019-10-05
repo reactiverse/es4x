@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -13,6 +12,8 @@ import org.junit.runner.RunWith;
 
 import java.time.Instant;
 
+import static io.reactiverse.es4x.test.JS.commonjs;
+
 @RunWith(VertxUnitRunner.class)
 public class GlobalsTest {
 
@@ -23,11 +24,11 @@ public class GlobalsTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
   }
 
   @Test(timeout = 10000)
-  public void testSetTimeout(TestContext ctx) throws Exception {
+  public void testSetTimeout(TestContext ctx) {
     final Async async = ctx.async();
 
     runtime.put("ctx", ctx);
@@ -44,7 +45,7 @@ public class GlobalsTest {
   }
 
   @Test(timeout = 10000)
-  public void testSetTimeout0(TestContext ctx) throws Exception {
+  public void testSetTimeout0(TestContext ctx) {
     final Async async = ctx.async();
 
     runtime.put("ctx", ctx);
@@ -61,7 +62,7 @@ public class GlobalsTest {
   }
 
   @Test(timeout = 10000)
-  public void testSetTimeoutWithParams(TestContext ctx) throws Exception {
+  public void testSetTimeoutWithParams(TestContext ctx) {
     final Async async = ctx.async();
 
     runtime.put("ctx", ctx);
@@ -79,7 +80,7 @@ public class GlobalsTest {
   }
 
   @Test(timeout = 10000)
-  public void testDateToInstant(TestContext ctx) throws Exception {
+  public void testDateToInstant(TestContext ctx) {
     runtime.put("instant", Instant.now());
     runtime.eval("console.log(Date.fromInstant(instant))");
   }

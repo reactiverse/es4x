@@ -1,13 +1,14 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static io.reactiverse.es4x.test.JS.commonjs;
 
 @RunWith(VertxUnitRunner.class)
 public class ConsoleTest {
@@ -19,11 +20,11 @@ public class ConsoleTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
   }
 
   @Test
-  public void testBasicConsole() throws Exception {
+  public void testBasicConsole() {
     // print some stuff
     runtime.eval("console.log('Hello', 'World', '!')");
     // print some stuff
@@ -31,7 +32,7 @@ public class ConsoleTest {
   }
 
   @Test
-  public void testConsole() throws Exception {
+  public void testConsole() {
     // print some stuff
     runtime.eval("console.debug('Hello', 'World', '!')");
     runtime.eval("console.info('Hello', 'World', '!')");
@@ -41,7 +42,7 @@ public class ConsoleTest {
   }
 
   @Test
-  public void testConsoleAssert() throws Exception {
+  public void testConsoleAssert() {
     // print some stuff
     runtime.eval("console.assert(true, 'Hello1')");
     runtime.eval("console.assert(false, 'Hello2')");
@@ -50,23 +51,23 @@ public class ConsoleTest {
   }
 
   @Test
-  public void testConsoleTrace() throws Exception {
+  public void testConsoleTrace() {
     runtime.eval("try { throw new Error('durp!'); } catch (e) { console.trace(e); }\n//@ sourceURL=/index.js");
   }
 
   @Test
-  public void testConsoleCount() throws Exception {
+  public void testConsoleCount() {
     runtime.eval("console.count('durp'); console.count('durp'); console.count('durp'); console.count('durp')");
   }
 
   @Test
-  public void testConsoleTime() throws Exception {
+  public void testConsoleTime() {
     runtime.eval("console.time('durp'); for (var i = 0; i < 1000; i++); console.timeEnd('durp')");
     runtime.eval("console.timeEnd('durp');");
   }
 
   @Test
-  public void testConsoleError() throws Exception {
+  public void testConsoleError() {
     runtime.eval("console.log('text')");
     runtime.eval("console.log(1)");
     runtime.eval("console.log(false)");

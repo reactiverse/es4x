@@ -18,35 +18,15 @@ package io.reactiverse.es4x.commands;
 import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.Name;
 import io.vertx.core.cli.annotations.Summary;
+import io.vertx.core.spi.launcher.DefaultCommand;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
-import static io.reactiverse.es4x.commands.Helper.fatal;
-
-@Name("versions")
-@Summary("Displays the versions.")
-public class VersionsCommand extends io.vertx.core.impl.launcher.commands.VersionCommand {
-
-  private static final Properties VERSIONS = new Properties();
-
-  static {
-    try (InputStream is = InstallCommand.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/VERSIONS.properties")) {
-      if (is == null) {
-        fatal("Cannot find 'META-INF/es4x-commands/VERSIONS.properties' on classpath");
-      } else {
-        VERSIONS.load(is);
-      }
-    } catch (IOException e) {
-      fatal(e.getMessage());
-    }
-  }
+@Name(Versions.NAME)
+@Summary(Versions.SUMMARY)
+public class VersionsCommand extends DefaultCommand {
 
   @Override
   public void run() throws CLIException {
-    System.out.println("Vert.x:  " + getVersion());
-    System.out.println("ES4X:    " + VERSIONS.getProperty("es4x"));
-    System.out.println("graaljs: " + VERSIONS.getProperty("graalvm"));
+    new Versions()
+      .run();
   }
 }

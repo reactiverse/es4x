@@ -13,9 +13,10 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x;
+package io.reactiverse.es4x.impl;
 
-import io.reactiverse.es4x.impl.ESModuleIO;
+import io.reactiverse.es4x.ESVerticleFactory;
+import io.reactiverse.es4x.Runtime;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import org.graalvm.polyglot.io.FileSystem;
@@ -31,7 +32,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
   }
 
   @Override
-  Verticle createVerticle(Runtime runtime, String fsVerticleName) {
+  protected Verticle createVerticle(Runtime runtime, String fsVerticleName) {
     return new Verticle() {
 
       private Vertx vertx;
@@ -47,7 +48,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void start(Future<Void> startFuture) throws Exception {
+      public void start(Future<Void> startFuture) {
         final FileSystem fs = engine.fileSystem();
 
         try {

@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
@@ -13,6 +12,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static io.reactiverse.es4x.test.JS.commonjs;
+
 @RunWith(VertxUnitRunner.class)
 public class EventBusTest {
 
@@ -23,12 +24,12 @@ public class EventBusTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
     runtime.put("eb", rule.vertx().eventBus());
   }
 
   @Test(timeout = 10000)
-  public void testNativeJSObjectOverEB(TestContext ctx) throws Exception {
+  public void testNativeJSObjectOverEB(TestContext ctx) {
     final Async async = ctx.async();
 
     rule.vertx().eventBus().consumer("test.address.object", msg -> {
@@ -45,7 +46,7 @@ public class EventBusTest {
   }
 
   @Test(timeout = 10000)
-  public void testNativeJSArrayOverEB(TestContext ctx) throws Exception {
+  public void testNativeJSArrayOverEB(TestContext ctx) {
     final Async async = ctx.async();
 
     rule.vertx().eventBus().consumer("test.address.array", msg -> {

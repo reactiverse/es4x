@@ -1,6 +1,5 @@
 package io.reactiverse.es4x;
 
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -9,8 +8,6 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.fail;
 
 @RunWith(VertxUnitRunner.class)
 public class ESModuleTest {
@@ -22,14 +19,11 @@ public class ESModuleTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
-    if (runtime == null) {
-      fail("NULL runtime");
-    }
+    runtime = new ECMAEngine(rule.vertx()).newContext();
   }
 
   @Test
-  public void testInline(TestContext should) throws Exception {
+  public void testInline(TestContext should) {
 
     // mjs/foobar.mjs is not on the CWD but on the classpath
     // all IO is captured by a Vert.x file system implementation that
@@ -42,7 +36,7 @@ public class ESModuleTest {
   }
 
   @Test
-  public void testRelative(TestContext should) throws Exception {
+  public void testRelative(TestContext should) {
 
     // mjs/foobar.mjs is not on the CWD but on the classpath
     // all IO is captured by a Vert.x file system implementation that
@@ -54,7 +48,7 @@ public class ESModuleTest {
 
   @Test
   @Ignore
-  public void testMeta(TestContext should) throws Exception {
+  public void testMeta(TestContext should) {
 
     Object result = runtime.eval("import { f } from './mjs/meta'\n f();\n", "script.mjs", false);
 

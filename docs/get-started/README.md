@@ -26,7 +26,7 @@ ES4X is **the fastest** `JavaScript` according to TechEmpower Frameworks Benchma
 
 ![round-18-js](./res/round-18-js.png)
 
-And ES4X is on the top #10 among all other frameworks in several tests, showing better performance that the most popular
+And ES4X is on the top #10 among all other frameworks in several tests, showing better performance than the most popular
 JVM frameworks:
 
 ![round-18-js](./res/round-18.png)

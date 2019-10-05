@@ -13,12 +13,12 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x.impl.graal;
+package io.reactiverse.es4x.impl;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.impl.VertxInternal;
+import io.vertx.core.json.Json;
 import org.graalvm.polyglot.io.FileSystem;
 
 import java.io.File;
@@ -32,18 +32,13 @@ import java.util.*;
 
 public final class VertxFileSystem implements FileSystem {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final List<String> EXTENSIONS = Arrays.asList(".mjs", ".js");
   private static final Path EMPTY = Paths.get("");
-
-  static {
-    MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-  }
 
   private final String prefix = System.getProperty("es4x.prefix", "");
   private final VertxInternal vertx;
 
-  static String getCWD() {
+  public static String getCWD() {
     // clean up the current working dir
     String cwdOverride = System.getProperty("vertx.cwd");
     String cwd;
@@ -115,7 +110,7 @@ public final class VertxFileSystem implements FileSystem {
     File pkgfile = new File(dir, "package.json");
     if (pkgfile.isFile()) {
       try {
-        Map pkg = MAPPER.readValue(pkgfile, Map.class);
+        Map pkg = Json.decodeValue(Buffer.buffer(Files.readAllBytes(pkgfile.toPath())), Map.class);
         if (pkg.containsKey("module") && pkg.get("module") instanceof String) {
           String module = (String) pkg.get("module");
 

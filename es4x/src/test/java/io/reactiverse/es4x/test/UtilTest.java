@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
-import io.reactiverse.es4x.impl.graal.GraalEngine;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -10,6 +9,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static io.reactiverse.es4x.test.JS.commonjs;
 
 @RunWith(VertxUnitRunner.class)
 public class UtilTest {
@@ -21,11 +22,11 @@ public class UtilTest {
 
   @Before
   public void initialize() {
-    runtime = new GraalEngine(rule.vertx()).newContext();
+    runtime = commonjs(rule.vertx());
   }
 
   @Test(timeout = 10000)
-  public void shouldPromisifyAVertxAPI(TestContext should) throws Exception {
+  public void shouldPromisifyAVertxAPI(TestContext should) {
     final Async test = should.async();
     // pass the assertion to the engine
     runtime.put("should", should);
@@ -47,7 +48,7 @@ public class UtilTest {
   }
 
   @Test(timeout = 10000)
-  public void shouldPromisifyAJavaScriptAPI(TestContext should) throws Exception {
+  public void shouldPromisifyAJavaScriptAPI(TestContext should) {
     final Async test = should.async();
     // pass the assertion to the engine
     runtime.put("should", should);

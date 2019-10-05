@@ -3,6 +3,7 @@ package io.reactiverse.es4x.commands;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class InitCommandTest {
   private final InitCommand command = new InitCommand();
 
   @Test
-  public void shouldCreateAnEmptyProject() {
+  public void shouldCreateAnEmptyProject() throws IOException {
     command.setCwd(IOUtils.mkTempDir());
     // the project name will be derived from the CWD
     String projectName = command.getCwd().getName();
@@ -25,7 +26,7 @@ public class InitCommandTest {
     command.run();
     assertTrue(packageJson.exists());
 
-    Map json = IOUtils.read(packageJson);
+    Map json = JSON.parse(packageJson, Map.class);
     assertEquals(projectName, json.get("name"));
     assertEquals("index.js", json.get("main"));
 
@@ -37,19 +38,21 @@ public class InitCommandTest {
   }
 
   @Test
-  public void shouldUpdateAnExisting() {
+  public void shouldUpdateAnExisting() throws IOException {
     command.setCwd(IOUtils.mkTempDir());
 
     File packageJson = new File(command.getCwd(), "package.json");
     packageJson.deleteOnExit();
-    IOUtils.write(packageJson, new HashMap() {{
-      put("name", "my-project");
-    }});
+
+    Map json = new HashMap();
+    json.put("name", "my-project");
+
+    JSON.encode(packageJson, json);
 
     command.run();
     assertTrue(packageJson.exists());
 
-    Map json = IOUtils.read(packageJson);
+    json = JSON.parse(packageJson, Map.class);
     assertEquals("my-project", json.get("name"));
 
     Map scripts = (Map) json.get("scripts");

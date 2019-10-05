@@ -44,6 +44,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static io.reactiverse.es4x.commands.Helper.warn;
+
 final class Resolver {
 
   private static final String USER_HOME = System.getProperty("user.home");
@@ -61,9 +63,15 @@ final class Resolver {
     system = locator.getService(RepositorySystem.class);
     localRepo = new LocalRepository(DEFAULT_MAVEN_LOCAL);
 
+    if (isOffline()) {
+      warn("Maven online artifact resolution disabled.");
+      // we stop here as the users want to be offline
+      return;
+    }
+
     // add user repo
-    String registry = System.getProperty("maven.registry");
-    if (registry != null) {
+    String registry = System.getProperty("maven.registry", System.getenv("MAVEN_REGISTRY"));
+    if (registry != null && !"".equals(registry)) {
       URL url = new URL(registry);
       Authentication auth = extractAuth(url);
       if (auth != null) {
@@ -88,6 +96,15 @@ final class Resolver {
     locator.addService(TransporterFactory.class, FileTransporterFactory.class);
     locator.addService(TransporterFactory.class, HttpTransporterFactory.class);
     return locator;
+  }
+
+  private static boolean isOffline() {
+    boolean result = false;
+    try {
+      result = Boolean.parseBoolean(System.getenv("npm_config_offline"));
+    } catch (IllegalArgumentException | NullPointerException e) {
+    }
+    return result;
   }
 
   /**

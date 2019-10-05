@@ -15,43 +15,191 @@
  */
 package io.reactiverse.es4x;
 
+import io.reactiverse.es4x.impl.EventEmitterImpl;
+import io.reactiverse.es4x.impl.VertxFileSystem;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
-public interface Runtime extends EventEmitter {
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+
+public final class Runtime extends EventEmitterImpl {
+
+  private final Context context;
+  private final Value bindings;
+
+  Runtime(final Vertx vertx, final Context context, Source... scripts) {
+
+    this.context = context;
+    this.bindings = this.context.getBindings("js");
+
+    // remove specific features that we don't want to expose
+    for (String identifier : Arrays.asList("exit", "quit", "Packages", "java", "javafx", "javax", "com", "org", "edu")) {
+      bindings.removeMember(identifier);
+    }
+    // add vertx as a global
+    bindings.putMember("vertx", vertx);
+
+    // clean up the current working dir
+    final String cwd = "file://" + VertxFileSystem.getCWD();
+
+    // override the default load function to allow proper mapping of file for debugging
+    bindings.putMember("load", new Function<Object, Value>() {
+      @Override
+      public Value apply(Object value) {
+
+        try {
+          final Source source;
+
+          if (value instanceof String) {
+            // a path or url in string format
+            try {
+              // try to parse as URL
+              return apply(new URL((String) value));
+            } catch (MalformedURLException murle) {
+              // on failure fallback to file
+              return apply(new File((String) value));
+            }
+          }
+          else if (value instanceof URL) {
+            // a url
+            source = Source.newBuilder("js", (URL) value).build();
+          }
+          else if (value instanceof File) {
+            // a local file
+            source = Source.newBuilder("js", (File) value).build();
+          }
+          else if (value instanceof Map) {
+            // a json document
+            final CharSequence script = (CharSequence) ((Map) value).get("script");
+            // might be optional
+            final CharSequence name = (CharSequence) ((Map) value).get("name");
+
+            if (name != null && name.length() > 0) {
+              final URI uri;
+              if (name.charAt(0) != '/') {
+                // relative uri
+                uri = new URI(cwd + name);
+              } else {
+                // absolute uri
+                uri = new URI("file://" + name);
+              }
+              source = Source.newBuilder("js", script, uri.getPath()).uri(uri).build();
+            } else {
+              source = Source.newBuilder("js", script, "<module-wrapper>").cached(false).build();
+            }
+          } else {
+            throw new RuntimeException("TypeError: cannot load [" + value.getClass() + "]");
+          }
+
+          return context.eval(source);
+        } catch (IOException | URISyntaxException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    });
+
+    // load all the polyfills
+    bindings.putMember("verticle", this);
+    if(scripts != null) {
+      for (Source script : scripts) {
+        context.eval(script);
+      }
+    }
+    bindings.removeMember("verticle");
+  }
 
   /**
    * passes the given configuration to the runtime.
    *
    * @param config given configuration.
    */
-  void config(final JsonObject config);
+  public void config(final JsonObject config) {
+    if (config != null) {
+      // add config as a global
+      bindings.putMember("config", config);
+    }
+  }
 
   /**
-   * Require a module following the commonjs spec
+   * Evals a given script string.
    *
-   * @param module a module
-   * @return return the module
+   * @param script string containing code.
+   * @param name string containing name of the script (e.g.: the filename).
+   * @param contentType the script content type
+   * @param interactive literals are non listed on debug sessions
+   * @return returns the evaluation result.
    */
-  Value require(String module);
+  public Value eval(String script, String name, String contentType, boolean interactive) {
+    final Source source = Source
+      .newBuilder("js", script, name)
+      .interactive(interactive)
+      .mimeType(contentType)
+      .buildLiteral();
+
+    return context.eval(source);
+  }
 
   /**
-   * Requires the main module as a commonjs module, the
-   * module returned will be flagged as a main module.
+   * Evals a given script string.
    *
-   * @param main the main module
-   * @return the module
+   * @param source source containing code.
+   * @return returns the evaluation result.
    */
-  Value main(String main);
+  public Value eval(Source source) {
+    return context.eval(source);
+  }
 
   /**
-   * Loads a JS Worker, meaning it will become a Vert.x Worker.
+   * Puts a value to the global scope.
    *
-   * @param main    the main entry script
-   * @param address the eventbus address
-   * @return the module
+   * @param name the key to identify the value in the global scope
+   * @param value the value to store.
    */
-  Value worker(String main, String address);
+  public void put(String name, Object value) {
+    bindings.putMember(name, value);
+  }
+
+  /**
+   * Gets a value from the global scope.
+   *
+   * @param name the key to identify the value in the global scope
+   * @return the value
+   */
+  public Value get(String name) {
+    return bindings.getMember(name);
+  }
+
+  /**
+   * close the current runtime and shutdown all the engine related resources.
+   */
+  public void close() {
+    context.close();
+  }
+
+  /**
+   * explicitly enter the script engine scope.
+   */
+  public void enter() {
+    context.enter();
+  }
+
+  /**
+   * explicitly leave the script engine scope.
+   */
+  public void leave() {
+    context.leave();
+  }
 
   /**
    * Evals a given sript string.
@@ -59,9 +207,8 @@ public interface Runtime extends EventEmitter {
    * @param script string containing code.
    * @param interactive literals are non listed on debug sessions
    * @return returns the evaluation result.
-   * @throws Exception on error
    */
-  default Value eval(String script, boolean interactive) throws Exception {
+  public Value eval(String script, boolean interactive) {
     return eval(script, "<eval>", interactive);
   }
 
@@ -70,22 +217,10 @@ public interface Runtime extends EventEmitter {
    *
    * @param script string containing code.
    * @param name string containing name of the script (e.g.: the filename).
-   * @param interactive literals are non listed on debug sessions
-   * @return returns the evaluation result.
-   * @throws Exception on error
-   */
-  Value eval(String script, String name, String contentType, boolean interactive) throws Exception;
-
-  /**
-   * Evals a given sript string.
-   *
-   * @param script string containing code.
-   * @param name string containing name of the script (e.g.: the filename).
    * @param literal literals are non listed on debug sessions
    * @return returns the evaluation result.
-   * @throws Exception on error
    */
-  default Value eval(String script, String name, boolean literal) throws Exception {
+  public Value eval(String script, String name, boolean literal) {
     if (name.endsWith(".mjs")) {
       return eval(script, name, "application/javascript+module", literal);
     } else {
@@ -98,32 +233,8 @@ public interface Runtime extends EventEmitter {
    *
    * @param script string containing code.
    * @return returns the evaluation result.
-   * @throws Exception on error
    */
-  default Value eval(String script) throws Exception {
+  public Value eval(String script) {
     return eval(script, false);
   }
-
-  /**
-   * Puts a value to the global scope.
-   *
-   * @param name the key to identify the value in the global scope
-   * @param value the value to store.
-   */
-  void put(String name, Object value);
-
-  /**
-   * explicitly enter the script engine scope.
-   */
-  void enter();
-
-  /**
-   * explicitly leave the script engine scope.
-   */
-  void leave();
-
-  /**
-   * close the current runtime and shutdown all the engine related resources.
-   */
-  void close();
 }

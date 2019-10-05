@@ -13,12 +13,18 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x;
+package io.reactiverse.es4x.impl;
 
+import io.reactiverse.es4x.ECMAEngine;
+import io.reactiverse.es4x.ESVerticleFactory;
+import io.reactiverse.es4x.Runtime;
 import io.vertx.core.*;
+import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
 public final class JSVerticleFactory extends ESVerticleFactory {
+
+  private Value module;
 
   @Override
   public String prefix() {
@@ -26,7 +32,18 @@ public final class JSVerticleFactory extends ESVerticleFactory {
   }
 
   @Override
-  Verticle createVerticle(Runtime runtime, String fsVerticleName) {
+  protected Runtime createRuntime(ECMAEngine engine) {
+    final Runtime runtime = super.createRuntime(engine);
+    // we need to setup the script loader
+    module = runtime.eval(
+      Source.newBuilder("js", JSVerticleFactory.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral()
+    );
+
+    return runtime;
+  }
+
+  @Override
+  protected Verticle createVerticle(Runtime runtime, String fsVerticleName) {
     return new Verticle() {
 
       private Vertx vertx;
@@ -44,7 +61,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void start(Future<Void> startFuture) throws Exception {
+      public void start(Future<Void> startFuture) {
         final String address;
         final boolean worker;
         final Value self;
@@ -66,9 +83,9 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         try {
           runtime.enter();
           if (worker) {
-            self = runtime.worker(mainScript(fsVerticleName), address);
+            self = module.invokeMember("runWorker", mainScript(fsVerticleName), address);
           } else {
-            self = runtime.main(mainScript(fsVerticleName));
+            self = module.invokeMember("runMain", mainScript(fsVerticleName));
           }
         } catch (RuntimeException e) {
           startFuture.fail(e);
