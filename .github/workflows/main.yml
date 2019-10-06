@@ -4,10 +4,14 @@ on: [push]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
-    - name: Build docs site
-      uses: actions/checkout@v1
-    - run: |
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build docs site
+        uses: actions/checkout@v1
+      - run: |
         sudo npm install -g npm
         sudo npm install -g
         npm run pretsdocs
