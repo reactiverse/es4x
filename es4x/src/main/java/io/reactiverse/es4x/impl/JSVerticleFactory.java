@@ -15,7 +15,6 @@
  */
 package io.reactiverse.es4x.impl;
 
-import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.ESVerticleFactory;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.*;
@@ -24,26 +23,20 @@ import org.graalvm.polyglot.Value;
 
 public final class JSVerticleFactory extends ESVerticleFactory {
 
-  private Value module;
-
   @Override
   public String prefix() {
     return "js";
   }
 
   @Override
-  protected Runtime createRuntime(ECMAEngine engine) {
-    final Runtime runtime = super.createRuntime(engine);
+  protected Verticle createVerticle(Runtime runtime, String fsVerticleName) {
+
+    final Value module;
     // we need to setup the script loader
     module = runtime.eval(
       Source.newBuilder("js", JSVerticleFactory.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral()
     );
 
-    return runtime;
-  }
-
-  @Override
-  protected Verticle createVerticle(Runtime runtime, String fsVerticleName) {
     return new Verticle() {
 
       private Vertx vertx;
