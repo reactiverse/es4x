@@ -3,12 +3,6 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>9</version>
-  </parent>
-
   <groupId>io.reactiverse</groupId>
   <artifactId>es4x-parent</artifactId>
   <version>0.9.4-SNAPSHOT</version>
@@ -23,6 +17,9 @@
     <!-- Dependency versions -->
     <stack.version>3.8.2</stack.version>
     <graalvm.version>19.2.0.1</graalvm.version>
+    <!-- deployment -->
+    <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
+    <arguments />
   </properties>
 
   <licenses>
@@ -32,7 +29,6 @@
       <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
     </license>
   </licenses>
-
 
   <issueManagement>
     <url>https://github.com/reactiverse/es4x/issues</url>
@@ -63,7 +59,31 @@
   </ciManagement>
 
 
+  <repositories>
+    <repository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>${sonatypeOssDistMgmtSnapshotsUrl}</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
     <site>
       <id>website</id>
       <url>https://reactiverse.io/es4x</url>
@@ -74,24 +94,8 @@
     <module>es4x</module>
     <module>codegen</module>
     <module>pm</module>
+    <module>generator</module>
   </modules>
-
-  <profiles>
-    <profile>
-      <id>codegen</id>
-      <!--
-      <activation>
-        <property>
-          <name>env.TRAVIS</name>
-          <value>true</value>
-        </property>
-      </activation>
-      -->
-      <modules>
-        <module>generator</module>
-      </modules>
-    </profile>
-  </profiles>
 
   <build>
     <pluginManagement>
@@ -107,6 +111,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>1.4.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>3.1.0</version>
         </plugin>
@@ -119,6 +128,16 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.6</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.1</version>
+          <configuration>
+            <mavenExecutorId>forked-path</mavenExecutorId>
+            <useReleaseProfile>false</useReleaseProfile>
+            <arguments>${arguments} -Psonatype-oss-release</arguments>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>com.amashchenko.maven.plugin</groupId>
@@ -140,5 +159,74 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>(,2.1.0),(2.1.0,2.2.0),(2.2.0,)</version>
+                  <message>Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.</message>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>sonatype-oss-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
