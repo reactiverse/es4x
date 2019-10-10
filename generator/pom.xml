@@ -177,6 +177,7 @@
 
     <npm-skip>true</npm-skip>
     <maven-deploy-skip>true</maven-deploy-skip>
+    <maven-gpg-skip>true</maven-gpg-skip>
 
     <!-- language=json -->
     <scope-registry>
@@ -273,6 +274,20 @@
   <build>
     <defaultGoal>generate-sources</defaultGoal>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <configuration>
+          <skip>${maven-gpg-skip}</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
