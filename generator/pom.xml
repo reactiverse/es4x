@@ -146,7 +146,6 @@
         <module>io.vertx/vertx-web-templ-rocker</module>
         <module>io.vertx/vertx-web-templ-thymeleaf</module>
         <!--<module>io.vertx/vertx-zookeeper</module>-->
-
         <module>io.vertx/vertx-sql-client</module>
         <module>io.vertx/vertx-pg-client</module>
         <module>io.vertx/vertx-mysql-client</module>
@@ -176,6 +175,7 @@
     <maven.groupId>io.vertx</maven.groupId>
 
     <npm-skip>true</npm-skip>
+    <maven-deploy-skip>true</maven-deploy-skip>
 
     <!-- language=json -->
     <scope-registry>
@@ -456,6 +456,12 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>${maven-deploy-skip}</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>
