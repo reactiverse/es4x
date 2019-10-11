@@ -18,8 +18,9 @@
     <stack.version>3.8.2</stack.version>
     <graalvm.version>19.2.0.1</graalvm.version>
     <!-- deployment -->
-    <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
-    <arguments />
+    <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/
+    </sonatypeOssDistMgmtSnapshotsUrl>
+    <arguments/>
   </properties>
 
   <licenses>
@@ -95,6 +96,7 @@
     <module>codegen</module>
     <module>pm</module>
     <module>generator</module>
+    <module>definitions</module>
   </modules>
 
   <build>
@@ -111,8 +113,18 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.1.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>1.4.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

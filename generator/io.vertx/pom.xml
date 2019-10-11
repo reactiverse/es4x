@@ -27,7 +27,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.1</version>
         <executions>
           <execution>
             <id>unpack-dependencies</id>
@@ -37,6 +36,11 @@
             </goals>
             <configuration>
               <artifactItems>
+                <artifactItem>
+                  <groupId>io.reactiverse</groupId>
+                  <artifactId>es4x-definitions</artifactId>
+                  <version>${project.version}</version>
+                </artifactItem>
                 <artifactItem>
                   <groupId>io.reactiverse.es4x</groupId>
                   <artifactId>vertx-core</artifactId>
