@@ -6,13 +6,13 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.9.3</version>
+    <version>0.9.4</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>io.reactiverse.es4x</groupId>
   <artifactId>es4x-generator</artifactId>
-  <version>0.9.3</version>
+  <version>0.9.4</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -146,10 +146,10 @@
         <module>io.vertx/vertx-web-templ-rocker</module>
         <module>io.vertx/vertx-web-templ-thymeleaf</module>
         <!--<module>io.vertx/vertx-zookeeper</module>-->
-
         <module>io.vertx/vertx-sql-client</module>
         <module>io.vertx/vertx-pg-client</module>
         <module>io.vertx/vertx-mysql-client</module>
+        <module>io.vertx</module>
       </modules>
     </profile>
     <profile>
@@ -176,6 +176,8 @@
     <maven.groupId>io.vertx</maven.groupId>
 
     <npm-skip>true</npm-skip>
+    <maven-deploy-skip>true</maven-deploy-skip>
+    <maven-gpg-skip>true</maven-gpg-skip>
 
     <!-- language=json -->
     <scope-registry>
@@ -202,7 +204,7 @@
     <!-- allow to publish under a custom name -->
     <npm-name>${project.artifactId}</npm-name>
     <npm-version>${project.version}</npm-version>
-    <npm-license>Apache License 2.0</npm-license>
+    <npm-license>Apache-2.0</npm-license>
     <!-- a meta package has no code, just wraps a maven artifact -->
     <npm-meta-package>false</npm-meta-package>
     <!-- allow to publish to a different registry -->
@@ -272,6 +274,20 @@
   <build>
     <defaultGoal>generate-sources</defaultGoal>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <configuration>
+          <skip>${maven-gpg-skip}</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
@@ -434,6 +450,34 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/classes/node_modules/${npm-name}</outputDirectory>
+              <resources>
+                <resource>
+                  <filtering>false</filtering>
+                  <directory>${basedir}/npm</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>${maven-deploy-skip}</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>
