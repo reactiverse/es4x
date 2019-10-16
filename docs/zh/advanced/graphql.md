@@ -6,7 +6,7 @@
 ES4X是Vert.x的一个快速，无条件，简约的 JavaScript运行时
 
 ```js
-/// <reference types="@vertx/core/runtime" />
+/// <reference types="es4x.d.ts" />
 // @ts-check
 import { Router } from '@vertx/web';
 import { GraphQLServer } from 'vertx-graphql';

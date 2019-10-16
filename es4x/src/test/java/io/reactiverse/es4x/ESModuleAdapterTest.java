@@ -195,7 +195,7 @@ public class ESModuleAdapterTest {
   @Test
   public void shouldAdapt() {
     String file =
-      "/// <reference types=\"@vertx/core/runtime\" />\n"+
+      "/// <reference types=\"es4x.d.ts\" />\n"+
       "// @ts-check\n"+
       "\n"+
       "import { Router } from '@vertx/web';\n"+

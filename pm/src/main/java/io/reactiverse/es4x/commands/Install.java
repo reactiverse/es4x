@@ -70,7 +70,7 @@ public class Install implements Runnable {
       setForce(true);
     }
 
-    Boolean link = parser.getOptionValue(forceOption, Boolean.FALSE);
+    Boolean link = parser.getOptionValue(linkOption, Boolean.FALSE);
     if (link != null && link) {
       setLink(true);
     }
@@ -206,6 +206,8 @@ public class Install implements Runnable {
 
     // always create a launcher even if no dependencies are needed
     createLauncher(artifacts);
+    // always install the es4x type definitions
+    installTypeDefinitions();
   }
 
   private void installGraalJS(Set<String> artifacts) {
@@ -486,6 +488,32 @@ public class Install implements Runnable {
     final File exe = new File(bin, "es4x-launcher.cmd");
     try (FileOutputStream out = new FileOutputStream(exe)) {
       out.write(script.getBytes(StandardCharsets.UTF_8));
+    }
+  }
+
+  private void installTypeDefinitions() {
+    final File base = new File(cwd, "node_modules");
+
+    File atTypes = new File(base, "@types");
+    if (!atTypes.exists()) {
+      if (!atTypes.mkdirs()) {
+        fatal("Failed to mkdirs 'node_modules/@types'.");
+      }
+    }
+
+    final File file = new File(atTypes, "es4x.d.ts");
+
+    if (force || !file.exists()) {
+      // Load the file from the class path
+      try (InputStream in = Install.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/es4x.d.ts")) {
+        if (in == null) {
+          fatal("Cannot load es4x.d.ts.");
+        } else {
+          Files.copy(in, file.toPath());
+        }
+      } catch (IOException e) {
+        fatal(e.getMessage());
+      }
     }
   }
 
