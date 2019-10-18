@@ -6,7 +6,7 @@
   minimalist JavaScript runtime for Vert.x. 
 
 ```js
-/// <reference types="@vertx/core/runtime" />
+/// <reference types="es4x.d.ts" />
 // @ts-check
 import { Router } from '@vertx/web';
 import { GraphQLServer } from 'vertx-graphql';

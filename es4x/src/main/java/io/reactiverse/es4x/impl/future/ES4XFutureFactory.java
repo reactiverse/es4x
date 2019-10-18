@@ -21,6 +21,7 @@ import io.vertx.core.spi.FutureFactory;
 
 /**
  * @author <a href="http://tfox.org">Tim Fox</a>
+ * @author <a href="mailto:plopes@redhat.com">Paulo Lopes</a>
  */
 public class ES4XFutureFactory implements FutureFactory {
 
@@ -29,28 +30,6 @@ public class ES4XFutureFactory implements FutureFactory {
   @Override
   public <T> Promise<T> promise() {
     return new ES4XFuture<>();
-  }
-
-  @Override
-  public <T> Promise<T> succeededPromise() {
-    @SuppressWarnings("unchecked")
-    Promise<T> promise = EMPTY;
-    return promise;
-  }
-
-  @Override
-  public <T> Promise<T> succeededPromise(T result) {
-    return new ES4XSucceededFuture<>(result);
-  }
-
-  @Override
-  public <T> Promise<T> failedPromise(Throwable t) {
-    return new ES4XFailedFuture<>(t);
-  }
-
-  @Override
-  public <T> Promise<T> failurePromise(String failureMessage) {
-    return new ES4XFailedFuture<>(failureMessage);
   }
 
   @Override

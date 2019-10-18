@@ -1,4 +1,4 @@
-/// <reference types="@vertx/core/runtime" />
+/// <reference types="es4x.d.ts" />
 // @ts-check
 
 vertx

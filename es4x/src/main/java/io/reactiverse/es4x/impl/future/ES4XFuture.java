@@ -118,11 +118,6 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
     });
   }
 
-//  @Override
-//  public synchronized Handler<AsyncResult<T>> getHandler() {
-//    return handler;
-//  }
-
   @Override
   public void complete(T result) {
     if (!tryComplete(result)) {

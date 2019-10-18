@@ -43,7 +43,7 @@ public class JLinkCommand extends DefaultCommand {
       final double version = Double.parseDouble(System.getProperty("java.specification.version"));
       if (version >= 11) {
         // Collect the jmods used in the application
-        String mods = exec(javaHomePrefix() + "jdeps", "--module-path", "node_modules/.lib", "--print-module-deps", "node_modules/.bin/es4x-launcher.jar");
+        String mods = exec(javaHomePrefix() + "jdeps", "-q", "--module-path", "node_modules/.lib", "--print-module-deps", "node_modules/.bin/es4x-launcher.jar");
         // trim any new line
         mods = mods.replaceAll("\r?\n", "");
         // enable jvmci if supported
