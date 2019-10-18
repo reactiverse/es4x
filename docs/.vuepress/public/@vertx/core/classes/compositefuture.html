@@ -110,6 +110,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite"><a href="compositefuture.html#compose" class="tsd-kind-icon">compose</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="compositefuture.html#fail" class="tsd-kind-icon">fail</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="compositefuture.html#failed" class="tsd-kind-icon">failed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite"><a href="compositefuture.html#flatmap" class="tsd-kind-icon">flat<wbr>Map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="compositefuture.html#iscomplete" class="tsd-kind-icon">is<wbr>Complete</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite"><a href="compositefuture.html#map" class="tsd-kind-icon">map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="compositefuture.html#mapempty" class="tsd-kind-icon">map<wbr>Empty</a></li>
@@ -148,7 +149,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#cause">cause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1659</li>
+									<li>Defined in index.d.ts:1684</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -209,7 +210,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#complete">complete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1645</li>
+									<li>Defined in index.d.ts:1670</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -232,7 +233,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#completer">completer</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1458</li>
+									<li>Defined in index.d.ts:1483</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -255,13 +256,14 @@
 					<h3>compose</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">compose&lt;U&gt;<span class="tsd-signature-symbol">(</span>mapper<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">compose&lt;U&gt;<span class="tsd-signature-symbol">(</span>successMapper<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, failureMapper<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#compose">compose</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1434</li>
+									<li>Defined in index.d.ts:1440</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -311,6 +313,85 @@
 							<h4 class="tsd-returns-title">Returns <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>the composed future</p>
 						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#compose">compose</a></p>
+								<ul>
+									<li>Defined in index.d.ts:1459</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Compose this future with a {@code successMapper} and {@code failureMapper} functions.<p></p>
+								</div>
+								<p> When this future (the one on which {@code compose} is called) succeeds, the {@code successMapper} will be called with
+									the completed value and this mapper returns another future object. This returned future completion will complete
+									the future returned by this method call.<p></p>
+									<p> When this future (the one on which {@code compose} is called) fails, the {@code failureMapper} will be called with
+										the failure and this mapper returns another future object. This returned future completion will complete
+										the future returned by this method call.<p></p>
+										<p> If any mapper function throws an exception, the returned future will be failed with this exception.<p></p>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>U</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>successMapper: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the function mapping the success</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="compositefuture.html" class="tsd-signature-type">CompositeFuture</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <a href="compositefuture.html" class="tsd-signature-type">CompositeFuture</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5>failureMapper: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the function mapping the failure</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <span class="tsd-signature-type">Error</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>the composed future</p>
+						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -325,7 +406,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#fail">fail</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3635</li>
+									<li>Defined in index.d.ts:3660</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -353,7 +434,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#fail">fail</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3643</li>
+									<li>Defined in index.d.ts:3668</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -390,7 +471,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#failed">failed</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1673</li>
+									<li>Defined in index.d.ts:1698</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -411,6 +492,59 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+					<a name="flatmap" class="tsd-anchor"></a>
+					<h3>flat<wbr>Map</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">flat<wbr>Map&lt;U&gt;<span class="tsd-signature-symbol">(</span>mapper<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#flatmap">flatMap</a></p>
+								<ul>
+									<li>Defined in index.d.ts:1423</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Alias for {@link #compose(Function)}.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>U</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>mapper: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="compositefuture.html" class="tsd-signature-type">CompositeFuture</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <a href="compositefuture.html" class="tsd-signature-type">CompositeFuture</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="iscomplete" class="tsd-anchor"></a>
 					<h3>is<wbr>Complete</h3>
@@ -422,7 +556,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#iscomplete">isComplete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1680</li>
+									<li>Defined in index.d.ts:1705</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -454,7 +588,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#map">map</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1450</li>
+									<li>Defined in index.d.ts:1475</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -516,7 +650,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#mapempty">mapEmpty</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3764</li>
+									<li>Defined in index.d.ts:3814</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -550,7 +684,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#otherwise">otherwise</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1483</li>
+									<li>Defined in index.d.ts:1508</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -597,7 +731,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#otherwise">otherwise</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1495</li>
+									<li>Defined in index.d.ts:1520</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -632,7 +766,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#otherwiseempty">otherwiseEmpty</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1508</li>
+									<li>Defined in index.d.ts:1533</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -659,7 +793,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#recover">recover</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1467</li>
+									<li>Defined in index.d.ts:1492</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -734,7 +868,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1687</li>
+									<li>Defined in index.d.ts:1712</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -772,7 +906,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#sethandler">setHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1639</li>
+									<li>Defined in index.d.ts:1664</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -795,7 +929,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1694</li>
+									<li>Defined in index.d.ts:1719</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -816,7 +950,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#succeeded">succeeded</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1666</li>
+									<li>Defined in index.d.ts:1691</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -848,7 +982,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#then">then</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3830</li>
+									<li>Defined in index.d.ts:3880</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -926,7 +1060,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="future.html">Future</a>.<a href="future.html#trycomplete">tryComplete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1652</li>
+									<li>Defined in index.d.ts:1677</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -951,7 +1085,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#tryfail">tryFail</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3669</li>
+									<li>Defined in index.d.ts:3694</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -980,7 +1114,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#tryfail">tryFail</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3678</li>
+									<li>Defined in index.d.ts:3703</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1022,7 +1156,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1519</li>
+									<li>Defined in index.d.ts:1544</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1062,7 +1196,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1525</li>
+									<li>Defined in index.d.ts:1550</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1099,7 +1233,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1531</li>
+									<li>Defined in index.d.ts:1556</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1142,7 +1276,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1537</li>
+									<li>Defined in index.d.ts:1562</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1191,7 +1325,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1543</li>
+									<li>Defined in index.d.ts:1568</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1246,7 +1380,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1551</li>
+									<li>Defined in index.d.ts:1576</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1280,7 +1414,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1562</li>
+									<li>Defined in index.d.ts:1587</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1320,7 +1454,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1568</li>
+									<li>Defined in index.d.ts:1593</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1357,7 +1491,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1574</li>
+									<li>Defined in index.d.ts:1599</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1400,7 +1534,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1580</li>
+									<li>Defined in index.d.ts:1605</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1449,7 +1583,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1586</li>
+									<li>Defined in index.d.ts:1611</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1504,7 +1638,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1594</li>
+									<li>Defined in index.d.ts:1619</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1535,7 +1669,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#failedfuture">failedFuture</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3582</li>
+									<li>Defined in index.d.ts:3607</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1568,7 +1702,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#failedfuture">failedFuture</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3591</li>
+									<li>Defined in index.d.ts:3616</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1611,7 +1745,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#future-1">future</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3547</li>
+									<li>Defined in index.d.ts:3572</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1644,7 +1778,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#future-1">future</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3556</li>
+									<li>Defined in index.d.ts:3581</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1686,7 +1820,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1605</li>
+									<li>Defined in index.d.ts:1630</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1726,7 +1860,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1611</li>
+									<li>Defined in index.d.ts:1636</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1763,7 +1897,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1617</li>
+									<li>Defined in index.d.ts:1642</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1806,7 +1940,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1623</li>
+									<li>Defined in index.d.ts:1648</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1855,7 +1989,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1629</li>
+									<li>Defined in index.d.ts:1654</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1910,7 +2044,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1637</li>
+									<li>Defined in index.d.ts:1662</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1941,7 +2075,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#succeededfuture">succeededFuture</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3564</li>
+									<li>Defined in index.d.ts:3589</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1965,7 +2099,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="future.html">Future</a>.<a href="future.html#succeededfuture">succeededFuture</a></p>
 								<ul>
-									<li>Defined in index.d.ts:3573</li>
+									<li>Defined in index.d.ts:3598</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2030,6 +2164,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="compositefuture.html#failed" class="tsd-kind-icon">failed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+								<a href="compositefuture.html#flatmap" class="tsd-kind-icon">flat<wbr>Map</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="compositefuture.html#iscomplete" class="tsd-kind-icon">is<wbr>Complete</a>
@@ -2112,7 +2249,6 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -2161,7 +2297,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
