@@ -24,6 +24,7 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Map;
 
+import static io.reactiverse.es4x.codegen.generator.Util.generateDoc;
 import static io.reactiverse.es4x.codegen.generator.Util.isBlacklistedClass;
 
 public class EnumDTS extends Generator<EnumModel> {
@@ -58,11 +59,7 @@ public class EnumDTS extends Generator<EnumModel> {
       writer.print("\n");
     }
 
-    if (model.getDoc() != null) {
-      writer.print("/**\n");
-      writer.printf(" *%s\n", model.getDoc().toString().replace("\n", "\n * "));
-      writer.print(" */\n");
-    }
+    generateDoc(writer, model.getDoc(), "");
 
     writer.printf("export enum %s {\n", model.getType().getRaw().getSimpleName());
     for (int i = 0; i < model.getValues().size(); i++) {
