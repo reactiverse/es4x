@@ -324,4 +324,4 @@
   ModuleError.prototype.constructor = ModuleError;
 
   return Module;
-})(global || this);
+})(this);

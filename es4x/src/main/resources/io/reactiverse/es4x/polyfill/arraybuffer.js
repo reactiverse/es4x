@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-(function () {
+(function (global) {
   'use strict';
 
   const ByteBuffer = Java.type('java.nio.ByteBuffer');
@@ -34,4 +34,4 @@
 
   // replace the default impl with the extended one
   global.ArrayBuffer = EArrayBuffer;
-})();
+})(this);

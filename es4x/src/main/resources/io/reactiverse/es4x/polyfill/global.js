@@ -149,4 +149,4 @@
     }),
   };
 
-})(global || this, verticle);
+})(this, verticle);
