@@ -26,6 +26,15 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+          <skip>true</skip>
+          <executable>npm</executable>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
@@ -352,11 +361,11 @@
                   <artifactId>vertx-service-discovery-bridge-zookeeper</artifactId>
                   <version>${project.version}</version>
                 </artifactItem>
-                <!--<artifactItem>
+                <artifactItem>
                   <groupId>io.reactiverse.es4x</groupId>
                   <artifactId>vertx-service-proxy</artifactId>
                   <version>${project.version}</version>
-                </artifactItem>-->
+                </artifactItem>
                 <artifactItem>
                   <groupId>io.reactiverse.es4x</groupId>
                   <artifactId>vertx-shell</artifactId>
