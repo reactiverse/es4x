@@ -9,8 +9,7 @@ fi
 
 # build
 if [ "$1" = "local" ]; then
-  # a local build will populate the npm cache instead of pushing to a registry
-  mvn -fae -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-cache
+  mvn -fae -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-publish
 else
   echo "login as vertx"
   npm adduser --registry "$REGISTRY"
