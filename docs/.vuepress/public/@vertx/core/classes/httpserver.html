@@ -67,19 +67,14 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>An HTTP and WebSockets server.
+						<p>An HTTP and WebSockets server.</p>
+						<p>
+							You receive HTTP requests by providing a {@link HttpServer#requestHandler}. As requests arrive on the server the handler
+							will be called with the requests.
 							<p>
-								You receive HTTP requests by providing a {@link #requestHandler}. As requests arrive on the server the handler
-								will be called with the requests.
-								<p>
-									You receive WebSockets by providing a {@link #websocketHandler}. As WebSocket connections arrive on the server, the
-								WebSocket is passed to the handler.</p>
+								You receive WebSockets by providing a {@link HttpServer#websocketHandler}. As WebSocket connections arrive on the server, the
+								WebSocket is passed to the handler.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -130,7 +125,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6691</li>
+									<li>Defined in index.d.ts:4409</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -140,7 +135,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the actual port the server is listening on.</p>
 						</li>
 					</ul>
 				</section>
@@ -155,14 +149,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6676</li>
+									<li>Defined in index.d.ts:4398</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Close the server. Any open HTTP connections will be closed.
-										<p>
-										The close happens asynchronously and the server may not be closed until some time after the call has returned.</p>
+									<p>Close the server. Any open HTTP connections will be closed.</p>
+									<p>
+										The close happens asynchronously and the server may not be closed until some time after the call has returned.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -170,21 +164,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6683</li>
+									<li>Defined in index.d.ts:4403</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #close} but supplying a handler that will be called when the server is actually closed (or has failed).</p>
+									<p>Like {@link HttpServer#close} but supplying a handler that will be called when the server is actually closed (or has failed).</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -201,7 +192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6577</li>
+									<li>Defined in index.d.ts:4328</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -216,7 +207,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -230,7 +220,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6586</li>
+									<li>Defined in index.d.ts:4334</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -243,13 +233,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler to set</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -264,21 +250,15 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/measured.html">Measured</a>.<a href="../interfaces/measured.html#ismetricsenabled">isMetricsEnabled</a></p>
 								<ul>
-									<li>Defined in index.d.ts:6554</li>
+									<li>Defined in index.d.ts:4311</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Whether the metrics are enabled for this measured object</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>implspec</dt>
-									<dd><p>The default implementation returns {@code false}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>if metrics are enabled</p>
 						</li>
 					</ul>
 				</section>
@@ -298,61 +278,53 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6612</li>
+									<li>Defined in index.d.ts:4354</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Tell the server to start listening. The server will listen on the port and host specified in the
-										{@link io.vertx.core.http.HttpServerOptions} that was used when creating the server.
-										<p>
-										The listen happens asynchronously and the server may not be listening until some time after the call has returned.</p>
+									<a href="../../dataobjects.html#HttpServerOptions">HttpServerOptions</a> that was used when creating the server.</p>
+									<p>
+										The listen happens asynchronously and the server may not be listening until some time after the call has returned.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6624</li>
+									<li>Defined in index.d.ts:4362</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Tell the server to start listening. The server will listen on the port and host specified here,
-										ignoring any value set in the {@link io.vertx.core.http.HttpServerOptions} that was used when creating the server.
-										<p>
-										The listen happens asynchronously and the server may not be listening until some time after the call has returned.</p>
+									ignoring any value set in the <a href="../../dataobjects.html#HttpServerOptions">HttpServerOptions</a> that was used when creating the server.</p>
+									<p>
+										The listen happens asynchronously and the server may not be listening until some time after the call has returned.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>port: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the port to listen on</p>
-									</div>
 								</li>
 								<li>
 									<h5>host: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the host to listen on</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6634</li>
+									<li>Defined in index.d.ts:4368</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #listen(int, String)} but supplying a handler that will be called when the server is actually
+									<p>Like {@link HttpServer#listen} but supplying a handler that will be called when the server is actually
 									listening (or has failed).</p>
 								</div>
 							</div>
@@ -360,21 +332,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>port: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the port to listen on</p>
-									</div>
 								</li>
 								<li>
 									<h5>host: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the host to listen on</p>
-									</div>
 								</li>
 								<li>
 									<h5>listenHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="httpserver.html" class="tsd-signature-type">HttpServer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the listen handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
@@ -382,7 +345,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6644</li>
+									<li>Defined in index.d.ts:4375</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -396,15 +359,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>address: <a href="socketaddress.html" class="tsd-signature-type">SocketAddress</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the address to listen on</p>
-									</div>
 								</li>
 								<li>
 									<h5>listenHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="httpserver.html" class="tsd-signature-type">HttpServer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the listen handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
@@ -412,51 +369,41 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6653</li>
+									<li>Defined in index.d.ts:4381</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #listen(int, String)} but the server will listen on host &quot;0.0.0.0&quot; and port specified here ignoring
-									any value in the {@link io.vertx.core.http.HttpServerOptions} that was used when creating the server.</p>
+									<p>Like {@link HttpServer#listen} but the server will listen on host &quot;0.0.0.0&quot; and port specified here ignoring
+									any value in the <a href="../../dataobjects.html#HttpServerOptions">HttpServerOptions</a> that was used when creating the server.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>port: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the port to listen on</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6661</li>
+									<li>Defined in index.d.ts:4386</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #listen(int)} but supplying a handler that will be called when the server is actually listening (or has failed).</p>
+									<p>Like {@link HttpServer#listen} but supplying a handler that will be called when the server is actually listening (or has failed).</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>port: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the port to listen on</p>
-									</div>
 								</li>
 								<li>
 									<h5>listenHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="httpserver.html" class="tsd-signature-type">HttpServer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the listen handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
@@ -464,21 +411,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6668</li>
+									<li>Defined in index.d.ts:4391</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #listen} but supplying a handler that will be called when the server is actually listening (or has failed).</p>
+									<p>Like {@link HttpServer#listen} but supplying a handler that will be called when the server is actually listening (or has failed).</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>listenHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="httpserver.html" class="tsd-signature-type">HttpServer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the listen handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
@@ -495,12 +439,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6570</li>
+									<li>Defined in index.d.ts:4323</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the request handler for the server to {@code requestHandler}. As HTTP requests are received by the server,
+									<p>Set the request handler for the server to <code>requestHandler</code>. As HTTP requests are received by the server,
 									instances of <a href="httpserverrequest.html">HttpServerRequest</a> will be created and passed to this handler.</p>
 								</div>
 							</div>
@@ -511,7 +455,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -525,17 +468,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6562</li>
+									<li>Defined in index.d.ts:4317</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return the request stream for the server. As HTTP requests are received by the server,
-									instances of <a href="httpserverrequest.html">HttpServerRequest</a> will be created and passed to the stream {@link io.vertx.core.streams.ReadStream#handler(io.vertx.core.Handler)}.</p>
+									instances of <a href="httpserverrequest.html">HttpServerRequest</a> will be created and passed to the stream .</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>the request stream</p>
 						</li>
 					</ul>
 				</section>
@@ -549,12 +491,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6602</li>
+									<li>Defined in index.d.ts:4346</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the websocket handler for the server to {@code wsHandler}. If a websocket connect handshake is successful a
+									<p>Set the websocket handler for the server to <code>wsHandler</code>. If a websocket connect handshake is successful a
 									new <a href="serverwebsocket.html">ServerWebSocket</a> instance will be created and passed to the handler.</p>
 								</div>
 							</div>
@@ -565,7 +507,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -579,17 +520,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6594</li>
+									<li>Defined in index.d.ts:4340</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return the websocket stream for the server. If a websocket connect handshake is successful a
-									new <a href="serverwebsocket.html">ServerWebSocket</a> instance will be created and passed to the stream {@link io.vertx.core.streams.ReadStream#handler(io.vertx.core.Handler)}.</p>
+									new <a href="serverwebsocket.html">ServerWebSocket</a> instance will be created and passed to the stream .</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>the websocket stream</p>
 						</li>
 					</ul>
 				</section>
@@ -661,6 +601,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -709,7 +650,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

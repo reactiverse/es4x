@@ -67,21 +67,16 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Represents a server-side HTTP request.
+						<p>Represents a server-side HTTP request.</p>
+						<p>
+							Instances are created for each request and passed to the user via a handler.
 							<p>
-								Instances are created for each request and passed to the user via a handler.
-								<p>
-									Each instance of this class is associated with a corresponding <a href="httpserverresponse.html">HttpServerResponse</a> instance via
-									{@link #response}.<p>
-										It implements {@link io.vertx.core.streams.ReadStream} so it can be used with
-										{@link io.vertx.core.streams.Pump} to pump data with flow control.
-										<p></p>
+								Each instance of this class is associated with a corresponding <a href="httpserverresponse.html">HttpServerResponse</a> instance via
+								{@link HttpServerRequest#response}.<p>
+									It implements <a href="../interfaces/readstream.html">ReadStream</a> so it can be used with
+									<a href="pump.html">Pump</a> to pump data with flow control.
+									<p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -164,13 +159,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6984</li>
+									<li>Defined in index.d.ts:4608</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the absolute URI corresponding to the the HTTP request</p>
 						</li>
 					</ul>
 				</section>
@@ -184,24 +176,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6994</li>
+									<li>Defined in index.d.ts:4616</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Convenience method for receiving the entire request body in one piece.
-										<p>
-											This saves the user having to manually setting a data and end handler and append the chunks of the body until
-										the whole body received. Don&#39;t use this if your request body is large - you could potentially run out of RAM.</p>
+									<p>Convenience method for receiving the entire request body in one piece.</p>
+									<p>
+										This saves the user having to manually setting a data and end handler and append the chunks of the body until
+										the whole body received. Don't use this if your request body is large - you could potentially run out of RAM.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>bodyHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>This handler will be called after all the body has been received</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
@@ -218,13 +207,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6925</li>
+									<li>Defined in index.d.ts:4574</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the total number of bytes read for the body of the request.</p>
 						</li>
 					</ul>
 				</section>
@@ -238,13 +224,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7106</li>
+									<li>Defined in index.d.ts:4701</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="httpconnection.html" class="tsd-signature-type">HttpConnection</a></h4>
-							<p>the <a href="httpconnection.html">HttpConnection</a> associated with this request</p>
 						</li>
 					</ul>
 				</section>
@@ -258,13 +241,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7137</li>
+									<li>Defined in index.d.ts:4721</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the number of cookieMap.</p>
 						</li>
 					</ul>
 				</section>
@@ -278,7 +258,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7099</li>
+									<li>Defined in index.d.ts:4697</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -294,7 +274,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -308,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6855</li>
+									<li>Defined in index.d.ts:4534</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -331,7 +310,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6845</li>
+									<li>Defined in index.d.ts:4524</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -355,7 +334,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:6853</li>
+									<li>Defined in index.d.ts:4532</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -378,21 +357,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7064</li>
+									<li>Defined in index.d.ts:4673</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns a map of all form attributes in the request.
+									<p>Returns a map of all form attributes in the request.</p>
+									<p>
+										Be aware that the attributes will only be available after the whole body has been received, i.e. after
+										the request end handler has been called.
 										<p>
-											Be aware that the attributes will only be available after the whole body has been received, i.e. after
-											the request end handler has been called.
-											<p>
-											{@link #setExpectMultipart(boolean)} must be called first before trying to get the form attributes.</p>
+											{@link HttpServerRequest#setExpectMultipart} must be called first before trying to get the form attributes.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="multimap.html" class="tsd-signature-type">MultiMap</a></h4>
-							<p>the form attributes</p>
 						</li>
 					</ul>
 				</section>
@@ -406,7 +384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7130</li>
+									<li>Defined in index.d.ts:4717</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -418,16 +396,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the cookie name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cookie.html" class="tsd-signature-type">Cookie</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the cookie</p>
 						</li>
 					</ul>
 				</section>
@@ -441,7 +415,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7072</li>
+									<li>Defined in index.d.ts:4678</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -453,16 +427,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>attributeName: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the attribute name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the attribute value</p>
 						</li>
 					</ul>
 				</section>
@@ -477,7 +447,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6948</li>
+									<li>Defined in index.d.ts:4587</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -489,21 +459,17 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>headerName: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the header name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the header value</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7145</li>
+									<li>Defined in index.d.ts:4726</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -515,13 +481,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>headerName: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the header name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the header value</p>
 						</li>
 					</ul>
 				</section>
@@ -535,7 +497,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6963</li>
+									<li>Defined in index.d.ts:4596</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -547,16 +509,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>paramName: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the param name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the param value</p>
 						</li>
 					</ul>
 				</section>
@@ -570,7 +528,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6847</li>
+									<li>Defined in index.d.ts:4526</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -593,13 +551,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6940</li>
+									<li>Defined in index.d.ts:4582</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="multimap.html" class="tsd-signature-type">MultiMap</a></h4>
-							<p>the headers in the request.</p>
 						</li>
 					</ul>
 				</section>
@@ -613,16 +568,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6918</li>
+									<li>Defined in index.d.ts:4570</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the request host. For HTTP2 it returns the {@literal :authority} pseudo header otherwise it returns the {@literal Host} header</p>
 						</li>
 					</ul>
 				</section>
@@ -636,7 +588,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7091</li>
+									<li>Defined in index.d.ts:4691</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -645,7 +597,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if ended</p>
 						</li>
 					</ul>
 				</section>
@@ -659,13 +610,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7044</li>
+									<li>Defined in index.d.ts:4657</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if we are expecting a multi-part body for this request. See {@link #setExpectMultipart}.</p>
 						</li>
 					</ul>
 				</section>
@@ -679,13 +627,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6883</li>
+									<li>Defined in index.d.ts:4550</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if this {@link io.vertx.core.net.NetSocket} is encrypted via SSL/TLS</p>
 						</li>
 					</ul>
 				</section>
@@ -699,13 +644,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6977</li>
+									<li>Defined in index.d.ts:4604</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="socketaddress.html" class="tsd-signature-type">SocketAddress</a></h4>
-							<p>the local (server side) address of the server that handles the request</p>
 						</li>
 					</ul>
 				</section>
@@ -719,13 +661,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6869</li>
+									<li>Defined in index.d.ts:4542</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a></h4>
-							<p>the HTTP method for the request.</p>
 						</li>
 					</ul>
 				</section>
@@ -739,47 +678,41 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7028</li>
+									<li>Defined in index.d.ts:4647</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get a net socket for the underlying connection of this request.
+									<p>Get a net socket for the underlying connection of this request.</p>
+									<p/>
+										This method must be called before the server response is ended.
 										<p/>
-											This method must be called before the server response is ended.
+											With <code>CONNECT</code> requests, a <code>200</code> response is sent with no <code>content-length</code> header set
+											before returning the socket.
 											<p/>
-												With {@code CONNECT} requests, a {@code 200} response is sent with no {@code content-length} header set
-												before returning the socket.
+												<pre>
+server.requestHandler(req -> {
+  if (req.method() == HttpMethod.CONNECT) {
+    // Send a 200 response to accept the connect
+    NetSocket socket = req.netSocket();
+    socket.handler(buff -> {
+      socket.write(buff);
+    });
+  }
+  ...
+});
+</pre>
 												<p/>
-													<pre>
- server.requestHandler(req -&gt; {
-   if (req.method() == HttpMethod.CONNECT) {
-     // Send a 200 response to accept the connect
-     NetSocket socket = req.netSocket();
-     socket.handler(buff -&gt; {
-       socket.write(buff);
-     });
-   }
-   ...
- });
- </pre>
+													For other HTTP/1 requests once you have called this method, you must handle writing to the connection yourself using
+													the net socket, the server request instance will no longer be usable as normal. USE THIS WITH CAUTION! Writing to the socket directly if you don't know what you're
+													doing can easily break the HTTP protocol.
 													<p/>
-														For other HTTP/1 requests once you have called this method, you must handle writing to the connection yourself using
-														the net socket, the server request instance will no longer be usable as normal. USE THIS WITH CAUTION! Writing to the socket directly if you don&#39;t know what you&#39;re
-														doing can easily break the HTTP protocol.
+														With HTTP/2, a <code>200</code> response is always sent with no <code>content-length</code> header set before returning the socket
+														like in the <code>CONNECT</code> case above.
 														<p/>
-															With HTTP/2, a {@code 200} response is always sent with no {@code content-length} header set before returning the socket
-															like in the {@code CONNECT} case above.
-															<p/></p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd><p>IllegalStateException when the socket can&#39;t be created</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>the net socket</p>
 						</li>
 					</ul>
 				</section>
@@ -793,13 +726,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6955</li>
+									<li>Defined in index.d.ts:4591</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="multimap.html" class="tsd-signature-type">MultiMap</a></h4>
-							<p>the query parameters in the request</p>
 						</li>
 					</ul>
 				</section>
@@ -813,16 +743,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6904</li>
+									<li>Defined in index.d.ts:4562</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>The path part of the uri. For example /somepath/somemorepath/someresource.foo</p>
 						</li>
 					</ul>
 				</section>
@@ -837,7 +764,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:6849</li>
+									<li>Defined in index.d.ts:4528</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
@@ -855,18 +782,17 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:6825</li>
+									<li>Defined in index.d.ts:4507</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pause this stream and return a <a href="pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="../interfaces/writestream.html">WriteStream</a>.
-										<p/>
-										The stream will be resumed when the pipe will be wired to a {@code WriteStream}.</p>
+									<p>Pause this stream and return a  to transfer the elements of this stream to a destination .</p>
+									<p/>
+										The stream will be resumed when the pipe will be wired to a <code>WriteStream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a pipe</p>
 						</li>
 					</ul>
 				</section>
@@ -882,12 +808,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:6831</li>
+									<li>Defined in index.d.ts:4512</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pipeTo(WriteStream, Handler)} but with no completion handler.</p>
+									<p>Like {@link ReadStream#pipeTo} but with no completion handler.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -901,26 +827,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6843</li>
+									<li>Defined in index.d.ts:4522</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pipe this {@code ReadStream} to the {@code WriteStream}.
+									<p>Pipe this <code>ReadStream</code> to the <code>WriteStream</code>.</p>
+									<p>
+										Elements emitted by this stream will be written to the write stream until this stream ends or fails.
 										<p>
-											Elements emitted by this stream will be written to the write stream until this stream ends or fails.
-											<p>
-												Once this stream has ended or failed, the write stream will be ended and the {@code handler} will be
-											called with the result.</p>
+											Once this stream has ended or failed, the write stream will be ended and the <code>handler</code> will be
+											called with the result.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>dst: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the destination write stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
@@ -940,16 +863,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6911</li>
+									<li>Defined in index.d.ts:4566</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the query part of the uri. For example someparam=32&amp;someotherparam=x</p>
 						</li>
 					</ul>
 				</section>
@@ -963,13 +883,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6876</li>
+									<li>Defined in index.d.ts:4546</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the HTTP method as sent by the client</p>
 						</li>
 					</ul>
 				</section>
@@ -983,13 +900,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6970</li>
+									<li>Defined in index.d.ts:4600</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="socketaddress.html" class="tsd-signature-type">SocketAddress</a></h4>
-							<p>the remote (client side) address of the request</p>
 						</li>
 					</ul>
 				</section>
@@ -1003,14 +917,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6933</li>
+									<li>Defined in index.d.ts:4578</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverresponse.html" class="tsd-signature-type">HttpServerResponse</a></h4>
-							<p>the response. Each instance of this class has an <a href="httpserverresponse.html">HttpServerResponse</a> instance attached to it. This is used
-							to send the response back to the client.</p>
 						</li>
 					</ul>
 				</section>
@@ -1025,7 +935,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:6851</li>
+									<li>Defined in index.d.ts:4530</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
@@ -1042,16 +952,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6890</li>
+									<li>Defined in index.d.ts:4554</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the scheme of the request</p>
 						</li>
 					</ul>
 				</section>
@@ -1065,7 +972,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7037</li>
+									<li>Defined in index.d.ts:4653</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1078,13 +985,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>expect: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>true - if you are expecting a multi-part body</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1098,19 +1001,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7154</li>
+									<li>Defined in index.d.ts:4730</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p>javax.net.ssl.SSLSession</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-							<p>SSLSession associated with the underlying socket. Returns null if connection is
-							not SSL.</p>
 						</li>
 					</ul>
 				</section>
@@ -1124,13 +1018,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7113</li>
+									<li>Defined in index.d.ts:4705</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="streampriority.html" class="tsd-signature-type">StreamPriority</a></h4>
-							<p>the priority of the associated HTTP/2 stream for HTTP/2 otherwise {@code null}</p>
 						</li>
 					</ul>
 				</section>
@@ -1144,23 +1035,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7122</li>
+									<li>Defined in index.d.ts:4712</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set an handler for stream priority changes
-										<p>
-										This is not implemented for HTTP/1.x.</p>
+									<p>Set an handler for stream priority changes</p>
+									<p>
+										This is not implemented for HTTP/1.x.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="streampriority.html" class="tsd-signature-type">StreamPriority</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler to be called when stream priority changes</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
@@ -1177,25 +1065,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7084</li>
+									<li>Defined in index.d.ts:4686</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Upgrade the connection to a WebSocket connection.
-										<p>
-											This is an alternative way of handling WebSockets and can only be used if no WebSocket handler is set on the
-										{@code HttpServer}, and can only be used during the upgrade request during the WebSocket handshake.</p>
+									<p>Upgrade the connection to a WebSocket connection.</p>
+									<p>
+										This is an alternative way of handling WebSockets and can only be used if no WebSocket handler is set on the
+										<code>HttpServer</code>, and can only be used during the upgrade request during the WebSocket handshake.
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd><p>IllegalStateException if the current request cannot be upgraded, when it happens an appropriate response
-										is sent</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
-							<p>the WebSocket</p>
 						</li>
 					</ul>
 				</section>
@@ -1209,7 +1090,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7052</li>
+									<li>Defined in index.d.ts:4663</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1225,7 +1106,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1239,13 +1119,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6897</li>
+									<li>Defined in index.d.ts:4558</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the URI of the request. This is usually a relative URI</p>
 						</li>
 					</ul>
 				</section>
@@ -1259,13 +1136,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:6862</li>
+									<li>Defined in index.d.ts:4538</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a></h4>
-							<p>the HTTP version of the request</p>
 						</li>
 					</ul>
 				</section>
@@ -1433,6 +1307,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -1481,7 +1356,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

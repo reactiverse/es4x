@@ -67,13 +67,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p> User-facing interface for authenticating users.</p>
+						<p>User-facing interface for authenticating users.</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -108,41 +103,38 @@
 					<a name="authenticate" class="tsd-anchor"></a>
 					<h3>authenticate</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">authenticate<span class="tsd-signature-symbol">(</span>authInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">authenticate<span class="tsd-signature-symbol">(</span>authInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:46</li>
+									<li>Defined in index.d.ts:41</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Authenticate a user.
+									<p>Authenticate a user.</p>
+									<p>
+										The first argument is a JSON object containing information for authenticating the user. What this actually contains
+										depends on the specific implementation. In the case of a simple username/password based
+										authentication it is likely to contain a JSON object with the following structure:
+										<pre>
+  {
+    "username": "tim",
+    "password": "mypassword"
+  }
+</pre>
+										For other types of authentication it contain different information - for example a JWT token or OAuth bearer token.
 										<p>
-											The first argument is a JSON object containing information for authenticating the user. What this actually contains
-											depends on the specific implementation. In the case of a simple username/password based
-											authentication it is likely to contain a JSON object with the following structure:
-											<pre>
-   {
-     &quot;username&quot;: &quot;tim&quot;,
-     &quot;password&quot;: &quot;mypassword&quot;
-   }
- </pre>
-											For other types of authentication it contain different information - for example a JWT token or OAuth bearer token.
-											<p>
-												If the user is successfully authenticated a <a href="user.html">User</a> object is passed to the handler in an {@link io.vertx.core.AsyncResult}.
-											The user object can then be used for authorisation.</p>
+											If the user is successfully authenticated a <a href="user.html">User</a> object is passed to the handler in an <a href="../interfaces/asyncresult.html">AsyncResult</a>.
+											The user object can then be used for authorisation.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>authInfo: <span class="tsd-signature-type">object</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The auth information</p>
-									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-index-signature">
 											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
@@ -150,10 +142,7 @@
 									</ul>
 								</li>
 								<li>
-									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The result handler</p>
-									</div>
+									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -172,9 +161,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="authoptions.html" class="tsd-kind-icon">Auth<wbr>Options</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -187,30 +173,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="chainauth.html" class="tsd-kind-icon">Chain<wbr>Auth</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="hashingalgorithm.html" class="tsd-kind-icon">Hashing<wbr>Algorithm</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="hashingstrategy.html" class="tsd-kind-icon">Hashing<wbr>Strategy</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="keystoreoptions.html" class="tsd-kind-icon">Key<wbr>Store<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pubseckeyoptions.html" class="tsd-kind-icon">Pub<wbr>Sec<wbr>Key<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="secretoptions.html" class="tsd-kind-icon">Secret<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="user.html" class="tsd-kind-icon">User</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="vertxcontextprng.html" class="tsd-kind-icon">Vertx<wbr>ContextPRNG</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -228,6 +190,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -276,7 +239,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

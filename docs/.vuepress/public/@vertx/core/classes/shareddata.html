@@ -67,27 +67,22 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Shared data allows you to share data safely between different parts of your application in a safe way.
+						<p>Shared data allows you to share data safely between different parts of your application in a safe way.</p>
+						<p>
+							Shared data provides:
+							<ul>
+								<li>synchronous shared maps (local)</li>
+								<li>asynchronous maps (local or cluster-wide)</li>
+								<li>asynchronous locks (local or cluster-wide)</li>
+								<li>asynchronous counters (local or cluster-wide)</li>
+							</ul>
 							<p>
-								Shared data provides:
-								<ul>
-									<li>synchronous shared maps (local)</li>
-									<li>asynchronous maps (local or cluster-wide)</li>
-									<li>asynchronous locks (local or cluster-wide)</li>
-									<li>asynchronous counters (local or cluster-wide)</li>
-								</ul>
 								<p>
-									<p>
-										<strong>WARNING</strong>: In clustered mode, asynchronous maps/locks/counters rely on distributed data structures provided by the cluster manager.
-										Beware that the latency relative to asynchronous maps/locks/counters operations can be much higher in clustered than in local mode.
-									</p>
-								Please see the documentation for more information.</p>
+									<strong>WARNING</strong>: In clustered mode, asynchronous maps/locks/counters rely on distributed data structures provided by the cluster manager.
+									Beware that the latency relative to asynchronous maps/locks/counters operations can be much higher in clustered than in local mode.
+								</p>
+								Please see the documentation for more information.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -132,17 +127,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10562</li>
+									<li>Defined in index.d.ts:7178</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Get the <a href="asyncmap.html">AsyncMap</a> with the specified name. When clustered, the map is accessible to all nodes in the cluster
-										and data put into the map from any node is visible to to any other node.
-										<p>
-											<strong>WARNING</strong>: In clustered mode, asynchronous shared maps rely on distributed data structures provided by the cluster manager.
-											Beware that the latency relative to asynchronous shared maps operations can be much higher in clustered than in local mode.
-									</p></p>
+									and data put into the map from any node is visible to to any other node.</p>
+									<p>
+										<strong>WARNING</strong>: In clustered mode, asynchronous shared maps rely on distributed data structures provided by the cluster manager.
+										Beware that the latency relative to asynchronous shared maps operations can be much higher in clustered than in local mode.
+									</p>
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -158,15 +153,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the map</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the map will be returned asynchronously in this handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -183,7 +172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10549</li>
+									<li>Defined in index.d.ts:7168</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -191,11 +180,6 @@
 									<p>Get the cluster wide map with the specified name. The map is accessible to all nodes in the cluster and data
 									put into the map from any node is visible to to any other node.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd><p>IllegalStateException if the parent {@link io.vertx.core.Vertx} instance is not clustered</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
@@ -210,15 +194,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the map</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the map will be returned asynchronously in this handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -235,7 +213,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10633</li>
+									<li>Defined in index.d.ts:7229</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -247,15 +225,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the counter.</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="counter.html" class="tsd-signature-type">Counter</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -272,15 +244,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10573</li>
+									<li>Defined in index.d.ts:7186</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get the <a href="asyncmap.html">AsyncMap</a> with the specified name.
-										<p>
-											When clustered, the map is <b>NOT</b> accessible to all nodes in the cluster.
-										Only the instance which created the map can put and retrieve data from this map.</p>
+									<p>Get the <a href="asyncmap.html">AsyncMap</a> with the specified name.</p>
+									<p>
+										When clustered, the map is <b>NOT</b> accessible to all nodes in the cluster.
+										Only the instance which created the map can put and retrieve data from this map.
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -296,15 +268,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the map</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncmap.html" class="tsd-signature-type">AsyncMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the map will be returned asynchronously in this handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -321,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10641</li>
+									<li>Defined in index.d.ts:7234</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -333,15 +299,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the counter.</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="counter.html" class="tsd-signature-type">Counter</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -358,31 +318,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10611</li>
+									<li>Defined in index.d.ts:7214</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get an asynchronous local lock with the specified name. The lock will be passed to the handler when it is available.
-										<p>
-											In general lock acquision is unordered, so that sequential attempts to acquire a lock,
-											even from a single thread, can happen in non-sequential order.
-									</p></p>
+									<p>Get an asynchronous local lock with the specified name. The lock will be passed to the handler when it is available.</p>
+									<p>
+										In general lock acquision is unordered, so that sequential attempts to acquire a lock,
+										even from a single thread, can happen in non-sequential order.
+									</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the lock</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -399,38 +353,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10625</li>
+									<li>Defined in index.d.ts:7224</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #getLocalLock(String, Handler)} but specifying a timeout. If the lock is not obtained within the timeout
-										a failure will be sent to the handler.
-										<p>
-											In general lock acquision is unordered, so that sequential attempts to acquire a lock,
-											even from a single thread, can happen in non-sequential order.
-									</p></p>
+									<p>Like {@link SharedData#getLocalLock} but specifying a timeout. If the lock is not obtained within the timeout
+									a failure will be sent to the handler.</p>
+									<p>
+										In general lock acquision is unordered, so that sequential attempts to acquire a lock,
+										even from a single thread, can happen in non-sequential order.
+									</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the lock</p>
-									</div>
 								</li>
 								<li>
 									<h5>timeout: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the timeout in ms</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -447,12 +392,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10649</li>
+									<li>Defined in index.d.ts:7239</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Return a {@code LocalMap} with the specific {@code name}.</p>
+									<p>Return a <code>LocalMap</code> with the specific <code>name</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -468,13 +413,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the map</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="localmap.html" class="tsd-signature-type">LocalMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>the msp</p>
 						</li>
 					</ul>
 				</section>
@@ -488,31 +429,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10585</li>
+									<li>Defined in index.d.ts:7195</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get an asynchronous lock with the specified name. The lock will be passed to the handler when it is available.
-										<p>
-											In general lock acquision is unordered, so that sequential attempts to acquire a lock,
-											even from a single thread, can happen in non-sequential order.
-									</p></p>
+									<p>Get an asynchronous lock with the specified name. The lock will be passed to the handler when it is available.</p>
+									<p>
+										In general lock acquision is unordered, so that sequential attempts to acquire a lock,
+										even from a single thread, can happen in non-sequential order.
+									</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the lock</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -529,38 +464,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10599</li>
+									<li>Defined in index.d.ts:7205</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #getLock(String, Handler)} but specifying a timeout. If the lock is not obtained within the timeout
-										a failure will be sent to the handler.
-										<p>
-											In general lock acquision is unordered, so that sequential attempts to acquire a lock,
-											even from a single thread, can happen in non-sequential order.
-									</p></p>
+									<p>Like {@link SharedData#getLock} but specifying a timeout. If the lock is not obtained within the timeout
+									a failure will be sent to the handler.</p>
+									<p>
+										In general lock acquision is unordered, so that sequential attempts to acquire a lock,
+										even from a single thread, can happen in non-sequential order.
+									</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the lock</p>
-									</div>
 								</li>
 								<li>
 									<h5>timeout: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the timeout in ms</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="lock.html" class="tsd-signature-type">Lock</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -635,6 +561,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -683,7 +610,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

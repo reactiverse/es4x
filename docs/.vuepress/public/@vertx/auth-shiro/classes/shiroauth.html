@@ -67,20 +67,15 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Factory interface for creating Apache Shiro based {@link io.vertx.ext.auth.AuthProvider} instances.</p>
+						<p>Factory interface for creating Apache Shiro based <a href="authprovider.html">AuthProvider</a> instances.</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">any</span>
+						<a href="authprovider.html" class="tsd-signature-type">AuthProvider</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">ShiroAuth</span>
@@ -102,6 +97,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="shiroauth.html#authenticate" class="tsd-kind-icon">authenticate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="shiroauth.html#setroleprefix" class="tsd-kind-icon">set<wbr>Role<wbr>Prefix</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="shiroauth.html#create" class="tsd-kind-icon">create</a></li>
 							</ul>
@@ -117,7 +113,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>ROLE_<wbr>PREFIX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:34</li>
+							<li>Defined in index.d.ts:31</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -129,6 +125,57 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="authenticate" class="tsd-anchor"></a>
+					<h3>authenticate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">authenticate<span class="tsd-signature-symbol">(</span>authInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="authprovider.html">AuthProvider</a>.<a href="authprovider.html#authenticate">authenticate</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/auth-common/index.d.ts:41</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Authenticate a user.</p>
+									<p>
+										The first argument is a JSON object containing information for authenticating the user. What this actually contains
+										depends on the specific implementation. In the case of a simple username/password based
+										authentication it is likely to contain a JSON object with the following structure:
+										<pre>
+  {
+    "username": "tim",
+    "password": "mypassword"
+  }
+</pre>
+										For other types of authentication it contain different information - for example a JWT token or OAuth bearer token.
+										<p>
+											If the user is successfully authenticated a <a href="user.html">User</a> object is passed to the handler in an <a href="../interfaces/asyncresult.html">AsyncResult</a>.
+											The user object can then be used for authorisation.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>authInfo: <span class="tsd-signature-type">object</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-index-signature">
+											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="setroleprefix" class="tsd-anchor"></a>
 					<h3>set<wbr>Role<wbr>Prefix</h3>
@@ -139,7 +186,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:62</li>
+									<li>Defined in index.d.ts:46</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -151,13 +198,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>rolePrefix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a Prefix e.g.: &quot;role:&quot;</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="shiroauth.html" class="tsd-signature-type">ShiroAuth</a></h4>
-							<p>a reference to this for fluency</p>
 						</li>
 					</ul>
 				</section>
@@ -165,45 +208,31 @@
 					<a name="create" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, realmType<span class="tsd-signature-symbol">: </span><a href="../enums/shiroauthrealmtype.html" class="tsd-signature-type">ShiroAuthRealmType</a>, config<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="shiroauth.html" class="tsd-signature-type">ShiroAuth</a></li>
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, options<span class="tsd-signature-symbol">: </span><a href="shiroauthoptions.html" class="tsd-signature-type">ShiroAuthOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="shiroauth.html" class="tsd-signature-type">ShiroAuth</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, realmType<span class="tsd-signature-symbol">: </span><a href="../enums/shiroauthrealmtype.html" class="tsd-signature-type">ShiroAuthRealmType</a>, config<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="shiroauth.html" class="tsd-signature-type">ShiroAuth</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, options<span class="tsd-signature-symbol">: </span><a href="shiroauthoptions.html" class="tsd-signature-type">ShiroAuthOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="shiroauth.html" class="tsd-signature-type">ShiroAuth</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:45</li>
+									<li>Defined in index.d.ts:36</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Create a Shiro auth provider</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>deprecated</dt>
-									<dd><p>see {@link ShiroAuth#create(Vertx, ShiroAuthOptions)}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the Vert.x instance</p>
-									</div>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 								<li>
 									<h5>realmType: <a href="../enums/shiroauthrealmtype.html" class="tsd-signature-type">ShiroAuthRealmType</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the Shiro realm type</p>
-									</div>
 								</li>
 								<li>
 									<h5>config: <span class="tsd-signature-type">object</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the config</p>
-									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-index-signature">
 											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
@@ -212,12 +241,11 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="shiroauth.html" class="tsd-signature-type">ShiroAuth</a></h4>
-							<p>the auth provider</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:54</li>
+									<li>Defined in index.d.ts:41</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,20 +256,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the Vert.x instance</p>
-									</div>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 								<li>
 									<h5>options: <a href="shiroauthoptions.html" class="tsd-signature-type">ShiroAuthOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the Shiro configuration options</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="shiroauth.html" class="tsd-signature-type">ShiroAuth</a></h4>
-							<p>the auth provider</p>
 						</li>
 					</ul>
 				</section>
@@ -257,9 +278,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="../enums/shiroauthrealmtype.html" class="tsd-kind-icon">Shiro<wbr>Auth<wbr>Realm<wbr>Type</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -267,6 +285,9 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
 								<a href="shiroauth.html#default_role_prefix" class="tsd-kind-icon">DEFAULT_<wbr>ROLE_<wbr>PREFIX</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="shiroauth.html#authenticate" class="tsd-kind-icon">authenticate</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="shiroauth.html#setroleprefix" class="tsd-kind-icon">set<wbr>Role<wbr>Prefix</a>
@@ -278,9 +299,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="shiroauthoptions.html" class="tsd-kind-icon">Shiro<wbr>Auth<wbr>Options</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -298,6 +316,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -346,7 +365,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -67,28 +67,23 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Represents the context for the handling of a request in Vert.x-Web.
+						<p>Represents the context for the handling of a request in Vert.x-Web.</p>
+						<p>
+							A new instance is created for each HTTP request that is received in the
+							{@link Handler#handle} of the router.
 							<p>
-								A new instance is created for each HTTP request that is received in the
-								{@link Router#handle(Object)} of the router.
+								The same instance is passed to any matching request or failure handlers during the routing of the request or
+								failure.
 								<p>
-									The same instance is passed to any matching request or failure handlers during the routing of the request or
-									failure.
+									The context provides access to the  and
+									and allows you to maintain arbitrary data that lives for the lifetime of the context. Contexts are discarded once they
+									have been routed to the handler for the request.
 									<p>
-										The context provides access to the {@link HttpServerRequest} and {@link HttpServerResponse}
-										and allows you to maintain arbitrary data that lives for the lifetime of the context. Contexts are discarded once they
-										have been routed to the handler for the request.
+										The context also provides access to the <a href="session.html">Session</a>, cookies and body for the request, given the correct handlers
+										in the application.
 										<p>
-											The context also provides access to the <a href="session.html">Session</a>, cookies and body for the request, given the correct handlers
-											in the application.
-											<p>
-											If you use the internal error handler</p>
+											If you use the internal error handler
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -170,7 +165,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2794</li>
+									<li>Defined in index.d.ts:1960</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -178,12 +173,11 @@
 									<p>Returns the languages for the current request. The languages are determined from the <code>Accept-Language</code>
 									header and sorted on quality.</p>
 								</div>
-								<p> When 2 or more entries have the same quality then the order used to return the best match is based on the lowest
+								<p>When 2 or more entries have the same quality then the order used to return the best match is based on the lowest
 									index on the original list. For example if a user has en-US and en-GB with same quality and this order the best
 								match will be en-US because it was declared as first entry by the client.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="languageheader.html" class="tsd-signature-type">LanguageHeader</a><span class="tsd-signature-symbol">[]</span></h4>
-							<p>The best matched language for the request</p>
 						</li>
 					</ul>
 				</section>
@@ -197,7 +191,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2782</li>
+									<li>Defined in index.d.ts:1950</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -205,17 +199,11 @@
 									<p>Returns the locales for the current request. The locales are determined from the <code>accept-languages</code> header and
 									sorted on quality.</p>
 								</div>
-								<p> When 2 or more entries have the same quality then the order used to return the best match is based on the lowest
+								<p>When 2 or more entries have the same quality then the order used to return the best match is based on the lowest
 									index on the original list. For example if a user has en-US and en-GB with same quality and this order the best
 								match will be en-US because it was declared as first entry by the client.</p>
-								<dl class="tsd-comment-tags">
-									<dt>deprecated</dt>
-									<dd><p>Use {@link #acceptableLanguages()} or {@link #parsedHeaders()}.{@link ParsedHeaderValues#acceptLanguage()}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="locale.html" class="tsd-signature-type">Locale</a><span class="tsd-signature-symbol">[]</span></h4>
-							<p>the best matched locale for the request</p>
 						</li>
 					</ul>
 				</section>
@@ -223,13 +211,13 @@
 					<a name="addbodyendhandler" class="tsd-anchor"></a>
 					<h3>add<wbr>Body<wbr>End<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Body<wbr>End<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Body<wbr>End<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2702</li>
+									<li>Defined in index.d.ts:1893</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -243,14 +231,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the id of the handler. This can be used if you later want to remove the handler.</p>
 						</li>
 					</ul>
 				</section>
@@ -258,13 +242,13 @@
 					<a name="addcookie" class="tsd-anchor"></a>
 					<h3>add<wbr>Cookie</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Cookie<span class="tsd-signature-symbol">(</span>cookie<span class="tsd-signature-symbol">: </span><a href="cookie.html" class="tsd-signature-type">Cookie</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Cookie<span class="tsd-signature-symbol">(</span>cookie<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cookie</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2530</li>
+									<li>Defined in index.d.ts:1782</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -275,14 +259,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>cookie: <a href="cookie.html" class="tsd-signature-type">Cookie</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the cookie</p>
-									</div>
+									<h5>cookie: <span class="tsd-signature-type">Cookie</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -290,13 +270,13 @@
 					<a name="addheadersendhandler" class="tsd-anchor"></a>
 					<h3>add<wbr>Headers<wbr>End<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Headers<wbr>End<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Headers<wbr>End<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2683</li>
+									<li>Defined in index.d.ts:1880</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -308,14 +288,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the id of the handler. This can be used if you later want to remove the handler.</p>
 						</li>
 					</ul>
 				</section>
@@ -329,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2745</li>
+									<li>Defined in index.d.ts:1923</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -352,13 +328,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2554</li>
+									<li>Defined in index.d.ts:1797</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the number of cookies.</p>
 						</li>
 					</ul>
 				</section>
@@ -366,24 +339,16 @@
 					<a name="cookies" class="tsd-anchor"></a>
 					<h3>cookies</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">cookies<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="cookie.html" class="tsd-signature-type">Cookie</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">cookies<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cookie</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2562</li>
+									<li>Defined in index.d.ts:1801</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>deprecated</dt>
-									<dd><p>use instead {@link #cookieMap()}</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="cookie.html" class="tsd-signature-type">Cookie</a><span class="tsd-signature-symbol">[]</span></h4>
-							<p>a set of all the cookies.</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cookie</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -397,13 +362,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2497</li>
+									<li>Defined in index.d.ts:1757</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>the current route this context is being routed through.</p>
 						</li>
 					</ul>
 				</section>
@@ -417,13 +379,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2850</li>
+									<li>Defined in index.d.ts:1998</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-							<p>all the context data as a map</p>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter-index-signature">
 									<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
@@ -444,25 +403,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2423</li>
+									<li>Defined in index.d.ts:1712</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Fail the context with the specified status code.
-										<p>
-											This will cause the router to route the context to any matching failure handlers for the request. If no failure handlers
-											match It will trigger the error handler matching the status code. You can define such error handler with
-										{@link Router#errorHandler(int, Handler)}. If no error handler is not defined, It will send a default failure response with provided status code.</p>
+									<p>Fail the context with the specified status code.</p>
+									<p>
+										This will cause the router to route the context to any matching failure handlers for the request. If no failure handlers
+										match It will trigger the error handler matching the status code. You can define such error handler with
+										{@link Router#errorHandler}. If no error handler is not defined, It will send a default failure response with provided status code.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>statusCode: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the HTTP status code</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -470,25 +426,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2434</li>
+									<li>Defined in index.d.ts:1721</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Fail the context with the specified throwable and 500 status code.
-										<p>
-											This will cause the router to route the context to any matching failure handlers for the request. If no failure handlers
-											match It will trigger the error handler matching the status code. You can define such error handler with
-										{@link Router#errorHandler(int, Handler)}. If no error handler is not defined, It will send a default failure response with 500 status code.</p>
+									<p>Fail the context with the specified throwable and 500 status code.</p>
+									<p>
+										This will cause the router to route the context to any matching failure handlers for the request. If no failure handlers
+										match It will trigger the error handler matching the status code. You can define such error handler with
+										{@link Router#errorHandler}. If no error handler is not defined, It will send a default failure response with 500 status code.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>throwable: <span class="tsd-signature-type">Error</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a throwable representing the failure</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -496,31 +449,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2446</li>
+									<li>Defined in index.d.ts:1730</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Fail the context with the specified throwable and the specified the status code.
-										<p>
-											This will cause the router to route the context to any matching failure handlers for the request. If no failure handlers
-											match It will trigger the error handler matching the status code. You can define such error handler with
-										{@link Router#errorHandler(int, Handler)}. If no error handler is not defined, It will send a default failure response with provided status code.</p>
+									<p>Fail the context with the specified throwable and the specified the status code.</p>
+									<p>
+										This will cause the router to route the context to any matching failure handlers for the request. If no failure handlers
+										match It will trigger the error handler matching the status code. You can define such error handler with
+										{@link Router#errorHandler}. If no error handler is not defined, It will send a default failure response with provided status code.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>statusCode: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the HTTP status code</p>
-									</div>
 								</li>
 								<li>
 									<h5>throwable: <span class="tsd-signature-type">Error</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a throwable representing the failure</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -537,13 +484,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2717</li>
+									<li>Defined in index.d.ts:1902</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the context is being routed to failure handlers.</p>
 						</li>
 					</ul>
 				</section>
@@ -557,13 +501,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2640</li>
+									<li>Defined in index.d.ts:1846</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>If the context is being routed to failure handlers after a failure has been triggered by calling
-										{@link #fail(Throwable)} then this will return that throwable. It can be used by failure handlers to render a response,
+										{@link RoutingContext#fail} then this will return that throwable. It can be used by failure handlers to render a response,
 									e.g. create a failure response page.</p>
 								</div>
 							</div>
@@ -571,7 +515,6 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the throwable used when signalling failure</p>
 						</li>
 					</ul>
 				</section>
@@ -585,14 +528,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2615</li>
+									<li>Defined in index.d.ts:1827</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="fileupload.html" class="tsd-signature-type">FileUpload</a><span class="tsd-signature-symbol">[]</span></h4>
-							<p>a set of fileuploads (if any) for the request. The context must have first been routed to a
-							{@link io.vertx.ext.web.handler.BodyHandler} for this to work.</p>
 						</li>
 					</ul>
 				</section>
@@ -606,39 +545,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2465</li>
+									<li>Defined in index.d.ts:1740</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Get some data from the context. The data is available in any handlers that receive the context.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd><p>ClassCastException if the data is not of the expected type</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>T</h4>
-									<div class="tsd-comment tsd-typography">
-										<p>the type of the data</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key for the data</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
-							<p>the data</p>
 						</li>
 					</ul>
 				</section>
@@ -652,7 +579,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2659</li>
+									<li>Defined in index.d.ts:1861</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -665,7 +592,6 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the most acceptable content type.</p>
 						</li>
 					</ul>
 				</section>
@@ -673,23 +599,19 @@
 					<a name="getbody" class="tsd-anchor"></a>
 					<h3>get<wbr>Body</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Body<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Body<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2607</li>
+									<li>Defined in index.d.ts:1823</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span>
+							<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>Get the entire HTTP request body as a {@link Buffer}. The context must have first been routed to a
-							{@link io.vertx.ext.web.handler.BodyHandler} for this to be populated.</p>
 						</li>
 					</ul>
 				</section>
@@ -703,19 +625,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2589</li>
+									<li>Defined in index.d.ts:1815</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>Get the entire HTTP request body as a {@link JsonObject}. The context must have first been routed to a
-								{@link io.vertx.ext.web.handler.BodyHandler} for this to be populated.
-								<br/>
-							When the body is {@code null} or the {@code &quot;null&quot;} JSON literal then {@code null} is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -729,19 +645,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2599</li>
+									<li>Defined in index.d.ts:1819</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>Get the entire HTTP request body as a {@link JsonArray}. The context must have first been routed to a
-								{@link io.vertx.ext.web.handler.BodyHandler} for this to be populated.
-								<br/>
-							When the body is {@code null} or the {@code &quot;null&quot;} JSON literal then {@code null} is returned.</p>
 						</li>
 					</ul>
 				</section>
@@ -756,44 +666,36 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2570</li>
+									<li>Defined in index.d.ts:1805</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the entire HTTP request body as a string, assuming UTF-8 encoding. The context must have first been routed to a
-							{@link io.vertx.ext.web.handler.BodyHandler} for this to be populated.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2579</li>
+									<li>Defined in index.d.ts:1811</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Get the entire HTTP request body as a string, assuming the specified encoding. The context must have first been routed to a
-									{@link io.vertx.ext.web.handler.BodyHandler} for this to be populated.</p>
+									<a href="bodyhandler.html">BodyHandler</a> for this to be populated.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>encoding: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the encoding, e.g. &quot;UTF-16&quot;</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the body</p>
 						</li>
 					</ul>
 				</section>
@@ -801,13 +703,13 @@
 					<a name="getcookie" class="tsd-anchor"></a>
 					<h3>get<wbr>Cookie</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Cookie<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="cookie.html" class="tsd-signature-type">Cookie</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Cookie<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cookie</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2522</li>
+									<li>Defined in index.d.ts:1777</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -819,16 +721,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the cookie name</p>
-									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="cookie.html" class="tsd-signature-type">Cookie</a>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cookie</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the cookie</p>
 						</li>
 					</ul>
 				</section>
@@ -842,17 +740,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2490</li>
+									<li>Defined in index.d.ts:1753</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the mount point for this router. It will be null for a top level router. For a sub-router it will be the path
-							at which the subrouter was mounted.</p>
 						</li>
 					</ul>
 				</section>
@@ -866,17 +760,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2412</li>
+									<li>Defined in index.d.ts:1703</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Tell the router to route this context to the next matching route (if any).
 										This method, if called, does not need to be called during the execution of the handler, it can be called
-										some arbitrary time later, if required.
-										<p>
-											If next is not called for a handler then the handler should make sure it ends the response or no response
-										will be sent.</p>
+									some arbitrary time later, if required.</p>
+									<p>
+										If next is not called for a handler then the handler should make sure it ends the response or no response
+										will be sent.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -893,26 +787,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2514</li>
+									<li>Defined in index.d.ts:1772</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Return the normalised path for the request.
+									<p>Return the normalised path for the request.</p>
+									<p>
+										The normalised path is where the URI path has been decoded, i.e. any unicode or other illegal URL characters that
+										were encoded in the original URL with `%` will be returned to their original form. E.g. `%20` will revert to a space.
+										Also `+` reverts to a space in a query.
 										<p>
-											The normalised path is where the URI path has been decoded, i.e. any unicode or other illegal URL characters that
-											were encoded in the original URL with <code>%</code> will be returned to their original form. E.g. <code>%20</code> will revert to a space.
-											Also <code>+</code> reverts to a space in a query.
+											The normalised path will also not contain any `..` character sequences to prevent resources being accessed outside
+											of the permitted area.
 											<p>
-												The normalised path will also not contain any <code>..</code> character sequences to prevent resources being accessed outside
-												of the permitted area.
-												<p>
-													It&#39;s recommended to always use the normalised path as opposed to {@link HttpServerRequest#path()}
-												if accessing server resources requested by a client.</p>
+												It's recommended to always use the normalised path as opposed to
+												if accessing server resources requested by a client.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the normalised path</p>
 						</li>
 					</ul>
 				</section>
@@ -926,24 +819,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2674</li>
+									<li>Defined in index.d.ts:1874</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>The headers:
-										<ol>
-											<li>Accept</li>
-											<li>Accept-Charset</li>
-											<li>Accept-Encoding</li>
-											<li>Accept-Language</li>
-											<li>Content-Type</li>
-										</ol>
-									Parsed into <a href="parsedheadervalue.html">ParsedHeaderValue</a></p>
+									<p>The headers:</p>
+									<ol>
+										<li>Accept</li>
+										<li>Accept-Charset</li>
+										<li>Accept-Encoding</li>
+										<li>Accept-Language</li>
+										<li>Content-Type</li>
+									</ol>
+									Parsed into <a href="parsedheadervalue.html">ParsedHeaderValue</a>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="parsedheadervalues.html" class="tsd-signature-type">ParsedHeaderValues</a></h4>
-							<p>A container with the parsed headers.</p>
 						</li>
 					</ul>
 				</section>
@@ -957,7 +849,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2826</li>
+									<li>Defined in index.d.ts:1982</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -969,16 +861,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of parameter as defined in path declaration</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the actual value of the parameter or null if it doesn&#39;t exist</p>
 						</li>
 					</ul>
 				</section>
@@ -992,7 +880,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2818</li>
+									<li>Defined in index.d.ts:1977</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1001,7 +889,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-							<p>the map of named parameters</p>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter-index-signature">
 									<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">string</span></h5>
@@ -1020,7 +907,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2811</li>
+									<li>Defined in index.d.ts:1972</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1030,7 +917,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="languageheader.html" class="tsd-signature-type">LanguageHeader</a></h4>
-							<p>the users preferred locale.</p>
 						</li>
 					</ul>
 				</section>
@@ -1044,7 +930,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2803</li>
+									<li>Defined in index.d.ts:1966</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1052,14 +938,8 @@
 									<p>Helper to return the user preferred locale. It is the same action as returning the first element of the acceptable
 									locales.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>deprecated</dt>
-									<dd><p>Use {@link #preferredLanguage()} instead</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="locale.html" class="tsd-signature-type">Locale</a></h4>
-							<p>the users preferred locale.</p>
 						</li>
 					</ul>
 				</section>
@@ -1073,7 +953,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2455</li>
+									<li>Defined in index.d.ts:1735</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1085,19 +965,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key for the data</p>
-									</div>
 								</li>
 								<li>
 									<h5>obj: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the data</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1111,25 +984,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2843</li>
+									<li>Defined in index.d.ts:1994</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the value of a single query parameter. For more info {@link RoutingContext#queryParams()}</p>
+									<p>Gets the value of a single query parameter. For more info {@link RoutingContext#queryParams}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The name of query parameter</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-							<p>The list of all parameters matching the parameter name. It returns an empty list if no query parameter with {@code name} was found</p>
 						</li>
 					</ul>
 				</section>
@@ -1137,13 +1006,13 @@
 					<a name="queryparams" class="tsd-anchor"></a>
 					<h3>query<wbr>Params</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">query<wbr>Params<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MultiMap</span></li>
+						<li class="tsd-signature tsd-kind-icon">query<wbr>Params<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="multimap.html" class="tsd-signature-type">MultiMap</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2835</li>
+									<li>Defined in index.d.ts:1989</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1153,8 +1022,7 @@
 									it fails the context</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MultiMap</span></h4>
-							<p>the multimap of query parameters</p>
+							<h4 class="tsd-returns-title">Returns <a href="multimap.html" class="tsd-signature-type">MultiMap</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1168,39 +1036,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2475</li>
+									<li>Defined in index.d.ts:1745</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Remove some data from the context. The data is available in any handlers that receive the context.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd><p>ClassCastException if the data is not of the expected type</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>T</h4>
-									<div class="tsd-comment tsd-typography">
-										<p>the type of the data</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key for the data</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
-							<p>the previous data associated with the key</p>
 						</li>
 					</ul>
 				</section>
@@ -1214,7 +1070,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2710</li>
+									<li>Defined in index.d.ts:1898</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1226,13 +1082,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handlerID: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the id as returned from {@link io.vertx.ext.web.RoutingContext#addBodyEndHandler(Handler)}.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the handler existed and was removed, false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -1240,14 +1092,14 @@
 					<a name="removecookie" class="tsd-anchor"></a>
 					<h3>remove<wbr>Cookie</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Cookie<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="cookie.html" class="tsd-signature-type">Cookie</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Cookie<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, invalidate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="cookie.html" class="tsd-signature-type">Cookie</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Cookie<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cookie</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Cookie<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, invalidate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cookie</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2538</li>
+									<li>Defined in index.d.ts:1787</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1259,21 +1111,17 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the cookie</p>
-									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="cookie.html" class="tsd-signature-type">Cookie</a>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cookie</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the cookie, if it existed, or null</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2547</li>
+									<li>Defined in index.d.ts:1793</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1286,19 +1134,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the cookie</p>
-									</div>
 								</li>
 								<li>
 									<h5>invalidate: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="cookie.html" class="tsd-signature-type">Cookie</a>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cookie</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the cookie, if it existed, or null</p>
 						</li>
 					</ul>
 				</section>
@@ -1312,7 +1156,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2691</li>
+									<li>Defined in index.d.ts:1885</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1324,13 +1168,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handlerID: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the id as returned from {@link io.vertx.ext.web.RoutingContext#addHeadersEndHandler(Handler)}.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the handler existed and was removed, false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -1338,19 +1178,16 @@
 					<a name="request" class="tsd-anchor"></a>
 					<h3>request</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">request<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpServerRequest</span></li>
+						<li class="tsd-signature tsd-kind-icon">request<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2394</li>
+									<li>Defined in index.d.ts:1689</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HttpServerRequest</span></h4>
-							<p>the HTTP request object</p>
+							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1359,13 +1196,13 @@
 					<h3>reroute</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">reroute<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						<li class="tsd-signature tsd-kind-icon">reroute<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpMethod</span>, path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">reroute<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a>, path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2760</li>
+									<li>Defined in index.d.ts:1934</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1378,9 +1215,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the new http path.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1388,7 +1222,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2769</li>
+									<li>Defined in index.d.ts:1940</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1400,16 +1234,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>method: <span class="tsd-signature-type">HttpMethod</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the new http request</p>
-									</div>
+									<h5>method: <a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a></h5>
 								</li>
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the new http path.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1420,19 +1248,16 @@
 					<a name="response" class="tsd-anchor"></a>
 					<h3>response</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">response<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpServerResponse</span></li>
+						<li class="tsd-signature tsd-kind-icon">response<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpserverresponse.html" class="tsd-signature-type">HttpServerResponse</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2401</li>
+									<li>Defined in index.d.ts:1693</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HttpServerResponse</span></h4>
-							<p>the HTTP response object</p>
+							<h4 class="tsd-returns-title">Returns <a href="httpserverresponse.html" class="tsd-signature-type">HttpServerResponse</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1446,12 +1271,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2624</li>
+									<li>Defined in index.d.ts:1834</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get the session. The context must have first been routed to a {@link io.vertx.ext.web.handler.SessionHandler}
+									<p>Get the session. The context must have first been routed to a <a href="sessionhandler.html">SessionHandler</a>
 										for this to be populated.
 									Sessions live for a browser session, and are maintained by session cookies.</p>
 								</div>
@@ -1460,7 +1285,6 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the session.</p>
 						</li>
 					</ul>
 				</section>
@@ -1474,7 +1298,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2752</li>
+									<li>Defined in index.d.ts:1928</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1486,9 +1310,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>contentType: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the content type</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1499,27 +1320,24 @@
 					<a name="setbody" class="tsd-anchor"></a>
 					<h3>set<wbr>Body</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Body<span class="tsd-signature-symbol">(</span>body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Body<span class="tsd-signature-symbol">(</span>body<span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2724</li>
+									<li>Defined in index.d.ts:1907</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the body. Used by the {@link io.vertx.ext.web.handler.BodyHandler}. You will not normally call this method.</p>
+									<p>Set the body. Used by the <a href="bodyhandler.html">BodyHandler</a>. You will not normally call this method.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>body: <span class="tsd-signature-type">Buffer</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the body</p>
-									</div>
+									<h5>body: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1536,21 +1354,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2731</li>
+									<li>Defined in index.d.ts:1912</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the session. Used by the {@link io.vertx.ext.web.handler.SessionHandler}. You will not normally call this method.</p>
+									<p>Set the session. Used by the <a href="sessionhandler.html">SessionHandler</a>. You will not normally call this method.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>session: <a href="session.html" class="tsd-signature-type">Session</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the session</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1561,13 +1376,13 @@
 					<a name="setuser" class="tsd-anchor"></a>
 					<h3>set<wbr>User</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>User<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>User<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2738</li>
+									<li>Defined in index.d.ts:1917</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1578,10 +1393,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>user: <span class="tsd-signature-type">User</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the user</p>
-									</div>
+									<h5>user: <a href="user.html" class="tsd-signature-type">User</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1598,19 +1410,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2651</li>
+									<li>Defined in index.d.ts:1855</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>If the context is being routed to failure handlers after a failure has been triggered by calling
-										{@link #fail(int)}  then this will return that status code.  It can be used by failure handlers to render a response,
+										{@link RoutingContext#fail}  then this will return that status code.  It can be used by failure handlers to render a response,
 									e.g. create a failure response page.</p>
 								</div>
-								<p> When the status code has not been set yet (it is undefined) its value will be -1.</p>
+								<p>When the status code has not been set yet (it is undefined) its value will be -1.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the status code used when signalling failure</p>
 						</li>
 					</ul>
 				</section>
@@ -1618,13 +1429,13 @@
 					<a name="user" class="tsd-anchor"></a>
 					<h3>user</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">user<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">user<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2631</li>
+									<li>Defined in index.d.ts:1839</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1632,11 +1443,10 @@
 									<p>Get the authenticated user (if any). This will usually be injected by an auth handler if authentication if successful.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">User</span>
+							<h4 class="tsd-returns-title">Returns <a href="user.html" class="tsd-signature-type">User</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the user, or null if the current user is not authenticated.</p>
 						</li>
 					</ul>
 				</section>
@@ -1644,19 +1454,16 @@
 					<a name="vertx" class="tsd-anchor"></a>
 					<h3>vertx</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">vertx<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span></li>
+						<li class="tsd-signature tsd-kind-icon">vertx<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2482</li>
+									<li>Defined in index.d.ts:1749</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Vertx</span></h4>
-							<p>the Vert.x instance associated to the initiating <a href="router.html">Router</a> for this context</p>
+							<h4 class="tsd-returns-title">Returns <a href="vertx.html" class="tsd-signature-type">Vertx</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1839,6 +1646,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -1887,7 +1695,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -67,22 +67,17 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Represents an event that occurs on the event bus bridge.
-							<p>
-							Please consult the documentation for a full explanation.</p>
+						<p>Represents an event that occurs on the event bus bridge.</p>
+						<p>
+							Please consult the documentation for a full explanation.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">any</span>
+						<a href="basebridgeevent.html" class="tsd-signature-type">BaseBridgeEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">BridgeEvent</span>
@@ -98,11 +93,16 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="bridgeevent.html#complete" class="tsd-kind-icon">complete</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="bridgeevent.html#future" class="tsd-kind-icon">future</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="bridgeevent.html#setrawmessage" class="tsd-kind-icon">set<wbr>Raw<wbr>Message</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="bridgeevent.html#complete" class="tsd-kind-icon">complete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="bridgeevent.html#fail" class="tsd-kind-icon">fail</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="bridgeevent.html#future" class="tsd-kind-icon">future</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="bridgeevent.html#getrawmessage" class="tsd-kind-icon">get<wbr>Raw<wbr>Message</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="bridgeevent.html#setrawmessage" class="tsd-kind-icon">set<wbr>Raw<wbr>Message</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="bridgeevent.html#socket" class="tsd-kind-icon">socket</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="bridgeevent.html#trycomplete" class="tsd-kind-icon">try<wbr>Complete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="bridgeevent.html#trycomplete" class="tsd-kind-icon">try<wbr>Complete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="bridgeevent.html#tryfail" class="tsd-kind-icon">try<wbr>Fail</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="bridgeevent.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static"><a href="bridgeevent.html#promise" class="tsd-kind-icon">promise</a></li>
 							</ul>
 						</section>
 					</div>
@@ -110,17 +110,18 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="complete" class="tsd-anchor"></a>
 					<h3>complete</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">complete<span class="tsd-signature-symbol">(</span>arg0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="basebridgeevent.html">BaseBridgeEvent</a>.<a href="basebridgeevent.html#complete">complete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:264</li>
+									<li>Defined in index.d.ts:190</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -133,34 +134,116 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="future" class="tsd-anchor"></a>
-					<h3>future</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">future<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="fail" class="tsd-anchor"></a>
+					<h3>fail</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">fail<span class="tsd-signature-symbol">(</span>cause<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">fail<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="promise.html">Promise</a>.<a href="promise.html#fail">fail</a></p>
 								<ul>
-									<li>Defined in index.d.ts:268</li>
+									<li>Defined in node_modules/@vertx/core/index.d.ts:6452</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the failure. Any handler will be called, if there is one, and the future will be marked as completed.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>cause: <span class="tsd-signature-type">Error</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="promise.html">Promise</a>.<a href="promise.html#fail">fail</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/core/index.d.ts:6457</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls {@link Promise#fail} with the <code>message</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="future" class="tsd-anchor"></a>
+					<h3>future</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">future<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="basebridgeevent.html">BaseBridgeEvent</a>.<a href="basebridgeevent.html#future">future</a></p>
+								<ul>
+									<li>Defined in index.d.ts:194</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="future.html" class="tsd-signature-type">Future</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getrawmessage" class="tsd-anchor"></a>
+					<h3>get<wbr>Raw<wbr>Message</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Raw<wbr>Message<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="basebridgeevent.html">BaseBridgeEvent</a>.<a href="basebridgeevent.html#getrawmessage">getRawMessage</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/bridge-common/index.d.ts:44</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the raw JSON message for the event. This will be null for SOCKET_CREATED or SOCKET_CLOSED events as there is
+										no message involved. If the returned message is modified, {@link BaseBridgeEvent#setRawMessage} should be called with the
+									new message.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-index-signature">
+									<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="setrawmessage" class="tsd-anchor"></a>
 					<h3>set<wbr>Raw<wbr>Message</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">set<wbr>Raw<wbr>Message<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="bridgeevent.html" class="tsd-signature-type">BridgeEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="basebridgeevent.html">BaseBridgeEvent</a>.<a href="basebridgeevent.html#setrawmessage">setRawMessage</a></p>
 								<ul>
-									<li>Defined in index.d.ts:277</li>
+									<li>Defined in index.d.ts:200</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -173,9 +256,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>message: <span class="tsd-signature-type">object</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the raw message</p>
-									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-index-signature">
 											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
@@ -184,7 +264,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="bridgeevent.html" class="tsd-signature-type">BridgeEvent</a></h4>
-							<p>this reference, so it can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -198,7 +277,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:284</li>
+									<li>Defined in index.d.ts:205</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -207,21 +286,21 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="sockjssocket.html" class="tsd-signature-type">SockJSSocket</a></h4>
-							<p>the SockJSSocket instance</p>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="trycomplete" class="tsd-anchor"></a>
 					<h3>try<wbr>Complete</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">try<wbr>Complete<span class="tsd-signature-symbol">(</span>arg0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="basebridgeevent.html">BaseBridgeEvent</a>.<a href="basebridgeevent.html#trycomplete">tryComplete</a></p>
 								<ul>
-									<li>Defined in index.d.ts:266</li>
+									<li>Defined in index.d.ts:192</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -231,6 +310,104 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="tryfail" class="tsd-anchor"></a>
+					<h3>try<wbr>Fail</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">try<wbr>Fail<span class="tsd-signature-symbol">(</span>cause<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">try<wbr>Fail<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="promise.html">Promise</a>.<a href="promise.html#tryfail">tryFail</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/core/index.d.ts:6474</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Like {@link Promise#fail} but returns <code>false</code> when the promise is already completed instead of throwing
+									an IllegalStateException, it returns <code>true</code> otherwise.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>cause: <span class="tsd-signature-type">Error</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="promise.html">Promise</a>.<a href="promise.html#tryfail">tryFail</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/core/index.d.ts:6479</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls {@link Promise#fail} with the <code>message</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="type" class="tsd-anchor"></a>
+					<h3>type</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/bridgeeventtype.html" class="tsd-signature-type">BridgeEventType</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="basebridgeevent.html">BaseBridgeEvent</a>.<a href="basebridgeevent.html#type">type</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/bridge-common/index.d.ts:37</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/bridgeeventtype.html" class="tsd-signature-type">BridgeEventType</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static">
+					<a name="promise" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> promise</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">promise&lt;T&gt;<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="promise.html">Promise</a>.<a href="promise.html#promise-1">promise</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/core/index.d.ts:6435</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a promise that hasn&#39;t completed yet</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -251,20 +428,35 @@
 					<li class="current tsd-kind-class">
 						<a href="bridgeevent.html" class="tsd-kind-icon">Bridge<wbr>Event</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="bridgeevent.html#complete" class="tsd-kind-icon">complete</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="bridgeevent.html#fail" class="tsd-kind-icon">fail</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="bridgeevent.html#future" class="tsd-kind-icon">future</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="bridgeevent.html#getrawmessage" class="tsd-kind-icon">get<wbr>Raw<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="bridgeevent.html#setrawmessage" class="tsd-kind-icon">set<wbr>Raw<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="bridgeevent.html#socket" class="tsd-kind-icon">socket</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="bridgeevent.html#trycomplete" class="tsd-kind-icon">try<wbr>Complete</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="bridgeevent.html#tryfail" class="tsd-kind-icon">try<wbr>Fail</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="bridgeevent.html#type" class="tsd-kind-icon">type</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static">
+								<a href="bridgeevent.html#promise" class="tsd-kind-icon">promise</a>
 							</li>
 						</ul>
 					</li>
@@ -287,6 +479,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -335,7 +528,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -69,18 +69,13 @@
 					<div class="lead">
 						<p>A pool of PostgreSQL connections.</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">any</span>
+						<a href="pool.html" class="tsd-signature-type">Pool</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">PgPool</span>
@@ -96,9 +91,12 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pgpool.html#preparedbatch" class="tsd-kind-icon">prepared<wbr>Batch</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pgpool.html#preparedquery" class="tsd-kind-icon">prepared<wbr>Query</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pgpool.html#query" class="tsd-kind-icon">query</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pgpool.html#begin" class="tsd-kind-icon">begin</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="pgpool.html#close" class="tsd-kind-icon">close</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pgpool.html#getconnection" class="tsd-kind-icon">get<wbr>Connection</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="pgpool.html#preparedbatch" class="tsd-kind-icon">prepared<wbr>Batch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="pgpool.html#preparedquery" class="tsd-kind-icon">prepared<wbr>Query</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="pgpool.html#query" class="tsd-kind-icon">query</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="pgpool.html#pool" class="tsd-kind-icon">pool</a></li>
 							</ul>
 						</section>
@@ -107,17 +105,101 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="begin" class="tsd-anchor"></a>
+					<h3>begin</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">begin<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="transaction.html" class="tsd-signature-type">Transaction</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="pool.html">Pool</a>.<a href="pool.html#begin">begin</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/sql-client/index.d.ts:68</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Borrow a connection from the pool and begin a transaction, the underlying connection will be returned
+									to the pool when the transaction ends.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="transaction.html" class="tsd-signature-type">Transaction</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+					<a name="close" class="tsd-anchor"></a>
+					<h3>close</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="pool.html">Pool</a>.<a href="pool.html#close">close</a></p>
+								<p>Overrides <a href="sqlclient.html">SqlClient</a>.<a href="sqlclient.html#close">close</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/sql-client/index.d.ts:73</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Close the pool and release the associated resources.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getconnection" class="tsd-anchor"></a>
+					<h3>get<wbr>Connection</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Connection<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="sqlconnection.html" class="tsd-signature-type">SqlConnection</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="pool.html">Pool</a>.<a href="pool.html#getconnection">getConnection</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/sql-client/index.d.ts:62</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a connection from the pool.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="sqlconnection.html" class="tsd-signature-type">SqlConnection</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="preparedbatch" class="tsd-anchor"></a>
 					<h3>prepared<wbr>Batch</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">prepared<wbr>Batch<span class="tsd-signature-symbol">(</span>sql<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, batch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tuple</span><span class="tsd-signature-symbol">[]</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RowSet</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Row</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">prepared<wbr>Batch<span class="tsd-signature-symbol">(</span>sql<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, batch<span class="tsd-signature-symbol">: </span><a href="tuple.html" class="tsd-signature-type">Tuple</a><span class="tsd-signature-symbol">[]</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="rowset.html" class="tsd-signature-type">RowSet</a><span class="tsd-signature-symbol">&lt;</span><a href="row.html" class="tsd-signature-type">Row</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="pool.html">Pool</a>.<a href="pool.html#preparedbatch">preparedBatch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:245</li>
+									<li>Defined in index.d.ts:197</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -126,28 +208,29 @@
 									<h5>sql: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>batch: <span class="tsd-signature-type">Tuple</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>batch: <a href="tuple.html" class="tsd-signature-type">Tuple</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RowSet</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Row</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="rowset.html" class="tsd-signature-type">RowSet</a><span class="tsd-signature-symbol">&lt;</span><a href="row.html" class="tsd-signature-type">Row</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="preparedquery" class="tsd-anchor"></a>
 					<h3>prepared<wbr>Query</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">prepared<wbr>Query<span class="tsd-signature-symbol">(</span>sql<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RowSet</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Row</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
-						<li class="tsd-signature tsd-kind-icon">prepared<wbr>Query<span class="tsd-signature-symbol">(</span>sql<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, arguments<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tuple</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RowSet</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Row</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">prepared<wbr>Query<span class="tsd-signature-symbol">(</span>sql<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="rowset.html" class="tsd-signature-type">RowSet</a><span class="tsd-signature-symbol">&lt;</span><a href="row.html" class="tsd-signature-type">Row</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+						<li class="tsd-signature tsd-kind-icon">prepared<wbr>Query<span class="tsd-signature-symbol">(</span>sql<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, arguments<span class="tsd-signature-symbol">: </span><a href="tuple.html" class="tsd-signature-type">Tuple</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="rowset.html" class="tsd-signature-type">RowSet</a><span class="tsd-signature-symbol">&lt;</span><a href="row.html" class="tsd-signature-type">Row</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="pool.html">Pool</a>.<a href="pool.html#preparedquery">preparedQuery</a></p>
 								<ul>
-									<li>Defined in index.d.ts:239</li>
+									<li>Defined in index.d.ts:191</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -156,15 +239,16 @@
 									<h5>sql: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RowSet</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Row</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="rowset.html" class="tsd-signature-type">RowSet</a><span class="tsd-signature-symbol">&lt;</span><a href="row.html" class="tsd-signature-type">Row</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="pool.html">Pool</a>.<a href="pool.html#preparedquery">preparedQuery</a></p>
 								<ul>
-									<li>Defined in index.d.ts:243</li>
+									<li>Defined in index.d.ts:195</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -173,27 +257,28 @@
 									<h5>sql: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>arguments: <span class="tsd-signature-type">Tuple</span></h5>
+									<h5>arguments: <a href="tuple.html" class="tsd-signature-type">Tuple</a></h5>
 								</li>
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RowSet</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Row</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="rowset.html" class="tsd-signature-type">RowSet</a><span class="tsd-signature-symbol">&lt;</span><a href="row.html" class="tsd-signature-type">Row</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="query" class="tsd-anchor"></a>
 					<h3>query</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">query<span class="tsd-signature-symbol">(</span>sql<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RowSet</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Row</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">query<span class="tsd-signature-symbol">(</span>sql<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="rowset.html" class="tsd-signature-type">RowSet</a><span class="tsd-signature-symbol">&lt;</span><a href="row.html" class="tsd-signature-type">Row</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="pool.html">Pool</a>.<a href="pool.html#query">query</a></p>
 								<ul>
-									<li>Defined in index.d.ts:241</li>
+									<li>Defined in index.d.ts:193</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -202,7 +287,7 @@
 									<h5>sql: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RowSet</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Row</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="rowset.html" class="tsd-signature-type">RowSet</a><span class="tsd-signature-symbol">&lt;</span><a href="row.html" class="tsd-signature-type">Row</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
@@ -214,25 +299,25 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> pool</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
-						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>poolOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PoolOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>poolOptions<span class="tsd-signature-symbol">: </span><a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
 						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>connectionUri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
-						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>connectionUri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, poolOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PoolOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
-						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, connectionUri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
-						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, poolOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PoolOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
-						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, connectionUri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, poolOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PoolOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
-						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>connectOptions<span class="tsd-signature-symbol">: </span><a href="pgconnectoptions.html" class="tsd-signature-type">PgConnectOptions</a>, poolOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PoolOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
-						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, connectOptions<span class="tsd-signature-symbol">: </span><a href="pgconnectoptions.html" class="tsd-signature-type">PgConnectOptions</a>, poolOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PoolOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>connectionUri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, poolOptions<span class="tsd-signature-symbol">: </span><a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, connectionUri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, poolOptions<span class="tsd-signature-symbol">: </span><a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, connectionUri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, poolOptions<span class="tsd-signature-symbol">: </span><a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>connectOptions<span class="tsd-signature-symbol">: </span><a href="pgconnectoptions.html" class="tsd-signature-type">PgConnectOptions</a>, poolOptions<span class="tsd-signature-symbol">: </span><a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
+						<li class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, connectOptions<span class="tsd-signature-symbol">: </span><a href="pgconnectoptions.html" class="tsd-signature-type">PgConnectOptions</a>, poolOptions<span class="tsd-signature-symbol">: </span><a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgpool.html" class="tsd-signature-type">PgPool</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:187</li>
+									<li>Defined in index.d.ts:149</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pool(PoolOptions)} with a default {@code poolOptions}.</p>
+									<p>Like {@link PgPool#pool} with a default <code>poolOptions</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
@@ -240,18 +325,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:193</li>
+									<li>Defined in index.d.ts:154</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pool(PgConnectOptions, PoolOptions)} with {@code connectOptions} build from the environment variables.</p>
+									<p>Like {@link PgPool#pool} with <code>connectOptions</code> build from the environment variables.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>poolOptions: <span class="tsd-signature-type">PoolOptions</span></h5>
+									<h5>poolOptions: <a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
@@ -259,16 +344,60 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:199</li>
+									<li>Defined in index.d.ts:159</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pool(String, PoolOptions)} with a default {@code poolOptions}.</p>
+									<p>Like {@link PgPool#pool} with a default <code>poolOptions</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>connectionUri: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:164</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Like {@link PgPool#pool} with <code>connectOptions</code> build from <code>connectionUri</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>connectionUri: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>poolOptions: <a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:169</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Like {@link PgPool#pool} with a default <code>poolOptions</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
+								</li>
 								<li>
 									<h5>connectionUri: <span class="tsd-signature-type">string</span></h5>
 								</li>
@@ -278,21 +407,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:205</li>
+									<li>Defined in index.d.ts:174</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pool(PgConnectOptions, PoolOptions)} with {@code connectOptions} build from {@code connectionUri}.</p>
+									<p>Like {@link PgPool#pool} with <code>connectOptions</code> build from the environment variables.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>connectionUri: <span class="tsd-signature-type">string</span></h5>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 								<li>
-									<h5>poolOptions: <span class="tsd-signature-type">PoolOptions</span></h5>
+									<h5>poolOptions: <a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
@@ -300,68 +429,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:211</li>
+									<li>Defined in index.d.ts:179</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pool(Vertx, String,PoolOptions)} with a default {@code poolOptions}.</p>
+									<p>Like {@link PgPool#pool} with <code>connectOptions</code> build from <code>connectionUri</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-								</li>
-								<li>
-									<h5>connectionUri: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:217</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Like {@link #pool(Vertx, PgConnectOptions, PoolOptions)} with {@code connectOptions} build from the environment variables.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-								</li>
-								<li>
-									<h5>poolOptions: <span class="tsd-signature-type">PoolOptions</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:223</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Like {@link #pool(Vertx, PgConnectOptions, PoolOptions)} with {@code connectOptions} build from {@code connectionUri}.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 								<li>
 									<h5>connectionUri: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>poolOptions: <span class="tsd-signature-type">PoolOptions</span></h5>
+									<h5>poolOptions: <a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
@@ -369,12 +454,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:231</li>
+									<li>Defined in index.d.ts:184</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a connection pool to the database configured with the given {@code connectOptions} and {@code poolOptions}.</p>
+									<p>Create a connection pool to the database configured with the given <code>connectOptions</code> and <code>poolOptions</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -383,36 +468,32 @@
 									<h5>connectOptions: <a href="pgconnectoptions.html" class="tsd-signature-type">PgConnectOptions</a></h5>
 								</li>
 								<li>
-									<h5>poolOptions: <span class="tsd-signature-type">PoolOptions</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the options for creating the pool</p>
-									</div>
+									<h5>poolOptions: <a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
-							<p>the connection pool</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:237</li>
+									<li>Defined in index.d.ts:189</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pool(PgConnectOptions, PoolOptions)} with a specific {@link Vertx} instance.</p>
+									<p>Like {@link PgPool#pool} with a specific  instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 								<li>
 									<h5>connectOptions: <a href="pgconnectoptions.html" class="tsd-signature-type">PgConnectOptions</a></h5>
 								</li>
 								<li>
-									<h5>poolOptions: <span class="tsd-signature-type">PoolOptions</span></h5>
+									<h5>poolOptions: <a href="pooloptions.html" class="tsd-signature-type">PoolOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgpool.html" class="tsd-signature-type">PgPool</a></h4>
@@ -431,48 +512,27 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="box.html" class="tsd-kind-icon">Box</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="circle.html" class="tsd-kind-icon">Circle</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="interval.html" class="tsd-kind-icon">Interval</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="line.html" class="tsd-kind-icon">Line</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="linesegment.html" class="tsd-kind-icon">Line<wbr>Segment</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="path.html" class="tsd-kind-icon">Path</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pgchannel.html" class="tsd-kind-icon">Pg<wbr>Channel</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pgconnectoptions.html" class="tsd-kind-icon">Pg<wbr>Connect<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pgconnection.html" class="tsd-kind-icon">Pg<wbr>Connection</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pgnotification.html" class="tsd-kind-icon">Pg<wbr>Notification</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
 						<a href="pgpool.html" class="tsd-kind-icon">Pg<wbr>Pool</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="pgpool.html#begin" class="tsd-kind-icon">begin</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="pgpool.html#close" class="tsd-kind-icon">close</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="pgpool.html#getconnection" class="tsd-kind-icon">get<wbr>Connection</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="pgpool.html#preparedbatch" class="tsd-kind-icon">prepared<wbr>Batch</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="pgpool.html#preparedquery" class="tsd-kind-icon">prepared<wbr>Query</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="pgpool.html#query" class="tsd-kind-icon">query</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
@@ -482,15 +542,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="pgsubscriber.html" class="tsd-kind-icon">Pg<wbr>Subscriber</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="point.html" class="tsd-kind-icon">Point</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="polygon.html" class="tsd-kind-icon">Polygon</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -508,6 +559,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -556,7 +608,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
