@@ -67,9 +67,9 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A class for managing subscriptions using {@code LISTEN/UNLISTEN} to Postgres channels.
-							<p/>
-							The subscriber manages a single connection to Postgres.</p>
+						<p>A class for managing subscriptions using <code>LISTEN/UNLISTEN</code> to Postgres channels.</p>
+						<p/>
+							The subscriber manages a single connection to Postgres.
 					</div>
 				</div>
 			</section>
@@ -113,13 +113,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:328</li>
+									<li>Defined in index.d.ts:243</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pgconnection.html" class="tsd-signature-type">PgConnection</a></h4>
-							<p>the actual connection to Postgres, it might be {@code null}</p>
 						</li>
 					</ul>
 				</section>
@@ -133,42 +130,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:287</li>
+									<li>Defined in index.d.ts:214</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Return a channel for the given {@code name}.</p>
+									<p>Return a channel for the given <code>name</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the channel name
-											<p/>
-												This will be the name of the channel exactly as held by Postgres for sending
-												notifications.  Internally this name will be truncated to the Postgres identifier
-												maxiumum length of {@code (NAMEDATALEN = 64) - 1 == 63} characters, and prepared
-												as a quoted identifier without unicode escape sequence support for use in
-												{@code LISTEN/UNLISTEN} commands.  Examples of channel names and corresponding
-												{@code NOTIFY} commands:
-												<ul>
-													<li>when {@code name == &quot;the_channel&quot;}: {@code NOTIFY the_channel, &#39;msg&#39;},
-														{@code NOTIFY The_Channel, &#39;msg&#39;}, or {@code NOTIFY &quot;the_channel&quot;, &#39;msg&#39;}
-														succeed in delivering a message to the created channel
-													</li>
-													<li>when {@code name == &quot;The_Channel&quot;}: {@code NOTIFY &quot;The_Channel&quot;, &#39;msg&#39;},
-														succeeds in delivering a message to the created channel
-													</li>
-													<li></li>
-											</ul></p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgchannel.html" class="tsd-signature-type">PgChannel</a></h4>
-							<p>the channel</p>
 						</li>
 					</ul>
 				</section>
@@ -182,7 +158,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:341</li>
+									<li>Defined in index.d.ts:252</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -198,13 +174,13 @@
 					<a name="closehandler" class="tsd-anchor"></a>
 					<h3>close<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">close<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></li>
+						<li class="tsd-signature tsd-kind-icon">close<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:321</li>
+									<li>Defined in index.d.ts:239</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -215,14 +191,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -236,13 +208,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:335</li>
+									<li>Defined in index.d.ts:247</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>whether the subscriber is closed</p>
 						</li>
 					</ul>
 				</section>
@@ -250,13 +219,13 @@
 					<a name="connect" class="tsd-anchor"></a>
 					<h3>connect</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></li>
+						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:295</li>
+									<li>Defined in index.d.ts:219</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -267,14 +236,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler notified of the connection success or failure</p>
-									</div>
+									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -288,31 +253,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:313</li>
+									<li>Defined in index.d.ts:234</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the reconnect policy that is executed when the subscriber is disconnected.
+									<p>Set the reconnect policy that is executed when the subscriber is disconnected.</p>
+									<p/>
+										When the subscriber is disconnected, the <code>policy</code> function is called with the actual
+										number of retries and returns an <code>amountOfTime</code> value:
+										<ul>
+											<li>when <code>amountOfTime < 0</code>: the subscriber is closed and there is no retry</li>
+  <li>when <code>amountOfTime == 0</code>: the subscriber retries to connect immediately</li>
+											<li>when <code>amountOfTime > 0</code>: the subscriber retries after <code>amountOfTime</code> milliseconds</li>
+										</ul>
 										<p/>
-											When the subscriber is disconnected, the {@code policy} function is called with the actual
-											number of retries and returns an {@code amountOfTime} value:
-											<ul>
-												<li>when {@code amountOfTime &lt; 0}: the subscriber is closed and there is no retry</li>
-												<li>when {@code amountOfTime == 0}: the subscriber retries to connect immediately</li>
-												<li>when {@code amountOfTime &gt; 0}: the subscriber retries after {@code amountOfTime} milliseconds</li>
-											</ul>
-											<p/>
-											The default policy does not perform any retries.</p>
+											The default policy does not perform any retries.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>policy: <span class="tsd-signature-type">function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the policy to set</p>
-									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -334,7 +296,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -342,13 +303,13 @@
 					<a name="subscriber" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> subscriber</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">subscriber<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, options<span class="tsd-signature-symbol">: </span><a href="pgconnectoptions.html" class="tsd-signature-type">PgConnectOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></li>
+						<li class="tsd-signature tsd-kind-icon">subscriber<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, options<span class="tsd-signature-symbol">: </span><a href="pgconnectoptions.html" class="tsd-signature-type">PgConnectOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:262</li>
+									<li>Defined in index.d.ts:209</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -359,20 +320,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the vertx instance</p>
-									</div>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 								<li>
 									<h5>options: <a href="pgconnectoptions.html" class="tsd-signature-type">PgConnectOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the connect options</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pgsubscriber.html" class="tsd-signature-type">PgSubscriber</a></h4>
-							<p>the subscriber</p>
 						</li>
 					</ul>
 				</section>
@@ -388,39 +342,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="box.html" class="tsd-kind-icon">Box</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="circle.html" class="tsd-kind-icon">Circle</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="interval.html" class="tsd-kind-icon">Interval</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="line.html" class="tsd-kind-icon">Line</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="linesegment.html" class="tsd-kind-icon">Line<wbr>Segment</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="path.html" class="tsd-kind-icon">Path</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pgchannel.html" class="tsd-kind-icon">Pg<wbr>Channel</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pgconnectoptions.html" class="tsd-kind-icon">Pg<wbr>Connect<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pgconnection.html" class="tsd-kind-icon">Pg<wbr>Connection</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pgnotification.html" class="tsd-kind-icon">Pg<wbr>Notification</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="pgpool.html" class="tsd-kind-icon">Pg<wbr>Pool</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -454,12 +375,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="point.html" class="tsd-kind-icon">Point</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="polygon.html" class="tsd-kind-icon">Polygon</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -477,6 +392,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -525,7 +441,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

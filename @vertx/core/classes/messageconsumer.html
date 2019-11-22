@@ -68,19 +68,14 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>An event bus consumer object representing a stream of message to an <a href="eventbus.html">EventBus</a> address that can
-							be read from.
-							<p>
-								The {@link EventBus#consumer(String)} or {@link EventBus#localConsumer(String)}
-								creates a new consumer, the returned consumer is not yet registered against the event bus. Registration
-								is effective after the {@link #handler(io.vertx.core.Handler)} method is invoked.<p></p>
+						be read from.</p>
+						<p>
+							The {@link EventBus#consumer} or {@link EventBus#localConsumer}
+							creates a new consumer, the returned consumer is not yet registered against the event bus. Registration
+							is effective after the {@link MessageConsumer#handler} method is invoked.<p>
 					</div>
-					<p> The consumer is unregistered from the event bus using the {@link #unregister()} method or by calling the
-					{@link #handler(io.vertx.core.Handler)} with a null value..</p>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="mailto:nscavell@redhat.com">Nick Scavelli</a></p>
-						</dd>
-					</dl>
+					<p>The consumer is unregistered from the event bus using the {@link MessageConsumer#unregister} method or by calling the
+					{@link MessageConsumer#handler} with a null value..</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-type-parameters">
@@ -144,13 +139,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8635</li>
+									<li>Defined in index.d.ts:5741</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>The address the handler was registered with.</p>
 						</li>
 					</ul>
 				</section>
@@ -164,13 +156,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8621</li>
+									<li>Defined in index.d.ts:5733</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a read stream for the body of the message stream.</p>
 						</li>
 					</ul>
 				</section>
@@ -184,7 +173,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8661</li>
+									<li>Defined in index.d.ts:5759</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,9 +185,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the completion handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -215,7 +201,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8614</li>
+									<li>Defined in index.d.ts:5729</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -238,7 +224,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8604</li>
+									<li>Defined in index.d.ts:5719</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -262,7 +248,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8612</li>
+									<li>Defined in index.d.ts:5727</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -285,13 +271,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8654</li>
+									<li>Defined in index.d.ts:5754</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the maximum number of messages that can be buffered when this stream is paused</p>
 						</li>
 					</ul>
 				</section>
@@ -305,7 +288,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8606</li>
+									<li>Defined in index.d.ts:5721</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -328,13 +311,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8628</li>
+									<li>Defined in index.d.ts:5737</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the current consumer is registered</p>
 						</li>
 					</ul>
 				</section>
@@ -349,7 +329,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8608</li>
+									<li>Defined in index.d.ts:5723</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="messageconsumer.html" class="tsd-signature-type">MessageConsumer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -367,18 +347,17 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8584</li>
+									<li>Defined in index.d.ts:5702</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pause this stream and return a <a href="pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="../interfaces/writestream.html">WriteStream</a>.
-										<p/>
-										The stream will be resumed when the pipe will be wired to a {@code WriteStream}.</p>
+									<p>Pause this stream and return a  to transfer the elements of this stream to a destination .</p>
+									<p/>
+										The stream will be resumed when the pipe will be wired to a <code>WriteStream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><a href="message.html" class="tsd-signature-type">Message</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a pipe</p>
 						</li>
 					</ul>
 				</section>
@@ -394,12 +373,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8590</li>
+									<li>Defined in index.d.ts:5707</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pipeTo(WriteStream, Handler)} but with no completion handler.</p>
+									<p>Like {@link ReadStream#pipeTo} but with no completion handler.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -413,26 +392,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8602</li>
+									<li>Defined in index.d.ts:5717</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pipe this {@code ReadStream} to the {@code WriteStream}.
+									<p>Pipe this <code>ReadStream</code> to the <code>WriteStream</code>.</p>
+									<p>
+										Elements emitted by this stream will be written to the write stream until this stream ends or fails.
 										<p>
-											Elements emitted by this stream will be written to the write stream until this stream ends or fails.
-											<p>
-												Once this stream has ended or failed, the write stream will be ended and the {@code handler} will be
-											called with the result.</p>
+											Once this stream has ended or failed, the write stream will be ended and the <code>handler</code> will be
+											called with the result.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>dst: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="message.html" class="tsd-signature-type">Message</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the destination write stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
@@ -453,7 +429,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:8610</li>
+									<li>Defined in index.d.ts:5725</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="messageconsumer.html" class="tsd-signature-type">MessageConsumer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -470,29 +446,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8647</li>
+									<li>Defined in index.d.ts:5750</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Set the number of messages this registration will buffer when this stream is paused. The default
-										value is <code>1000</code>.
-										<p>
-											When a new value is set, buffered messages may be discarded to reach the new value. The most recent
-										messages will be kept.</p>
+									value is <code>1000</code>.</p>
+									<p>
+										When a new value is set, buffered messages may be discarded to reach the new value. The most recent
+										messages will be kept.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>maxBufferedMessages: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the maximum number of messages that can be buffered</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="messageconsumer.html" class="tsd-signature-type">MessageConsumer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>this registration</p>
 						</li>
 					</ul>
 				</section>
@@ -507,7 +479,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8667</li>
+									<li>Defined in index.d.ts:5764</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -520,7 +492,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8675</li>
+									<li>Defined in index.d.ts:5769</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -532,10 +504,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler called when the unregister is done. For example in a cluster when all nodes of the
-										event bus have been unregistered.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -625,6 +593,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -673,7 +642,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

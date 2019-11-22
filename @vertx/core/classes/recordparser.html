@@ -68,43 +68,35 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>A helper class which allows you to easily parse protocols which are delimited by a sequence of bytes, or fixed
-							size records.
+						size records.</p>
+						<p>
+							Instances of this class take as input <a href="buffer.html">Buffer</a> instances containing raw bytes,
+							and output records.
 							<p>
-								Instances of this class take as input {@link io.vertx.core.buffer.Buffer} instances containing raw bytes,
-								and output records.
+								For example, if I had a simple ASCII text protocol delimited by '\n' and the input was the following:
 								<p>
-									For example, if I had a simple ASCII text protocol delimited by &#39;\n&#39; and the input was the following:
-									<p>
+									<pre>
+buffer1:HELLO\nHOW ARE Y
+buffer2:OU?\nI AM
+buffer3: DOING OK
+buffer4:\n
+</pre>
+									Then the output would be:<p>
 										<pre>
- buffer1:HELLO\nHOW ARE Y
- buffer2:OU?\nI AM
- buffer3: DOING OK
- buffer4:\n
- </pre>
-										Then the output would be:<p>
-											<pre>
- buffer1:HELLO
- buffer2:HOW ARE YOU?
- buffer3:I AM DOING OK
- </pre>
-											Instances of this class can be changed between delimited mode and fixed size record mode on the fly as
-											individual records are read, this allows you to parse protocols where, for example, the first 5 records might
-											all be fixed size (of potentially different sizes), followed by some delimited records, followed by more fixed
-											size records.
+buffer1:HELLO
+buffer2:HOW ARE YOU?
+buffer3:I AM DOING OK
+</pre>
+										Instances of this class can be changed between delimited mode and fixed size record mode on the fly as
+										individual records are read, this allows you to parse protocols where, for example, the first 5 records might
+										all be fixed size (of potentially different sizes), followed by some delimited records, followed by more fixed
+										size records.
+										<p>
+											Instances of this class can't currently be used for protocols where the text is encoded with something other than
+											a 1-1 byte-char mapping.
 											<p>
-												Instances of this class can&#39;t currently be used for protocols where the text is encoded with something other than
-												a 1-1 byte-char mapping.
-												<p>
-												Please see the documentation for more information.</p>
+												Please see the documentation for more information.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-						<dt>author</dt>
-						<dd><p><a href="mailto:larsdtimm@gmail.com">Lars Timm</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -162,24 +154,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10014</li>
+									<li>Defined in index.d.ts:6746</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Flip the parser into delimited mode, and where the delimiter can be represented
-										by the String {@code delim} encoded in latin-1 . Don&#39;t use this if your String contains other than latin-1 characters.
-										<p>
-										This method can be called multiple times with different values of delim while data is being parsed.</p>
+									by the String <code>delim</code> encoded in latin-1 . Don&#39;t use this if your String contains other than latin-1 characters.</p>
+									<p>
+										This method can be called multiple times with different values of delim while data is being parsed.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delim: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the new delimeter</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -187,24 +176,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10024</li>
+									<li>Defined in index.d.ts:6754</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Flip the parser into delimited mode, and where the delimiter can be represented
-										by the delimiter {@code delim}.
-										<p>
-										This method can be called multiple times with different values of delim while data is being parsed.</p>
+									by the delimiter <code>delim</code>.</p>
+									<p>
+										This method can be called multiple times with different values of delim while data is being parsed.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delim: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the new delimiter</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -221,7 +207,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10063</li>
+									<li>Defined in index.d.ts:6786</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -244,7 +230,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10053</li>
+									<li>Defined in index.d.ts:6776</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -268,7 +254,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:10059</li>
+									<li>Defined in index.d.ts:6782</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -291,23 +277,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10033</li>
+									<li>Defined in index.d.ts:6761</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Flip the parser into fixed size mode, where the record size is specified by {@code size} in bytes.
-										<p>
-										This method can be called multiple times with different values of size while data is being parsed.</p>
+									<p>Flip the parser into fixed size mode, where the record size is specified by <code>size</code> in bytes.</p>
+									<p>
+										This method can be called multiple times with different values of size while data is being parsed.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>size: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the new record size</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -324,7 +307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10051</li>
+									<li>Defined in index.d.ts:6774</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -336,9 +319,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>buffer: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a chunk of data</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -355,7 +335,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10055</li>
+									<li>Defined in index.d.ts:6778</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -378,28 +358,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10044</li>
+									<li>Defined in index.d.ts:6769</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Set the maximum allowed size for a record when using the delimited mode.
-										The delimiter itself does not count for the record size.
-										<p>
-										If a record is longer than specified, an {@link IllegalStateException} will be thrown.</p>
+									The delimiter itself does not count for the record size.</p>
+									<p>
+										If a record is longer than specified, an IllegalStateException will be thrown.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>size: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the maximum record size</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -414,7 +390,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:10057</li>
+									<li>Defined in index.d.ts:6780</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -432,18 +408,17 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9895</li>
+									<li>Defined in index.d.ts:6656</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pause this stream and return a <a href="pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="../interfaces/writestream.html">WriteStream</a>.
-										<p/>
-										The stream will be resumed when the pipe will be wired to a {@code WriteStream}.</p>
+									<p>Pause this stream and return a  to transfer the elements of this stream to a destination .</p>
+									<p/>
+										The stream will be resumed when the pipe will be wired to a <code>WriteStream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a pipe</p>
 						</li>
 					</ul>
 				</section>
@@ -459,12 +434,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9901</li>
+									<li>Defined in index.d.ts:6661</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pipeTo(WriteStream, Handler)} but with no completion handler.</p>
+									<p>Like {@link ReadStream#pipeTo} but with no completion handler.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -478,26 +453,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9913</li>
+									<li>Defined in index.d.ts:6671</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pipe this {@code ReadStream} to the {@code WriteStream}.
+									<p>Pipe this <code>ReadStream</code> to the <code>WriteStream</code>.</p>
+									<p>
+										Elements emitted by this stream will be written to the write stream until this stream ends or fails.
 										<p>
-											Elements emitted by this stream will be written to the write stream until this stream ends or fails.
-											<p>
-												Once this stream has ended or failed, the write stream will be ended and the {@code handler} will be
-											called with the result.</p>
+											Once this stream has ended or failed, the write stream will be ended and the <code>handler</code> will be
+											called with the result.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>dst: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the destination write stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
@@ -518,7 +490,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:10061</li>
+									<li>Defined in index.d.ts:6784</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -535,7 +507,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9915</li>
+									<li>Defined in index.d.ts:6673</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -563,12 +535,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9924</li>
+									<li>Defined in index.d.ts:6679</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #newDelimited(String)} but set the {@code output} that will receive whole records
+									<p>Like {@link RecordParser#newDelimited} but set the <code>output</code> that will receive whole records
 									which have been parsed.</p>
 								</div>
 							</div>
@@ -576,15 +548,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delim: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the initial delimiter string</p>
-									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will receive the output</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -592,30 +558,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9935</li>
+									<li>Defined in index.d.ts:6687</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #newDelimited(String)} but wraps the {@code stream}. The {@code stream} handlers will be set/unset
-										when the {@link #handler(Handler)} is set.
-										<p/>
-										The {@code pause()}/{@code resume()} operations are propagated to the {@code stream}.</p>
+									<p>Like {@link RecordParser#newDelimited} but wraps the <code>stream</code>. The <code>stream</code> handlers will be set/unset
+									when the {@link RecordParser#handler} is set.</p>
+									<p/>
+										The <code>pause()</code>/<code>resume()</code> operations are propagated to the <code>stream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delim: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the initial delimiter string</p>
-									</div>
 								</li>
 								<li>
 									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the wrapped stream</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -623,24 +583,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9945</li>
+									<li>Defined in index.d.ts:6695</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new {@code RecordParser} instance, initially in delimited mode, and where the delimiter can be represented
-										by the String {@code} delim endcoded in latin-1 . Don&#39;t use this if your String contains other than latin-1 characters.
-										<p>
-										{@code output} Will receive whole records which have been parsed.</p>
+									<p>Create a new <code>RecordParser</code> instance, initially in delimited mode, and where the delimiter can be represented
+									by the String <code></code> delim endcoded in latin-1 . Don&#39;t use this if your String contains other than latin-1 characters.</p>
+									<p>
+										<code>output</code> Will receive whole records which have been parsed.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delim: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the initial delimiter string</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -648,23 +605,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9954</li>
+									<li>Defined in index.d.ts:6702</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new {@code RecordParser} instance, initially in delimited mode, and where the delimiter can be represented
-										by the {@code Buffer} delim.
-										<p></p>
+									<p>Create a new <code>RecordParser</code> instance, initially in delimited mode, and where the delimiter can be represented
+									by the <code>Buffer</code> delim.</p>
+									<p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delim: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the initial delimiter buffer</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -672,12 +626,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9963</li>
+									<li>Defined in index.d.ts:6708</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #newDelimited(Buffer)} but set the {@code output} that will receive whole records
+									<p>Like {@link RecordParser#newDelimited} but set the <code>output</code> that will receive whole records
 									which have been parsed.</p>
 								</div>
 							</div>
@@ -685,15 +639,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delim: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the initial delimiter buffer</p>
-									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will receive the output</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -701,30 +649,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9974</li>
+									<li>Defined in index.d.ts:6716</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #newDelimited(Buffer)} but wraps the {@code stream}. The {@code stream} handlers will be set/unset
-										when the {@link #handler(Handler)} is set.
-										<p/>
-										The {@code pause()}/{@code resume()} operations are propagated to the {@code stream}.</p>
+									<p>Like {@link RecordParser#newDelimited} but wraps the <code>stream</code>. The <code>stream</code> handlers will be set/unset
+									when the {@link RecordParser#handler} is set.</p>
+									<p/>
+										The <code>pause()</code>/<code>resume()</code> operations are propagated to the <code>stream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delim: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the initial delimiter buffer</p>
-									</div>
 								</li>
 								<li>
 									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the wrapped stream</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -743,24 +685,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9984</li>
+									<li>Defined in index.d.ts:6724</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new {@code RecordParser} instance, initially in fixed size mode, and where the record size is specified
-										by the {@code size} parameter.
-										<p>
-										{@code output} Will receive whole records which have been parsed.</p>
+									<p>Create a new <code>RecordParser</code> instance, initially in fixed size mode, and where the record size is specified
+									by the <code>size</code> parameter.</p>
+									<p>
+										<code>output</code> Will receive whole records which have been parsed.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>size: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the initial record size</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -768,12 +707,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9993</li>
+									<li>Defined in index.d.ts:6730</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #newFixed(int)} but set the {@code output} that will receive whole records
+									<p>Like {@link RecordParser#newFixed} but set the <code>output</code> that will receive whole records
 									which have been parsed.</p>
 								</div>
 							</div>
@@ -781,15 +720,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>size: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the initial record size</p>
-									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will receive the output</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -797,30 +730,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10004</li>
+									<li>Defined in index.d.ts:6738</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #newFixed(int)} but wraps the {@code stream}. The {@code stream} handlers will be set/unset
-										when the {@link #handler(Handler)} is set.
-										<p/>
-										The {@code pause()}/{@code resume()} operations are propagated to the {@code stream}.</p>
+									<p>Like {@link RecordParser#newFixed} but wraps the <code>stream</code>. The <code>stream</code> handlers will be set/unset
+									when the {@link RecordParser#handler} is set.</p>
+									<p/>
+										The <code>pause()</code>/<code>resume()</code> operations are propagated to the <code>stream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>size: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the initial record size</p>
-									</div>
 								</li>
 								<li>
 									<h5>stream: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the wrapped stream</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="recordparser.html" class="tsd-signature-type">RecordParser</a></h4>
@@ -910,6 +837,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -958,7 +886,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -68,29 +68,24 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Pumps data from a <a href="../interfaces/readstream.html">ReadStream</a> to a <a href="../interfaces/writestream.html">WriteStream</a> and performs flow control where necessary to
-							prevent the write stream buffer from getting overfull.
+						prevent the write stream buffer from getting overfull.</p>
+						<p>
+							Instances of this class read items from a <a href="../interfaces/readstream.html">ReadStream</a> and write them to a <a href="../interfaces/writestream.html">WriteStream</a>. If data
+							can be read faster than it can be written this could result in the write queue of the <a href="../interfaces/writestream.html">WriteStream</a> growing
+							without bound, eventually causing it to exhaust all available RAM.
 							<p>
-								Instances of this class read items from a <a href="../interfaces/readstream.html">ReadStream</a> and write them to a <a href="../interfaces/writestream.html">WriteStream</a>. If data
-								can be read faster than it can be written this could result in the write queue of the <a href="../interfaces/writestream.html">WriteStream</a> growing
-								without bound, eventually causing it to exhaust all available RAM.
+								To prevent this, after each write, instances of this class check whether the write queue of the <a href="../interfaces/writestream.html">WriteStream</a> is full, and if so, the <a href="../interfaces/readstream.html">ReadStream</a> is paused, and a <code>drainHandler</code> is set on the
+								<a href="../interfaces/writestream.html">WriteStream</a>.
 								<p>
-									To prevent this, after each write, instances of this class check whether the write queue of the <a href="../interfaces/writestream.html">WriteStream</a> is full, and if so, the <a href="../interfaces/readstream.html">ReadStream</a> is paused, and a {@code drainHandler} is set on the
-									<a href="../interfaces/writestream.html">WriteStream</a>.
+									When the <a href="../interfaces/writestream.html">WriteStream</a> has processed half of its backlog, the <code>drainHandler</code> will be
+									called, which results in the pump resuming the <a href="../interfaces/readstream.html">ReadStream</a>.
 									<p>
-										When the <a href="../interfaces/writestream.html">WriteStream</a> has processed half of its backlog, the {@code drainHandler} will be
-										called, which results in the pump resuming the <a href="../interfaces/readstream.html">ReadStream</a>.
+										This class can be used to pump from any <a href="../interfaces/readstream.html">ReadStream</a> to any <a href="../interfaces/writestream.html">WriteStream</a>,
+										e.g. from an <a href="httpserverrequest.html">HttpServerRequest</a> to an <a href="asyncfile.html">AsyncFile</a>,
+										or from <a href="netsocket.html">NetSocket</a> to a <a href="websocket.html">WebSocket</a>.
 										<p>
-											This class can be used to pump from any <a href="../interfaces/readstream.html">ReadStream</a> to any <a href="../interfaces/writestream.html">WriteStream</a>,
-											e.g. from an {@link io.vertx.core.http.HttpServerRequest} to an {@link io.vertx.core.file.AsyncFile},
-											or from {@link io.vertx.core.net.NetSocket} to a {@link io.vertx.core.http.WebSocket}.
-											<p>
-											Please see the documentation for more information.</p>
+											Please see the documentation for more information.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -130,7 +125,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9750</li>
+									<li>Defined in index.d.ts:6536</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -152,25 +147,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9730</li>
+									<li>Defined in index.d.ts:6521</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the write queue max size to {@code maxSize}</p>
+									<p>Set the write queue max size to <code>maxSize</code></p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>maxSize: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the max size</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pump.html" class="tsd-signature-type">Pump</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -184,7 +175,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9737</li>
+									<li>Defined in index.d.ts:6526</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -193,7 +184,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pump.html" class="tsd-signature-type">Pump</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -207,7 +197,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9744</li>
+									<li>Defined in index.d.ts:6531</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -216,7 +206,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pump.html" class="tsd-signature-type">Pump</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -231,12 +220,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9711</li>
+									<li>Defined in index.d.ts:6510</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new {@code Pump} with the given {@code ReadStream} and {@code WriteStream}</p>
+									<p>Create a new <code>Pump</code> with the given <code>ReadStream</code> and <code>WriteStream</code></p>
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -249,30 +238,23 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>rs: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the read stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>ws: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the write stream</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pump.html" class="tsd-signature-type">Pump</a></h4>
-							<p>the pump</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9722</li>
+									<li>Defined in index.d.ts:6516</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new {@code Pump} with the given {@code ReadStream} and {@code WriteStream} and
-									{@code writeQueueMaxSize}</p>
+									<p>Create a new <code>Pump</code> with the given <code>ReadStream</code> and <code>WriteStream</code> and
+									<code>writeQueueMaxSize</code></p>
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -285,25 +267,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>rs: <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the read stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>ws: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the write stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>writeQueueMaxSize: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the max size of the write queue</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pump.html" class="tsd-signature-type">Pump</a></h4>
-							<p>the pump</p>
 						</li>
 					</ul>
 				</section>
@@ -360,6 +332,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -408,7 +381,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

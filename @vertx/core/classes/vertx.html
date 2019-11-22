@@ -67,33 +67,28 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The entry point into the Vert.x Core API.
+						<p>The entry point into the Vert.x Core API.</p>
+						<p>
+							You use an instance of this class for functionality including:
+							<ul>
+								<li>Creating TCP clients and servers</li>
+								<li>Creating HTTP clients and servers</li>
+								<li>Creating DNS clients</li>
+								<li>Creating Datagram sockets</li>
+								<li>Setting and cancelling periodic and one-shot timers</li>
+								<li>Getting a reference to the event bus API</li>
+								<li>Getting a reference to the file system API</li>
+								<li>Getting a reference to the shared data API</li>
+								<li>Deploying and undeploying verticles</li>
+							</ul>
 							<p>
-								You use an instance of this class for functionality including:
-								<ul>
-									<li>Creating TCP clients and servers</li>
-									<li>Creating HTTP clients and servers</li>
-									<li>Creating DNS clients</li>
-									<li>Creating Datagram sockets</li>
-									<li>Setting and cancelling periodic and one-shot timers</li>
-									<li>Getting a reference to the event bus API</li>
-									<li>Getting a reference to the file system API</li>
-									<li>Getting a reference to the shared data API</li>
-									<li>Deploying and undeploying verticles</li>
-								</ul>
+								Most functionality in Vert.x core is fairly low level.
 								<p>
-									Most functionality in Vert.x core is fairly low level.
+									To create an instance of this class you can use the static factory methods: {@link Vertx#vertx},
+									{@link Vertx#vertx} and {@link Vertx#clusteredVertx}.
 									<p>
-										To create an instance of this class you can use the static factory methods: {@link #vertx},
-										{@link #vertx(io.vertx.core.VertxOptions)} and {@link #clusteredVertx(io.vertx.core.VertxOptions, Handler)}.
-										<p>
-										Please see the user manual for more detailed usage information.</p>
+										Please see the user manual for more detailed usage information.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -167,25 +162,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11072</li>
+									<li>Defined in index.d.ts:7548</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Cancels the timer with the specified {@code id}.</p>
+									<p>Cancels the timer with the specified <code>id</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The id of the timer to cancel</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the timer was successfully cancelled, or false if the timer does not exist.</p>
 						</li>
 					</ul>
 				</section>
@@ -200,16 +191,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11090</li>
+									<li>Defined in index.d.ts:7563</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Stop the the Vertx instance and release any resources held by it.
+									<p>Stop the the Vertx instance and release any resources held by it.</p>
+									<p>
+										The instance cannot be used after it has been closed.
 										<p>
-											The instance cannot be used after it has been closed.
-											<p>
-											The actual close is asynchronous and may not complete until after the call has returned.</p>
+											The actual close is asynchronous and may not complete until after the call has returned.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -217,21 +208,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11097</li>
+									<li>Defined in index.d.ts:7568</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #close} but the completionHandler will be called when the close is complete</p>
+									<p>Like {@link Vertx#close} but the completionHandler will be called when the close is complete</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The handler will be notified when the close is complete.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -249,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10971</li>
+									<li>Defined in index.d.ts:7481</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -261,18 +249,14 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="datagramsocketoptions.html" class="tsd-signature-type">DatagramSocketOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the options to use</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="datagramsocket.html" class="tsd-signature-type">DatagramSocket</a></h4>
-							<p>the socket</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10978</li>
+									<li>Defined in index.d.ts:7486</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -281,7 +265,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="datagramsocket.html" class="tsd-signature-type">DatagramSocket</a></h4>
-							<p>the socket</p>
 						</li>
 					</ul>
 				</section>
@@ -297,53 +280,45 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11002</li>
+									<li>Defined in index.d.ts:7502</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a DNS client to connect to a DNS server at the specified host and port, with the default query timeout (5 seconds)
-										<p/></p>
+									<p>Create a DNS client to connect to a DNS server at the specified host and port, with the default query timeout (5 seconds)</p>
+									<p/>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>port: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the port</p>
-									</div>
 								</li>
 								<li>
 									<h5>host: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the host</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="dnsclient.html" class="tsd-signature-type">DnsClient</a></h4>
-							<p>the DNS client</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11011</li>
+									<li>Defined in index.d.ts:7509</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a DNS client to connect to the DNS server configured by {@link VertxOptions#getAddressResolverOptions()}
-										<p>
-										DNS client takes the first configured resolver address provided by {@link DnsResolverProvider#nameServerAddresses()}}</p>
+									<p>Create a DNS client to connect to the DNS server configured by <a href="../../dataobjects.html#VertxOptions">VertxOptions</a></p>
+									<p>
+										DNS client takes the first configured resolver address provided by }
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="dnsclient.html" class="tsd-signature-type">DnsClient</a></h4>
-							<p>the DNS client</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11019</li>
+									<li>Defined in index.d.ts:7514</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -355,13 +330,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="dnsclientoptions.html" class="tsd-signature-type">DnsClientOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the client options</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="dnsclient.html" class="tsd-signature-type">DnsClient</a></h4>
-							<p>the DNS client</p>
 						</li>
 					</ul>
 				</section>
@@ -376,7 +347,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10956</li>
+									<li>Defined in index.d.ts:7471</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -388,18 +359,14 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="httpclientoptions.html" class="tsd-signature-type">HttpClientOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the options to use</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpclient.html" class="tsd-signature-type">HttpClient</a></h4>
-							<p>the client</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10963</li>
+									<li>Defined in index.d.ts:7476</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -408,7 +375,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="httpclient.html" class="tsd-signature-type">HttpClient</a></h4>
-							<p>the client</p>
 						</li>
 					</ul>
 				</section>
@@ -423,7 +389,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10941</li>
+									<li>Defined in index.d.ts:7461</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -435,18 +401,14 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="httpserveroptions.html" class="tsd-signature-type">HttpServerOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the options to use</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
-							<p>the server</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10948</li>
+									<li>Defined in index.d.ts:7466</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -455,7 +417,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="httpserver.html" class="tsd-signature-type">HttpServer</a></h4>
-							<p>the server</p>
 						</li>
 					</ul>
 				</section>
@@ -470,7 +431,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10926</li>
+									<li>Defined in index.d.ts:7451</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -482,18 +443,14 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="netclientoptions.html" class="tsd-signature-type">NetClientOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the options to use</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netclient.html" class="tsd-signature-type">NetClient</a></h4>
-							<p>the client</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10933</li>
+									<li>Defined in index.d.ts:7456</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -502,7 +459,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="netclient.html" class="tsd-signature-type">NetClient</a></h4>
-							<p>the client</p>
 						</li>
 					</ul>
 				</section>
@@ -517,7 +473,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10911</li>
+									<li>Defined in index.d.ts:7441</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -529,18 +485,14 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="netserveroptions.html" class="tsd-signature-type">NetServerOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the options to use</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>the server</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10918</li>
+									<li>Defined in index.d.ts:7446</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -549,7 +501,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>the server</p>
 						</li>
 					</ul>
 				</section>
@@ -566,12 +517,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11216</li>
+									<li>Defined in index.d.ts:7657</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #createSharedWorkerExecutor(String, int)} but with the {@link VertxOptions#setWorkerPoolSize} {@code poolSize}.</p>
+									<p>Like {@link Vertx#createSharedWorkerExecutor} but with the <a href="../../dataobjects.html#VertxOptions">VertxOptions</a> <code>poolSize</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -585,12 +536,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11222</li>
+									<li>Defined in index.d.ts:7662</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #createSharedWorkerExecutor(String, int, long)} but with the {@link VertxOptions#setMaxWorkerExecuteTime} {@code maxExecuteTime}.</p>
+									<p>Like {@link Vertx#createSharedWorkerExecutor} but with the <a href="../../dataobjects.html#VertxOptions">VertxOptions</a> <code>maxExecuteTime</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -607,12 +558,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11228</li>
+									<li>Defined in index.d.ts:7667</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #createSharedWorkerExecutor(String, int, long, TimeUnit)} but with the {@link TimeUnit#NANOSECONDS ns unit}.</p>
+									<p>Like {@link Vertx#createSharedWorkerExecutor} but with the .</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -632,7 +583,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11246</li>
+									<li>Defined in index.d.ts:7679</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -640,40 +591,27 @@
 									<p>Create a named worker executor, the executor should be closed when it&#39;s not needed anymore to release
 										resources.<p/></p>
 								</div>
-								<p> This method can be called mutiple times with the same {@code name}. Executors with the same name will share
+								<p>This method can be called mutiple times with the same <code>name</code>. Executors with the same name will share
 									the same worker pool. The worker pool size , max execute time and unit of max execute time are set when the worker pool is created and
 									won&#39;t change after.<p></p>
-									<p> The worker pool is released when all the <a href="workerexecutor.html">WorkerExecutor</a> sharing the same name are closed.</p>
+									<p>The worker pool is released when all the <a href="workerexecutor.html">WorkerExecutor</a> sharing the same name are closed.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the worker executor</p>
-									</div>
 								</li>
 								<li>
 									<h5>poolSize: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the size of the pool</p>
-									</div>
 								</li>
 								<li>
 									<h5>maxExecuteTime: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the value of max worker execute time</p>
-									</div>
 								</li>
 								<li>
 									<h5>maxExecuteTimeUnit: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the value of unit of max worker execute time</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="workerexecutor.html" class="tsd-signature-type">WorkerExecutor</a></h4>
-							<p>the named worker executor</p>
 						</li>
 					</ul>
 				</section>
@@ -696,25 +634,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11108</li>
+									<li>Defined in index.d.ts:7577</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Deploy a verticle instance given a name.
+									<p>Deploy a verticle instance given a name.</p>
+									<p>
+										Given the name, Vert.x selects a  instance to use to instantiate the verticle.
 										<p>
-											Given the name, Vert.x selects a {@link VerticleFactory} instance to use to instantiate the verticle.
-											<p>
-											For the rules on how factories are selected please consult the user manual.</p>
+											For the rules on how factories are selected please consult the user manual.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -722,32 +657,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11121</li>
+									<li>Defined in index.d.ts:7587</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #deployVerticle(String)} but the completionHandler will be notified when the deployment is complete.
+									<p>Like {@link Vertx#deployVerticle} but the completionHandler will be notified when the deployment is complete.</p>
+									<p>
+										If the deployment is successful the result will contain a String representing the unique deployment ID of the
+										deployment.
 										<p>
-											If the deployment is successful the result will contain a String representing the unique deployment ID of the
-											deployment.
-											<p>
-											This deployment ID can subsequently be used to undeploy the verticle.</p>
+											This deployment ID can subsequently be used to undeploy the verticle.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The identifier</p>
-									</div>
 								</li>
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a handler which will be notified when the deployment is complete</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -755,12 +684,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11130</li>
+									<li>Defined in index.d.ts:7593</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #deployVerticle(Verticle)} but {@link io.vertx.core.DeploymentOptions} are provided to configure the
+									<p>Like {@link Vertx#deployVerticle} but <a href="../../dataobjects.html#DeploymentOptions">DeploymentOptions</a> are provided to configure the
 									deployment.</p>
 								</div>
 							</div>
@@ -768,15 +697,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name</p>
-									</div>
 								</li>
 								<li>
 									<h5>options: <a href="deploymentoptions.html" class="tsd-signature-type">DeploymentOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the deployment options.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -784,12 +707,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11140</li>
+									<li>Defined in index.d.ts:7599</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #deployVerticle(String, Handler)} but {@link io.vertx.core.DeploymentOptions} are provided to configure the
+									<p>Like {@link Vertx#deployVerticle} but <a href="../../dataobjects.html#DeploymentOptions">DeploymentOptions</a> are provided to configure the
 									deployment.</p>
 								</div>
 							</div>
@@ -797,21 +720,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name</p>
-									</div>
 								</li>
 								<li>
 									<h5>options: <a href="deploymentoptions.html" class="tsd-signature-type">DeploymentOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the deployment options.</p>
-									</div>
 								</li>
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a handler which will be notified when the deployment is complete</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -819,25 +733,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11272</li>
+									<li>Defined in index.d.ts:7697</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Deploy a verticle instance that you have created yourself.
+									<p>Deploy a verticle instance that you have created yourself.</p>
+									<p>
+										Vert.x will assign the verticle a context and start the verticle.
 										<p>
-											Vert.x will assign the verticle a context and start the verticle.
-											<p>
-											The actual deploy happens asynchronously and may not complete until after the call has returned.</p>
+											The actual deploy happens asynchronously and may not complete until after the call has returned.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>verticle: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the verticle instance to deploy.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -845,32 +756,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11285</li>
+									<li>Defined in index.d.ts:7707</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #deployVerticle(Verticle)} but the completionHandler will be notified when the deployment is complete.
+									<p>Like {@link Vertx#deployVerticle} but the completionHandler will be notified when the deployment is complete.</p>
+									<p>
+										If the deployment is successful the result will contain a string representing the unique deployment ID of the
+										deployment.
 										<p>
-											If the deployment is successful the result will contain a string representing the unique deployment ID of the
-											deployment.
-											<p>
-											This deployment ID can subsequently be used to undeploy the verticle.</p>
+											This deployment ID can subsequently be used to undeploy the verticle.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>verticle: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the verticle instance to deploy</p>
-									</div>
 								</li>
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a handler which will be notified when the deployment is complete</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -878,12 +783,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11294</li>
+									<li>Defined in index.d.ts:7713</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #deployVerticle(Verticle)} but {@link io.vertx.core.DeploymentOptions} are provided to configure the
+									<p>Like {@link Vertx#deployVerticle} but <a href="../../dataobjects.html#DeploymentOptions">DeploymentOptions</a> are provided to configure the
 									deployment.</p>
 								</div>
 							</div>
@@ -891,15 +796,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>verticle: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the verticle instance to deploy</p>
-									</div>
 								</li>
 								<li>
 									<h5>options: <a href="deploymentoptions.html" class="tsd-signature-type">DeploymentOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the deployment options.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -907,18 +806,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11306</li>
+									<li>Defined in index.d.ts:7724</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #deployVerticle(Verticle, DeploymentOptions)} but {@link Verticle} instance is created by invoking the
-										{@code verticleSupplier}.
+									<p>Like {@link Vertx#deployVerticle} but {@link Verticle} instance is created by invoking the
+									<code>verticleSupplier</code>.</p>
+									<p>
+										The supplier will be invoked as many times as <a href="../../dataobjects.html#DeploymentOptions">DeploymentOptions</a>.
+										It must not return the same instance twice.
 										<p>
-											The supplier will be invoked as many times as {@link DeploymentOptions#getInstances()}.
-											It must not return the same instance twice.
-											<p>
-											Note that the supplier will be invoked on the caller thread.</p>
+											Note that the supplier will be invoked on the caller thread.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -935,12 +834,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11316</li>
+									<li>Defined in index.d.ts:7730</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #deployVerticle(Verticle, Handler)} but {@link io.vertx.core.DeploymentOptions} are provided to configure the
+									<p>Like {@link Vertx#deployVerticle} but <a href="../../dataobjects.html#DeploymentOptions">DeploymentOptions</a> are provided to configure the
 									deployment.</p>
 								</div>
 							</div>
@@ -948,21 +847,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>verticle: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the verticle instance to deploy</p>
-									</div>
 								</li>
 								<li>
 									<h5>options: <a href="deploymentoptions.html" class="tsd-signature-type">DeploymentOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the deployment options.</p>
-									</div>
 								</li>
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a handler which will be notified when the deployment is complete</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -970,18 +860,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11328</li>
+									<li>Defined in index.d.ts:7741</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #deployVerticle(Verticle, DeploymentOptions, Handler)} but {@link Verticle} instance is created by
-										invoking the {@code verticleSupplier}.
+									<p>Like {@link Vertx#deployVerticle} but {@link Verticle} instance is created by
+									invoking the <code>verticleSupplier</code>.</p>
+									<p>
+										The supplier will be invoked as many times as <a href="../../dataobjects.html#DeploymentOptions">DeploymentOptions</a>.
+										It must not return the same instance twice.
 										<p>
-											The supplier will be invoked as many times as {@link DeploymentOptions#getInstances()}.
-											It must not return the same instance twice.
-											<p>
-											Note that the supplier will be invoked on the caller thread.</p>
+											Note that the supplier will be invoked on the caller thread.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1010,7 +900,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11164</li>
+									<li>Defined in index.d.ts:7616</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1019,7 +909,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-							<p>Set of deployment IDs</p>
 						</li>
 					</ul>
 				</section>
@@ -1033,7 +922,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10992</li>
+									<li>Defined in index.d.ts:7496</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1042,7 +931,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="eventbus.html" class="tsd-signature-type">EventBus</a></h4>
-							<p>the event bus object</p>
 						</li>
 					</ul>
 				</section>
@@ -1056,25 +944,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11261</li>
+									<li>Defined in index.d.ts:7688</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set a default exception handler for <a href="context.html">Context</a>, set on {@link Context#exceptionHandler(Handler)} at creation.</p>
+									<p>Set a default exception handler for <a href="context.html">Context</a>, set on  at creation.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the exception handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="vertx.html" class="tsd-signature-type">Vertx</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1089,65 +973,51 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11204</li>
+									<li>Defined in index.d.ts:7647</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Safely execute some blocking code.
+									<p>Safely execute some blocking code.</p>
+									<p>
+										Executes the blocking code in the handler <code>blockingCodeHandler</code> using a thread from the worker pool.
 										<p>
-											Executes the blocking code in the handler {@code blockingCodeHandler} using a thread from the worker pool.
+											When the code is complete the handler <code>resultHandler</code> will be called with the result on the original context
+											(e.g. on the original event loop of the caller).
 											<p>
-												When the code is complete the handler {@code resultHandler} will be called with the result on the original context
-												(e.g. on the original event loop of the caller).
+												A <code>Future</code> instance is passed into <code>blockingCodeHandler</code>. When the blocking code successfully completes,
+												the handler should call the {@link Promise#complete} or {@link Promise#complete} method, or the {@link Promise#fail}
+												method if it failed.
 												<p>
-													A {@code Future} instance is passed into {@code blockingCodeHandler}. When the blocking code successfully completes,
-													the handler should call the {@link Promise#complete} or {@link Promise#complete(Object)} method, or the {@link Promise#fail}
-													method if it failed.
+													In the <code>blockingCodeHandler</code> the current context remains the original context and therefore any task
+													scheduled in the <code>blockingCodeHandler</code> will be executed on the this context and not on the worker thread.
 													<p>
-														In the {@code blockingCodeHandler} the current context remains the original context and therefore any task
-														scheduled in the {@code blockingCodeHandler} will be executed on the this context and not on the worker thread.
+														The blocking code should block for a reasonable amount of time (i.e no more than a few seconds). Long blocking operations
+														or polling operations (i.e a thread that spin in a loop polling events in a blocking fashion) are precluded.
 														<p>
-															The blocking code should block for a reasonable amount of time (i.e no more than a few seconds). Long blocking operations
-															or polling operations (i.e a thread that spin in a loop polling events in a blocking fashion) are precluded.
+															When the blocking operation lasts more than the 10 seconds, a message will be printed on the console by the
+															blocked thread checker.
 															<p>
-																When the blocking operation lasts more than the 10 seconds, a message will be printed on the console by the
-																blocked thread checker.
-																<p>
-																	Long blocking operations should use a dedicated thread managed by the application, which can interact with
-																verticles using the event-bus or {@link Context#runOnContext(Handler)}</p>
+																Long blocking operations should use a dedicated thread managed by the application, which can interact with
+																verticles using the event-bus or {@link Context#runOnContext}
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>T</h4>
-									<div class="tsd-comment tsd-typography">
-										<p>the type of the result</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>blockingCodeHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler representing the blocking code to run</p>
-									</div>
 								</li>
 								<li>
 									<h5>ordered: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>if true then if executeBlocking is called several times on the same context, the executions
-											for that context will be executed serially, not in parallel. if false then they will be no ordering
-										guarantees</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will be called when the blocking code is complete</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1155,12 +1025,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11210</li>
+									<li>Defined in index.d.ts:7652</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #executeBlocking(Handler, boolean, Handler)} called with ordered = true.</p>
+									<p>Like {@link Vertx#executeBlocking} called with ordered = true.</p>
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1192,7 +1062,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10985</li>
+									<li>Defined in index.d.ts:7491</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1201,7 +1071,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>the filesystem object</p>
 						</li>
 					</ul>
 				</section>
@@ -1215,7 +1084,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10903</li>
+									<li>Defined in index.d.ts:7436</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1224,7 +1093,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="context.html" class="tsd-signature-type">Context</a></h4>
-							<p>The current context (created if didn&#39;t exist)</p>
 						</li>
 					</ul>
 				</section>
@@ -1238,7 +1106,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11171</li>
+									<li>Defined in index.d.ts:7621</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1247,7 +1115,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if clustered</p>
 						</li>
 					</ul>
 				</section>
@@ -1262,21 +1129,15 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/measured.html">Measured</a>.<a href="../interfaces/measured.html#ismetricsenabled">isMetricsEnabled</a></p>
 								<ul>
-									<li>Defined in index.d.ts:10864</li>
+									<li>Defined in index.d.ts:7409</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Whether the metrics are enabled for this measured object</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>implspec</dt>
-									<dd><p>The default implementation returns {@code false}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>if metrics are enabled</p>
 						</li>
 					</ul>
 				</section>
@@ -1290,13 +1151,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11253</li>
+									<li>Defined in index.d.ts:7683</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>whether the native transport is used</p>
 						</li>
 					</ul>
 				</section>
@@ -1310,7 +1168,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11356</li>
+									<li>Defined in index.d.ts:7761</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1319,7 +1177,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-							<p>the EventLoopGroup</p>
 						</li>
 					</ul>
 				</section>
@@ -1333,26 +1190,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11064</li>
+									<li>Defined in index.d.ts:7543</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns a periodic timer as a read stream. The timer will be fired every {@code delay} milliseconds after
-									the {@link ReadStream#handler} has been called.</p>
+									<p>Returns a periodic timer as a read stream. The timer will be fired every <code>delay</code> milliseconds after
+									the  has been called.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delay: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the delay in milliseconds, after which the timer will fire</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="timeoutstream.html" class="tsd-signature-type">TimeoutStream</a></h4>
-							<p>the periodic stream</p>
 						</li>
 					</ul>
 				</section>
@@ -1366,21 +1219,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11335</li>
+									<li>Defined in index.d.ts:7746</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Register a {@code VerticleFactory} that can be used for deploying Verticles based on an identifier.</p>
+									<p>Register a <code>VerticleFactory</code> that can be used for deploying Verticles based on an identifier.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>factory: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the factory to register</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1397,7 +1247,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11080</li>
+									<li>Defined in index.d.ts:7554</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1410,9 +1260,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>action: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a handler representing the action to execute</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1429,12 +1276,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11055</li>
+									<li>Defined in index.d.ts:7537</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set a periodic timer to fire every {@code delay} milliseconds, at which point {@code handler} will be called with
+									<p>Set a periodic timer to fire every <code>delay</code> milliseconds, at which point <code>handler</code> will be called with
 									the id of the timer.</p>
 								</div>
 							</div>
@@ -1442,19 +1289,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delay: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the delay in milliseconds, after which the timer will fire</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called with the timer ID when the timer fires</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the unique ID of the timer</p>
 						</li>
 					</ul>
 				</section>
@@ -1468,12 +1308,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11036</li>
+									<li>Defined in index.d.ts:7525</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set a one-shot timer to fire after {@code delay} milliseconds, at which point {@code handler} will be called with
+									<p>Set a one-shot timer to fire after <code>delay</code> milliseconds, at which point <code>handler</code> will be called with
 									the id of the timer.</p>
 								</div>
 							</div>
@@ -1481,19 +1321,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delay: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the delay in milliseconds, after which the timer will fire</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called with the timer ID when the timer fires</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the unique ID of the timer</p>
 						</li>
 					</ul>
 				</section>
@@ -1507,7 +1340,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11026</li>
+									<li>Defined in index.d.ts:7519</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1516,7 +1349,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="shareddata.html" class="tsd-signature-type">SharedData</a></h4>
-							<p>the shared data object</p>
 						</li>
 					</ul>
 				</section>
@@ -1530,26 +1362,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11045</li>
+									<li>Defined in index.d.ts:7531</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns a one-shot timer as a read stream. The timer will be fired after {@code delay} milliseconds after
-									the {@link ReadStream#handler} has been called.</p>
+									<p>Returns a one-shot timer as a read stream. The timer will be fired after <code>delay</code> milliseconds after
+									the  has been called.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delay: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the delay in milliseconds, after which the timer will fire</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="timeoutstream.html" class="tsd-signature-type">TimeoutStream</a></h4>
-							<p>the timer stream</p>
 						</li>
 					</ul>
 				</section>
@@ -1564,23 +1392,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11149</li>
+									<li>Defined in index.d.ts:7606</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Undeploy a verticle deployment.
-										<p>
-										The actual undeployment happens asynchronously and may not complete until after the method has returned.</p>
+									<p>Undeploy a verticle deployment.</p>
+									<p>
+										The actual undeployment happens asynchronously and may not complete until after the method has returned.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>deploymentID: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the deployment ID</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1588,27 +1413,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11157</li>
+									<li>Defined in index.d.ts:7611</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #undeploy(String) } but the completionHandler will be notified when the undeployment is complete.</p>
+									<p>Like [#undeploy(String)] <a href="vertx.html">Vertx</a> but the completionHandler will be notified when the undeployment is complete.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>deploymentID: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the deployment ID</p>
-									</div>
 								</li>
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a handler which will be notified when the undeployment is complete</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1625,21 +1444,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11342</li>
+									<li>Defined in index.d.ts:7751</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Unregister a {@code VerticleFactory}</p>
+									<p>Unregister a <code>VerticleFactory</code></p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>factory: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the factory to unregister</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1656,7 +1472,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:11349</li>
+									<li>Defined in index.d.ts:7756</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1665,7 +1481,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
-							<p>the set of verticle factories</p>
 						</li>
 					</ul>
 				</section>
@@ -1679,29 +1494,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10889</li>
+									<li>Defined in index.d.ts:7426</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a clustered instance using the specified options.
-										<p>
-										The instance is created asynchronously and the resultHandler is called with the result when it is ready.</p>
+									<p>Creates a clustered instance using the specified options.</p>
+									<p>
+										The instance is created asynchronously and the resultHandler is called with the result when it is ready.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="vertxoptions.html" class="tsd-signature-type">VertxOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the options to use</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="vertx.html" class="tsd-signature-type">Vertx</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the result handler that will receive the result</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1718,7 +1527,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10896</li>
+									<li>Defined in index.d.ts:7431</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1730,7 +1539,6 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>The current context or null if no current context</p>
 						</li>
 					</ul>
 				</section>
@@ -1745,7 +1553,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10871</li>
+									<li>Defined in index.d.ts:7414</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1754,12 +1562,11 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="vertx.html" class="tsd-signature-type">Vertx</a></h4>
-							<p>the instance</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10879</li>
+									<li>Defined in index.d.ts:7419</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1771,13 +1578,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="vertxoptions.html" class="tsd-signature-type">VertxOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the options to use</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="vertx.html" class="tsd-signature-type">Vertx</a></h4>
-							<p>the instance</p>
 						</li>
 					</ul>
 				</section>
@@ -1918,6 +1721,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -1966,7 +1770,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

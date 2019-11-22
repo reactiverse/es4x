@@ -68,20 +68,15 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Represents a socket-like interface to a TCP connection on either the
-							client or the server side.
+						client or the server side.</p>
+						<p>
+							Instances of this class are created on the client side by an <a href="netclient.html">NetClient</a>
+							when a connection to a server is made, or on the server side by a <a href="netserver.html">NetServer</a>
+							when a server accepts a connection.
 							<p>
-								Instances of this class are created on the client side by an <a href="netclient.html">NetClient</a>
-								when a connection to a server is made, or on the server side by a <a href="netserver.html">NetServer</a>
-								when a server accepts a connection.
-								<p>
-									It implements both <a href="../interfaces/readstream.html">ReadStream</a> and <a href="../interfaces/writestream.html">WriteStream</a> so it can be used with
-								{@link io.vertx.core.streams.Pump} to pump data with flow control.</p>
+								It implements both  and  so it can be used with
+								<a href="pump.html">Pump</a> to pump data with flow control.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -147,7 +142,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9456</li>
+									<li>Defined in index.d.ts:6329</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -160,12 +155,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9462</li>
+									<li>Defined in index.d.ts:6334</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Close the NetSocket and notify the {@code handler} when the operation completes.</p>
+									<p>Close the NetSocket and notify the <code>handler</code> when the operation completes.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -188,7 +183,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9470</li>
+									<li>Defined in index.d.ts:6339</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -200,13 +195,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -220,7 +211,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9313</li>
+									<li>Defined in index.d.ts:6234</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -246,29 +237,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9247</li>
+									<li>Defined in index.d.ts:6178</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Same as {@link #end()} but writes some data to the stream before ending.</p>
+									<p>Same as {@link NetSocket#end} but writes some data to the stream before ending.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>implspec</dt>
-									<dd><p>The default default implementation calls sequentially {@link #write(Object)} then {@link #end()}</p>
-									</dd>
-									<dt>apinote</dt>
-									<dd><p>Implementations might want to perform a single operation</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the data to write</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -276,12 +256,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9253</li>
+									<li>Defined in index.d.ts:6183</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Same as {@link #end(T)} but with an {@code handler} called when the operation completes</p>
+									<p>Same as  but with an <code>handler</code> called when the operation completes</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -299,12 +279,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9444</li>
+									<li>Defined in index.d.ts:6319</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Calls {@link #close()}</p>
+									<p>Calls {@link NetSocket#close}</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -312,12 +292,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9450</li>
+									<li>Defined in index.d.ts:6324</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Calls {@link #end(Handler)}</p>
+									<p>Calls {@link NetSocket#end}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -340,15 +320,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9307</li>
+									<li>Defined in index.d.ts:6228</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>{@inheritDoc}
-										<p>
-											This handler might be called after the close handler when the socket is paused and there are still
-										buffers to deliver.</p>
+									<p>
+										This handler might be called after the close handler when the socket is paused and there are still
+										buffers to deliver.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -371,7 +350,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9290</li>
+									<li>Defined in index.d.ts:6212</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -395,7 +374,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9298</li>
+									<li>Defined in index.d.ts:6220</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -418,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9292</li>
+									<li>Defined in index.d.ts:6214</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -441,7 +420,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9501</li>
+									<li>Defined in index.d.ts:6358</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -450,7 +429,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the indicated server name</p>
 						</li>
 					</ul>
 				</section>
@@ -464,13 +442,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9494</li>
+									<li>Defined in index.d.ts:6353</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if this {@link io.vertx.core.net.NetSocket} is encrypted via SSL/TLS.</p>
 						</li>
 					</ul>
 				</section>
@@ -484,13 +459,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9438</li>
+									<li>Defined in index.d.ts:6314</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="socketaddress.html" class="tsd-signature-type">SocketAddress</a></h4>
-							<p>the local address for this socket</p>
 						</li>
 					</ul>
 				</section>
@@ -505,7 +477,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9294</li>
+									<li>Defined in index.d.ts:6216</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
@@ -523,18 +495,17 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9270</li>
+									<li>Defined in index.d.ts:6195</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pause this stream and return a <a href="pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="../interfaces/writestream.html">WriteStream</a>.
-										<p/>
-										The stream will be resumed when the pipe will be wired to a {@code WriteStream}.</p>
+									<p>Pause this stream and return a  to transfer the elements of this stream to a destination .</p>
+									<p/>
+										The stream will be resumed when the pipe will be wired to a <code>WriteStream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a pipe</p>
 						</li>
 					</ul>
 				</section>
@@ -550,12 +521,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9276</li>
+									<li>Defined in index.d.ts:6200</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pipeTo(WriteStream, Handler)} but with no completion handler.</p>
+									<p>Like {@link ReadStream#pipeTo} but with no completion handler.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -569,26 +540,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9288</li>
+									<li>Defined in index.d.ts:6210</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pipe this {@code ReadStream} to the {@code WriteStream}.
+									<p>Pipe this <code>ReadStream</code> to the <code>WriteStream</code>.</p>
+									<p>
+										Elements emitted by this stream will be written to the write stream until this stream ends or fails.
 										<p>
-											Elements emitted by this stream will be written to the write stream until this stream ends or fails.
-											<p>
-												Once this stream has ended or failed, the write stream will be ended and the {@code handler} will be
-											called with the result.</p>
+											Once this stream has ended or failed, the write stream will be ended and the <code>handler</code> will be
+											called with the result.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>dst: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the destination write stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
@@ -608,13 +576,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9431</li>
+									<li>Defined in index.d.ts:6310</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="socketaddress.html" class="tsd-signature-type">SocketAddress</a></h4>
-							<p>the remote address for this socket</p>
 						</li>
 					</ul>
 				</section>
@@ -629,7 +594,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9296</li>
+									<li>Defined in index.d.ts:6218</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
@@ -651,12 +616,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9370</li>
+									<li>Defined in index.d.ts:6276</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Tell the operating system to stream a file as specified by {@code filename} directly from disk to the outgoing connection,
+									<p>Tell the operating system to stream a file as specified by <code>filename</code> directly from disk to the outgoing connection,
 									bypassing userspace altogether (where supported by the underlying operating system. This is a very efficient way to stream files.</p>
 								</div>
 							</div>
@@ -664,23 +629,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>filename: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>file name of the file to send</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9380</li>
+									<li>Defined in index.d.ts:6282</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Tell the operating system to stream a file as specified by {@code filename} directly from disk to the outgoing connection,
+									<p>Tell the operating system to stream a file as specified by <code>filename</code> directly from disk to the outgoing connection,
 									bypassing userspace altogether (where supported by the underlying operating system. This is a very efficient way to stream files.</p>
 								</div>
 							</div>
@@ -688,29 +649,22 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>filename: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>file name of the file to send</p>
-									</div>
 								</li>
 								<li>
 									<h5>offset: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>offset</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9391</li>
+									<li>Defined in index.d.ts:6288</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Tell the operating system to stream a file as specified by {@code filename} directly from disk to the outgoing connection,
+									<p>Tell the operating system to stream a file as specified by <code>filename</code> directly from disk to the outgoing connection,
 									bypassing userspace altogether (where supported by the underlying operating system. This is a very efficient way to stream files.</p>
 								</div>
 							</div>
@@ -718,35 +672,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>filename: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>file name of the file to send</p>
-									</div>
 								</li>
 								<li>
 									<h5>offset: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>offset</p>
-									</div>
 								</li>
 								<li>
 									<h5>length: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>length</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9401</li>
+									<li>Defined in index.d.ts:6294</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Same as {@link #sendFile(String)} but also takes a handler that will be called when the send has completed or
+									<p>Same as {@link NetSocket#sendFile} but also takes a handler that will be called when the send has completed or
 									a failure has occurred</p>
 								</div>
 							</div>
@@ -754,29 +698,22 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>filename: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>file name of the file to send</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9412</li>
+									<li>Defined in index.d.ts:6300</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Same as {@link #sendFile(String, long)} but also takes a handler that will be called when the send has completed or
+									<p>Same as {@link NetSocket#sendFile} but also takes a handler that will be called when the send has completed or
 									a failure has occurred</p>
 								</div>
 							</div>
@@ -784,35 +721,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>filename: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>file name of the file to send</p>
-									</div>
 								</li>
 								<li>
 									<h5>offset: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>offset</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9424</li>
+									<li>Defined in index.d.ts:6306</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Same as {@link #sendFile(String, long, long)} but also takes a handler that will be called when the send has completed or
+									<p>Same as {@link NetSocket#sendFile} but also takes a handler that will be called when the send has completed or
 									a failure has occurred</p>
 								</div>
 							</div>
@@ -820,31 +747,18 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>filename: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>file name of the file to send</p>
-									</div>
 								</li>
 								<li>
 									<h5>offset: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>offset</p>
-									</div>
 								</li>
 								<li>
 									<h5>length: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>length</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -859,7 +773,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#setwritequeuemaxsize">setWriteQueueMaxSize</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9311</li>
+									<li>Defined in index.d.ts:6232</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -882,19 +796,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9510</li>
+									<li>Defined in index.d.ts:6362</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p>javax.net.ssl.SSLSession</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-							<p>SSLSession associated with the underlying socket. Returns null if connection is
-							not SSL.</p>
 						</li>
 					</ul>
 				</section>
@@ -909,7 +814,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9478</li>
+									<li>Defined in index.d.ts:6344</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -921,18 +826,14 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler will be notified when it&#39;s upgraded</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9487</li>
+									<li>Defined in index.d.ts:6349</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -944,19 +845,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the server name</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler will be notified when it&#39;s upgraded</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -975,7 +869,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9309</li>
+									<li>Defined in index.d.ts:6230</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -989,12 +883,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9331</li>
+									<li>Defined in index.d.ts:6249</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Same as {@link #write(String)} but with an {@code handler} called when the operation completes</p>
+									<p>Same as {@link NetSocket#write} but with an <code>handler</code> called when the operation completes</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1011,35 +905,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9339</li>
+									<li>Defined in index.d.ts:6254</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Write a {@link String} to the connection, encoded in UTF-8.</p>
+									<p>Write a String to the connection, encoded in UTF-8.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>str: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the string to write</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9345</li>
+									<li>Defined in index.d.ts:6259</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Same as {@link #write(String, String)} but with an {@code handler} called when the operation completes</p>
+									<p>Same as {@link NetSocket#write} but with an <code>handler</code> called when the operation completes</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1059,41 +949,34 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9354</li>
+									<li>Defined in index.d.ts:6264</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Write a {@link String} to the connection, encoded using the encoding {@code enc}.</p>
+									<p>Write a String to the connection, encoded using the encoding <code>enc</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>str: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the string to write</p>
-									</div>
 								</li>
 								<li>
 									<h5>enc: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the encoding to use</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9361</li>
+									<li>Defined in index.d.ts:6270</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #write(Object)} but with an {@code handler} called when the message has been written
+									<p>Like  but with an <code>handler</code> called when the message has been written
 									or failed to be written.</p>
 								</div>
 							</div>
@@ -1120,21 +1003,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9325</li>
+									<li>Defined in index.d.ts:6244</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>When a {@code NetSocket} is created it automatically registers an event handler with the event bus, the ID of that
-										handler is given by {@code writeHandlerID}.
-										<p>
-											Given this ID, a different event loop can send a buffer to that event handler using the event bus and
-											that buffer will be received by this instance in its own event loop and written to the underlying connection. This
-										allows you to write data to other connections which are owned by different event loops.</p>
+									<p>When a <code>NetSocket</code> is created it automatically registers an event handler with the event bus, the ID of that
+									handler is given by <code>writeHandlerID</code>.</p>
+									<p>
+										Given this ID, a different event loop can send a buffer to that event handler using the event bus and
+										that buffer will be received by this instance in its own event loop and written to the underlying connection. This
+										allows you to write data to other connections which are owned by different event loops.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the write handler ID</p>
 						</li>
 					</ul>
 				</section>
@@ -1149,17 +1031,15 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#writequeuefull">writeQueueFull</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9261</li>
+									<li>Defined in index.d.ts:6188</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>This will return {@code true} if there are more bytes in the write queue than the value set using {@link</p>
-									<p> #setWriteQueueMaxSize}</p>
+									<p>This will return <code>true</code> if there are more bytes in the write queue than the value set using {@link NetSocket#setWriteQueueMaxSize}</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if write queue is full</p>
 						</li>
 					</ul>
 				</section>
@@ -1270,6 +1150,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -1318,7 +1199,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

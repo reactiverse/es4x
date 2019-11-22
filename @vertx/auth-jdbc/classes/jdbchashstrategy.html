@@ -69,12 +69,7 @@
 					<div class="lead">
 						<p>Determines how the hashing is computed in the implementation</p>
 					</div>
-					<p> You can implement this to provide a different hashing strategy to the default.</p>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
+					<p>You can implement this to provide a different hashing strategy to the default.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -117,7 +112,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:191</li>
+									<li>Defined in index.d.ts:141</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -129,25 +124,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the unhashed password</p>
-									</div>
 								</li>
 								<li>
 									<h5>salt: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the salt</p>
-									</div>
 								</li>
 								<li>
 									<h5>version: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the nonce version to use</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the hashed password</p>
 						</li>
 					</ul>
 				</section>
@@ -161,7 +146,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:181</li>
+									<li>Defined in index.d.ts:136</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -170,7 +155,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>a non null salt value</p>
 						</li>
 					</ul>
 				</section>
@@ -184,7 +168,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:199</li>
+									<li>Defined in index.d.ts:146</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,13 +180,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>row: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the row</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the hashed password</p>
 						</li>
 					</ul>
 				</section>
@@ -216,7 +196,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:207</li>
+									<li>Defined in index.d.ts:151</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,13 +208,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>row: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the row</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the salt</p>
 						</li>
 					</ul>
 				</section>
@@ -248,19 +224,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:224</li>
+									<li>Defined in index.d.ts:166</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Sets a ordered list of nonces where each position corresponds to a version.</p>
 								</div>
-								<p> The nonces are supposed not to be stored in the underlying jdbc storage but to
+								<p>The nonces are supposed not to be stored in the underlying jdbc storage but to
 									be provided as a application configuration. The idea is to add one extra variable
 									to the hash function in order to make breaking the passwords using rainbow tables
 									or precomputed hashes harder. Leaving the attacker only with the brute force
 								approach.</p>
-								<p> Nonces are dependent on the implementation. E.g.: for the SHA512 they are extra salt
+								<p>Nonces are dependent on the implementation. E.g.: for the SHA512 they are extra salt
 									used during the hashing, for the PBKDF2 they map the number of iterations the algorithm
 								should take</p>
 							</div>
@@ -268,9 +244,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>nonces: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a json array.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -281,33 +254,29 @@
 					<a name="createpbkdf2" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> createPBKDF2</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">createPBKDF2<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jdbchashstrategy.html" class="tsd-signature-type">JDBCHashStrategy</a></li>
+						<li class="tsd-signature tsd-kind-icon">createPBKDF2<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jdbchashstrategy.html" class="tsd-signature-type">JDBCHashStrategy</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:174</li>
+									<li>Defined in index.d.ts:131</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Implements a Hashing Strategy as per <a href="https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet">https://www.owasp.org/index.php/Password_Storage_Cheat_Sheet</a> (2018-01-17).</p>
 								</div>
-								<p> New deployments should use this strategy instead of the default one (which was the previous OWASP recommendation).</p>
-								<p> The work factor can be updated by using the nonces json array.</p>
+								<p>New deployments should use this strategy instead of the default one (which was the previous OWASP recommendation).</p>
+								<p>The work factor can be updated by using the nonces json array.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the vert.x instance</p>
-									</div>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jdbchashstrategy.html" class="tsd-signature-type">JDBCHashStrategy</a></h4>
-							<p>the implementation.</p>
 						</li>
 					</ul>
 				</section>
@@ -315,13 +284,13 @@
 					<a name="createsha512" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> createSHA512</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">createSHA512<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jdbchashstrategy.html" class="tsd-signature-type">JDBCHashStrategy</a></li>
+						<li class="tsd-signature tsd-kind-icon">createSHA512<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jdbchashstrategy.html" class="tsd-signature-type">JDBCHashStrategy</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:162</li>
+									<li>Defined in index.d.ts:122</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -333,14 +302,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the vert.x instance</p>
-									</div>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jdbchashstrategy.html" class="tsd-signature-type">JDBCHashStrategy</a></h4>
-							<p>the implementation.</p>
 						</li>
 					</ul>
 				</section>
@@ -354,7 +319,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:233</li>
+									<li>Defined in index.d.ts:171</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -366,19 +331,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>hasha: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>hash a to compare</p>
-									</div>
 								</li>
 								<li>
 									<h5>hashb: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>hash b to compare</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if equal</p>
 						</li>
 					</ul>
 				</section>
@@ -394,12 +352,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="jdbcauth.html" class="tsd-kind-icon">JDBCAuth</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="jdbcauthoptions.html" class="tsd-kind-icon">JDBCAuth<wbr>Options</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -450,6 +402,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -498,7 +451,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -67,23 +67,18 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Factory interface for creating {@link io.vertx.ext.auth.AuthProvider} instances that use the Vert.x JDBC client.</p>
+						<p>Factory interface for creating <a href="authprovider.html">AuthProvider</a> instances that use the Vert.x JDBC client.</p>
 					</div>
-					<p> By default the hashing strategy is SHA-512. If you&#39;re already running in production this is backwards
+					<p>By default the hashing strategy is SHA-512. If you&#39;re already running in production this is backwards
 						compatible, however for new deployments or security upgrades it is recommended to use the PBKDF2 strategy
 					as it is the current OWASP recommendation for password storage.</p>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">any</span>
+						<a href="authprovider.html" class="tsd-signature-type">AuthProvider</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">JDBCAuth</span>
@@ -108,6 +103,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jdbcauth.html#authenticate" class="tsd-kind-icon">authenticate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jdbcauth.html#computehash" class="tsd-kind-icon">compute<wbr>Hash</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jdbcauth.html#generatesalt" class="tsd-kind-icon">generate<wbr>Salt</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jdbcauth.html#setauthenticationquery" class="tsd-kind-icon">set<wbr>Authentication<wbr>Query</a></li>
@@ -129,7 +125,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>AUTHENTICATE_<wbr>QUERY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:37</li>
+							<li>Defined in index.d.ts:34</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -144,7 +140,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>PERMISSIONS_<wbr>QUERY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:49</li>
+							<li>Defined in index.d.ts:44</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -159,7 +155,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>ROLES_<wbr>QUERY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:43</li>
+							<li>Defined in index.d.ts:39</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -174,7 +170,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>ROLE_<wbr>PREFIX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:55</li>
+							<li>Defined in index.d.ts:49</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -186,6 +182,57 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="authenticate" class="tsd-anchor"></a>
+					<h3>authenticate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">authenticate<span class="tsd-signature-symbol">(</span>authInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="authprovider.html">AuthProvider</a>.<a href="authprovider.html#authenticate">authenticate</a></p>
+								<ul>
+									<li>Defined in node_modules/@vertx/auth-common/index.d.ts:41</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Authenticate a user.</p>
+									<p>
+										The first argument is a JSON object containing information for authenticating the user. What this actually contains
+										depends on the specific implementation. In the case of a simple username/password based
+										authentication it is likely to contain a JSON object with the following structure:
+										<pre>
+  {
+    "username": "tim",
+    "password": "mypassword"
+  }
+</pre>
+										For other types of authentication it contain different information - for example a JWT token or OAuth bearer token.
+										<p>
+											If the user is successfully authenticated a <a href="user.html">User</a> object is passed to the handler in an <a href="../interfaces/asyncresult.html">AsyncResult</a>.
+											The user object can then be used for authorisation.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>authInfo: <span class="tsd-signature-type">object</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-index-signature">
+											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="computehash" class="tsd-anchor"></a>
 					<h3>compute<wbr>Hash</h3>
@@ -197,68 +244,51 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:106</li>
+									<li>Defined in index.d.ts:81</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Compute the hashed password given the unhashed password and the salt without nonce</p>
 								</div>
-								<p> The implementation relays to the JDBCHashStrategy provided.</p>
+								<p>The implementation relays to the JDBCHashStrategy provided.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the unhashed password</p>
-									</div>
 								</li>
 								<li>
 									<h5>salt: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the salt</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the hashed password</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:118</li>
+									<li>Defined in index.d.ts:88</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Compute the hashed password given the unhashed password and the salt</p>
 								</div>
-								<p> The implementation relays to the JDBCHashStrategy provided.</p>
+								<p>The implementation relays to the JDBCHashStrategy provided.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the unhashed password</p>
-									</div>
 								</li>
 								<li>
 									<h5>salt: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the salt</p>
-									</div>
 								</li>
 								<li>
 									<h5>version: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the nonce version to use</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the hashed password</p>
 						</li>
 					</ul>
 				</section>
@@ -272,17 +302,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:127</li>
+									<li>Defined in index.d.ts:95</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Compute a salt string.</p>
 								</div>
-								<p> The implementation relays to the JDBCHashStrategy provided.</p>
+								<p>The implementation relays to the JDBCHashStrategy provided.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>a non null salt value</p>
 						</li>
 					</ul>
 				</section>
@@ -296,7 +325,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:71</li>
+									<li>Defined in index.d.ts:59</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -308,13 +337,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>authenticationQuery: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the authentication query</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jdbcauth.html" class="tsd-signature-type">JDBCAuth</a></h4>
-							<p>a reference to this for fluency</p>
 						</li>
 					</ul>
 				</section>
@@ -328,7 +353,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:144</li>
+									<li>Defined in index.d.ts:109</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -336,24 +361,20 @@
 									<p>Provide a application configuration level on hash nonce&#39;s as a ordered list of
 									nonces where each position corresponds to a version.</p>
 								</div>
-								<p> The nonces are supposed not to be stored in the underlying jdbc storage but to
+								<p>The nonces are supposed not to be stored in the underlying jdbc storage but to
 									be provided as a application configuration. The idea is to add one extra variable
 									to the hash function in order to make breaking the passwords using rainbow tables
 									or precomputed hashes harder. Leaving the attacker only with the brute force
 								approach.</p>
-								<p> The implementation relays to the JDBCHashStrategy provided.</p>
+								<p>The implementation relays to the JDBCHashStrategy provided.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>nonces: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a List of non null Strings.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jdbcauth.html" class="tsd-signature-type">JDBCAuth</a></h4>
-							<p>a reference to this for fluency</p>
 						</li>
 					</ul>
 				</section>
@@ -367,7 +388,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:87</li>
+									<li>Defined in index.d.ts:69</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -379,13 +400,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>permissionsQuery: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permissions query</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jdbcauth.html" class="tsd-signature-type">JDBCAuth</a></h4>
-							<p>a reference to this for fluency</p>
 						</li>
 					</ul>
 				</section>
@@ -399,7 +416,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:95</li>
+									<li>Defined in index.d.ts:74</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -411,13 +428,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>rolePrefix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a Prefix e.g.: &quot;role:&quot;</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jdbcauth.html" class="tsd-signature-type">JDBCAuth</a></h4>
-							<p>a reference to this for fluency</p>
 						</li>
 					</ul>
 				</section>
@@ -431,7 +444,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:79</li>
+									<li>Defined in index.d.ts:64</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -443,13 +456,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>rolesQuery: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the roles query</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jdbcauth.html" class="tsd-signature-type">JDBCAuth</a></h4>
-							<p>a reference to this for fluency</p>
 						</li>
 					</ul>
 				</section>
@@ -457,13 +466,13 @@
 					<a name="create" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, client<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JDBCClient</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jdbcauth.html" class="tsd-signature-type">JDBCAuth</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, client<span class="tsd-signature-symbol">: </span><a href="jdbcclient.html" class="tsd-signature-type">JDBCClient</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jdbcauth.html" class="tsd-signature-type">JDBCAuth</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:63</li>
+									<li>Defined in index.d.ts:54</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -474,17 +483,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 								<li>
-									<h5>client: <span class="tsd-signature-type">JDBCClient</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the JDBC client instance</p>
-									</div>
+									<h5>client: <a href="jdbcclient.html" class="tsd-signature-type">JDBCClient</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jdbcauth.html" class="tsd-signature-type">JDBCAuth</a></h4>
-							<p>the auth provider</p>
 						</li>
 					</ul>
 				</section>
@@ -517,6 +522,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
 								<a href="jdbcauth.html#default_role_prefix" class="tsd-kind-icon">DEFAULT_<wbr>ROLE_<wbr>PREFIX</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="jdbcauth.html#authenticate" class="tsd-kind-icon">authenticate</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="jdbcauth.html#computehash" class="tsd-kind-icon">compute<wbr>Hash</a>
 							</li>
@@ -545,12 +553,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="jdbcauthoptions.html" class="tsd-kind-icon">JDBCAuth<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="jdbchashstrategy.html" class="tsd-kind-icon">JDBCHash<wbr>Strategy</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -568,6 +570,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -616,7 +619,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -67,24 +67,19 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Contains a broad set of operations for manipulating files on the file system.
+						<p>Contains a broad set of operations for manipulating files on the file system.</p>
+						<p>
+							A (potential) blocking and non blocking version of each operation is provided.
 							<p>
-								A (potential) blocking and non blocking version of each operation is provided.
+								The non blocking versions take a handler which is called when the operation completes or an error occurs.
 								<p>
-									The non blocking versions take a handler which is called when the operation completes or an error occurs.
+									The blocking versions are named <code>xxxBlocking</code> and return the results, or throw exceptions directly.
+									In many cases, depending on the operating system and file system some of the potentially blocking operations
+									can return quickly, which is why we provide them, but it's highly recommended that you test how long they take to
+									return in your particular application before using them on an event loop.
 									<p>
-										The blocking versions are named {@code xxxBlocking} and return the results, or throw exceptions directly.
-										In many cases, depending on the operating system and file system some of the potentially blocking operations
-										can return quickly, which is why we provide them, but it&#39;s highly recommended that you test how long they take to
-										return in your particular application before using them on an event loop.
-										<p>
-										Please consult the documentation for more information on file system support.</p>
+										Please consult the documentation for more information on file system support.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -171,40 +166,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2957</li>
+									<li>Defined in index.d.ts:2097</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Change the permissions on the file represented by {@code path} to {@code perms}, asynchronously.
-										<p>
-											The permission String takes the form rwxr-x--- as
-										specified <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.</p>
+									<p>Change the permissions on the file represented by <code>path</code> to <code>perms</code>, asynchronously.</p>
+									<p>
+										The permission String takes the form rwxr-x--- as
+										specified <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>perms: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permissions string</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -218,12 +203,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2963</li>
+									<li>Defined in index.d.ts:2102</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #chmod(String, String, Handler) }</p>
+									<p>Blocking version of [#chmod(String, String, Handler)] <a href="filesystem.html">FileSystem</a></p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -249,48 +234,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2979</li>
+									<li>Defined in index.d.ts:2112</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Change the permissions on the file represented by {@code path} to {@code perms}, asynchronously.<p>
+									<p>Change the permissions on the file represented by <code>path</code> to <code>perms</code>, asynchronously.<p>
 											The permission String takes the form rwxr-x--- as
-											specified in {<a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>}.
-											<p>
-												If the file is directory then all contents will also have their permissions changed recursively. Any directory permissions will
-											be set to {@code dirPerms}, whilst any normal file permissions will be set to {@code perms}.</p>
+										specified in {<a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>}.</p>
+										<p>
+											If the file is directory then all contents will also have their permissions changed recursively. Any directory permissions will
+											be set to <code>dirPerms</code>, whilst any normal file permissions will be set to <code>perms</code>.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>perms: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permissions string</p>
-									</div>
 								</li>
 								<li>
 									<h5>dirPerms: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the directory permissions</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -304,12 +276,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2985</li>
+									<li>Defined in index.d.ts:2117</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #chmodRecursive(String, String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#chmodRecursive}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -338,43 +310,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2996</li>
+									<li>Defined in index.d.ts:2122</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Change the ownership on the file represented by {@code path} to {@code user} and {code group}, asynchronously.</p>
+									<p>Change the ownership on the file represented by <code>path</code> to <code>user</code> and {code group}, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>user: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the user name, {@code null} will not change the user name</p>
-									</div>
 								</li>
 								<li>
 									<h5>group: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the user group, {@code null} will not change the user group name</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -388,12 +347,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3003</li>
+									<li>Defined in index.d.ts:2128</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #chown(String, String, String, Handler)}</p>
+									<p>Blocking version of</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -423,80 +382,57 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2858</li>
+									<li>Defined in index.d.ts:2035</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Copy a file from the path {@code from} to path {@code to}, asynchronously.
-										<p>
-										The copy will fail if the destination already exists.</p>
+									<p>Copy a file from the path <code>from</code> to path <code>to</code>, asynchronously.</p>
+									<p>
+										The copy will fail if the destination already exists.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>from: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy from</p>
-									</div>
 								</li>
 								<li>
 									<h5>to: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy to</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2869</li>
+									<li>Defined in index.d.ts:2040</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Copy a file from the path {@code from} to path {@code to}, asynchronously.</p>
+									<p>Copy a file from the path <code>from</code> to path <code>to</code>, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>from: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy from</p>
-									</div>
 								</li>
 								<li>
 									<h5>to: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy to</p>
-									</div>
 								</li>
 								<li>
 									<h5>options: <a href="copyoptions.html" class="tsd-signature-type">CopyOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>options describing how the file should be copied</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -510,12 +446,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2875</li>
+									<li>Defined in index.d.ts:2045</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #copy(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#copy}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -541,45 +477,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2891</li>
+									<li>Defined in index.d.ts:2055</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Copy a file from the path {@code from} to path {@code to}, asynchronously.
+									<p>Copy a file from the path <code>from</code> to path <code>to</code>, asynchronously.</p>
+									<p>
+										If <code>recursive</code> is <code>true</code> and <code>from</code> represents a directory, then the directory and its contents
+										will be copied recursively to the destination <code>to</code>.
 										<p>
-											If {@code recursive} is {@code true} and {@code from} represents a directory, then the directory and its contents
-											will be copied recursively to the destination {@code to}.
-											<p>
-											The copy will fail if the destination if the destination already exists.</p>
+											The copy will fail if the destination if the destination already exists.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>from: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy from</p>
-									</div>
 								</li>
 								<li>
 									<h5>to: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy to</p>
-									</div>
 								</li>
 								<li>
 									<h5>recursive: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -593,12 +519,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2897</li>
+									<li>Defined in index.d.ts:2060</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #copyRecursive(String, String, boolean, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#copyRecursive}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -628,66 +554,49 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3311</li>
+									<li>Defined in index.d.ts:2340</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates an empty file with the specified {@code path}, asynchronously.</p>
+									<p>Creates an empty file with the specified <code>path</code>, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3327</li>
+									<li>Defined in index.d.ts:2350</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates an empty file with the specified {@code path} and permissions {@code perms}, asynchronously.</p>
+									<p>Creates an empty file with the specified <code>path</code> and permissions <code>perms</code>, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>perms: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permissions string</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -702,12 +611,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3317</li>
+									<li>Defined in index.d.ts:2345</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #createFile(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#createFile}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -721,12 +630,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3333</li>
+									<li>Defined in index.d.ts:2355</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #createFile(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#createFile}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -754,7 +663,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3380</li>
+									<li>Defined in index.d.ts:2387</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -763,129 +672,96 @@
 									prefix to generate its name, asynchronously.</p>
 								</div>
 								<p>
-									As with the {@code File.createTempFile} methods, this method is only
-									part of a temporary-file facility.A {@link Runtime#addShutdownHook shutdown-hook},
-									or the {@link java.io.File#deleteOnExit} mechanism may be used to delete the directory automatically.
+									As with the <code>File.createTempFile</code> methods, this method is only
+									part of a temporary-file facility.A #addShutdownHook shutdown-hook,
+									or the deleteOnExit mechanism may be used to delete the directory automatically.
 								</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>prefix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the prefix string to be used in generating the directory&#39;s name;
-										may be {@code null}</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3409</li>
+									<li>Defined in index.d.ts:2409</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Creates a new directory in the default temporary-file directory, using the given
-										prefix to generate its name, asynchronously.
-										<p>
-											The new directory will be created with permissions as specified by {@code perms}.
-										</p>
-										The permission String takes the form rwxr-x--- as specified
-									in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.</p>
+									prefix to generate its name, asynchronously.</p>
+									<p>
+										The new directory will be created with permissions as specified by <code>perms</code>.
+									</p>
+									The permission String takes the form rwxr-x--- as specified
+									in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
 								</div>
 								<p>
-									As with the {@code File.createTempFile} methods, this method is only
-									part of a temporary-file facility.A {@link Runtime#addShutdownHook shutdown-hook},
-									or the {@link java.io.File#deleteOnExit} mechanism may be used to delete the directory automatically.
+									As with the <code>File.createTempFile</code> methods, this method is only
+									part of a temporary-file facility.A #addShutdownHook shutdown-hook,
+									or the deleteOnExit mechanism may be used to delete the directory automatically.
 								</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>prefix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the prefix string to be used in generating the directory&#39;s name;
-										may be {@code null}</p>
-									</div>
 								</li>
 								<li>
 									<h5>perms: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permissions string</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3439</li>
+									<li>Defined in index.d.ts:2431</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a new directory in the directory provided by the path {@code path}, using the given
-										prefix to generate its name, asynchronously.
-										<p>
-											The new directory will be created with permissions as specified by {@code perms}.
-										</p>
-										The permission String takes the form rwxr-x--- as specified
-									in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.</p>
+									<p>Creates a new directory in the directory provided by the path <code>path</code>, using the given
+									prefix to generate its name, asynchronously.</p>
+									<p>
+										The new directory will be created with permissions as specified by <code>perms</code>.
+									</p>
+									The permission String takes the form rwxr-x--- as specified
+									in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
 								</div>
 								<p>
-									As with the {@code File.createTempFile} methods, this method is only
-									part of a temporary-file facility.A {@link Runtime#addShutdownHook shutdown-hook},
-									or the {@link java.io.File#deleteOnExit} mechanism may be used to delete the directory automatically.
+									As with the <code>File.createTempFile</code> methods, this method is only
+									part of a temporary-file facility.A #addShutdownHook shutdown-hook,
+									or the deleteOnExit mechanism may be used to delete the directory automatically.
 								</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>dir: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to directory in which to create the directory</p>
-									</div>
 								</li>
 								<li>
 									<h5>prefix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the prefix string to be used in generating the directory&#39;s name;
-										may be {@code null}</p>
-									</div>
 								</li>
 								<li>
 									<h5>perms: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permissions string</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -901,12 +777,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3386</li>
+									<li>Defined in index.d.ts:2392</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #createTempDirectory(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#createTempDirectory}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -920,12 +796,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3415</li>
+									<li>Defined in index.d.ts:2414</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #createTempDirectory(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#createTempDirectory}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -942,12 +818,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3445</li>
+									<li>Defined in index.d.ts:2436</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #createTempDirectory(String, String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#createTempDirectory}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -978,7 +854,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3464</li>
+									<li>Defined in index.d.ts:2448</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -987,142 +863,100 @@
 									prefix and suffix to generate its name, asynchronously.</p>
 								</div>
 								<p>
-									As with the {@code File.createTempFile} methods, this method is only
-									part of a temporary-file facility.A {@link Runtime#addShutdownHook shutdown-hook},
-									or the {@link java.io.File#deleteOnExit} mechanism may be used to delete the directory automatically.
+									As with the <code>File.createTempFile</code> methods, this method is only
+									part of a temporary-file facility.A #addShutdownHook shutdown-hook,
+									or the deleteOnExit mechanism may be used to delete the directory automatically.
 								</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>prefix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the prefix string to be used in generating the directory&#39;s name;
-										may be {@code null}</p>
-									</div>
 								</li>
 								<li>
 									<h5>suffix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the suffix string to be used in generating the file&#39;s name;
-										may be {@code null}, in which case &quot;{@code .tmp}&quot; is used</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3489</li>
+									<li>Defined in index.d.ts:2465</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a new file in the directory provided by the path {@code dir}, using the given
+									<p>Creates a new file in the directory provided by the path <code>dir</code>, using the given
 									prefix and suffix to generate its name, asynchronously.</p>
 								</div>
 								<p>
-									As with the {@code File.createTempFile} methods, this method is only
-									part of a temporary-file facility.A {@link Runtime#addShutdownHook shutdown-hook},
-									or the {@link java.io.File#deleteOnExit} mechanism may be used to delete the directory automatically.
+									As with the <code>File.createTempFile</code> methods, this method is only
+									part of a temporary-file facility.A #addShutdownHook shutdown-hook,
+									or the deleteOnExit mechanism may be used to delete the directory automatically.
 								</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>prefix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the prefix string to be used in generating the directory&#39;s name;
-										may be {@code null}</p>
-									</div>
 								</li>
 								<li>
 									<h5>suffix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the suffix string to be used in generating the file&#39;s name;
-										may be {@code null}, in which case &quot;{@code .tmp}&quot; is used</p>
-									</div>
 								</li>
 								<li>
 									<h5>perms: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3521</li>
+									<li>Defined in index.d.ts:2487</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a new file in the directory provided by the path {@code dir}, using the given
-										prefix and suffix to generate its name, asynchronously.
-										<p>
-											The new directory will be created with permissions as specified by {@code perms}.
-										</p>
-										The permission String takes the form rwxr-x--- as specified
-									in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.</p>
+									<p>Creates a new file in the directory provided by the path <code>dir</code>, using the given
+									prefix and suffix to generate its name, asynchronously.</p>
+									<p>
+										The new directory will be created with permissions as specified by <code>perms</code>.
+									</p>
+									The permission String takes the form rwxr-x--- as specified
+									in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
 								</div>
 								<p>
-									As with the {@code File.createTempFile} methods, this method is only
-									part of a temporary-file facility.A {@link Runtime#addShutdownHook shutdown-hook},
-									or the {@link java.io.File#deleteOnExit} mechanism may be used to delete the directory automatically.
+									As with the <code>File.createTempFile</code> methods, this method is only
+									part of a temporary-file facility.A #addShutdownHook shutdown-hook,
+									or the deleteOnExit mechanism may be used to delete the directory automatically.
 								</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>dir: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to directory in which to create the directory</p>
-									</div>
 								</li>
 								<li>
 									<h5>prefix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the prefix string to be used in generating the directory&#39;s name;
-										may be {@code null}</p>
-									</div>
 								</li>
 								<li>
 									<h5>suffix: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the suffix string to be used in generating the file&#39;s name;
-										may be {@code null}, in which case &quot;{@code .tmp}&quot; is used</p>
-									</div>
 								</li>
 								<li>
 									<h5>perms: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permissions string</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1138,12 +972,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3470</li>
+									<li>Defined in index.d.ts:2453</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #createTempFile(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#createTempFile}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1160,12 +994,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3495</li>
+									<li>Defined in index.d.ts:2470</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #createTempFile(String, String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#createTempFile}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1185,12 +1019,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3527</li>
+									<li>Defined in index.d.ts:2492</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #createTempFile(String, String, String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#createTempFile}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1222,31 +1056,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3108</li>
+									<li>Defined in index.d.ts:2197</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Deletes the file represented by the specified {@code path}, asynchronously.</p>
+									<p>Deletes the file represented by the specified <code>path</code>, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1260,12 +1087,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3114</li>
+									<li>Defined in index.d.ts:2202</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #delete(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#delete}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1288,40 +1115,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3127</li>
+									<li>Defined in index.d.ts:2210</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Deletes the file represented by the specified {@code path}, asynchronously.
-										<p>
-											If the path represents a directory and {@code recursive = true} then the directory and its contents will be
-										deleted recursively.</p>
+									<p>Deletes the file represented by the specified <code>path</code>, asynchronously.</p>
+									<p>
+										If the path represents a directory and <code>recursive = true</code> then the directory and its contents will be
+										deleted recursively.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>recursive: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>delete recursively?</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1335,12 +1152,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3133</li>
+									<li>Defined in index.d.ts:2215</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #deleteRecursive(String, boolean, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#deleteRecursive}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1366,31 +1183,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3342</li>
+									<li>Defined in index.d.ts:2360</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Determines whether the file as specified by the path {@code path} exists, asynchronously.</p>
+									<p>Determines whether the file as specified by the path <code>path</code> exists, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1404,12 +1214,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3348</li>
+									<li>Defined in index.d.ts:2365</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #exists(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#exists}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1432,31 +1242,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3357</li>
+									<li>Defined in index.d.ts:2370</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns properties of the file-system being used by the specified {@code path}, asynchronously.</p>
+									<p>Returns properties of the file-system being used by the specified <code>path</code>, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to anywhere on the filesystem</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="filesystemprops.html" class="tsd-signature-type">FileSystemProps</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1470,12 +1273,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3363</li>
+									<li>Defined in index.d.ts:2375</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #fsProps(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#fsProps}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1498,37 +1301,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3047</li>
+									<li>Defined in index.d.ts:2157</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a hard link on the file system from {@code link} to {@code existing}, asynchronously.</p>
+									<p>Create a hard link on the file system from <code>link</code> to <code>existing</code>, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>link: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the link</p>
-									</div>
 								</li>
 								<li>
 									<h5>existing: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the link destination</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1542,12 +1335,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3053</li>
+									<li>Defined in index.d.ts:2162</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #link(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#link}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1573,33 +1366,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3031</li>
+									<li>Defined in index.d.ts:2147</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Obtain properties for the link represented by {@code path}, asynchronously.
-										<p>
-										The link will not be followed.</p>
+									<p>Obtain properties for the link represented by <code>path</code>, asynchronously.</p>
+									<p>
+										The link will not be followed.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="fileprops.html" class="tsd-signature-type">FileProps</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1613,12 +1399,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3037</li>
+									<li>Defined in index.d.ts:2152</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #lprops(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#lprops}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1642,75 +1428,58 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3144</li>
+									<li>Defined in index.d.ts:2222</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create the directory represented by {@code path}, asynchronously.
-										<p>
-										The operation will fail if the directory already exists.</p>
+									<p>Create the directory represented by <code>path</code>, asynchronously.</p>
+									<p>
+										The operation will fail if the directory already exists.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3167</li>
+									<li>Defined in index.d.ts:2239</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create the directory represented by {@code path}, asynchronously.
+									<p>Create the directory represented by <code>path</code>, asynchronously.</p>
+									<p>
+										The new directory will be created with permissions as specified by <code>perms</code>.
 										<p>
-											The new directory will be created with permissions as specified by {@code perms}.
+											The permission String takes the form rwxr-x--- as specified
+											in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
 											<p>
-												The permission String takes the form rwxr-x--- as specified
-												in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
-												<p>
-												The operation will fail if the directory already exists.</p>
+												The operation will fail if the directory already exists.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>perms: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permissions string</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1725,12 +1494,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3150</li>
+									<li>Defined in index.d.ts:2227</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #mkdir(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#mkdir}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1744,12 +1513,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3173</li>
+									<li>Defined in index.d.ts:2244</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #mkdir(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#mkdir}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1776,75 +1545,58 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3184</li>
+									<li>Defined in index.d.ts:2251</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create the directory represented by {@code path} and any non existent parents, asynchronously.
-										<p>
-										The operation will fail if the {@code path} already exists but is not a directory.</p>
+									<p>Create the directory represented by <code>path</code> and any non existent parents, asynchronously.</p>
+									<p>
+										The operation will fail if the <code>path</code> already exists but is not a directory.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3207</li>
+									<li>Defined in index.d.ts:2268</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create the directory represented by {@code path} and any non existent parents, asynchronously.
+									<p>Create the directory represented by <code>path</code> and any non existent parents, asynchronously.</p>
+									<p>
+										The new directory will be created with permissions as specified by <code>perms</code>.
 										<p>
-											The new directory will be created with permissions as specified by {@code perms}.
+											The permission String takes the form rwxr-x--- as specified
+											in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
 											<p>
-												The permission String takes the form rwxr-x--- as specified
-												in <a href="http://download.oracle.com/javase/7/docs/api/java/nio/file/attribute/PosixFilePermissions.html">here</a>.
-												<p>
-												The operation will fail if the {@code path} already exists but is not a directory.</p>
+												The operation will fail if the <code>path</code> already exists but is not a directory.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>perms: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the permissions string</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1859,12 +1611,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3190</li>
+									<li>Defined in index.d.ts:2256</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #mkdirs(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#mkdirs}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1878,12 +1630,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3213</li>
+									<li>Defined in index.d.ts:2273</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #mkdirs(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#mkdirs}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1910,80 +1662,57 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2909</li>
+									<li>Defined in index.d.ts:2067</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Move a file from the path {@code from} to path {@code to}, asynchronously.
-										<p>
-										The move will fail if the destination already exists.</p>
+									<p>Move a file from the path <code>from</code> to path <code>to</code>, asynchronously.</p>
+									<p>
+										The move will fail if the destination already exists.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>from: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy from</p>
-									</div>
 								</li>
 								<li>
 									<h5>to: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy to</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2920</li>
+									<li>Defined in index.d.ts:2072</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Move a file from the path {@code from} to path {@code to}, asynchronously.</p>
+									<p>Move a file from the path <code>from</code> to path <code>to</code>, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>from: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy from</p>
-									</div>
 								</li>
 								<li>
 									<h5>to: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to copy to</p>
-									</div>
 								</li>
 								<li>
 									<h5>options: <a href="copyoptions.html" class="tsd-signature-type">CopyOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>options describing how the file should be copied</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -1997,12 +1726,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2926</li>
+									<li>Defined in index.d.ts:2077</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #move(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#move}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2028,36 +1757,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3296</li>
+									<li>Defined in index.d.ts:2330</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Open the file represented by {@code path}, asynchronously.
-										<p>
-										The file is opened for both reading and writing. If the file does not already exist it will be created.</p>
+									<p>Open the file represented by <code>path</code>, asynchronously.</p>
+									<p>
+										The file is opened for both reading and writing. If the file does not already exist it will be created.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>options: <a href="openoptions.html" class="tsd-signature-type">OpenOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>options describing how the file should be opened</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncfile.html" class="tsd-signature-type">AsyncFile</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -2071,12 +1793,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3302</li>
+									<li>Defined in index.d.ts:2335</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #open(String, io.vertx.core.file.OpenOptions, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#open}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2102,33 +1824,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3014</li>
+									<li>Defined in index.d.ts:2135</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Obtain properties for the file represented by {@code path}, asynchronously.
-										<p>
-										If the file is a link, the link will be followed.</p>
+									<p>Obtain properties for the file represented by <code>path</code>, asynchronously.</p>
+									<p>
+										If the file is a link, the link will be followed.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="fileprops.html" class="tsd-signature-type">FileProps</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -2142,12 +1857,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3020</li>
+									<li>Defined in index.d.ts:2140</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #props(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#props}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2171,73 +1886,56 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3224</li>
+									<li>Defined in index.d.ts:2280</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Read the contents of the directory specified by {@code path}, asynchronously.
-										<p>
-										The result is an array of String representing the paths of the files inside the directory.</p>
+									<p>Read the contents of the directory specified by <code>path</code>, asynchronously.</p>
+									<p>
+										The result is an array of String representing the paths of the files inside the directory.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3245</li>
+									<li>Defined in index.d.ts:2295</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Read the contents of the directory specified by {@code path}, asynchronously.
+									<p>Read the contents of the directory specified by <code>path</code>, asynchronously.</p>
+									<p>
+										The parameter <code>filter</code> is a regular expression. If <code>filter</code> is specified then only the paths that
+										match  @{filter}will be returned.
 										<p>
-											The parameter {@code filter} is a regular expression. If {@code filter} is specified then only the paths that
-											match  @{filter}will be returned.
-											<p>
-											The result is an array of String representing the paths of the files inside the directory.</p>
+											The result is an array of String representing the paths of the files inside the directory.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the directory</p>
-									</div>
 								</li>
 								<li>
 									<h5>filter: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the filter expression</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -2252,12 +1950,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3230</li>
+									<li>Defined in index.d.ts:2285</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #readDir(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#readDir}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2271,12 +1969,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3251</li>
+									<li>Defined in index.d.ts:2300</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #readDir(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#readDir}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2302,33 +2000,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3262</li>
+									<li>Defined in index.d.ts:2307</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Reads the entire file as represented by the path {@code path} as a <a href="buffer.html">Buffer</a>, asynchronously.
-										<p>
-										Do not use this method to read very large files or you risk running out of available RAM.</p>
+									<p>Reads the entire file as represented by the path <code>path</code> as a , asynchronously.</p>
+									<p>
+										Do not use this method to read very large files or you risk running out of available RAM.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -2342,12 +2033,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3268</li>
+									<li>Defined in index.d.ts:2312</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #readFile(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#readFile}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2370,31 +2061,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3093</li>
+									<li>Defined in index.d.ts:2187</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns the path representing the file that the symbolic link specified by {@code link} points to, asynchronously.</p>
+									<p>Returns the path representing the file that the symbolic link specified by <code>link</code> points to, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>link: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the link</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -2408,12 +2092,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3099</li>
+									<li>Defined in index.d.ts:2192</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #readSymlink(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#readSymlink}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2436,37 +2120,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3063</li>
+									<li>Defined in index.d.ts:2167</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a symbolic link on the file system from {@code link} to {@code existing}, asynchronously.</p>
+									<p>Create a symbolic link on the file system from <code>link</code> to <code>existing</code>, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>link: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the link</p>
-									</div>
 								</li>
 								<li>
 									<h5>existing: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the link destination</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -2480,12 +2154,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3069</li>
+									<li>Defined in index.d.ts:2172</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #link(String, String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#link}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2511,39 +2185,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2938</li>
+									<li>Defined in index.d.ts:2084</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Truncate the file represented by {@code path} to length {@code len} in bytes, asynchronously.
-										<p>
-										The operation will fail if the file does not exist or {@code len} is less than {@code zero}.</p>
+									<p>Truncate the file represented by <code>path</code> to length <code>len</code> in bytes, asynchronously.</p>
+									<p>
+										The operation will fail if the file does not exist or <code>len</code> is less than <code>zero</code>.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>len: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the length to truncate it to</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -2557,12 +2221,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2944</li>
+									<li>Defined in index.d.ts:2089</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #truncate(String, long, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#truncate}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2588,31 +2252,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3078</li>
+									<li>Defined in index.d.ts:2177</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Unlinks the link on the file system represented by the path {@code link}, asynchronously.</p>
+									<p>Unlinks the link on the file system represented by the path <code>link</code>, asynchronously.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>link: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the link</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -2626,12 +2283,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3084</li>
+									<li>Defined in index.d.ts:2182</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #unlink(String, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#unlink}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2654,12 +2311,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3278</li>
+									<li>Defined in index.d.ts:2318</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates the file, and writes the specified {@code Buffer data} to the file represented by the path {@code path},
+									<p>Creates the file, and writes the specified <code>Buffer data</code> to the file represented by the path <code>path</code>,
 									asynchronously.</p>
 								</div>
 							</div>
@@ -2667,22 +2324,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>path to the file</p>
-									</div>
 								</li>
 								<li>
 									<h5>data: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler that will be called on completion</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filesystem.html" class="tsd-signature-type">FileSystem</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -2696,12 +2346,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:3284</li>
+									<li>Defined in index.d.ts:2323</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Blocking version of {@link #writeFile(String, Buffer, Handler)}</p>
+									<p>Blocking version of {@link FileSystem#writeFile}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2911,6 +2561,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -2959,7 +2610,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
