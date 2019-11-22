@@ -69,13 +69,8 @@
 					<div class="lead">
 						<p>An executor for executing blocking code in Vert.x .<p></p>
 					</div>
-					<p> It provides the same <code>executeBlocking</code> operation than {@link io.vertx.core.Context} and
-						{@link io.vertx.core.Vertx} but on a separate worker pool.<p></p>
-						<dl class="tsd-comment-tags">
-							<dt>author</dt>
-							<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
-							</dd>
-						</dl>
+					<p>It provides the same <code>executeBlocking</code> operation than <a href="context.html">Context</a> and
+						<a href="vertx.html">Vertx</a> but on a separate worker pool.<p></p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -119,7 +114,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:12232</li>
+									<li>Defined in index.d.ts:8414</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -142,56 +137,42 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:12220</li>
+									<li>Defined in index.d.ts:8404</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Safely execute some blocking code.
+									<p>Safely execute some blocking code.</p>
+									<p>
+										Executes the blocking code in the handler <code>blockingCodeHandler</code> using a thread from the worker pool.
 										<p>
-											Executes the blocking code in the handler {@code blockingCodeHandler} using a thread from the worker pool.
+											When the code is complete the handler <code>resultHandler</code> will be called with the result on the original context
+											(i.e. on the original event loop of the caller).
 											<p>
-												When the code is complete the handler {@code resultHandler} will be called with the result on the original context
-												(i.e. on the original event loop of the caller).
+												A <code>Future</code> instance is passed into <code>blockingCodeHandler</code>. When the blocking code successfully completes,
+												the handler should call the {@link Promise#complete} or {@link Promise#complete} method, or the {@link Promise#fail}
+												method if it failed.
 												<p>
-													A {@code Future} instance is passed into {@code blockingCodeHandler}. When the blocking code successfully completes,
-													the handler should call the {@link Promise#complete} or {@link Promise#complete(Object)} method, or the {@link Promise#fail}
-													method if it failed.
-													<p>
-														In the {@code blockingCodeHandler} the current context remains the original context and therefore any task
-													scheduled in the {@code blockingCodeHandler} will be executed on the this context and not on the worker thread.</p>
+													In the <code>blockingCodeHandler</code> the current context remains the original context and therefore any task
+													scheduled in the <code>blockingCodeHandler</code> will be executed on the this context and not on the worker thread.
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>T</h4>
-									<div class="tsd-comment tsd-typography">
-										<p>the type of the result</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>blockingCodeHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler representing the blocking code to run</p>
-									</div>
 								</li>
 								<li>
 									<h5>ordered: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>if true then if executeBlocking is called several times on the same context, the executions
-											for that context will be executed serially, not in parallel. if false then they will be no ordering
-										guarantees</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will be called when the blocking code is complete</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -199,12 +180,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:12226</li>
+									<li>Defined in index.d.ts:8409</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #executeBlocking(Handler, boolean, Handler)} called with ordered = true.</p>
+									<p>Like {@link WorkerExecutor#executeBlocking} called with ordered = true.</p>
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -237,21 +218,15 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/measured.html">Measured</a>.<a href="../interfaces/measured.html#ismetricsenabled">isMetricsEnabled</a></p>
 								<ul>
-									<li>Defined in index.d.ts:12196</li>
+									<li>Defined in index.d.ts:8387</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Whether the metrics are enabled for this measured object</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>implspec</dt>
-									<dd><p>The default implementation returns {@code false}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>if metrics are enabled</p>
 						</li>
 					</ul>
 				</section>
@@ -302,6 +277,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -350,7 +326,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -71,11 +71,6 @@
 							instantiate this class</b>, if you want to add custom ParameterTypeValidator to a parameter use functions in
 						<a href="httprequestvalidationhandler.html">HTTPRequestValidationHandler</a></p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p>Francesco Guardiani @slinkydeveloper</p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -116,33 +111,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:850</li>
+									<li>Defined in index.d.ts:533</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>allowEmptyValue is used in query, header, cookie and form parameters. This is its behaviour:
-										<ol>
-											<li>During validation, the ValidationHandler check if there&#39;s a parameter with combination of location and name
-											as defined in this rule </li>
-											<li>If it not exists, It will check allowEmptyValue and if there&#39;s a default value set inside
-											ParameterTypeValidator:</li>
-											<ul>
-												<li>If this condition it&#39;s true, It marks as validated the parameter and returns the default value (inside
-												RequestParameter)</li>
-												<li>If this condition it&#39;s false, It throws ValidationException</li>
-											</ul>
-											<li>If the parameter exists, It checks if parameter is null or empty string:</li>
-											<ul>
-												<li>If allowEmptyValue it&#39;s true, It marks as validated the parameter and returns the default value if it exists
-												(inside RequestParameter)</li>
-												<li>If allowEmptyValue it&#39;s false, It throws ValidationException</li>
-											</ul>
-									</ol></p>
+									<p>allowEmptyValue is used in query, header, cookie and form parameters. This is its behaviour:</p>
+									<ol>
+										<li>During validation, the ValidationHandler check if there's a parameter with combination of location and name
+										as defined in this rule </li>
+										<li>If it not exists, It will check allowEmptyValue and if there's a default value set inside
+										ParameterTypeValidator:</li>
+										<ul>
+											<li>If this condition it's true, It marks as validated the parameter and returns the default value (inside
+											RequestParameter)</li>
+											<li>If this condition it's false, It throws ValidationException</li>
+										</ul>
+										<li>If the parameter exists, It checks if parameter is null or empty string:</li>
+										<ul>
+											<li>If allowEmptyValue it's true, It marks as validated the parameter and returns the default value if it exists
+											(inside RequestParameter)</li>
+											<li>If allowEmptyValue it's false, It throws ValidationException</li>
+										</ul>
+									</ol>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>value of allowEmptyValue</p>
 						</li>
 					</ul>
 				</section>
@@ -156,7 +150,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:795</li>
+									<li>Defined in index.d.ts:489</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -165,7 +159,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>name of the parameter</p>
 						</li>
 					</ul>
 				</section>
@@ -179,7 +172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:820</li>
+									<li>Defined in index.d.ts:506</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -188,7 +181,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if is optional, false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -202,7 +194,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:826</li>
+									<li>Defined in index.d.ts:511</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -224,7 +216,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:813</li>
+									<li>Defined in index.d.ts:501</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -232,19 +224,11 @@
 									<p>This function will be called when there is a List<String> that need to be validated. It must check if array is
 									expected or not. It will throw a ValidationError in an error during validation occurs</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd><p>ValidationException</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>list of values that will be validated</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="requestparameter.html" class="tsd-signature-type">RequestParameter</a></h4>
@@ -261,7 +245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:804</li>
+									<li>Defined in index.d.ts:495</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -269,19 +253,11 @@
 									<p>This function will be called when there is only a string as parameter. It will throw a ValidationError in an
 									error during validation occurs</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd><p>ValidationException</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>list of values that will be validated</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="requestparameter.html" class="tsd-signature-type">RequestParameter</a></h4>
@@ -300,39 +276,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="../enums/containerserializationstyle.html" class="tsd-kind-icon">Container<wbr>Serialization<wbr>Style</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/parameterlocation.html" class="tsd-kind-icon">Parameter<wbr>Location</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/parametertype.html" class="tsd-kind-icon">Parameter<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="containerdeserializer.html" class="tsd-kind-icon">Container<wbr>Deserializer</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="customvalidator.html" class="tsd-kind-icon">Custom<wbr>Validator</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="httprequestvalidationhandler.html" class="tsd-kind-icon">HTTPRequest<wbr>Validation<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="openapi3requestvalidationhandler.html" class="tsd-kind-icon">OpenAPI3<wbr>Request<wbr>Validation<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="openapi3routerfactory.html" class="tsd-kind-icon">OpenAPI3<wbr>Router<wbr>Factory</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="operationrequest.html" class="tsd-kind-icon">Operation<wbr>Request</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="operationresponse.html" class="tsd-kind-icon">Operation<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="parametertypevalidator.html" class="tsd-kind-icon">Parameter<wbr>Type<wbr>Validator</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -360,24 +303,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="requestparameter.html" class="tsd-kind-icon">Request<wbr>Parameter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="requestparameters.html" class="tsd-kind-icon">Request<wbr>Parameters</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="routerfactoryoptions.html" class="tsd-kind-icon">Router<wbr>Factory<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/httpoperationrequestvalidationhandler.html" class="tsd-kind-icon">HTTPOperation<wbr>Request<wbr>Validation<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="../interfaces/routerfactory.html" class="tsd-kind-icon">Router<wbr>Factory</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/validationhandler.html" class="tsd-kind-icon">Validation<wbr>Handler</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -395,6 +320,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -443,7 +369,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

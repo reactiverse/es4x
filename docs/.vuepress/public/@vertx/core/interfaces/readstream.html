@@ -67,30 +67,25 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Represents a stream of items that can be read from.
+						<p>Represents a stream of items that can be read from.</p>
+						<p>
+							Any class that implements this interface can be used by a <a href="../classes/pump.html">Pump</a> to pump data from it
+							to a <a href="writestream.html">WriteStream</a>.
 							<p>
-								Any class that implements this interface can be used by a <a href="../classes/pump.html">Pump</a> to pump data from it
-								to a <a href="writestream.html">WriteStream</a>.
-								<p>
-									<h3>Streaming mode</h3>
-									The stream is either in <i>flowing</i> or <i>fetch</i> mode.
-									<ul>
-										<i>Initially the stream is in <i>flowing</i> mode.</i>
-										<li>When the stream is in <i>flowing</i> mode, elements are delivered to the {@code handler}.</li>
-										<li>When the stream is in <i>fetch</i> mode, only the number of requested elements will be delivered to the {@code handler}.</li>
-									</ul>
-									The mode can be changed with the {@link #pause()}, {@link #resume()} and {@link #fetch} methods:
-									<ul>
-										<li>Calling {@link #resume()} sets the <i>flowing</i> mode</li>
-										<li>Calling {@link #pause()} sets the <i>fetch</i> mode and resets the demand to {@code 0}</li>
-										<li>Calling {@link #fetch(long)} requests a specific amount of elements and adds it to the actual demand</li>
-								</ul></p>
+								<h3>Streaming mode</h3>
+								The stream is either in <i>flowing</i> or <i>fetch</i> mode.
+								<ul>
+									<i>Initially the stream is in <i>flowing</i> mode.</i>
+									<li>When the stream is in <i>flowing</i> mode, elements are delivered to the <code>handler</code>.</li>
+									<li>When the stream is in <i>fetch</i> mode, only the number of requested elements will be delivered to the <code>handler</code>.</li>
+								</ul>
+								The mode can be changed with the {@link ReadStream#pause}, {@link ReadStream#resume} and {@link ReadStream#fetch} methods:
+								<ul>
+									<li>Calling {@link ReadStream#resume} sets the <i>flowing</i> mode</li>
+									<li>Calling {@link ReadStream#pause} sets the <i>fetch</i> mode and resets the demand to <code>0</code></li>
+									<li>Calling {@link ReadStream#fetch} requests a specific amount of elements and adds it to the actual demand</li>
+								</ul>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-type-parameters">
@@ -167,7 +162,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9823</li>
+									<li>Defined in index.d.ts:6594</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -182,7 +177,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -197,7 +191,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="streambase.html">StreamBase</a>.<a href="streambase.html#exceptionhandler">exceptionHandler</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9782</li>
+									<li>Defined in index.d.ts:6563</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -209,13 +203,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the exception handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -229,13 +219,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9816</li>
+									<li>Defined in index.d.ts:6589</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Fetch the specified {@code amount} of elements. If the {@code ReadStream} has been paused, reading will
-										recommence with the specified {@code amount} of items, otherwise the specified {@code amount} will
+									<p>Fetch the specified <code>amount</code> of elements. If the <code>ReadStream</code> has been paused, reading will
+										recommence with the specified <code>amount</code> of items, otherwise the specified <code>amount</code> will
 									be added to the current stream demand.</p>
 								</div>
 							</div>
@@ -246,7 +236,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -260,7 +249,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9789</li>
+									<li>Defined in index.d.ts:6568</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -275,7 +264,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -289,18 +277,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9798</li>
+									<li>Defined in index.d.ts:6575</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pause the {@code ReadStream}, it sets the buffer in {@code fetch} mode and clears the actual demand.
-										<p>
-										While it&#39;s paused, no data will be sent to the data {@code handler}.</p>
+									<p>Pause the <code>ReadStream</code>, it sets the buffer in <code>fetch</code> mode and clears the actual demand.</p>
+									<p>
+										While it's paused, no data will be sent to the data <code>handler</code>.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -314,18 +301,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9832</li>
+									<li>Defined in index.d.ts:6601</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pause this stream and return a <a href="../classes/pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="writestream.html">WriteStream</a>.
-										<p/>
-										The stream will be resumed when the pipe will be wired to a {@code WriteStream}.</p>
+									<p>Pause this stream and return a <a href="../classes/pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="writestream.html">WriteStream</a>.</p>
+									<p/>
+										The stream will be resumed when the pipe will be wired to a <code>WriteStream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a pipe</p>
 						</li>
 					</ul>
 				</section>
@@ -340,12 +326,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9838</li>
+									<li>Defined in index.d.ts:6606</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pipeTo(WriteStream, Handler)} but with no completion handler.</p>
+									<p>Like {@link ReadStream#pipeTo} but with no completion handler.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -359,26 +345,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9850</li>
+									<li>Defined in index.d.ts:6616</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pipe this {@code ReadStream} to the {@code WriteStream}.
+									<p>Pipe this <code>ReadStream</code> to the <code>WriteStream</code>.</p>
+									<p>
+										Elements emitted by this stream will be written to the write stream until this stream ends or fails.
 										<p>
-											Elements emitted by this stream will be written to the write stream until this stream ends or fails.
-											<p>
-												Once this stream has ended or failed, the write stream will be ended and the {@code handler} will be
-											called with the result.</p>
+											Once this stream has ended or failed, the write stream will be ended and the <code>handler</code> will be
+											called with the result.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>dst: <a href="writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the destination write stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
@@ -398,18 +381,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9807</li>
+									<li>Defined in index.d.ts:6582</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Resume reading, and sets the buffer in {@code flowing} mode.
-										<p/>
-										If the {@code ReadStream} has been paused, reading will recommence on it.</p>
+									<p>Resume reading, and sets the buffer in <code>flowing</code> mode.</p>
+									<p/>
+										If the <code>ReadStream</code> has been paused, reading will recommence on it.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -475,6 +457,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -523,7 +506,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

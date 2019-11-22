@@ -70,11 +70,6 @@
 						<p>Determines how the hashing is computed in the implementation You can implement this to provide a different hashing
 						strategy to the default.</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p>mremme</p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -110,13 +105,13 @@
 					<a name="computehash" class="tsd-anchor"></a>
 					<h3>compute<wbr>Hash</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">compute<wbr>Hash<span class="tsd-signature-symbol">(</span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">compute<wbr>Hash<span class="tsd-signature-symbol">(</span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, user<span class="tsd-signature-symbol">: </span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:40</li>
+									<li>Defined in index.d.ts:31</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -128,20 +123,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<pre><code><span class="hljs-attribute">      the unhashed password</span></code></pre>
-									</div>
 								</li>
 								<li>
-									<h5>user: <span class="tsd-signature-type">User</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<pre><code>      the<span class="hljs-built_in"> user </span><span class="hljs-keyword">to</span> <span class="hljs-builtin-name">get</span> the salt <span class="hljs-keyword">for</span>. This paramter is needed, <span class="hljs-keyword">if</span> the {@link HashSaltStyle#COLUMN} is declared <span class="hljs-keyword">to</span> be
-      used</code></pre>
-									</div>
+									<h5>user: <a href="user.html" class="tsd-signature-type">User</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the hashed password</p>
 						</li>
 					</ul>
 				</section>
@@ -149,36 +136,31 @@
 					<a name="getsalt" class="tsd-anchor"></a>
 					<h3>get<wbr>Salt</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Salt<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Salt<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:60</li>
+									<li>Defined in index.d.ts:42</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Retrieve the salt. The source of the salt can be the external salt or the propriate column of the given user,
-									depending on the defined <a href="../enums/hashsaltstyle.html">HashSaltStyle</a></p>
+									depending on the defined <a href="../../enums.html#HashSaltStyle">HashSaltStyle</a></p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>user: <span class="tsd-signature-type">User</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<pre><code>      the<span class="hljs-built_in"> user </span><span class="hljs-keyword">to</span> <span class="hljs-builtin-name">get</span> the salt <span class="hljs-keyword">for</span>. This paramter is needed, <span class="hljs-keyword">if</span> the {@link HashSaltStyle#COLUMN} is declared <span class="hljs-keyword">to</span> be
-      used</code></pre>
-									</div>
+									<h5>user: <a href="user.html" class="tsd-signature-type">User</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>null in case of {@link HashSaltStyle#NO_SALT} the salt of the user or a defined external salt</p>
 						</li>
 					</ul>
 				</section>
@@ -192,16 +174,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:83</li>
+									<li>Defined in index.d.ts:57</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get the defined <a href="../enums/hashsaltstyle.html">HashSaltStyle</a> of the current instance</p>
+									<p>Get the defined <a href="../../enums.html#HashSaltStyle">HashSaltStyle</a> of the current instance</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/hashsaltstyle.html" class="tsd-signature-type">HashSaltStyle</a></h4>
-							<p>the saltStyle</p>
 						</li>
 					</ul>
 				</section>
@@ -209,13 +190,13 @@
 					<a name="getstoredpwd" class="tsd-anchor"></a>
 					<h3>get<wbr>Stored<wbr>Pwd</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Stored<wbr>Pwd<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Stored<wbr>Pwd<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:49</li>
+									<li>Defined in index.d.ts:36</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -226,14 +207,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>user: <span class="tsd-signature-type">User</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<pre><code>      the<span class="hljs-built_in"> user </span><span class="hljs-keyword">to</span> <span class="hljs-builtin-name">get</span> the stored password <span class="hljs-keyword">for</span></code></pre>
-									</div>
+									<h5>user: <a href="user.html" class="tsd-signature-type">User</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the password, either as hashed version or as cleartext, depending on the preferences</p>
 						</li>
 					</ul>
 				</section>
@@ -247,7 +224,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:90</li>
+									<li>Defined in index.d.ts:62</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -259,9 +236,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>algorithm: <a href="../enums/hashalgorithm.html" class="tsd-signature-type">HashAlgorithm</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the choosen algorithm</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -278,21 +252,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:68</li>
+									<li>Defined in index.d.ts:47</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set an external salt. This method should be used in case of {@link HashSaltStyle#EXTERNAL}</p>
+									<p>Set an external salt. This method should be used in case of</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>salt: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<pre><code>      the salt, which <span class="hljs-keyword">shall </span><span class="hljs-keyword">be </span>used</code></pre>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -309,21 +280,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:76</li>
+									<li>Defined in index.d.ts:52</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the saltstyle as defined by <a href="../enums/hashsaltstyle.html">HashSaltStyle</a>.</p>
+									<p>Set the saltstyle as defined by <a href="../../enums.html#HashSaltStyle">HashSaltStyle</a>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>saltStyle: <a href="../enums/hashsaltstyle.html" class="tsd-signature-type">HashSaltStyle</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<pre><code>      <span class="hljs-keyword">the</span> &lt;<span class="hljs-keyword">a</span> href=<span class="hljs-string">"../enums/hashsaltstyle.html"</span>&gt;HashSaltStyle&lt;/<span class="hljs-keyword">a</span>&gt; <span class="hljs-built_in">to</span> be used</code></pre>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -342,12 +310,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="../enums/hashalgorithm.html" class="tsd-kind-icon">Hash<wbr>Algorithm</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/hashsaltstyle.html" class="tsd-kind-icon">Hash<wbr>Salt<wbr>Style</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -378,12 +340,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="mongoauth.html" class="tsd-kind-icon">Mongo<wbr>Auth</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="mongoauthoptions.html" class="tsd-kind-icon">Mongo<wbr>Auth<wbr>Options</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -401,6 +357,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -449,7 +406,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

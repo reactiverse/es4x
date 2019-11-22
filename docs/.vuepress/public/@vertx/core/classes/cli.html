@@ -68,30 +68,19 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Interface defining a command-line interface (in other words a command such as &#39;run&#39;, &#39;ls&#39;...).
-							This interface is polyglot to ease reuse such as in Vert.x Shell.
+						This interface is polyglot to ease reuse such as in Vert.x Shell.</p>
+						<p/>
+							A command line interface has a name, and defines a set of options and arguments. Options are key-value pair such
+							as <code>-foo=bar</code> or <code>-flag</code>. The supported formats depend on the used parser. Arguments are unlike
+							options raw values. Options are defined using
+							<a href="../../dataobjects.html#Option">Option</a>, while argument are defined using <a href="../../dataobjects.html#Argument">Argument</a>.
 							<p/>
-								A command line interface has a name, and defines a set of options and arguments. Options are key-value pair such
-								as {@code -foo=bar} or {@code -flag}. The supported formats depend on the used parser. Arguments are unlike
-								options raw values. Options are defined using
-								<a href="option.html">Option</a>, while argument are defined using <a href="argument.html">Argument</a>.
+								Command line interfaces also define a summary and a description. These attributes are used in the usage generation
+								. To disable the help generation, set the <code>hidden</code> attribute to <code>true</code>.
 								<p/>
-									Command line interfaces also define a summary and a description. These attributes are used in the usage generation
-									. To disable the help generation, set the {@code hidden} attribute to {@code true}.
-									<p/>
-										Command Line Interface object does not contains &quot;value&quot;, it&#39;s a model. It must be evaluated by a
-									parser that returns a <a href="commandline.html">CommandLine</a> object containing the argument and option values.</p>
+									Command Line Interface object does not contains "value", it's a model. It must be evaluated by a
+									parser that returns a <a href="commandline.html">CommandLine</a> object containing the argument and option values.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p>Clement Escoffier <a href="mailto:&#x63;&#x6c;&#x65;&#x6d;&#101;&#x6e;&#116;&#64;&#x61;&#112;&#x61;&#99;&#104;&#x65;&#x2e;&#x6f;&#x72;&#103;">&#x63;&#x6c;&#x65;&#x6d;&#101;&#x6e;&#116;&#64;&#x61;&#112;&#x61;&#99;&#104;&#x65;&#x2e;&#x6f;&#x72;&#103;</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p>Argument</p>
-						</dd>
-						<dt>see</dt>
-						<dd><p>Option</p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -150,7 +139,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1155</li>
+									<li>Defined in index.d.ts:880</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -162,13 +151,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>arg: <a href="argument.html" class="tsd-signature-type">Argument</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the argument, must not be {@code null}</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -182,12 +167,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1164</li>
+									<li>Defined in index.d.ts:886</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Adds a set of arguments. Unlike {@link #setArguments(List)}, this method does not remove the existing arguments.
+									<p>Adds a set of arguments. Unlike {@link CLI#setArguments}, this method does not remove the existing arguments.
 									The given list is appended to the existing list.</p>
 								</div>
 							</div>
@@ -195,13 +180,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>args: <a href="argument.html" class="tsd-signature-type">Argument</a><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the arguments, must not be {@code null}</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -215,7 +196,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1123</li>
+									<li>Defined in index.d.ts:859</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -227,13 +208,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>option: <a href="option.html" class="tsd-signature-type">Option</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the option, must not be {@code null}.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -247,12 +224,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1132</li>
+									<li>Defined in index.d.ts:865</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Adds a set of options. Unlike {@link #setOptions(List)}}, this method does not remove the existing options.
+									<p>Adds a set of options. Unlike {@link CLI#setOptions}}, this method does not remove the existing options.
 									The given list is appended to the existing list.</p>
 								</div>
 							</div>
@@ -260,13 +237,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="option.html" class="tsd-signature-type">Option</a><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the options, must not be {@code null}</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -281,54 +254,46 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1188</li>
+									<li>Defined in index.d.ts:901</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets an <a href="argument.html">Argument</a> based on its name (argument name).</p>
+									<p>Gets an <a href="../../dataobjects.html#Argument">Argument</a> based on its name (argument name).</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the argument, must not be {@code null}</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="argument.html" class="tsd-signature-type">Argument</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the <a href="argument.html">Argument</a>, {@code null} if not found.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1196</li>
+									<li>Defined in index.d.ts:906</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets an <a href="argument.html">Argument</a> based on its index.</p>
+									<p>Gets an <a href="../../dataobjects.html#Argument">Argument</a> based on its index.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>index: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the index, must be positive or zero.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="argument.html" class="tsd-signature-type">Argument</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the <a href="argument.html">Argument</a>, {@code null} if not found.</p>
 						</li>
 					</ul>
 				</section>
@@ -342,7 +307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1147</li>
+									<li>Defined in index.d.ts:875</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -351,7 +316,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="argument.html" class="tsd-signature-type">Argument</a><span class="tsd-signature-symbol">[]</span></h4>
-							<p>the list of argument, empty if none.</p>
 						</li>
 					</ul>
 				</section>
@@ -365,16 +329,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1075</li>
+									<li>Defined in index.d.ts:827</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the CLI description.</p>
 						</li>
 					</ul>
 				</section>
@@ -388,13 +349,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1060</li>
+									<li>Defined in index.d.ts:818</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the CLI name.</p>
 						</li>
 					</ul>
 				</section>
@@ -408,28 +366,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1180</li>
+									<li>Defined in index.d.ts:896</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets an <a href="option.html">Option</a> based on its name (short name, long name or argument name).</p>
+									<p>Gets an <a href="../../dataobjects.html#Option">Option</a> based on its name (short name, long name or argument name).</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name, must not be {@code null}</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="option.html" class="tsd-signature-type">Option</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the <a href="option.html">Option</a>, {@code null} if not found</p>
 						</li>
 					</ul>
 				</section>
@@ -443,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1115</li>
+									<li>Defined in index.d.ts:854</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -452,7 +406,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="option.html" class="tsd-signature-type">Option</a><span class="tsd-signature-symbol">[]</span></h4>
-							<p>the list of options, empty if none.</p>
 						</li>
 					</ul>
 				</section>
@@ -466,13 +419,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1219</li>
+									<li>Defined in index.d.ts:920</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the CLI priority.</p>
 						</li>
 					</ul>
 				</section>
@@ -486,16 +436,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1084</li>
+									<li>Defined in index.d.ts:833</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the CLI summary.</p>
 						</li>
 					</ul>
 				</section>
@@ -509,7 +456,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1099</li>
+									<li>Defined in index.d.ts:843</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -518,7 +465,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>if the current <a href="cli.html">CLI</a> is hidden, {@link false} otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -533,7 +479,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1044</li>
+									<li>Defined in index.d.ts:809</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -545,18 +491,14 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>arguments: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the arguments</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="commandline.html" class="tsd-signature-type">CommandLine</a></h4>
-							<p>the creates command line</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1053</li>
+									<li>Defined in index.d.ts:814</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -568,19 +510,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>arguments: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the arguments</p>
-									</div>
 								</li>
 								<li>
 									<h5>validate: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>enable / disable parsing validation</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="commandline.html" class="tsd-signature-type">CommandLine</a></h4>
-							<p>the creates command line</p>
 						</li>
 					</ul>
 				</section>
@@ -594,7 +529,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1212</li>
+									<li>Defined in index.d.ts:916</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -606,13 +541,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>index: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the argument index</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -626,7 +557,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1204</li>
+									<li>Defined in index.d.ts:911</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -638,13 +569,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the option name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -658,7 +585,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1172</li>
+									<li>Defined in index.d.ts:891</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -670,13 +597,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>args: <a href="argument.html" class="tsd-signature-type">Argument</a><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the list of arguments, must not be {@code null}</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -690,7 +613,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1077</li>
+									<li>Defined in index.d.ts:829</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -713,7 +636,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1108</li>
+									<li>Defined in index.d.ts:849</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -726,13 +649,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>hidden: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>enables or disables the hidden aspect of the CI</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -746,7 +665,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1068</li>
+									<li>Defined in index.d.ts:823</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -758,13 +677,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -778,7 +693,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1140</li>
+									<li>Defined in index.d.ts:870</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -790,13 +705,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="option.html" class="tsd-signature-type">Option</a><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the list of options, must not be {@code null}</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -810,7 +721,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1227</li>
+									<li>Defined in index.d.ts:925</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -822,13 +733,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>priority: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the priority</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -842,7 +749,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1092</li>
+									<li>Defined in index.d.ts:838</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -854,13 +761,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>summary: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the summary</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the current <a href="cli.html">CLI</a> instance</p>
 						</li>
 					</ul>
 				</section>
@@ -874,7 +777,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1036</li>
+									<li>Defined in index.d.ts:804</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -886,13 +789,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the name of the CLI (must not be {@code null})</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
-							<p>the created instance of <a href="cli.html">CLI</a></p>
 						</li>
 					</ul>
 				</section>
@@ -1006,6 +905,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -1054,7 +954,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

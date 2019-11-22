@@ -67,31 +67,23 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Key or trust store options configuring private key and/or certificates based on PKCS#12 files.
-							<p>
-								When used as a key store, it should point to a store containing a private key and its certificate.
-								When used as a trust store, it should point to a store containing a list of accepted certificates.
-								<p></p>
-					</div>
-					<p> The store can either be loaded by Vert.x from the filesystem:
+						<p>Key or trust store options configuring private key and/or certificates based on PKCS#12 files.</p>
 						<p>
+							When used as a key store, it should point to a store containing a private key and its certificate.
+							When used as a trust store, it should point to a store containing a list of accepted certificates.
+							<p>
+					</div>
+					<p>The store can either be loaded by Vert.x from the filesystem:</p>
+					<p>
+						<pre>
+HttpServerOptions options = new HttpServerOptions();
+options.setPfxKeyCertOptions(new PfxOptions().setPath("/mykeystore.p12").setPassword("foo"));
+</pre>
+						<p>Or directly provided as a buffer:<p></p>
 							<pre>
- HttpServerOptions options = new HttpServerOptions();
- options.setPfxKeyCertOptions(new PfxOptions().setPath(&quot;/mykeystore.p12&quot;).setPassword(&quot;foo&quot;));
- </pre></p>
-						<p> Or directly provided as a buffer:<p></p>
-							<pre>
- Buffer store = vertx.fileSystem().readFileSync("/mykeystore.p12");
- options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo"));
- </pre>
-							<dl class="tsd-comment-tags">
-								<dt>author</dt>
-								<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
-								</dd>
-								<dt>author</dt>
-								<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-								</dd>
-							</dl>
+Buffer store = vertx.fileSystem().readFileSync("/mykeystore.p12");
+options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo"));
+</pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -139,7 +131,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6992</li>
+									<li>Defined in options.d.ts:4599</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="pfxoptions.html" class="tsd-signature-type">PfxOptions</a></h4>
@@ -147,7 +139,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6994</li>
+									<li>Defined in options.d.ts:4601</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -173,7 +165,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:7002</li>
+									<li>Defined in options.d.ts:4606</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -182,7 +174,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -196,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:7018</li>
+									<li>Defined in options.d.ts:4616</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -205,7 +196,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -219,7 +209,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:7034</li>
+									<li>Defined in options.d.ts:4626</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,7 +218,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -242,7 +231,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:7010</li>
+									<li>Defined in options.d.ts:4611</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -254,13 +243,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the password</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pfxoptions.html" class="tsd-signature-type">PfxOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -274,7 +259,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:7026</li>
+									<li>Defined in options.d.ts:4621</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -286,13 +271,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pfxoptions.html" class="tsd-signature-type">PfxOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -306,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:7042</li>
+									<li>Defined in options.d.ts:4631</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -318,13 +299,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the store as a buffer</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pfxoptions.html" class="tsd-signature-type">PfxOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -387,6 +364,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -435,7 +413,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

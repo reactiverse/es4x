@@ -67,27 +67,22 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>An HTTP response.
+						<p>An HTTP response.</p>
+						<p>
+							The usual HTTP response attributes are available:
+							<ul>
+								<li>{@link HttpResponse#statusCode} the HTTP status code</li>
+								<li>{@link HttpResponse#statusMessage} the HTTP status message</li>
+								<li>{@link HttpResponse#headers} the HTTP headers</li>
+								<li>{@link HttpResponse#version} the HTTP version</li>
+							</ul>
 							<p>
-								The usual HTTP response attributes are available:
-								<ul>
-									<li>{@link #statusCode()} the HTTP status code</li>
-									<li>{@link #statusMessage()} the HTTP status message</li>
-									<li>{@link #headers()} the HTTP headers</li>
-									<li>{@link #version()} the HTTP version</li>
-								</ul>
+								The body of the response is returned by {@link HttpResponse#body} decoded as the format specified by the <a href="bodycodec.html">BodyCodec</a> that
+								built the response.
 								<p>
-									The body of the response is returned by {@link #body()} decoded as the format specified by the {@link io.vertx.ext.web.codec.BodyCodec} that
-									built the response.
-									<p>
-										Keep in mind that using this {@code HttpResponse} impose to fully buffer the response body and should be used for payload
-									that can fit in memory.</p>
+									Keep in mind that using this <code>HttpResponse</code> impose to fully buffer the response body and should be used for payload
+									that can fit in memory.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-type-parameters">
@@ -145,16 +140,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:455</li>
+									<li>Defined in index.d.ts:334</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body in the format it was decoded.</p>
 						</li>
 					</ul>
 				</section>
@@ -162,22 +154,19 @@
 					<a name="bodyasbuffer" class="tsd-anchor"></a>
 					<h3>body<wbr>AsBuffer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">body<wbr>AsBuffer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">body<wbr>AsBuffer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:462</li>
+									<li>Defined in index.d.ts:338</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span>
+							<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as a {@link Buffer}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
@@ -191,11 +180,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:504</li>
+									<li>Defined in index.d.ts:362</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -212,7 +199,6 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as the specified {@code type} with the Jackson mapper, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
@@ -226,16 +212,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:497</li>
+									<li>Defined in index.d.ts:358</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as a {@link JsonArray}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
@@ -249,16 +232,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:490</li>
+									<li>Defined in index.d.ts:354</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as {@link JsonObject}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
@@ -273,25 +253,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:476</li>
+									<li>Defined in index.d.ts:346</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as a {@code String}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:483</li>
+									<li>Defined in index.d.ts:350</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -302,7 +277,6 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the response body decoded as a {@code String} given a specific {@code encoding}, or {@code null} if a codec other than {@link BodyCodec#buffer()} was used</p>
 						</li>
 					</ul>
 				</section>
@@ -316,13 +290,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:448</li>
+									<li>Defined in index.d.ts:330</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-							<p>the Set-Cookie headers (including trailers)</p>
 						</li>
 					</ul>
 				</section>
@@ -336,13 +307,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:469</li>
+									<li>Defined in index.d.ts:342</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-							<p>the list of all followed redirects, including the final location.</p>
 						</li>
 					</ul>
 				</section>
@@ -356,7 +324,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:426</li>
+									<li>Defined in index.d.ts:317</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -368,16 +336,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>headerName: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the header name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the header value</p>
 						</li>
 					</ul>
 				</section>
@@ -391,7 +355,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:441</li>
+									<li>Defined in index.d.ts:326</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -403,16 +367,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>trailerName: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the trailer name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the trailer value</p>
 						</li>
 					</ul>
 				</section>
@@ -420,19 +380,16 @@
 					<a name="headers" class="tsd-anchor"></a>
 					<h3>headers</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">headers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MultiMap</span></li>
+						<li class="tsd-signature tsd-kind-icon">headers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="multimap.html" class="tsd-signature-type">MultiMap</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:418</li>
+									<li>Defined in index.d.ts:312</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MultiMap</span></h4>
-							<p>the headers</p>
+							<h4 class="tsd-returns-title">Returns <a href="multimap.html" class="tsd-signature-type">MultiMap</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -446,13 +403,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:404</li>
+									<li>Defined in index.d.ts:304</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the status code of the response</p>
 						</li>
 					</ul>
 				</section>
@@ -466,13 +420,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:411</li>
+									<li>Defined in index.d.ts:308</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the status message of the response</p>
 						</li>
 					</ul>
 				</section>
@@ -480,19 +431,16 @@
 					<a name="trailers" class="tsd-anchor"></a>
 					<h3>trailers</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">trailers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MultiMap</span></li>
+						<li class="tsd-signature tsd-kind-icon">trailers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="multimap.html" class="tsd-signature-type">MultiMap</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:433</li>
+									<li>Defined in index.d.ts:321</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MultiMap</span></h4>
-							<p>the trailers</p>
+							<h4 class="tsd-returns-title">Returns <a href="multimap.html" class="tsd-signature-type">MultiMap</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -500,19 +448,16 @@
 					<a name="version" class="tsd-anchor"></a>
 					<h3>version</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpVersion</span></li>
+						<li class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:397</li>
+									<li>Defined in index.d.ts:300</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HttpVersion</span></h4>
-							<p>the version of the response</p>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -528,12 +473,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="errorconverter.html" class="tsd-kind-icon">Error<wbr>Converter</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="httprequest.html" class="tsd-kind-icon">Http<wbr>Request</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-has-type-parameter">
@@ -588,18 +527,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="responsepredicate.html" class="tsd-kind-icon">Response<wbr>Predicate</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="responsepredicateresult.html" class="tsd-kind-icon">Response<wbr>Predicate<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="webclient.html" class="tsd-kind-icon">Web<wbr>Client</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="webclientoptions.html" class="tsd-kind-icon">Web<wbr>Client<wbr>Options</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -617,6 +544,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -665,7 +593,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
