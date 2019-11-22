@@ -67,18 +67,13 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A timeout stream is triggered by a timer, the {@link io.vertx.core.Handler} will be call when the timer is fired,
+						<p>A timeout stream is triggered by a timer, the <a href="../interfaces/handler.html">Handler</a> will be call when the timer is fired,
 							it can be once or several times depending on the nature of the timer related to this stream. The
-							{@link ReadStream#endHandler(Handler)} will be called after the timer handler has been called.
-							<p>
-								Pausing the timer inhibits the timer shots until the stream is resumed. Setting a null handler callback cancels
-							the timer.</p>
+						will be called after the timer handler has been called.</p>
+						<p>
+							Pausing the timer inhibits the timer shots until the stream is resumed. Setting a null handler callback cancels
+							the timer.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -128,12 +123,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10820</li>
+									<li>Defined in index.d.ts:7370</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Cancels the timeout. Note this has the same effect as calling {@link #handler(Handler)} with a null
+									<p>Cancels the timeout. Note this has the same effect as calling {@link TimeoutStream#handler} with a null
 									argument.</p>
 								</div>
 							</div>
@@ -151,7 +146,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10813</li>
+									<li>Defined in index.d.ts:7364</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -174,7 +169,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10803</li>
+									<li>Defined in index.d.ts:7354</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -198,7 +193,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:10811</li>
+									<li>Defined in index.d.ts:7362</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -221,7 +216,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10805</li>
+									<li>Defined in index.d.ts:7356</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -245,7 +240,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:10807</li>
+									<li>Defined in index.d.ts:7358</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="timeoutstream.html" class="tsd-signature-type">TimeoutStream</a></h4>
@@ -263,18 +258,17 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:10783</li>
+									<li>Defined in index.d.ts:7337</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pause this stream and return a <a href="pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="../interfaces/writestream.html">WriteStream</a>.
-										<p/>
-										The stream will be resumed when the pipe will be wired to a {@code WriteStream}.</p>
+									<p>Pause this stream and return a  to transfer the elements of this stream to a destination .</p>
+									<p/>
+										The stream will be resumed when the pipe will be wired to a <code>WriteStream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a pipe</p>
 						</li>
 					</ul>
 				</section>
@@ -290,12 +284,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:10789</li>
+									<li>Defined in index.d.ts:7342</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pipeTo(WriteStream, Handler)} but with no completion handler.</p>
+									<p>Like {@link ReadStream#pipeTo} but with no completion handler.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -309,26 +303,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:10801</li>
+									<li>Defined in index.d.ts:7352</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pipe this {@code ReadStream} to the {@code WriteStream}.
+									<p>Pipe this <code>ReadStream</code> to the <code>WriteStream</code>.</p>
+									<p>
+										Elements emitted by this stream will be written to the write stream until this stream ends or fails.
 										<p>
-											Elements emitted by this stream will be written to the write stream until this stream ends or fails.
-											<p>
-												Once this stream has ended or failed, the write stream will be ended and the {@code handler} will be
-											called with the result.</p>
+											Once this stream has ended or failed, the write stream will be ended and the <code>handler</code> will be
+											called with the result.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>dst: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the destination write stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
@@ -349,7 +340,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:10809</li>
+									<li>Defined in index.d.ts:7360</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="timeoutstream.html" class="tsd-signature-type">TimeoutStream</a></h4>
@@ -421,6 +412,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -469,7 +461,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

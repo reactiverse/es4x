@@ -6,13 +6,13 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.9.5</version>
+    <version>0.10.0</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>io.reactiverse.es4x</groupId>
   <artifactId>es4x-generator</artifactId>
-  <version>0.9.5</version>
+  <version>0.10.0</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -125,7 +125,7 @@
         <module>io.vertx/vertx-service-discovery-bridge-docker-links</module>
         <module>io.vertx/vertx-service-discovery-bridge-kubernetes</module>
         <module>io.vertx/vertx-service-discovery-bridge-zookeeper</module>
-        <!--<module>io.vertx/vertx-service-proxy</module>-->
+        <module>io.vertx/vertx-service-proxy</module>
         <module>io.vertx/vertx-shell</module>
         <!--<module>io.vertx/vertx-sockjs-service-proxy</module>-->
         <module>io.vertx/vertx-sql-common</module>
@@ -192,6 +192,30 @@
           "group": "io.vertx",
           "module": "vertx",
           "name": "core",
+          "scope": "vertx"
+        },
+        {
+          "group": "io.vertx",
+          "module": "vertx-jdbc",
+          "name": "jdbc-client",
+          "scope": "vertx"
+        },
+        {
+          "group": "io.vertx",
+          "module": "vertx-mongo",
+          "name": "mongo-client",
+          "scope": "vertx"
+        },
+        {
+          "group": "io.vertx",
+          "module": "vertx-redis",
+          "name": "redis-client",
+          "scope": "vertx"
+        },
+        {
+          "group": "io.vertx",
+          "module": "vertx-sql",
+          "name": "sql-common",
           "scope": "vertx"
         },
         {
@@ -416,6 +440,20 @@
                 <argument>${npm-registry}</argument>
               </arguments>
               <workingDirectory>${project.basedir}/npm</workingDirectory>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>npm-cache</id>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>cache</argument>
+                <argument>add</argument>
+                <argument>${project.basedir}/npm</argument>
+              </arguments>
             </configuration>
             <goals>
               <goal>exec</goal>

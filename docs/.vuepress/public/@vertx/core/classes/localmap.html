@@ -67,24 +67,16 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Local maps can be used to share data safely in a single Vert.x instance.
+						<p>Local maps can be used to share data safely in a single Vert.x instance.</p>
+						<p>
+							By default the map allows immutable keys and values.
+							Custom keys and values should implement {@link Shareable} interface. The map returns their copies.
 							<p>
-								By default the map allows immutable keys and values.
-								Custom keys and values should implement {@link Shareable} interface. The map returns their copies.
+								This ensures there is no shared access to mutable state from different threads (e.g. different event loops) in the
+								Vert.x instance, and means you don't have to protect access to that state using synchronization or locks.
 								<p>
-									This ensures there is no shared access to mutable state from different threads (e.g. different event loops) in the
-									Vert.x instance, and means you don&#39;t have to protect access to that state using synchronization or locks.
-									<p></p>
 					</div>
-					<p> Since the version 3.4, this class extends the {@link Map} interface. However some methods are only accessible in Java.</p>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p>Shareable</p>
-						</dd>
-					</dl>
+					<p>Since the version 3.4, this class extends the  interface. However some methods are only accessible in Java.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-type-parameters">
@@ -144,7 +136,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8318</li>
+									<li>Defined in index.d.ts:5518</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -166,7 +158,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8379</li>
+									<li>Defined in index.d.ts:5556</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -188,12 +180,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8388</li>
+									<li>Defined in index.d.ts:5562</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns {@code true} if this map contains a mapping for the specified
+									<p>Returns <code>true</code> if this map contains a mapping for the specified
 									key.</p>
 								</div>
 							</div>
@@ -201,13 +193,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>key whose presence in this map is to be tested</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>if this map contains a mapping for the specified key</p>
 						</li>
 					</ul>
 				</section>
@@ -221,7 +209,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8397</li>
+									<li>Defined in index.d.ts:5568</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -234,13 +222,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>value whose presence in this map is to be tested</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>@{code true} if this map maps one or more keys to the specified value</p>
 						</li>
 					</ul>
 				</section>
@@ -254,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8295</li>
+									<li>Defined in index.d.ts:5503</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -266,13 +250,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
-							<p>the value, or null if none</p>
 						</li>
 					</ul>
 				</section>
@@ -286,33 +266,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8408</li>
+									<li>Defined in index.d.ts:5574</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Returns the value to which the specified key is mapped, or
-									{@code defaultValue} if this map contains no mapping for the key.</p>
+									<code>defaultValue</code> if this map contains no mapping for the key.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key whose associated value is to be returned</p>
-									</div>
 								</li>
 								<li>
 									<h5>defaultValue: <span class="tsd-signature-type">V</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the default mapping of the key</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
-							<p>the value to which the specified key is mapped, or {@code defaultValue} if this map contains no mapping
-							for the key</p>
 						</li>
 					</ul>
 				</section>
@@ -326,13 +298,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8332</li>
+									<li>Defined in index.d.ts:5527</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if there are zero entries in the map</p>
 						</li>
 					</ul>
 				</section>
@@ -346,7 +315,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8304</li>
+									<li>Defined in index.d.ts:5508</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -358,19 +327,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">K</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key</p>
-									</div>
 								</li>
 								<li>
 									<h5>value: <span class="tsd-signature-type">V</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the value</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
-							<p>return the old value, or null if none</p>
 						</li>
 					</ul>
 				</section>
@@ -384,7 +346,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8341</li>
+									<li>Defined in index.d.ts:5532</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -396,19 +358,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">K</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key</p>
-									</div>
 								</li>
 								<li>
 									<h5>value: <span class="tsd-signature-type">V</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the value</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
-							<p>the old value or null, if none</p>
 						</li>
 					</ul>
 				</section>
@@ -422,7 +377,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8312</li>
+									<li>Defined in index.d.ts:5513</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -434,13 +389,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
-							<p>the old value</p>
 						</li>
 					</ul>
 				</section>
@@ -454,33 +405,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8352</li>
+									<li>Defined in index.d.ts:5539</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Remove the entry only if there is an entry with the specified key and value.
-										<p>
-										This method is the poyglot version of {@link #remove(Object, Object)}.</p>
+									<p>Remove the entry only if there is an entry with the specified key and value.</p>
+									<p>
+										This method is the poyglot version of {@link LocalMap#remove}.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">K</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key</p>
-									</div>
 								</li>
 								<li>
 									<h5>value: <span class="tsd-signature-type">V</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the value</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if removed</p>
 						</li>
 					</ul>
 				</section>
@@ -494,7 +438,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8373</li>
+									<li>Defined in index.d.ts:5551</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -506,19 +450,12 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">K</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key</p>
-									</div>
 								</li>
 								<li>
 									<h5>value: <span class="tsd-signature-type">V</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the new value</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
-							<p>the old value</p>
 						</li>
 					</ul>
 				</section>
@@ -532,39 +469,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8364</li>
+									<li>Defined in index.d.ts:5546</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Replace the entry only if there is an existing entry with the specified key and value.
-										<p>
-										This method is the polyglot version of {@link #replace(Object, Object, Object)}.</p>
+									<p>Replace the entry only if there is an existing entry with the specified key and value.</p>
+									<p>
+										This method is the polyglot version of {@link LocalMap#replace}.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">K</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key</p>
-									</div>
 								</li>
 								<li>
 									<h5>oldValue: <span class="tsd-signature-type">V</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the old value</p>
-									</div>
 								</li>
 								<li>
 									<h5>newValue: <span class="tsd-signature-type">V</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the new value</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if removed</p>
 						</li>
 					</ul>
 				</section>
@@ -578,7 +505,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:8325</li>
+									<li>Defined in index.d.ts:5523</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -587,7 +514,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the number of entries in the map</p>
 						</li>
 					</ul>
 				</section>
@@ -671,6 +597,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -719,7 +646,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

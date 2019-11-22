@@ -163,4 +163,4 @@
   // Install (or replace) the Worker implementation
   global.Worker = Worker;
 
-})(global || this);
+})(this);

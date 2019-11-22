@@ -68,66 +68,58 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Key store options configuring a list of private key and its certificate based on
-							<i>Privacy-enhanced Electronic Email</i> (PEM) files.
-							<p></p>
+						<i>Privacy-enhanced Electronic Email</i> (PEM) files.</p>
+						<p>
 					</div>
-					<p> A key file must contain a <b>non encrypted</b> private key in <b>PKCS8</b> format wrapped in a PEM
-						block, for example:
-						<p></p>
+					<p>A key file must contain a <b>non encrypted</b> private key in <b>PKCS8</b> format wrapped in a PEM
+					block, for example:</p>
+					<p>
 						<pre>
- -----BEGIN PRIVATE KEY-----
- MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDV6zPk5WqLwS0a
- ...
- K5xBhtm1AhdnZjx5KfW3BecE
- -----END PRIVATE KEY-----
- </pre><p>
-							<p> Or contain a <b>non encrypted</b> private key in <b>PKCS1</b> format wrapped in a PEM
-								block, for example:
-								<p></p>
+-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDV6zPk5WqLwS0a
+...
+K5xBhtm1AhdnZjx5KfW3BecE
+-----END PRIVATE KEY-----
+</pre><p>
+							<p>Or contain a <b>non encrypted</b> private key in <b>PKCS1</b> format wrapped in a PEM
+							block, for example:</p>
+							<p>
 								<pre>
- -----BEGIN RSA PRIVATE KEY-----
- MIIEowIBAAKCAQEAlO4gbHeFb/fmbUF/tOJfNPJumJUEqgzAzx8MBXv9Acyw9IRa
- ...
- zJ14Yd+t2fsLYVs2H0gxaA4DW6neCzgY3eKpSU0EBHUCFSXp/1+/
- -----END RSA PRIVATE KEY-----
- </pre><p>
-									<p> A certificate file must contain an X.509 certificate wrapped in a PEM block, for example:
-										<p></p>
+-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAlO4gbHeFb/fmbUF/tOJfNPJumJUEqgzAzx8MBXv9Acyw9IRa
+...
+zJ14Yd+t2fsLYVs2H0gxaA4DW6neCzgY3eKpSU0EBHUCFSXp/1+/
+-----END RSA PRIVATE KEY-----
+</pre><p>
+									<p>A certificate file must contain an X.509 certificate wrapped in a PEM block, for example:</p>
+									<p>
 										<pre>
- -----BEGIN CERTIFICATE-----
- MIIDezCCAmOgAwIBAgIEZOI/3TANBgkqhkiG9w0BAQsFADBuMRAwDgYDVQQGEwdV
- ...
- +tmLSvYS39O2nqIzzAUfztkYnUlZmB0l/mKkVqbGJA==
- -----END CERTIFICATE-----
- </pre>
-										<p> Keys and certificates can either be loaded by Vert.x from the filesystem:
-											<p>
+-----BEGIN CERTIFICATE-----
+MIIDezCCAmOgAwIBAgIEZOI/3TANBgkqhkiG9w0BAQsFADBuMRAwDgYDVQQGEwdV
+...
++tmLSvYS39O2nqIzzAUfztkYnUlZmB0l/mKkVqbGJA==
+-----END CERTIFICATE-----
+</pre>
+										<p>Keys and certificates can either be loaded by Vert.x from the filesystem:</p>
+										<p>
+											<pre>
+HttpServerOptions options = new HttpServerOptions();
+options.setPemKeyCertOptions(new PemKeyCertOptions().setKeyPath("/mykey.pem").setCertPath("/mycert.pem"));
+</pre>
+											<p>Or directly provided as a buffer:<p></p>
 												<pre>
- HttpServerOptions options = new HttpServerOptions();
- options.setPemKeyCertOptions(new PemKeyCertOptions().setKeyPath(&quot;/mykey.pem&quot;).setCertPath(&quot;/mycert.pem&quot;));
- </pre></p>
-											<p> Or directly provided as a buffer:<p></p>
-												<pre>
- Buffer key = vertx.fileSystem().readFileSync("/mykey.pem");
- Buffer cert = vertx.fileSystem().readFileSync("/mycert.pem");
- options.setPemKeyCertOptions(new PemKeyCertOptions().setKeyValue(key).setCertValue(cert));
- </pre>
-												<p> Several key/certificate pairs can be used:
-													<p>
-														<pre>
- HttpServerOptions options = new HttpServerOptions();
- options.setPemKeyCertOptions(new PemKeyCertOptions()
-    .addKeyPath(&quot;/mykey1.pem&quot;).addCertPath(&quot;/mycert1.pem&quot;)
-    .addKeyPath(&quot;/mykey2.pem&quot;).addCertPath(&quot;/mycert2.pem&quot;));
- </pre></p>
-													<dl class="tsd-comment-tags">
-														<dt>author</dt>
-														<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
-														</dd>
-														<dt>author</dt>
-														<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-														</dd>
-													</dl>
+Buffer key = vertx.fileSystem().readFileSync("/mykey.pem");
+Buffer cert = vertx.fileSystem().readFileSync("/mycert.pem");
+options.setPemKeyCertOptions(new PemKeyCertOptions().setKeyValue(key).setCertValue(cert));
+</pre>
+												<p>Several key/certificate pairs can be used:</p>
+												<p>
+													<pre>
+HttpServerOptions options = new HttpServerOptions();
+options.setPemKeyCertOptions(new PemKeyCertOptions()
+   .addKeyPath("/mykey1.pem").addCertPath("/mycert1.pem")
+   .addKeyPath("/mykey2.pem").addCertPath("/mycert2.pem"));
+</pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -185,7 +177,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6760</li>
+									<li>Defined in options.d.ts:4437</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
@@ -193,7 +185,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6762</li>
+									<li>Defined in options.d.ts:4439</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -219,7 +211,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6770</li>
+									<li>Defined in options.d.ts:4444</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,7 +220,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -242,7 +233,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6802</li>
+									<li>Defined in options.d.ts:4464</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -251,7 +242,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -265,7 +255,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6786</li>
+									<li>Defined in options.d.ts:4454</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -274,7 +264,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -288,7 +277,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6818</li>
+									<li>Defined in options.d.ts:4474</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -297,7 +286,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -311,7 +299,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6850</li>
+									<li>Defined in options.d.ts:4494</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -320,7 +308,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -334,7 +321,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6882</li>
+									<li>Defined in options.d.ts:4514</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -343,7 +330,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -357,7 +343,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6834</li>
+									<li>Defined in options.d.ts:4484</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -366,7 +352,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -380,7 +365,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6866</li>
+									<li>Defined in options.d.ts:4504</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -389,7 +374,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -403,7 +387,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6778</li>
+									<li>Defined in options.d.ts:4449</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -415,13 +399,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>certPath: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to the certificate</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -435,7 +415,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6794</li>
+									<li>Defined in options.d.ts:4459</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -447,13 +427,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>certPaths: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the paths to the certificates files</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -467,7 +443,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6810</li>
+									<li>Defined in options.d.ts:4469</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -479,13 +455,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>certValue: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the first certificate as a buffer</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -499,7 +471,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6826</li>
+									<li>Defined in options.d.ts:4479</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -511,13 +483,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>certValues: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the certificates as a list of buffer</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -531,7 +499,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6842</li>
+									<li>Defined in options.d.ts:4489</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -543,13 +511,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>keyPath: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path to the first key file</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -563,7 +527,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6858</li>
+									<li>Defined in options.d.ts:4499</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -575,13 +539,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>keyPaths: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the paths to the keys files</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -595,7 +555,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6874</li>
+									<li>Defined in options.d.ts:4509</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -607,13 +567,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>keyValue: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>key as a buffer</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -627,7 +583,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:6890</li>
+									<li>Defined in options.d.ts:4519</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -639,13 +595,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>keyValues: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the keys as a list of buffer</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pemkeycertoptions.html" class="tsd-signature-type">PemKeyCertOptions</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -738,6 +690,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -786,7 +739,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

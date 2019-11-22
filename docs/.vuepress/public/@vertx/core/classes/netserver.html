@@ -69,11 +69,6 @@
 					<div class="lead">
 						<p>Represents a TCP server</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -120,7 +115,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9223</li>
+									<li>Defined in index.d.ts:6160</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -130,7 +125,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the actual port the server is listening on.</p>
 						</li>
 					</ul>
 				</section>
@@ -145,7 +139,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9208</li>
+									<li>Defined in index.d.ts:6149</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -159,21 +153,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9215</li>
+									<li>Defined in index.d.ts:6154</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #close} but supplying a handler that will be notified when close is complete.</p>
+									<p>Like {@link NetServer#close} but supplying a handler that will be notified when close is complete.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -190,7 +181,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9118</li>
+									<li>Defined in index.d.ts:6085</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -207,7 +198,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -221,18 +211,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9109</li>
+									<li>Defined in index.d.ts:6078</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return the connect stream for this server. The server can only have at most one handler at any one time.
 										As the server accepts TCP or SSL connections it creates an instance of <a href="netsocket.html">NetSocket</a> and passes it to the
-									connect stream {@link ReadStream#handler(io.vertx.core.Handler)}.</p>
+									connect stream .</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/readstream.html" class="tsd-signature-type">ReadStream</a><span class="tsd-signature-symbol">&lt;</span><a href="netsocket.html" class="tsd-signature-type">NetSocket</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>the connect stream</p>
 						</li>
 					</ul>
 				</section>
@@ -247,21 +236,15 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/measured.html">Measured</a>.<a href="../interfaces/measured.html#ismetricsenabled">isMetricsEnabled</a></p>
 								<ul>
-									<li>Defined in index.d.ts:9100</li>
+									<li>Defined in index.d.ts:6071</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Whether the metrics are enabled for this measured object</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>implspec</dt>
-									<dd><p>The default implementation returns {@code false}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>if metrics are enabled</p>
 						</li>
 					</ul>
 				</section>
@@ -282,59 +265,54 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9128</li>
+									<li>Defined in index.d.ts:6093</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Start listening on the port and host as configured in the {@link io.vertx.core.net.NetServerOptions} used when
-										creating the server.
-										<p>
-										The server may not be listening until some time after the call to listen has returned.</p>
+									<p>Start listening on the port and host as configured in the <a href="../../dataobjects.html#NetServerOptions">NetServerOptions</a> used when
+									creating the server.</p>
+									<p>
+										The server may not be listening until some time after the call to listen has returned.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9136</li>
+									<li>Defined in index.d.ts:6098</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #listen} but providing a handler that will be notified when the server is listening, or fails.</p>
+									<p>Like {@link NetServer#listen} but providing a handler that will be notified when the server is listening, or fails.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>listenHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="netserver.html" class="tsd-signature-type">NetServer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will be notified when listening or failed</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9150</li>
+									<li>Defined in index.d.ts:6110</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Start listening on the specified port and host, ignoring port and host configured in the {@link io.vertx.core.net.NetServerOptions} used when
-										creating the server.
+									<p>Start listening on the specified port and host, ignoring port and host configured in the <a href="../../dataobjects.html#NetServerOptions">NetServerOptions</a> used when
+									creating the server.</p>
+									<p>
+										Port <code>0</code> can be specified meaning "choose an random port".
 										<p>
-											Port {@code 0} can be specified meaning &quot;choose an random port&quot;.
+											Host <code>0.0.0.0</code> can be specified meaning "listen on all available interfaces".
 											<p>
-												Host {@code 0.0.0.0} can be specified meaning &quot;listen on all available interfaces&quot;.
-												<p>
-												The server may not be listening until some time after the call to listen has returned.</p>
+												The server may not be listening until some time after the call to listen has returned.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -347,57 +325,46 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9160</li>
+									<li>Defined in index.d.ts:6115</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #listen(int, String)} but providing a handler that will be notified when the server is listening, or fails.</p>
+									<p>Like {@link NetServer#listen} but providing a handler that will be notified when the server is listening, or fails.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>port: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the port to listen on</p>
-									</div>
 								</li>
 								<li>
 									<h5>host: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the host to listen on</p>
-									</div>
 								</li>
 								<li>
 									<h5>listenHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="netserver.html" class="tsd-signature-type">NetServer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will be notified when listening or failed</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9172</li>
+									<li>Defined in index.d.ts:6125</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Start listening on the specified port and host &quot;0.0.0.0&quot;, ignoring port and host configured in the
-										{@link io.vertx.core.net.NetServerOptions} used when creating the server.
+									<a href="../../dataobjects.html#NetServerOptions">NetServerOptions</a> used when creating the server.</p>
+									<p>
+										Port <code>0</code> can be specified meaning "choose an random port".
 										<p>
-											Port {@code 0} can be specified meaning &quot;choose an random port&quot;.
-											<p>
-											The server may not be listening until some time after the call to listen has returned.</p>
+											The server may not be listening until some time after the call to listen has returned.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -407,91 +374,72 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9181</li>
+									<li>Defined in index.d.ts:6130</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #listen(int)} but providing a handler that will be notified when the server is listening, or fails.</p>
+									<p>Like {@link NetServer#listen} but providing a handler that will be notified when the server is listening, or fails.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>port: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the port to listen on</p>
-									</div>
 								</li>
 								<li>
 									<h5>listenHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="netserver.html" class="tsd-signature-type">NetServer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will be notified when listening or failed</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9192</li>
+									<li>Defined in index.d.ts:6138</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Start listening on the specified local address, ignoring port and host configured in the {@link io.vertx.core.net.NetServerOptions} used when
-										creating the server.
-										<p>
-										The server may not be listening until some time after the call to listen has returned.</p>
+									<p>Start listening on the specified local address, ignoring port and host configured in the <a href="../../dataobjects.html#NetServerOptions">NetServerOptions</a> used when
+									creating the server.</p>
+									<p>
+										The server may not be listening until some time after the call to listen has returned.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>localAddress: <a href="socketaddress.html" class="tsd-signature-type">SocketAddress</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the local address to listen on</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:9201</li>
+									<li>Defined in index.d.ts:6143</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #listen(SocketAddress)} but providing a handler that will be notified when the server is listening, or fails.</p>
+									<p>Like {@link NetServer#listen} but providing a handler that will be notified when the server is listening, or fails.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>localAddress: <a href="socketaddress.html" class="tsd-signature-type">SocketAddress</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the local address to listen on</p>
-									</div>
 								</li>
 								<li>
 									<h5>listenHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="netserver.html" class="tsd-signature-type">NetServer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will be notified when listening or failed</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="netserver.html" class="tsd-signature-type">NetServer</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -551,6 +499,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -599,7 +548,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

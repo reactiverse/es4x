@@ -17,16 +17,25 @@ package io.reactiverse.es4x.codegen.generator;
 
 import io.vertx.codegen.ModuleInfo;
 import io.vertx.codegen.TypeParamInfo;
+import io.vertx.codegen.doc.Doc;
+import io.vertx.codegen.doc.Tag;
+import io.vertx.codegen.doc.Token;
 import io.vertx.codegen.type.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
+
+import static io.vertx.codegen.type.ClassKind.DATA_OBJECT;
+import static io.vertx.codegen.type.ClassKind.ENUM;
+import static javax.lang.model.element.ElementKind.*;
 
 public final class Util {
 
@@ -425,6 +434,53 @@ public final class Util {
       return ((JsonObject) result).getString("return");
     }
 
+    return null;
+  }
+
+  public static void generateDoc(PrintWriter writer, Doc doc, String margin) {
+    if (doc != null) {
+      writer.print(margin);
+      writer.print("/**\n");
+      Token.toHtml(doc.getTokens(), margin + " *", Util::renderLinkToHtml, "\n", writer);
+      writer.print(margin);
+      writer.print(" */\n");
+    }
+  }
+
+  /**
+   * Render a tag link to an html link, this function is used as parameter of the
+   * renderDocToHtml function when it needs to render tag links.
+   */
+  private static String renderLinkToHtml(Tag.Link link) {
+    ClassTypeInfo rawType = link.getTargetType().getRaw();
+    if (rawType.getModule() != null) {
+      String label = link.getLabel().trim();
+      if (rawType.getKind() == DATA_OBJECT) {
+        if (label.length() == 0) {
+          label = rawType.getSimpleName();
+        }
+        return "<a href=\"../../dataobjects.html#" + rawType.getSimpleName() + "\">" + label + "</a>";
+      } else if (rawType.getKind() == ENUM && ((EnumTypeInfo) rawType).isGen()) {
+        if (label.length() == 0) {
+          label = rawType.getSimpleName();
+        }
+        return "<a href=\"../../enums.html#" + rawType.getSimpleName() + "\">" + label + "</a>";
+      } else {
+        if (label.length() > 0) {
+          label = "[" + label + "] ";
+        }
+        Element elt = link.getTargetElement();
+        String jsType = rawType.getSimpleName();
+        ElementKind kind = elt.getKind();
+        if (kind == CLASS || kind == INTERFACE) {
+          return label + "{@link " + jsType + "}";
+        } else if (kind == METHOD) {
+          return label + "{@link " + jsType + "#" + elt.getSimpleName().toString() + "}";
+        } else {
+          System.out.println("Unhandled kind " + kind);
+        }
+      }
+    }
     return null;
   }
 }

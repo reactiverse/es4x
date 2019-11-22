@@ -18,5 +18,4 @@ else
   echo "login as reactiverse"
   npm adduser --registry "$REGISTRY"
   mvn -fae -Pio.reactiverse -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
-
 fi

@@ -16,7 +16,6 @@
 package io.reactiverse.es4x.codegen.generator;
 
 import io.vertx.codegen.*;
-import io.vertx.codegen.doc.Doc;
 import io.vertx.codegen.type.ApiTypeInfo;
 import io.vertx.codegen.type.ClassTypeInfo;
 import io.vertx.codegen.type.EnumTypeInfo;
@@ -141,11 +140,7 @@ public class IndexDTS extends Generator<ClassModel> {
       }
     }
 
-    if (model.getDoc() != null) {
-      writer.print("/**\n");
-      writer.printf(" *%s\n", model.getDoc().toString().replace("\n", "\n * "));
-      writer.print("*/\n");
-    }
+    generateDoc(writer, model.getDoc(), "");
 
     writer.printf("export %s %s%s", model.isConcrete() ? "abstract class" : "interface", type.getSimpleName(), genGeneric(type.getParams()));
 
@@ -183,7 +178,7 @@ public class IndexDTS extends Generator<ClassModel> {
           writer.print("\n");
         }
 
-        generateDoc(writer, constant.getDoc());
+        generateDoc(writer, constant.getDoc(), "  ");
 
         writer.printf("  static readonly %s : %s;\n", constant.getName(), genType(constant.getType()));
         moreConstants = true;
@@ -249,7 +244,7 @@ public class IndexDTS extends Generator<ClassModel> {
           writer.print("\n");
         }
 
-        generateDoc(writer, constant.getDoc());
+        generateDoc(writer, constant.getDoc(), "  ");
 
         writer.printf("  static readonly %s : %s;\n", constant.getName(), genType(constant.getType()));
         moreConstants = true;
@@ -275,18 +270,9 @@ public class IndexDTS extends Generator<ClassModel> {
     return sw.toString();
   }
 
-
-  private void generateDoc(PrintWriter writer, Doc doc) {
-    if (doc != null) {
-      writer.print("  /**\n");
-      writer.printf("   *%s\n", doc.toString().replace("\n", "\n   * "));
-      writer.print("   */\n");
-    }
-  }
-
   private void generateMethod(PrintWriter writer, ClassTypeInfo type, MethodInfo method) {
 
-    generateDoc(writer, method.getDoc());
+    generateDoc(writer, method.getDoc(), "  ");
 
     if (getOverrideArgs(type.getSimpleName(), method.getName()) != null) {
       writer.printf("  %s%s%s(%s", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()), getOverrideArgs(type.getSimpleName(), method.getName()));

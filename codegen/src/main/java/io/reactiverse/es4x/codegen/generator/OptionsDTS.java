@@ -112,11 +112,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
       writer.print("\n");
     }
 
-    if (model.getDoc() != null) {
-      writer.print("/**\n");
-      writer.printf(" *%s\n", model.getDoc().toString().replace("\n", "\n * "));
-      writer.print("*/\n");
-    }
+    generateDoc(writer, model.getDoc(), "");
 
     writer.printf("export %sclass %s {\n", model.isConcrete() ? "" : "abstract ", model.getType().getRaw().getSimpleName());
 
@@ -138,11 +134,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
       }
 
       // write getter
-      if (property.getDoc() != null) {
-        writer.print("  /**\n");
-        writer.printf("   *%s\n", property.getDoc().toString().replace("\n", "\n   * "));
-        writer.print("   */\n");
-      }
+      generateDoc(writer, property.getDoc(), "  ");
       // custom vert.x style
       String getter = property.getGetterMethod();
       writer.printf("  %s(): %s;\n", getter == null ? entry.getKey() : getter, genType(property.getType()));
@@ -152,11 +144,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
         // write setter
         writer.print("\n");
 
-        if (property.getDoc() != null) {
-          writer.print("  /**\n");
-          writer.printf("   *%s\n", property.getDoc().toString().replace("\n", "\n   * "));
-          writer.print("   */\n");
-        }
+        generateDoc(writer, property.getDoc(), "  ");
         writer.printf("  %s(%s: %s): %s;\n", property.getSetterMethod(), cleanReserved(entry.getKey()), genType(property.getType()), model.getType().getRaw().getSimpleName());
       }
 
@@ -164,11 +152,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
         // write adder
         writer.print("\n");
 
-        if (property.getDoc() != null) {
-          writer.print("  /**\n");
-          writer.printf("   *%s\n", property.getDoc().toString().replace("\n", "\n   * "));
-          writer.print("   */\n");
-        }
+        generateDoc(writer, property.getDoc(), "  ");
         writer.printf("  %s(%s: %s): %s;\n", property.getAdderMethod(), cleanReserved(entry.getKey()), genType(property.getType()), model.getType().getRaw().getSimpleName());
       }
 

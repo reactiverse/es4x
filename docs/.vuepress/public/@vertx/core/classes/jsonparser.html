@@ -68,23 +68,18 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>A parser class which allows to incrementally parse json elements and emit json parse events instead of parsing a json
-							element fully. This parser is convenient for parsing large json structures.
+						element fully. This parser is convenient for parsing large json structures.</p>
+						<p/>
+							The parser also parses concatenated json streams or line delimited json streams.
 							<p/>
-								The parser also parses concatenated json streams or line delimited json streams.
+								The parser can also parse entire object or array when it is convenient, for instance a very large array
+								of small objects can be parsed efficiently by handling array <i>start</i>/<i>end</i> and <i>object</i>
+								events.
 								<p/>
-									The parser can also parse entire object or array when it is convenient, for instance a very large array
-									of small objects can be parsed efficiently by handling array <i>start</i>/<i>end</i> and <i>object</i>
-									events.
-									<p/>
-										Whenever the parser fails to parse or process the stream, the {@link #exceptionHandler(Handler)} is called with
-										the cause of the failure and the current handling stops. After such event, the parser should not handle data
-									anymore.</p>
+									Whenever the parser fails to parse or process the stream, the {@link JsonParser#exceptionHandler} is called with
+									the cause of the failure and the current handling stops. After such event, the parser should not handle data
+									anymore.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -142,7 +137,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7945</li>
+									<li>Defined in index.d.ts:5275</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -151,7 +146,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -165,18 +159,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7954</li>
+									<li>Defined in index.d.ts:5282</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Flip the parser to emit a single value event for each new json array.
+									<p>Flip the parser to emit a single value event for each new json array.</p>
 									</p>
-									Json array currently streamed won&#39;t be affected.</p>
+									Json array currently streamed won't be affected.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -190,7 +183,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7922</li>
+									<li>Defined in index.d.ts:5258</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -212,7 +205,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7962</li>
+									<li>Defined in index.d.ts:5290</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -235,7 +228,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7966</li>
+									<li>Defined in index.d.ts:5294</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -259,7 +252,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:7960</li>
+									<li>Defined in index.d.ts:5288</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -282,7 +275,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7870</li>
+									<li>Defined in index.d.ts:5216</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -294,9 +287,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>event: <a href="buffer.html" class="tsd-signature-type">Buffer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the event to handle</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -313,7 +303,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7964</li>
+									<li>Defined in index.d.ts:5292</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -336,7 +326,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7929</li>
+									<li>Defined in index.d.ts:5263</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -345,7 +335,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -359,18 +348,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7938</li>
+									<li>Defined in index.d.ts:5270</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Flip the parser to emit a single value event for each new json object.
+									<p>Flip the parser to emit a single value event for each new json object.</p>
 									</p>
-									Json object currently streamed won&#39;t be affected.</p>
+									Json object currently streamed won't be affected.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -385,7 +373,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:7956</li>
+									<li>Defined in index.d.ts:5284</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
@@ -403,18 +391,17 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:7879</li>
+									<li>Defined in index.d.ts:5223</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pause this stream and return a <a href="pipe.html">Pipe</a> to transfer the elements of this stream to a destination <a href="../interfaces/writestream.html">WriteStream</a>.
-										<p/>
-										The stream will be resumed when the pipe will be wired to a {@code WriteStream}.</p>
+									<p>Pause this stream and return a  to transfer the elements of this stream to a destination .</p>
+									<p/>
+										The stream will be resumed when the pipe will be wired to a <code>WriteStream</code>.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><a href="jsonevent.html" class="tsd-signature-type">JsonEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a pipe</p>
 						</li>
 					</ul>
 				</section>
@@ -430,12 +417,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:7885</li>
+									<li>Defined in index.d.ts:5228</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link #pipeTo(WriteStream, Handler)} but with no completion handler.</p>
+									<p>Like {@link ReadStream#pipeTo} but with no completion handler.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -449,26 +436,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7897</li>
+									<li>Defined in index.d.ts:5238</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Pipe this {@code ReadStream} to the {@code WriteStream}.
+									<p>Pipe this <code>ReadStream</code> to the <code>WriteStream</code>.</p>
+									<p>
+										Elements emitted by this stream will be written to the write stream until this stream ends or fails.
 										<p>
-											Elements emitted by this stream will be written to the write stream until this stream ends or fails.
-											<p>
-												Once this stream has ended or failed, the write stream will be ended and the {@code handler} will be
-											called with the result.</p>
+											Once this stream has ended or failed, the write stream will be ended and the <code>handler</code> will be
+											called with the result.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>dst: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="jsonevent.html" class="tsd-signature-type">JsonEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the destination write stream</p>
-									</div>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
@@ -489,7 +473,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:7958</li>
+									<li>Defined in index.d.ts:5286</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
@@ -506,12 +490,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7916</li>
+									<li>Defined in index.d.ts:5253</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Handle a {@code Buffer}, pretty much like calling {@link #handle(Object)}.</p>
+									<p>Handle a <code>Buffer</code>, pretty much like calling {@link Handler#handle}.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -521,7 +505,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -536,12 +519,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7903</li>
+									<li>Defined in index.d.ts:5243</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new {@code JsonParser} instance.</p>
+									<p>Create a new <code>JsonParser</code> instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="jsonparser.html" class="tsd-signature-type">JsonParser</a></h4>
@@ -549,12 +532,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:7909</li>
+									<li>Defined in index.d.ts:5248</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new {@code JsonParser} instance.</p>
+									<p>Create a new <code>JsonParser</code> instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -653,6 +636,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -701,7 +685,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

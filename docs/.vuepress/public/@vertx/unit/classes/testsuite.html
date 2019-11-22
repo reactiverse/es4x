@@ -68,18 +68,13 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>A named suite of test cases that are executed altogether. The suite suite is created with
-							the {@link #create(String)} and the returned suite contains initially no tests.<p/></p>
+							the {@link TestSuite#create} and the returned suite contains initially no tests.<p/></p>
 					</div>
-					<p> The suite can declare a callback before the suite with {@link #before(io.vertx.core.Handler)} or after
-						the suite with {@link #after(io.vertx.core.Handler)}.<p/></p>
-						<p> The suite can declare a callback before each test with {@link #beforeEach(io.vertx.core.Handler)} or after
-							each test with {@link #afterEach(io.vertx.core.Handler)}.<p/></p>
-							<p> Each test case of the suite is declared by calling the {@link #test(String, io.vertx.core.Handler)} method.</p>
-							<dl class="tsd-comment-tags">
-								<dt>author</dt>
-								<dd><p><a href="mailto:julien@julienviet.com">Julien Viet</a></p>
-								</dd>
-							</dl>
+					<p>The suite can declare a callback before the suite with {@link TestSuite#before} or after
+						the suite with {@link TestSuite#after}.<p/></p>
+						<p>The suite can declare a callback before each test with {@link TestSuite#beforeEach} or after
+							each test with {@link TestSuite#afterEach}.<p/></p>
+							<p>Each test case of the suite is declared by calling the {@link TestSuite#test} method.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -115,13 +110,13 @@
 					<a name="after" class="tsd-anchor"></a>
 					<h3>after</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">after<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
+						<li class="tsd-signature tsd-kind-icon">after<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:695</li>
+									<li>Defined in index.d.ts:499</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -132,14 +127,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>callback: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the callback</p>
-									</div>
+									<h5>callback: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testsuite.html" class="tsd-signature-type">TestSuite</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -147,31 +138,27 @@
 					<a name="aftereach" class="tsd-anchor"></a>
 					<h3>after<wbr>Each</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">after<wbr>Each<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
+						<li class="tsd-signature tsd-kind-icon">after<wbr>Each<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:703</li>
+									<li>Defined in index.d.ts:504</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set a callback executed after each test and before the suite {@code after} callback.</p>
+									<p>Set a callback executed after each test and before the suite <code>after</code> callback.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>callback: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the callback</p>
-									</div>
+									<h5>callback: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testsuite.html" class="tsd-signature-type">TestSuite</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -179,13 +166,13 @@
 					<a name="before" class="tsd-anchor"></a>
 					<h3>before</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">before<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
+						<li class="tsd-signature tsd-kind-icon">before<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:679</li>
+									<li>Defined in index.d.ts:489</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,14 +183,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>callback: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the callback</p>
-									</div>
+									<h5>callback: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testsuite.html" class="tsd-signature-type">TestSuite</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -211,31 +194,27 @@
 					<a name="beforeeach" class="tsd-anchor"></a>
 					<h3>before<wbr>Each</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">before<wbr>Each<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
+						<li class="tsd-signature tsd-kind-icon">before<wbr>Each<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:687</li>
+									<li>Defined in index.d.ts:494</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set a callback executed before each test and after the suite {@code before} callback.</p>
+									<p>Set a callback executed before each test and after the suite <code>before</code> callback.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>callback: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the callback</p>
-									</div>
+									<h5>callback: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testsuite.html" class="tsd-signature-type">TestSuite</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -245,112 +224,96 @@
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></li>
 						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="testoptions.html" class="tsd-signature-type">TestOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></li>
-						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></li>
-						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, options<span class="tsd-signature-symbol">: </span><a href="testoptions.html" class="tsd-signature-type">TestOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></li>
+						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></li>
+						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, options<span class="tsd-signature-symbol">: </span><a href="testoptions.html" class="tsd-signature-type">TestOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:734</li>
+									<li>Defined in index.d.ts:524</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Run the testsuite with the default options.<p/></p>
 								</div>
-								<p> When the test suite is executed in a Vertx context (i.e <code>Vertx.currentContext()</code> returns a context) this
+								<p>When the test suite is executed in a Vertx context (i.e <code>Vertx.currentContext()</code> returns a context) this
 									context&#39;s event loop is used for running the test suite. Otherwise it is executed in the current thread.<p/></p>
-									<p> The returned <a href="completion.html">Completion</a> object can be used to get a completion callback.</p>
+									<p>The returned <a href="completion.html">Completion</a> object can be used to get a completion callback.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></h4>
-							<p>the related test completion</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:751</li>
+									<li>Defined in index.d.ts:538</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Run the testsuite with the specified {@code options}.<p/></p>
+									<p>Run the testsuite with the specified <code>options</code>.<p/></p>
 								</div>
-								<p> When the test suite is executed in a Vertx context (i.e <code>Vertx.currentContext()</code> returns a context) this
-									context&#39;s event loop is used for running the test suite unless the {@link io.vertx.ext.unit.TestOptions#setUseEventLoop(Boolean)}
-									is set to {@code false}. In this case it is executed by the current thread.<p/></p>
-									<p> Otherwise, the test suite will be executed in the current thread when {@link io.vertx.ext.unit.TestOptions#setUseEventLoop(Boolean)} is
-										set to {@code false} or {@code null}. If the value is {@code true}, this methods throws an {@code IllegalStateException}.<p/></p>
-										<p> The returned <a href="completion.html">Completion</a> object can be used to get a completion callback.</p>
+								<p>When the test suite is executed in a Vertx context (i.e <code>Vertx.currentContext()</code> returns a context) this
+									context&#39;s event loop is used for running the test suite unless the <a href="../../dataobjects.html#TestOptions">TestOptions</a>
+									is set to <code>false</code>. In this case it is executed by the current thread.<p/></p>
+									<p>Otherwise, the test suite will be executed in the current thread when <a href="../../dataobjects.html#TestOptions">TestOptions</a> is
+										set to <code>false</code> or <code>null</code>. If the value is <code>true</code>, this methods throws an <code>IllegalStateException</code>.<p/></p>
+										<p>The returned <a href="completion.html">Completion</a> object can be used to get a completion callback.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="testoptions.html" class="tsd-signature-type">TestOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the test options</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></h4>
-							<p>the related test completion</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:762</li>
+									<li>Defined in index.d.ts:546</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Run the testsuite with the default options and the specified {@code vertx} instance.<p/></p>
+									<p>Run the testsuite with the default options and the specified <code>vertx</code> instance.<p/></p>
 								</div>
-								<p> The test suite will be executed on the event loop provided by the {@code vertx} argument. The returned
+								<p>The test suite will be executed on the event loop provided by the <code>vertx</code> argument. The returned
 									<a href="completion.html">Completion</a> object can be used to get a completion callback.<p/></p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the vertx instance</p>
-									</div>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></h4>
-							<p>the related test completion</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:775</li>
+									<li>Defined in index.d.ts:555</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Run the testsuite with the specified {@code options} and the specified {@code vertx} instance.<p/></p>
+									<p>Run the testsuite with the specified <code>options</code> and the specified <code>vertx</code> instance.<p/></p>
 								</div>
-								<p> The test suite will be executed on the event loop provided by the {@code vertx} argument when
-									{@link io.vertx.ext.unit.TestOptions#setUseEventLoop(Boolean)} is not set to {@code false}. The returned
+								<p>The test suite will be executed on the event loop provided by the <code>vertx</code> argument when
+									<a href="../../dataobjects.html#TestOptions">TestOptions</a> is not set to <code>false</code>. The returned
 								<a href="completion.html">Completion</a> object can be used to get a completion callback.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the vertx instance</p>
-									</div>
+									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
 								</li>
 								<li>
 									<h5>options: <a href="testoptions.html" class="tsd-signature-type">TestOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the test options</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testcompletion.html" class="tsd-signature-type">TestCompletion</a></h4>
-							<p>the related test completion</p>
 						</li>
 					</ul>
 				</section>
@@ -358,14 +321,14 @@
 					<a name="test" class="tsd-anchor"></a>
 					<h3>test</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">test<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, testCase<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
-						<li class="tsd-signature tsd-kind-icon">test<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, repeat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, testCase<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
+						<li class="tsd-signature tsd-kind-icon">test<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, testCase<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
+						<li class="tsd-signature tsd-kind-icon">test<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, repeat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, testCase<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="testsuite.html" class="tsd-signature-type">TestSuite</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:712</li>
+									<li>Defined in index.d.ts:509</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -377,24 +340,17 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the test case name</p>
-									</div>
 								</li>
 								<li>
-									<h5>testCase: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the test case</p>
-									</div>
+									<h5>testCase: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testsuite.html" class="tsd-signature-type">TestSuite</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:722</li>
+									<li>Defined in index.d.ts:514</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -406,25 +362,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the test case name</p>
-									</div>
 								</li>
 								<li>
 									<h5>repeat: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the number of times the test should be repeated</p>
-									</div>
 								</li>
 								<li>
-									<h5>testCase: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the test case</p>
-									</div>
+									<h5>testCase: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="testcontext.html" class="tsd-signature-type">TestContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testsuite.html" class="tsd-signature-type">TestSuite</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -438,7 +384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:671</li>
+									<li>Defined in index.d.ts:484</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -450,13 +396,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the test suite name</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="testsuite.html" class="tsd-signature-type">TestSuite</a></h4>
-							<p>the created test suite</p>
 						</li>
 					</ul>
 				</section>
@@ -472,42 +414,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="async.html" class="tsd-kind-icon">Async</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="completion.html" class="tsd-kind-icon">Completion</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="eventbuscollector.html" class="tsd-kind-icon">Event<wbr>Bus<wbr>Collector</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="failure.html" class="tsd-kind-icon">Failure</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="reportoptions.html" class="tsd-kind-icon">Report<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="reportingoptions.html" class="tsd-kind-icon">Reporting<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="testcase.html" class="tsd-kind-icon">Test<wbr>Case</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="testcasereport.html" class="tsd-kind-icon">Test<wbr>Case<wbr>Report</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="testcompletion.html" class="tsd-kind-icon">Test<wbr>Completion</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="testcontext.html" class="tsd-kind-icon">Test<wbr>Context</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="testoptions.html" class="tsd-kind-icon">Test<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="testresult.html" class="tsd-kind-icon">Test<wbr>Result</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -538,9 +444,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="testsuitereport.html" class="tsd-kind-icon">Test<wbr>Suite<wbr>Report</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -558,6 +461,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -606,7 +510,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

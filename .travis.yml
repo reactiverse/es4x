@@ -20,23 +20,45 @@ matrix:
   include:
   # OpenJDK
     - env: JDK='OpenJDK 8'
+      os: linux
+      dist: xenial
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk8?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
     - env: JDK='OpenJDK 11'
+      os: linux
+      dist: xenial
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
-    - env: JDK='OpenJDK 12'
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk12?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
+    - env: JDK='OpenJDK 13'
+      os: linux
+      dist: xenial
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk13?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
   # GraalVM
-    - env: JDK='GraalVM 19'
-      install: . ./install-jdk.sh --url "https://github.com/oracle/graal/releases/download/vm-19.2.0/graalvm-ce-linux-amd64-19.2.0.tar.gz"
+    - env: JDK='GraalVM 19.3.0 (8)'
+      os: linux
+      dist: xenial
+      install: . ./install-jdk.sh --url "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-19.3.0/graalvm-ce-java8-linux-amd64-19.3.0.tar.gz"
+    - env: JDK='GraalVM 19.3.0 (11)'
+      os: linux
+      dist: xenial
+      install: . ./install-jdk.sh --url "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-19.3.0/graalvm-ce-java11-linux-amd64-19.3.0.tar.gz"
+    - env: JDK='GraalVM 19.3.0 (11)'
+      os: linux
+      dist: xenial
+      arch: arm64
+      install: . ./install-jdk.sh --url "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-19.3.0/graalvm-ce-java11-linux-aarch64-19.3.0.tar.gz"
   # OpenJ9
-    - env: JDK='OpenJ9'
+    - env: JDK='OpenJ9 11'
+      os: linux
+      dist: xenial
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
+    - env: JDK='OpenJ9 13'
+      os: linux
+      dist: xenial
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk13?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
   allow_failures:
-    - env: JDK='OpenJ9'
-    - env: JDK='OpenJDK 12'
+    - env: JDK='OpenJDK 13'
 
 script:
-  - mvn clean verify
+  - ./mvnw clean verify
 
 after_success:
 - '[[ "${JDK}" = "OpenJDK 11" ]] && bash <(curl -s https://codecov.io/bash) || true'

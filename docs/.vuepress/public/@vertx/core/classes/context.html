@@ -67,42 +67,37 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The execution context of a {@link io.vertx.core.Handler} execution.
+						<p>The execution context of a <a href="../interfaces/handler.html">Handler</a> execution.</p>
+						<p>
+							When Vert.x provides an event to a handler or calls the start or stop methods of a {@link Verticle},
+							the execution is associated with a <code>Context</code>.
 							<p>
-								When Vert.x provides an event to a handler or calls the start or stop methods of a {@link io.vertx.core.Verticle},
-								the execution is associated with a {@code Context}.
+								Usually a context is an *event-loop context* and is tied to a specific event loop thread. So executions for that
+								context always occur on that exact same event loop thread.
 								<p>
-									Usually a context is an <em>event-loop context</em> and is tied to a specific event loop thread. So executions for that
-									context always occur on that exact same event loop thread.
+									In the case of worker verticles and running inline blocking code a worker context will be associated with the execution
+									which will use a thread from the worker thread pool.
 									<p>
-										In the case of worker verticles and running inline blocking code a worker context will be associated with the execution
-										which will use a thread from the worker thread pool.
+										When a handler is set by a thread associated with a specific context, the Vert.x will guarantee that when that handler
+										is executed, that execution will be associated with the same context.
 										<p>
-											When a handler is set by a thread associated with a specific context, the Vert.x will guarantee that when that handler
-											is executed, that execution will be associated with the same context.
+											If a handler is set by a thread not associated with a context (i.e. a non Vert.x thread). Then a new context will
+											be created for that handler.
 											<p>
-												If a handler is set by a thread not associated with a context (i.e. a non Vert.x thread). Then a new context will
-												be created for that handler.
+												In other words, a context is propagated.
 												<p>
-													In other words, a context is propagated.
+													This means that when a verticle is deployed, any handlers it sets will be associated with the same context - the context
+													of the verticle.
 													<p>
-														This means that when a verticle is deployed, any handlers it sets will be associated with the same context - the context
-														of the verticle.
+														This means (in the case of a standard verticle) that the verticle code will always be executed with the exact same
+														thread, so you don't have to worry about multi-threaded acccess to the verticle state and you can code your application
+														as single threaded.
 														<p>
-															This means (in the case of a standard verticle) that the verticle code will always be executed with the exact same
-															thread, so you don&#39;t have to worry about multi-threaded acccess to the verticle state and you can code your application
-															as single threaded.
+															This class also allows arbitrary data to be {@link Context#put} and {@link Context#get} on the context so it can be shared easily
+															amongst different handlers of, for example, a verticle instance.
 															<p>
-																This class also allows arbitrary data to be {@link #put} and {@link #get} on the context so it can be shared easily
-																amongst different handlers of, for example, a verticle instance.
-																<p>
-																This class also provides {@link #runOnContext} which allows an action to be executed asynchronously using the same context.</p>
+																This class also provides {@link Context#runOnContext} which allows an action to be executed asynchronously using the same context.
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -156,7 +151,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1932</li>
+									<li>Defined in index.d.ts:1446</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -197,7 +192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1843</li>
+									<li>Defined in index.d.ts:1384</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -210,7 +205,6 @@
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the configuration of the deployment or null if not a Verticle deployment</p>
 						</li>
 					</ul>
 				</section>
@@ -224,7 +218,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1835</li>
+									<li>Defined in index.d.ts:1378</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -233,7 +227,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the deployment ID of the deployment or null if not a Verticle deployment</p>
 						</li>
 					</ul>
 				</section>
@@ -247,26 +240,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1930</li>
+									<li>Defined in index.d.ts:1444</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Set an exception handler called when the context runs an action throwing an uncaught throwable.<p/></p>
 								</div>
-								<p> When this handler is called, {@link Vertx#currentContext()} will return this context.</p>
+								<p>When this handler is called, {@link Vertx#currentContext} will return this context.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the exception handler</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="context.html" class="tsd-signature-type">Context</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -281,62 +270,48 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1819</li>
+									<li>Defined in index.d.ts:1368</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Safely execute some blocking code.
+									<p>Safely execute some blocking code.</p>
+									<p>
+										Executes the blocking code in the handler <code>blockingCodeHandler</code> using a thread from the worker pool.
 										<p>
-											Executes the blocking code in the handler {@code blockingCodeHandler} using a thread from the worker pool.
+											When the code is complete the handler <code>resultHandler</code> will be called with the result on the original context
+											(e.g. on the original event loop of the caller).
 											<p>
-												When the code is complete the handler {@code resultHandler} will be called with the result on the original context
-												(e.g. on the original event loop of the caller).
+												A <code>Future</code> instance is passed into <code>blockingCodeHandler</code>. When the blocking code successfully completes,
+												the handler should call the {@link Promise#complete} or {@link Promise#complete} method, or the {@link Promise#fail}
+												method if it failed.
 												<p>
-													A {@code Future} instance is passed into {@code blockingCodeHandler}. When the blocking code successfully completes,
-													the handler should call the {@link Promise#complete} or {@link Promise#complete(Object)} method, or the {@link Promise#fail}
-													method if it failed.
+													The blocking code should block for a reasonable amount of time (i.e no more than a few seconds). Long blocking operations
+													or polling operations (i.e a thread that spin in a loop polling events in a blocking fashion) are precluded.
 													<p>
-														The blocking code should block for a reasonable amount of time (i.e no more than a few seconds). Long blocking operations
-														or polling operations (i.e a thread that spin in a loop polling events in a blocking fashion) are precluded.
+														When the blocking operation lasts more than the 10 seconds, a message will be printed on the console by the
+														blocked thread checker.
 														<p>
-															When the blocking operation lasts more than the 10 seconds, a message will be printed on the console by the
-															blocked thread checker.
-															<p>
-																Long blocking operations should use a dedicated thread managed by the application, which can interact with
-															verticles using the event-bus or {@link Context#runOnContext(Handler)}</p>
+															Long blocking operations should use a dedicated thread managed by the application, which can interact with
+															verticles using the event-bus or {@link Context#runOnContext}
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>T</h4>
-									<div class="tsd-comment tsd-typography">
-										<p>the type of the result</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>blockingCodeHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler representing the blocking code to run</p>
-									</div>
 								</li>
 								<li>
 									<h5>ordered: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>if true then if executeBlocking is called several times on the same context, the executions
-											for that context will be executed serially, not in parallel. if false then they will be no ordering
-										guarantees</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will be called when the blocking code is complete</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -344,36 +319,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1828</li>
+									<li>Defined in index.d.ts:1373</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Invoke {@link #executeBlocking(Handler, boolean, Handler)} with order = true.</p>
+									<p>Invoke {@link Context#executeBlocking} with order = true.</p>
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>T</h4>
-									<div class="tsd-comment tsd-typography">
-										<p>the type of the result</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>blockingCodeHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler representing the blocking code to run</p>
-									</div>
 								</li>
 								<li>
 									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>handler that will be called when the blocking code is complete</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -390,7 +356,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1887</li>
+									<li>Defined in index.d.ts:1417</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -402,22 +368,15 @@
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>T</h4>
-									<div class="tsd-comment tsd-typography">
-										<p>the type of the data</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key of the data</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
-							<p>the data</p>
 						</li>
 					</ul>
 				</section>
@@ -431,14 +390,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1920</li>
+									<li>Defined in index.d.ts:1437</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the number of instances of the verticle that were deployed in the deployment (if any) related
-							to this context</p>
 						</li>
 					</ul>
 				</section>
@@ -452,20 +407,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1860</li>
+									<li>Defined in index.d.ts:1398</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Is the current context an event loop context?
-										<p>
-											NOTE! when running blocking code using {@link io.vertx.core.Vertx#executeBlocking(Handler, Handler)} from a
-											standard (not worker) verticle, the context will still an event loop context and this {@link this#isEventLoopContext()}
-										will return true.</p>
+									<p>Is the current context an event loop context?</p>
+									<p>
+										NOTE! when running blocking code using {@link Vertx#executeBlocking} from a
+										standard (not worker) verticle, the context will still an event loop context and this
+										will return true.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if  false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -479,7 +433,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1878</li>
+									<li>Defined in index.d.ts:1412</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -488,7 +442,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the current context is a multi-threaded worker context, false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -502,20 +455,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1871</li>
+									<li>Defined in index.d.ts:1407</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Is the current context a worker context?
-										<p>
-											NOTE! when running blocking code using {@link io.vertx.core.Vertx#executeBlocking(Handler, Handler)} from a
-											standard (not worker) verticle, the context will still an event loop context and this {@link this#isWorkerContext()}
-										will return false.</p>
+									<p>Is the current context a worker context?</p>
+									<p>
+										NOTE! when running blocking code using {@link Vertx#executeBlocking} from a
+										standard (not worker) verticle, the context will still an event loop context and this
+										will return false.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the current context is a worker context, false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -529,13 +481,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1912</li>
+									<li>Defined in index.d.ts:1433</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="vertx.html" class="tsd-signature-type">Vertx</a></h4>
-							<p>The Vertx instance that created the context</p>
 						</li>
 					</ul>
 				</section>
@@ -549,7 +498,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1849</li>
+									<li>Defined in index.d.ts:1389</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -571,29 +520,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1897</li>
+									<li>Defined in index.d.ts:1424</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Put some data in the context.
-										<p>
-										This can be used to share data between different handlers that share a context</p>
+									<p>Put some data in the context.</p>
+									<p>
+										This can be used to share data between different handlers that share a context
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key of the data</p>
-									</div>
 								</li>
 								<li>
 									<h5>value: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the data</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -610,7 +553,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1905</li>
+									<li>Defined in index.d.ts:1429</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -622,13 +565,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the key to remove</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if removed successfully, false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -642,7 +581,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1934</li>
+									<li>Defined in index.d.ts:1448</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -683,7 +622,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1789</li>
+									<li>Defined in index.d.ts:1345</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -695,9 +634,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>action: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the action to run</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -714,19 +650,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1775</li>
+									<li>Defined in index.d.ts:1335</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Is the current thread an event thread?
-										<p>
-											NOTE! This is not always the same as calling {@link Context#isEventLoopContext}. If you are running blocking code
-										from an event loop context, then this will return false but {@link Context#isEventLoopContext} will return true.</p>
+									<p>Is the current thread an event thread?</p>
+									<p>
+										NOTE! This is not always the same as calling {@link Context#isEventLoopContext}. If you are running blocking code
+										from an event loop context, then this will return false but {@link Context#isEventLoopContext} will return true.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if current thread is an event thread, false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -740,7 +675,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1782</li>
+									<li>Defined in index.d.ts:1340</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -749,7 +684,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if current thread is a Vert.x thread, false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -763,19 +697,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1765</li>
+									<li>Defined in index.d.ts:1327</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Is the current thread a worker thread?
-										<p>
-											NOTE! This is not always the same as calling {@link Context#isWorkerContext}. If you are running blocking code
-										from an event loop context, then this will return true but {@link Context#isWorkerContext} will return false.</p>
+									<p>Is the current thread a worker thread?</p>
+									<p>
+										NOTE! This is not always the same as calling {@link Context#isWorkerContext}. If you are running blocking code
+										from an event loop context, then this will return true but {@link Context#isWorkerContext} will return false.
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if current thread is a worker thread, false otherwise</p>
 						</li>
 					</ul>
 				</section>
@@ -874,6 +807,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -922,7 +856,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

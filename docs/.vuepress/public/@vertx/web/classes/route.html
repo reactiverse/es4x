@@ -70,11 +70,6 @@
 						<p>A route is a holder for a set of criteria which determine whether an HTTP request or failure should be routed
 						to a handler.</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>author</dt>
-						<dd><p><a href="http://tfox.org">Tim Fox</a></p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -122,25 +117,25 @@
 					<a name="blockinghandler" class="tsd-anchor"></a>
 					<h3>blocking<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">blocking<wbr>Handler<span class="tsd-signature-symbol">(</span>requestHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
-						<li class="tsd-signature tsd-kind-icon">blocking<wbr>Handler<span class="tsd-signature-symbol">(</span>requestHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span>, ordered<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
+						<li class="tsd-signature tsd-kind-icon">blocking<wbr>Handler<span class="tsd-signature-symbol">(</span>requestHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
+						<li class="tsd-signature tsd-kind-icon">blocking<wbr>Handler<span class="tsd-signature-symbol">(</span>requestHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span>, ordered<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1905</li>
+									<li>Defined in index.d.ts:1354</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Like {@link io.vertx.ext.web.Route#blockingHandler(Handler, boolean)} called with ordered = true</p>
+									<p>Like {@link Route#blockingHandler} called with ordered = true</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>requestHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>requestHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
@@ -148,37 +143,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1937</li>
+									<li>Defined in index.d.ts:1379</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Specify a blocking request handler for the route.
-										This method works just like {@link #handler(Handler)} excepted that it will run the blocking handler on a worker thread
+										This method works just like {@link Route#handler} excepted that it will run the blocking handler on a worker thread
 										so that it won&#39;t block the event loop. Note that it&#39;s safe to call context.next() from the
 									blocking handler as it will be executed on the event loop context (and not on the worker thread.</p>
 								</div>
-								<p> If the blocking handler is ordered it means that any blocking handlers for the same context are never executed
+								<p>If the blocking handler is ordered it means that any blocking handlers for the same context are never executed
 									concurrently but always in the order they were called. The default value of ordered is true. If you do not want this
 								behaviour and don&#39;t mind if your blocking handlers are executed in parallel you can set ordered to false.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>requestHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the blocking request handler</p>
-									</div>
+									<h5>requestHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>ordered: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>if true handlers are executed in sequence, otherwise are run in parallel</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -192,7 +180,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1874</li>
+									<li>Defined in index.d.ts:1332</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -204,13 +192,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>contentType: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the content type</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -224,7 +208,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1961</li>
+									<li>Defined in index.d.ts:1396</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -233,7 +217,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -247,7 +230,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1968</li>
+									<li>Defined in index.d.ts:1401</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -256,7 +239,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -264,13 +246,13 @@
 					<a name="failurehandler" class="tsd-anchor"></a>
 					<h3>failure<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">failure<wbr>Handler<span class="tsd-signature-symbol">(</span>failureHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
+						<li class="tsd-signature tsd-kind-icon">failure<wbr>Handler<span class="tsd-signature-symbol">(</span>failureHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1947</li>
+									<li>Defined in index.d.ts:1386</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -283,14 +265,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>failureHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the request handler</p>
-									</div>
+									<h5>failureHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -304,16 +282,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1984</li>
+									<li>Defined in index.d.ts:1411</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
 							</h4>
-							<p>the path prefix (if any) for this route</p>
 						</li>
 					</ul>
 				</section>
@@ -321,13 +296,13 @@
 					<a name="handler" class="tsd-anchor"></a>
 					<h3>handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">handler<span class="tsd-signature-symbol">(</span>requestHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
+						<li class="tsd-signature tsd-kind-icon">handler<span class="tsd-signature-symbol">(</span>requestHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1899</li>
+									<li>Defined in index.d.ts:1349</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -340,14 +315,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>requestHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the request handler</p>
-									</div>
+									<h5>requestHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -361,7 +332,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1991</li>
+									<li>Defined in index.d.ts:1416</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -370,7 +341,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if backed by a pattern.</p>
 						</li>
 					</ul>
 				</section>
@@ -384,7 +354,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1889</li>
+									<li>Defined in index.d.ts:1342</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -393,7 +363,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -401,13 +370,13 @@
 					<a name="method" class="tsd-anchor"></a>
 					<h3>method</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpMethod</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
+						<li class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1840</li>
+									<li>Defined in index.d.ts:1310</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -419,14 +388,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>method: <span class="tsd-signature-type">HttpMethod</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the HTTP method to add</p>
-									</div>
+									<h5>method: <a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -434,19 +399,16 @@
 					<a name="methods" class="tsd-anchor"></a>
 					<h3>methods</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">methods<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpMethod</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">methods<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1998</li>
+									<li>Defined in index.d.ts:1420</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HttpMethod</span><span class="tsd-signature-symbol">[]</span></h4>
-							<p>the http methods accepted by this route</p>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -460,7 +422,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1882</li>
+									<li>Defined in index.d.ts:1337</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -472,13 +434,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>order: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the order</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -492,7 +450,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1849</li>
+									<li>Defined in index.d.ts:1316</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -505,13 +463,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path prefix</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -525,7 +479,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1858</li>
+									<li>Defined in index.d.ts:1322</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -538,13 +492,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the path regex</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -558,7 +508,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1866</li>
+									<li>Defined in index.d.ts:1327</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -570,13 +520,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>contentType: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the content type</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -590,7 +536,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1954</li>
+									<li>Defined in index.d.ts:1391</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -599,7 +545,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -613,7 +558,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:2011</li>
+									<li>Defined in index.d.ts:1430</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -630,13 +575,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>groups: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>group names</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -650,7 +591,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1921</li>
+									<li>Defined in index.d.ts:1367</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -669,13 +610,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>subRouter: <a href="router.html" class="tsd-signature-type">Router</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the router to add</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -689,7 +626,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1977</li>
+									<li>Defined in index.d.ts:1407</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -702,13 +639,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>useNormalisedPath: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>use normalised path for routing?</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="route.html" class="tsd-signature-type">Route</a></h4>
-							<p>a reference to this, so the API can be used fluently</p>
 						</li>
 					</ul>
 				</section>
@@ -807,6 +740,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -855,7 +789,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
