@@ -74,14 +74,14 @@ public final class JSObjectMessageCodec implements MessageCodec<Object, Object> 
     if (jsObject instanceof List) {
       final Buffer encoded = new JsonArray((List) jsObject).toBuffer();
       buffer.appendInt(encoded.length());
-      buffer.appendBuffer(buffer);
+      buffer.appendBuffer(encoded);
       return;
     }
 
     if (jsObject instanceof Map) {
       final Buffer encoded = new JsonObject((Map) jsObject).toBuffer();
       buffer.appendInt(encoded.length());
-      buffer.appendBuffer(buffer);
+      buffer.appendBuffer(encoded);
       return;
     }
 
