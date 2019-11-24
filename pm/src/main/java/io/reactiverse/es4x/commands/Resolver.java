@@ -37,8 +37,11 @@ import org.eclipse.aether.util.artifact.JavaScopes;
 import org.eclipse.aether.util.filter.DependencyFilterUtils;
 import org.eclipse.aether.util.repository.AuthenticationBuilder;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -204,11 +207,15 @@ final class Resolver {
     if (userInfo != null) {
       AuthenticationBuilder authBuilder = new AuthenticationBuilder();
       int sep = userInfo.indexOf(':');
-      if (sep != -1) {
-        authBuilder.addUsername(userInfo.substring(0, sep));
-        authBuilder.addPassword(userInfo.substring(sep + 1));
-      } else {
-        authBuilder.addUsername(userInfo);
+      try {
+        if (sep != -1) {
+          authBuilder.addUsername(URLDecoder.decode(userInfo.substring(0, sep), StandardCharsets.UTF_8.toString()));
+          authBuilder.addPassword(URLDecoder.decode(userInfo.substring(sep + 1), StandardCharsets.UTF_8.toString()));
+        } else {
+          authBuilder.addUsername(URLDecoder.decode(userInfo, StandardCharsets.UTF_8.toString()));
+        }
+      } catch (UnsupportedEncodingException e) {
+        throw new IllegalArgumentException("maven registry url is not utf-8 encoded: " + url);
       }
       return authBuilder.build();
     }
