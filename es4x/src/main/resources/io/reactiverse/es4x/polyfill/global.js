@@ -17,6 +17,7 @@
   'use strict';
 
   const System = Java.type('java.lang.System');
+  const VertxFileSystem = Java.type('io.reactiverse.es4x.impl.VertxFileSystem');
 
   global.setTimeout = function (callback, timeout) {
     const args = Array.prototype.slice.call(arguments, 2);
@@ -147,6 +148,17 @@
         return System.getProperty(prop);
       }
     }),
+
+    cwd : function () {
+      // vertx cwd is always / ended
+      // however node isn't so make it behave the same here
+      let path = VertxFileSystem.getCWD();
+      let len = path.length;
+      if (len > 1 && path.charAt(len - 1) === '/') {
+        return path.substr(0, len - 1);
+      }
+      return path;
+    }
   };
 
 })(this, verticle);

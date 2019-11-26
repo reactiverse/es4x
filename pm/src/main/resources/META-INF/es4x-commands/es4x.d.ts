@@ -41,6 +41,7 @@ declare global {
     stdout: any;
     stderr: any;
     stdin: any;
+    cwd: () => string;
   };
 
   const Java: {
