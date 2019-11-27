@@ -1,4 +1,4 @@
-/// <reference types="es4x.d.ts" />
+/// <reference types="es4x" />
 // @ts-check
 
 import {Router} from '@vertx/web';

@@ -36,7 +36,7 @@ npm install
 Create your `index.js`:
 
 ```js
-/// <reference types="es4x.d.ts" />
+/// <reference types="es4x" />
 // @ts-check
 
 vertx
