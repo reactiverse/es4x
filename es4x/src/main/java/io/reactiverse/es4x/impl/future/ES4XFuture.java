@@ -20,25 +20,54 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.impl.NoStackTraceThrowable;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import org.graalvm.polyglot.Value;
 
 class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
 
   private static final Logger LOG = LoggerFactory.getLogger(ES4XFuture.class);
 
-  private boolean failed;
-  private boolean succeeded;
-  private Handler<AsyncResult<T>> handler;
-  private T result;
-  private Throwable throwable;
-
   /**
    * Create a future that hasn't completed yet
    */
   ES4XFuture() {
   }
+
+  @Override
+  public void then(Value onFulfilled, Value onRejected) {
+    // Both onFulfilled and onRejected are optional arguments
+    setHandler(ar -> {
+      if (ar.succeeded()) {
+        try {
+          if (onFulfilled != null) {
+            onFulfilled.executeVoid(ar.result());
+          }
+        } catch (RuntimeException e) {
+          // resolve failed, attempt to reject
+          if (onRejected != null) {
+            onRejected.execute(e);
+          } else {
+            LOG.warn("Possible Unhandled Promise Rejection: " + e.getMessage());
+          }
+        }
+      } else {
+        if (onRejected != null) {
+          onRejected.execute(ar.cause());
+        }
+      }
+    });
+  }
+
+  /**
+   * From this point forward the code is exactly as {@link io.vertx.core.impl.FutureImpl}
+   */
+
+  private boolean failed;
+  private boolean succeeded;
+  private Handler<AsyncResult<T>> handler;
+  private T result;
+  private Throwable throwable;
 
   /**
    * The result of the operation. This will be null if the operation failed.
@@ -93,29 +122,8 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
   }
 
   @Override
-  public void then(Value onFulfilled, Value onRejected) {
-    // Both onFulfilled and onRejected are optional arguments
-
-    setHandler(ar -> {
-      if (ar.succeeded()) {
-        try {
-          if (onFulfilled != null) {
-            onFulfilled.executeVoid(ar.result());
-          }
-        } catch (RuntimeException e) {
-          // resolve failed, attempt to reject
-          if (onRejected != null) {
-            onRejected.execute(e);
-          } else {
-            LOG.warn("Possible Unhandled Promise Rejection: " + e.getMessage());
-          }
-        }
-      } else {
-        if (onRejected != null) {
-          onRejected.execute(ar.cause());
-        }
-      }
-    });
+  public synchronized Handler<AsyncResult<T>> getHandler() {
+    return handler;
   }
 
   @Override

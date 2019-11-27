@@ -24,10 +24,9 @@ import org.graalvm.polyglot.Value;
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
+ * @author <a href="mailto:plopes@redhat.com">Paulo Lopes</a>
  */
 public class ES4XFailedFuture<T> implements Future<T>, Promise<T>, Thenable {
-
-  private final Throwable cause;
 
   /**
    * Create a future that has already failed
@@ -46,6 +45,19 @@ public class ES4XFailedFuture<T> implements Future<T>, Promise<T>, Thenable {
   }
 
   @Override
+  public void then(Value onFulfilled, Value onRejected) {
+    if (onRejected != null) {
+      onRejected.execute(cause());
+    }
+  }
+
+  /**
+   * From this point forward the code is exactly as {@link io.vertx.core.impl.FailedFuture}
+   */
+
+  private final Throwable cause;
+
+  @Override
   public boolean isComplete() {
     return true;
   }
@@ -57,10 +69,8 @@ public class ES4XFailedFuture<T> implements Future<T>, Promise<T>, Thenable {
   }
 
   @Override
-  public void then(Value onFulfilled, Value onRejected) {
-    if (onRejected != null) {
-      onRejected.execute(cause());
-    }
+  public Handler<AsyncResult<T>> getHandler() {
+    return null;
   }
 
   @Override

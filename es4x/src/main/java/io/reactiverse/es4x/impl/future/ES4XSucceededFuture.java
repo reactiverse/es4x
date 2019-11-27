@@ -19,18 +19,17 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import org.graalvm.polyglot.Value;
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
+ * @author <a href="mailto:plopes@redhat.com">Paulo Lopes</a>
  */
 class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
 
   private static final Logger LOG = LoggerFactory.getLogger(ES4XSucceededFuture.class);
-
-  private final T result;
 
   /**
    * Create a future that has already succeeded
@@ -38,17 +37,6 @@ class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
    */
   ES4XSucceededFuture(T result) {
     this.result = result;
-  }
-
-  @Override
-  public boolean isComplete() {
-    return true;
-  }
-
-  @Override
-  public Future<T> setHandler(Handler<AsyncResult<T>> handler) {
-    handler.handle(this);
-    return this;
   }
 
   @Override
@@ -66,6 +54,28 @@ class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
         LOG.warn("Possible Unhandled Promise Rejection: " + e.getMessage());
       }
     }
+  }
+
+  /**
+   * From this point forward the code is exactly as {@link io.vertx.core.impl.SucceededFuture}
+   */
+
+  private final T result;
+
+  @Override
+  public boolean isComplete() {
+    return true;
+  }
+
+  @Override
+  public Future<T> setHandler(Handler<AsyncResult<T>> handler) {
+    handler.handle(this);
+    return this;
+  }
+
+  @Override
+  public Handler<AsyncResult<T>> getHandler() {
+    return null;
   }
 
   @Override

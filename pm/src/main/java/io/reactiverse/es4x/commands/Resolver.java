@@ -27,8 +27,13 @@ import org.eclipse.aether.graph.DependencyFilter;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.graph.Exclusion;
 import org.eclipse.aether.impl.DefaultServiceLocator;
-import org.eclipse.aether.repository.*;
-import org.eclipse.aether.resolution.*;
+import org.eclipse.aether.repository.Authentication;
+import org.eclipse.aether.repository.LocalRepository;
+import org.eclipse.aether.repository.RemoteRepository;
+import org.eclipse.aether.repository.RepositoryPolicy;
+import org.eclipse.aether.resolution.ArtifactResult;
+import org.eclipse.aether.resolution.DependencyRequest;
+import org.eclipse.aether.resolution.DependencyResolutionException;
 import org.eclipse.aether.spi.connector.RepositoryConnectorFactory;
 import org.eclipse.aether.spi.connector.transport.TransporterFactory;
 import org.eclipse.aether.transport.file.FileTransporterFactory;
@@ -106,6 +111,7 @@ final class Resolver {
     try {
       result = Boolean.parseBoolean(System.getenv("npm_config_offline"));
     } catch (IllegalArgumentException | NullPointerException e) {
+      // ignore, assume offline
     }
     return result;
   }
@@ -217,8 +223,8 @@ final class Resolver {
         }
       } catch (final UnsupportedEncodingException e) {
         throw new IllegalArgumentException(
-          "maven registry url is not encoded with " + defaultCharset + 
-          " charset and percent-encoded username/password: " + url, 
+          "maven registry url is not encoded with " + defaultCharset +
+            " charset and percent-encoded username/password: " + url,
           e);
       }
       return authBuilder.build();

@@ -31,11 +31,11 @@ final class ConsoleRepositoryListener extends AbstractRepositoryListener {
 
   private PrintStream out;
 
-  public ConsoleRepositoryListener() {
+  ConsoleRepositoryListener() {
     this(null);
   }
 
-  public ConsoleRepositoryListener(PrintStream out) {
+  ConsoleRepositoryListener(PrintStream out) {
     this.out = (out != null) ? out : System.out;
   }
 

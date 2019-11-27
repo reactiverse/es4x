@@ -1,7 +1,7 @@
 package io.reactiverse.es4x;
 
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import org.junit.Test;
 
 public class FormatterTest {
@@ -10,7 +10,6 @@ public class FormatterTest {
 
   @Test
   public void testColors() {
-    log.fatal("Fatal message");
     log.error("Error message");
     log.warn("Warn message");
     log.info("Info message");

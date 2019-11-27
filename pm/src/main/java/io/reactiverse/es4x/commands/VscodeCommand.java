@@ -38,6 +38,7 @@ public class VscodeCommand extends DefaultCommand {
 		this.launcher = launcher;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void processLauncher(File json) throws IOException {
 
     final File pkg = new File(getCwd(), "package.json");

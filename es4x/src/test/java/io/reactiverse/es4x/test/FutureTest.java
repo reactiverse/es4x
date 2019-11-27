@@ -58,4 +58,15 @@ public class FutureTest {
     // run a small script
     require(runtime, "./future/issue184.js");
   }
+
+  @Test(timeout = 10000)
+  public void testJavaFutureAsThenable(TestContext should) {
+    final Async test = should.async();
+
+    // make it available to the script
+    runtime.put("should", should);
+    runtime.put("test", test);
+    // run a small script
+    require(runtime, "./future/future3.js");
+  }
 }

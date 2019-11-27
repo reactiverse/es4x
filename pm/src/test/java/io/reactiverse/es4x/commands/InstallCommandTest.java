@@ -16,6 +16,7 @@ public class InstallCommandTest {
   private final InstallCommand command = new InstallCommand();
 
   @Test
+  @SuppressWarnings("unchecked")
   public void shouldDownloadDependencies() throws IOException {
     command.setCwd(IOUtils.mkTempDir());
 
