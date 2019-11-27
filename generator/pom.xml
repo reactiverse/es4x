@@ -358,7 +358,7 @@
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
               </processors>
               <optionMap>
-                <codegen.output>${project.basedir}</codegen.output>
+                <codegen.output>${project.build.directory}</codegen.output>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
             </configuration>
@@ -424,7 +424,7 @@
                 <argument>--registry</argument>
                 <argument>${npm-registry}</argument>
               </arguments>
-              <workingDirectory>${project.basedir}/npm</workingDirectory>
+              <workingDirectory>${project.build.directory}/npm</workingDirectory>
             </configuration>
             <goals>
               <goal>exec</goal>
@@ -439,21 +439,7 @@
                 <argument>--registry</argument>
                 <argument>${npm-registry}</argument>
               </arguments>
-              <workingDirectory>${project.basedir}/npm</workingDirectory>
-            </configuration>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>npm-cache</id>
-            <configuration>
-              <executable>npm</executable>
-              <arguments>
-                <argument>cache</argument>
-                <argument>add</argument>
-                <argument>${project.basedir}/npm</argument>
-              </arguments>
+              <workingDirectory>${project.build.directory}/npm</workingDirectory>
             </configuration>
             <goals>
               <goal>exec</goal>
@@ -481,7 +467,7 @@
                 <argument>${project.basedir}/../../../docs/.vuepress/public/${npm-name}</argument>
                 <argument>npm</argument>
               </arguments>
-              <workingDirectory>${project.basedir}</workingDirectory>
+              <workingDirectory>${project.build.directory}</workingDirectory>
             </configuration>
             <goals>
               <goal>exec</goal>
