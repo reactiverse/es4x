@@ -46,7 +46,7 @@ public class Versions implements Runnable {
 
   @Override
   public void run() {
-    System.out.println("VM:      " + System.getProperty("java.vm.name"));
+    System.out.println("VM:      " + System.getProperty("java.vm.name") + " - " + System.getProperty("java.version"));
 
     // load the versions from vertx if possible
     try (InputStream is = Versions.class.getClassLoader().getResourceAsStream("META-INF/vertx/vertx-version.txt")) {
