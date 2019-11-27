@@ -114,7 +114,7 @@
    * @return {void} void
    */
   Worker.prototype.postMessage = function (aMessage) {
-    this.producer.send(JSON.stringify(aMessage));
+    this.producer.write(JSON.stringify(aMessage));
   };
 
   /**

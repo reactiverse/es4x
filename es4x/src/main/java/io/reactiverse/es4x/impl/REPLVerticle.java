@@ -18,8 +18,8 @@ package io.reactiverse.es4x.impl;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.parsetools.RecordParser;
 import org.graalvm.polyglot.PolyglotException;
 
