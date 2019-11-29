@@ -126,10 +126,17 @@ public final class ECMAEngine {
         JsonArray::new)
       // map native buffer to Vert.x Buffer
       .targetTypeMapping(
-        ByteBuffer.class,
+        Value.class,
         Buffer.class,
-        null,
-        b -> Buffer.buffer(Unpooled.wrappedBuffer(b)))
+        Value::hasMembers,
+        v -> {
+          if (v.hasMember("nioByteBuffer")) {
+            return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("nioByteBuffer").as(ByteBuffer.class)));
+          } else {
+            // this is a raw ArrayBuffer
+            throw new ClassCastException("Cannot cast ArrayBuffer(without j.n.ByteBuffer)");
+          }
+        })
       // Ensure Arrays are exposed as List when the Java API is accepting Object
       .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();

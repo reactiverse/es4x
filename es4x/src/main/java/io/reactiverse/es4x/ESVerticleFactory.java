@@ -65,7 +65,6 @@ public abstract class ESVerticleFactory implements VerticleFactory {
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/console.js")).buildLiteral(),
-      Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/promise.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/worker.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/arraybuffer.js")).buildLiteral()
     );
