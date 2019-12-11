@@ -19,6 +19,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
+import io.vertx.core.impl.ContextInternal;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 import org.graalvm.polyglot.Value;
@@ -27,15 +28,17 @@ import org.graalvm.polyglot.Value;
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  * @author <a href="mailto:plopes@redhat.com">Paulo Lopes</a>
  */
-class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
+class ES4XSucceededFuture<T> implements Future<T>, Thenable {
 
   private static final Logger LOG = LoggerFactory.getLogger(ES4XSucceededFuture.class);
 
   /**
    * Create a future that has already succeeded
+   * @param context the context
    * @param result the result
    */
-  ES4XSucceededFuture(T result) {
+  ES4XSucceededFuture(ContextInternal context, T result) {
+    this.context = context;
     this.result = result;
   }
 
@@ -60,7 +63,13 @@ class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
    * From this point forward the code is exactly as {@link io.vertx.core.impl.SucceededFuture}
    */
 
+  private final ContextInternal context;
   private final T result;
+
+  @Override
+  public ContextInternal context() {
+    return context;
+  }
 
   @Override
   public boolean isComplete() {
@@ -68,7 +77,7 @@ class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
   }
 
   @Override
-  public Future<T> setHandler(Handler<AsyncResult<T>> handler) {
+  public Future<T> onComplete(Handler<AsyncResult<T>> handler) {
     handler.handle(this);
     return this;
   }
@@ -76,46 +85,6 @@ class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
   @Override
   public Handler<AsyncResult<T>> getHandler() {
     return null;
-  }
-
-  @Override
-  public void complete(T result) {
-    throw new IllegalStateException("Result is already complete: succeeded");
-  }
-
-  @Override
-  public void complete() {
-    throw new IllegalStateException("Result is already complete: succeeded");
-  }
-
-  @Override
-  public void fail(Throwable cause) {
-    throw new IllegalStateException("Result is already complete: succeeded");
-  }
-
-  @Override
-  public void fail(String failureMessage) {
-    throw new IllegalStateException("Result is already complete: succeeded");
-  }
-
-  @Override
-  public boolean tryComplete(T result) {
-    return false;
-  }
-
-  @Override
-  public boolean tryComplete() {
-    return false;
-  }
-
-  @Override
-  public boolean tryFail(Throwable cause) {
-    return false;
-  }
-
-  @Override
-  public boolean tryFail(String failureMessage) {
-    return false;
   }
 
   @Override
@@ -136,16 +105,6 @@ class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
   @Override
   public boolean failed() {
     return false;
-  }
-
-  @Override
-  public void handle(AsyncResult<T> asyncResult) {
-    throw new IllegalStateException("Result is already complete: succeeded");
-  }
-
-  @Override
-  public Future<T> future() {
-    return this;
   }
 
   @Override

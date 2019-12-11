@@ -18,13 +18,17 @@ package io.reactiverse.es4x.impl.future;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
-import io.vertx.core.Promise;
+import io.vertx.core.impl.ContextInternal;
 import io.vertx.core.impl.NoStackTraceThrowable;
+import io.vertx.core.impl.PromiseInternal;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 import org.graalvm.polyglot.Value;
 
-class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
+import java.util.ArrayList;
+import java.util.Objects;
+
+class ES4XFuture<T> implements PromiseInternal<T>, Future<T>, Thenable {
 
   private static final Logger LOG = LoggerFactory.getLogger(ES4XFuture.class);
 
@@ -32,6 +36,14 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
    * Create a future that hasn't completed yet
    */
   ES4XFuture() {
+    this(null);
+  }
+
+  /**
+   * Create a future that hasn't completed yet
+   */
+  ES4XFuture(ContextInternal context) {
+    this.context = context;
   }
 
   @Override
@@ -63,11 +75,16 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
    * From this point forward the code is exactly as {@link io.vertx.core.impl.FutureImpl}
    */
 
+  private final ContextInternal context;
   private boolean failed;
   private boolean succeeded;
   private Handler<AsyncResult<T>> handler;
   private T result;
   private Throwable throwable;
+
+  public ContextInternal context() {
+    return context;
+  }
 
   /**
    * The result of the operation. This will be null if the operation failed.
@@ -104,54 +121,56 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
     return failed || succeeded;
   }
 
-  /**
-   * Set a handler for the result. It will get called when it's complete
-   */
-  public Future<T> setHandler(Handler<AsyncResult<T>> handler) {
-    boolean callHandler;
+  @Override
+  public Future<T> onComplete(Handler<AsyncResult<T>> h) {
+    Objects.requireNonNull(h, "No null handler accepted");
     synchronized (this) {
-      callHandler = isComplete();
-      if (!callHandler) {
-        this.handler = handler;
+      if (!isComplete()) {
+        if (handler == null) {
+          handler = h;
+        } else {
+          addHandler(h);
+        }
+        return this;
       }
     }
-    if (callHandler) {
+    dispatch(h);
+    return this;
+  }
+
+  private void addHandler(Handler<AsyncResult<T>> h) {
+    ES4XFuture.Handlers<T> handlers;
+    if (handler instanceof ES4XFuture.Handlers) {
+      handlers = (ES4XFuture.Handlers<T>) handler;
+    } else {
+      handlers = new Handlers<>();
+      handlers.add(handler);
+      handler = handlers;
+    }
+    handlers.add(h);
+  }
+
+  protected void dispatch(Handler<AsyncResult<T>> handler) {
+    if (handler instanceof ES4XFuture.Handlers) {
+      for (Handler<AsyncResult<T>> h : (ES4XFuture.Handlers<T>)handler) {
+        doDispatch(h);
+      }
+    } else {
+      doDispatch(handler);
+    }
+  }
+
+  private void doDispatch(Handler<AsyncResult<T>> handler) {
+    if (context != null) {
+      context.dispatch(this, handler);
+    } else {
       handler.handle(this);
     }
-    return this;
   }
 
   @Override
   public synchronized Handler<AsyncResult<T>> getHandler() {
     return handler;
-  }
-
-  @Override
-  public void complete(T result) {
-    if (!tryComplete(result)) {
-      throw new IllegalStateException("Result is already complete: " + (succeeded ? "succeeded" : "failed"));
-    }
-  }
-
-  @Override
-  public void complete() {
-    if (!tryComplete()) {
-      throw new IllegalStateException("Result is already complete: " + (succeeded ? "succeeded" : "failed"));
-    }
-  }
-
-  @Override
-  public void fail(Throwable cause) {
-    if (!tryFail(cause)) {
-      throw new IllegalStateException("Result is already complete: " + (succeeded ? "succeeded" : "failed"));
-    }
-  }
-
-  @Override
-  public void fail(String failureMessage) {
-    if (!tryFail(failureMessage)) {
-      throw new IllegalStateException("Result is already complete: " + (succeeded ? "succeeded" : "failed"));
-    }
   }
 
   @Override
@@ -167,14 +186,9 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
       handler = null;
     }
     if (h != null) {
-      h.handle(this);
+      dispatch(h);
     }
     return true;
-  }
-
-  @Override
-  public boolean tryComplete() {
-    return tryComplete(null);
   }
 
   public void handle(Future<T> ar) {
@@ -182,15 +196,6 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
       complete(ar.result());
     } else {
       fail(ar.cause());
-    }
-  }
-
-  @Override
-  public void handle(AsyncResult<T> asyncResult) {
-    if (asyncResult.succeeded()) {
-      complete(asyncResult.result());
-    } else {
-      fail(asyncResult.cause());
     }
   }
 
@@ -207,19 +212,23 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
       handler = null;
     }
     if (h != null) {
-      h.handle(this);
+      dispatch(h);
     }
     return true;
   }
 
   @Override
-  public boolean tryFail(String failureMessage) {
-    return tryFail(new NoStackTraceThrowable(failureMessage));
+  public Future<T> future() {
+    return this;
   }
 
   @Override
-  public Future<T> future() {
-    return this;
+  public void operationComplete(io.netty.util.concurrent.Future<T> future) {
+    if (future.isSuccess()) {
+      complete(future.getNow());
+    } else {
+      fail(future.cause());
+    }
   }
 
   @Override
@@ -232,6 +241,15 @@ class ES4XFuture<T> implements Promise<T>, Future<T>, Thenable {
         return "Future{cause=" + throwable.getMessage() + "}";
       }
       return "Future{unresolved}";
+    }
+  }
+
+  private static class Handlers<T> extends ArrayList<Handler<AsyncResult<T>>> implements Handler<AsyncResult<T>> {
+    @Override
+    public void handle(AsyncResult<T> res) {
+      for (Handler<AsyncResult<T>> handler : this) {
+        handler.handle(res);
+      }
     }
   }
 }

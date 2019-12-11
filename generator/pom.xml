@@ -264,6 +264,18 @@
     <npm-class-blacklist>[]</npm-class-blacklist>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.vertx</groupId>
+        <artifactId>vertx-dependencies</artifactId>
+        <version>${stack.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <!-- CODEGEN -->
     <dependency>
@@ -271,14 +283,12 @@
       <artifactId>vertx-codegen</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
-      <version>${stack.version}</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-docgen</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
-      <version>0.9.2</version>
     </dependency>
     <!-- CORE -->
     <dependency>
@@ -290,7 +300,6 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
       <scope>provided</scope>
-      <version>${stack.version}</version>
     </dependency>
   </dependencies>
 
