@@ -31,6 +31,7 @@ import org.graalvm.polyglot.io.FileSystem;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.regex.Pattern;
@@ -38,9 +39,11 @@ import java.util.regex.Pattern;
 public final class ECMAEngine {
 
   private static final Logger LOG = LoggerFactory.getLogger(ECMAEngine.class);
-
-  private static final String GRAAL_POLYGLOT_MAP_CLASS = "com.oracle.truffle.polyglot.PolyglotMap";
-  private static final String GRAAL_POLYGLOT_LIST_CLASS = "com.oracle.truffle.polyglot.PolyglotList";
+  private static final Source CLASS_LOOKUP = Source.newBuilder(
+    "js",
+    "(function (fn) { fn({}, []); })",
+    "<class-lookup>"
+  ).internal(true).buildLiteral();
 
   private static Pattern[] allowedHostClassFilters() {
     String hostClassFilter = System.getProperty("es4x.host.class.filter", System.getenv("ES4XHOSTCLASSFILTER"));
@@ -142,31 +145,18 @@ public final class ECMAEngine {
       .build();
 
     fileSystem = new VertxFileSystem(vertx);
+  }
 
-    // install the required codecs
-    try {
-      Class clazz = Class.forName(GRAAL_POLYGLOT_MAP_CLASS);
-      vertx.eventBus()
-        .unregisterDefaultCodec(clazz)
-        .registerDefaultCodec(clazz, new JSObjectMessageCodec(clazz.getName()));
-    } catch (ClassNotFoundException e) {
-      LOG.warn("ES4X could not register the JSON interop eventbus codec", e);
-    }
-    // install the required codecs
-    try {
-      Class clazz = Class.forName(GRAAL_POLYGLOT_LIST_CLASS);
-      vertx.eventBus()
-        .unregisterDefaultCodec(clazz)
-        .registerDefaultCodec(clazz, new JSObjectMessageCodec(clazz.getName()));
-    } catch (ClassNotFoundException e) {
-      LOG.warn("ES4X could not register the JSON interop eventbus codec", e);
-    }
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private synchronized void registerCodec(Class className) {
+    vertx.eventBus()
+      .unregisterDefaultCodec(className)
+      .registerDefaultCodec(className, new JSObjectMessageCodec(className.getName()));
   }
 
   public FileSystem fileSystem() {
     return fileSystem;
   }
-
 
   /**
    * return a new context for this engine.
@@ -208,7 +198,15 @@ public final class ECMAEngine {
     // allow specifying the custom ecma version
     builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version", "2019"));
 
+    final Context context = builder.build();
+    // register a default codec to allow JSON messages directly from GraalJS to the JVM world
+    final BiConsumer<Object, Object> callback = (obj, arr) -> {
+      registerCodec(obj.getClass());
+      registerCodec(arr.getClass());
+    };
+    context.eval(CLASS_LOOKUP).execute(callback);
     // setup complete
-    return new Runtime(vertx, builder.build(), scripts);
+
+    return new Runtime(vertx, context, scripts);
   }
 }
