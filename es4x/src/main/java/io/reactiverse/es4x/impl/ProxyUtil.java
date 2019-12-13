@@ -47,11 +47,7 @@ public final class ProxyUtil {
       }
 
       public Object get(long index) {
-        if (index >= 0L && index <= Integer.MAX_VALUE) {
-          return this.keys[(int) index];
-        } else {
-          throw new ArrayIndexOutOfBoundsException();
-        }
+        return this.keys[checkIndex(index)];
       }
     };
   }
@@ -70,22 +66,25 @@ public final class ProxyUtil {
   }
 
   public static Object get(JsonArray self, long index) {
-    checkIndex(index);
-    return self.getValue((int) index);
+    return self.getValue(checkIndex(index));
   }
 
   public static void set(JsonArray self, long index, Value value) {
-    checkIndex(index);
-    self.set((int) index, value.isHostObject() ? value.asHostObject() : value);
-  }
-
-  private static void checkIndex(long index) {
-    if (index > Integer.MAX_VALUE || index < 0L) {
-      throw new ArrayIndexOutOfBoundsException("invalid index.");
-    }
+    self.set(checkIndex(index), (value.isHostObject() ? value.asHostObject() : value));
   }
 
   public static long getSize(JsonArray self) {
     return self.size();
+  }
+
+  public static boolean remove(JsonArray self, long index) {
+    return self.remove(checkIndex(index)) != null;
+  }
+
+  private static int checkIndex(long index) {
+    if (index > Integer.MAX_VALUE || index < 0L) {
+      throw new ArrayIndexOutOfBoundsException("invalid index.");
+    }
+    return (int) index;
   }
 }
