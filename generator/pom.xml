@@ -336,7 +336,7 @@
               <includeClassifiers>sources</includeClassifiers>
               <includes>**/*.java</includes>
               <excludes>
-                examples/**/*.java,io/vertx/core/logging/*.java,io/vertx/**/impl/**/*.*,**/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
+                examples/**/*.java,**/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
               </excludes>
               <outputDirectory>${project.build.directory}/sources/${project.artifactId}</outputDirectory>
             </configuration>
@@ -371,6 +371,29 @@
               <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
             </configuration>
           </execution>
+          <!-- Run the annotation processor and generate the Manual -->
+          <!--
+          <execution>
+            <id>generate-adoc</id>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <processors>
+                <processor>io.vertx.docgen.DocGenProcessor</processor>
+              </processors>
+              <optionMap>
+                <docgen.source>${project.build.directory}/sources/${project.artifactId}</docgen.source>
+                <docgen.output>${project.build.directory}/asciidoc</docgen.output>
+                <maven.groupId>${project.groupId}</maven.groupId>
+                <maven.artifactId>${project.artifactId}</maven.artifactId>
+                <maven.version>${project.version}</maven.version>
+              </optionMap>
+              <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
+            </configuration>
+          </execution>
+          -->
         </executions>
       </plugin>
       <plugin>
