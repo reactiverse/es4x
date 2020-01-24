@@ -96,6 +96,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mailclient.html#close" class="tsd-kind-icon">close</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mailclient.html#sendmail" class="tsd-kind-icon">send<wbr>Mail</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="mailclient.html#create" class="tsd-kind-icon">create</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="mailclient.html#createnonshared" class="tsd-kind-icon">create<wbr>Non<wbr>Shared</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="mailclient.html#createshared" class="tsd-kind-icon">create<wbr>Shared</a></li>
 							</ul>
@@ -133,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:59</li>
+									<li>Defined in index.d.ts:63</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -149,13 +150,13 @@
 					<a name="sendmail" class="tsd-anchor"></a>
 					<h3>send<wbr>Mail</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Mail<span class="tsd-signature-symbol">(</span>email<span class="tsd-signature-symbol">: </span><a href="mailmessage.html" class="tsd-signature-type">MailMessage</a>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="mailresult.html" class="tsd-signature-type">MailResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mailclient.html" class="tsd-signature-type">MailClient</a></li>
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Mail<span class="tsd-signature-symbol">(</span>email<span class="tsd-signature-symbol">: </span><a href="mailmessage.html" class="tsd-signature-type">MailMessage</a>, resultHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="mailresult.html" class="tsd-signature-type">MailResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="mailresult.html" class="tsd-signature-type">MailResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mailclient.html" class="tsd-signature-type">MailClient</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:54</li>
+									<li>Defined in index.d.ts:58</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -169,7 +170,38 @@
 									<h5>email: <a href="mailmessage.html" class="tsd-signature-type">MailMessage</a></h5>
 								</li>
 								<li>
-									<h5>resultHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="mailresult.html" class="tsd-signature-type">MailResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>resultHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="mailresult.html" class="tsd-signature-type">MailResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="mailresult.html" class="tsd-signature-type">MailResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mailclient.html" class="tsd-signature-type">MailClient</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="create" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, config<span class="tsd-signature-symbol">: </span><a href="mailconfig.html" class="tsd-signature-type">MailConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mailclient.html" class="tsd-signature-type">MailClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:42</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a non shared instance of the mail client.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
+								</li>
+								<li>
+									<h5>config: <a href="mailconfig.html" class="tsd-signature-type">MailConfig</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mailclient.html" class="tsd-signature-type">MailClient</a></h4>
@@ -180,24 +212,19 @@
 					<a name="createnonshared" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Non<wbr>Shared</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Non<wbr>Shared<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, config<span class="tsd-signature-symbol">: </span><a href="mailconfig.html" class="tsd-signature-type">MailConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mailclient.html" class="tsd-signature-type">MailClient</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Non<wbr>Shared<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, config<span class="tsd-signature-symbol">: </span><a href="mailconfig.html" class="tsd-signature-type">MailConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mailclient.html" class="tsd-signature-type">MailClient</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:38</li>
+									<li>Defined in index.d.ts:37</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>create a non shared instance of the mail client</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
+									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
 								</li>
 								<li>
 									<h5>config: <a href="mailconfig.html" class="tsd-signature-type">MailConfig</a></h5>
@@ -211,14 +238,14 @@
 					<a name="createshared" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Shared</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Shared<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, config<span class="tsd-signature-symbol">: </span><a href="mailconfig.html" class="tsd-signature-type">MailConfig</a>, poolName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mailclient.html" class="tsd-signature-type">MailClient</a></li>
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Shared<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a>, config<span class="tsd-signature-symbol">: </span><a href="mailconfig.html" class="tsd-signature-type">MailConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mailclient.html" class="tsd-signature-type">MailClient</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Shared<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, config<span class="tsd-signature-symbol">: </span><a href="mailconfig.html" class="tsd-signature-type">MailConfig</a>, poolName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mailclient.html" class="tsd-signature-type">MailClient</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Shared<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, config<span class="tsd-signature-symbol">: </span><a href="mailconfig.html" class="tsd-signature-type">MailConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mailclient.html" class="tsd-signature-type">MailClient</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:44</li>
+									<li>Defined in index.d.ts:48</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -230,7 +257,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
+									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
 								</li>
 								<li>
 									<h5>config: <a href="mailconfig.html" class="tsd-signature-type">MailConfig</a></h5>
@@ -244,7 +271,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:49</li>
+									<li>Defined in index.d.ts:53</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -255,7 +282,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
+									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
 								</li>
 								<li>
 									<h5>config: <a href="mailconfig.html" class="tsd-signature-type">MailConfig</a></h5>
@@ -277,6 +304,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="mailattachment.html" class="tsd-kind-icon">Mail<wbr>Attachment</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -292,6 +322,9 @@
 								<a href="mailclient.html#sendmail" class="tsd-kind-icon">send<wbr>Mail</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="mailclient.html#create" class="tsd-kind-icon">create</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="mailclient.html#createnonshared" class="tsd-kind-icon">create<wbr>Non<wbr>Shared</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
@@ -301,6 +334,15 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class">
+						<a href="mailconfig.html" class="tsd-kind-icon">Mail<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="mailmessage.html" class="tsd-kind-icon">Mail<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="mailresult.html" class="tsd-kind-icon">Mail<wbr>Result</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
