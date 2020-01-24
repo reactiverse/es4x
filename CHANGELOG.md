@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [0.10.1] -
+- fix resolver with credentials to process data as UTF8
+- VM version added to the `versions` command
+- New utility for proxies ASM
+- generated code moved to `target`
+- Update graal to 19.3
+- Removed promise polyfill (not needed anymore)
+- Update vert.x to 3.8.5
 
 ## [0.10.0] - 2019-11-22
 - Upgraded Graal to 19.3.0
@@ -92,7 +99,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - ESM resolver can resolve npm modules that declare a `module` property.
 
 ## [0.7.3] - 2019-03-22
-- Fixes bash script for debian like systems 
+- Fixes bash script for debian like systems
 - Added a `version` command to list all versions
 - Added a `jlink` command to create slim packages
 - Updated dependencies
@@ -138,7 +145,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Bump `pg-reactive-client` to 0.10.3
 - Fix `parsePaths` to properly convert slashes on windows.
 - Unit tests are now fully async and do not lead file descriptors.
-- Added a shortcut (`engine`) to the `process` object with the engine name.  
+- Added a shortcut (`engine`) to the `process` object with the engine name.
 - Fix `util.promisify` on Graal when dealing with Java Objects.
 - `AsyncError` helper to stitch asynchronous exception stacktraces.
 
