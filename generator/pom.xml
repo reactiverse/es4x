@@ -480,6 +480,23 @@
         <version>3.1.0</version>
         <executions>
           <execution>
+            <id>copy-extras</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/npm</outputDirectory>
+              <resources>
+                <resource>
+                  <filtering>true</filtering>
+                  <directory>${project.basedir}/extra</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>bundle</id>
             <phase>process-resources</phase>
             <goals>
               <goal>copy-resources</goal>
