@@ -1,5 +1,5 @@
 "use strict";
-/// <reference types="es4x.d.ts" />
+/// <reference types="es4x" />
 Object.defineProperty(exports, "__esModule", { value: true });
 const web_1 = require("@vertx/web");
 const routes_1 = require("./routes");

@@ -6,13 +6,13 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.10.0</version>
+    <version>0.10.1</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>io.reactiverse.es4x</groupId>
   <artifactId>es4x-generator</artifactId>
-  <version>0.10.0</version>
+  <version>0.10.1</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -155,7 +155,6 @@
     <profile>
       <id>io.reactiverse</id>
       <modules>
-        <module>io.reactiverse/reactive-pg-client</module>
         <module>io.reactiverse/elasticsearch-client</module>
       </modules>
     </profile>
@@ -358,7 +357,7 @@
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
               </processors>
               <optionMap>
-                <codegen.output>${project.basedir}</codegen.output>
+                <codegen.output>${project.build.directory}</codegen.output>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
             </configuration>
@@ -424,7 +423,7 @@
                 <argument>--registry</argument>
                 <argument>${npm-registry}</argument>
               </arguments>
-              <workingDirectory>${project.basedir}/npm</workingDirectory>
+              <workingDirectory>${project.build.directory}/npm</workingDirectory>
             </configuration>
             <goals>
               <goal>exec</goal>
@@ -439,21 +438,7 @@
                 <argument>--registry</argument>
                 <argument>${npm-registry}</argument>
               </arguments>
-              <workingDirectory>${project.basedir}/npm</workingDirectory>
-            </configuration>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>npm-cache</id>
-            <configuration>
-              <executable>npm</executable>
-              <arguments>
-                <argument>cache</argument>
-                <argument>add</argument>
-                <argument>${project.basedir}/npm</argument>
-              </arguments>
+              <workingDirectory>${project.build.directory}/npm</workingDirectory>
             </configuration>
             <goals>
               <goal>exec</goal>
@@ -481,7 +466,7 @@
                 <argument>${project.basedir}/../../../docs/.vuepress/public/${npm-name}</argument>
                 <argument>npm</argument>
               </arguments>
-              <workingDirectory>${project.basedir}</workingDirectory>
+              <workingDirectory>${project.build.directory}</workingDirectory>
             </configuration>
             <goals>
               <goal>exec</goal>
@@ -495,6 +480,23 @@
         <version>3.1.0</version>
         <executions>
           <execution>
+            <id>copy-extras</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/npm</outputDirectory>
+              <resources>
+                <resource>
+                  <filtering>true</filtering>
+                  <directory>${project.basedir}/extra</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>bundle</id>
             <phase>process-resources</phase>
             <goals>
               <goal>copy-resources</goal>

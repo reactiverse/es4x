@@ -67,7 +67,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A router receives request from an <a href="httpserver.html">HttpServer</a> and routes it to the first matching
+						<p>A router receives request from an {@link HttpServer} and routes it to the first matching
 						<a href="route.html">Route</a> that it contains. A router can contain many routes.</p>
 						<p>
 							Routers are also used for routing failures.
@@ -85,7 +85,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><span class="tsd-signature-type">any</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -137,7 +137,7 @@
 					<a name="accept" class="tsd-anchor"></a>
 					<h3>accept</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">accept<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">accept<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpServerRequest</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -158,7 +158,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>request: <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h5>
+									<h5>request: <span class="tsd-signature-type">HttpServerRequest</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -331,7 +331,7 @@
 					<a name="errorhandler" class="tsd-anchor"></a>
 					<h3>error<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">error<wbr>Handler<span class="tsd-signature-symbol">(</span>statusCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, errorHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
+						<li class="tsd-signature tsd-kind-icon">error<wbr>Handler<span class="tsd-signature-symbol">(</span>statusCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, errorHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -354,7 +354,7 @@
 									<h5>statusCode: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>errorHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>errorHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="router.html" class="tsd-signature-type">Router</a></h4>
@@ -365,7 +365,7 @@
 					<a name="exceptionhandler" class="tsd-anchor"></a>
 					<h3>exception<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">exception<wbr>Handler<span class="tsd-signature-symbol">(</span>exceptionHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
+						<li class="tsd-signature tsd-kind-icon">exception<wbr>Handler<span class="tsd-signature-symbol">(</span>exceptionHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -383,7 +383,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>exceptionHandler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<h5>exceptionHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="router.html" class="tsd-signature-type">Router</a></h4>
@@ -481,7 +481,7 @@
 					<a name="handle" class="tsd-anchor"></a>
 					<h3>handle</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">handle<span class="tsd-signature-symbol">(</span>arg0<span class="tsd-signature-symbol">: </span><a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<span class="tsd-signature-symbol">(</span>arg0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpServerRequest</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -493,7 +493,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>arg0: <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h5>
+									<h5>arg0: <span class="tsd-signature-type">HttpServerRequest</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -630,7 +630,7 @@
 					<a name="modifiedhandler" class="tsd-anchor"></a>
 					<h3>modified<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">modified<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="router.html" class="tsd-signature-type">Router</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
+						<li class="tsd-signature tsd-kind-icon">modified<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="router.html" class="tsd-signature-type">Router</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -648,7 +648,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>handler: <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="router.html" class="tsd-signature-type">Router</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><a href="router.html" class="tsd-signature-type">Router</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="router.html" class="tsd-signature-type">Router</a></h4>
@@ -971,7 +971,7 @@
 					<h3>route</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">route<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
-						<li class="tsd-signature tsd-kind-icon">route<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a>, path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
+						<li class="tsd-signature tsd-kind-icon">route<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpMethod</span>, path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
 						<li class="tsd-signature tsd-kind-icon">route<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -1002,7 +1002,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>method: <a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a></h5>
+									<h5>method: <span class="tsd-signature-type">HttpMethod</span></h5>
 								</li>
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
@@ -1035,7 +1035,7 @@
 					<a name="routewithregex" class="tsd-anchor"></a>
 					<h3>route<wbr>With<wbr>Regex</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">route<wbr>With<wbr>Regex<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a>, regex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
+						<li class="tsd-signature tsd-kind-icon">route<wbr>With<wbr>Regex<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpMethod</span>, regex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
 						<li class="tsd-signature tsd-kind-icon">route<wbr>With<wbr>Regex<span class="tsd-signature-symbol">(</span>regex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="route.html" class="tsd-signature-type">Route</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -1053,7 +1053,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>method: <a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a></h5>
+									<h5>method: <span class="tsd-signature-type">HttpMethod</span></h5>
 								</li>
 								<li>
 									<h5>regex: <span class="tsd-signature-type">string</span></h5>
@@ -1156,7 +1156,7 @@
 					<a name="router-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> router</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">router<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><a href="vertx.html" class="tsd-signature-type">Vertx</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
+						<li class="tsd-signature tsd-kind-icon">router<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="router.html" class="tsd-signature-type">Router</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1173,7 +1173,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <a href="vertx.html" class="tsd-signature-type">Vertx</a></h5>
+									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="router.html" class="tsd-signature-type">Router</a></h4>

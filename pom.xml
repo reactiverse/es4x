@@ -5,7 +5,7 @@
 
   <groupId>io.reactiverse</groupId>
   <artifactId>es4x-parent</artifactId>
-  <version>0.10.0</version>
+  <version>0.10.1</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -15,11 +15,10 @@
     <maven.compiler.testSource>1.8</maven.compiler.testSource>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Dependency versions -->
-    <stack.version>3.8.4</stack.version>
-    <graalvm.version>19.3.0</graalvm.version>
+    <stack.version>3.8.5</stack.version>
+    <graalvm.version>19.3.1</graalvm.version>
     <!-- deployment -->
-    <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/
-    </sonatypeOssDistMgmtSnapshotsUrl>
+    <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
     <arguments/>
   </properties>
 
@@ -127,12 +126,15 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.2.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.1.1</version>
+          <configuration>
+            <source>8</source>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -157,7 +159,7 @@
         <plugin>
           <groupId>com.amashchenko.maven.plugin</groupId>
           <artifactId>gitflow-maven-plugin</artifactId>
-          <version>1.13.0</version>
+          <version>1.14.0</version>
           <configuration>
             <installProject>false</installProject>
             <skipTestProject>true</skipTestProject>

@@ -37,8 +37,11 @@ import org.eclipse.aether.util.artifact.JavaScopes;
 import org.eclipse.aether.util.filter.DependencyFilterUtils;
 import org.eclipse.aether.util.repository.AuthenticationBuilder;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -204,15 +207,22 @@ final class Resolver {
     if (userInfo != null) {
       AuthenticationBuilder authBuilder = new AuthenticationBuilder();
       int sep = userInfo.indexOf(':');
-      if (sep != -1) {
-        authBuilder.addUsername(userInfo.substring(0, sep));
-        authBuilder.addPassword(userInfo.substring(sep + 1));
-      } else {
-        authBuilder.addUsername(userInfo);
+      String defaultCharset = Charset.defaultCharset().toString();
+      try {
+        if (sep != -1) {
+          authBuilder.addUsername(URLDecoder.decode(userInfo.substring(0, sep), defaultCharset));
+          authBuilder.addPassword(URLDecoder.decode(userInfo.substring(sep + 1), defaultCharset));
+        } else {
+          authBuilder.addUsername(URLDecoder.decode(userInfo, defaultCharset));
+        }
+      } catch (final UnsupportedEncodingException e) {
+        throw new IllegalArgumentException(
+          "maven registry url is not encoded with " + defaultCharset + 
+          " charset and percent-encoded username/password: " + url, 
+          e);
       }
       return authBuilder.build();
     }
     return null;
   }
 }
-

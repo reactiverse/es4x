@@ -101,13 +101,13 @@ npm install
 为了在 [Visual Studio Code](https://code.visualstudio.com/) 中使用代码补全，脚本文件第一行应该这么写：
 
 ```js
-/// <reference types="es4x.d.ts" />
+/// <reference types="es4x" />
 ```
 :::
 
 Hello world 应用 `index.js` 文件应该是这样的：
 ```js{3}
-/// <reference types="es4x.d.ts" />
+/// <reference types="es4x" />
 // @ts-check
 import { Router } from '@vertx/web';
 
