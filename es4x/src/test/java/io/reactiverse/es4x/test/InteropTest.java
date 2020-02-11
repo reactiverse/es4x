@@ -4,6 +4,7 @@ import io.reactiverse.es4x.Runtime;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -94,5 +95,14 @@ public class InteropTest {
         "var l = interop.getList();" +
         "print(l); print(l[0]); print(l[1]);" +
         "l[2] = true;");
+  }
+
+  @Test
+  @Ignore
+  public void testErrorInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');\n" +
+        "var interop = new Interop();\n" +
+        "interop.printThrowable(new TypeError());\n");
   }
 }

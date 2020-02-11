@@ -56,21 +56,14 @@ public class IndexDTS extends Generator<ClassModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
+      // include a file if present
+      writer.print(includeFileIfPresent("index.include.d.ts"));
 
-      if (type.getModuleName().equals("vertx")) {
-        writer.print("export interface Handler<T> {\n");
-        writer.print("  handle(arg0: T) : void;\n");
-        writer.print("}\n\n");
-        writer.print("export interface AsyncResult<T> {\n");
-        writer.print("  succeeded() : boolean;\n");
-        writer.print("  failed() : boolean;\n");
-        writer.print("  cause() : Error | null;\n");
-        writer.print("  result() : T | null;\n");
-        writer.print("}\n\n");
-      } else {
+      if (!type.getModuleName().equals("vertx")) {
         if (isOptionalModule("@vertx/core")) {
           writer.println("// @ts-ignore");
         }
+        // hard coded imports for non codegen types
         writer.print("import { Handler, AsyncResult } from '@vertx/core';\n\n");
       }
     } else {

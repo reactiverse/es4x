@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
+import static io.reactiverse.es4x.codegen.generator.Util.includeFileIfPresent;
 
 public class ModuleMJS extends Generator<ClassModel> {
 
@@ -51,9 +52,8 @@ public class ModuleMJS extends Generator<ClassModel> {
       Util.generateLicense(writer);
 
       writer.printf("/// <reference types=\"%s\" />\n", getNPMScope(model.getType().getRaw().getModule()));
-      if (model.getType().getRaw().getModuleName().equals("vertx")) {
-        writer.print("export const AsyncResult = Java.type('io.vertx.core.AsyncResult');\n");
-      }
+      // include a file if present
+      writer.print(includeFileIfPresent("module.include.mjs"));
     }
 
     writer.printf("export const %s = Java.type('%s');\n", model.getType().getRaw().getSimpleName(), model.getType().getName());

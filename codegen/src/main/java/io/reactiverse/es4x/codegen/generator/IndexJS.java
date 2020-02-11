@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
+import static io.reactiverse.es4x.codegen.generator.Util.includeFileIfPresent;
 
 public class IndexJS extends Generator<ClassModel> {
 
@@ -52,9 +53,8 @@ public class IndexJS extends Generator<ClassModel> {
 
       writer.printf("/// <reference types=\"%s\" />\n", getNPMScope(model.getType().getRaw().getModule()));
       writer.print("module.exports = {\n");
-      if (model.getType().getRaw().getModuleName().equals("vertx")) {
-        writer.print("  AsyncResult: Java.type('io.vertx.core.AsyncResult'),\n");
-      }
+      // include a file if present
+      writer.print(includeFileIfPresent("index.include.js"));
     }
 
     writer.printf("  %s: Java.type('%s')", model.getType().getRaw().getSimpleName(), model.getType().getName());

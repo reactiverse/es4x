@@ -24,6 +24,10 @@ public class Interop {
     System.out.println(json);
   }
 
+  public void printThrowable(Throwable throwable) {
+    throwable.printStackTrace();
+  }
+
   public void shouldBaAList(Object obj) {
     if (!(obj instanceof List)) {
       throw new RuntimeException("obj not List");

@@ -85,7 +85,7 @@ public final class AsyncError {
 
   private static final Pattern STACKTRACE = Pattern.compile("at (<.+?> )?\\(?(.+?):(\\d+)(:\\d+)?\\)?");
 
-  private static StackTraceElement parseStrackTraceElement(String element) {
+  public static StackTraceElement parseStrackTraceElement(String element) {
     String methodName = null;
     String filename = "";
     int lineNumber = 0;

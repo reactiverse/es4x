@@ -37,6 +37,8 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.regex.Pattern;
 
+import static io.reactiverse.es4x.impl.AsyncError.parseStrackTraceElement;
+
 public final class ECMAEngine {
 
   private static final Logger LOG = LoggerFactory.getLogger(ECMAEngine.class);
@@ -112,6 +114,28 @@ public final class ECMAEngine {
     polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
 
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
+//      // map native Error Object to Throwable
+//      .targetTypeMapping(
+//        Value.class,
+//        Throwable.class,
+//        it -> it.hasMember("message"),
+//        v -> {
+//          Value m = v.getMetaObject();
+//          String s = m.getMember("className").asString();
+//          Throwable t = new Throwable(v.getMember("message").asString());
+//
+//          if (v.hasMember("stack")) {
+//            String stack = v.getMember("stack").asString();
+//            String[] sel = stack.split("\n");
+//            StackTraceElement[] elements = new StackTraceElement[sel.length - 1];
+//            for (int i = 1; i < sel.length; i++) {
+//              elements[i-1] = parseStrackTraceElement(sel[i]);
+//            }
+//            t.setStackTrace(elements);
+//          }
+//
+//          return t;
+//        })
       // map native JSON Object to Vert.x JSONObject
       .targetTypeMapping(
         Map.class,

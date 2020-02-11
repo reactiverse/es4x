@@ -267,6 +267,7 @@
       const package_ = JSON.parse(body);
       // add alias to alias cache
       if (package_.es4xAlias) {
+        console.log('Loading alias');
         for (let k in package_.es4xAlias) {
           if (package_.es4xAlias.hasOwnProperty(k)) {
             let key = new URI([base, 'node_modules', k].join('/')).normalize();
@@ -274,6 +275,7 @@
               console.warn('Replacing alias [' + key + ']');
             }
             Require.alias[key] = new URI([base, package_.es4xAlias[k]].join('/')).normalize();
+            console.log(key + ' => ' + Require.alias[key]);
           }
         }
       }
