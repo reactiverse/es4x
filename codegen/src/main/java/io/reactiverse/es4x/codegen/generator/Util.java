@@ -143,6 +143,10 @@ public final class Util {
   }
 
   public static String genType(TypeInfo type) {
+    return genType(type, false);
+  }
+
+  public static String genType(TypeInfo type, boolean parameter) {
 
     switch (type.getKind()) {
       case STRING:
@@ -176,7 +180,12 @@ public final class Util {
       case JSON_ARRAY:
         return "any[]";
       case THROWABLE:
-        return "Error";
+        if (parameter) {
+          // as a parameter we handle automatic conversion of native JS errors to JVM Throwable
+          return "Throwable | Error";
+        } else {
+          return "Throwable";
+        }
       case VOID:
         return "void";
       case LIST:

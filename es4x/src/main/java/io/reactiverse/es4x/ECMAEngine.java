@@ -114,28 +114,6 @@ public final class ECMAEngine {
     polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
 
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
-//      // map native Error Object to Throwable
-//      .targetTypeMapping(
-//        Value.class,
-//        Throwable.class,
-//        it -> it.hasMember("message"),
-//        v -> {
-//          Value m = v.getMetaObject();
-//          String s = m.getMember("className").asString();
-//          Throwable t = new Throwable(v.getMember("message").asString());
-//
-//          if (v.hasMember("stack")) {
-//            String stack = v.getMember("stack").asString();
-//            String[] sel = stack.split("\n");
-//            StackTraceElement[] elements = new StackTraceElement[sel.length - 1];
-//            for (int i = 1; i < sel.length; i++) {
-//              elements[i-1] = parseStrackTraceElement(sel[i]);
-//            }
-//            t.setStackTrace(elements);
-//          }
-//
-//          return t;
-//        })
       // map native JSON Object to Vert.x JSONObject
       .targetTypeMapping(
         Map.class,
@@ -152,7 +130,8 @@ public final class ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Buffer.class,
-        Value::hasMembers,
+        // ensure that the type really matches
+        v -> isScriptObject(v) && "ArrayBuffer".equals(v.getMetaObject().getMember("className").asString()),
         v -> {
           if (v.hasMember("nioByteBuffer")) {
             return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("nioByteBuffer").as(ByteBuffer.class)));
@@ -163,9 +142,54 @@ public final class ECMAEngine {
         })
       // Ensure Arrays are exposed as List when the Java API is accepting Object
       .targetTypeMapping(List.class, Object.class, null, v -> v)
+      // map native Error Object to Throwable
+      .targetTypeMapping(
+        Value.class,
+        Throwable.class,
+        // an error has 2 fields: name + message
+        it -> isScriptObject(it) && it.hasMember("name") && it.hasMember("message"),
+        v -> {
+          final String nameField = v.getMember("name").asString();
+          final String messageField = v.getMember("message").asString();
+          // empty message fields usually it JS prints the name field
+          final Throwable t = new Throwable("".equals(messageField) ? nameField : messageField);
+          // the stacktrace for JS is a single string and we need to parse it back to a Java friendly way
+          if (v.hasMember("stack")) {
+            String stack = v.getMember("stack").asString();
+            String[] sel = stack.split("\n");
+            StackTraceElement[] elements = new StackTraceElement[sel.length - 1];
+            for (int i = 1; i < sel.length; i++) {
+              elements[i-1] = parseStrackTraceElement(sel[i]);
+            }
+            t.setStackTrace(elements);
+          }
+
+          return t;
+        })
       .build();
 
     fileSystem = new VertxFileSystem(vertx);
+  }
+
+  private static boolean isScriptObject(Value v) {
+    return
+      // nullability
+      !v.isNull() &&
+      // primitives
+      !v.isBoolean() &&
+      !v.isDate() &&
+      !v.isDuration() &&
+      !v.isInstant() &&
+      !v.isNumber() &&
+      !v.isString() &&
+      !v.isTime() &&
+      !v.isTimeZone() &&
+      // exceptions
+      !v.isException() &&
+      // rest
+      !v.isProxyObject() &&
+      !v.isNativePointer() &&
+      !v.isHostObject();
   }
 
   private void registerCodec(Class className) {
@@ -217,7 +241,9 @@ public final class ECMAEngine {
       .allowPolyglotAccess(polyglotAccess);
 
     // allow specifying the custom ecma version
-    builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version", "2019"));
+    if (System.getProperty("js.ecmascript-version") != null) {
+      builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version"));
+    }
 
     // the instance
     final Context context = builder.build();
@@ -225,7 +251,7 @@ public final class ECMAEngine {
     // install the codec if needed
     if (codecInstalled.compareAndSet(false, true)) {
       // register a default codec to allow JSON messages directly from GraalJS to the JVM world
-      final Consumer callback = value -> registerCodec(value.getClass());
+      final Consumer<?> callback = value -> registerCodec(value.getClass());
 
       context.eval(
         Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").cached(false).internal(true).buildLiteral()

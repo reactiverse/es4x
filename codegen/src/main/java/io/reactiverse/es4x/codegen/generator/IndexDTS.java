@@ -276,7 +276,7 @@ public class IndexDTS extends Generator<ClassModel> {
         if (more) {
           writer.print(", ");
         }
-        writer.printf("%s: %s%s", cleanReserved(param.getName()), genType(param.getType()), param.getType().isNullable() ? " | null | undefined" : "");
+        writer.printf("%s: %s%s", cleanReserved(param.getName()), genType(param.getType(), true), param.getType().isNullable() ? " | null | undefined" : "");
         more = true;
       }
     }

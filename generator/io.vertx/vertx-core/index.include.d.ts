@@ -5,6 +5,6 @@ export interface Handler<T> {
 export interface AsyncResult<T> {
   succeeded() : boolean;
   failed() : boolean;
-  cause() : Error | null;
+  cause() : Throwable | null;
   result() : T | null;
 }

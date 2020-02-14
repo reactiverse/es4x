@@ -138,16 +138,16 @@ public class OptionsDTS extends Generator<DataObjectModel> {
       if (property.isSetter()) {
         // write setter
         generateDoc(writer, property.getDoc(), "  ");
-        writer.printf("  %s(%s: %s): %s;\n\n", property.getSetterMethod(), cleanReserved(property.getName()), genType(property.getType()), model.getType().getRaw().getSimpleName());
+        writer.printf("  %s(%s: %s%s): %s;\n\n", property.getSetterMethod(), cleanReserved(property.getName()), genType(property.getType(), true), property.getType().isNullable() ? " | null | undefined" : "", model.getType().getRaw().getSimpleName());
       }
 
       if (property.isAdder()) {
         // write adder
         generateDoc(writer, property.getDoc(), "  ");
         if (property.getKind() == PropertyKind.MAP) {
-          writer.printf("  %s(key: string, %s: %s): %s;\n\n", property.getAdderMethod(), cleanReserved(property.getName()), genType(property.getType()), model.getType().getRaw().getSimpleName());
+          writer.printf("  %s(key: string, %s: %s%s): %s;\n\n", property.getAdderMethod(), cleanReserved(property.getName()), genType(property.getType(), true), property.getType().isNullable() ? " | null | undefined" : "", model.getType().getRaw().getSimpleName());
         } else {
-          writer.printf("  %s(%s: %s): %s;\n\n", property.getAdderMethod(), cleanReserved(property.getName()), genType(property.getType()), model.getType().getRaw().getSimpleName());
+          writer.printf("  %s(%s: %s%s): %s;\n\n", property.getAdderMethod(), cleanReserved(property.getName()), genType(property.getType(), true), property.getType().isNullable() ? " | null | undefined" : "", model.getType().getRaw().getSimpleName());
         }
       }
     }
