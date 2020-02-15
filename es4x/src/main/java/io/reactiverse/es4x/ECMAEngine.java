@@ -131,7 +131,10 @@ public final class ECMAEngine {
         Value.class,
         Buffer.class,
         // ensure that the type really matches
-        v -> isScriptObject(v) && "ArrayBuffer".equals(v.getMetaObject().getMember("className").asString()),
+        v -> {
+          final Value meta = v.getMetaObject();
+          return isScriptObject(v) && meta != null && "ArrayBuffer".equals(meta.getMember("className").asString());
+        },
         v -> {
           if (v.hasMember("nioByteBuffer")) {
             return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("nioByteBuffer").as(ByteBuffer.class)));
@@ -171,6 +174,12 @@ public final class ECMAEngine {
     fileSystem = new VertxFileSystem(vertx);
   }
 
+  /**
+   * Is script like object.
+   *
+   * @param v the value to consider
+   * @return true for non null, unknown shape and not Proxy
+   */
   private static boolean isScriptObject(Value v) {
     return
       // nullability
@@ -187,7 +196,6 @@ public final class ECMAEngine {
       // exceptions
       !v.isException() &&
       // rest
-      !v.isProxyObject() &&
       !v.isNativePointer() &&
       !v.isHostObject();
   }
