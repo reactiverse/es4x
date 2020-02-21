@@ -1,4 +1,3 @@
-sudo: false
 language: java
 cache:
   directories:
@@ -90,10 +89,18 @@ matrix:
       dist: xenial
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk13?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
   allow_failures:
-    - env: JDK='OpenJDK 13'
-    - env: JDK='OpenJ9 13'
-    - env: JDK='GraalVM 20.0.0 (8)'
-    - env: JDK='GraalVM 20.0.0 (11)'
+    - env:
+      - JDK='OpenJDK 13'
+      - SKIP_JACOCO='true'
+    - env:
+      - JDK='OpenJ9 13'
+      - SKIP_JACOCO='true'
+    - env:
+      - JDK='GraalVM 20.0.0 (8)'
+      - SKIP_JACOCO='true'
+    - env:
+      - JDK='GraalVM 20.0.0 (11)'
+      - SKIP_JACOCO='true'
 
 script:
   - ./mvnw clean verify
