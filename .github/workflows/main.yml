@@ -21,7 +21,7 @@ jobs:
       - name: "Install vuepress"
         run: npm install
       - name: "Build vuepress"
-        run: vuepress build docs
+        run: "$(npm bin)/vuepress build docs"
       - name: "Upload generated site"
         uses: actions/upload-artifact@v1.0.0
         with:
