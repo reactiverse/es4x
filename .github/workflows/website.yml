@@ -1,0 +1,53 @@
+name: ES4X Site
+
+on:
+  push:
+    branches:
+      - master
+env:
+  SITE_DIR: 'site'
+
+jobs:
+  build_site:
+    name: "Build site with vuepress"
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1.1.0
+        with:
+          version: 12.x
+      - name: "Install vuepress"
+        run: npm install
+      - name: "Build vuepress"
+        run: vuepress build docs
+      - name: "Upload generated site"
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: site
+          path: "${{ github.workspace }}/build/${{ env.SITE_DIR }}"
+  deploy_site:
+    runs-on: [ubuntu-latest]
+    needs: [build_site]
+    name: "Deploy GitHub Pages"
+    steps:
+     - name: Setup Node.js for use with actions
+       uses: actions/setup-node@v1.1.0
+       with:
+         version: 12.x
+     - name: Checkout
+       uses: actions/checkout@v2
+     - name: Download generated site
+       uses: actions/download-artifact@v1
+       with:
+         name: site
+         path: "${{ github.workspace }}/${{ env.SITE_DIR }}"
+     - name: Deploy to GitHub Pages
+       uses: JamesIves/github-pages-deploy-action@3.2.1
+       with:
+        # ACCESS_TOKEN: # optional
+        GITHUB_TOKEN: "${{ github.token}}"
+        FOLDER: "${{ env.SITE_DIR }}"
+        BRANCH: 'gh-pages'
+        COMMIT_MESSAGE: "[CI] Publish Documentation for ${{ github.sha }}"
