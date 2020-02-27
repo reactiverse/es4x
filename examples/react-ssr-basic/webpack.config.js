@@ -22,17 +22,9 @@ module.exports = [
     }
   },
   {
-    // target: "node",
     entry: {
       server: "./src/server.js"
     },
-    // node: {
-    //   dns: "mock",
-    //   fs: "empty",
-    //   path: true,
-    //   url: false,
-    //   net: "empty"
-    // },
     output: {
       path: path.resolve(__dirname),
       filename: "[name].js"
