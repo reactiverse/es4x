@@ -94,7 +94,7 @@ In order to obtain a connection use the following code:
 
 ``` js
 import { Redis } from "@vertx/redis-client"
-Redis.createClient(vertx, new RedisOptions()).connect((onConnect, onConnect_err) => {
+Redis.createClient(vertx, new RedisOptions()).connect((onConnect) => {
   if (onConnect.succeeded()) {
     let client = onConnect.result();
   }
@@ -111,7 +111,7 @@ let options = new RedisOptions()
   .setPassword("abracadabra")
   .setSelect(1);
 
-Redis.createClient(vertx, options).connect((onConnect, onConnect_err) => {
+Redis.createClient(vertx, options).connect((onConnect) => {
   if (onConnect.succeeded()) {
     let client = onConnect.result();
   }
@@ -130,7 +130,7 @@ as:
 import { RedisAPI } from "@vertx/redis-client"
 let redis = RedisAPI.api(client);
 
-redis.get("mykey", (res, res_err) => {
+redis.get("mykey", (res) => {
   if (res.succeeded()) {
     // so something...
   }
@@ -168,10 +168,10 @@ Redis.createClient(vertx, new RedisOptions()
   .setType("SENTINEL")
   .setEndpoints([SocketAddress.inetSocketAddress(5000, "127.0.0.1"), SocketAddress.inetSocketAddress(5001, "127.0.0.1"), SocketAddress.inetSocketAddress(5002, "127.0.0.1")])
   .setMasterName("sentinel7000")
-  .setRole("MASTER")).connect((onConnect, onConnect_err) => {
+  .setRole("MASTER")).connect((onConnect) => {
   // assuming we got a connection to the master node
   // query the info for the node
-  onConnect.result().send(Request.cmd(Command.INFO), (info, info_err) => {
+  onConnect.result().send(Request.cmd(Command.INFO), (info) => {
     // do something...
   });
 });
@@ -217,7 +217,7 @@ To start a subscriber one would do:
 ``` js
 import { Redis } from "@vertx/redis-client"
 
-Redis.createClient(vertx, new RedisOptions()).connect((onConnect, onConnect_err) => {
+Redis.createClient(vertx, new RedisOptions()).connect((onConnect) => {
   if (onConnect.succeeded()) {
     let client = onConnect.result();
 
@@ -234,7 +234,7 @@ And from another place in the code publish messages to the queue:
 import { Command } from "@vertx/redis-client"
 import { Request } from "@vertx/redis-client"
 
-redis.send(Request.cmd(Command.PUBLISH).arg("channel1").arg("Hello World!"), (res, res_err) => {
+redis.send(Request.cmd(Command.PUBLISH).arg("channel1").arg("Hello World!"), (res) => {
   if (res.succeeded()) {
     // published!
   }
@@ -250,7 +250,7 @@ also possible to use Redis connecting to a UNIX domain docket:
 import { SocketAddress } from "@vertx/core"
 import { Redis } from "@vertx/redis-client"
 
-Redis.createClient(vertx, SocketAddress.domainSocketAddress("/tmp/redis.sock")).connect((onConnect, onConnect_err) => {
+Redis.createClient(vertx, SocketAddress.domainSocketAddress("/tmp/redis.sock")).connect((onConnect) => {
   if (onConnect.succeeded()) {
     let client = onConnect.result();
   }

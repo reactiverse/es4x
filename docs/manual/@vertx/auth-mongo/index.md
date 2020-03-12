@@ -84,14 +84,14 @@ If you want to override this behaviour you can do so by providing an
 alternative hash strategy and setting it with `setHashStrategy`
 
 > **Warning**
-> 
+>
 > It is strongly advised to use the `EXTERNAL` option. The NO\_SALT
 > option is existing for development phase only and even the COLUMN
 > option is not recommended, cause salt and password are stored inside
 > the same place\!
 
 > **Warning**
-> 
+>
 > As of 2018 OWASP recommends the usage of stronger encryption
 > algorithms to hash user passwords for this case you can change from
 > the default (preserved for backwards-compatibility) to PBKDF2. For new
@@ -182,7 +182,7 @@ let authInfo = {
   "username" : "tim",
   "password" : "sausages"
 };
-authProvider.authenticate(authInfo, (res, res_err) => {
+authProvider.authenticate(authInfo, (res) => {
   if (res.succeeded()) {
     let user = res.result();
   } else {
@@ -206,7 +206,7 @@ If validating if a user has a particular permission simply pass the
 permission into. `isAuthorised` as follows:
 
 ``` js
-user.isAuthorized("commit_code", (res, res_err) => {
+user.isAuthorized("commit_code", (res) => {
   if (res.succeeded()) {
     let hasPermission = res.result();
   } else {
@@ -221,7 +221,7 @@ the argument with the role prefix.
 ``` js
 import { MongoAuth } from "@vertx/auth-mongo"
 
-user.isAuthorized(MongoAuth.ROLE_PREFIX + "manager", (res, res_err) => {
+user.isAuthorized(MongoAuth.ROLE_PREFIX + "manager", (res) => {
   if (res.succeeded()) {
     let hasRole = res.result();
   } else {

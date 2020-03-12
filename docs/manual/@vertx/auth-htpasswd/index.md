@@ -48,7 +48,7 @@ let authInfo = {
   "password" : "somePassword"
 };
 
-authProvider.authenticate(authInfo, (res, res_err) => {
+authProvider.authenticate(authInfo, (res) => {
   if (res.succeeded()) {
     let user = res.result();
   } else {

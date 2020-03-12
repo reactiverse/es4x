@@ -161,7 +161,7 @@ If you want to be notified when this has completed, you can register a
 `completion handler` on the MessageConsumer object.
 
 ``` js
-consumer.completionHandler((res, res_err) => {
+consumer.completionHandler((res) => {
   if (res.succeeded()) {
     console.log("The handler registration has reached all nodes");
   } else {
@@ -179,7 +179,7 @@ to propagate across the nodes. If you want to be notified when this is
 complete, use `unregister`.
 
 ``` js
-consumer.unregister((res, res_err) => {
+consumer.unregister((res) => {
   if (res.succeeded()) {
     console.log("The handler un-registration has reached all nodes");
   } else {
@@ -266,7 +266,7 @@ consumer.handler((message) => {
 The sender:
 
 ``` js
-eventBus.request("news.uk.sport", "Yay! Someone kicked a ball across a patch of grass", (ar, ar_err) => {
+eventBus.request("news.uk.sport", "Yay! Someone kicked a ball across a patch of grass", (ar) => {
   if (ar.succeeded()) {
     console.log("Received reply: " + ar.result().body());
   }
@@ -359,7 +359,7 @@ clustered event bus by configuring the Vert.x instance as clustered;
 ``` js
 import { Vertx } from "@vertx/core"
 let options = new VertxOptions();
-Vertx.clusteredVertx(options, (res, res_err) => {
+Vertx.clusteredVertx(options, (res) => {
   if (res.succeeded()) {
     let vertx = res.result();
     let eventBus = vertx.eventBus();

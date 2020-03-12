@@ -225,7 +225,7 @@ let record = new Record()
     "some-label" : "some-value"
   });
 
-discovery.publish(record, (ar, ar_err) => {
+discovery.publish(record, (ar) => {
   if (ar.succeeded()) {
     // publication succeeded
     let publishedRecord = ar.result();
@@ -236,7 +236,7 @@ discovery.publish(record, (ar, ar_err) => {
 
 // Record creation from a type
 record = HttpEndpoint.createRecord("some-rest-api", "localhost", 8080, "/api");
-discovery.publish(record, (ar, ar_err) => {
+discovery.publish(record, (ar) => {
   if (ar.succeeded()) {
     // publication succeeded
     let publishedRecord = ar.result();
@@ -254,7 +254,7 @@ record has been extended by a `registration id`.
 To withdraw (un-publish) a record, use:
 
 ``` js
-discovery.unpublish(record.registration, (ar, ar_err) => {
+discovery.unpublish(record.registration, (ar) => {
   if (ar.succeeded()) {
     // Ok
   } else {
@@ -301,7 +301,7 @@ Here are some examples:
 // Get any record
 discovery.getRecord((r) => {
   true;
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     if ((ar.result() !== null && ar.result() !== undefined)) {
       // we have a record
@@ -313,7 +313,7 @@ discovery.getRecord((r) => {
   }
 });
 
-discovery.getRecord(null, (ar, ar_err) => {
+discovery.getRecord(null, (ar) => {
   if (ar.succeeded()) {
     if ((ar.result() !== null && ar.result() !== undefined)) {
       // we have a record
@@ -329,7 +329,7 @@ discovery.getRecord(null, (ar, ar_err) => {
 // Get a record by name
 discovery.getRecord((r) => {
   r.name == "some-name";
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     if ((ar.result() !== null && ar.result() !== undefined)) {
       // we have a record
@@ -343,7 +343,7 @@ discovery.getRecord((r) => {
 
 discovery.getRecord({
   "name" : "some-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     if ((ar.result() !== null && ar.result() !== undefined)) {
       // we have a record
@@ -358,7 +358,7 @@ discovery.getRecord({
 // Get all records matching the filter
 discovery.getRecords((r) => {
   "some-value" == r.metadata.some-label;
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     let results = ar.result();
     // If the list is not empty, we have matching record
@@ -371,7 +371,7 @@ discovery.getRecords((r) => {
 
 discovery.getRecords({
   "some-label" : "some-value"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     let results = ar.result();
     // If the list is not empty, we have matching record
@@ -501,7 +501,7 @@ The next snippet illustrates hot to create a `Record` from
 import { HttpEndpoint } from "@vertx/service-discovery"
 let record1 = HttpEndpoint.createRecord("some-http-service", "localhost", 8433, "/api");
 
-discovery.publish(record1, (ar, ar_err) => {
+discovery.publish(record1, (ar) => {
   // ...
 });
 
@@ -524,7 +524,7 @@ import { HttpClient } from "@vertx/core"
 // Get the record
 discovery.getRecord({
   "name" : "some-http-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded() && (ar.result() !== null && ar.result() !== undefined)) {
     // Retrieve the service reference
     let reference = discovery.getReference(ar.result());
@@ -552,7 +552,7 @@ import { ServiceDiscovery } from "@vertx/service-discovery"
 import { HttpEndpoint } from "@vertx/service-discovery"
 HttpEndpoint.getClient(discovery, {
   "name" : "some-http-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     let client = ar.result();
 
@@ -582,7 +582,7 @@ import { WebClient } from "@vertx/web-client"
 // Get the record
 discovery.getRecord({
   "name" : "some-http-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded() && (ar.result() !== null && ar.result() !== undefined)) {
     // Retrieve the service reference
     let reference = discovery.getReference(ar.result());
@@ -590,7 +590,7 @@ discovery.getRecord({
     let client = reference.getAs(WebClient.class);
 
     // You need to path the complete path
-    client.get("/api/persons").send((response, response_err) => {
+    client.get("/api/persons").send((response) => {
 
       // ...
 
@@ -609,12 +609,12 @@ import { ServiceDiscovery } from "@vertx/service-discovery"
 import { HttpEndpoint } from "@vertx/service-discovery"
 HttpEndpoint.getWebClient(discovery, {
   "name" : "some-http-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     let client = ar.result();
 
     // You need to path the complete path
-    client.get("/api/persons").send((response, response_err) => {
+    client.get("/api/persons").send((response) => {
 
       // ...
 
@@ -646,7 +646,7 @@ let record = EventBusService.createRecord("some-eventbus-service", "address", "e
   "some-metadata" : "some value"
 });
 
-discovery.publish(record, (ar, ar_err) => {
+discovery.publish(record, (ar) => {
   // ...
 });
 ```
@@ -700,7 +700,7 @@ process:
 import { MessageSource } from "@vertx/service-discovery"
 let record = MessageSource.createRecord("some-message-source-service", "some-address");
 
-discovery.publish(record, (ar, ar_err) => {
+discovery.publish(record, (ar) => {
   // ...
 });
 
@@ -722,7 +722,7 @@ import { MessageConsumer } from "@vertx/core"
 // Get the record
 discovery.getRecord({
   "name" : "some-message-source-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded() && (ar.result() !== null && ar.result() !== undefined)) {
     // Retrieve the service reference
     let reference = discovery.getReference(ar.result());
@@ -744,7 +744,7 @@ When, using `MessageSource`, it becomes:
 import { MessageSource } from "@vertx/service-discovery"
 MessageSource.getConsumer(discovery, {
   "name" : "some-message-source-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     let consumer = ar.result();
 
@@ -783,7 +783,7 @@ let record = JDBCDataSource.createRecord("some-data-source-service", {
   "some-metadata" : "some-value"
 });
 
-discovery.publish(record, (ar, ar_err) => {
+discovery.publish(record, (ar) => {
   // ...
 });
 ```
@@ -806,7 +806,7 @@ import { JDBCClient } from "@vertx/jdbc-client"
 // Get the record
 discovery.getRecord({
   "name" : "some-data-source-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded() && (ar.result() !== null && ar.result() !== undefined)) {
     // Retrieve the service reference
     let reference = discovery.getReferenceWithConfiguration(ar.result(), {
@@ -836,7 +836,7 @@ JDBCDataSource.getJDBCClient(discovery, {
 }, {
   "username" : "clement",
   "password" : "*****"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     let client = ar.result();
 
@@ -872,7 +872,7 @@ let record = RedisDataSource.createRecord("some-redis-data-source-service", {
   "some-metadata" : "some-value"
 });
 
-discovery.publish(record, (ar, ar_err) => {
+discovery.publish(record, (ar) => {
   // ...
 });
 ```
@@ -892,7 +892,7 @@ import { RedisClient } from "@vertx/redis-client"
 // Get the record
 discovery.getRecord({
   "name" : "some-redis-data-source-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded() && (ar.result() !== null && ar.result() !== undefined)) {
     // Retrieve the service reference
     let reference = discovery.getReference(ar.result());
@@ -916,7 +916,7 @@ import { ServiceDiscovery } from "@vertx/service-discovery"
 import { RedisDataSource } from "@vertx/service-discovery"
 RedisDataSource.getRedisClient(discovery, {
   "name" : "some-redis-data-source-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     let client = ar.result();
 
@@ -952,7 +952,7 @@ let record = MongoDataSource.createRecord("some-data-source-service", {
   "some-metadata" : "some-value"
 });
 
-discovery.publish(record, (ar, ar_err) => {
+discovery.publish(record, (ar) => {
   // ...
 });
 ```
@@ -971,7 +971,7 @@ provided by the consumer:
 // Get the record
 discovery.getRecord({
   "name" : "some-data-source-service"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded() && (ar.result() !== null && ar.result() !== undefined)) {
     // Retrieve the service reference
     let reference = discovery.getReferenceWithConfiguration(ar.result(), {
@@ -1001,7 +1001,7 @@ MongoDataSource.getMongoClient(discovery, {
 }, {
   "username" : "clement",
   "password" : "*****"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     let client = ar.result();
 

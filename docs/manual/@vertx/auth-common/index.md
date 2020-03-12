@@ -79,7 +79,7 @@ let authInfo = {
   "password" : "mypassword"
 };
 
-authProvider.authenticate(authInfo, (res, res_err) => {
+authProvider.authenticate(authInfo, (res) => {
   if (res.succeeded()) {
 
     let user = res.result();
@@ -104,7 +104,7 @@ The results of all the above are provided asynchronously in the handler.
 Here’s an example of authorising a user:
 
 ``` js
-user.isAuthorized("printers:printer1234", (res, res_err) => {
+user.isAuthorized("printers:printer1234", (res) => {
   if (res.succeeded()) {
 
     let hasAuthority = res.result();

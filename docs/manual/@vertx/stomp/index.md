@@ -68,7 +68,7 @@ is ready, use a handler as follows:
 ``` js
 import { StompServerHandler } from "@vertx/stomp"
 import { StompServer } from "@vertx/stomp"
-let server = StompServer.create(vertx).handler(StompServerHandler.create(vertx)).listen((ar, ar_err) => {
+let server = StompServer.create(vertx).handler(StompServerHandler.create(vertx)).listen((ar) => {
   if (ar.failed()) {
     console.log("Failing to start the STOMP server : " + ar.cause().getMessage());
   } else {
@@ -94,7 +94,7 @@ let server = StompServer.create(vertx, new StompServerOptions()
 STOMP servers are closed as follows:
 
 ``` js
-server.close((ar, ar_err) => {
+server.close((ar) => {
   if (ar.succeeded()) {
     console.log("The STOMP server has been closed");
   } else {
@@ -289,7 +289,7 @@ You create a `StompClient` instance with default options as follows:
 
 ``` js
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect((ar, ar_err) => {
+let client = StompClient.create(vertx).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
 
@@ -306,7 +306,7 @@ follows:
 
 ``` js
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect(61613, "0.0.0.0", (ar, ar_err) => {
+let client = StompClient.create(vertx).connect(61613, "0.0.0.0", (ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
 
@@ -326,7 +326,7 @@ own):
 import { StompClient } from "@vertx/stomp"
 let client = StompClient.create(vertx).errorFrameHandler((frame) => {
   // Received the ERROR frame
-}).connect(61613, "0.0.0.0", (ar, ar_err) => {
+}).connect(61613, "0.0.0.0", (ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
 
@@ -342,7 +342,7 @@ You can also configure the host and port in the `StompClientOptions`:
 import { StompClient } from "@vertx/stomp"
 let client = StompClient.create(vertx, new StompClientOptions()
   .setHost("localhost")
-  .setPort(1234)).connect((ar, ar_err) => {
+  .setPort(1234)).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
 
@@ -360,7 +360,7 @@ You can close a STOMP client:
 import { StompClient } from "@vertx/stomp"
 let client = StompClient.create(vertx, new StompClientOptions()
   .setHost("localhost")
-  .setPort(1234)).connect((ar, ar_err) => {
+  .setPort(1234)).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
 
@@ -379,7 +379,7 @@ cleanly close the connection, you should use the `disconnect` method:
 import { StompClient } from "@vertx/stomp"
 let client = StompClient.create(vertx, new StompClientOptions()
   .setHost("localhost")
-  .setPort(1234)).connect((ar, ar_err) => {
+  .setPort(1234)).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
 
@@ -404,7 +404,7 @@ closes the connection with the client after having sent such frame:
 import { StompClient } from "@vertx/stomp"
 let client = StompClient.create(vertx, new StompClientOptions()
   .setHost("localhost")
-  .setPort(1234)).connect((ar, ar_err) => {
+  .setPort(1234)).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
     connection.errorHandler((frame) => {
@@ -427,7 +427,7 @@ reconnect to the server:
 ``` js
 import { Buffer } from "@vertx/core"
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect((ar, ar_err) => {
+let client = StompClient.create(vertx).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
     connection.connectionDroppedHandler((con) => {
@@ -454,7 +454,7 @@ want to use in the `connect` method:
 
 ``` js
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect(netClient, (ar, ar_err) => {
+let client = StompClient.create(vertx).connect(netClient, (ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
     connection.errorHandler((frame) => {
@@ -489,7 +489,7 @@ To subscribe to a destination, use:
 
 ``` js
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect((ar, ar_err) => {
+let client = StompClient.create(vertx).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
     connection.subscribe("/queue", (frame) => {
@@ -505,7 +505,7 @@ To unsubscribe, use:
 
 ``` js
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect((ar, ar_err) => {
+let client = StompClient.create(vertx).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
     connection.subscribe("/queue", (frame) => {
@@ -528,7 +528,7 @@ To send a message, use:
 ``` js
 import { Buffer } from "@vertx/core"
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect((ar, ar_err) => {
+let client = StompClient.create(vertx).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
     let headers = {};
@@ -548,7 +548,7 @@ Clients can send `ACK` and `NACK` frames:
 
 ``` js
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect((ar, ar_err) => {
+let client = StompClient.create(vertx).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
     connection.subscribe("/queue", (frame) => {
@@ -571,7 +571,7 @@ committed.
 ``` js
 import { Buffer } from "@vertx/core"
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect((ar, ar_err) => {
+let client = StompClient.create(vertx).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
     let headers = {};
@@ -597,7 +597,7 @@ server has processed the message:
 ``` js
 import { Buffer } from "@vertx/core"
 import { StompClient } from "@vertx/stomp"
-let client = StompClient.create(vertx).connect((ar, ar_err) => {
+let client = StompClient.create(vertx).connect((ar) => {
   if (ar.succeeded()) {
     let connection = ar.result();
 

@@ -5,7 +5,7 @@ this wrapper, includes Partition Management, Broker Configuration
 management, etc.
 
 > **Warning**
-> 
+>
 > this class is now deprecated see `KafkaAdminClient` instead.
 
 # Using the AdminUtils
@@ -22,7 +22,7 @@ import { Vertx } from "@vertx/core"
 import { AdminUtils } from "@vertx/kafka-client"
 let adminUtils = AdminUtils.create(Vertx.vertx(), "localhost:2181", true);
 // Create topic 'myNewTopic' with 2 partition and 1 replicas
-adminUtils.createTopic("myNewTopic", 2, 1, (result, result_err) => {
+adminUtils.createTopic("myNewTopic", 2, 1, (result) => {
   if (result.succeeded()) {
     console.log("Creation of topic myNewTopic successful!")} else {
     console.log("Creation of topic myNewTopic failed: " + result.cause().getLocalizedMessage())}
@@ -40,7 +40,7 @@ import { Vertx } from "@vertx/core"
 import { AdminUtils } from "@vertx/kafka-client"
 let adminUtils = AdminUtils.create(Vertx.vertx(), "localhost:2181", true);
 // Delete topic 'myNewTopic'
-adminUtils.deleteTopic("myNewTopic", (result, result_err) => {
+adminUtils.deleteTopic("myNewTopic", (result) => {
   if (result.succeeded()) {
     console.log("Deletion of topic myNewTopic successful!")} else {
     console.log("Deletion of topic myNewTopic failed: " + result.cause().getLocalizedMessage())}
@@ -63,7 +63,7 @@ let adminUtils = AdminUtils.create(Vertx.vertx(), "localhost:2181", true);
 let properties = {};
 properties["delete.retention.ms"] = "1000";
 properties["retention.bytes"] = "1024";
-adminUtils.changeTopicConfig("myNewTopic", properties, (result, result_err) => {
+adminUtils.changeTopicConfig("myNewTopic", properties, (result) => {
   if (result.succeeded()) {
     console.log("Configuration change of topic myNewTopic successful!")} else {
     console.log("Configuration change of topic myNewTopic failed: " + result.cause().getLocalizedMessage())}
@@ -81,7 +81,7 @@ It might return an error, e.g. if the topic does not exist.
 import { Vertx } from "@vertx/core"
 import { AdminUtils } from "@vertx/kafka-client"
 let adminUtils = AdminUtils.create(Vertx.vertx(), "localhost:2181", true);
-adminUtils.topicExists("myNewTopic", (result, result_err) => {
+adminUtils.topicExists("myNewTopic", (result) => {
   if (result.succeeded()) {
     console.log("Topic myNewTopic exists: " + result.result());
   } else {

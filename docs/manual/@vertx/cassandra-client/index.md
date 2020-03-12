@@ -2,7 +2,7 @@ A Vert.x client allowing applications to interact with an [Apache
 Cassandra](http://cassandra.apache.org/) service.
 
 > **Warning**
-> 
+>
 > This module has *Tech Preview* status, this means the API can change
 > between versions.
 
@@ -26,7 +26,7 @@ compile 'io.vertx:vertx-cassandra-client:${maven.version}'
 ```
 
 > **Warning**
-> 
+>
 > The Cassandra client is not compatible with the Vert.x Dropwizard
 > Metrics library. Both are using a different major version of the
 > Dropwizard Metrics library and the Datastax Java driver [won’t
@@ -63,7 +63,7 @@ let client = CassandraClient.create(vertx, options);
 ```
 
 > **Tip**
-> 
+>
 > For fine tuning purposes, `CassandraClientOptions` exposes a
 > `com.datastax.driver.core.Cluster.Builder` instance.
 
@@ -90,7 +90,7 @@ After the client is created, it is not connected until the first query
 is executed.
 
 > **Tip**
-> 
+>
 > A shared client can be connected after creation if another client with
 > the same name has already executed a query.
 
@@ -101,7 +101,7 @@ verticle is undeployed. In other words, you do not need to invoke
 In all other cases, you must manually close the client.
 
 > **Note**
-> 
+>
 > When a shared client is closed, the driver dession is not closed if
 > other clients with the same name are still running.
 
@@ -123,7 +123,7 @@ In order to give you some inspiration and ideas on how you can use the
 API, we’d like to you to consider this example:
 
 ``` js
-cassandraClient.queryStream("SELECT my_string_col FROM my_keyspace.my_table where my_key = 'my_value'", (queryStream, queryStream_err) => {
+cassandraClient.queryStream("SELECT my_string_col FROM my_keyspace.my_table where my_key = 'my_value'", (queryStream) => {
   if (queryStream.succeeded()) {
     let stream = queryStream.result();
 
@@ -163,7 +163,7 @@ This API should be used when you need to process all the rows at the
 same time.
 
 ``` js
-cassandraClient.executeWithFullFetch("SELECT * FROM my_keyspace.my_table where my_key = 'my_value'", (executeWithFullFetch, executeWithFullFetch_err) => {
+cassandraClient.executeWithFullFetch("SELECT * FROM my_keyspace.my_table where my_key = 'my_value'", (executeWithFullFetch) => {
   if (executeWithFullFetch.succeeded()) {
     let rows = executeWithFullFetch.result();
     rows.forEach(row => {
@@ -177,7 +177,7 @@ cassandraClient.executeWithFullFetch("SELECT * FROM my_keyspace.my_table where m
 ```
 
 > **Caution**
-> 
+>
 > Use bulk fetching only if you can afford to load the full result set
 > in memory.
 
@@ -195,11 +195,11 @@ This API provides greater control over loading at the expense of being a
 bit lower-level than the streaming and bulk fetching APIs.
 
 ``` js
-cassandraClient.execute("SELECT * FROM my_keyspace.my_table where my_key = 'my_value'", (execute, execute_err) => {
+cassandraClient.execute("SELECT * FROM my_keyspace.my_table where my_key = 'my_value'", (execute) => {
   if (execute.succeeded()) {
     let resultSet = execute.result();
 
-    resultSet.one((one, one_err) => {
+    resultSet.one((one) => {
       if (one.succeeded()) {
         let row = one.result();
         console.log("One row successfully fetched");
@@ -209,7 +209,7 @@ cassandraClient.execute("SELECT * FROM my_keyspace.my_table where my_key = 'my_v
       }
     });
 
-    resultSet.fetchMoreResults((fetchMoreResults, fetchMoreResults_err) => {
+    resultSet.fetchMoreResults((fetchMoreResults) => {
       if (fetchMoreResults.succeeded()) {
         let availableWithoutFetching = resultSet.getAvailableWithoutFetching();
         console.log("Now we have " + availableWithoutFetching + " rows fetched, but not consumed!");
@@ -239,7 +239,7 @@ statements for all the queries you are using more than once.
 You can prepare a query:
 
 ``` js
-cassandraClient.prepare("SELECT * FROM my_keyspace.my_table where my_key = ? ", (preparedStatementResult, preparedStatementResult_err) => {
+cassandraClient.prepare("SELECT * FROM my_keyspace.my_table where my_key = ? ", (preparedStatementResult) => {
   if (preparedStatementResult.succeeded()) {
     console.log("The query has successfully been prepared");
     let preparedStatement = preparedStatementResult.result();
@@ -259,19 +259,19 @@ for all the next queries:
 // You can execute you prepared statement using any way to execute queries.
 
 // Low level fetch API
-cassandraClient.execute(preparedStatement.bind("my_value"), (done, done_err) => {
+cassandraClient.execute(preparedStatement.bind("my_value"), (done) => {
   let results = done.result();
   // handle results here
 });
 
 // Bulk fetching API
-cassandraClient.executeWithFullFetch(preparedStatement.bind("my_value"), (done, done_err) => {
+cassandraClient.executeWithFullFetch(preparedStatement.bind("my_value"), (done) => {
   let results = done.result();
   // handle results here
 });
 
 // Streaming API
-cassandraClient.queryStream(preparedStatement.bind("my_value"), (done, done_err) => {
+cassandraClient.queryStream(preparedStatement.bind("my_value"), (done) => {
   let results = done.result();
   // handle results here
 });
@@ -286,7 +286,7 @@ for that:
 ``` js
 let batchStatement = new (Java.type("com.datastax.driver.core.BatchStatement"))().add(new (Java.type("com.datastax.driver.core.SimpleStatement"))("INSERT INTO NAMES (name) VALUES ('Pavel')")).add(new (Java.type("com.datastax.driver.core.SimpleStatement"))("INSERT INTO NAMES (name) VALUES ('Thomas')")).add(new (Java.type("com.datastax.driver.core.SimpleStatement"))("INSERT INTO NAMES (name) VALUES ('Julien')"));
 
-cassandraClient.execute(batchStatement, (result, result_err) => {
+cassandraClient.execute(batchStatement, (result) => {
   if (result.succeeded()) {
     console.log("The given batch executed successfully");
   } else {
@@ -348,20 +348,20 @@ let mapper = mappingManager.mapper(Java.type("examples.CassandraClientExamples.M
 
 let value = new (Java.type("examples.CassandraClientExamples.MappedClass"))("foo");
 
-mapper.save(value, (handler, handler_err) => {
+mapper.save(value, (handler) => {
   // Entity saved
 });
 
-mapper.get(Java.type("java.util.Collections").singletonList("foo"), (handler, handler_err) => {
+mapper.get(Java.type("java.util.Collections").singletonList("foo"), (handler) => {
   // Entity loaded
 });
 
-mapper.delete(Java.type("java.util.Collections").singletonList("foo"), (handler, handler_err) => {
+mapper.delete(Java.type("java.util.Collections").singletonList("foo"), (handler) => {
   // Entity deleted
 });
 ```
 
 > **Tip**
-> 
+>
 > It is safe to reuse mapping manager and mapper instances for a given
 > Cassandra client.

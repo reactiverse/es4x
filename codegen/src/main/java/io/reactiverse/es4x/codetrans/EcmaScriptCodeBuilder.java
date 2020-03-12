@@ -6,7 +6,7 @@ import io.vertx.codetrans.*;
 import io.vertx.codetrans.expression.*;
 import io.vertx.codetrans.statement.StatementModel;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 
 import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
@@ -59,7 +59,7 @@ class EcmaScriptCodeBuilder implements CodeBuilder {
 
   @Override
   public ExpressionModel asyncResultHandler(LambdaExpressionTree.BodyKind bodyKind, ParameterizedTypeInfo resultType, String resultName, CodeModel body, CodeModel succeededBody, CodeModel failedBody) {
-    return new LambdaExpressionModel(this, bodyKind, Arrays.asList(resultType.getArgs().get(0), TypeReflectionFactory.create(Throwable.class)), Arrays.asList(resultName, resultName + "_err"), body);
+    return new LambdaExpressionModel(this, bodyKind, Collections.singletonList(resultType), Collections.singletonList(resultName), body);
   }
 
   @Override

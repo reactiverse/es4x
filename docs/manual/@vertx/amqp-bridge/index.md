@@ -4,7 +4,7 @@ MessageConsumer APIs over the top of
 [vertx-proton](https://github.com/vert-x3/vertx-proton/).
 
 > **Warning**
-> 
+>
 > This component will be removed in Vert.x 4, instead you should use
 > [Vert.x AMQP Client](https://vertx.io/docs/vertx-amqp-client/java/)
 
@@ -49,7 +49,7 @@ as for using SSL connections.
 import { AmqpBridge } from "@vertx/amqp-bridge"
 let bridge = AmqpBridge.create(vertx);
 // Start the bridge, then use the event loop thread to process things thereafter.
-bridge.start("localhost", 5672, (res, res_err) => {
+bridge.start("localhost", 5672, (res) => {
   // Set up a producer using the bridge, send a message with it.
   let producer = bridge.createProducer("myAmqpAddress");
 
@@ -73,7 +73,7 @@ incoming AMQP messages.
 import { AmqpBridge } from "@vertx/amqp-bridge"
 let bridge = AmqpBridge.create(vertx);
 // Start the bridge, then use the event loop thread to process things thereafter.
-bridge.start("localhost", 5672, (res, res_err) => {
+bridge.start("localhost", 5672, (res) => {
   // Set up a consumer using the bridge, register a handler for it.
   let consumer = bridge.createConsumer("myAmqpAddress");
   consumer.handler((vertxMsg) => {
@@ -250,7 +250,7 @@ let trustOptions = new PfxOptions()
 bridgeOptions.pfxTrustOptions = trustOptions;
 
 let bridge = AmqpBridge.create(vertx, bridgeOptions);
-bridge.start("localhost", 5672, "username", "password", (res, res_err) => {
+bridge.start("localhost", 5672, "username", "password", (res) => {
   // ..do things with the bridge..
 });
 ```
@@ -277,7 +277,7 @@ let keyCertOptions = new PfxOptions()
 bridgeOptions.pfxKeyCertOptions = keyCertOptions;
 
 let bridge = AmqpBridge.create(vertx, bridgeOptions);
-bridge.start("localhost", 5672, (res, res_err) => {
+bridge.start("localhost", 5672, (res) => {
   // ..do things with the bridge..
 });
 ```
@@ -331,7 +331,7 @@ message.
 
 The following shows the process for the second option:
 
-![producer reply handler](../../images/producer-reply-handler.png)
+![producer reply handler](./producer-reply-handler.png)
 
 1.  The producer is used to send a message to an AMQP address, providing
     a reply handler.
@@ -361,7 +361,7 @@ let amqpMsgPayload = {
 };
 amqpMsgPayload.body = "myRequest";
 
-producer.send(amqpMsgPayload, (res, res_err) => {
+producer.send(amqpMsgPayload, (res) => {
   let amqpReplyMessagePayload = res.result().body();
   // ...do something with reply message...
 });
@@ -398,7 +398,7 @@ from a Vert.x AMQP bridge producer with a reply handler provided.
 The following outlines the process for both routes, of receiving a
 message sent by an application (not shown), and sending a reply:
 
-![consumer reply](../../images/consumer-reply.png)
+![consumer reply](./consumer-reply.png)
 
 1.  The server sends an AMQP message to the consumer, with a reply-to
     value set to another address.

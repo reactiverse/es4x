@@ -58,7 +58,7 @@ let authInfo = {
   "password" : "sausages"
 };
 
-authProvider.authenticate(authInfo, (res, res_err) => {
+authProvider.authenticate(authInfo, (res) => {
   if (res.succeeded()) {
     let user = res.result();
   } else {
@@ -78,7 +78,7 @@ If validating if a user has a particular permission simply pass the
 permission into. `isAuthorised` as follows:
 
 ``` java
-user.isAuthorized("newsletter:edit:13", (res, res_err) => {
+user.isAuthorized("newsletter:edit:13", (res) => {
   if (res.succeeded()) {
     let hasPermission = res.result();
   } else {
@@ -91,7 +91,7 @@ If validating that a user has a particular *role* then you should prefix
 the argument with the role prefix.
 
 ``` java
-user.isAuthorized("role:manager", (res, res_err) => {
+user.isAuthorized("role:manager", (res) => {
   if (res.succeeded()) {
     let hasRole = res.result();
   } else {
@@ -163,45 +163,45 @@ server.
 The following configuration properties are used to configure the LDAP
 realm:
 
-  - `ldap_user_dn_template`  
+  - `ldap_user_dn_template`
     this is used to determine the actual lookup to use when looking up a
     user with a particular id. An example is
     `uid={0},ou=users,dc=foo,dc=com` - the element `{0}` is substituted
     with the user id to create the actual lookup. This setting is
     mandatory.
 
-  - `ldap_url`  
+  - `ldap_url`
     the url to the LDAP server. The url must start with `ldap://` and a
     port must be specified. An example is
     `ldap://myldapserver.mycompany.com:10389`
 
-  - `ldap_authentication_mechanism`  
+  - `ldap_authentication_mechanism`
     Sets the type of LDAP authentication mechanism to use when
     connecting to the LDAP server.
 
-  - `ldap_context_factory_class_name`  
+  - `ldap_context_factory_class_name`
     The name of the ContextFactory class to use. This defaults to the
     SUN LDAP JNDI implementation but can be overridden to use custom
     LDAP factories.
 
-  - `ldap_pooling_enabled`  
+  - `ldap_pooling_enabled`
     Sets whether or not connection pooling should be used when possible
     and appropriate.
 
-  - `ldap_referral`  
+  - `ldap_referral`
     Sets the LDAP referral behavior when creating a connection. Defaults
     to `follow`. See the Sun/Oracle LDAP referral documentation for
     more:
     <http://java.sun.com/products/jndi/tutorial/ldap/referral/jndi.html>
 
-  - `ldap_system_username`  
+  - `ldap_system_username`
     Sets the system username that will be used when creating an LDAP
     connection used for authorization queries. The user must have the
     ability to query for authorization data for any application user.
     Note that setting this property is not required if the calling LDAP
     Realm does not perform authorization checks.
 
-  - `ldap_system_password`  
+  - `ldap_system_password`
     Sets the password of the that will be used when creating an LDAP
     connection used for authorization queries. Note that setting this
     property is not required if the calling LDAP Realm does not perform

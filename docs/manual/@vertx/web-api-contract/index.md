@@ -202,7 +202,7 @@ For example to load a spec from the local filesystem:
 
 ``` js
 import { OpenAPI3RouterFactory } from "@vertx/web-api-contract"
-OpenAPI3RouterFactory.create(vertx, "src/main/resources/petstore.yaml", (ar, ar_err) => {
+OpenAPI3RouterFactory.create(vertx, "src/main/resources/petstore.yaml", (ar) => {
   if (ar.succeeded()) {
     // Spec loaded with success
     let routerFactory = ar.result();
@@ -217,7 +217,7 @@ You can also construct a router factory from a remote spec:
 
 ``` js
 import { OpenAPI3RouterFactory } from "@vertx/web-api-contract"
-OpenAPI3RouterFactory.create(vertx, "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml", (ar, ar_err) => {
+OpenAPI3RouterFactory.create(vertx, "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml", (ar) => {
   if (ar.succeeded()) {
     // Spec loaded with success
     let routerFactory = ar.result();
@@ -327,11 +327,11 @@ The validation handler separates file uploads and form attributes as
 explained:
 
   - If the parameter doesn’t have an encoding associated field:
-    
+
       - If the parameter has `type: string` and `format: base64` or
         `format: binary` is a file upload with content-type
         `application/octet-stream`
-    
+
       - Otherwise is a form attribute
 
   - If the parameter has the encoding associated field is a file upload

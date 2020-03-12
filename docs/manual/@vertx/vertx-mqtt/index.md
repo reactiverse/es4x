@@ -36,7 +36,7 @@ It’s not a fully featured MQTT broker but can be used for building
 something like that or for protocol translation.
 
 > **Warning**
-> 
+>
 > this module has the tech preview status, this means the API can change
 > between versions.
 
@@ -80,7 +80,7 @@ mqttServer.endpointHandler((endpoint) => {
   // accept connection from the remote client
   endpoint.accept(false);
 
-}).listen((ar, ar_err) => {
+}).listen((ar) => {
 
   if (ar.succeeded()) {
 
@@ -151,7 +151,7 @@ mqttServer.endpointHandler((endpoint) => {
   // accept connection from the remote client
   endpoint.accept(false);
 
-}).listen((ar, ar_err) => {
+}).listen((ar) => {
 
   if (ar.succeeded()) {
 
@@ -336,7 +336,7 @@ complention handler that will be called when the server is really
 closed.
 
 ``` js
-mqttServer.close((v, v_err) => {
+mqttServer.close((v) => {
 
   console.log("MQTT server closed");
 });
@@ -364,7 +364,7 @@ for (let i = 0;i < 10;i++) {
   let mqttServer = MqttServer.create(vertx);
   mqttServer.endpointHandler((endpoint) => {
     // handling endpoint
-  }).listen((ar, ar_err) => {
+  }).listen((ar) => {
 
     // handling start listening
   });
@@ -392,7 +392,7 @@ connecting/disconnecting to a broker, publishing messages (with all
 three different levels of QoS) and subscribing to topics.
 
 > **Warning**
-> 
+>
 > this module has the tech preview status, this means the API can change
 > between versions.
 
@@ -413,13 +413,13 @@ methods.
 import { MqttClient } from "@vertx/mqtt"
 let client = MqttClient.create(vertx);
 
-client.connect(1883, "mqtt.eclipse.org", (s, s_err) => {
+client.connect(1883, "mqtt.eclipse.org", (s) => {
   client.disconnect();
 });
 ```
 
 > **Note**
-> 
+>
 > default address of server provided by `MqttClientOptions` is
 > localhost:1883 and localhost:8883 if you are using SSL/TSL.
 
@@ -461,7 +461,7 @@ something to server otherwise server will close the connection. The
 right way to keep connection alive is a `ping` method.
 
 > **Important**
-> 
+>
 > by default you client keep connections with server automatically. That
 > means that you don’t need to call `ping` in order to keep connections
 > with server. The `MqttClient` will do it for you.
@@ -476,7 +476,7 @@ options.autoKeepAlive = false;
 ### Be notified when
 
   - publish is completed
-    
+
     You could provide handler by calling `publishCompletionHandler`. The
     handler will be called each time publish is completed. This one is
     pretty useful because you could see the packetId of just received
@@ -490,11 +490,11 @@ options.autoKeepAlive = false;
     }).publish("hello", Buffer.buffer("hello"), 'EXACTLY_ONCE', false, false).publish("hello", Buffer.buffer("hello"), 'AT_LEAST_ONCE', false, false).publish("hello", Buffer.buffer("hello"), 'AT_LEAST_ONCE', false, false);
 
 > **Warning**
-> 
+>
 > The handler WILL NOT BE CALLED if sent publish packet with QoS=0.
 
   - subscribe completed
-    
+
     ``` js
     client.subscribeCompletionHandler((mqttSubAckMessage) => {
       console.log("Id of just received SUBACK packet is " + mqttSubAckMessage.messageId());
@@ -509,7 +509,7 @@ options.autoKeepAlive = false;
     ```
 
   - unsubscribe completed
-    
+
     ``` js
     client.unsubscribeCompletionHandler((id) => {
       console.log("Id of just received UNSUBACK packet is " + id);
@@ -517,13 +517,13 @@ options.autoKeepAlive = false;
     ```
 
   - unsubscribe sent
-    
+
     ``` js
     Code not translatable
     ```
 
   - PINGRESP received
-    
+
     ``` js
     client.pingResponseHandler((s) => {
       //The handler will be called time to time by default

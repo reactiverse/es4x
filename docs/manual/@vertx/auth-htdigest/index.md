@@ -62,7 +62,7 @@ let authInfo = {
   "response" : "6629fae49393a05397450978507c4ef1"
 };
 
-authProvider.authenticate(authInfo, (res, res_err) => {
+authProvider.authenticate(authInfo, (res) => {
   if (res.succeeded()) {
     let user = res.result();
   } else {

@@ -73,7 +73,7 @@ breaker.execute((future) => {
   // the code reports failures or success on the given future.
   // if this future is marked as failed, the breaker increased the
   // number of failures
-}).setHandler((ar, ar_err) => {
+}).setHandler((ar) => {
   // Get the operation result.
 });
 ```
@@ -103,7 +103,7 @@ breaker.execute((future) => {
       });
     }
   });
-}).setHandler((ar, ar_err) => {
+}).setHandler((ar) => {
   // Do something with the result
 });
 ```
@@ -140,7 +140,7 @@ breaker.executeWithFallback((future) => {
 }, (v) => {
   // Executed when the circuit is opened
   return "Hello"
-}).setHandler((ar, ar_err) => {
+}).setHandler((ar) => {
   // Do something with the result
 });
 ```

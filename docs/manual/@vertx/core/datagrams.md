@@ -58,11 +58,11 @@ import { Buffer } from "@vertx/core"
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
 let buffer = Buffer.buffer("content");
 // Send a Buffer
-socket.send(buffer, 1234, "10.0.0.1", (asyncResult, asyncResult_err) => {
+socket.send(buffer, 1234, "10.0.0.1", (asyncResult) => {
   console.log("Send succeeded? " + asyncResult.succeeded());
 });
 // Send a String
-socket.send("A string used as content", 1234, "10.0.0.1", (asyncResult, asyncResult_err) => {
+socket.send("A string used as content", 1234, "10.0.0.1", (asyncResult) => {
   console.log("Send succeeded? " + asyncResult.succeeded());
 });
 ```
@@ -91,7 +91,7 @@ shown here:
 
 ``` js
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-socket.listen(1234, "0.0.0.0", (asyncResult, asyncResult_err) => {
+socket.listen(1234, "0.0.0.0", (asyncResult) => {
   if (asyncResult.succeeded()) {
     socket.handler((packet) => {
       // Do something with the packet
@@ -131,7 +131,7 @@ import { Buffer } from "@vertx/core"
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
 let buffer = Buffer.buffer("content");
 // Send a Buffer to a multicast address
-socket.send(buffer, 1234, "230.0.0.1", (asyncResult, asyncResult_err) => {
+socket.send(buffer, 1234, "230.0.0.1", (asyncResult) => {
   console.log("Send succeeded? " + asyncResult.succeeded());
 });
 ```
@@ -164,14 +164,14 @@ the Multicast group 230.0.0.1 you would do something like shown here:
 
 ``` js
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-socket.listen(1234, "0.0.0.0", (asyncResult, asyncResult_err) => {
+socket.listen(1234, "0.0.0.0", (asyncResult) => {
   if (asyncResult.succeeded()) {
     socket.handler((packet) => {
       // Do something with the packet
     });
 
     // join the multicast group
-    socket.listenMulticastGroup("230.0.0.1", (asyncResult2, asyncResult2_err) => {
+    socket.listenMulticastGroup("230.0.0.1", (asyncResult2) => {
       console.log("Listen succeeded? " + asyncResult2.succeeded());
     });
   } else {
@@ -192,20 +192,20 @@ This is shown here:
 
 ``` js
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-socket.listen(1234, "0.0.0.0", (asyncResult, asyncResult_err) => {
+socket.listen(1234, "0.0.0.0", (asyncResult) => {
   if (asyncResult.succeeded()) {
     socket.handler((packet) => {
       // Do something with the packet
     });
 
     // join the multicast group
-    socket.listenMulticastGroup("230.0.0.1", (asyncResult2, asyncResult2_err) => {
+    socket.listenMulticastGroup("230.0.0.1", (asyncResult2) => {
       if (asyncResult2.succeeded()) {
         // will now receive packets for group
 
         // do some work
 
-        socket.unlistenMulticastGroup("230.0.0.1", (asyncResult3, asyncResult3_err) => {
+        socket.unlistenMulticastGroup("230.0.0.1", (asyncResult3) => {
           console.log("Unlisten succeeded? " + asyncResult3.succeeded());
         });
       } else {
@@ -237,7 +237,7 @@ let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
 // Some code
 
 // This would block packets which are send from 10.0.0.2
-socket.blockMulticastGroup("230.0.0.1", "10.0.0.2", (asyncResult, asyncResult_err) => {
+socket.blockMulticastGroup("230.0.0.1", "10.0.0.2", (asyncResult) => {
   console.log("block succeeded? " + asyncResult.succeeded());
 });
 ```

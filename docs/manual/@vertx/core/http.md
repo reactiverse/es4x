@@ -68,7 +68,7 @@ also accept a direct `h2c` connection beginning with the `PRI *
 HTTP/2.0\r\nSM\r\n` preface.
 
 > **Warning**
-> 
+>
 > most browsers won’t support `h2c`, so for serving web sites you should
 > use `h2` and not `h2c`.
 
@@ -81,7 +81,7 @@ connection, the default initial settings for a server are:
   - the default HTTP/2 settings values for the others
 
 > **Note**
-> 
+>
 > Worker Verticles are not compatible with HTTP/2
 
 ## Logging network server activity
@@ -130,7 +130,7 @@ provide a handler to the `listen` call. For example:
 
 ``` js
 let server = vertx.createHttpServer();
-server.listen(8080, "myhost.com", (res, res_err) => {
+server.listen(8080, "myhost.com", (res) => {
   if (res.succeeded()) {
     console.log("Server is now listening!");
   } else {
@@ -429,7 +429,7 @@ request.uploadHandler((upload) => {
 ```
 
 > **Warning**
-> 
+>
 > Make sure you check the filename in a production system to avoid
 > malicious clients uploading files to arbitrary places on your
 > filesystem. See [security notes](#Security%20notes) for more
@@ -519,7 +519,7 @@ If you don’t specify a status message, the default one corresponding to
 the status code will be used.
 
 > **Note**
-> 
+>
 > for HTTP/2 the status won’t be present in the response since the
 > protocol won’t transmit the message to the client
 
@@ -648,7 +648,7 @@ When in chunked mode you can also write HTTP response trailers to the
 response. These are actually written in the final chunk of the response.
 
 > **Note**
-> 
+>
 > chunked response has no effect for an HTTP/2 stream
 
 To add trailers to the response, add them directly to the `trailers`.
@@ -709,13 +709,13 @@ classpath](#classpath) for restrictions about the classpath resolution
 or disabling it.
 
 > **Note**
-> 
+>
 > If you use `sendFile` while using HTTPS it will copy through
 > user-space, since if the kernel is copying data directly from disk to
 > socket it doesn’t give us an opportunity to apply any encryption.
 
 > **Warning**
-> 
+>
 > If you’re going to write web servers directly using Vert.x be careful
 > that users cannot exploit the path to access files outside the
 > directory from which you want to serve them or the classpath It may be
@@ -862,7 +862,7 @@ client:
 let response = request.response();
 
 // Push main.js to the client
-response.push('GET', "/main.js", (ar, ar_err) => {
+response.push('GET', "/main.js", (ar) => {
 
   if (ar.succeeded()) {
 
@@ -1344,7 +1344,7 @@ request.end();
 ```
 
 > **Important**
-> 
+>
 > `XXXNow` methods cannot receive an exception handler.
 
 ### Specifying a handler on the client request
@@ -1991,7 +1991,7 @@ acknowledgment:
 
 ``` js
 connection.updateSettings(new Http2Settings()
-  .setMaxConcurrentStreams(100), (ar, ar_err) => {
+  .setMaxConcurrentStreams(100), (ar) => {
   if (ar.succeeded()) {
     console.log("The settings update has been acknowledged ");
   }
@@ -2008,7 +2008,7 @@ connection.remoteSettingsHandler((settings) => {
 ```
 
 > **Note**
-> 
+>
 > this only applies to the HTTP/2 protocol
 
 ### Connection ping
@@ -2023,7 +2023,7 @@ let data = Buffer.buffer();
 for (let i = 0;i < 8;i++) {
   data.appendByte(i);
 }
-connection.ping(data, (pong, pong_err) => {
+connection.ping(data, (pong) => {
   console.log("Remote side replied");
 });
 ```
@@ -2042,7 +2042,7 @@ The handler is just notified, the acknowledgement is sent whatsoever.
 Such feature is aimed for implementing protocols on top of HTTP/2.
 
 > **Note**
-> 
+>
 > this only applies to the HTTP/2 protocol
 
 ### Connection shutdown and go away
@@ -2094,7 +2094,7 @@ connection.shutdownHandler((v) => {
 This applies also when a {@literal GOAWAY} is received.
 
 > **Note**
-> 
+>
 > this only applies to the HTTP/2 protocol
 
 ### Connection close
@@ -2270,7 +2270,7 @@ import { Promise } from "@vertx/core"
 server.webSocketHandler((webSocket) => {
   let promise = Promise.promise();
   webSocket.setHandshake(promise.future());
-  authenticate(webSocket.headers(), (ar, ar_err) => {
+  authenticate(webSocket.headers(), (ar) => {
     if (ar.succeeded()) {
       // Terminate the handshake with the status code 101 (Switching Protocol)
       // Reject the handshake with 401 (Unauthorized)
@@ -2284,7 +2284,7 @@ server.webSocketHandler((webSocket) => {
 ```
 
 > **Note**
-> 
+>
 > the WebSocket will be automatically accepted after the handler is
 > called unless the WebSocket’s handshake has been set
 
@@ -2325,7 +2325,7 @@ The handler will be called with an instance of `WebSocket` when the
 connection has been made:
 
 ``` js
-client.webSocket("/some-uri", (res, res_err) => {
+client.webSocket("/some-uri", (res) => {
   if (res.succeeded()) {
     let ws = res.result();
     console.log("Connected!");

@@ -146,7 +146,7 @@ console.log(metrics);
 ```
 
 > **Note**
-> 
+>
 > For details on the actual contents of the data (the actual metric)
 > represented by the `JsonObject` consult the implementation
 > documentation like
@@ -423,7 +423,7 @@ let vertx = Vertx.vertx(new VertxOptions()
 ```
 
 > **Warning**
-> 
+>
 > if you use regex match, a wrong regex can potentially match a lot of
 > handlers.
 
@@ -439,13 +439,13 @@ Server](#net-server-metrics) plus the following:
 
   - `<http-method>-requests` - A [Throughput Timer](#throughput_timer)
     of a specific http method request and the rate of it’s occurrence
-    
+
       - Examples: `get-requests`, `post-requests`
 
   - `<http-method>-requests./<uri>` - A [Throughput
     Timer](#throughput_timer) of a specific http method & URI request
     and the rate of it’s occurrence
-    
+
       - Examples: `get-requests./some/uri`,
         `post-requests./some/uri?foo=bar`
 
@@ -619,7 +619,7 @@ Base name: `vertx.datagram`
 
   - `<host>:<port>.bytes-read` - A [Histogram](#histogram) of the number
     of bytes read.
-    
+
       - This metric will only be available if the datagram socket is
         listening
 
@@ -800,12 +800,12 @@ Hawtio.
 
 On Hawtio, enter the connection details as follows:
 
-![hawtio connect](../../images/hawtio-connect.png)
+![hawtio connect](./hawtio-connect.png)
 
 Then, you can go to the *JMX* tab and you should find a *directory* with
 the name you entered as JMX domain in the Vert.x configuration:
 
-![hawtio jmx](../../images/hawtio-jmx.png)
+![hawtio jmx](./hawtio-jmx.png)
 
 From this, you can configure your dashboard and retrieve any metric
 exposed by vert.x.
@@ -854,12 +854,12 @@ To find out the available metrics commands you can use the *help*
 builtin command:
 
   - Available commands
-    
+
     1.  metrics-ls: List the known metrics for the current Vert.x
         instance
-    
+
     2.  metrics-info: Show metrics info for the current Vert.x instance
         in JSON format
-    
+
     3.  metrics-histogram: Show histogram metrics table for the current
         Vert.x instance in real time

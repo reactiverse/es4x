@@ -69,19 +69,19 @@ Some of the key features of Vert.x-Web include:
 
   - Template support for server side rendering, including support for
     the following template engines out of the box:
-    
+
       - Handlebars
-    
+
       - Jade,
-    
+
       - MVEL
-    
+
       - Thymeleaf
-    
+
       - Apache FreeMarker
-    
+
       - Pebble
-    
+
       - Rocker
 
   - Response time handler
@@ -1459,7 +1459,7 @@ import { Vertx } from "@vertx/core"
 
 // a clustered Vert.x
 Vertx.clusteredVertx(new VertxOptions()
-  .setClustered(true), (res, res_err) => {
+  .setClustered(true), (res) => {
 
   let vertx = res.result();
 
@@ -2204,9 +2204,9 @@ context data.
 Here are some examples:
 
     The request path is @{context.request().path()}
-    
+
     The variable 'foo' from the session is @{context.session().get('foo')}
-    
+
     The value 'bar' from the context data is @{context.get('bar')}
 
 Please consult the [MVEL templates
@@ -2301,13 +2301,13 @@ response, session or context data.
 
 Here are some examples:
 
-    [snip]
+``` html
     <p th:text="${context.get('foo')}"></p>
     <p th:text="${context.get('bar')}"></p>
     <p th:text="${context.normalisedPath()}"></p>
     <p th:text="${context.request().params().get('param1')}"></p>
     <p th:text="${context.request().params().get('param2')}"></p>
-    [snip]
+```
 
 Please consult the [Thymeleaf documentation](http://www.thymeleaf.org/)
 for how to write Thymeleaf templates.
@@ -2331,13 +2331,13 @@ response, session or context data.
 
 Here are some examples:
 
-    [snip]
-    <p th:text="${context.foo}"></p>
-    <p th:text="${context.bar}"></p>
-    <p th:text="${context.normalisedPath()}"></p>
-    <p th:text="${context.request().params().param1}"></p>
-    <p th:text="${context.request().params().param2}"></p>
-    [snip]
+``` html
+<p th:text="${context.foo}"></p>
+<p th:text="${context.bar}"></p>
+<p th:text="${context.normalisedPath()}"></p>
+<p th:text="${context.request().params().param1}"></p>
+<p th:text="${context.request().params().param2}"></p>
+```
 
 Please consult the [Apache FreeMarker
 documentation](http://www.freemarker.org/) for how to write Apache
@@ -2361,13 +2361,13 @@ context data.
 
 Here are some examples:
 
-    [snip]
+``` html
     <p th:text="{{context.foo}}"></p>
     <p th:text="{{context.bar}}"></p>
     <p th:text="{{context.normalisedPath()}}"></p>
     <p th:text="{{context.request().params().param1}}"></p>
     <p th:text="{{context.request().params().param2}}"></p>
-    [snip]
+```
 
 Please consult the [Pebble
 documentation](http://www.mitchellbosecke.com/pebble/home/) for how to
@@ -2383,16 +2383,16 @@ your project. You can then create a Rocker template engine instance with
 The values of the JSON context object passed to the `render` method are
 then exposed as template parameters. Given:
 
-    [snip]
+``` java
     final JsonObject context = new JsonObject()
      .put("foo", "badger")
      .put("bar", "fox")
      .put("context", new JsonObject().put("path", "/foo/bar"));
-    
+
     engine.render(context, "somedir/TestRockerTemplate2", render -> {
      // (...)
     });
-    [snip]
+```
 
 then the template can be as the following
 `somedir/TestRockerTemplate2.rocker.html` resource file:
@@ -2476,7 +2476,7 @@ need to set the content type in all our handlers:
 
 ``` js
 router.get("/api/books").produces("application/json").handler((rc) => {
-  findBooks((ar, ar_err) => {
+  findBooks((ar) => {
     if (ar.succeeded()) {
       rc.response().putHeader("Content-Type", "application/json").end(toJson(ar.result()));
     } else {
@@ -2494,7 +2494,7 @@ become cumbersome. To avoid this situation, add the
 import { ResponseContentTypeHandler } from "@vertx/web"
 router.route("/api/*").handler(ResponseContentTypeHandler.create());
 router.get("/api/books").produces("application/json").handler((rc) => {
-  findBooks((ar, ar_err) => {
+  findBooks((ar) => {
     if (ar.succeeded()) {
       rc.response().end(toJson(ar.result()));
     } else {
@@ -2512,7 +2512,7 @@ same handler to produce data of different types:
 import { ResponseContentTypeHandler } from "@vertx/web"
 router.route("/api/*").handler(ResponseContentTypeHandler.create());
 router.get("/api/books").produces("text/xml").produces("application/json").handler((rc) => {
-  findBooks((ar, ar_err) => {
+  findBooks((ar) => {
     if (ar.succeeded()) {
       if (rc.getAcceptableContentType() == "text/xml") {
         rc.response().end(toXML(ar.result()));
@@ -2614,21 +2614,21 @@ website](https://github.com/sockjs/sockjs-client), but in summary you
 use it something like this:
 
     var sock = new SockJS('http://mydomain.com/myapp');
-    
+
     sock.onopen = function() {
      console.log('open');
     };
-    
+
     sock.onmessage = function(e) {
      console.log('message', e.data);
     };
-    
+
     sock.onclose = function() {
      console.log('close');
     };
-    
+
     sock.send('test');
-    
+
     sock.close();
 
 ## Configuring the SockJS handler
@@ -2636,25 +2636,25 @@ use it something like this:
 The handler can be configured with various options using
 `SockJSHandlerOptions`.
 
-  - `insertJSESSIONID`  
+  - `insertJSESSIONID`
     Insert a JSESSIONID cookie so load-balancers ensure requests for a
     specific SockJS session are always routed to the correct server.
     Default is `true`.
 
-  - `sessionTimeout`  
+  - `sessionTimeout`
     The server sends a `close` event when a client receiving connection
     have not been seen for a while. This delay is configured by this
     setting. By default the `close` event will be emitted when a
     receiving connection wasn’t seen for 5 seconds.
 
-  - `heartbeatInterval`  
+  - `heartbeatInterval`
     In order to keep proxies and load balancers from closing long
     running http requests we need to pretend that the connection is
     active and send a heartbeat packet once in a while. This setting
     controls how often this is done. By default a heartbeat packet is
     sent every 25 seconds.
 
-  - `maxBytesStreaming`  
+  - `maxBytesStreaming`
     Most streaming transports save responses on the client side and
     don’t free memory used by delivered messages. Such transports need
     to be garbage-collected once in a while. `max_bytes_streaming` sets
@@ -2664,7 +2664,7 @@ The handler can be configured with various options using
     streaming and will make streaming transports to behave like polling
     transports. The default value is 128K.
 
-  - `libraryURL`  
+  - `libraryURL`
     Transports which don’t support cross-domain communication natively
     ('eventsource' to name one) use an iframe trick. A simple page is
     served from the SockJS server (using its foreign domain) and is
@@ -2676,7 +2676,7 @@ The handler can be configured with various options using
     SockJS client release, this is the default). The default value is
     `http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js`
 
-  - `disabledTransports`  
+  - `disabledTransports`
     This is a list of transports that you want to disable. Possible
     values are WEBSOCKET, EVENT\_SOURCE, HTML\_FILE, JSON\_P, XHR.
 
@@ -2855,18 +2855,18 @@ bridge.
 
 Each match is a `PermittedOptions` object:
 
-  - `setAddress`  
+  - `setAddress`
     This represents the exact address the message is being sent to. If
     you want to allow messages based on an exact address you use this
     field.
 
-  - `setAddressRegex`  
+  - `setAddressRegex`
     This is a regular expression that will be matched against the
     address. If you want to allow messages based on a regular expression
     you use this field. If the `address` field is specified this field
     will be ignored.
 
-  - `setMatch`  
+  - `setMatch`
     This allows you to allow messages based on their structure. Any
     fields in the match must exist in the message with the same values
     for them to be allowed. This currently only works with JSON
@@ -3021,36 +3021,36 @@ The event is described by an instance of `BridgeEvent`.
 
 The event can be one of the following types:
 
-  - SOCKET\_CREATED  
+  - SOCKET\_CREATED
     This event will occur when a new SockJS socket is created.
 
-  - SOCKET\_IDLE  
+  - SOCKET\_IDLE
     This event will occur when SockJS socket is on idle for longer
     period of time than initially configured.
 
-  - SOCKET\_PING  
+  - SOCKET\_PING
     This event will occur when the last ping timestamp is updated for
     the SockJS socket.
 
-  - SOCKET\_CLOSED  
+  - SOCKET\_CLOSED
     This event will occur when a SockJS socket is closed.
 
-  - SEND  
+  - SEND
     This event will occur when a message is attempted to be sent from
     the client to the server.
 
-  - PUBLISH  
+  - PUBLISH
     This event will occur when a message is attempted to be published
     from the client to the server.
 
-  - RECEIVE  
+  - RECEIVE
     This event will occur when a message is attempted to be delivered
     from the server to the client.
 
-  - REGISTER  
+  - REGISTER
     This event will occur when a client attempts to register a handler.
 
-  - UNREGISTER  
+  - UNREGISTER
     This event will occur when a client attempts to unregister a
     handler.
 

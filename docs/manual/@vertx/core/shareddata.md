@@ -20,7 +20,7 @@ In practice, it provides:
   - asynchronous counters
 
 > **Important**
-> 
+>
 > The behavior of the distributed data structure depends on the cluster
 > manager you use. Backup (replication) and behavior when a network
 > partition is faced are defined by the cluster manager and its
@@ -85,7 +85,7 @@ handler that you specify. Here’s an example:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getAsyncMap("mymap", (res, res_err) => {
+sharedData.getAsyncMap("mymap", (res) => {
   if (res.succeeded()) {
     let map = res.result();
   } else {
@@ -98,7 +98,7 @@ When Vert.x is clustered, data that you put into the map is accessible
 locally as well as on any of the other cluster members.
 
 > **Important**
-> 
+>
 > In clustered mode, asynchronous shared maps rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared map operations can be much higher in
@@ -110,7 +110,7 @@ node, you can retrieve a local-only map:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLocalAsyncMap("mymap", (res, res_err) => {
+sharedData.getLocalAsyncMap("mymap", (res) => {
   if (res.succeeded()) {
     // Local-only async map
     let map = res.result();
@@ -128,7 +128,7 @@ The actual put is asynchronous and the handler is notified once it is
 complete:
 
 ``` js
-map.put("foo", "bar", (resPut, resPut_err) => {
+map.put("foo", "bar", (resPut) => {
   if (resPut.succeeded()) {
     // Successfully put the value
   } else {
@@ -145,7 +145,7 @@ The actual get is asynchronous and the handler is notified with the
 result some time later:
 
 ``` js
-map.get("foo", (resGet, resGet_err) => {
+map.get("foo", (resGet) => {
   if (resGet.succeeded()) {
     // Successfully got the value
     let val = resGet.result();
@@ -184,7 +184,7 @@ another caller can obtain it:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLock("mylock", (res, res_err) => {
+sharedData.getLock("mylock", (res) => {
   if (res.succeeded()) {
     // Got the lock!
     let lock = res.result();
@@ -207,7 +207,7 @@ within the timeout the handler will be called with a failure:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLockWithTimeout("mylock", 10000, (res, res_err) => {
+sharedData.getLockWithTimeout("mylock", 10000, (res) => {
   if (res.succeeded()) {
     // Got the lock!
     let lock = res.result();
@@ -221,7 +221,7 @@ sharedData.getLockWithTimeout("mylock", 10000, (res, res_err) => {
 See the `API docs` for a detailed list of lock operations.
 
 > **Important**
-> 
+>
 > In clustered mode, asynchronous locks rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared lock operations can be much higher in
@@ -233,7 +233,7 @@ node, you can retrieve a local-only lock:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLocalLock("mylock", (res, res_err) => {
+sharedData.getLocalLock("mylock", (res) => {
   if (res.succeeded()) {
     // Local-only lock
     let lock = res.result();
@@ -262,7 +262,7 @@ You obtain an instance with `getCounter`:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getCounter("mycounter", (res, res_err) => {
+sharedData.getCounter("mycounter", (res) => {
   if (res.succeeded()) {
     let counter = res.result();
   } else {
@@ -277,7 +277,7 @@ increment it, decrement and add a value to it using the various methods.
 See the `API docs` for a detailed list of counter operations.
 
 > **Important**
-> 
+>
 > In clustered mode, asynchronous counters rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared counter operations can be much higher
@@ -289,7 +289,7 @@ other node, you can retrieve a local-only counter:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLocalCounter("mycounter", (res, res_err) => {
+sharedData.getLocalCounter("mycounter", (res) => {
   if (res.succeeded()) {
     // Local-only counter
     let counter = res.result();

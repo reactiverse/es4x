@@ -95,7 +95,7 @@ follows:
 ```
 
 > **Note**
-> 
+>
 > Most applications will only need a single Vert.x instance, but it’s
 > possible to create multiple Vert.x instances if you require, for
 > example, isolation between the event bus or different groups of
@@ -274,7 +274,7 @@ We call this pattern the **Multi-Reactor Pattern** to distinguish it
 from the single threaded reactor pattern.
 
 > **Note**
-> 
+>
 > Even though a Vertx instance maintains multiple event loops, any
 > particular handler will never be executed concurrently, and in most
 > cases (with the exception of [worker verticles](#worker_verticles))
@@ -368,13 +368,13 @@ vertx.executeBlocking((promise) => {
   // Call some blocking API that takes a significant amount of time to return
   let result = someAPI.blockingMethod("hello");
   promise.complete(result);
-}, (res, res_err) => {
+}, (res) => {
   console.log("The result is: " + res.result());
 });
 ```
 
 > **Warning**
-> 
+>
 > Blocking code should block for a reasonable amount of time (i.e no
 > more than a few seconds). Long blocking operations or polling
 > operations (i.e a thread that spin in a loop polling events in a
@@ -408,7 +408,7 @@ executor.executeBlocking((promise) => {
   // Call some blocking API that takes a significant amount of time to return
   let result = someAPI.blockingMethod("hello");
   promise.complete(result);
-}, (res, res_err) => {
+}, (res) => {
   console.log("The result is: " + res.result());
 });
 ```
@@ -441,7 +441,7 @@ let executor = vertx.createSharedWorkerExecutor("my-worker-pool", poolSize, maxE
 ```
 
 > **Note**
-> 
+>
 > the configuration is set when the worker pool is created
 
 # Async coordination
@@ -468,7 +468,7 @@ let netServerFuture = Future.future((promise) => {
   netServer.listen(promise);
 });
 
-CompositeFuture.all(httpServerFuture, netServerFuture).setHandler((ar, ar_err) => {
+CompositeFuture.all(httpServerFuture, netServerFuture).setHandler((ar) => {
   if (ar.succeeded()) {
     // All servers started
   } else {
@@ -498,7 +498,7 @@ failed when all the futures are failed:
 
 ``` js
 import { CompositeFuture } from "@vertx/core"
-CompositeFuture.any(future1, future2).setHandler((ar, ar_err) => {
+CompositeFuture.any(future1, future2).setHandler((ar) => {
   if (ar.succeeded()) {
     // At least one is succeeded
   } else {
@@ -522,7 +522,7 @@ completed and at least one of them is failed:
 
 ``` js
 import { CompositeFuture } from "@vertx/core"
-CompositeFuture.join(future1, future2, future3).setHandler((ar, ar_err) => {
+CompositeFuture.join(future1, future2, future3).setHandler((ar) => {
   if (ar.succeeded()) {
     // All succeeded
   } else {
@@ -630,15 +630,15 @@ extend the abstract class {@link io.vertx.core.AbstractVerticle}.
 Here’s an example verticle:
 
     public class MyVerticle extends AbstractVerticle {
-    
+
       // Called when verticle is deployed
       public void start() {
       }
-    
+
       // Optional - called when verticle is undeployed
       public void stop() {
       }
-    
+
     }
 
 Normally you would override the start method like in the example above.
@@ -674,16 +674,16 @@ signal that you’re done.
 Here’s an example:
 
     public class MyVerticle extends AbstractVerticle {
-    
+
       private HttpServer server;
-    
+
       public void start(Future<Void> startFuture) {
         server = vertx.createHttpServer().requestHandler(req -> {
           req.response()
             .putHeader("content-type", "text/plain")
             .end("Hello from Vert.x!");
           });
-    
+
         // Now bind the server:
         server.listen(8080, res -> {
           if (res.succeeded()) {
@@ -699,11 +699,11 @@ Similarly, there is an asynchronous version of the stop method too. You
 use this if you want to do some verticle cleanup that takes some time.
 
     public class MyVerticle extends AbstractVerticle {
-    
+
       public void start() {
         // Do something
       }
-    
+
       public void stop(Future<Void> stopFuture) {
         obj.doSomethingThatTakesTime(res -> {
           if (res.succeeded()) {
@@ -723,16 +723,16 @@ any running server when the verticle is undeployed.
 
 There are three different types of verticles:
 
-  - Standard Verticles  
+  - Standard Verticles
     These are the most common and useful type - they are always executed
     using an event loop thread. We’ll discuss this more in the next
     section.
 
-  - Worker Verticles  
+  - Worker Verticles
     These run using a thread from the worker pool. An instance is never
     executed concurrently by more than one thread.
 
-  - Multi-threaded worker verticles  
+  - Multi-threaded worker verticles
     These run using a thread from the worker pool. An instance can be
     executed concurrently by more than one thread.
 
@@ -786,7 +786,7 @@ A multi-threaded worker verticle is just like a normal worker verticle
 but it **can** be executed concurrently by different threads.
 
 > **Caution**
-> 
+>
 > Multi-threaded worker verticles are an advanced feature and most
 > applications will have no need for them.
 
@@ -799,7 +799,7 @@ sole use of consuming simultaneously `EventBus` messages in a blocking
 fashion.
 
 > **Warning**
-> 
+>
 > Vert.x clients and servers (TCP, HTTP, …​etc) cannot be created in a
 > multi-threaded worker verticle. Should you incidentally try, an
 > exception will be thrown.
@@ -828,7 +828,7 @@ vertx.eventBus().consumer("foo", (msg) => {
   vertx.executeBlocking((promise) => {
     // Invoke blocking code with received message data
     promise.complete(someresult);
-  }, false, (ar, ar_err) => {
+  }, false, (ar) => {
     // Handle result, e.g. reply to the message
   });
 });
@@ -841,7 +841,7 @@ specifying a verticle name or you can pass in a verticle instance you
 have already created yourself.
 
 > **Note**
-> 
+>
 > Deploying Verticle **instances** is Java only.
 
 ``` java
@@ -914,7 +914,7 @@ If you want to be notified when deployment is complete you can deploy
 specifying a completion handler:
 
 ``` js
-vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", (res, res_err) => {
+vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", (res) => {
   if (res.succeeded()) {
     console.log("Deployment id is: " + res.result());
   } else {
@@ -938,7 +938,7 @@ un-deployment is complete you can deploy specifying a completion
 handler:
 
 ``` js
-vertx.undeploy(deploymentID, (res, res_err) => {
+vertx.undeploy(deploymentID, (res) => {
   if (res.succeeded()) {
     console.log("Undeployed ok");
   } else {
@@ -1020,7 +1020,7 @@ if you want to load classes or resources that aren’t already present on
 the main classpath you can add this.
 
 > **Warning**
-> 
+>
 > Use this feature with caution. Class-loaders can be a can of worms,
 > and can make debugging difficult, amongst other things.
 
@@ -1066,7 +1066,7 @@ add the `bin` directory of the installation to your `PATH` environment
 variable. Also make sure you have a Java 8 JDK on your `PATH`.
 
 > **Note**
-> 
+>
 > The JDK is required to support on the fly compilation of Java code.
 
 You can now run verticles by using the `vertx run` command. Here are
@@ -1074,10 +1074,10 @@ some examples:
 
     # Run a JavaScript verticle
     vertx run my_verticle.js
-    
+
     # Run a Ruby verticle
     vertx run a_n_other_verticle.rb
-    
+
     # Run a Groovy script verticle, clustered
     vertx run FooVerticle.groovy -cluster
 
@@ -1411,7 +1411,7 @@ If you want to be notified when this has completed, you can register a
 `completion handler` on the MessageConsumer object.
 
 ``` js
-consumer.completionHandler((res, res_err) => {
+consumer.completionHandler((res) => {
   if (res.succeeded()) {
     console.log("The handler registration has reached all nodes");
   } else {
@@ -1429,7 +1429,7 @@ to propagate across the nodes. If you want to be notified when this is
 complete, use `unregister`.
 
 ``` js
-consumer.unregister((res, res_err) => {
+consumer.unregister((res) => {
   if (res.succeeded()) {
     console.log("The handler un-registration has reached all nodes");
   } else {
@@ -1516,7 +1516,7 @@ consumer.handler((message) => {
 The sender:
 
 ``` js
-eventBus.request("news.uk.sport", "Yay! Someone kicked a ball across a patch of grass", (ar, ar_err) => {
+eventBus.request("news.uk.sport", "Yay! Someone kicked a ball across a patch of grass", (ar) => {
   if (ar.succeeded()) {
     console.log("Received reply: " + ar.result().body());
   }
@@ -1609,7 +1609,7 @@ clustered event bus by configuring the Vert.x instance as clustered;
 ``` js
 import { Vertx } from "@vertx/core"
 let options = new VertxOptions();
-Vertx.clusteredVertx(options, (res, res_err) => {
+Vertx.clusteredVertx(options, (res) => {
   if (res.succeeded()) {
     let vertx = res.result();
     let eventBus = vertx.eventBus();
@@ -2051,7 +2051,7 @@ provide a handler to the `listen` call. For example:
 
 ``` js
 let server = vertx.createNetServer();
-server.listen(1234, "localhost", (res, res_err) => {
+server.listen(1234, "localhost", (res) => {
   if (res.succeeded()) {
     console.log("Server is now listening!");
   } else {
@@ -2070,7 +2070,7 @@ To find out the real port the server is listening on you can call
 
 ``` js
 let server = vertx.createNetServer();
-server.listen(0, "localhost", (res, res_err) => {
+server.listen(0, "localhost", (res) => {
   if (res.succeeded()) {
     console.log("Server is now listening on actual port: " + server.actualPort());
   } else {
@@ -2218,7 +2218,7 @@ actual close has completed then you can pass in a handler.
 This handler will then be called when the close has fully completed.
 
 ``` js
-server.close((res, res_err) => {
+server.close((res) => {
   if (res.succeeded()) {
     console.log("Server is now closed");
   } else {
@@ -2328,7 +2328,7 @@ failure if connection failed.
 let options = new NetClientOptions()
   .setConnectTimeout(10000);
 let client = vertx.createNetClient(options);
-client.connect(4321, "localhost", (res, res_err) => {
+client.connect(4321, "localhost", (res) => {
   if (res.succeeded()) {
     console.log("Connected!");
     let socket = res.result();
@@ -2345,7 +2345,7 @@ server in the event that it cannot connect. This is configured with
 `setReconnectInterval` and `setReconnectAttempts`.
 
 > **Note**
-> 
+>
 > Currently Vert.x will not attempt to reconnect if a connection fails,
 > reconnect attempts and interval only apply to creating initial
 > connections.
@@ -2505,7 +2505,7 @@ textual encoding of the certificate as defined by [RFC 7468,
 Section 5](https://tools.ietf.org/html/rfc7468#section-5).
 
 > **Warning**
-> 
+>
 > Keep in mind that the keys contained in an unencrypted PKCS8 or a
 > PKCS1 PEM file can be extracted by anybody who can read the file.
 > Thus, make sure to put proper access restrictions on such PEM files in
@@ -2809,7 +2809,7 @@ Keep in mind that pem configuration, the private key is not crypted.
 ### Self-signed certificates for testing and development purposes
 
 > **Caution**
-> 
+>
 > Do not use this in production settings, and note that the generated
 > keys are very insecure.
 
@@ -2840,7 +2840,7 @@ let clientOptions = new NetClientOptions()
   .setTrustOptions(certificate.trustOptions());
 
 let client = vertx.createNetClient(clientOptions);
-client.connect(1234, "localhost", (ar, ar_err) => {
+client.connect(1234, "localhost", (ar) => {
   if (ar.succeeded()) {
     ar.result().handler((buffer) => {
       console.log(buffer);
@@ -3033,7 +3033,7 @@ let client = vertx.createNetClient(new NetClientOptions()
   .setSsl(true));
 
 // Connect to 'localhost' and present 'server.name' server name
-client.connect(1234, "localhost", "server.name", (res, res_err) => {
+client.connect(1234, "localhost", "server.name", (res) => {
   if (res.succeeded()) {
     console.log("Connected!");
     let socket = res.result();
@@ -3206,7 +3206,7 @@ also accept a direct `h2c` connection beginning with the `PRI *
 HTTP/2.0\r\nSM\r\n` preface.
 
 > **Warning**
-> 
+>
 > most browsers won’t support `h2c`, so for serving web sites you should
 > use `h2` and not `h2c`.
 
@@ -3219,7 +3219,7 @@ connection, the default initial settings for a server are:
   - the default HTTP/2 settings values for the others
 
 > **Note**
-> 
+>
 > Worker Verticles are not compatible with HTTP/2
 
 ## Logging network server activity
@@ -3268,7 +3268,7 @@ provide a handler to the `listen` call. For example:
 
 ``` js
 let server = vertx.createHttpServer();
-server.listen(8080, "myhost.com", (res, res_err) => {
+server.listen(8080, "myhost.com", (res) => {
   if (res.succeeded()) {
     console.log("Server is now listening!");
   } else {
@@ -3567,7 +3567,7 @@ request.uploadHandler((upload) => {
 ```
 
 > **Warning**
-> 
+>
 > Make sure you check the filename in a production system to avoid
 > malicious clients uploading files to arbitrary places on your
 > filesystem. See [security notes](#_security_notes) for more
@@ -3657,7 +3657,7 @@ If you don’t specify a status message, the default one corresponding to
 the status code will be used.
 
 > **Note**
-> 
+>
 > for HTTP/2 the status won’t be present in the response since the
 > protocol won’t transmit the message to the client
 
@@ -3786,7 +3786,7 @@ When in chunked mode you can also write HTTP response trailers to the
 response. These are actually written in the final chunk of the response.
 
 > **Note**
-> 
+>
 > chunked response has no effect for an HTTP/2 stream
 
 To add trailers to the response, add them directly to the `trailers`.
@@ -3847,13 +3847,13 @@ classpath](#classpath) for restrictions about the classpath resolution
 or disabling it.
 
 > **Note**
-> 
+>
 > If you use `sendFile` while using HTTPS it will copy through
 > user-space, since if the kernel is copying data directly from disk to
 > socket it doesn’t give us an opportunity to apply any encryption.
 
 > **Warning**
-> 
+>
 > If you’re going to write web servers directly using Vert.x be careful
 > that users cannot exploit the path to access files outside the
 > directory from which you want to serve them or the classpath It may be
@@ -4000,7 +4000,7 @@ client:
 let response = request.response();
 
 // Push main.js to the client
-response.push('GET', "/main.js", (ar, ar_err) => {
+response.push('GET', "/main.js", (ar) => {
 
   if (ar.succeeded()) {
 
@@ -4482,7 +4482,7 @@ request.end();
 ```
 
 > **Important**
-> 
+>
 > `XXXNow` methods cannot receive an exception handler.
 
 ### Specifying a handler on the client request
@@ -5129,7 +5129,7 @@ acknowledgment:
 
 ``` js
 connection.updateSettings(new Http2Settings()
-  .setMaxConcurrentStreams(100), (ar, ar_err) => {
+  .setMaxConcurrentStreams(100), (ar) => {
   if (ar.succeeded()) {
     console.log("The settings update has been acknowledged ");
   }
@@ -5146,7 +5146,7 @@ connection.remoteSettingsHandler((settings) => {
 ```
 
 > **Note**
-> 
+>
 > this only applies to the HTTP/2 protocol
 
 ### Connection ping
@@ -5161,7 +5161,7 @@ let data = Buffer.buffer();
 for (let i = 0;i < 8;i++) {
   data.appendByte(i);
 }
-connection.ping(data, (pong, pong_err) => {
+connection.ping(data, (pong) => {
   console.log("Remote side replied");
 });
 ```
@@ -5180,7 +5180,7 @@ The handler is just notified, the acknowledgement is sent whatsoever.
 Such feature is aimed for implementing protocols on top of HTTP/2.
 
 > **Note**
-> 
+>
 > this only applies to the HTTP/2 protocol
 
 ### Connection shutdown and go away
@@ -5232,7 +5232,7 @@ connection.shutdownHandler((v) => {
 This applies also when a {@literal GOAWAY} is received.
 
 > **Note**
-> 
+>
 > this only applies to the HTTP/2 protocol
 
 ### Connection close
@@ -5408,7 +5408,7 @@ import { Promise } from "@vertx/core"
 server.webSocketHandler((webSocket) => {
   let promise = Promise.promise();
   webSocket.setHandshake(promise.future());
-  authenticate(webSocket.headers(), (ar, ar_err) => {
+  authenticate(webSocket.headers(), (ar) => {
     if (ar.succeeded()) {
       // Terminate the handshake with the status code 101 (Switching Protocol)
       // Reject the handshake with 401 (Unauthorized)
@@ -5422,7 +5422,7 @@ server.webSocketHandler((webSocket) => {
 ```
 
 > **Note**
-> 
+>
 > the WebSocket will be automatically accepted after the handler is
 > called unless the WebSocket’s handshake has been set
 
@@ -5463,7 +5463,7 @@ The handler will be called with an instance of `WebSocket` when the
 connection has been made:
 
 ``` js
-client.webSocket("/some-uri", (res, res_err) => {
+client.webSocket("/some-uri", (res) => {
   if (res.succeeded()) {
     let ws = res.result();
     console.log("Connected!");
@@ -5663,7 +5663,7 @@ In practice, it provides:
   - asynchronous counters
 
 > **Important**
-> 
+>
 > The behavior of the distributed data structure depends on the cluster
 > manager you use. Backup (replication) and behavior when a network
 > partition is faced are defined by the cluster manager and its
@@ -5728,7 +5728,7 @@ handler that you specify. Here’s an example:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getAsyncMap("mymap", (res, res_err) => {
+sharedData.getAsyncMap("mymap", (res) => {
   if (res.succeeded()) {
     let map = res.result();
   } else {
@@ -5741,7 +5741,7 @@ When Vert.x is clustered, data that you put into the map is accessible
 locally as well as on any of the other cluster members.
 
 > **Important**
-> 
+>
 > In clustered mode, asynchronous shared maps rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared map operations can be much higher in
@@ -5753,7 +5753,7 @@ node, you can retrieve a local-only map:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLocalAsyncMap("mymap", (res, res_err) => {
+sharedData.getLocalAsyncMap("mymap", (res) => {
   if (res.succeeded()) {
     // Local-only async map
     let map = res.result();
@@ -5771,7 +5771,7 @@ The actual put is asynchronous and the handler is notified once it is
 complete:
 
 ``` js
-map.put("foo", "bar", (resPut, resPut_err) => {
+map.put("foo", "bar", (resPut) => {
   if (resPut.succeeded()) {
     // Successfully put the value
   } else {
@@ -5788,7 +5788,7 @@ The actual get is asynchronous and the handler is notified with the
 result some time later:
 
 ``` js
-map.get("foo", (resGet, resGet_err) => {
+map.get("foo", (resGet) => {
   if (resGet.succeeded()) {
     // Successfully got the value
     let val = resGet.result();
@@ -5827,7 +5827,7 @@ another caller can obtain it:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLock("mylock", (res, res_err) => {
+sharedData.getLock("mylock", (res) => {
   if (res.succeeded()) {
     // Got the lock!
     let lock = res.result();
@@ -5850,7 +5850,7 @@ within the timeout the handler will be called with a failure:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLockWithTimeout("mylock", 10000, (res, res_err) => {
+sharedData.getLockWithTimeout("mylock", 10000, (res) => {
   if (res.succeeded()) {
     // Got the lock!
     let lock = res.result();
@@ -5864,7 +5864,7 @@ sharedData.getLockWithTimeout("mylock", 10000, (res, res_err) => {
 See the `API docs` for a detailed list of lock operations.
 
 > **Important**
-> 
+>
 > In clustered mode, asynchronous locks rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared lock operations can be much higher in
@@ -5876,7 +5876,7 @@ node, you can retrieve a local-only lock:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLocalLock("mylock", (res, res_err) => {
+sharedData.getLocalLock("mylock", (res) => {
   if (res.succeeded()) {
     // Local-only lock
     let lock = res.result();
@@ -5905,7 +5905,7 @@ You obtain an instance with `getCounter`:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getCounter("mycounter", (res, res_err) => {
+sharedData.getCounter("mycounter", (res) => {
   if (res.succeeded()) {
     let counter = res.result();
   } else {
@@ -5920,7 +5920,7 @@ increment it, decrement and add a value to it using the various methods.
 See the `API docs` for a detailed list of counter operations.
 
 > **Important**
-> 
+>
 > In clustered mode, asynchronous counters rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared counter operations can be much higher
@@ -5932,7 +5932,7 @@ other node, you can retrieve a local-only counter:
 ``` js
 let sharedData = vertx.sharedData();
 
-sharedData.getLocalCounter("mycounter", (res, res_err) => {
+sharedData.getLocalCounter("mycounter", (res) => {
   if (res.succeeded()) {
     // Local-only counter
     let counter = res.result();
@@ -5960,7 +5960,7 @@ Here’s an example of an asynchronous copy of a file:
 let fs = vertx.fileSystem();
 
 // Copy file from foo.txt to bar.txt
-fs.copy("foo.txt", "bar.txt", (res, res_err) => {
+fs.copy("foo.txt", "bar.txt", (res) => {
   if (res.succeeded()) {
     // Copied ok!
   } else {
@@ -5995,7 +5995,7 @@ Let’s see a couple of examples using asynchronous methods:
 ``` js
 import { Buffer } from "@vertx/core"
 // Read a file
-vertx.fileSystem().readFile("target/classes/readme.txt", (result, result_err) => {
+vertx.fileSystem().readFile("target/classes/readme.txt", (result) => {
   if (result.succeeded()) {
     console.log(result.result());
   } else {
@@ -6004,7 +6004,7 @@ vertx.fileSystem().readFile("target/classes/readme.txt", (result, result_err) =>
 });
 
 // Copy a file
-vertx.fileSystem().copy("target/classes/readme.txt", "target/classes/readme2.txt", (result, result_err) => {
+vertx.fileSystem().copy("target/classes/readme.txt", "target/classes/readme2.txt", (result) => {
   if (result.succeeded()) {
     console.log("File copied");
   } else {
@@ -6013,7 +6013,7 @@ vertx.fileSystem().copy("target/classes/readme.txt", "target/classes/readme2.txt
 });
 
 // Write a file
-vertx.fileSystem().writeFile("target/classes/hello.txt", Buffer.buffer("Hello"), (result, result_err) => {
+vertx.fileSystem().writeFile("target/classes/hello.txt", Buffer.buffer("Hello"), (result) => {
   if (result.succeeded()) {
     console.log("File written");
   } else {
@@ -6022,9 +6022,9 @@ vertx.fileSystem().writeFile("target/classes/hello.txt", Buffer.buffer("Hello"),
 });
 
 // Check existence and delete
-vertx.fileSystem().exists("target/classes/junk.txt", (result, result_err) => {
+vertx.fileSystem().exists("target/classes/junk.txt", (result) => {
   if (result.succeeded() && result.result()) {
-    vertx.fileSystem().delete("target/classes/junk.txt", (r, r_err) => {
+    vertx.fileSystem().delete("target/classes/junk.txt", (r) => {
       console.log("File deleted");
     });
   } else {
@@ -6042,7 +6042,7 @@ You open an `AsyncFile` as follows:
 
 ``` js
 let options = new OpenOptions();
-fileSystem.open("myfile.txt", options, (res, res_err) => {
+fileSystem.open("myfile.txt", options, (res) => {
   if (res.succeeded()) {
     let file = res.result();
   } else {
@@ -6076,12 +6076,12 @@ Here is an example of random access writes:
 
 ``` js
 import { Buffer } from "@vertx/core"
-vertx.fileSystem().open("target/classes/hello.txt", new OpenOptions(), (result, result_err) => {
+vertx.fileSystem().open("target/classes/hello.txt", new OpenOptions(), (result) => {
   if (result.succeeded()) {
     let file = result.result();
     let buff = Buffer.buffer("foo");
     for (let i = 0;i < 5;i++) {
-      file.write(buff, buff.length() * i, (ar, ar_err) => {
+      file.write(buff, buff.length() * i, (ar) => {
         if (ar.succeeded()) {
           console.log("Written ok!");
           // etc
@@ -6117,12 +6117,12 @@ Here’s an example of random access reads:
 
 ``` js
 import { Buffer } from "@vertx/core"
-vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result, result_err) => {
+vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result) => {
   if (result.succeeded()) {
     let file = result.result();
     let buff = Buffer.buffer(1000);
     for (let i = 0;i < 10;i++) {
-      file.read(buff, i * 100, i * 100, 100, (ar, ar_err) => {
+      file.read(buff, i * 100, i * 100, 100, (ar) => {
         if (ar.succeeded()) {
           console.log("Read ok!");
         } else {
@@ -6170,7 +6170,7 @@ streams. For example, this would copy the content to another
 import { Pump } from "@vertx/core"
 let output = vertx.fileSystem().openBlocking("target/classes/plagiary.txt", new OpenOptions());
 
-vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result, result_err) => {
+vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result) => {
   if (result.succeeded()) {
     let file = result.result();
     Pump.pump(file, output).start();
@@ -6211,7 +6211,7 @@ The whole classpath resolving feature can be disabled system-wide by
 setting the system property `vertx.disableFileCPResolving` to `true`.
 
 > **Note**
-> 
+>
 > these system properties are evaluated once when the the
 > `io.vertx.core.file.FileSystemOptions` class is loaded, so these
 > properties should be set before loading this class or as a JVM system
@@ -6287,11 +6287,11 @@ import { Buffer } from "@vertx/core"
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
 let buffer = Buffer.buffer("content");
 // Send a Buffer
-socket.send(buffer, 1234, "10.0.0.1", (asyncResult, asyncResult_err) => {
+socket.send(buffer, 1234, "10.0.0.1", (asyncResult) => {
   console.log("Send succeeded? " + asyncResult.succeeded());
 });
 // Send a String
-socket.send("A string used as content", 1234, "10.0.0.1", (asyncResult, asyncResult_err) => {
+socket.send("A string used as content", 1234, "10.0.0.1", (asyncResult) => {
   console.log("Send succeeded? " + asyncResult.succeeded());
 });
 ```
@@ -6320,7 +6320,7 @@ shown here:
 
 ``` js
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-socket.listen(1234, "0.0.0.0", (asyncResult, asyncResult_err) => {
+socket.listen(1234, "0.0.0.0", (asyncResult) => {
   if (asyncResult.succeeded()) {
     socket.handler((packet) => {
       // Do something with the packet
@@ -6360,7 +6360,7 @@ import { Buffer } from "@vertx/core"
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
 let buffer = Buffer.buffer("content");
 // Send a Buffer to a multicast address
-socket.send(buffer, 1234, "230.0.0.1", (asyncResult, asyncResult_err) => {
+socket.send(buffer, 1234, "230.0.0.1", (asyncResult) => {
   console.log("Send succeeded? " + asyncResult.succeeded());
 });
 ```
@@ -6393,14 +6393,14 @@ the Multicast group 230.0.0.1 you would do something like shown here:
 
 ``` js
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-socket.listen(1234, "0.0.0.0", (asyncResult, asyncResult_err) => {
+socket.listen(1234, "0.0.0.0", (asyncResult) => {
   if (asyncResult.succeeded()) {
     socket.handler((packet) => {
       // Do something with the packet
     });
 
     // join the multicast group
-    socket.listenMulticastGroup("230.0.0.1", (asyncResult2, asyncResult2_err) => {
+    socket.listenMulticastGroup("230.0.0.1", (asyncResult2) => {
       console.log("Listen succeeded? " + asyncResult2.succeeded());
     });
   } else {
@@ -6421,20 +6421,20 @@ This is shown here:
 
 ``` js
 let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-socket.listen(1234, "0.0.0.0", (asyncResult, asyncResult_err) => {
+socket.listen(1234, "0.0.0.0", (asyncResult) => {
   if (asyncResult.succeeded()) {
     socket.handler((packet) => {
       // Do something with the packet
     });
 
     // join the multicast group
-    socket.listenMulticastGroup("230.0.0.1", (asyncResult2, asyncResult2_err) => {
+    socket.listenMulticastGroup("230.0.0.1", (asyncResult2) => {
       if (asyncResult2.succeeded()) {
         // will now receive packets for group
 
         // do some work
 
-        socket.unlistenMulticastGroup("230.0.0.1", (asyncResult3, asyncResult3_err) => {
+        socket.unlistenMulticastGroup("230.0.0.1", (asyncResult3) => {
           console.log("Unlisten succeeded? " + asyncResult3.succeeded());
         });
       } else {
@@ -6466,7 +6466,7 @@ let socket = vertx.createDatagramSocket(new DatagramSocketOptions());
 // Some code
 
 // This would block packets which are send from 10.0.0.2
-socket.blockMulticastGroup("230.0.0.1", "10.0.0.2", (asyncResult, asyncResult_err) => {
+socket.blockMulticastGroup("230.0.0.1", "10.0.0.2", (asyncResult) => {
   console.log("block succeeded? " + asyncResult.succeeded());
 });
 ```
@@ -6561,7 +6561,7 @@ like:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.lookup("vertx.io", (ar, ar_err) => {
+client.lookup("vertx.io", (ar) => {
   if (ar.succeeded()) {
     console.log(ar.result());
   } else {
@@ -6580,7 +6580,7 @@ To lookup the A record for "vertx.io" you would typically use it like:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.lookup4("vertx.io", (ar, ar_err) => {
+client.lookup4("vertx.io", (ar) => {
   if (ar.succeeded()) {
     console.log(ar.result());
   } else {
@@ -6599,7 +6599,7 @@ To lookup the A record for "vertx.io" you would typically use it like:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.lookup6("vertx.io", (ar, ar_err) => {
+client.lookup6("vertx.io", (ar) => {
   if (ar.succeeded()) {
     console.log(ar.result());
   } else {
@@ -6617,7 +6617,7 @@ To lookup all the A records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveA("vertx.io", (ar, ar_err) => {
+client.resolveA("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -6638,7 +6638,7 @@ To lookup all the AAAAA records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveAAAA("vertx.io", (ar, ar_err) => {
+client.resolveAAAA("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -6659,7 +6659,7 @@ To lookup all the CNAME records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveCNAME("vertx.io", (ar, ar_err) => {
+client.resolveCNAME("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -6680,7 +6680,7 @@ To lookup all the MX records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveMX("vertx.io", (ar, ar_err) => {
+client.resolveMX("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -6714,7 +6714,7 @@ along these lines:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveTXT("vertx.io", (ar, ar_err) => {
+client.resolveTXT("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -6736,7 +6736,7 @@ along these lines:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveNS("vertx.io", (ar, ar_err) => {
+client.resolveNS("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -6758,7 +6758,7 @@ To lookup all the SRV records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveSRV("vertx.io", (ar, ar_err) => {
+client.resolveSRV("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -6799,7 +6799,7 @@ PTR notion of "1.0.0.10.in-addr.arpa"
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolvePTR("1.0.0.10.in-addr.arpa", (ar, ar_err) => {
+client.resolvePTR("1.0.0.10.in-addr.arpa", (ar) => {
   if (ar.succeeded()) {
     let record = ar.result();
     console.log(record);
@@ -6820,7 +6820,7 @@ like this:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.reverseLookup("10.0.0.1", (ar, ar_err) => {
+client.reverseLookup("10.0.0.1", (ar) => {
   if (ar.succeeded()) {
     let record = ar.result();
     console.log(record);
@@ -7021,7 +7021,7 @@ You can be notified when the operation completes:
 server.connectHandler((sock) => {
 
   // Pipe the socket providing an handler to be notified of the result
-  sock.pipeTo(sock, (ar, ar_err) => {
+  sock.pipeTo(sock, (ar) => {
     if (ar.succeeded()) {
       console.log("Pipe succeeded");
     } else {
@@ -7042,7 +7042,7 @@ server.connectHandler((sock) => {
   let pipe = sock.pipe();
 
   // Open a destination file
-  fs.open("/path/to/file", new OpenOptions(), (ar, ar_err) => {
+  fs.open("/path/to/file", new OpenOptions(), (ar) => {
     if (ar.succeeded()) {
       let file = ar.result();
 
@@ -7064,7 +7064,7 @@ vertx.createHttpServer().requestHandler((request) => {
   let pipe = request.pipe();
 
   // Open a destination file
-  fs.open("/path/to/file", new OpenOptions(), (ar, ar_err) => {
+  fs.open("/path/to/file", new OpenOptions(), (ar) => {
     if (ar.succeeded()) {
       let file = ar.result();
 
@@ -7097,7 +7097,7 @@ Here is a short example:
 
 ``` js
 import { Buffer } from "@vertx/core"
-src.pipe().endOnSuccess(false).to(dst, (rs, rs_err) => {
+src.pipe().endOnSuccess(false).to(dst, (rs) => {
   // Append some text and close the file
   dst.end(Buffer.buffer("done"));
 });
@@ -7178,7 +7178,7 @@ server.connectHandler((sock) => {
 ```
 
 > **Important**
-> 
+>
 > Before Vert.x 3.7 the `Pump` was the advocated API for transferring a
 > read stream to a write stream. Since 3.7 the pipe API supersedes the
 > pump API.
@@ -7424,7 +7424,7 @@ of the installation to your `PATH` environment variable. Also make sure
 you have a Java 8 JDK on your `PATH`.
 
 > **Note**
-> 
+>
 > The JDK is required to support on the fly compilation of Java code.
 
 ## Run verticles
@@ -7435,10 +7435,10 @@ You can run raw Vert.x verticles directly from the command line using
     vertx run my-verticle.js                                 (1)
     vertx run my-verticle.groovy                             (2)
     vertx run my-verticle.rb                                 (3)
-    
+
     vertx run io.vertx.example.MyVerticle                    (4)
     vertx run io.vertx.example.MVerticle -cp my-verticle.jar (5)
-    
+
     vertx run MyVerticle.java                                (6)
 
 1.  Deploys a JavaScript verticle
@@ -7624,7 +7624,7 @@ pass to `vertx run`:
     java -jar my-verticle-fat.jar -cluster -conf myconf.json -cp path/to/dir/conf/cluster_xml
 
 > **Note**
-> 
+>
 > Please consult the Maven/Gradle simplest and Maven/Gradle verticle
 > examples in the examples repository for examples of building
 > applications as fatjars.
@@ -7925,7 +7925,7 @@ The default port of a DNS server is `53`, when a server uses a different
 port, this port can be set using a colon delimiter: `192.168.0.2:40000`.
 
 > **Note**
-> 
+>
 > sometimes it can be desirable to use the JVM built-in resolver, the
 > JVM system property *-Dvertx.disableDnsResolver=true* activates this
 > behavior
@@ -8013,12 +8013,12 @@ instance that is running `my-other-verticle.js` will automatic deploy
 .js` so now that Vert.x instance is running both verticles.
 
 > **Note**
-> 
+>
 > the migration is only possible if the second vert.x instance has
 > access to the verticle file (here `my-verticle.js`).
 
 > **Important**
-> 
+>
 > Please note that cleanly closing a Vert.x instance will not cause
 > failover to occur, e.g. `CTRL-C` or `kill -SIGINT`
 
@@ -8032,7 +8032,7 @@ When using the `-ha` switch you do not need to provide the `-cluster`
 switch, as a cluster is assumed if you want HA.
 
 > **Note**
-> 
+>
 > depending on your cluster configuration, you may need to customize the
 > cluster manager configuration (Hazelcast by default), and/or add the
 > `cluster-host` and `cluster-port` parameters.
@@ -8130,7 +8130,7 @@ available) on BSD (OSX) and Linux:
 ```
 
 > **Note**
-> 
+>
 > preferring native transport will not prevent the application to
 > execute (for example if a JAR is missing). If your application
 > requires native transport, you need to check {@link
@@ -8215,7 +8215,7 @@ or for http:
 import { SocketAddress } from "@vertx/core"
 vertx.createHttpServer().requestHandler((req) => {
   // Handle application
-}).listen(SocketAddress.domainSocketAddress("/var/tmp/myservice.sock"), (ar, ar_err) => {
+}).listen(SocketAddress.domainSocketAddress("/var/tmp/myservice.sock"), (ar) => {
   if (ar.succeeded()) {
     // Bound to socket
   } else {
@@ -8234,7 +8234,7 @@ let netClient = vertx.createNetClient();
 let addr = SocketAddress.domainSocketAddress("/var/tmp/myservice.sock");
 
 // Connect to the server
-netClient.connect(addr, (ar, ar_err) => {
+netClient.connect(addr, (ar) => {
   if (ar.succeeded()) {
     // Connected
   } else {
@@ -8503,9 +8503,9 @@ cli.usage(builder);
 It generates an usage message like this one:
 
     Usage: copy [-R] source target
-    
+
     A command line interface to copy files.
-    
+
      -R,--directory   enables directory support
 
 If you need to tune the usage message, check the `UsageMessageFormatter`
@@ -8690,7 +8690,7 @@ with:
     java -jar my-fat.jar vertx.cacheDirBase=/tmp/vertx-cache
 
 > **Important**
-> 
+>
 > the directory must be **writable**.
 
 When you are editing resources such as HTML, CSS or JavaScript, this

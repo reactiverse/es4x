@@ -360,7 +360,7 @@ across project since it would be a security hole.
 // HTTP Authorization header
 jwtAuth.authenticate({
   "jwt" : "BASE64-ENCODED-STRING"
-}, (res, res_err) => {
+}, (res) => {
   if (res.succeeded()) {
     let theUser = res.result();
   } else {
@@ -392,7 +392,7 @@ jwtAuth.authenticate({
   "options" : {
     "ignoreExpiration" : true
   }
-}, (res, res_err) => {
+}, (res) => {
   if (res.succeeded()) {
     let theUser = res.result();
   } else {
@@ -416,7 +416,7 @@ jwtAuth.authenticate({
       "paulo@server.com"
     ]
   }
-}, (res, res_err) => {
+}, (res) => {
   if (res.succeeded()) {
     let theUser = res.result();
   } else {
@@ -437,7 +437,7 @@ jwtAuth.authenticate({
   "options" : {
     "issuer" : "mycorp.com"
   }
-}, (res, res_err) => {
+}, (res) => {
   if (res.succeeded()) {
     let theUser = res.result();
   } else {
@@ -453,7 +453,7 @@ authorization tasks. The most simple is to verify if a user has a
 specific authority. In this case one needs to to:
 
 ``` js
-user.isAuthorized("create-report", (res, res_err) => {
+user.isAuthorized("create-report", (res) => {
   if (res.succeeded() && res.result()) {
     // Yes the user can create reports
   }

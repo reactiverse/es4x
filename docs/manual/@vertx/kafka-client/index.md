@@ -138,7 +138,7 @@ let topics = new (Java.type("java.util.HashSet"))();
 topics.add("topic1");
 topics.add("topic2");
 topics.add("topic3");
-consumer.subscribe(topics, (ar, ar_err) => {
+consumer.subscribe(topics, (ar) => {
   if (ar.succeeded()) {
     console.log("subscribed");
   } else {
@@ -147,7 +147,7 @@ consumer.subscribe(topics, (ar, ar_err) => {
 });
 
 // or just subscribe to a single topic
-consumer.subscribe("a-single-topic", (ar, ar_err) => {
+consumer.subscribe("a-single-topic", (ar) => {
   if (ar.succeeded()) {
     console.log("subscribed");
   } else {
@@ -193,7 +193,7 @@ consumer.partitionsRevokedHandler((topicPartitions) => {
 });
 
 // subscribes to the topic
-consumer.subscribe("test", (ar, ar_err) => {
+consumer.subscribe("test", (ar) => {
 
   if (ar.succeeded()) {
     console.log("Consumer subscribed");
@@ -218,7 +218,7 @@ You can add an handler to be notified of the result
 // consumer is already member of a consumer group
 
 // unsubscribing request
-consumer.unsubscribe((ar, ar_err) => {
+consumer.unsubscribe((ar) => {
 
   if (ar.succeeded()) {
     console.log("Consumer unsubscribed");
@@ -248,13 +248,13 @@ topicPartitions.add(new TopicPartition()
   .setPartition(0));
 
 // requesting to be assigned the specific partition
-consumer.assign(topicPartitions, (done, done_err) => {
+consumer.assign(topicPartitions, (done) => {
 
   if (done.succeeded()) {
     console.log("Partition assigned");
 
     // requesting the assigned partitions
-    consumer.assignment((done1, done1_err) => {
+    consumer.assignment((done1) => {
 
       if (done1.succeeded()) {
 
@@ -289,14 +289,14 @@ previous ones.
 
 ``` js
 // subscribes to the topic
-consumer.subscribe("test", (ar, ar_err) => {
+consumer.subscribe("test", (ar) => {
 
   if (ar.succeeded()) {
     console.log("Consumer subscribed");
 
     vertx.setPeriodic(1000, (timerId) => {
 
-      consumer.poll(100, (ar1, ar1_err) => {
+      consumer.poll(100, (ar1) => {
 
         if (ar1.succeeded()) {
 
@@ -338,7 +338,7 @@ a specified topic
 
 ``` js
 // asking partitions information about specific topic
-consumer.partitionsFor("test", (ar, ar_err) => {
+consumer.partitionsFor("test", (ar) => {
 
   if (ar.succeeded()) {
 
@@ -354,7 +354,7 @@ partitions
 
 ``` js
 // asking information about available topics and related partitions
-consumer.listTopics((ar, ar_err) => {
+consumer.listTopics((ar) => {
 
   if (ar.succeeded()) {
 
@@ -385,7 +385,7 @@ processed before committing the offset.
 // consumer is processing read messages
 
 // committing offset of the last read message
-consumer.commit((ar, ar_err) => {
+consumer.commit((ar) => {
 
   if (ar.succeeded()) {
     console.log("Last read message offset committed");
@@ -408,7 +408,7 @@ let topicPartition = new TopicPartition()
   .setPartition(0);
 
 // seek to a specific offset
-consumer.seek(topicPartition, 10, (done, done_err) => {
+consumer.seek(topicPartition, 10, (done) => {
 
   if (done.succeeded()) {
     console.log("Seeking done");
@@ -425,7 +425,7 @@ let topicPartition = new TopicPartition()
   .setPartition(0);
 
 // seek to the beginning of the partition
-consumer.seekToBeginning(Java.type("java.util.Collections").singleton(topicPartition), (done, done_err) => {
+consumer.seekToBeginning(Java.type("java.util.Collections").singleton(topicPartition), (done) => {
 
   if (done.succeeded()) {
     console.log("Seeking done");
@@ -441,7 +441,7 @@ let topicPartition = new TopicPartition()
   .setPartition(0);
 
 // seek to the end of the partition
-consumer.seekToEnd(Java.type("java.util.Collections").singleton(topicPartition), (done, done_err) => {
+consumer.seekToEnd(Java.type("java.util.Collections").singleton(topicPartition), (done) => {
 
   if (done.succeeded()) {
     console.log("Seeking done");
@@ -469,7 +469,7 @@ let topicPartition = new TopicPartition()
   .setPartition(0);
 topicPartitions.add(topicPartition);
 
-consumer.beginningOffsets(topicPartitions, (done, done_err) => {
+consumer.beginningOffsets(topicPartitions, (done) => {
   if (done.succeeded()) {
     let results = done.result();
     results.forEach((beginningOffset, topic) => {
@@ -479,7 +479,7 @@ consumer.beginningOffsets(topicPartitions, (done, done_err) => {
 });
 
 // Convenience method for single-partition lookup
-consumer.beginningOffsets(topicPartition, (done, done_err) => {
+consumer.beginningOffsets(topicPartition, (done) => {
   if (done.succeeded()) {
     let beginningOffset = done.result();
     console.log("Beginning offset for topic=" + topicPartition.topic + ", partition=" + topicPartition.partition + ", beginningOffset=" + beginningOffset);
@@ -498,7 +498,7 @@ let topicPartition = new TopicPartition()
   .setPartition(0);
 topicPartitions.add(topicPartition);
 
-consumer.endOffsets(topicPartitions, (done, done_err) => {
+consumer.endOffsets(topicPartitions, (done) => {
   if (done.succeeded()) {
     let results = done.result();
     results.forEach((endOffset, topic) => {
@@ -508,7 +508,7 @@ consumer.endOffsets(topicPartitions, (done, done_err) => {
 });
 
 // Convenience method for single-partition lookup
-consumer.endOffsets(topicPartition, (done, done_err) => {
+consumer.endOffsets(topicPartition, (done) => {
   if (done.succeeded()) {
     let endOffset = done.result();
     console.log("End offset for topic=" + topicPartition.topic + ", partition=" + topicPartition.partition + ", endOffset=" + endOffset);
@@ -554,7 +554,7 @@ consumer.handler((record) => {
   if ((record.partition() === 0) && (record.offset() === 5)) {
 
     // pause the read operations
-    consumer.pause(topicPartition, (ar, ar_err) => {
+    consumer.pause(topicPartition, (ar) => {
 
       if (ar.succeeded()) {
 
@@ -584,7 +584,7 @@ actual close has completed then you can pass in a handler.
 This handler will then be called when the close has fully completed.
 
 ``` js
-consumer.close((res, res_err) => {
+consumer.close((res) => {
   if (res.succeeded()) {
     console.log("Consumer is now closed");
   } else {
@@ -625,7 +625,7 @@ for (let i = 0;i < 5;i++) {
   // only topic and message value are specified, round robin on destination partitions
   let record = KafkaProducerRecord.create("test", "message_" + i);
 
-  producer.send(record, (done, done_err) => {
+  producer.send(record, (done) => {
 
     if (done.succeeded()) {
 
@@ -672,7 +672,7 @@ for (let i = 0;i < 10;i++) {
 ```
 
 > **Note**
-> 
+>
 > the shared producer is created on the first `createShared` call and
 > its configuration is defined at this moment, shared producer usage
 > must use the same configuration.
@@ -713,7 +713,7 @@ actual close has completed then you can pass in a handler.
 This handler will then be called when the close has fully completed.
 
 ``` js
-producer.close((res, res_err) => {
+producer.close((res) => {
   if (res.succeeded()) {
     console.log("Producer is now closed");
   } else {
@@ -729,7 +729,7 @@ a specified topic:
 
 ``` js
 // asking partitions information about specific topic
-producer.partitionsFor("test", (ar, ar_err) => {
+producer.partitionsFor("test", (ar) => {
 
   if (ar.succeeded()) {
 
@@ -829,7 +829,7 @@ this wrapper, includes Partition Management, Broker Configuration
 management, etc.
 
 > **Warning**
-> 
+>
 > this class is now deprecated see `KafkaAdminClient` instead.
 
 ## Using the AdminUtils
@@ -846,7 +846,7 @@ import { Vertx } from "@vertx/core"
 import { AdminUtils } from "@vertx/kafka-client"
 let adminUtils = AdminUtils.create(Vertx.vertx(), "localhost:2181", true);
 // Create topic 'myNewTopic' with 2 partition and 1 replicas
-adminUtils.createTopic("myNewTopic", 2, 1, (result, result_err) => {
+adminUtils.createTopic("myNewTopic", 2, 1, (result) => {
   if (result.succeeded()) {
     console.log("Creation of topic myNewTopic successful!")} else {
     console.log("Creation of topic myNewTopic failed: " + result.cause().getLocalizedMessage())}
@@ -864,7 +864,7 @@ import { Vertx } from "@vertx/core"
 import { AdminUtils } from "@vertx/kafka-client"
 let adminUtils = AdminUtils.create(Vertx.vertx(), "localhost:2181", true);
 // Delete topic 'myNewTopic'
-adminUtils.deleteTopic("myNewTopic", (result, result_err) => {
+adminUtils.deleteTopic("myNewTopic", (result) => {
   if (result.succeeded()) {
     console.log("Deletion of topic myNewTopic successful!")} else {
     console.log("Deletion of topic myNewTopic failed: " + result.cause().getLocalizedMessage())}
@@ -887,7 +887,7 @@ let adminUtils = AdminUtils.create(Vertx.vertx(), "localhost:2181", true);
 let properties = {};
 properties["delete.retention.ms"] = "1000";
 properties["retention.bytes"] = "1024";
-adminUtils.changeTopicConfig("myNewTopic", properties, (result, result_err) => {
+adminUtils.changeTopicConfig("myNewTopic", properties, (result) => {
   if (result.succeeded()) {
     console.log("Configuration change of topic myNewTopic successful!")} else {
     console.log("Configuration change of topic myNewTopic failed: " + result.cause().getLocalizedMessage())}
@@ -905,7 +905,7 @@ It might return an error, e.g. if the topic does not exist.
 import { Vertx } from "@vertx/core"
 import { AdminUtils } from "@vertx/kafka-client"
 let adminUtils = AdminUtils.create(Vertx.vertx(), "localhost:2181", true);
-adminUtils.topicExists("myNewTopic", (result, result_err) => {
+adminUtils.topicExists("myNewTopic", (result) => {
   if (result.succeeded()) {
     console.log("Topic myNewTopic exists: " + result.result());
   } else {

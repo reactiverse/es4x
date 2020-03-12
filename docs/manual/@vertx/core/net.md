@@ -55,7 +55,7 @@ provide a handler to the `listen` call. For example:
 
 ``` js
 let server = vertx.createNetServer();
-server.listen(1234, "localhost", (res, res_err) => {
+server.listen(1234, "localhost", (res) => {
   if (res.succeeded()) {
     console.log("Server is now listening!");
   } else {
@@ -74,7 +74,7 @@ To find out the real port the server is listening on you can call
 
 ``` js
 let server = vertx.createNetServer();
-server.listen(0, "localhost", (res, res_err) => {
+server.listen(0, "localhost", (res) => {
   if (res.succeeded()) {
     console.log("Server is now listening on actual port: " + server.actualPort());
   } else {
@@ -222,7 +222,7 @@ actual close has completed then you can pass in a handler.
 This handler will then be called when the close has fully completed.
 
 ``` js
-server.close((res, res_err) => {
+server.close((res) => {
   if (res.succeeded()) {
     console.log("Server is now closed");
   } else {
@@ -332,7 +332,7 @@ failure if connection failed.
 let options = new NetClientOptions()
   .setConnectTimeout(10000);
 let client = vertx.createNetClient(options);
-client.connect(4321, "localhost", (res, res_err) => {
+client.connect(4321, "localhost", (res) => {
   if (res.succeeded()) {
     console.log("Connected!");
     let socket = res.result();
@@ -349,7 +349,7 @@ server in the event that it cannot connect. This is configured with
 `setReconnectInterval` and `setReconnectAttempts`.
 
 > **Note**
-> 
+>
 > Currently Vert.x will not attempt to reconnect if a connection fails,
 > reconnect attempts and interval only apply to creating initial
 > connections.
@@ -509,7 +509,7 @@ textual encoding of the certificate as defined by [RFC 7468,
 Section 5](https://tools.ietf.org/html/rfc7468#section-5).
 
 > **Warning**
-> 
+>
 > Keep in mind that the keys contained in an unencrypted PKCS8 or a
 > PKCS1 PEM file can be extracted by anybody who can read the file.
 > Thus, make sure to put proper access restrictions on such PEM files in
@@ -813,7 +813,7 @@ Keep in mind that pem configuration, the private key is not crypted.
 ### Self-signed certificates for testing and development purposes
 
 > **Caution**
-> 
+>
 > Do not use this in production settings, and note that the generated
 > keys are very insecure.
 
@@ -844,7 +844,7 @@ let clientOptions = new NetClientOptions()
   .setTrustOptions(certificate.trustOptions());
 
 let client = vertx.createNetClient(clientOptions);
-client.connect(1234, "localhost", (ar, ar_err) => {
+client.connect(1234, "localhost", (ar) => {
   if (ar.succeeded()) {
     ar.result().handler((buffer) => {
       console.log(buffer);
@@ -1037,7 +1037,7 @@ let client = vertx.createNetClient(new NetClientOptions()
   .setSsl(true));
 
 // Connect to 'localhost' and present 'server.name' server name
-client.connect(1234, "localhost", "server.name", (res, res_err) => {
+client.connect(1234, "localhost", "server.name", (res) => {
   if (res.succeeded()) {
     console.log("Connected!");
     let socket = res.result();

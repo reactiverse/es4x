@@ -81,7 +81,7 @@ let poolOptions = new PoolOptions()
 let client = MySQLPool.pool(connectOptions, poolOptions);
 
 // A simple query
-client.query("SELECT * FROM users WHERE id='julien'", (ar, ar_err) => {
+client.query("SELECT * FROM users WHERE id='julien'", (ar) => {
   if (ar.succeeded()) {
     let result = ar.result();
     console.log("Got " + result.size() + " rows ");
@@ -172,7 +172,7 @@ let poolOptions = new PoolOptions()
 let client = MySQLPool.pool(vertx, connectOptions, poolOptions);
 
 // Get a connection from the pool
-client.getConnection((ar1, ar1_err) => {
+client.getConnection((ar1) => {
 
   if (ar1.succeeded()) {
 
@@ -182,9 +182,9 @@ client.getConnection((ar1, ar1_err) => {
     let conn = ar1.result();
 
     // All operations execute on the same connection
-    conn.query("SELECT * FROM users WHERE id='julien'", (ar2, ar2_err) => {
+    conn.query("SELECT * FROM users WHERE id='julien'", (ar2) => {
       if (ar2.succeeded()) {
-        conn.query("SELECT * FROM users WHERE id='emad'", (ar3, ar3_err) => {
+        conn.query("SELECT * FROM users WHERE id='emad'", (ar3) => {
           // Release the connection to the pool
           conn.close();
         });
@@ -229,7 +229,7 @@ let poolOptions = new PoolOptions()
 // Create the pool from the data object
 let pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
 
-pool.getConnection((ar, ar_err) => {
+pool.getConnection((ar) => {
   // Handling your connection
 });
 ```
@@ -318,7 +318,7 @@ let connectionUri = "mysql://dbuser:secretpassword@database.server.com:3211/mydb
 let pool = MySQLPool.pool(connectionUri);
 
 // Create the connection from the connection URI
-MySQLConnection.connect(vertx, connectionUri, (res, res_err) => {
+MySQLConnection.connect(vertx, connectionUri, (res) => {
   // Handling your connection
 });
 ```
@@ -353,7 +353,7 @@ table.
 
 ``` js
 import { MySQLClient } from "@vertx/mysql-client"
-client.query("INSERT INTO test(val) VALUES ('v1')", (ar, ar_err) => {
+client.query("INSERT INTO test(val) VALUES ('v1')", (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     let lastInsertId = rows.property(MySQLClient.LAST_INSERTED_ID);
@@ -470,11 +470,11 @@ table, the two examples below will both work here.
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("SELECT * FROM students WHERE updated_time = ?", Tuple.of(Java.type("java.time.LocalTime").of(19, 10, 25)), (ar, ar_err) => {
+client.preparedQuery("SELECT * FROM students WHERE updated_time = ?", Tuple.of(Java.type("java.time.LocalTime").of(19, 10, 25)), (ar) => {
   // handle the results
 });
 // this will also work with implicit type conversion
-client.preparedQuery("SELECT * FROM students WHERE updated_time = ?", Tuple.of("19:10:25"), (ar, ar_err) => {
+client.preparedQuery("SELECT * FROM students WHERE updated_time = ?", Tuple.of("19:10:25"), (ar) => {
   // handle the results
 });
 ```
@@ -508,7 +508,7 @@ true. A `BOOLEAN` data type value is stored in `Row` or `Tuple` as
 as `java.lang.Boolean` value.
 
 ``` js
-client.query("SELECT graduated FROM students WHERE id = 0", (ar, ar_err) => {
+client.query("SELECT graduated FROM students WHERE id = 0", (ar) => {
   if (ar.succeeded()) {
     let rowSet = ar.result();
     rowSet.forEach(row => {
@@ -528,7 +528,7 @@ params list.
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("UPDATE students SET graduated = ? WHERE id = 0", Tuple.of(true), (ar, ar_err) => {
+client.preparedQuery("UPDATE students SET graduated = ? WHERE id = 0", Tuple.of(true), (ar) => {
   if (ar.succeeded()) {
     console.log("Updated with the boolean value");
   } else {
@@ -607,10 +607,10 @@ protocol](https://dev.mysql.com/doc/dev/mysql-server/8.0.12/page_protocol_comman
 without any magic here.
 
 ``` js
-client.query("CREATE PROCEDURE multi() BEGIN\n  SELECT 1;\n  SELECT 1;\n  INSERT INTO ins VALUES (1);\n  INSERT INTO ins VALUES (2);\nEND;", (ar1, ar1_err) => {
+client.query("CREATE PROCEDURE multi() BEGIN\n  SELECT 1;\n  SELECT 1;\n  INSERT INTO ins VALUES (1);\n  INSERT INTO ins VALUES (2);\nEND;", (ar1) => {
   if (ar1.succeeded()) {
     // create stored procedure success
-    client.query("CALL multi();", (ar2, ar2_err) => {
+    client.query("CALL multi();", (ar2) => {
       if (ar2.succeeded()) {
         // handle the result
         let result1 = ar2.result();
@@ -705,7 +705,7 @@ let options = new MySQLConnectOptions()
   .setPemTrustOptions(new PemTrustOptions()
     .setCertPaths(["/path/to/cert.pem"]));
 
-MySQLConnection.connect(vertx, options, (res, res_err) => {
+MySQLConnection.connect(vertx, options, (res) => {
   if (res.succeeded()) {
     // Connected with SSL
   } else {
@@ -730,7 +730,7 @@ handler will be notified if the server responds to the PING, otherwise
 the handler will never be called.
 
 ``` js
-connection.ping((ar, ar_err) => {
+connection.ping((ar) => {
   console.log("The server has responded to the PING");
 });
 ```
@@ -742,7 +742,7 @@ this will reset the connection state like: - user variables - temporary
 tables - prepared statements
 
 ``` js
-connection.resetConnection((ar, ar_err) => {
+connection.resetConnection((ar) => {
   if (ar.succeeded()) {
     console.log("Connection has been reset now");
   } else {
@@ -762,7 +762,7 @@ let authenticationOptions = new MySQLAuthOptions()
   .setUser("newuser")
   .setPassword("newpassword")
   .setDatabase("newdatabase");
-connection.changeUser(authenticationOptions, (ar, ar_err) => {
+connection.changeUser(authenticationOptions, (ar) => {
   if (ar.succeeded()) {
     console.log("User of current connection has been changed.");
   } else {
@@ -777,7 +777,7 @@ You can use `COM_INIT_DB` command to change the default schema of the
 connection.
 
 ``` js
-connection.specifySchema("newschema", (ar, ar_err) => {
+connection.specifySchema("newschema", (ar) => {
   if (ar.succeeded()) {
     console.log("Default schema changed to newschema");
   } else {
@@ -792,7 +792,7 @@ You can use `COM_STATISTICS` command to get a human readable string of
 some internal status variables in MySQL server.
 
 ``` js
-connection.getInternalStatistics((ar, ar_err) => {
+connection.getInternalStatistics((ar) => {
   if (ar.succeeded()) {
     console.log("Statistics: " + ar.result());
   } else {
@@ -807,7 +807,7 @@ You can use `COM_DEBUG` command to dump debug info to the MySQL server’s
 STDOUT.
 
 ``` js
-connection.debug((ar, ar_err) => {
+connection.debug((ar) => {
   if (ar.succeeded()) {
     console.log("Debug info dumped to server's STDOUT");
   } else {
@@ -825,7 +825,7 @@ For example, you can disable `CLIENT_MULTI_STATEMENTS` with this
 command.
 
 ``` js
-connection.setOption('MYSQL_OPTION_MULTI_STATEMENTS_OFF', (ar, ar_err) => {
+connection.setOption('MYSQL_OPTION_MULTI_STATEMENTS_OFF', (ar) => {
   if (ar.succeeded()) {
     console.log("CLIENT_MULTI_STATEMENTS is off now");
   } else {

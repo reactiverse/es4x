@@ -135,7 +135,7 @@ You can be notified when the operation completes:
 server.connectHandler((sock) => {
 
   // Pipe the socket providing an handler to be notified of the result
-  sock.pipeTo(sock, (ar, ar_err) => {
+  sock.pipeTo(sock, (ar) => {
     if (ar.succeeded()) {
       console.log("Pipe succeeded");
     } else {
@@ -156,7 +156,7 @@ server.connectHandler((sock) => {
   let pipe = sock.pipe();
 
   // Open a destination file
-  fs.open("/path/to/file", new OpenOptions(), (ar, ar_err) => {
+  fs.open("/path/to/file", new OpenOptions(), (ar) => {
     if (ar.succeeded()) {
       let file = ar.result();
 
@@ -178,7 +178,7 @@ vertx.createHttpServer().requestHandler((request) => {
   let pipe = request.pipe();
 
   // Open a destination file
-  fs.open("/path/to/file", new OpenOptions(), (ar, ar_err) => {
+  fs.open("/path/to/file", new OpenOptions(), (ar) => {
     if (ar.succeeded()) {
       let file = ar.result();
 
@@ -211,7 +211,7 @@ Here is a short example:
 
 ``` js
 import { Buffer } from "@vertx/core"
-src.pipe().endOnSuccess(false).to(dst, (rs, rs_err) => {
+src.pipe().endOnSuccess(false).to(dst, (rs) => {
   // Append some text and close the file
   dst.end(Buffer.buffer("done"));
 });
@@ -292,7 +292,7 @@ server.connectHandler((sock) => {
 ```
 
 > **Important**
-> 
+>
 > Before Vert.x 3.7 the `Pump` was the advocated API for transferring a
 > read stream to a write stream. Since 3.7 the pipe API supersedes the
 > pump API.

@@ -33,7 +33,7 @@ only parameter is the usual callback to handle the result, which
 provides the topics list.
 
 ``` js
-adminClient.listTopics((ar, ar_err) => {
+adminClient.listTopics((ar) => {
   console.log("Topics= " + ar.result());
 });
 ```
@@ -48,7 +48,7 @@ callback to handle the result providing a map with topic names and
 related `TopicDescription`.
 
 ``` js
-adminClient.describeTopics(Java.type("java.util.Collections").singletonList("my-topic"), (ar, ar_err) => {
+adminClient.describeTopics(Java.type("java.util.Collections").singletonList("my-topic"), (ar) => {
   let topicDescription = ar.result()["first-topic"];
 
   console.log("Topic name=" + topicDescription.name + " isInternal= " + topicDescription.nternal + " partitions= " + topicDescription.partitions.length);
@@ -81,7 +81,7 @@ parameters are the list of the topics to delete, and the usual callback
 to handle the result.
 
 ``` js
-adminClient.deleteTopics(Java.type("java.util.Collections").singletonList("topicToDelete"), (ar, ar_err) => {
+adminClient.deleteTopics(Java.type("java.util.Collections").singletonList("topicToDelete"), (ar) => {
   // check if they were deleted successfully
 });
 ```
@@ -123,7 +123,7 @@ the cluster. The only parameter is the usual callback to handle the
 result, which provides the consumer groups list.
 
 ``` js
-adminClient.listConsumerGroups((ar, ar_err) => {
+adminClient.listConsumerGroups((ar) => {
   console.log("ConsumerGroups= " + ar.result());
 });
 ```
@@ -139,7 +139,7 @@ providing a map with consumer group names and related
 `MemberDescription`.
 
 ``` js
-adminClient.describeTopics(Java.type("java.util.Collections").singletonList("my-topic"), (ar, ar_err) => {
+adminClient.describeTopics(Java.type("java.util.Collections").singletonList("my-topic"), (ar) => {
   let topicDescription = ar.result()["first-topic"];
 
   console.log("Topic name=" + topicDescription.name + " isInternal= " + topicDescription.nternal + " partitions= " + topicDescription.partitions.length);

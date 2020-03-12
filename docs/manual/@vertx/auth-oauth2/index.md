@@ -129,7 +129,7 @@ let code = "xxxxxxxxxxxxxxxxxxxxxxxx";
 oauth2.authenticate({
   "code" : code,
   "redirect_uri" : "http://localhost:8080/callback"
-}, (res, res_err) => {
+}, (res) => {
   if (res.failed()) {
     // error, the code provided is not valid
   } else {
@@ -177,7 +177,7 @@ let tokenConfig = {
 
 // Callbacks
 // Save the access token
-oauth2.authenticate(tokenConfig, (res, res_err) => {
+oauth2.authenticate(tokenConfig, (res) => {
   if (res.failed()) {
     console.error("Access Token Error: " + res.cause().getMessage());
   } else {
@@ -208,14 +208,14 @@ let tokenConfig = {
 
 // Callbacks
 // Save the access token
-oauth2.authenticate(tokenConfig, (res, res_err) => {
+oauth2.authenticate(tokenConfig, (res) => {
   if (res.failed()) {
     console.error("Access Token Error: " + res.cause().getMessage());
   } else {
     // Get the access token object (the authorization code is given from the previous step).
     let token = res.result();
 
-    token.fetch("/users", (res2, res2_err) => {
+    token.fetch("/users", (res2) => {
       // the user object should be returned here...
     });
   }
@@ -245,7 +245,7 @@ let tokenConfig = {
 
 // Callbacks
 // Save the access token
-oauth2.authenticate(tokenConfig, (res, res_err) => {
+oauth2.authenticate(tokenConfig, (res) => {
   if (res.failed()) {
     console.error("Access Token Error: " + res.cause().getMessage());
   } else {
@@ -267,7 +267,7 @@ import { OpenIDConnectAuth } from "@vertx/auth-oauth2"
 
 OpenIDConnectAuth.discover(vertx, new OAuth2ClientOptions()
   .setSite("https://accounts.google.com")
-  .setClientID("clientId"), (res, res_err) => {
+  .setClientID("clientId"), (res) => {
   if (res.succeeded()) {
     // the setup call succeeded.
     // at this moment your auth is ready to use and
@@ -313,7 +313,7 @@ access token when it is expired.
 // Check if the token is expired. If expired it is refreshed.
 if (token.expired()) {
   // Callbacks
-  token.refresh((res, res_err) => {
+  token.refresh((res) => {
     if (res.succeeded()) {
       // success
     } else {
@@ -328,11 +328,11 @@ the access token and refresh token.
 
 ``` js
 // Revoke only the access token
-token.revoke("access_token", (res, res_err) => {
+token.revoke("access_token", (res) => {
   // Session ended. But the refresh_token is still valid.
 
   // Revoke the refresh_token
-  token.revoke("refresh_token", (res1, res1_err) => {
+  token.revoke("refresh_token", (res1) => {
     console.log("token revoked.");
   });
 });
@@ -404,14 +404,14 @@ let oauth2 = KeycloakAuth.create(vertx, 'PASSWORD', keycloakJson);
 oauth2.authenticate({
   "username" : "user",
   "password" : "secret"
-}, (res, res_err) => {
+}, (res) => {
   if (res.failed()) {
     // error handling...
   } else {
     let token = res.result();
 
     // now check for permissions
-    token.isAuthorized("account:manage-account", (r, r_err) => {
+    token.isAuthorized("account:manage-account", (r) => {
       if (r.result()) {
         // this user is authorized to manage its account
       }
@@ -442,7 +442,7 @@ import { OpenIDConnectAuth } from "@vertx/auth-oauth2"
 
 OpenIDConnectAuth.discover(vertx, new OAuth2ClientOptions()
   .setSite("http://server:port/auth/realms/your_realm")
-  .setClientID("clientId"), (res, res_err) => {
+  .setClientID("clientId"), (res) => {
   if (res.succeeded()) {
     // the setup call succeeded.
     // at this moment your auth is ready to use and
@@ -477,7 +477,7 @@ the OAuth2 level or at the User level:
 
 ``` js
 // OAuth2Auth level
-oauth2.introspectToken("opaque string", (res, res_err) => {
+oauth2.introspectToken("opaque string", (res) => {
   if (res.succeeded()) {
     // token is valid!
     let accessToken = res.result();
@@ -485,7 +485,7 @@ oauth2.introspectToken("opaque string", (res, res_err) => {
 });
 
 // User level
-token.introspect((res, res_err) => {
+token.introspect((res) => {
   if (res.succeeded()) {
     // Token is valid!
   }
@@ -505,7 +505,7 @@ token introspection if the provider supports it.
 
 ``` js
 // OAuth2Auth level
-oauth2.decodeToken("jwt-token", (res, res_err) => {
+oauth2.decodeToken("jwt-token", (res) => {
   if (res.succeeded()) {
     // token is valid!
     let accessToken = res.result();
@@ -566,7 +566,7 @@ been loaded from the oauth2 handshake, for example you want to see if
 the user can `print` in the current application:
 
 ``` js
-user.isAuthorized("print", (res, res_err) => {
+user.isAuthorized("print", (res) => {
   // in this case it is assumed that the role is the current application
   if (res.succeeded() && res.result()) {
     // Yes the user can print
@@ -578,7 +578,7 @@ However this is quite specific, you might want to verify if the user can
 `add-user` to the whole system (the realm):
 
 ``` js
-user.isAuthorized("realm:add-user", (res, res_err) => {
+user.isAuthorized("realm:add-user", (res) => {
   // the role is "realm"
   // the authority is "add-user"
   if (res.succeeded() && res.result()) {
@@ -590,7 +590,7 @@ user.isAuthorized("realm:add-user", (res, res_err) => {
 Or if the user can access the `year-report` in the `finance` department:
 
 ``` js
-user.isAuthorized("finance:year-report", (res, res_err) => {
+user.isAuthorized("finance:year-report", (res) => {
   // the role is "finance"
   // the authority is "year-report"
   if (res.succeeded() && res.result()) {
@@ -640,7 +640,7 @@ can refresh the token. To refresh a token you need to have already a
 user and call:
 
 ``` js
-user.refresh((res, res_err) => {
+user.refresh((res) => {
   if (res.succeeded()) {
     // the refresh call succeeded
   } else {
@@ -659,7 +659,7 @@ disallow the usage of the current token by any application. In order to
 do this one needs to revoke the token against the Oauth2 server:
 
 ``` js
-user.revoke("access_token", (res, res_err) => {
+user.revoke("access_token", (res) => {
   if (res.succeeded()) {
     // the refresh call succeeded
   } else {
@@ -692,7 +692,7 @@ to note that this check is fully online. This means that the check
 happens on the OAuth2 server.
 
 ``` js
-user.introspect((res, res_err) => {
+user.introspect((res) => {
   if (res.succeeded()) {
     // the introspection call succeeded
   } else {
@@ -716,7 +716,7 @@ provider also covers this area if the configuration is enough to let it
 make the call. For the user this is as simple as:
 
 ``` js
-user.logout((res, res_err) => {
+user.logout((res) => {
   if (res.succeeded()) {
     // the logout call succeeded
   } else {

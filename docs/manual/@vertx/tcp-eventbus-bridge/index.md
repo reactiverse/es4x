@@ -91,7 +91,7 @@ let bridge = TcpEventBusBridge.create(vertx, new BridgeOptions()
   .setOutboundPermitteds([new PermittedOptions()
     .setAddress("out")]));
 
-bridge.listen(7000, (res, res_err) => {
+bridge.listen(7000, (res) => {
   if (res.succeeded()) {
     // succeed...
   } else {

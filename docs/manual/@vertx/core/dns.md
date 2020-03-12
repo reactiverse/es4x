@@ -46,7 +46,7 @@ like:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.lookup("vertx.io", (ar, ar_err) => {
+client.lookup("vertx.io", (ar) => {
   if (ar.succeeded()) {
     console.log(ar.result());
   } else {
@@ -65,7 +65,7 @@ To lookup the A record for "vertx.io" you would typically use it like:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.lookup4("vertx.io", (ar, ar_err) => {
+client.lookup4("vertx.io", (ar) => {
   if (ar.succeeded()) {
     console.log(ar.result());
   } else {
@@ -84,7 +84,7 @@ To lookup the A record for "vertx.io" you would typically use it like:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.lookup6("vertx.io", (ar, ar_err) => {
+client.lookup6("vertx.io", (ar) => {
   if (ar.succeeded()) {
     console.log(ar.result());
   } else {
@@ -102,7 +102,7 @@ To lookup all the A records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveA("vertx.io", (ar, ar_err) => {
+client.resolveA("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -123,7 +123,7 @@ To lookup all the AAAAA records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveAAAA("vertx.io", (ar, ar_err) => {
+client.resolveAAAA("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -144,7 +144,7 @@ To lookup all the CNAME records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveCNAME("vertx.io", (ar, ar_err) => {
+client.resolveCNAME("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -165,7 +165,7 @@ To lookup all the MX records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveMX("vertx.io", (ar, ar_err) => {
+client.resolveMX("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -199,7 +199,7 @@ along these lines:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveTXT("vertx.io", (ar, ar_err) => {
+client.resolveTXT("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -221,7 +221,7 @@ along these lines:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveNS("vertx.io", (ar, ar_err) => {
+client.resolveNS("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -243,7 +243,7 @@ To lookup all the SRV records for "vertx.io" you would typically do:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolveSRV("vertx.io", (ar, ar_err) => {
+client.resolveSRV("vertx.io", (ar) => {
   if (ar.succeeded()) {
     let records = ar.result();
     records.forEach(record => {
@@ -284,7 +284,7 @@ PTR notion of "1.0.0.10.in-addr.arpa"
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.resolvePTR("1.0.0.10.in-addr.arpa", (ar, ar_err) => {
+client.resolvePTR("1.0.0.10.in-addr.arpa", (ar) => {
   if (ar.succeeded()) {
     let record = ar.result();
     console.log(record);
@@ -305,7 +305,7 @@ like this:
 
 ``` js
 let client = vertx.createDnsClient(53, "9.9.9.9");
-client.reverseLookup("10.0.0.1", (ar, ar_err) => {
+client.reverseLookup("10.0.0.1", (ar) => {
   if (ar.succeeded()) {
     let record = ar.result();
     console.log(record);

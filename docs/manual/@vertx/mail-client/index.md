@@ -154,7 +154,7 @@ failed.
 A mail is sent as follows:
 
 ``` js
-mailClient.sendMail(message, (result, result_err) => {
+mailClient.sendMail(message, (result) => {
   if (result.succeeded()) {
     console.log(result.result());
   } else {

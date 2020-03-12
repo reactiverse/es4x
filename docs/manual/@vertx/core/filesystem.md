@@ -16,7 +16,7 @@ Here’s an example of an asynchronous copy of a file:
 let fs = vertx.fileSystem();
 
 // Copy file from foo.txt to bar.txt
-fs.copy("foo.txt", "bar.txt", (res, res_err) => {
+fs.copy("foo.txt", "bar.txt", (res) => {
   if (res.succeeded()) {
     // Copied ok!
   } else {
@@ -51,7 +51,7 @@ Let’s see a couple of examples using asynchronous methods:
 ``` js
 import { Buffer } from "@vertx/core"
 // Read a file
-vertx.fileSystem().readFile("target/classes/readme.txt", (result, result_err) => {
+vertx.fileSystem().readFile("target/classes/readme.txt", (result) => {
   if (result.succeeded()) {
     console.log(result.result());
   } else {
@@ -60,7 +60,7 @@ vertx.fileSystem().readFile("target/classes/readme.txt", (result, result_err) =>
 });
 
 // Copy a file
-vertx.fileSystem().copy("target/classes/readme.txt", "target/classes/readme2.txt", (result, result_err) => {
+vertx.fileSystem().copy("target/classes/readme.txt", "target/classes/readme2.txt", (result) => {
   if (result.succeeded()) {
     console.log("File copied");
   } else {
@@ -69,7 +69,7 @@ vertx.fileSystem().copy("target/classes/readme.txt", "target/classes/readme2.txt
 });
 
 // Write a file
-vertx.fileSystem().writeFile("target/classes/hello.txt", Buffer.buffer("Hello"), (result, result_err) => {
+vertx.fileSystem().writeFile("target/classes/hello.txt", Buffer.buffer("Hello"), (result) => {
   if (result.succeeded()) {
     console.log("File written");
   } else {
@@ -78,9 +78,9 @@ vertx.fileSystem().writeFile("target/classes/hello.txt", Buffer.buffer("Hello"),
 });
 
 // Check existence and delete
-vertx.fileSystem().exists("target/classes/junk.txt", (result, result_err) => {
+vertx.fileSystem().exists("target/classes/junk.txt", (result) => {
   if (result.succeeded() && result.result()) {
-    vertx.fileSystem().delete("target/classes/junk.txt", (r, r_err) => {
+    vertx.fileSystem().delete("target/classes/junk.txt", (r) => {
       console.log("File deleted");
     });
   } else {
@@ -98,7 +98,7 @@ You open an `AsyncFile` as follows:
 
 ``` js
 let options = new OpenOptions();
-fileSystem.open("myfile.txt", options, (res, res_err) => {
+fileSystem.open("myfile.txt", options, (res) => {
   if (res.succeeded()) {
     let file = res.result();
   } else {
@@ -132,12 +132,12 @@ Here is an example of random access writes:
 
 ``` js
 import { Buffer } from "@vertx/core"
-vertx.fileSystem().open("target/classes/hello.txt", new OpenOptions(), (result, result_err) => {
+vertx.fileSystem().open("target/classes/hello.txt", new OpenOptions(), (result) => {
   if (result.succeeded()) {
     let file = result.result();
     let buff = Buffer.buffer("foo");
     for (let i = 0;i < 5;i++) {
-      file.write(buff, buff.length() * i, (ar, ar_err) => {
+      file.write(buff, buff.length() * i, (ar) => {
         if (ar.succeeded()) {
           console.log("Written ok!");
           // etc
@@ -173,12 +173,12 @@ Here’s an example of random access reads:
 
 ``` js
 import { Buffer } from "@vertx/core"
-vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result, result_err) => {
+vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result) => {
   if (result.succeeded()) {
     let file = result.result();
     let buff = Buffer.buffer(1000);
     for (let i = 0;i < 10;i++) {
-      file.read(buff, i * 100, i * 100, 100, (ar, ar_err) => {
+      file.read(buff, i * 100, i * 100, 100, (ar) => {
         if (ar.succeeded()) {
           console.log("Read ok!");
         } else {
@@ -226,7 +226,7 @@ streams. For example, this would copy the content to another
 import { Pump } from "@vertx/core"
 let output = vertx.fileSystem().openBlocking("target/classes/plagiary.txt", new OpenOptions());
 
-vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result, result_err) => {
+vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result) => {
   if (result.succeeded()) {
     let file = result.result();
     Pump.pump(file, output).start();
@@ -267,7 +267,7 @@ The whole classpath resolving feature can be disabled system-wide by
 setting the system property `vertx.disableFileCPResolving` to `true`.
 
 > **Note**
-> 
+>
 > these system properties are evaluated once when the the
 > `io.vertx.core.file.FileSystemOptions` class is loaded, so these
 > properties should be set before loading this class or as a JVM system

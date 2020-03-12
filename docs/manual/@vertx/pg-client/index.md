@@ -82,7 +82,7 @@ let poolOptions = new PoolOptions()
 let client = PgPool.pool(connectOptions, poolOptions);
 
 // A simple query
-client.query("SELECT * FROM users WHERE id='julien'", (ar, ar_err) => {
+client.query("SELECT * FROM users WHERE id='julien'", (ar) => {
   if (ar.succeeded()) {
     let result = ar.result();
     console.log("Got " + result.size() + " rows ");
@@ -173,7 +173,7 @@ let poolOptions = new PoolOptions()
 let client = PgPool.pool(vertx, connectOptions, poolOptions);
 
 // Get a connection from the pool
-client.getConnection((ar1, ar1_err) => {
+client.getConnection((ar1) => {
 
   if (ar1.succeeded()) {
 
@@ -183,9 +183,9 @@ client.getConnection((ar1, ar1_err) => {
     let conn = ar1.result();
 
     // All operations execute on the same connection
-    conn.query("SELECT * FROM users WHERE id='julien'", (ar2, ar2_err) => {
+    conn.query("SELECT * FROM users WHERE id='julien'", (ar2) => {
       if (ar2.succeeded()) {
-        conn.query("SELECT * FROM users WHERE id='emad'", (ar3, ar3_err) => {
+        conn.query("SELECT * FROM users WHERE id='emad'", (ar3) => {
           // Release the connection to the pool
           conn.close();
         });
@@ -261,7 +261,7 @@ let poolOptions = new PoolOptions()
 // Create the pool from the data object
 let pool = PgPool.pool(vertx, connectOptions, poolOptions);
 
-pool.getConnection((ar, ar_err) => {
+pool.getConnection((ar) => {
   // Handling your connection
 });
 ```
@@ -298,7 +298,7 @@ let connectionUri = "postgresql://dbuser:secretpassword@database.server.com:3211
 let pool = PgPool.pool(connectionUri);
 
 // Create the connection from the connection URI
-PgConnection.connect(vertx, connectionUri, (res, res_err) => {
+PgConnection.connect(vertx, connectionUri, (res) => {
   // Handling your connection
 });
 ```
@@ -372,7 +372,7 @@ import { PgConnection } from "@vertx/pg-client"
 let pool = PgPool.pool();
 
 // Create the connection from the environment variables
-PgConnection.connect(vertx, (res, res_err) => {
+PgConnection.connect(vertx, (res) => {
   // Handling your connection
 });
 ```
@@ -383,7 +383,7 @@ You can fetch generated keys with a 'RETURNING' clause in your query:
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("INSERT INTO color (color_name) VALUES ($1), ($2), ($3) RETURNING color_id", Tuple.of("white", "red", "blue"), (ar, ar_err) => {
+client.preparedQuery("INSERT INTO color (color_name) VALUES ($1), ($2), ($3) RETURNING color_id", Tuple.of("white", "red", "blue"), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     console.log(rows.rowCount());
@@ -486,7 +486,7 @@ Tuple decoding uses the above types when storing values, it also
 performs on the flu conversion the actual value when possible:
 
 ``` js
-pool.query("SELECT 1::BIGINT \"VAL\"", (ar, ar_err) => {
+pool.query("SELECT 1::BIGINT \"VAL\"", (ar) => {
   let rowSet = ar.result();
   let row = rowSet.iterator().next();
 
@@ -502,7 +502,7 @@ Tuple encoding uses the above type mapping for encoding, unless the type
 is numeric in which case `java.lang.Number` is used instead:
 
 ``` js
-pool.query("SELECT 1::BIGINT \"VAL\"", (ar, ar_err) => {
+pool.query("SELECT 1::BIGINT \"VAL\"", (ar) => {
   let rowSet = ar.result();
   let row = rowSet.iterator().next();
 
@@ -571,7 +571,7 @@ You can read from PostgreSQL and get the custom type as a string
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("SELECT address, (address).city FROM address_book WHERE id=$1", Tuple.of(3), (ar, ar_err) => {
+client.preparedQuery("SELECT address, (address).city FROM address_book WHERE id=$1", Tuple.of(3), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     rows.forEach(row => {
@@ -587,7 +587,7 @@ You can also write to PostgreSQL by providing a string
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("INSERT INTO address_book (id, address) VALUES ($1, $2)", Tuple.of(3, "('Anytown', 'Second Ave', false)"), (ar, ar_err) => {
+client.preparedQuery("INSERT INTO address_book (id, address) VALUES ($1, $2)", Tuple.of(3, "('Anytown', 'Second Ave', false)"), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     console.log(rows.rowCount());
@@ -603,7 +603,7 @@ Text search is handling using java `String`
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("SELECT to_tsvector( $1 ) @@ to_tsquery( $2 )", Tuple.of("fat cats ate fat rats", "fat & rat"), (ar, ar_err) => {
+client.preparedQuery("SELECT to_tsvector( $1 ) @@ to_tsquery( $2 )", Tuple.of("fat cats ate fat rats", "fat & rat"), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     rows.forEach(row => {
@@ -619,7 +619,7 @@ client.preparedQuery("SELECT to_tsvector( $1 ) @@ to_tsquery( $2 )", Tuple.of("f
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("SELECT to_tsvector( $1 ), to_tsquery( $2 )", Tuple.of("fat cats ate fat rats", "fat & rat"), (ar, ar_err) => {
+client.preparedQuery("SELECT to_tsvector( $1 ), to_tsquery( $2 )", Tuple.of("fat cats ate fat rats", "fat & rat"), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     rows.forEach(row => {
@@ -661,7 +661,7 @@ connection.notificationHandler((notification) => {
   console.log("Received " + notification.payload + " on channel " + notification.channel);
 });
 
-connection.query("LISTEN some-channel", (ar, ar_err) => {
+connection.query("LISTEN some-channel", (ar) => {
   console.log("Subscribed to channel");
 });
 ```
@@ -684,7 +684,7 @@ subscriber.channel("channel1").handler((payload) => {
   console.log("Received " + payload);
 });
 
-subscriber.connect((ar, ar_err) => {
+subscriber.connect((ar) => {
   if (ar.succeeded()) {
 
     // Or you can set the channel after connect
@@ -711,14 +711,14 @@ let subscriber = PgSubscriber.subscriber(vertx, new PgConnectOptions()
   .setUser("user")
   .setPassword("secret"));
 
-subscriber.connect((ar, ar_err) => {
+subscriber.connect((ar) => {
   if (ar.succeeded()) {
     // Complex channel name - name in PostgreSQL requires a quoted ID
     subscriber.channel("Complex.Channel.Name").handler((payload) => {
       console.log("Received " + payload);
     });
     subscriber.channel("Complex.Channel.Name").subscribeHandler((subscribed) => {
-      subscriber.actualConnection().query("NOTIFY \"Complex.Channel.Name\", 'msg'", (notified, notified_err) => {
+      subscriber.actualConnection().query("NOTIFY \"Complex.Channel.Name\", 'msg'", (notified) => {
         console.log("Notified \"Complex.Channel.Name\"");
       });
     });
@@ -729,7 +729,7 @@ subscriber.connect((ar, ar_err) => {
     });
     subscriber.channel("simple_channel").subscribeHandler((subscribed) => {
       // The following simple channel identifier is forced to lower case
-      subscriber.actualConnection().query("NOTIFY Simple_CHANNEL, 'msg'", (notified, notified_err) => {
+      subscriber.actualConnection().query("NOTIFY Simple_CHANNEL, 'msg'", (notified) => {
         console.log("Notified simple_channel");
       });
     });
@@ -787,7 +787,7 @@ new connection to the server and cancels the request and then close the
 connection.
 
 ``` js
-connection.query("SELECT pg_sleep(20)", (ar, ar_err) => {
+connection.query("SELECT pg_sleep(20)", (ar) => {
   if (ar.succeeded()) {
     // imagine this is a long query and is still running
     console.log("Query success");
@@ -796,7 +796,7 @@ connection.query("SELECT pg_sleep(20)", (ar, ar_err) => {
     console.log("Failed to query due to " + ar.cause().getMessage());
   }
 });
-connection.cancelRequest((ar, ar_err) => {
+connection.cancelRequest((ar) => {
   if (ar.succeeded()) {
     console.log("Cancelling request has been sent");
   } else {
@@ -838,7 +838,7 @@ let options = new PgConnectOptions()
   .setPemTrustOptions(new PemTrustOptions()
     .setCertPaths(["/path/to/cert.pem"]));
 
-PgConnection.connect(vertx, options, (res, res_err) => {
+PgConnection.connect(vertx, options, (res) => {
   if (res.succeeded()) {
     // Connected with SSL
   } else {

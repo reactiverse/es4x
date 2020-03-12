@@ -88,7 +88,7 @@ let config = {
 config.x-dead-letter-exchange = "my.deadletter.exchange";
 config.alternate-exchange = "my.alternate.exchange";
 // ...
-client.exchangeDeclare("my.exchange", "fanout", true, false, config, (onResult, onResult_err) => {
+client.exchangeDeclare("my.exchange", "fanout", true, false, config, (onResult) => {
   if (onResult.succeeded()) {
     console.log("Exchange successfully declared with config");
   } else {
@@ -107,7 +107,7 @@ let config = {
 };
 config.x-message-ttl = 10000;
 
-client.queueDeclare("my-queue", true, false, true, config, (queueResult, queueResult_err) => {
+client.queueDeclare("my-queue", true, false, true, config, (queueResult) => {
   if (queueResult.succeeded()) {
     console.log("Queue declared!");
   } else {
@@ -131,7 +131,7 @@ Publish a message to a queue
 let message = {
   "body" : "Hello RabbitMQ, from Vert.x !"
 };
-client.basicPublish("", "my.queue", message, (pubResult, pubResult_err) => {
+client.basicPublish("", "my.queue", message, (pubResult) => {
   if (pubResult.succeeded()) {
     console.log("Message published !");
   } else {
@@ -150,12 +150,12 @@ let message = {
 };
 
 // Put the channel in confirm mode. This can be done once at init.
-client.confirmSelect((confirmResult, confirmResult_err) => {
+client.confirmSelect((confirmResult) => {
   if (confirmResult.succeeded()) {
-    client.basicPublish("", "my.queue", message, (pubResult, pubResult_err) => {
+    client.basicPublish("", "my.queue", message, (pubResult) => {
       if (pubResult.succeeded()) {
         // Check the message got confirmed by the broker.
-        client.waitForConfirms((waitResult, waitResult_err) => {
+        client.waitForConfirms((waitResult) => {
           if (waitResult.succeeded()) {
             console.log("Message published !")} else {
             waitResult.cause().printStackTrace()}
@@ -176,7 +176,7 @@ Consume messages from a queue.
 
 ``` js
 // Create a stream of messages from a queue
-client.basicConsumer("my.queue", (rabbitMQConsumerAsyncResult, rabbitMQConsumerAsyncResult_err) => {
+client.basicConsumer("my.queue", (rabbitMQConsumerAsyncResult) => {
   if (rabbitMQConsumerAsyncResult.succeeded()) {
     console.log("RabbitMQ consumer created !");
     let mqConsumer = rabbitMQConsumerAsyncResult.result();
@@ -214,7 +214,7 @@ let options = new QueueOptions()
   .setMaxInternalQueueSize(1000)
   .setKeepMostRecent(true);
 
-client.basicConsumer("my.queue", options, (rabbitMQConsumerAsyncResult, rabbitMQConsumerAsyncResult_err) => {
+client.basicConsumer("my.queue", options, (rabbitMQConsumerAsyncResult) => {
   if (rabbitMQConsumerAsyncResult.succeeded()) {
     console.log("RabbitMQ consumer created !");
   } else {
@@ -226,7 +226,7 @@ client.basicConsumer("my.queue", options, (rabbitMQConsumerAsyncResult, rabbitMQ
 When you want to stop consuming message from a queue, you can do:
 
 ``` js
-rabbitMQConsumer.cancel((cancelResult, cancelResult_err) => {
+rabbitMQConsumer.cancel((cancelResult) => {
   if (cancelResult.succeeded()) {
     console.log("Consumption successfully stopped");
   } else {
@@ -267,7 +267,7 @@ console.log("Consumer tag is: " + consumerTag);
 Will get a message from a queue
 
 ``` js
-client.basicGet("my.queue", true, (getResult, getResult_err) => {
+client.basicGet("my.queue", true, (getResult) => {
   if (getResult.succeeded()) {
     let msg = getResult.result();
     console.log("Got message: " + msg.body);
@@ -282,7 +282,7 @@ client.basicGet("my.queue", true, (getResult, getResult_err) => {
 ``` js
 // Setup the rabbitmq consumer
 client.basicConsumer("my.queue", new QueueOptions()
-  .setAutoAck(false), (consumeResult, consumeResult_err) => {
+  .setAutoAck(false), (consumeResult) => {
   if (consumeResult.succeeded()) {
     console.log("RabbitMQ consumer created !");
     let consumer = consumeResult.result();
@@ -292,7 +292,7 @@ client.basicConsumer("my.queue", new QueueOptions()
       let json = msg.body();
       console.log("Got message: " + json.body);
       // ack
-      client.basicAck(json.deliveryTag, false, (asyncResult, asyncResult_err) => {
+      client.basicAck(json.deliveryTag, false, (asyncResult) => {
       });
     });
   } else {

@@ -76,20 +76,20 @@ You can configure your own stores:
         "port" : 8080,
         "path" : "/conf"
       });
-    
+
     let fileStore = new ConfigStoreOptions()
       .setType("file")
       .setConfig({
         "path" : "my-config.json"
       });
-    
+
     let sysPropsStore = new ConfigStoreOptions()
       .setType("sys");
-    
-    
+
+
     let options = new ConfigRetrieverOptions()
       .setStores([httpStore, fileStore, sysPropsStore]);
-    
+
     let retriever = ConfigRetriever.create(vertx, options);
 
 More details about the overloading rules and available stores are
@@ -108,16 +108,16 @@ optional, use the `optional` attribute:
       });
     let sysPropsStore = new ConfigStoreOptions()
       .setType("sys");
-    
+
     let options = new ConfigRetrieverOptions()
       .setStores([fileStore, sysPropsStore]);
-    
+
     let retriever = ConfigRetriever.create(vertx, options);
 
 Once you have the instance of the Config Retriever, *retrieve* the
 configuration as follows:
 
-    retriever.getConfig((ar, ar_err) => {
+    retriever.getConfig((ar) => {
       if (ar.failed()) {
         // Failed to retrieve the configuration
       } else {
@@ -163,9 +163,9 @@ an HTTP server with the content of the configuration.
 
     import { ConfigRetriever } from "@vertx/config"
     let retriever = ConfigRetriever.create(vertx);
-    retriever.getConfig((json, json_err) => {
+    retriever.getConfig((json) => {
       let result = json.result();
-    
+
       vertx.createHttpServer().requestHandler((req) => {
         result.message;
       }).listen(result.port);
@@ -183,8 +183,8 @@ contained in the `verticles.json` file:
         .setConfig({
           "path" : "verticles.json"
         })]));
-    
-    retriever.getConfig((json, json_err) => {
+
+    retriever.getConfig((json) => {
       let a = json.result().a;
       let b = json.result().b;
       vertx.deployVerticle(Java.type("examples.GreetingVerticle").class.getName(), new DeploymentOptions()
@@ -210,17 +210,17 @@ instance is created:
         .setConfig({
           "path" : "vertx.json"
         })]));
-    
+
     // Retrieve the configuration
-    retriever.getConfig((json, json_err) => {
+    retriever.getConfig((json) => {
       let result = json.result();
       // Close the vert.x instance, we don't need it anymore.
       vertx.close();
-    
+
       // Create a new Vert.x instance using the retrieve configuration
       let options = result;
       let newVertx = Vertx.vertx(options);
-    
+
       // Deploy your verticle
       newVertx.deployVerticle(Java.type("examples.GreetingVerticle").class.getName(), new DeploymentOptions()
         .setConfig(result.a));
@@ -242,11 +242,11 @@ verticles can listen for this address and update themselves:
         .setConfig({
           "path" : "verticles.json"
         })]));
-    
-    retriever.getConfig((json, json_err) => {
+
+    retriever.getConfig((json) => {
       //...
     });
-    
+
     retriever.listen((change) => {
       let json = change.newConfiguration;
       vertx.eventBus().publish("new-configuration", json);
@@ -534,7 +534,7 @@ let options = new ConfigRetrieverOptions()
   .setStores([store1, store2]);
 
 let retriever = ConfigRetriever.create(Vertx.vertx(), options);
-retriever.getConfig((json, json_err) => {
+retriever.getConfig((json) => {
   // Initial retrieval of the configuration
 });
 
@@ -606,7 +606,7 @@ The `ConfigRetriever` provide a way to retrieve the configuration as a
 ``` js
 import { ConfigRetriever } from "@vertx/config"
 let future = ConfigRetriever.getConfigAsFuture(retriever);
-future.setHandler((ar, ar_err) => {
+future.setHandler((ar) => {
   if (ar.failed()) {
     // Failed to retrieve the configuration
   } else {

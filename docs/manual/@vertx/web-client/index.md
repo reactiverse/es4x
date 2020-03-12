@@ -88,7 +88,7 @@ let client = WebClient.wrap(httpClient);
 ```
 
 > **Important**
-> 
+>
 > In most cases, a Web Client should be created once on application
 > startup and then reused. Otherwise you lose a lot of benefits such as
 > connection pooling and may leak resources if instances are not closed
@@ -107,7 +107,7 @@ import { WebClient } from "@vertx/web-client"
 let client = WebClient.create(vertx);
 
 // Send a GET request
-client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar) => {
   if (ar.succeeded()) {
     // Obtain response
     let response = ar.result();
@@ -119,7 +119,7 @@ client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
 });
 
 // Send a HEAD request
-client.head(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
+client.head(8080, "myserver.mycompany.com", "/some-uri").send((ar) => {
   if (ar.succeeded()) {
     // Obtain response
     let response = ar.result();
@@ -134,7 +134,7 @@ client.head(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
 You can add query parameters to the request URI in a fluent fashion
 
 ``` js
-client.get(8080, "myserver.mycompany.com", "/some-uri").addQueryParam("param", "param_value").send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").addQueryParam("param", "param_value").send((ar) => {
   if (ar.succeeded()) {
     // Obtain response
     let response = ar.result();
@@ -179,7 +179,7 @@ Use `sendBuffer` to send a buffer body
 
 ``` js
 // Send a buffer to the server using POST, the content-length header will be set for you
-client.post(8080, "myserver.mycompany.com", "/some-uri").sendBuffer(buffer, (ar, ar_err) => {
+client.post(8080, "myserver.mycompany.com", "/some-uri").sendBuffer(buffer, (ar) => {
   if (ar.succeeded()) {
     // Ok
   }
@@ -195,7 +195,7 @@ method
 
 ``` js
 // When the stream len is unknown sendStream sends the file to the server using chunked transfer encoding
-client.post(8080, "myserver.mycompany.com", "/some-uri").sendStream(stream, (ar, ar_err) => {
+client.post(8080, "myserver.mycompany.com", "/some-uri").sendStream(stream, (ar) => {
   if (ar.succeeded()) {
     // Ok
   }
@@ -210,14 +210,14 @@ When you know the size of the stream, you shall specify before using the
 `content-length` header
 
 ``` js
-fs.open("content.txt", new OpenOptions(), (fileRes, fileRes_err) => {
+fs.open("content.txt", new OpenOptions(), (fileRes) => {
   if (fileRes.succeeded()) {
     let fileStream = fileRes.result();
 
     let fileLen = "1024";
 
     // Send the file to the server using POST
-    client.post(8080, "myserver.mycompany.com", "/some-uri").putHeader("content-length", fileLen).sendStream(fileStream, (ar, ar_err) => {
+    client.post(8080, "myserver.mycompany.com", "/some-uri").putHeader("content-length", fileLen).sendStream(fileStream, (ar) => {
       if (ar.succeeded()) {
         // Ok
       }
@@ -237,7 +237,7 @@ the `sendJsonObject`
 client.post(8080, "myserver.mycompany.com", "/some-uri").sendJsonObject({
   "firstName" : "Dale",
   "lastName" : "Cooper"
-}, (ar, ar_err) => {
+}, (ar) => {
   if (ar.succeeded()) {
     // Ok
   }
@@ -248,7 +248,7 @@ In Java, Groovy or Kotlin, you can use the `sendJson` method that maps a
 POJO (Plain Old Java Object) to a Json object using `Json.encode` method
 
 ``` js
-client.post(8080, "myserver.mycompany.com", "/some-uri").sendJson(new (Java.type("examples.WebClientExamples.User"))("Dale", "Cooper"), (ar, ar_err) => {
+client.post(8080, "myserver.mycompany.com", "/some-uri").sendJson(new (Java.type("examples.WebClientExamples.User"))("Dale", "Cooper"), (ar) => {
   if (ar.succeeded()) {
     // Ok
   }
@@ -256,7 +256,7 @@ client.post(8080, "myserver.mycompany.com", "/some-uri").sendJson(new (Java.type
 ```
 
 > **Note**
-> 
+>
 > the `Json.encode` uses the Jackson mapper to encode the object to
 > Json.
 
@@ -271,7 +271,7 @@ form.set("firstName", "Dale");
 form.set("lastName", "Cooper");
 
 // Submit the form as a form URL encoded body
-client.post(8080, "myserver.mycompany.com", "/some-uri").sendForm(form, (ar, ar_err) => {
+client.post(8080, "myserver.mycompany.com", "/some-uri").sendForm(form, (ar) => {
   if (ar.succeeded()) {
     // Ok
   }
@@ -289,7 +289,7 @@ form.set("firstName", "Dale");
 form.set("lastName", "Cooper");
 
 // Submit the form as a multipart form body
-client.post(8080, "myserver.mycompany.com", "/some-uri").putHeader("content-type", "multipart/form-data").sendForm(form, (ar, ar_err) => {
+client.post(8080, "myserver.mycompany.com", "/some-uri").putHeader("content-type", "multipart/form-data").sendForm(form, (ar) => {
   if (ar.succeeded()) {
     // Ok
   }
@@ -304,7 +304,7 @@ import { MultipartForm } from "@vertx/web-common"
 let form = MultipartForm.create().attribute("imageDescription", "a very nice image").binaryFileUpload("imageFile", "image.jpg", "/path/to/image", "image/jpeg");
 
 // Submit the form as a multipart form body
-client.post(8080, "myserver.mycompany.com", "/some-uri").sendMultipartForm(form, (ar, ar_err) => {
+client.post(8080, "myserver.mycompany.com", "/some-uri").sendMultipartForm(form, (ar) => {
   if (ar.succeeded()) {
     // Ok
   }
@@ -370,14 +370,14 @@ easy to configure and reuse `HttpRequest` objects
 
 ``` js
 let get = client.get(8080, "myserver.mycompany.com", "/some-uri");
-get.send((ar, ar_err) => {
+get.send((ar) => {
   if (ar.succeeded()) {
     // Ok
   }
 });
 
 // Same request again
-get.send((ar, ar_err) => {
+get.send((ar) => {
   if (ar.succeeded()) {
     // Ok
   }
@@ -389,14 +389,14 @@ should call the `copy` method before modifying a cached instance.
 
 ``` js
 let get = client.get(8080, "myserver.mycompany.com", "/some-uri");
-get.send((ar, ar_err) => {
+get.send((ar) => {
   if (ar.succeeded()) {
     // Ok
   }
 });
 
 // The "get" request instance remains unmodified
-get.copy().putHeader("a-header", "with-some-value").send((ar, ar_err) => {
+get.copy().putHeader("a-header", "with-some-value").send((ar) => {
   if (ar.succeeded()) {
     // Ok
   }
@@ -408,7 +408,7 @@ get.copy().putHeader("a-header", "with-some-value").send((ar, ar_err) => {
 You can set a timeout for a specific http request using `timeout`.
 
 ``` js
-client.get(8080, "myserver.mycompany.com", "/some-uri").timeout(5000).send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").timeout(5000).send((ar) => {
   if (ar.succeeded()) {
     // Ok
   } else {
@@ -429,7 +429,7 @@ On a success result the callback happens after the response has been
 received
 
 ``` js
-client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar) => {
   if (ar.succeeded()) {
 
     let response = ar.result();
@@ -442,7 +442,7 @@ client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
 ```
 
 > **Caution**
-> 
+>
 > By default, a Vert.x Web Client request ends with an error only if
 > something wrong happens at the network level. In other words, a `404
 > Not Found` response, or a response with the wrong content type, are
@@ -451,7 +451,7 @@ client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
 > perform sanity checks automatically.
 
 > **Warning**
-> 
+>
 > Responses are fully buffered, use `BodyCodec.pipe` to pipe the
 > response to a write stream
 
@@ -477,7 +477,7 @@ Use `BodyCodec.jsonObject` To decode a Json object:
 
 ``` js
 import { BodyCodec } from "@vertx/web-common"
-client.get(8080, "myserver.mycompany.com", "/some-uri").as(BodyCodec.jsonObject()).send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").as(BodyCodec.jsonObject()).send((ar) => {
   if (ar.succeeded()) {
     let response = ar.result();
 
@@ -494,7 +494,7 @@ In Java, Groovy or Kotlin, custom Json mapped POJO can be decoded
 
 ``` js
 import { BodyCodec } from "@vertx/web-common"
-client.get(8080, "myserver.mycompany.com", "/some-uri").as(BodyCodec.json(Java.type("examples.WebClientExamples.User").class)).send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").as(BodyCodec.json(Java.type("examples.WebClientExamples.User").class)).send((ar) => {
   if (ar.succeeded()) {
     let response = ar.result();
 
@@ -513,7 +513,7 @@ success or the failure of the operation in the async result response
 
 ``` js
 import { BodyCodec } from "@vertx/web-common"
-client.get(8080, "myserver.mycompany.com", "/some-uri").as(BodyCodec.pipe(writeStream)).send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").as(BodyCodec.pipe(writeStream)).send((ar) => {
   if (ar.succeeded()) {
 
     let response = ar.result();
@@ -530,7 +530,7 @@ Finally if you are not interested at all by the response content, the
 
 ``` js
 import { BodyCodec } from "@vertx/web-common"
-client.get(8080, "myserver.mycompany.com", "/some-uri").as(BodyCodec.none()).send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").as(BodyCodec.none()).send((ar) => {
   if (ar.succeeded()) {
 
     let response = ar.result();
@@ -547,7 +547,7 @@ you can still use the `bodyAsXXX()` methods that decode the response to
 a specific type
 
 ``` js
-client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar) => {
   if (ar.succeeded()) {
 
     let response = ar.result();
@@ -563,7 +563,7 @@ client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
 ```
 
 > **Warning**
-> 
+>
 > this is only valid for the response decoded as a buffer.
 
 ## Response predicates
@@ -575,7 +575,7 @@ In other words, you must perform sanity checks manually after the
 response is received:
 
 ``` js
-client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar) => {
   if (ar.succeeded()) {
 
     let response = ar.result();
@@ -607,7 +607,7 @@ use:
 
 ``` js
 import { ResponsePredicate } from "@vertx/web-client"
-client.get(8080, "myserver.mycompany.com", "/some-uri").expect(ResponsePredicate.SC_SUCCESS).expect(ResponsePredicate.JSON).send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").expect(ResponsePredicate.SC_SUCCESS).expect(ResponsePredicate.JSON).send((ar) => {
   if (ar.succeeded()) {
 
     let response = ar.result();
@@ -640,7 +640,7 @@ let methodsPredicate = (resp) => {
 };
 
 // Send pre-flight CORS request
-client.request('OPTIONS', 8080, "myserver.mycompany.com", "/some-uri").putHeader("Origin", "Server-b.com").putHeader("Access-Control-Request-Method", "POST").expect(methodsPredicate).send((ar, ar_err) => {
+client.request('OPTIONS', 8080, "myserver.mycompany.com", "/some-uri").putHeader("Origin", "Server-b.com").putHeader("Access-Control-Request-Method", "POST").expect(methodsPredicate).send((ar) => {
   if (ar.succeeded()) {
     // Process the POST request now
   } else {
@@ -650,7 +650,7 @@ client.request('OPTIONS', 8080, "myserver.mycompany.com", "/some-uri").putHeader
 ```
 
 > **Tip**
-> 
+>
 > Response predicates are evaluated *before* the response body is
 > received. Therefore you can’t inspect the response body in a predicate
 > test function.
@@ -665,7 +665,7 @@ response has a `2xx` code, you can also create a custom one:
 
 ``` js
 import { ResponsePredicate } from "@vertx/web-client"
-client.get(8080, "myserver.mycompany.com", "/some-uri").expect(ResponsePredicate.status(200, 202)).send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").expect(ResponsePredicate.status(200, 202)).send((ar) => {
   // ....
 });
 ```
@@ -675,7 +675,7 @@ response body contains JSON data, you can also create a custom one:
 
 ``` js
 import { ResponsePredicate } from "@vertx/web-client"
-client.get(8080, "myserver.mycompany.com", "/some-uri").expect(ResponsePredicate.contentType("some/content-type")).send((ar, ar_err) => {
+client.get(8080, "myserver.mycompany.com", "/some-uri").expect(ResponsePredicate.contentType("some/content-type")).send((ar) => {
   // ....
 });
 ```
@@ -708,7 +708,7 @@ let client = WebClient.create(vertx, new WebClientOptions()
 ```
 
 > **Note**
-> 
+>
 > For security reason, client won’t follow redirects for request with
 > methods different from GET or HEAD
 
@@ -720,7 +720,7 @@ as the Vert.x `HttpClient`.
 You can specify the behavior per request
 
 ``` js
-client.get(443, "myserver.mycompany.com", "/some-uri").ssl(true).send((ar, ar_err) => {
+client.get(443, "myserver.mycompany.com", "/some-uri").ssl(true).send((ar) => {
   if (ar.succeeded()) {
     // Obtain response
     let response = ar.result();
@@ -735,7 +735,7 @@ client.get(443, "myserver.mycompany.com", "/some-uri").ssl(true).send((ar, ar_er
 Or using create methods with absolute URI argument
 
 ``` js
-client.getAbs("https://myserver.mycompany.com:4043/some-uri").send((ar, ar_err) => {
+client.getAbs("https://myserver.mycompany.com:4043/some-uri").send((ar) => {
   if (ar.succeeded()) {
     // Obtain response
     let response = ar.result();
@@ -805,7 +805,7 @@ let serverAddress = SocketAddress.domainSocketAddress("/var/run/docker.sock");
 // We still need to specify host and port so the request HTTP header will be localhost:8080
 // otherwise it will be a malformed HTTP request
 // the actual value does not matter much for this example
-client.request('GET', serverAddress, 8080, "localhost", "/images/json").expect(ResponsePredicate.SC_ACCEPTED).as(BodyCodec.jsonObject()).send((ar, ar_err) => {
+client.request('GET', serverAddress, 8080, "localhost", "/images/json").expect(ResponsePredicate.SC_ACCEPTED).as(BodyCodec.jsonObject()).send((ar) => {
   if (ar.succeeded()) {
     // Obtain response
     let response = ar.result();
