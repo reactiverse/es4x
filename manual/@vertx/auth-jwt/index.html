@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>The JWT auth provider | ES for Eclipse Vert.x</title>
+    <meta name="description" content="A Modern JavaScript runtime for Eclipse Vert.x">
+    <meta name="generator" content="VuePress 1.3.1">
+    <link rel="shortcut icon" type="image/png" href="/es4x/favicon.png">
+  <link rel="stylesheet" type="text/css" href="/es4x/player/asciinema-player.css">
+  <script src="/es4x/player/asciinema-player.js"></script>
+    
+    <link rel="preload" href="/es4x/assets/css/0.styles.93ea0277.css" as="style"><link rel="preload" href="/es4x/assets/js/app.5c50c914.js" as="script"><link rel="preload" href="/es4x/assets/js/2.9528bf06.js" as="script"><link rel="preload" href="/es4x/assets/js/35.bb3728a5.js" as="script"><link rel="prefetch" href="/es4x/assets/js/10.3a8497eb.js"><link rel="prefetch" href="/es4x/assets/js/100.a16ae8c2.js"><link rel="prefetch" href="/es4x/assets/js/101.2f9de256.js"><link rel="prefetch" href="/es4x/assets/js/102.20df84c2.js"><link rel="prefetch" href="/es4x/assets/js/103.f5a0895a.js"><link rel="prefetch" href="/es4x/assets/js/104.ef6dd412.js"><link rel="prefetch" href="/es4x/assets/js/105.bbbf0dd0.js"><link rel="prefetch" href="/es4x/assets/js/106.db7eca08.js"><link rel="prefetch" href="/es4x/assets/js/107.c4898068.js"><link rel="prefetch" href="/es4x/assets/js/108.2dce77a0.js"><link rel="prefetch" href="/es4x/assets/js/109.c8cc9b8b.js"><link rel="prefetch" href="/es4x/assets/js/11.6cb08ab3.js"><link rel="prefetch" href="/es4x/assets/js/110.7e825b63.js"><link rel="prefetch" href="/es4x/assets/js/111.593de263.js"><link rel="prefetch" href="/es4x/assets/js/112.0670c01a.js"><link rel="prefetch" href="/es4x/assets/js/113.84f975b1.js"><link rel="prefetch" href="/es4x/assets/js/114.67df7f7d.js"><link rel="prefetch" href="/es4x/assets/js/115.335c4de1.js"><link rel="prefetch" href="/es4x/assets/js/116.b4b0b1b2.js"><link rel="prefetch" href="/es4x/assets/js/117.52c9c163.js"><link rel="prefetch" href="/es4x/assets/js/118.25ab0d2f.js"><link rel="prefetch" href="/es4x/assets/js/119.9b807fbd.js"><link rel="prefetch" href="/es4x/assets/js/12.5d225bcb.js"><link rel="prefetch" href="/es4x/assets/js/120.34b00517.js"><link rel="prefetch" href="/es4x/assets/js/121.1f1ea408.js"><link rel="prefetch" href="/es4x/assets/js/122.efa391c4.js"><link rel="prefetch" href="/es4x/assets/js/123.cbf2e99f.js"><link rel="prefetch" href="/es4x/assets/js/124.e97ccb7b.js"><link rel="prefetch" href="/es4x/assets/js/125.b11510bd.js"><link rel="prefetch" href="/es4x/assets/js/126.87f4fa0f.js"><link rel="prefetch" href="/es4x/assets/js/127.8f8eb948.js"><link rel="prefetch" href="/es4x/assets/js/128.13d038e0.js"><link rel="prefetch" href="/es4x/assets/js/129.dc2cd690.js"><link rel="prefetch" href="/es4x/assets/js/13.9a9233c3.js"><link rel="prefetch" href="/es4x/assets/js/130.dc646b26.js"><link rel="prefetch" href="/es4x/assets/js/131.52e2a779.js"><link rel="prefetch" href="/es4x/assets/js/132.1e4b89d1.js"><link rel="prefetch" href="/es4x/assets/js/133.a0fbb880.js"><link rel="prefetch" href="/es4x/assets/js/134.b49897ea.js"><link rel="prefetch" href="/es4x/assets/js/135.3f05f822.js"><link rel="prefetch" href="/es4x/assets/js/136.08fa614d.js"><link rel="prefetch" href="/es4x/assets/js/137.0cb036fd.js"><link rel="prefetch" href="/es4x/assets/js/138.0d35423f.js"><link rel="prefetch" href="/es4x/assets/js/139.243cc65d.js"><link rel="prefetch" href="/es4x/assets/js/14.4d1a91f0.js"><link rel="prefetch" href="/es4x/assets/js/140.36143b91.js"><link rel="prefetch" href="/es4x/assets/js/141.c5923bc7.js"><link rel="prefetch" href="/es4x/assets/js/142.fda59539.js"><link rel="prefetch" href="/es4x/assets/js/143.28297a8b.js"><link rel="prefetch" href="/es4x/assets/js/144.66f8db50.js"><link rel="prefetch" href="/es4x/assets/js/145.1d1d85e0.js"><link rel="prefetch" href="/es4x/assets/js/146.2810738b.js"><link rel="prefetch" href="/es4x/assets/js/147.5606ed15.js"><link rel="prefetch" href="/es4x/assets/js/148.80cd8489.js"><link rel="prefetch" href="/es4x/assets/js/149.97b36e7e.js"><link rel="prefetch" href="/es4x/assets/js/15.32e17dad.js"><link rel="prefetch" href="/es4x/assets/js/150.fabcf288.js"><link rel="prefetch" href="/es4x/assets/js/151.f921c653.js"><link rel="prefetch" href="/es4x/assets/js/152.bf55767e.js"><link rel="prefetch" href="/es4x/assets/js/153.ed86c73a.js"><link rel="prefetch" href="/es4x/assets/js/154.ed046717.js"><link rel="prefetch" href="/es4x/assets/js/155.2b58da6a.js"><link rel="prefetch" href="/es4x/assets/js/156.fbc8b7da.js"><link rel="prefetch" href="/es4x/assets/js/157.63354900.js"><link rel="prefetch" href="/es4x/assets/js/158.4dfbf7de.js"><link rel="prefetch" href="/es4x/assets/js/159.42ae507c.js"><link rel="prefetch" href="/es4x/assets/js/16.fd9d1a51.js"><link rel="prefetch" href="/es4x/assets/js/160.3cf496ae.js"><link rel="prefetch" href="/es4x/assets/js/161.83304a96.js"><link rel="prefetch" href="/es4x/assets/js/162.d7cb8b75.js"><link rel="prefetch" href="/es4x/assets/js/163.98ad0a99.js"><link rel="prefetch" href="/es4x/assets/js/164.c60e6322.js"><link rel="prefetch" href="/es4x/assets/js/165.9f3eb69b.js"><link rel="prefetch" href="/es4x/assets/js/17.54bde0b4.js"><link rel="prefetch" href="/es4x/assets/js/18.b5c20f2c.js"><link rel="prefetch" href="/es4x/assets/js/19.5194252c.js"><link rel="prefetch" href="/es4x/assets/js/20.9bd5e5de.js"><link rel="prefetch" href="/es4x/assets/js/21.3a1f2566.js"><link rel="prefetch" href="/es4x/assets/js/22.c6abd98b.js"><link rel="prefetch" href="/es4x/assets/js/23.d0e8407e.js"><link rel="prefetch" href="/es4x/assets/js/24.24bd0c07.js"><link rel="prefetch" href="/es4x/assets/js/25.79b4d567.js"><link rel="prefetch" href="/es4x/assets/js/26.55e20f7d.js"><link rel="prefetch" href="/es4x/assets/js/27.954ec0d0.js"><link rel="prefetch" href="/es4x/assets/js/28.7328b6a0.js"><link rel="prefetch" href="/es4x/assets/js/29.70a1b946.js"><link rel="prefetch" href="/es4x/assets/js/3.ea01a935.js"><link rel="prefetch" href="/es4x/assets/js/30.72c26420.js"><link rel="prefetch" href="/es4x/assets/js/31.13bf88db.js"><link rel="prefetch" href="/es4x/assets/js/32.65ce4eb7.js"><link rel="prefetch" href="/es4x/assets/js/33.ae2a52a4.js"><link rel="prefetch" href="/es4x/assets/js/34.d6312781.js"><link rel="prefetch" href="/es4x/assets/js/36.2217cb8a.js"><link rel="prefetch" href="/es4x/assets/js/37.b5eb90bc.js"><link rel="prefetch" href="/es4x/assets/js/38.7c03df83.js"><link rel="prefetch" href="/es4x/assets/js/39.e27e4593.js"><link rel="prefetch" href="/es4x/assets/js/4.fc776d3f.js"><link rel="prefetch" href="/es4x/assets/js/40.93417554.js"><link rel="prefetch" href="/es4x/assets/js/41.1f127357.js"><link rel="prefetch" href="/es4x/assets/js/42.b78cae14.js"><link rel="prefetch" href="/es4x/assets/js/43.912b9356.js"><link rel="prefetch" href="/es4x/assets/js/44.f0fd20e4.js"><link rel="prefetch" href="/es4x/assets/js/45.a7fdff61.js"><link rel="prefetch" href="/es4x/assets/js/46.cbceca3e.js"><link rel="prefetch" href="/es4x/assets/js/47.61ea5aa9.js"><link rel="prefetch" href="/es4x/assets/js/48.ae8f3a89.js"><link rel="prefetch" href="/es4x/assets/js/49.83e2beca.js"><link rel="prefetch" href="/es4x/assets/js/5.36188fd0.js"><link rel="prefetch" href="/es4x/assets/js/50.5e1d5ffb.js"><link rel="prefetch" href="/es4x/assets/js/51.ff2c55ca.js"><link rel="prefetch" href="/es4x/assets/js/52.2ab6b963.js"><link rel="prefetch" href="/es4x/assets/js/53.003dce91.js"><link rel="prefetch" href="/es4x/assets/js/54.f3ab8db1.js"><link rel="prefetch" href="/es4x/assets/js/55.03718cf7.js"><link rel="prefetch" href="/es4x/assets/js/56.7d18d4cf.js"><link rel="prefetch" href="/es4x/assets/js/57.cf1be33e.js"><link rel="prefetch" href="/es4x/assets/js/58.e81a6ae3.js"><link rel="prefetch" href="/es4x/assets/js/59.71d8f795.js"><link rel="prefetch" href="/es4x/assets/js/6.fc126a38.js"><link rel="prefetch" href="/es4x/assets/js/60.90f1735a.js"><link rel="prefetch" href="/es4x/assets/js/61.66d28a0d.js"><link rel="prefetch" href="/es4x/assets/js/62.0b18638e.js"><link rel="prefetch" href="/es4x/assets/js/63.ab499887.js"><link rel="prefetch" href="/es4x/assets/js/64.277b48e0.js"><link rel="prefetch" href="/es4x/assets/js/65.82c56c7b.js"><link rel="prefetch" href="/es4x/assets/js/66.86a2e5ed.js"><link rel="prefetch" href="/es4x/assets/js/67.c60348a1.js"><link rel="prefetch" href="/es4x/assets/js/68.dcab7f6b.js"><link rel="prefetch" href="/es4x/assets/js/69.9760a353.js"><link rel="prefetch" href="/es4x/assets/js/7.15d59e13.js"><link rel="prefetch" href="/es4x/assets/js/70.91d487f5.js"><link rel="prefetch" href="/es4x/assets/js/71.007f382a.js"><link rel="prefetch" href="/es4x/assets/js/72.dd8fc256.js"><link rel="prefetch" href="/es4x/assets/js/73.dabb918b.js"><link rel="prefetch" href="/es4x/assets/js/74.2d05d9d2.js"><link rel="prefetch" href="/es4x/assets/js/75.24e40fad.js"><link rel="prefetch" href="/es4x/assets/js/76.3917601b.js"><link rel="prefetch" href="/es4x/assets/js/77.8d933c53.js"><link rel="prefetch" href="/es4x/assets/js/78.889ea1de.js"><link rel="prefetch" href="/es4x/assets/js/79.707c2cfc.js"><link rel="prefetch" href="/es4x/assets/js/8.9d77fc4d.js"><link rel="prefetch" href="/es4x/assets/js/80.d16501dd.js"><link rel="prefetch" href="/es4x/assets/js/81.d6ddc5b3.js"><link rel="prefetch" href="/es4x/assets/js/82.83a52449.js"><link rel="prefetch" href="/es4x/assets/js/83.26253b37.js"><link rel="prefetch" href="/es4x/assets/js/84.55a5180b.js"><link rel="prefetch" href="/es4x/assets/js/85.0f669957.js"><link rel="prefetch" href="/es4x/assets/js/86.1ea59e44.js"><link rel="prefetch" href="/es4x/assets/js/87.1a523aae.js"><link rel="prefetch" href="/es4x/assets/js/88.c4790f82.js"><link rel="prefetch" href="/es4x/assets/js/89.943de6e9.js"><link rel="prefetch" href="/es4x/assets/js/9.6b0ac1d5.js"><link rel="prefetch" href="/es4x/assets/js/90.2ec0b578.js"><link rel="prefetch" href="/es4x/assets/js/91.4002b7d6.js"><link rel="prefetch" href="/es4x/assets/js/92.40b463c2.js"><link rel="prefetch" href="/es4x/assets/js/93.b7246002.js"><link rel="prefetch" href="/es4x/assets/js/94.ff76977a.js"><link rel="prefetch" href="/es4x/assets/js/95.62c8c9e0.js"><link rel="prefetch" href="/es4x/assets/js/96.e53f12ec.js"><link rel="prefetch" href="/es4x/assets/js/97.6dfe744d.js"><link rel="prefetch" href="/es4x/assets/js/98.59c44a32.js"><link rel="prefetch" href="/es4x/assets/js/99.afcf40c7.js">
+    <link rel="stylesheet" href="/es4x/assets/css/0.styles.93ea0277.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/es4x/" class="home-link router-link-active"><!----> <span class="site-name">ES for Eclipse Vert.x</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/es4x/get-started/" class="nav-link">
+  Get started
+</a></div><div class="nav-item"><a href="/es4x/advanced/" class="nav-link">
+  Advanced
+</a></div><div class="nav-item"><a href="/es4x/manual/" class="nav-link router-link-active">
+  Manual
+</a></div><div class="nav-item"><a href="/es4x/api/" class="nav-link">
+  APIs
+</a></div><div class="nav-item"><a href="https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Changelog
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/es4x/manual/@vertx/auth-jwt/" class="nav-link router-link-exact-active router-link-active">
+  English
+</a></li><li class="dropdown-item"><!----> <a href="/es4x/zh/" class="nav-link">
+  简体中文
+</a></li><li class="dropdown-item"><!----> <a href="/es4x/pt/" class="nav-link">
+  Português
+</a></li></ul></div></div> <a href="https://github.com/reactiverse/es4x" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/es4x/get-started/" class="nav-link">
+  Get started
+</a></div><div class="nav-item"><a href="/es4x/advanced/" class="nav-link">
+  Advanced
+</a></div><div class="nav-item"><a href="/es4x/manual/" class="nav-link router-link-active">
+  Manual
+</a></div><div class="nav-item"><a href="/es4x/api/" class="nav-link">
+  APIs
+</a></div><div class="nav-item"><a href="https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Changelog
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/es4x/manual/@vertx/auth-jwt/" class="nav-link router-link-exact-active router-link-active">
+  English
+</a></li><li class="dropdown-item"><!----> <a href="/es4x/zh/" class="nav-link">
+  简体中文
+</a></li><li class="dropdown-item"><!----> <a href="/es4x/pt/" class="nav-link">
+  Português
+</a></li></ul></div></div> <a href="https://github.com/reactiverse/es4x" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Manuals</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/es4x/manual/" class="sidebar-link">API Reference Manuals</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="the-jwt-auth-provider"><a href="#the-jwt-auth-provider" class="header-anchor">#</a> The JWT auth provider</h1> <p>This component contains an out of the box a JWT implementation. To use
+this project, add the following dependency to the <em>dependencies</em> section
+of your build descriptor:</p> <ul><li>Maven (in your <code>pom.xml</code>):</li></ul> <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>io.vertx<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>vertx-auth-jwt<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>${maven.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><ul><li>Gradle (in your <code>build.gradle</code> file):</li></ul> <div class="language-groovy extra-class"><pre class="language-groovy"><code>compile <span class="token string">'io.vertx:vertx-auth-jwt:${maven.version}'</span>
+</code></pre></div><p>JSON Web Token is a simple way to send information in the clear (usually
+in a URL) whose contents can be verified to be trusted. JWT are well
+suited for scenarios as:</p> <ul><li><p>In a Single Sign-On scenario where you want a separate
+authentication server that can then send user information in a
+trusted way.</p></li> <li><p>Stateless API servers, very well suited for single page
+applications.</p></li> <li><p>etc…​</p></li></ul> <p>Before deciding on using JWT, it’s important to note that JWT does not
+encrypt the payload, it only signs it. You should not send any secret
+information using JWT, rather you should send information that is not
+secret but needs to be verified. For instance, sending a signed user id
+to indicate the user that should be logged in would work great! Sending
+a user’s password would be very, very bad.</p> <p>Its main advantages are:</p> <ul><li><p>It allows you to verify token authenticity.</p></li> <li><p>It has a json body to contain any variable amount of data you want.</p></li> <li><p>It’s completely stateless.</p></li></ul> <p>To create an instance of the provider you use <code>JWTAuth</code>. You specify the
+configuration in a JSON object.</p> <p>Here’s an example of creating a JWT auth provider:</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">JWTAuth</span> <span class="token punctuation">}</span> from <span class="token string">&quot;@vertx/auth-jwt&quot;</span>
+
+let config <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JWTAuthOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setKeyStore</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">KeyStoreOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setPath</span><span class="token punctuation">(</span><span class="token string">&quot;keystore.jceks&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setPassword</span><span class="token punctuation">(</span><span class="token string">&quot;secret&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+let provider <span class="token operator">=</span> <span class="token class-name">JWTAuth</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>vertx<span class="token punctuation">,</span> config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>A typical flow of JWT usage is that in your application you have one end
+point that issues tokens, this end point should be running in SSL mode,
+there after you verify the request user, say by its username and
+password you would do:</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">JWTAuth</span> <span class="token punctuation">}</span> from <span class="token string">&quot;@vertx/auth-jwt&quot;</span>
+
+let config <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JWTAuthOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setKeyStore</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">KeyStoreOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setPath</span><span class="token punctuation">(</span><span class="token string">&quot;keystore.jceks&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setPassword</span><span class="token punctuation">(</span><span class="token string">&quot;secret&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+let provider <span class="token operator">=</span> <span class="token class-name">JWTAuth</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>vertx<span class="token punctuation">,</span> config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// on the verify endpoint once you verify the identity of the user by its username/password</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">&quot;paulo&quot;</span> <span class="token operator">==</span> username <span class="token operator">&amp;&amp;</span> <span class="token string">&quot;super_secret&quot;</span> <span class="token operator">==</span> password<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  let token <span class="token operator">=</span> provider<span class="token punctuation">.</span><span class="token function">generateToken</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token string">&quot;sub&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;paulo&quot;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">JWTOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// now for any request to protected resources you should pass this string in the HTTP header Authorization as:</span>
+  <span class="token comment">// Authorization: Bearer &lt;token&gt;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="loading-keys"><a href="#loading-keys" class="header-anchor">#</a> Loading Keys</h2> <p>Loading keys can be performed in 3 different ways:</p> <ul><li><p>Using secrets (symmetric keys)</p></li> <li><p>Using OpenSSL <code>pem</code> formatted files (pub/sec keys)</p></li> <li><p>Using Java Keystore files (both symmetric and pub/sec keys)</p></li></ul> <p>It is recommended to avoid java keystores, as java keystores are complex
+to generate and make many assumptions in order to choose the right key
+for the authenticator.</p> <h3 id="using-symmetric-keys"><a href="#using-symmetric-keys" class="header-anchor">#</a> Using Symmetric Keys</h3> <p>The default signature method for JWT’s is known as <code>HS256</code>. <code>HS</code> stands
+in this case for <code>HMAC Signature using SHA256</code>.</p> <p>This is the simplest key to load. All you need is a secret that is
+shared between you and the 3rd party, for example assume that the secret
+is: <code>keyboard cat</code> then you can configure your Auth as:</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">JWTAuth</span> <span class="token punctuation">}</span> from <span class="token string">&quot;@vertx/auth-jwt&quot;</span>
+let provider <span class="token operator">=</span> <span class="token class-name">JWTAuth</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>vertx<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">JWTAuthOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setPubSecKeys</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">new</span> <span class="token class-name">PubSecKeyOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setAlgorithm</span><span class="token punctuation">(</span><span class="token string">&quot;HS256&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setPublicKey</span><span class="token punctuation">(</span><span class="token string">&quot;keyboard cat&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setSymmetric</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+let token <span class="token operator">=</span> provider<span class="token punctuation">.</span><span class="token function">generateToken</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>In this case the secret is configured as a public key, as it is a token
+that is known to both parties and you configure your PubSec key as being
+symmetric.</p> <h3 id="using-rsa-keys"><a href="#using-rsa-keys" class="header-anchor">#</a> Using RSA keys</h3> <p>This section is by no means a manual on OpenSSL and a read on OpenSSL
+command line usage is advised. We will cover how to generate the most
+common keys and how to use them with JWT auth.</p> <p>Imagine that you would like to protect your application using the very
+common <code>RS256</code> JWT algorithm. Contrary to some belief, 256 is not the
+key length but the hashing algorithm signature length. Any RSA key can
+be used with this JWT algorithm. Here is an information table:</p> <table><thead><tr><th>&quot;alg&quot; Param Value</th> <th>Digital Signature Algorithm</th></tr></thead> <tbody><tr><td><em>RS256</em></td> <td><strong>RSASSA-PKCS1-v1_5 using SHA-256</strong></td></tr> <tr><td><em>RS384</em></td> <td><strong>RSASSA-PKCS1-v1_5 using SHA-384</strong></td></tr> <tr><td><em>RS512</em></td> <td><strong>RSASSA-PKCS1-v1_5 using SHA-512</strong></td></tr></tbody></table> <p>If you would like to generate a 2048bit RSA key pair, then you would do
+(please remember <strong>not</strong> to add a passphrase otherwise you will not be
+able to read the private key in the JWT auth):</p> <div class="language- extra-class"><pre><code>openssl genrsa -out private.pem 2048
+</code></pre></div><p>You can observe that the key is correct as the file content is similar
+to this:</p> <div class="language- extra-class"><pre><code>-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAxPSbCQY5mBKFDIn1kggvWb4ChjrctqD4nFnJOJk4mpuZ/u3h
+...
+e4k0yN3F1J1DVlqYWJxaIMzxavQsi9Hz4p2JgyaZMDGB6kGixkMo
+-----END RSA PRIVATE KEY-----
+</code></pre></div><p>The standard JDK cannot read this file as is, so we <strong>must</strong> convert it
+to PKCS8 format first:</p> <div class="language- extra-class"><pre><code>openssl pkcs8 -topk8 -inform PEM -in private.pem -out private_key.pem -nocrypt
+</code></pre></div><p>Now the new file <code>private_key.pem</code> which resembles the original one
+contains:</p> <div class="language- extra-class"><pre><code>-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDE9JsJBjmYEoUM
+...
+0fPinYmDJpkwMYHqQaLGQyg=
+-----END PRIVATE KEY-----
+</code></pre></div><p>If we are verifying tokens only (you will only need the private_key.pem
+file) however at some point you will need to issue tokens too, so you
+will a public key. In this case you need to extract the public key from
+the private key file:</p> <div class="language- extra-class"><pre><code>openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+</code></pre></div><p>And you should see that the content of the file is similar to this:</p> <div class="language- extra-class"><pre><code>-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxPSbCQY5mBKFDIn1kggv
+...
+qwIDAQAB
+-----END PUBLIC KEY-----
+</code></pre></div><p>Now you can use this to issue or validate tokens:</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">JWTAuth</span> <span class="token punctuation">}</span> from <span class="token string">&quot;@vertx/auth-jwt&quot;</span>
+let provider <span class="token operator">=</span> <span class="token class-name">JWTAuth</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>vertx<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">JWTAuthOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setPubSecKeys</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">new</span> <span class="token class-name">PubSecKeyOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setAlgorithm</span><span class="token punctuation">(</span><span class="token string">&quot;RS256&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setPublicKey</span><span class="token punctuation">(</span><span class="token string">&quot;MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxPSbCQY5mBKFDIn1kggv\nWb4ChjrctqD4nFnJOJk4mpuZ/u3h2ZgeKJJkJv8+5oFO6vsEwF7/TqKXp0XDp6IH\nbyaOSWdkl535rCYR5AxDSjwnuSXsSp54pvB+fEEFDPFF81GHixepIbqXCB+BnCTg\nN65BqwNn/1Vgqv6+H3nweNlbTv8e/scEgbg6ZYcsnBBB9kYLp69FSwNWpvPmd60e\n3DWyIo3WCUmKlQgjHL4PHLKYwwKgOHG/aNl4hN4/wqTixCAHe6KdLnehLn71x+Z0\nSyXbWooftefpJP1wMbwlCpH3ikBzVIfHKLWT9QIOVoRgchPU3WAsZv/ePgl5i8Co\nqwIDAQAB&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setSecretKey</span><span class="token punctuation">(</span><span class="token string">&quot;MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDE9JsJBjmYEoUM\nifWSCC9ZvgKGOty2oPicWck4mTiam5n+7eHZmB4okmQm/z7mgU7q+wTAXv9Oopen\nRcOnogdvJo5JZ2SXnfmsJhHkDENKPCe5JexKnnim8H58QQUM8UXzUYeLF6khupcI\nH4GcJOA3rkGrA2f/VWCq/r4fefB42VtO/x7+xwSBuDplhyycEEH2Rgunr0VLA1am\n8+Z3rR7cNbIijdYJSYqVCCMcvg8cspjDAqA4cb9o2XiE3j/CpOLEIAd7op0ud6Eu\nfvXH5nRLJdtaih+15+kk/XAxvCUKkfeKQHNUh8cotZP1Ag5WhGByE9TdYCxm/94+\nCXmLwKirAgMBAAECggEAeQ+M+BgOcK35gAKQoklLqZLEhHNL1SnOhnQd3h84DrhU\nCMF5UEFTUEbjLqE3rYGP25mdiw0ZSuFf7B5SrAhJH4YIcZAO4a7ll23zE0SCW+/r\nzr9DpX4Q1TP/2yowC4uGHpBfixxpBmVljkWnai20cCU5Ef/O/cAh4hkhDcHrEKwb\nm9nymKQt06YnvpCMKoHDdqzfB3eByoAKuGxo/sbi5LDpWalCabcg7w+WKIEU1PHb\nQi+RiDf3TzbQ6TYhAEH2rKM9JHbp02TO/r3QOoqHMITW6FKYvfiVFN+voS5zzAO3\nc5X4I+ICNzm+mnt8wElV1B6nO2hFg2PE9uVnlgB2GQKBgQD8xkjNhERaT7f78gBl\nch15DRDH0m1rz84PKRznoPrSEY/HlWddlGkn0sTnbVYKXVTvNytKSmznRZ7fSTJB\n2IhQV7+I0jeb7pyLllF5PdSQqKTk6oCeL8h8eDPN7awZ731zff1AGgJ3DJXlRTh/\nO6zj9nI8llvGzP30274I2/+cdwKBgQDHd/twbiHZZTDexYewP0ufQDtZP1Nk54fj\nEpkEuoTdEPymRoq7xo+Lqj5ewhAtVKQuz6aH4BeEtSCHhxy8OFLDBdoGCEd/WBpD\nf+82sfmGk+FxLyYkLxHCxsZdOb93zkUXPCoCrvNRaUFO1qq5Dk8eftGCdC3iETHE\n6h5avxHGbQKBgQCLHQVMNhL4MQ9slU8qhZc627n0fxbBUuhw54uE3s+rdQbQLKVq\nlxcYV6MOStojciIgVRh6FmPBFEvPTxVdr7G1pdU/k5IPO07kc6H7O9AUnPvDEFwg\nsuN/vRelqbwhufAs85XBBY99vWtxdpsVSt5nx2YvegCgdIj/jUAU2B7hGQKBgEgV\nsCRdaJYr35FiSTsEZMvUZp5GKFka4xzIp8vxq/pIHUXp0FEz3MRYbdnIwBfhssPH\n/yKzdUxcOLlBtry+jgo0nyn26/+1Uyh5n3VgtBBSePJyW5JQAFcnhqBCMlOVk5pl\n/7igiQYux486PNBLv4QByK0gV0SPejDzeqzIyB+xAoGAe5if7DAAKhH0r2M8vTkm\nJvbCFjwuvhjuI+A8AuS8zw634BHne2a1Fkvc8c3d9VDbqsHCtv2tVkxkKXPjVvtB\nDtzuwUbp6ebF+jOfPK0LDuJoTdTdiNjIcXJ7iTTI3cXUnUNWWphYnFogzPFq9CyL\n0fPinYmDJpkwMYHqQaLGQyg=&quot;</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+let token <span class="token operator">=</span> provider<span class="token punctuation">.</span><span class="token function">generateToken</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">JWTOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setAlgorithm</span><span class="token punctuation">(</span><span class="token string">&quot;RS256&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>Do note that all the lines <code>-----BEGIN …​</code> and <code>-----END…​</code> should be
+stripped from the string to be passed to the configuration.</p> <h3 id="using-ec-keys"><a href="#using-ec-keys" class="header-anchor">#</a> Using EC keys</h3> <p>Elliptic Curse keys are also supported, however the default JDK has some
+limitations on the features that can be used.</p> <p>The usage is very similar to RSA, first you create a private key:</p> <div class="language- extra-class"><pre><code>openssl ecparam -name secp256r1 -genkey -out private.pem
+</code></pre></div><p>So you will get something similar to this:</p> <div class="language- extra-class"><pre><code>-----BEGIN EC PARAMETERS-----
+BggqhkjOPQMBBw==
+-----END EC PARAMETERS-----
+-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIMZGaqZDTHL+IzFYEWLIYITXpGzOJuiQxR2VNGheq7ShoAoGCCqGSM49
+AwEHoUQDQgAEG1O9LCrP6hg3Y9q68+LF0q48UcOkwVKE1ax0b56wjVusf3qnuFO2
+/+XHKKhtzEavvFMeXRQ+ZVEqM0yGNb04qw==
+-----END EC PRIVATE KEY-----
+</code></pre></div><p>However the JDK prefers PKCS8 format so we must convert:</p> <div class="language- extra-class"><pre><code>openssl pkcs8 -topk8 -nocrypt -in private.pem -out private_key.pem
+</code></pre></div><p>Which will give you a key similar to this:</p> <div class="language- extra-class"><pre><code>-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgxkZqpkNMcv4jMVgR
+YshghNekbM4m6JDFHZU0aF6rtKGhRANCAAQbU70sKs/qGDdj2rrz4sXSrjxRw6TB
+UoTVrHRvnrCNW6x/eqe4U7b/5ccoqG3MRq+8Ux5dFD5lUSozTIY1vTir
+-----END PRIVATE KEY-----
+</code></pre></div><p>Using the private key you can already generate tokens:</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">JWTAuth</span> <span class="token punctuation">}</span> from <span class="token string">&quot;@vertx/auth-jwt&quot;</span>
+let provider <span class="token operator">=</span> <span class="token class-name">JWTAuth</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>vertx<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">JWTAuthOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setPubSecKeys</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">new</span> <span class="token class-name">PubSecKeyOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setAlgorithm</span><span class="token punctuation">(</span><span class="token string">&quot;ES256&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setSecretKey</span><span class="token punctuation">(</span><span class="token string">&quot;MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgeRyEfU1NSHPTCuC9\nrwLZMukaWCH2Fk6q5w+XBYrKtLihRANCAAStpUnwKmSvBM9EI+W5QN3ALpvz6bh0\nSPCXyz5KfQZQuSj4f3l+xNERDUDaygIUdLjBXf/bc15ur2iZjcq4r0Mr&quot;</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+let token <span class="token operator">=</span> provider<span class="token punctuation">.</span><span class="token function">generateToken</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">JWTOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setAlgorithm</span><span class="token punctuation">(</span><span class="token string">&quot;ES256&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>So in order to validate the tokens you will need a public key:</p> <div class="language- extra-class"><pre><code>openssl ec -in private.pem -pubout -out public.pem
+</code></pre></div><p>So you can do all operations with it:</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token class-name">JWTAuth</span> <span class="token punctuation">}</span> from <span class="token string">&quot;@vertx/auth-jwt&quot;</span>
+let provider <span class="token operator">=</span> <span class="token class-name">JWTAuth</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>vertx<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">JWTAuthOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setPubSecKeys</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">new</span> <span class="token class-name">PubSecKeyOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setAlgorithm</span><span class="token punctuation">(</span><span class="token string">&quot;ES256&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setPublicKey</span><span class="token punctuation">(</span><span class="token string">&quot;MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEraVJ8CpkrwTPRCPluUDdwC6b8+m4\ndEjwl8s+Sn0GULko+H95fsTREQ1A2soCFHS4wV3/23Nebq9omY3KuK9DKw==\n&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setSecretKey</span><span class="token punctuation">(</span><span class="token string">&quot;MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgeRyEfU1NSHPTCuC9\nrwLZMukaWCH2Fk6q5w+XBYrKtLihRANCAAStpUnwKmSvBM9EI+W5QN3ALpvz6bh0\nSPCXyz5KfQZQuSj4f3l+xNERDUDaygIUdLjBXf/bc15ur2iZjcq4r0Mr&quot;</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+let token <span class="token operator">=</span> provider<span class="token punctuation">.</span><span class="token function">generateToken</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">JWTOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setAlgorithm</span><span class="token punctuation">(</span><span class="token string">&quot;ES256&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="the-jwt-keystore-file"><a href="#the-jwt-keystore-file" class="header-anchor">#</a> The JWT keystore file</h3> <p>If you prefer to use Java Keystores, then you can do it either.</p> <p>This auth provider requires a keystore in the classpath or in the
+filesystem with either a <code>javax.crypto.Mac</code> or a
+<code>java.security.Signature</code> in order to sign and verify the generated
+tokens.</p> <p>The implementation will, by default, look for the following aliases,
+however not all are required to be present. As a good practice <code>HS256</code>
+should be present:</p> <div class="language- extra-class"><pre><code>`HS256`:: HMAC using SHA-256 hash algorithm
+`HS384`:: HMAC using SHA-384 hash algorithm
+`HS512`:: HMAC using SHA-512 hash algorithm
+`RS256`:: RSASSA using SHA-256 hash algorithm
+`RS384`:: RSASSA using SHA-384 hash algorithm
+`RS512`:: RSASSA using SHA-512 hash algorithm
+`ES256`:: ECDSA using P-256 curve and SHA-256 hash algorithm
+`ES384`:: ECDSA using P-384 curve and SHA-384 hash algorithm
+`ES512`:: ECDSA using P-521 curve and SHA-512 hash algorithm
+</code></pre></div><p>When no keystore is provided the implementation falls back in unsecure
+mode and signatures will not be verified, this is useful for the cases
+where the payload if signed and or encrypted by external means.</p> <h4 id="generate-a-new-keystore-file"><a href="#generate-a-new-keystore-file" class="header-anchor">#</a> Generate a new Keystore file</h4> <p>The only required tool to generate a keystore file is <code>keytool</code>, you can
+now specify which algorithms you need by running:</p> <div class="language- extra-class"><pre><code>keytool -genseckey -keystore keystore.jceks -storetype jceks -storepass secret -keyalg HMacSHA256 -keysize 2048 -alias HS256 -keypass secret
+keytool -genseckey -keystore keystore.jceks -storetype jceks -storepass secret -keyalg HMacSHA384 -keysize 2048 -alias HS384 -keypass secret
+keytool -genseckey -keystore keystore.jceks -storetype jceks -storepass secret -keyalg HMacSHA512 -keysize 2048 -alias HS512 -keypass secret
+keytool -genkey -keystore keystore.jceks -storetype jceks -storepass secret -keyalg RSA -keysize 2048 -alias RS256 -keypass secret -sigalg SHA256withRSA -dname &quot;CN=,OU=,O=,L=,ST=,C=&quot; -validity 360
+keytool -genkey -keystore keystore.jceks -storetype jceks -storepass secret -keyalg RSA -keysize 2048 -alias RS384 -keypass secret -sigalg SHA384withRSA -dname &quot;CN=,OU=,O=,L=,ST=,C=&quot; -validity 360
+keytool -genkey -keystore keystore.jceks -storetype jceks -storepass secret -keyalg RSA -keysize 2048 -alias RS512 -keypass secret -sigalg SHA512withRSA -dname &quot;CN=,OU=,O=,L=,ST=,C=&quot; -validity 360
+keytool -genkeypair -keystore keystore.jceks -storetype jceks -storepass secret -keyalg EC -keysize 256 -alias ES256 -keypass secret -sigalg SHA256withECDSA -dname &quot;CN=,OU=,O=,L=,ST=,C=&quot; -validity 360
+keytool -genkeypair -keystore keystore.jceks -storetype jceks -storepass secret -keyalg EC -keysize 384 -alias ES384 -keypass secret -sigalg SHA384withECDSA -dname &quot;CN=,OU=,O=,L=,ST=,C=&quot; -validity 360
+keytool -genkeypair -keystore keystore.jceks -storetype jceks -storepass secret -keyalg EC -keysize 521 -alias ES512 -keypass secret -sigalg SHA512withECDSA -dname &quot;CN=,OU=,O=,L=,ST=,C=&quot; -validity 360
+</code></pre></div><h2 id="read-only-tokens"><a href="#read-only-tokens" class="header-anchor">#</a> Read only tokens</h2> <p>If you need to consume JWT tokens issues by third parties you probably
+won’t have the private key with you, in that case all you need to have
+is a public key im PEM format.</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> JWTAuth <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@vertx/auth-jwt&quot;</span>
+
+<span class="token keyword">let</span> config <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JWTAuthOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">setPubSecKeys</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">new</span> <span class="token class-name">PubSecKeyOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setAlgorithm</span><span class="token punctuation">(</span><span class="token string">&quot;RS256&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">setPublicKey</span><span class="token punctuation">(</span><span class="token string">&quot;BASE64-ENCODED-PUBLIC_KEY&quot;</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> provider <span class="token operator">=</span> JWTAuth<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>vertx<span class="token punctuation">,</span> config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h1 id="authn-authz-with-jwt"><a href="#authn-authz-with-jwt" class="header-anchor">#</a> AuthN/AuthZ with JWT</h1> <p>A common scenario when developing for example micro services is that you
+want you application to consume APIs. These api’s are not meant to be
+consumed by humans so we should remove all the interactive part of
+authenticating the consumer out of the picture.</p> <p>In this scenario one can use HTTP as the protocol to consume this API
+and the HTTP protocol already defines that there is a header
+<code>Authorization</code> that should be used for passing authorization
+information. In most cases you will see that tokens are sent as bearer
+tokens, i.e.: <code>Authorization: Bearer some+base64+string</code>.</p> <h2 id="authenticating-authn"><a href="#authenticating-authn" class="header-anchor">#</a> Authenticating (AuthN)</h2> <p>For this provider a user is authenticated if the token passes the
+signature checks and that the token is not expired. For this reason it
+is imperative that private keys are kept private and not copy pasted
+across project since it would be a security hole.</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// This string is what you see after the string &quot;Bearer&quot; in the</span>
+<span class="token comment">// HTTP Authorization header</span>
+jwtAuth<span class="token punctuation">.</span><span class="token function">authenticate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token string">&quot;jwt&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;BASE64-ENCODED-STRING&quot;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">succeeded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> theUser <span class="token operator">=</span> res<span class="token punctuation">.</span><span class="token function">result</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Failed!</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>In a nutshell the provider is checking for several things:</p> <ul><li><p>token signature is valid against internal private key</p></li> <li><p>fields: <code>exp</code>, <code>iat</code>, <code>nbf</code>, <code>audience</code>, <code>issuer</code> are valid
+according to the config</p></li></ul> <p>If all these are valid then the token is considered good and a user
+object is returned.</p> <p>While the fields <code>exp</code>, <code>iat</code> and <code>nbf</code> are simple timestamp checks only
+<code>exp</code> can be configured to be ignored:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// This string is what you see after the string &quot;Bearer&quot; in the</span>
+<span class="token comment">// HTTP Authorization header</span>
+
+<span class="token comment">// In this case we are forcing the provider to ignore the `exp` field</span>
+jwtAuth<span class="token punctuation">.</span><span class="token function">authenticate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token string">&quot;jwt&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;BASE64-ENCODED-STRING&quot;</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;options&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;ignoreExpiration&quot;</span> <span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">succeeded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> theUser <span class="token operator">=</span> res<span class="token punctuation">.</span><span class="token function">result</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Failed!</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>In order to verify the <code>aud</code> field one needs to pass the options like
+before:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// This string is what you see after the string &quot;Bearer&quot; in the</span>
+<span class="token comment">// HTTP Authorization header</span>
+
+<span class="token comment">// In this case we are forcing the provider to ignore the `exp` field</span>
+jwtAuth<span class="token punctuation">.</span><span class="token function">authenticate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token string">&quot;jwt&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;BASE64-ENCODED-STRING&quot;</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;options&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;audience&quot;</span> <span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">&quot;paulo@server.com&quot;</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">succeeded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> theUser <span class="token operator">=</span> res<span class="token punctuation">.</span><span class="token function">result</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Failed!</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>And the same for the issuer:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// This string is what you see after the string &quot;Bearer&quot; in the</span>
+<span class="token comment">// HTTP Authorization header</span>
+
+<span class="token comment">// In this case we are forcing the provider to ignore the `exp` field</span>
+jwtAuth<span class="token punctuation">.</span><span class="token function">authenticate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token string">&quot;jwt&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;BASE64-ENCODED-STRING&quot;</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;options&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;issuer&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;mycorp.com&quot;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">succeeded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> theUser <span class="token operator">=</span> res<span class="token punctuation">.</span><span class="token function">result</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Failed!</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="authorizing-authz"><a href="#authorizing-authz" class="header-anchor">#</a> Authorizing (AuthZ)</h2> <p>Once a token is parsed and is valid we can use it to perform
+authorization tasks. The most simple is to verify if a user has a
+specific authority. In this case one needs to to:</p> <div class="language-js extra-class"><pre class="language-js"><code>user<span class="token punctuation">.</span><span class="token function">isAuthorized</span><span class="token punctuation">(</span><span class="token string">&quot;create-report&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">succeeded</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> res<span class="token punctuation">.</span><span class="token function">result</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Yes the user can create reports</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>By default the provider will lookup under the key <code>permissions</code> but like
+the other providers one can extend the concept to authorities to roles
+by using the <code>:</code> as a splitter, so <code>role:authority</code> can be used to
+lookup the token.</p> <p>Since JWT are quite free form and there is no standard on where to
+lookup for the claims the location can be configured to use something
+else than <code>permissions</code>, for example one can even lookup under a path
+like this:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> JWTAuth <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@vertx/auth-jwt&quot;</span>
+
+<span class="token keyword">let</span> config <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token string">&quot;public-key&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;BASE64-ENCODED-PUBLIC_KEY&quot;</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;permissionsClaimKey&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;realm_access/roles&quot;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> provider <span class="token operator">=</span> JWTAuth<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>vertx<span class="token punctuation">,</span> config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>So in this example we configure the JWT to work with Keycloak token
+format. In this case the claims will be checked under the path
+<code>realm_access/roles</code> rather than <code>permissions</code>.</p> <h2 id="validating-tokens"><a href="#validating-tokens" class="header-anchor">#</a> Validating Tokens</h2> <p>When the method <code>authenticate</code> is invoked, the token is validated
+against the <code>JWTOptions</code> provided during the initialization. The
+validation performs the following steps:</p> <ol><li><p>if <code>ignoreExpiration</code> (default is false) is false then the token is
+checked for expiration, this will check the fields: <code>exp</code>, <code>iat</code> and
+<code>nbf</code>. Since sometimes clocks are not reliable, it is possible to
+configure some <code>leeway</code> to be applied to the dates so we allow some
+grace period if the dates are outside the required limits.</p></li> <li><p>if <code>audience</code> is provided, then the token <code>aud</code> is checked against
+the configured one and all configured audiences must be in the
+token.</p></li> <li><p>if <code>issuer</code> is configured, then the tokens <code>iss</code> is checked against
+the configured one.</p></li></ol> <p>Once these validations complete a JWTUser object is then returned, the
+object is configured with a reference to the permission claims key
+provided in the configuration. This value is used later when doing
+authorization. The value corresponds to the json path where authorities
+should be checked.</p> <h2 id="customizing-token-generation"><a href="#customizing-token-generation" class="header-anchor">#</a> Customizing Token Generation</h2> <p>In the same way tokens are validated, the generation is initially
+configured during the initialization.</p> <p>When generating a token an optional extra parameter can be supplied to
+control the token generation, this is a <code>JWTOptions</code> object. The token
+signature algorithm (default HS256) can be configured using the property
+<code>algorithm</code>. In this case a lookup for a key that corresponds to the
+algorithm is performed and used to sign.</p> <p>Token headers can be added by specifying any extra headers to be merged
+with the default ones using the options <code>headers</code> property.</p> <p>Sometimes it might be useful to issue tokens without a timestamp (test,
+development time for example) in this case the property <code>noTimestamp</code>
+should be set to true (default false). This means that there is no <code>iat</code>
+field in the token.</p> <p>Token expiration is controlled by the property <code>expiresInSeconds</code>, by
+default there is no expiration. Other control fields <code>audience</code>,
+<code>issuer</code> and <code>subject</code> are then picked from the config is available and
+added to the token metadata.</p> <p>Finally the token is signed and encoded in the correct format.</p> <p>@author &lt;a href=&quot;mailto:julien@julienviet.com&quot;&gt;Julien Viet&lt;/a&gt;
+@author &lt;a href=&quot;http://tfox.org&quot;&gt;Tim Fox&lt;/a&gt; @author &lt;a
+href=&quot;mailto:pmlopes@gmail.com&quot;&gt;Paulo Lopes&lt;/a&gt;</p></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/reactiverse/es4x/edit/develop/docs/manual/@vertx/auth-jwt/index.md" target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">3/12/2020, 10:17:53 AM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/es4x/assets/js/app.5c50c914.js" defer></script><script src="/es4x/assets/js/2.9528bf06.js" defer></script><script src="/es4x/assets/js/35.bb3728a5.js" defer></script>
+  </body>
+</html>
