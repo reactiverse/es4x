@@ -20,9 +20,10 @@
     <npm-name>@vertx/circuit-breaker</npm-name>
     <npm-version>${stack.version}</npm-version>
     <npm-skip>false</npm-skip>
-    
+
     <!-- language=json -->
     <npm-optional-dependencies>["@vertx/web"]</npm-optional-dependencies>
+    <hystrix.version>1.5.2</hystrix.version>
   </properties>
 
   <dependencies>
@@ -44,6 +45,13 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web</artifactId>
       <version>${npm-version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.netflix.hystrix</groupId>
+      <artifactId>hystrix-core</artifactId>
+      <version>${hystrix.version}</version>
+      <scope>provided</scope>
       <optional>true</optional>
     </dependency>
   </dependencies>

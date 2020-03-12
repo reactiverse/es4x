@@ -278,7 +278,7 @@
       <artifactId>vertx-docgen</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
-      <version>0.9.2</version>
+      <version>0.9.3</version>
     </dependency>
     <!-- CORE -->
     <dependency>
@@ -325,9 +325,9 @@
               <includeArtifactIds>${project.artifactId}</includeArtifactIds>
               <includeTypes>jar</includeTypes>
               <includeClassifiers>sources</includeClassifiers>
-              <includes>**/*.java</includes>
+              <includes>**/*.java,**/*.adoc</includes>
               <excludes>
-                examples/**/*.java,io/vertx/core/logging/*.java,io/vertx/**/impl/**/*.*,**/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
+                **/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
               </excludes>
               <outputDirectory>${project.build.directory}/sources/${project.artifactId}</outputDirectory>
             </configuration>
@@ -355,9 +355,12 @@
             <configuration>
               <processors>
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
+                <processor>io.vertx.docgen.DocGenProcessor</processor>
               </processors>
               <optionMap>
                 <codegen.output>${project.build.directory}</codegen.output>
+                <docgen.source>${project.build.directory}/sources/${project.artifactId}/*.adoc</docgen.source>
+                <docgen.output>${project.build.directory}/manual</docgen.output>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
             </configuration>
@@ -472,6 +475,20 @@
               <goal>exec</goal>
             </goals>
           </execution>
+          <execution>
+            <id>adoc2md</id>
+            <configuration>
+              <executable>adoc2md.sh</executable>
+              <arguments>
+                <argument>${project.build.directory}/manual</argument>
+                <argument>${project.basedir}/../../../docs/manual/${npm-name}</argument>
+              </arguments>
+              <workingDirectory>${project.build.directory}</workingDirectory>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -491,6 +508,22 @@
                 <resource>
                   <filtering>true</filtering>
                   <directory>${project.basedir}/extra</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-asciidoc-override</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/manual/override</outputDirectory>
+              <resources>
+                <resource>
+                  <filtering>true</filtering>
+                  <directory>${project.build.directory}/sources/${project.artifactId}/override</directory>
                 </resource>
               </resources>
             </configuration>

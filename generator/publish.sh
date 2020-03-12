@@ -9,7 +9,7 @@ fi
 
 # build
 if [ "$1" = "local" ]; then
-  mvn -fae -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@npm-publish
+  mvn -fae -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" clean generate-sources exec:exec@typedoc exec:exec@adoc2md exec:exec@npm-publish
 else
   echo "login as vertx"
   npm adduser --registry "$REGISTRY"

@@ -19,6 +19,8 @@
     <maven.groupId>io.vertx</maven.groupId>
     <npm-name>@vertx/cassandra-client</npm-name>
     <npm-version>${stack.version}</npm-version>
+    <datastax-driver.minor.version>3.5</datastax-driver.minor.version>
+    <datastax-driver.version>${datastax-driver.minor.version}.0</datastax-driver.version>
     <npm-skip>false</npm-skip>
   </properties>
 
@@ -35,6 +37,12 @@
       <version>${npm-version}</version>
       <scope>provided</scope>
       <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.datastax.cassandra</groupId>
+      <artifactId>cassandra-driver-mapping</artifactId>
+      <version>${datastax-driver.version}</version>
+      <optional>true</optional>
     </dependency>
   </dependencies>
 
