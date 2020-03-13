@@ -19,6 +19,25 @@
     <tools.jar>${java.home}/../lib/tools.jar</tools.jar>
   </properties>
 
+  <profiles>
+    <profile>
+      <id>java8</id>
+      <activation>
+        <jdk>1.8</jdk>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>com.sun</groupId>
+          <artifactId>tools</artifactId>
+          <version>1.8</version>
+          <scope>system</scope>
+          <systemPath>${tools.jar}</systemPath>
+          <optional>true</optional>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>io.vertx</groupId>
@@ -39,14 +58,6 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-codetrans</artifactId>
       <version>${stack.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun</groupId>
-      <artifactId>tools</artifactId>
-      <version>1.8</version>
-      <scope>system</scope>
-      <systemPath>${tools.jar}</systemPath>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
