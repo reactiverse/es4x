@@ -182,7 +182,7 @@ public class Install implements Runnable {
       // from graal 20.0.0 the vm name doesn't contain graalvm in the name
       // but it is now part of the vendor version
       final String vendor = System.getProperty("java.vendor.version");
-      if (!vm.toLowerCase().contains("graalvm") || !vendor.toLowerCase().contains("graalvm")) {
+      if (!vm.toLowerCase().contains("graalvm") && vendor != null && !vendor.toLowerCase().contains("graalvm")) {
 
         // not on graal, install graaljs and dependencies
         warn("Installing GraalJS...");
