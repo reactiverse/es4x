@@ -203,10 +203,15 @@
     const output = [];
     let i = 0;
     const l = value.length;
+    // proxy objects do not implement hasOwnProperty
+    // for these cases we really iterate the array, not
+    // the properties
+    const hasOwnProperty = !!value.hasOwnProperty;
     for (; i < l; ++i) {
-      if (value.hasOwnProperty(String(i))) {
+      const key = hasOwnProperty ? String(i) : i;
+      if (hasOwnProperty ? value.hasOwnProperty(key) : true) {
         output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          String(i), true));
+          key, true));
       } else {
         output.push('');
       }

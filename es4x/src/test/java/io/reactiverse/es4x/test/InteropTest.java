@@ -103,4 +103,14 @@ public class InteropTest {
         "var interop = new Interop();\n" +
         "interop.printThrowable(new TypeError());\n");
   }
+
+  @Test
+  public void testListPrintInterop() {
+    // console log was broken for array proxies as they do not follow the full js object spec
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "var l = interop.getList();" +
+        "console.log(l);");
+  }
 }
