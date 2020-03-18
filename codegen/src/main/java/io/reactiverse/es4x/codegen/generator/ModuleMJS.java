@@ -51,7 +51,11 @@ public class ModuleMJS extends Generator<ClassModel> {
     if (index == 0) {
       Util.generateLicense(writer);
 
-      writer.printf("/// <reference types=\"%s\" />\n", getNPMScope(model.getType().getRaw().getModule()));
+      writer.printf("/// <reference types=\"%s\" />\n\n", getNPMScope(model.getType().getRaw().getModule()));
+      writer.printf(
+        "/**\n" +
+          " * @typedef { import(\"es4x\") } Java\n" +
+          " */\n");
       // include a file if present
       writer.print(includeFileIfPresent("module.include.mjs"));
     }

@@ -49,7 +49,11 @@ public class OptionsMJS extends Generator<DataObjectModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
-      writer.printf("/// <reference types=\"%s/options\" />\n", getNPMScope(model.getType().getRaw().getModule()));
+      writer.printf("/// <reference types=\"%s/options\" />\n\n", getNPMScope(model.getType().getRaw().getModule()));
+      writer.printf(
+        "/**\n" +
+          " * @typedef { import(\"es4x\") } Java\n" +
+          " */\n");
     }
 
     writer.printf("export const %s = Java.type('%s');\n", model.getType().getRaw().getSimpleName(), model.getType().getName());
