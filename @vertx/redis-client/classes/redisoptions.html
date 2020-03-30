@@ -67,26 +67,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Redis Client Configuration options.
-							This object controls the connection setting to the Redis Server. There is no need to specify most of the settings
-						since it has built the following sensible defaults:</p>
-						<p>
-							* `encoding`: `UTF-8`
-							* `host`: `localhost`
-							* `port`: 6379
-							* `tcpKeepAlive`: true
-							* `tcpNoDelay`: true
-							* `binary`: false
-							<p>
-								However there are two extra properties that have no defaults since they are optional:
-								<p>
-									* `auth`
-									* `select`
-									<p>
-										The usage of this two extra properties is to setup required authentication and optionally the selection of the active
-										database at connection time. If you define this extra properties on every connection to Redis server this client
-										will perform the authentication handshake and database selection, however if you don't do this and call {@link RedisClient#auth}
-										yourself in case of connection failure the client will not be able to perform the correct authentication handshake.
+						<p>Redis Client Configuration options.</p>
 					</div>
 				</div>
 			</section>
@@ -111,6 +92,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#addconnectionstring" class="tsd-kind-icon">add<wbr>Connection<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#addcrlpath" class="tsd-kind-icon">add<wbr>Crl<wbr>Path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#addcrlvalue" class="tsd-kind-icon">add<wbr>Crl<wbr>Value</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#addenabledciphersuite" class="tsd-kind-icon">add<wbr>Enabled<wbr>Cipher<wbr>Suite</a></li>
@@ -138,15 +120,18 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getlogactivity" class="tsd-kind-icon">get<wbr>Log<wbr>Activity</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getmastername" class="tsd-kind-icon">get<wbr>Master<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getmaxnestedarrays" class="tsd-kind-icon">get<wbr>Max<wbr>Nested<wbr>Arrays</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getmaxpoolsize" class="tsd-kind-icon">get<wbr>Max<wbr>Pool<wbr>Size</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getmaxpoolwaiting" class="tsd-kind-icon">get<wbr>Max<wbr>Pool<wbr>Waiting</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getmaxwaitinghandlers" class="tsd-kind-icon">get<wbr>Max<wbr>Waiting<wbr>Handlers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getmetricsname" class="tsd-kind-icon">get<wbr>Metrics<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getnetclientoptions" class="tsd-kind-icon">get<wbr>Net<wbr>Client<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getopensslengineoptions" class="tsd-kind-icon">get<wbr>Open<wbr>Ssl<wbr>Engine<wbr>Options</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getpassword" class="tsd-kind-icon">get<wbr>Password</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getpemkeycertoptions" class="tsd-kind-icon">get<wbr>Pem<wbr>Key<wbr>Cert<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getpemtrustoptions" class="tsd-kind-icon">get<wbr>Pem<wbr>Trust<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getpfxkeycertoptions" class="tsd-kind-icon">get<wbr>Pfx<wbr>Key<wbr>Cert<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getpfxtrustoptions" class="tsd-kind-icon">get<wbr>Pfx<wbr>Trust<wbr>Options</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getpoolcleanerinterval" class="tsd-kind-icon">get<wbr>Pool<wbr>Cleaner<wbr>Interval</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getpoolrecycletimeout" class="tsd-kind-icon">get<wbr>Pool<wbr>Recycle<wbr>Timeout</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getport" class="tsd-kind-icon">get<wbr>Port</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getproxyoptions" class="tsd-kind-icon">get<wbr>Proxy<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#getreceivebuffersize" class="tsd-kind-icon">get<wbr>Receive<wbr>Buffer<wbr>Size</a></li>
@@ -180,6 +165,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setauth" class="tsd-kind-icon">set<wbr>Auth</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setbinary" class="tsd-kind-icon">set<wbr>Binary</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setconnecttimeout" class="tsd-kind-icon">set<wbr>Connect<wbr>Timeout</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setconnectionstring" class="tsd-kind-icon">set<wbr>Connection<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setdomainsocket" class="tsd-kind-icon">set<wbr>Domain<wbr>Socket</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setdomainsocketaddress" class="tsd-kind-icon">set<wbr>Domain<wbr>Socket<wbr>Address</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setenabledsecuretransportprotocols" class="tsd-kind-icon">set<wbr>Enabled<wbr>Secure<wbr>Transport<wbr>Protocols</a></li>
@@ -196,15 +182,18 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setlogactivity" class="tsd-kind-icon">set<wbr>Log<wbr>Activity</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setmastername" class="tsd-kind-icon">set<wbr>Master<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setmaxnestedarrays" class="tsd-kind-icon">set<wbr>Max<wbr>Nested<wbr>Arrays</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setmaxpoolsize" class="tsd-kind-icon">set<wbr>Max<wbr>Pool<wbr>Size</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setmaxpoolwaiting" class="tsd-kind-icon">set<wbr>Max<wbr>Pool<wbr>Waiting</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setmaxwaitinghandlers" class="tsd-kind-icon">set<wbr>Max<wbr>Waiting<wbr>Handlers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setmetricsname" class="tsd-kind-icon">set<wbr>Metrics<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setnetclientoptions" class="tsd-kind-icon">set<wbr>Net<wbr>Client<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setopensslengineoptions" class="tsd-kind-icon">set<wbr>Open<wbr>Ssl<wbr>Engine<wbr>Options</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setpassword" class="tsd-kind-icon">set<wbr>Password</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setpemkeycertoptions" class="tsd-kind-icon">set<wbr>Pem<wbr>Key<wbr>Cert<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setpemtrustoptions" class="tsd-kind-icon">set<wbr>Pem<wbr>Trust<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setpfxkeycertoptions" class="tsd-kind-icon">set<wbr>Pfx<wbr>Key<wbr>Cert<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setpfxtrustoptions" class="tsd-kind-icon">set<wbr>Pfx<wbr>Trust<wbr>Options</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setpoolcleanerinterval" class="tsd-kind-icon">set<wbr>Pool<wbr>Cleaner<wbr>Interval</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setpoolrecycletimeout" class="tsd-kind-icon">set<wbr>Pool<wbr>Recycle<wbr>Timeout</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setport" class="tsd-kind-icon">set<wbr>Port</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setproxyoptions" class="tsd-kind-icon">set<wbr>Proxy<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redisoptions.html#setreceivebuffersize" class="tsd-kind-icon">set<wbr>Receive<wbr>Buffer<wbr>Size</a></li>
@@ -252,7 +241,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:233</li>
+									<li>Defined in options.d.ts:240</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
@@ -260,7 +249,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:235</li>
+									<li>Defined in options.d.ts:242</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -274,7 +263,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:391</li>
+									<li>Defined in options.d.ts:419</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
@@ -282,7 +271,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:393</li>
+									<li>Defined in options.d.ts:421</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -299,6 +288,37 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="addconnectionstring" class="tsd-anchor"></a>
+					<h3>add<wbr>Connection<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Connection<wbr>String<span class="tsd-signature-symbol">(</span>connectionStrings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:260</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Adds a connection string (endpoint) to use while connecting to the redis server. Only the cluster mode will
+									consider more than 1 element. If more are provided, they are not considered by the client when in single server mode.</p>
+									<p>
+										Does not support rediss (redis over ssl scheme) for now.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>connectionStrings: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="addcrlpath" class="tsd-anchor"></a>
 					<h3>add<wbr>Crl<wbr>Path</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -308,7 +328,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:437</li>
+									<li>Defined in options.d.ts:465</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -331,7 +351,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:441</li>
+									<li>Defined in options.d.ts:469</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -354,7 +374,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:465</li>
+									<li>Defined in options.d.ts:493</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -377,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:471</li>
+									<li>Defined in options.d.ts:499</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -394,13 +414,13 @@
 					<a name="addendpoint" class="tsd-anchor"></a>
 					<h3>add<wbr>Endpoint</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Endpoint<span class="tsd-signature-symbol">(</span>endpoints<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SocketAddress</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Endpoint<span class="tsd-signature-symbol">(</span>endpoints<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:265</li>
+									<li>Defined in options.d.ts:290</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -412,7 +432,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>endpoints: <span class="tsd-signature-type">SocketAddress</span></h5>
+									<h5>endpoints: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
@@ -429,7 +449,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:622</li>
+									<li>Defined in options.d.ts:650</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -457,7 +477,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:401</li>
+									<li>Defined in options.d.ts:429</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -482,7 +502,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:412</li>
+									<li>Defined in options.d.ts:440</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -504,7 +524,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:431</li>
+									<li>Defined in options.d.ts:459</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -521,7 +541,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:435</li>
+									<li>Defined in options.d.ts:463</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -538,7 +558,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:439</li>
+									<li>Defined in options.d.ts:467</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
@@ -555,7 +575,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:456</li>
+									<li>Defined in options.d.ts:484</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -577,7 +597,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:463</li>
+									<li>Defined in options.d.ts:491</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -594,7 +614,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:467</li>
+									<li>Defined in options.d.ts:495</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -611,7 +631,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:477</li>
+									<li>Defined in options.d.ts:505</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -630,21 +650,22 @@
 					<a name="getendpoint" class="tsd-anchor"></a>
 					<h3>get<wbr>Endpoint</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Endpoint<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SocketAddress</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Endpoint<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:242</li>
+									<li>Defined in options.d.ts:266</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets a single endpoint to use while connecting to the redis server. Will replace the previously configured endpoints.</p>
+									<p>Sets a single connection string to use while connecting to the redis server.
+									Will replace the previously configured connection strings.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SocketAddress</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -652,13 +673,13 @@
 					<a name="getendpoints" class="tsd-anchor"></a>
 					<h3>get<wbr>Endpoints</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Endpoints<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SocketAddress</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Endpoints<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:253</li>
+									<li>Defined in options.d.ts:278</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -667,7 +688,7 @@
 									1 element. If more are provided, they are not considered by the client when in single server mode.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SocketAddress</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -681,7 +702,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:489</li>
+									<li>Defined in options.d.ts:517</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -706,7 +727,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:497</li>
+									<li>Defined in options.d.ts:525</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -723,7 +744,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:501</li>
+									<li>Defined in options.d.ts:529</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -740,7 +761,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:505</li>
+									<li>Defined in options.d.ts:533</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -757,7 +778,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:509</li>
+									<li>Defined in options.d.ts:537</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">JdkSSLEngineOptions</span></h4>
@@ -774,7 +795,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:513</li>
+									<li>Defined in options.d.ts:541</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">JksOptions</span></h4>
@@ -791,7 +812,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:517</li>
+									<li>Defined in options.d.ts:545</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -808,7 +829,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:521</li>
+									<li>Defined in options.d.ts:549</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -826,7 +847,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:270</li>
+									<li>Defined in options.d.ts:295</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -839,7 +860,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:528</li>
+									<li>Defined in options.d.ts:556</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -861,12 +882,57 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:280</li>
+									<li>Defined in options.d.ts:305</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Tune how much nested arrays are allowed on a redis response. This affects the parser performance.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getmaxpoolsize" class="tsd-anchor"></a>
+					<h3>get<wbr>Max<wbr>Pool<wbr>Size</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Max<wbr>Pool<wbr>Size<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:316</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tune the maximum size of the connection pool. When working with cluster or sentinel
+									this value should be atleast the total number of cluster member (or number of sentinels + 1)</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getmaxpoolwaiting" class="tsd-anchor"></a>
+					<h3>get<wbr>Max<wbr>Pool<wbr>Waiting</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Max<wbr>Pool<wbr>Waiting<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:327</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tune the maximum waiting requests for a connection from the pool.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -883,7 +949,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:291</li>
+									<li>Defined in options.d.ts:338</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -906,7 +972,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:535</li>
+									<li>Defined in options.d.ts:563</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -923,7 +989,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:302</li>
+									<li>Defined in options.d.ts:349</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -945,32 +1011,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:539</li>
+									<li>Defined in options.d.ts:567</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OpenSSLEngineOptions</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getpassword" class="tsd-anchor"></a>
-					<h3>get<wbr>Password</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Password<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in options.d.ts:312</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set the provided password to be used when establishing a connection to the server.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -984,7 +1028,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:543</li>
+									<li>Defined in options.d.ts:571</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PemKeyCertOptions</span></h4>
@@ -1001,7 +1045,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:547</li>
+									<li>Defined in options.d.ts:575</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PemTrustOptions</span></h4>
@@ -1018,7 +1062,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:551</li>
+									<li>Defined in options.d.ts:579</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PfxOptions</span></h4>
@@ -1035,10 +1079,54 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:555</li>
+									<li>Defined in options.d.ts:583</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PfxOptions</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getpoolcleanerinterval" class="tsd-anchor"></a>
+					<h3>get<wbr>Pool<wbr>Cleaner<wbr>Interval</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Pool<wbr>Cleaner<wbr>Interval<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:359</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tune how often in milliseconds should the connection pool cleaner execute.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getpoolrecycletimeout" class="tsd-anchor"></a>
+					<h3>get<wbr>Pool<wbr>Recycle<wbr>Timeout</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Pool<wbr>Recycle<wbr>Timeout<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:369</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tune when a connection should be recycled in milliseconds.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1052,7 +1140,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:562</li>
+									<li>Defined in options.d.ts:590</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1074,7 +1162,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:569</li>
+									<li>Defined in options.d.ts:597</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ProxyOptions</span></h4>
@@ -1091,7 +1179,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:573</li>
+									<li>Defined in options.d.ts:601</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1108,7 +1196,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:577</li>
+									<li>Defined in options.d.ts:605</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1125,7 +1213,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:581</li>
+									<li>Defined in options.d.ts:609</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1142,7 +1230,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:322</li>
+									<li>Defined in options.d.ts:379</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1159,26 +1247,12 @@
 					<h3>get<wbr>Select</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">get<wbr>Select<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Select<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:332</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set the provided database to be selected when establishing a connection to the server.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in options.d.ts:597</li>
+									<li>Defined in options.d.ts:625</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1203,7 +1277,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:605</li>
+									<li>Defined in options.d.ts:633</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1220,7 +1294,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:612</li>
+									<li>Defined in options.d.ts:640</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1242,7 +1316,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:624</li>
+									<li>Defined in options.d.ts:652</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1259,7 +1333,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:632</li>
+									<li>Defined in options.d.ts:660</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1276,7 +1350,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:636</li>
+									<li>Defined in options.d.ts:664</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -1293,7 +1367,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:660</li>
+									<li>Defined in options.d.ts:688</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1310,7 +1384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:668</li>
+									<li>Defined in options.d.ts:696</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">JksOptions</span></h4>
@@ -1327,7 +1401,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:342</li>
+									<li>Defined in options.d.ts:389</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1349,7 +1423,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:352</li>
+									<li>Defined in options.d.ts:399</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1371,7 +1445,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:423</li>
+									<li>Defined in options.d.ts:451</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1396,7 +1470,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:446</li>
+									<li>Defined in options.d.ts:474</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1418,7 +1492,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:585</li>
+									<li>Defined in options.d.ts:613</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1435,7 +1509,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:589</li>
+									<li>Defined in options.d.ts:617</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1452,7 +1526,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:628</li>
+									<li>Defined in options.d.ts:656</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1469,7 +1543,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:640</li>
+									<li>Defined in options.d.ts:668</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1486,7 +1560,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:644</li>
+									<li>Defined in options.d.ts:672</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1503,7 +1577,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:648</li>
+									<li>Defined in options.d.ts:676</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1520,7 +1594,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:652</li>
+									<li>Defined in options.d.ts:680</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1537,7 +1611,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:656</li>
+									<li>Defined in options.d.ts:684</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1554,7 +1628,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:664</li>
+									<li>Defined in options.d.ts:692</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1571,7 +1645,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:672</li>
+									<li>Defined in options.d.ts:700</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1588,7 +1662,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:676</li>
+									<li>Defined in options.d.ts:704</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1605,7 +1679,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:407</li>
+									<li>Defined in options.d.ts:435</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1636,7 +1710,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:417</li>
+									<li>Defined in options.d.ts:445</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1664,7 +1738,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:429</li>
+									<li>Defined in options.d.ts:457</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1695,13 +1769,44 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:433</li>
+									<li>Defined in options.d.ts:461</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>connectTimeout: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setconnectionstring" class="tsd-anchor"></a>
+					<h3>set<wbr>Connection<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Connection<wbr>String<span class="tsd-signature-symbol">(</span>connectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:252</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets a single connection string (endpoint) to use while connecting to the redis server.
+									Will replace the previously configured connection strings.</p>
+									<p>
+										Does not support rediss (redis over ssl scheme) for now.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>connectionString: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
@@ -1718,7 +1823,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:451</li>
+									<li>Defined in options.d.ts:479</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1746,7 +1851,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:461</li>
+									<li>Defined in options.d.ts:489</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1774,7 +1879,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:469</li>
+									<li>Defined in options.d.ts:497</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1797,7 +1902,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:483</li>
+									<li>Defined in options.d.ts:511</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1822,24 +1927,25 @@
 					<a name="setendpoint" class="tsd-anchor"></a>
 					<h3>set<wbr>Endpoint</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Endpoint<span class="tsd-signature-symbol">(</span>endpoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SocketAddress</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Endpoint<span class="tsd-signature-symbol">(</span>endpoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:247</li>
+									<li>Defined in options.d.ts:272</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets a single endpoint to use while connecting to the redis server. Will replace the previously configured endpoints.</p>
+									<p>Sets a single connection string to use while connecting to the redis server.
+									Will replace the previously configured connection strings.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>endpoint: <span class="tsd-signature-type">SocketAddress</span></h5>
+									<h5>endpoint: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
@@ -1850,13 +1956,13 @@
 					<a name="setendpoints" class="tsd-anchor"></a>
 					<h3>set<wbr>Endpoints</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Endpoints<span class="tsd-signature-symbol">(</span>endpoints<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SocketAddress</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Endpoints<span class="tsd-signature-symbol">(</span>endpoints<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:259</li>
+									<li>Defined in options.d.ts:284</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1868,7 +1974,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>endpoints: <span class="tsd-signature-type">SocketAddress</span></h5>
+									<h5>endpoints: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
@@ -1885,7 +1991,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:495</li>
+									<li>Defined in options.d.ts:523</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1916,7 +2022,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:499</li>
+									<li>Defined in options.d.ts:527</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1939,7 +2045,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:503</li>
+									<li>Defined in options.d.ts:531</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1962,7 +2068,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:507</li>
+									<li>Defined in options.d.ts:535</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1985,7 +2091,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:511</li>
+									<li>Defined in options.d.ts:539</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2008,7 +2114,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:515</li>
+									<li>Defined in options.d.ts:543</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2031,7 +2137,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:519</li>
+									<li>Defined in options.d.ts:547</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2054,7 +2160,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:523</li>
+									<li>Defined in options.d.ts:551</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2078,7 +2184,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:275</li>
+									<li>Defined in options.d.ts:300</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2097,7 +2203,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:533</li>
+									<li>Defined in options.d.ts:561</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2125,7 +2231,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:285</li>
+									<li>Defined in options.d.ts:310</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2144,6 +2250,63 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setmaxpoolsize" class="tsd-anchor"></a>
+					<h3>set<wbr>Max<wbr>Pool<wbr>Size</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Max<wbr>Pool<wbr>Size<span class="tsd-signature-symbol">(</span>maxPoolSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:322</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tune the maximum size of the connection pool. When working with cluster or sentinel
+									this value should be atleast the total number of cluster member (or number of sentinels + 1)</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>maxPoolSize: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setmaxpoolwaiting" class="tsd-anchor"></a>
+					<h3>set<wbr>Max<wbr>Pool<wbr>Waiting</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Max<wbr>Pool<wbr>Waiting<span class="tsd-signature-symbol">(</span>maxPoolWaiting<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:332</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tune the maximum waiting requests for a connection from the pool.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>maxPoolWaiting: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="setmaxwaitinghandlers" class="tsd-anchor"></a>
 					<h3>set<wbr>Max<wbr>Waiting<wbr>Handlers</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -2153,7 +2316,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:297</li>
+									<li>Defined in options.d.ts:344</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2182,7 +2345,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:537</li>
+									<li>Defined in options.d.ts:565</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2205,7 +2368,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:307</li>
+									<li>Defined in options.d.ts:354</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2233,41 +2396,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:541</li>
+									<li>Defined in options.d.ts:569</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>openSslEngineOptions: <span class="tsd-signature-type">OpenSSLEngineOptions</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setpassword" class="tsd-anchor"></a>
-					<h3>set<wbr>Password</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Password<span class="tsd-signature-symbol">(</span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in options.d.ts:317</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set the provided password to be used when establishing a connection to the server.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>password: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
@@ -2284,7 +2419,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:545</li>
+									<li>Defined in options.d.ts:573</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2307,7 +2442,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:549</li>
+									<li>Defined in options.d.ts:577</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2330,7 +2465,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:553</li>
+									<li>Defined in options.d.ts:581</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2353,13 +2488,69 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:557</li>
+									<li>Defined in options.d.ts:585</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pfxTrustOptions: <span class="tsd-signature-type">PfxOptions</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setpoolcleanerinterval" class="tsd-anchor"></a>
+					<h3>set<wbr>Pool<wbr>Cleaner<wbr>Interval</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Pool<wbr>Cleaner<wbr>Interval<span class="tsd-signature-symbol">(</span>poolCleanerInterval<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:364</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tune how often in milliseconds should the connection pool cleaner execute.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>poolCleanerInterval: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setpoolrecycletimeout" class="tsd-anchor"></a>
+					<h3>set<wbr>Pool<wbr>Recycle<wbr>Timeout</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Pool<wbr>Recycle<wbr>Timeout<span class="tsd-signature-symbol">(</span>poolRecycleTimeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:374</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tune when a connection should be recycled in milliseconds.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>poolRecycleTimeout: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
@@ -2376,7 +2567,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:567</li>
+									<li>Defined in options.d.ts:595</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2404,7 +2595,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:571</li>
+									<li>Defined in options.d.ts:599</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2427,7 +2618,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:575</li>
+									<li>Defined in options.d.ts:603</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2450,7 +2641,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:579</li>
+									<li>Defined in options.d.ts:607</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2473,7 +2664,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:583</li>
+									<li>Defined in options.d.ts:611</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2496,7 +2687,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:587</li>
+									<li>Defined in options.d.ts:615</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2519,7 +2710,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:591</li>
+									<li>Defined in options.d.ts:619</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2542,7 +2733,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:327</li>
+									<li>Defined in options.d.ts:384</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2565,32 +2756,12 @@
 					<h3>set<wbr>Select</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">set<wbr>Select<span class="tsd-signature-symbol">(</span>select<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Select<span class="tsd-signature-symbol">(</span>select<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:337</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set the provided database to be selected when establishing a connection to the server.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>select: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="redisoptions.html" class="tsd-signature-type">RedisOptions</a></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in options.d.ts:603</li>
+									<li>Defined in options.d.ts:631</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2621,7 +2792,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:607</li>
+									<li>Defined in options.d.ts:635</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2644,7 +2815,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:617</li>
+									<li>Defined in options.d.ts:645</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2672,7 +2843,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:626</li>
+									<li>Defined in options.d.ts:654</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2695,7 +2866,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:630</li>
+									<li>Defined in options.d.ts:658</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2718,7 +2889,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:634</li>
+									<li>Defined in options.d.ts:662</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2741,7 +2912,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:638</li>
+									<li>Defined in options.d.ts:666</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2764,7 +2935,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:642</li>
+									<li>Defined in options.d.ts:670</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2787,7 +2958,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:646</li>
+									<li>Defined in options.d.ts:674</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2810,7 +2981,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:650</li>
+									<li>Defined in options.d.ts:678</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2833,7 +3004,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:654</li>
+									<li>Defined in options.d.ts:682</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2856,7 +3027,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:658</li>
+									<li>Defined in options.d.ts:686</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2879,7 +3050,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:662</li>
+									<li>Defined in options.d.ts:690</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2902,7 +3073,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:666</li>
+									<li>Defined in options.d.ts:694</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2925,7 +3096,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:670</li>
+									<li>Defined in options.d.ts:698</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2948,7 +3119,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:347</li>
+									<li>Defined in options.d.ts:394</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2976,7 +3147,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:674</li>
+									<li>Defined in options.d.ts:702</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2999,7 +3170,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:678</li>
+									<li>Defined in options.d.ts:706</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3022,7 +3193,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:357</li>
+									<li>Defined in options.d.ts:404</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3052,99 +3223,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="../enums/aggregateoptions.html" class="tsd-kind-icon">Aggregate<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/bitfieldoverflowoptions.html" class="tsd-kind-icon">Bit<wbr>Field<wbr>Overflow<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/bitoperation.html" class="tsd-kind-icon">Bit<wbr>Operation</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/clientreplyoptions.html" class="tsd-kind-icon">Client<wbr>Reply<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/failoveroptions.html" class="tsd-kind-icon">Failover<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/geounit.html" class="tsd-kind-icon">Geo<wbr>Unit</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/insertoptions.html" class="tsd-kind-icon">Insert<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/objectcmd.html" class="tsd-kind-icon">Object<wbr>Cmd</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/rangeoptions.html" class="tsd-kind-icon">Range<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/redisclienttype.html" class="tsd-kind-icon">Redis<wbr>Client<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/redisrole.html" class="tsd-kind-icon">Redis<wbr>Role</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/redisslaves.html" class="tsd-kind-icon">Redis<wbr>Slaves</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/resetoptions.html" class="tsd-kind-icon">Reset<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/responsetype.html" class="tsd-kind-icon">Response<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/scriptdebugoptions.html" class="tsd-kind-icon">Script<wbr>Debug<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/shutdownoptions.html" class="tsd-kind-icon">Shutdown<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/slotcmd.html" class="tsd-kind-icon">Slot<wbr>Cmd</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="bitfieldgetcommand.html" class="tsd-kind-icon">Bit<wbr>Field<wbr>Get<wbr>Command</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="bitfieldincrbycommand.html" class="tsd-kind-icon">Bit<wbr>Field<wbr>Incrby<wbr>Command</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="bitfieldoptions.html" class="tsd-kind-icon">Bit<wbr>Field<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="bitfieldsetcommand.html" class="tsd-kind-icon">Bit<wbr>Field<wbr>Set<wbr>Command</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="command.html" class="tsd-kind-icon">Command</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="geomember.html" class="tsd-kind-icon">Geo<wbr>Member</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="georadiusoptions.html" class="tsd-kind-icon">Geo<wbr>Radius<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="killfilter.html" class="tsd-kind-icon">Kill<wbr>Filter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="limitoptions.html" class="tsd-kind-icon">Limit<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="migrateoptions.html" class="tsd-kind-icon">Migrate<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="rangelimitoptions.html" class="tsd-kind-icon">Range<wbr>Limit<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="redis.html" class="tsd-kind-icon">Redis</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="redisapi.html" class="tsd-kind-icon">RedisAPI</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="redisclient.html" class="tsd-kind-icon">Redis<wbr>Client</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -3152,6 +3230,9 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="redisoptions.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#addconnectionstring" class="tsd-kind-icon">add<wbr>Connection<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#addcrlpath" class="tsd-kind-icon">add<wbr>Crl<wbr>Path</a>
@@ -3235,6 +3316,12 @@
 								<a href="redisoptions.html#getmaxnestedarrays" class="tsd-kind-icon">get<wbr>Max<wbr>Nested<wbr>Arrays</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#getmaxpoolsize" class="tsd-kind-icon">get<wbr>Max<wbr>Pool<wbr>Size</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#getmaxpoolwaiting" class="tsd-kind-icon">get<wbr>Max<wbr>Pool<wbr>Waiting</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#getmaxwaitinghandlers" class="tsd-kind-icon">get<wbr>Max<wbr>Waiting<wbr>Handlers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -3247,9 +3334,6 @@
 								<a href="redisoptions.html#getopensslengineoptions" class="tsd-kind-icon">get<wbr>Open<wbr>Ssl<wbr>Engine<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="redisoptions.html#getpassword" class="tsd-kind-icon">get<wbr>Password</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#getpemkeycertoptions" class="tsd-kind-icon">get<wbr>Pem<wbr>Key<wbr>Cert<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -3260,6 +3344,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#getpfxtrustoptions" class="tsd-kind-icon">get<wbr>Pfx<wbr>Trust<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#getpoolcleanerinterval" class="tsd-kind-icon">get<wbr>Pool<wbr>Cleaner<wbr>Interval</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#getpoolrecycletimeout" class="tsd-kind-icon">get<wbr>Pool<wbr>Recycle<wbr>Timeout</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#getport" class="tsd-kind-icon">get<wbr>Port</a>
@@ -3361,6 +3451,9 @@
 								<a href="redisoptions.html#setconnecttimeout" class="tsd-kind-icon">set<wbr>Connect<wbr>Timeout</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#setconnectionstring" class="tsd-kind-icon">set<wbr>Connection<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#setdomainsocket" class="tsd-kind-icon">set<wbr>Domain<wbr>Socket</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -3409,6 +3502,12 @@
 								<a href="redisoptions.html#setmaxnestedarrays" class="tsd-kind-icon">set<wbr>Max<wbr>Nested<wbr>Arrays</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#setmaxpoolsize" class="tsd-kind-icon">set<wbr>Max<wbr>Pool<wbr>Size</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#setmaxpoolwaiting" class="tsd-kind-icon">set<wbr>Max<wbr>Pool<wbr>Waiting</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#setmaxwaitinghandlers" class="tsd-kind-icon">set<wbr>Max<wbr>Waiting<wbr>Handlers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -3421,9 +3520,6 @@
 								<a href="redisoptions.html#setopensslengineoptions" class="tsd-kind-icon">set<wbr>Open<wbr>Ssl<wbr>Engine<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="redisoptions.html#setpassword" class="tsd-kind-icon">set<wbr>Password</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#setpemkeycertoptions" class="tsd-kind-icon">set<wbr>Pem<wbr>Key<wbr>Cert<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -3434,6 +3530,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#setpfxtrustoptions" class="tsd-kind-icon">set<wbr>Pfx<wbr>Trust<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#setpoolcleanerinterval" class="tsd-kind-icon">set<wbr>Pool<wbr>Cleaner<wbr>Interval</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="redisoptions.html#setpoolrecycletimeout" class="tsd-kind-icon">set<wbr>Pool<wbr>Recycle<wbr>Timeout</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redisoptions.html#setport" class="tsd-kind-icon">set<wbr>Port</a>
@@ -3520,30 +3622,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="redissentinel.html" class="tsd-kind-icon">Redis<wbr>Sentinel</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="redistransaction.html" class="tsd-kind-icon">Redis<wbr>Transaction</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="request.html" class="tsd-kind-icon">Request</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="response.html" class="tsd-kind-icon">Response</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="scanoptions.html" class="tsd-kind-icon">Scan<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="script.html" class="tsd-kind-icon">Script</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="setoptions.html" class="tsd-kind-icon">Set<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="sortoptions.html" class="tsd-kind-icon">Sort<wbr>Options</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
