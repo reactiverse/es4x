@@ -161,50 +161,50 @@ Configuration is passed to the client when creating or deploying it.
 
 The following configuration properties generally apply:
 
-  - `provider_class`
+  - `provider_class`  
     The class name of the class actually used to manage the database
     connections. By default this is
     `io.vertx.ext.jdbc.spi.impl.C3P0DataSourceProvider` but if you want
     to use a different provider you can override this property and
     provide your implementation.
 
-  - `row_stream_fetch_size`
+  - `row_stream_fetch_size`  
     The size of `SQLRowStream` internal cache which used to better
     performance. By default it equals to `128`
 
 Assuming the C3P0 implementation is being used (the default), the
 following extra configuration properties apply:
 
-  - `url`
+  - `url`  
     the JDBC connection URL for the database
 
-  - `driver_class`
+  - `driver_class`  
     the class of the JDBC driver
 
-  - `user`
+  - `user`  
     the username for the database
 
-  - `password`
+  - `password`  
     the password for the database
 
-  - `max_pool_size`
+  - `max_pool_size`  
     the maximum number of connections to pool - default is `15`
 
-  - `initial_pool_size`
+  - `initial_pool_size`  
     the number of connections to initialise the pool with - default is
     `3`
 
-  - `min_pool_size`
+  - `min_pool_size`  
     the minimum number of connections to pool
 
-  - `max_statements`
+  - `max_statements`  
     the maximum number of prepared statements to cache - default is `0`.
 
-  - `max_statements_per_connection`
+  - `max_statements_per_connection`  
     the maximum number of prepared statements to cache per connection -
     default is `0`.
 
-  - `max_idle_time`
+  - `max_idle_time`  
     number of seconds after which an idle connection will be closed -
     default is `0` (never expire).
 

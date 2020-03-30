@@ -327,11 +327,11 @@ The validation handler separates file uploads and form attributes as
 explained:
 
   - If the parameter doesn’t have an encoding associated field:
-
+    
       - If the parameter has `type: string` and `format: base64` or
         `format: binary` is a file upload with content-type
         `application/octet-stream`
-
+    
       - Otherwise is a form attribute
 
   - If the parameter has the encoding associated field is a file upload

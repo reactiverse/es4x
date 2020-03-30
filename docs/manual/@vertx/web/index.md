@@ -1493,6 +1493,11 @@ let store = ClusteredSessionStore.create(vertx);
 
 let sessionHandler = SessionHandler.create(store);
 
+// the session handler controls the cookie used for the session
+// this includes configuring, for example, the same site policy
+// like this, for strict same site policy.
+sessionHandler.setCookieSameSite('STRICT');
+
 // Make sure all requests are routed through the session handler too
 router.route().handler(sessionHandler);
 
@@ -2331,12 +2336,12 @@ response, session or context data.
 
 Here are some examples:
 
-``` html
-<p th:text="${context.foo}"></p>
-<p th:text="${context.bar}"></p>
-<p th:text="${context.normalisedPath()}"></p>
-<p th:text="${context.request().params().param1}"></p>
-<p th:text="${context.request().params().param2}"></p>
+```html
+    <p th:text="${context.foo}"></p>
+    <p th:text="${context.bar}"></p>
+    <p th:text="${context.normalisedPath()}"></p>
+    <p th:text="${context.request().params().param1}"></p>
+    <p th:text="${context.request().params().param2}"></p>
 ```
 
 Please consult the [Apache FreeMarker

@@ -1,11 +1,10 @@
 Vert.x-redis is redis client to be used with Vert.x.
 
 This module allows data to be saved, retrieved, searched for, and
-deleted in a Redis. Redis is an open source, BSD licensed, advanced
-key-value store. It is often referred to as a data structure server
-since keys can contain strings, hashes, lists, sets and sorted sets. To
-use this module you must have a Redis server instance running on your
-network.
+deleted in a Redis. Redis is an open source, advanced key-value store.
+It is often referred to as a data structure server since keys can
+contain strings, hashes, lists, sets and sorted sets. To use this module
+you must have a Redis server instance running on your network.
 
 Redis has a rich API and it can be organized in the following groups:
 
@@ -38,6 +37,8 @@ Redis has a rich API and it can be organized in the following groups:
   - Strings - Commands to work with Strings.
 
   - Transactions - Commands to handle transaction lifecycle.
+
+  - Streams - Commands to handle streaming.
 
 # Using Vert.x-Redis
 
@@ -82,7 +83,7 @@ initialized with the following values:
   - `netClientOptions`: default is `TcpKeepAlive: true`, `TcpNoDelay:
     true`
 
-  - `endpoint`: default is `localhost:6379`
+  - `endpoint`: default is `redis://localhost:6379`
 
   - `masterName`: default is `mymaster`
 
@@ -107,16 +108,25 @@ connection is established to the server.
 
 ``` js
 import { Redis } from "@vertx/redis-client"
-let options = new RedisOptions()
-  .setPassword("abracadabra")
-  .setSelect(1);
-
-Redis.createClient(vertx, options).connect((onConnect) => {
+Redis.createClient(vertx, "redis://:abracadabra@localhost:6379/1").connect((onConnect) => {
   if (onConnect.succeeded()) {
     let client = onConnect.result();
   }
 });
 ```
+
+# Connection String
+
+The client will recognize addresses that follow the expression:
+
+    redis://[:password@]host[:port][/db-number]
+
+Or
+
+    unix://[:password@]/domain/docker.sock[?select=db-number]
+
+When specifying a password or a database those commands are always
+executed on connection start.
 
 # Running commands
 
@@ -162,11 +172,10 @@ similar:
 ``` js
 import { Command } from "@vertx/redis-client"
 import { Request } from "@vertx/redis-client"
-import { SocketAddress } from "@vertx/core"
 import { Redis } from "@vertx/redis-client"
 Redis.createClient(vertx, new RedisOptions()
   .setType("SENTINEL")
-  .setEndpoints([SocketAddress.inetSocketAddress(5000, "127.0.0.1"), SocketAddress.inetSocketAddress(5001, "127.0.0.1"), SocketAddress.inetSocketAddress(5002, "127.0.0.1")])
+  .setConnectionStrings(["redis://127.0.0.1:5000", "redis://127.0.0.1:5001", "redis://127.0.0.1:5002"])
   .setMasterName("sentinel7000")
   .setRole("MASTER")).connect((onConnect) => {
   // assuming we got a connection to the master node
@@ -188,9 +197,8 @@ decide what to do next.
 To work with cluster the connection creation is quite similar:
 
 ``` js
-import { SocketAddress } from "@vertx/core"
 let options = new RedisOptions()
-  .setEndpoints([SocketAddress.inetSocketAddress(7000, "127.0.0.1"), SocketAddress.inetSocketAddress(7001, "127.0.0.1"), SocketAddress.inetSocketAddress(7002, "127.0.0.1"), SocketAddress.inetSocketAddress(7003, "127.0.0.1"), SocketAddress.inetSocketAddress(7004, "127.0.0.1"), SocketAddress.inetSocketAddress(7005, "127.0.0.1")]);
+  .setConnectionStrings(["redis://127.0.0.1:7000", "redis://127.0.0.1:7001", "redis://127.0.0.1:7002", "redis://127.0.0.1:7003", "redis://127.0.0.1:7004", "redis://127.0.0.1:7005"]);
 ```
 
 In this case the configuration requires one of more members of the
@@ -241,16 +249,23 @@ redis.send(Request.cmd(Command.PUBLISH).arg("channel1").arg("Hello World!"), (re
 });
 ```
 
+> **Note**
+> 
+> It is important to remember that the commands `SUBSCRIBE`,
+> `UNSUBSCRIBE`, `PSUBSCRIBE` and `PUNSUBSCRIBE` are `void`. This means
+> that the result in case of success is `null` not a instance of
+> response. All messages are then routed through the handler on the
+> client.
+
 # Domain Sockets
 
 Most of the examples shown connecting to a TCP sockets, however it is
 also possible to use Redis connecting to a UNIX domain docket:
 
 ``` js
-import { SocketAddress } from "@vertx/core"
 import { Redis } from "@vertx/redis-client"
 
-Redis.createClient(vertx, SocketAddress.domainSocketAddress("/tmp/redis.sock")).connect((onConnect) => {
+Redis.createClient(vertx, "unix:///tmp/redis.sock").connect((onConnect) => {
   if (onConnect.succeeded()) {
     let client = onConnect.result();
   }
@@ -261,11 +276,75 @@ Be aware that HA and cluster modes report server addresses always on TCP
 addresses not domain sockets. So the combination is not possible. Not
 because of this client but how Redis works.
 
+# Connection Pooling
+
+All client variations are backed by a connection pool. By default the
+configuration sets the pool size to 1, which means that it operates just
+like a single connection. There are 4 tunnables for the pool:
+
+  - `maxPoolSize` the max number of connections on the pool (default
+    `6`)
+
+  - `maxPoolWaiting` the max waiting handlers to get a connection on a
+    queue (default `24`)
+
+  - `poolCleanerInterval` the interval when connections will be clean
+    default is `-1` (disabled)
+
+  - `poolRecycleTimeout` the timeout to keep an open connection on the
+    pool waiting and then close (default `15_000`)
+
+Pooling is quite useful to avoid custom connection management, for
+example you can just use as:
+
+``` js
+import { Command } from "@vertx/redis-client"
+import { Request } from "@vertx/redis-client"
+import { Redis } from "@vertx/redis-client"
+Redis.createClient(vertx, "redis://localhost:7006").send(Request.cmd(Command.PING), (send) => {
+  if (send.succeeded()) {
+    // Should have received a pong...
+  }
+});
+```
+
+It is important to observe that no connection was acquired or returned,
+it’s all handled by the pool. However there might be some scalability
+issues when more than 1 concurrent request attempts to get a connection
+from the pool, in order to overcome this we need to tune the pool. A
+common configuration is to set the maximum size of the pool to the
+number of available CPU cores and allow requests to get a connection
+from the pool to queue:
+
+``` js
+import { Command } from "@vertx/redis-client"
+import { Request } from "@vertx/redis-client"
+import { Redis } from "@vertx/redis-client"
+Redis.createClient(vertx, new RedisOptions()
+  .setConnectionString("redis://localhost:7006")
+  .setMaxPoolSize(8)
+  .setMaxWaitingHandlers(32)).send(Request.cmd(Command.PING), (send) => {
+  if (send.succeeded()) {
+    // Should have received a pong...
+  }
+});
+```
+
+> **Note**
+> 
+> Pooling is not compatible with `SUBSCRIBE`, `UNSUBSCRIBE`,
+> `PSUBSCRIBE` or `PUNSUBSCRIBE` because these commands will modify the
+> way the connection operates and the connection cannot be reused.
+
 # Implementing Reconnect on Error
+
+While the connection pool is quite useful, for performance, a connection
+should not be auto managed but controlled by you. In this case you will
+need to handle connection recovery, error handling and reconnect.
 
 A typical scenario is that a user will want to reconnect to the server
 whenever an error occurs. The automatic reconnect is not part of the
-redis client has it will force a behaviour that might not match the user
+redis client as it will force a behaviour that might not match the user
 expectations, for example:
 
 1.  What should happen to current in-flight requests?

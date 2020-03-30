@@ -88,7 +88,7 @@ let client = WebClient.wrap(httpClient);
 ```
 
 > **Important**
->
+> 
 > In most cases, a Web Client should be created once on application
 > startup and then reused. Otherwise you lose a lot of benefits such as
 > connection pooling and may leak resources if instances are not closed
@@ -256,7 +256,7 @@ client.post(8080, "myserver.mycompany.com", "/some-uri").sendJson(new (Java.type
 ```
 
 > **Note**
->
+> 
 > the `Json.encode` uses the Jackson mapper to encode the object to
 > Json.
 
@@ -442,7 +442,7 @@ client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar) => {
 ```
 
 > **Caution**
->
+> 
 > By default, a Vert.x Web Client request ends with an error only if
 > something wrong happens at the network level. In other words, a `404
 > Not Found` response, or a response with the wrong content type, are
@@ -451,7 +451,7 @@ client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar) => {
 > perform sanity checks automatically.
 
 > **Warning**
->
+> 
 > Responses are fully buffered, use `BodyCodec.pipe` to pipe the
 > response to a write stream
 
@@ -563,7 +563,7 @@ client.get(8080, "myserver.mycompany.com", "/some-uri").send((ar) => {
 ```
 
 > **Warning**
->
+> 
 > this is only valid for the response decoded as a buffer.
 
 ## Response predicates
@@ -650,7 +650,7 @@ client.request('OPTIONS', 8080, "myserver.mycompany.com", "/some-uri").putHeader
 ```
 
 > **Tip**
->
+> 
 > Response predicates are evaluated *before* the response body is
 > received. Therefore you can’t inspect the response body in a predicate
 > test function.
@@ -708,7 +708,7 @@ let client = WebClient.create(vertx, new WebClientOptions()
 ```
 
 > **Note**
->
+> 
 > For security reason, client won’t follow redirects for request with
 > methods different from GET or HEAD
 

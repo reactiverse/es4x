@@ -3,14 +3,14 @@ Vert.x Web GraphQL extends Vert.x Web with the
 build a GraphQL server.
 
 > **Tip**
->
+> 
 > This is the reference documentation for Vert.x Web GraphQL. It is
 > highly recommended to get familiar with the GraphQL-Java API first.
 > You may start by reading the [GraphQL-Java
 > documentation](https://www.graphql-java.com/documentation/${graphql.java.doc.version}/).
 
 > **Warning**
->
+> 
 > This module has *Tech Preview* status, this means the API can change
 > between versions.
 
@@ -55,7 +55,7 @@ router.post("/graphql").handler(GraphQLHandler.create(graphQL));
 ```
 
 > **Tip**
->
+> 
 > The `GraphQLHandler` does not require a `BodyHandler` to read `POST`
 > requests content.
 
@@ -78,13 +78,13 @@ router.route("/graphiql/*").handler(GraphiQLHandler.create(options));
 Then browse to <http://localhost:8080/graphiql/>.
 
 > **Note**
->
+> 
 > The GraphiQL user interface is disabled by default for security
 > reasons. This is why you must configure the `GraphiQLHandlerOptions`
 > to enable it.
 
 > **Tip**
->
+> 
 > GraphiQL is enabled automatically when Vert.x Web runs in development
 > mode. To switch the development mode on, use the
 > `VERTXWEB_ENVIRONMENT` environment variable or `vertxweb.environment`
@@ -202,7 +202,7 @@ let dataFetcher = new (Java.type("io.vertx.ext.web.handler.graphql.VertxDataFetc
 ```
 
 > **Note**
->
+> 
 > The routing context is available with any kind of data fetchers, not
 > just `VertxDataFetcher`.
 
@@ -251,7 +251,7 @@ builder.wiringFactory(new (Java.type("graphql.schema.idl.WiringFactory"))());
 ```
 
 > **Tip**
->
+> 
 > `VertxPropertyDataFetcher` wraps a `PropertyDataFetcher` so you can
 > still use it with domain objects.
 
@@ -271,7 +271,7 @@ let linksBatchLoader = (keys, environment) => {
 ```
 
 > **Tip**
->
+> 
 > If you work with Vert.x callback-based APIs, you may use a
 > `VertxBatchLoader` or a `VertxMappedBatchLoader` to simplify your
 > code.
@@ -299,7 +299,7 @@ router.route("/graphql").handler(ApolloWSHandler.create(graphQL));
 ```
 
 > **Important**
->
+> 
 > To support the `graphql-ws` websocket subprotocol, it has to be added
 > to the server configuration:
 
@@ -310,7 +310,7 @@ vertx.createHttpServer(httpServerOptions).requestHandler(router).listen(8080);
 ```
 
 > **Note**
->
+> 
 > If you want to support a WebSocketLink and a HttpLink in the same
 > path, you can add the ApolloWSHandler in first place and then the
 > GraphQLHandler.
@@ -328,6 +328,6 @@ Here you can find how to configure the Apollo SubscriptionClient:
 <https://github.com/apollographql/subscriptions-transport-ws>
 
 > **Important**
->
+> 
 > A subscription `DataFetcher` has to return a
 > `org.reactivestreams.Publisher` instance.

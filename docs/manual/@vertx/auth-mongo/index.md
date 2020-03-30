@@ -84,14 +84,14 @@ If you want to override this behaviour you can do so by providing an
 alternative hash strategy and setting it with `setHashStrategy`
 
 > **Warning**
->
+> 
 > It is strongly advised to use the `EXTERNAL` option. The NO\_SALT
 > option is existing for development phase only and even the COLUMN
 > option is not recommended, cause salt and password are stored inside
 > the same place\!
 
 > **Warning**
->
+> 
 > As of 2018 OWASP recommends the usage of stronger encryption
 > algorithms to hash user passwords for this case you can change from
 > the default (preserved for backwards-compatibility) to PBKDF2. For new

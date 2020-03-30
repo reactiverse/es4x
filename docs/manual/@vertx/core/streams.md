@@ -292,7 +292,7 @@ server.connectHandler((sock) => {
 ```
 
 > **Important**
->
+> 
 > Before Vert.x 3.7 the `Pump` was the advocated API for transferring a
 > read stream to a write stream. Since 3.7 the pipe API supersedes the
 > pump API.

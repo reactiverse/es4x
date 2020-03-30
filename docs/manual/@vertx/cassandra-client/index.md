@@ -2,7 +2,7 @@ A Vert.x client allowing applications to interact with an [Apache
 Cassandra](http://cassandra.apache.org/) service.
 
 > **Warning**
->
+> 
 > This module has *Tech Preview* status, this means the API can change
 > between versions.
 
@@ -26,7 +26,7 @@ compile 'io.vertx:vertx-cassandra-client:${maven.version}'
 ```
 
 > **Warning**
->
+> 
 > The Cassandra client is not compatible with the Vert.x Dropwizard
 > Metrics library. Both are using a different major version of the
 > Dropwizard Metrics library and the Datastax Java driver [won’t
@@ -63,7 +63,7 @@ let client = CassandraClient.create(vertx, options);
 ```
 
 > **Tip**
->
+> 
 > For fine tuning purposes, `CassandraClientOptions` exposes a
 > `com.datastax.driver.core.Cluster.Builder` instance.
 
@@ -90,7 +90,7 @@ After the client is created, it is not connected until the first query
 is executed.
 
 > **Tip**
->
+> 
 > A shared client can be connected after creation if another client with
 > the same name has already executed a query.
 
@@ -101,7 +101,7 @@ verticle is undeployed. In other words, you do not need to invoke
 In all other cases, you must manually close the client.
 
 > **Note**
->
+> 
 > When a shared client is closed, the driver dession is not closed if
 > other clients with the same name are still running.
 
@@ -177,7 +177,7 @@ cassandraClient.executeWithFullFetch("SELECT * FROM my_keyspace.my_table where m
 ```
 
 > **Caution**
->
+> 
 > Use bulk fetching only if you can afford to load the full result set
 > in memory.
 
@@ -362,6 +362,6 @@ mapper.delete(Java.type("java.util.Collections").singletonList("foo"), (handler)
 ```
 
 > **Tip**
->
+> 
 > It is safe to reuse mapping manager and mapper instances for a given
 > Cassandra client.

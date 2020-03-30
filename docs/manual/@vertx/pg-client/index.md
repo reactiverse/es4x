@@ -82,7 +82,7 @@ let poolOptions = new PoolOptions()
 let client = PgPool.pool(connectOptions, poolOptions);
 
 // A simple query
-client.query("SELECT * FROM users WHERE id='julien'", (ar) => {
+client.query("SELECT * FROM users WHERE id='julien'").execute((ar) => {
   if (ar.succeeded()) {
     let result = ar.result();
     console.log("Got " + result.size() + " rows ");
@@ -183,9 +183,9 @@ client.getConnection((ar1) => {
     let conn = ar1.result();
 
     // All operations execute on the same connection
-    conn.query("SELECT * FROM users WHERE id='julien'", (ar2) => {
+    conn.query("SELECT * FROM users WHERE id='julien'").execute((ar2) => {
       if (ar2.succeeded()) {
-        conn.query("SELECT * FROM users WHERE id='emad'", (ar3) => {
+        conn.query("SELECT * FROM users WHERE id='emad'").execute((ar3) => {
           // Release the connection to the pool
           conn.close();
         });
@@ -377,13 +377,42 @@ PgConnection.connect(vertx, (res) => {
 });
 ```
 
+## SASL SCRAM-SHA-256 authentication mechanism.
+
+To use the sasl SCRAM-SHA-256 authentication add the following
+dependency to the *dependencies* section of your build descriptor:
+
+  - Maven (in your `pom.xml`):
+
+<!-- end list -->
+
+``` xml
+<dependency>
+ <groupId>com.ongres.scram</groupId>
+ <artifactId>client</artifactId>
+ <version>1.0.0-beta.2</version>
+</dependency>
+```
+
+  - Gradle (in your `build.gradle` file):
+
+<!-- end list -->
+
+``` groovy
+dependencies {
+ compile 'com.ongres.scram:client:1.0.0-beta.2'
+}
+```
+
+Note that SCRAM-SHA-256-PLUS (added in Postgresql 11) is not supported.
+
 Unresolved directive in index.adoc - include::queries.adoc\[\]
 
 You can fetch generated keys with a 'RETURNING' clause in your query:
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("INSERT INTO color (color_name) VALUES ($1), ($2), ($3) RETURNING color_id", Tuple.of("white", "red", "blue"), (ar) => {
+client.preparedQuery("INSERT INTO color (color_name) VALUES ($1), ($2), ($3) RETURNING color_id").execute(Tuple.of("white", "red", "blue"), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     console.log(rows.rowCount());
@@ -486,7 +515,7 @@ Tuple decoding uses the above types when storing values, it also
 performs on the flu conversion the actual value when possible:
 
 ``` js
-pool.query("SELECT 1::BIGINT \"VAL\"", (ar) => {
+pool.query("SELECT 1::BIGINT \"VAL\"").execute((ar) => {
   let rowSet = ar.result();
   let row = rowSet.iterator().next();
 
@@ -502,7 +531,7 @@ Tuple encoding uses the above type mapping for encoding, unless the type
 is numeric in which case `java.lang.Number` is used instead:
 
 ``` js
-pool.query("SELECT 1::BIGINT \"VAL\"", (ar) => {
+pool.query("SELECT 1::BIGINT \"VAL\"").execute((ar) => {
   let rowSet = ar.result();
   let row = rowSet.iterator().next();
 
@@ -571,7 +600,7 @@ You can read from PostgreSQL and get the custom type as a string
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("SELECT address, (address).city FROM address_book WHERE id=$1", Tuple.of(3), (ar) => {
+client.preparedQuery("SELECT address, (address).city FROM address_book WHERE id=$1").execute(Tuple.of(3), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     rows.forEach(row => {
@@ -587,7 +616,7 @@ You can also write to PostgreSQL by providing a string
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("INSERT INTO address_book (id, address) VALUES ($1, $2)", Tuple.of(3, "('Anytown', 'Second Ave', false)"), (ar) => {
+client.preparedQuery("INSERT INTO address_book (id, address) VALUES ($1, $2)").execute(Tuple.of(3, "('Anytown', 'Second Ave', false)"), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     console.log(rows.rowCount());
@@ -603,7 +632,7 @@ Text search is handling using java `String`
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("SELECT to_tsvector( $1 ) @@ to_tsquery( $2 )", Tuple.of("fat cats ate fat rats", "fat & rat"), (ar) => {
+client.preparedQuery("SELECT to_tsvector( $1 ) @@ to_tsquery( $2 )").execute(Tuple.of("fat cats ate fat rats", "fat & rat"), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     rows.forEach(row => {
@@ -619,7 +648,7 @@ client.preparedQuery("SELECT to_tsvector( $1 ) @@ to_tsquery( $2 )", Tuple.of("f
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("SELECT to_tsvector( $1 ), to_tsquery( $2 )", Tuple.of("fat cats ate fat rats", "fat & rat"), (ar) => {
+client.preparedQuery("SELECT to_tsvector( $1 ), to_tsquery( $2 )").execute(Tuple.of("fat cats ate fat rats", "fat & rat"), (ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     rows.forEach(row => {
@@ -661,7 +690,7 @@ connection.notificationHandler((notification) => {
   console.log("Received " + notification.payload + " on channel " + notification.channel);
 });
 
-connection.query("LISTEN some-channel", (ar) => {
+connection.query("LISTEN some-channel").execute((ar) => {
   console.log("Subscribed to channel");
 });
 ```
@@ -718,7 +747,7 @@ subscriber.connect((ar) => {
       console.log("Received " + payload);
     });
     subscriber.channel("Complex.Channel.Name").subscribeHandler((subscribed) => {
-      subscriber.actualConnection().query("NOTIFY \"Complex.Channel.Name\", 'msg'", (notified) => {
+      subscriber.actualConnection().query("NOTIFY \"Complex.Channel.Name\", 'msg'").execute((notified) => {
         console.log("Notified \"Complex.Channel.Name\"");
       });
     });
@@ -729,7 +758,7 @@ subscriber.connect((ar) => {
     });
     subscriber.channel("simple_channel").subscribeHandler((subscribed) => {
       // The following simple channel identifier is forced to lower case
-      subscriber.actualConnection().query("NOTIFY Simple_CHANNEL, 'msg'", (notified) => {
+      subscriber.actualConnection().query("NOTIFY Simple_CHANNEL, 'msg'").execute((notified) => {
         console.log("Notified simple_channel");
       });
     });
@@ -787,7 +816,7 @@ new connection to the server and cancels the request and then close the
 connection.
 
 ``` js
-connection.query("SELECT pg_sleep(20)", (ar) => {
+connection.query("SELECT pg_sleep(20)").execute((ar) => {
   if (ar.succeeded()) {
     // imagine this is a long query and is still running
     console.log("Query success");

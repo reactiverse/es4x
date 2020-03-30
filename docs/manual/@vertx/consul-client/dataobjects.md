@@ -776,16 +776,17 @@ Holds result of services query
 
 Options used to register service.
 
-|                 |                   |                                                                 |
-| --------------- | ----------------- | --------------------------------------------------------------- |
-| Name            | Type              | Description                                                     |
-| `@address`      | `String`          | Set service address                                             |
-| `@checkOptions` | `CheckOptions`    | Set check options of service                                    |
-| `@id`           | `String`          | Set the ID of session                                           |
-| `@meta`         | `String`          | Specifies arbitrary KV metadata linked to the service instance. |
-| `@name`         | `String`          | Set service name                                                |
-| `@port`         | `Number (int)`    | Set service port                                                |
-| `@tags`         | `Array of String` | Set list of tags associated with service                        |
+|                     |                         |                                                                 |
+| ------------------- | ----------------------- | --------------------------------------------------------------- |
+| Name                | Type                    | Description                                                     |
+| `@address`          | `String`                | Set service address                                             |
+| `@checkListOptions` | `Array of CheckOptions` | Set checks options of service                                   |
+| `@checkOptions`     | `CheckOptions`          | Set check options of service                                    |
+| `@id`               | `String`                | Set the ID of session                                           |
+| `@meta`             | `String`                | Specifies arbitrary KV metadata linked to the service instance. |
+| `@name`             | `String`                | Set service name                                                |
+| `@port`             | `Number (int)`          | Set service port                                                |
+| `@tags`             | `Array of String`       | Set list of tags associated with service                        |
 
 # ServiceQueryOptions
 

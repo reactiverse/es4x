@@ -81,7 +81,7 @@ let poolOptions = new PoolOptions()
 let client = MySQLPool.pool(connectOptions, poolOptions);
 
 // A simple query
-client.query("SELECT * FROM users WHERE id='julien'", (ar) => {
+client.query("SELECT * FROM users WHERE id='julien'").execute((ar) => {
   if (ar.succeeded()) {
     let result = ar.result();
     console.log("Got " + result.size() + " rows ");
@@ -182,9 +182,9 @@ client.getConnection((ar1) => {
     let conn = ar1.result();
 
     // All operations execute on the same connection
-    conn.query("SELECT * FROM users WHERE id='julien'", (ar2) => {
+    conn.query("SELECT * FROM users WHERE id='julien'").execute((ar2) => {
       if (ar2.succeeded()) {
-        conn.query("SELECT * FROM users WHERE id='emad'", (ar3) => {
+        conn.query("SELECT * FROM users WHERE id='emad'").execute((ar3) => {
           // Release the connection to the pool
           conn.close();
         });
@@ -353,7 +353,7 @@ table.
 
 ``` js
 import { MySQLClient } from "@vertx/mysql-client"
-client.query("INSERT INTO test(val) VALUES ('v1')", (ar) => {
+client.query("INSERT INTO test(val) VALUES ('v1')").execute((ar) => {
   if (ar.succeeded()) {
     let rows = ar.result();
     let lastInsertId = rows.property(MySQLClient.LAST_INSERTED_ID);
@@ -470,11 +470,11 @@ table, the two examples below will both work here.
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("SELECT * FROM students WHERE updated_time = ?", Tuple.of(Java.type("java.time.LocalTime").of(19, 10, 25)), (ar) => {
+client.preparedQuery("SELECT * FROM students WHERE updated_time = ?").execute(Tuple.of(Java.type("java.time.LocalTime").of(19, 10, 25)), (ar) => {
   // handle the results
 });
 // this will also work with implicit type conversion
-client.preparedQuery("SELECT * FROM students WHERE updated_time = ?", Tuple.of("19:10:25"), (ar) => {
+client.preparedQuery("SELECT * FROM students WHERE updated_time = ?").execute(Tuple.of("19:10:25"), (ar) => {
   // handle the results
 });
 ```
@@ -494,6 +494,7 @@ values and here is the type mapping
 | java.lang.Float             | MYSQL\_TYPE\_FLOAT    |
 | java.time.LocalDate         | MYSQL\_TYPE\_DATE     |
 | java.time.Duration          | MYSQL\_TYPE\_TIME     |
+| java.time.LocalTime         | MYSQL\_TYPE\_TIME     |
 | io.vertx.core.buffer.Buffer | MYSQL\_TYPE\_BLOB     |
 | java.time.LocalDateTime     | MYSQL\_TYPE\_DATETIME |
 | default                     | MYSQL\_TYPE\_STRING   |
@@ -508,7 +509,7 @@ true. A `BOOLEAN` data type value is stored in `Row` or `Tuple` as
 as `java.lang.Boolean` value.
 
 ``` js
-client.query("SELECT graduated FROM students WHERE id = 0", (ar) => {
+client.query("SELECT graduated FROM students WHERE id = 0").execute((ar) => {
   if (ar.succeeded()) {
     let rowSet = ar.result();
     rowSet.forEach(row => {
@@ -528,7 +529,7 @@ params list.
 
 ``` js
 import { Tuple } from "@vertx/sql-client"
-client.preparedQuery("UPDATE students SET graduated = ? WHERE id = 0", Tuple.of(true), (ar) => {
+client.preparedQuery("UPDATE students SET graduated = ? WHERE id = 0").execute(Tuple.of(true), (ar) => {
   if (ar.succeeded()) {
     console.log("Updated with the boolean value");
   } else {
@@ -566,6 +567,14 @@ The `BIT` data type is mapped to `java.lang.Long` type, but Java has no
 notion of unsigned numeric values, so if you want to insert or update a
 record with the max value of `BIT(64)`, you can do some tricks setting
 the parameter to `-1L`.
+
+## Handling TIME
+
+MySQL `TIME` data type can be used to represent either time of a day or
+a time interval which ranges from `-838:59:59` to `838:59:59`. In
+Reactive MySQL client the `TIME` data type is mapped to
+`java.time.Duration` natively, but you can also retrieve it as a
+`java.time.LocalTime` via `Row#getLocalTime` accessor.
 
 ## Handling NUMERIC
 
@@ -607,10 +616,10 @@ protocol](https://dev.mysql.com/doc/dev/mysql-server/8.0.12/page_protocol_comman
 without any magic here.
 
 ``` js
-client.query("CREATE PROCEDURE multi() BEGIN\n  SELECT 1;\n  SELECT 1;\n  INSERT INTO ins VALUES (1);\n  INSERT INTO ins VALUES (2);\nEND;", (ar1) => {
+client.query("CREATE PROCEDURE multi() BEGIN\n  SELECT 1;\n  SELECT 1;\n  INSERT INTO ins VALUES (1);\n  INSERT INTO ins VALUES (2);\nEND;").execute((ar1) => {
   if (ar1.succeeded()) {
     // create stored procedure success
-    client.query("CALL multi();", (ar2) => {
+    client.query("CALL multi();").execute((ar2) => {
       if (ar2.succeeded()) {
         // handle the result
         let result1 = ar2.result();
@@ -851,3 +860,59 @@ Known issues:
 
   - Change user utility command is not supported with MariaDB 10.2 and
     10.3
+
+# Pitfalls & Good Practices
+
+Here are some good practices for you to avoid common pitfalls when using
+the Reactive MySQL Client.
+
+## prepared statement count limit
+
+Sometimes you might meet the notorious error `Can’t create more than
+max_prepared_stmt_count statements (current value: 16382)`, this is
+because the server has reached the limit of total number of prepared
+statement.
+
+You can adjust the server system variable `max_prepared_stmt_count` but
+it has an upper bound value so you can’t get rid of the error in this
+way.
+
+The best way to alleviate this is enabling prepared statement caching,
+so the prepared statements with the same SQL string could be reused and
+the client does not have to create a brand new prepared statement for
+every request. The prepared statement will be automatically closed when
+it’s evicted from the cache. In this way the chances of reaching the
+limit could be greatly reduced though it could not be totally
+eliminated.
+
+Note using `SqlClient#preparedQuery` without prepared statement caching
+enabled will not close the prepared statement after executing\!
+
+You can also manage the lifecycle of prepared statements manually by
+creating a `PreparedQuery` object via `SqlConnection#prepare` interface,
+or even use the [SQL syntax prepared
+statement](https://dev.mysql.com/doc/refman/8.0/en/sql-prepared-statements.html).
+
+## demystifying prepared batch
+
+There is time when you want to batch insert data into the database, you
+can use `SqlClient#preparedBatch` which provides a simple API to handle
+this. Keep in mind that MySQL does not natively support batching
+protocol so the API is only a sugar by executing the prepared statement
+one after another, which means more network round trips are required
+comparing to inserting multiple rows by executing one prepared statement
+with a list of values.
+
+## tricky DATE & TIME data types
+
+Handling MYSQL DATE and TIME data types especially with time zones is
+tricky therefore the Reactive MySQL Client does no magic transformation
+for those values.
+
+  - MySQL DATETIME data type does not contain time zone info, so what
+    you get is identical to what you set no matter what time zone is in
+    the current session.
+
+  - MySQL TIMESTAMP data type contains time zone info, so when you set
+    or get the value it’s always transformed by the server with the
+    timezone set in the current session.

@@ -11,6 +11,21 @@ Created by manishk on 10/2/2015.
 | `REQUEST`  | Accept authentication if presented by client. If this option is set and the client chooses not to provide authentication information about itself, the negotiations will continue. |
 | `REQUIRED` | Require client to present authentication, if not presented then negotiations will be declined.                                                                                     |
 
+# CookieSameSite
+
+Represents the Cookie SameSite policy to be used. For more info
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies\#SameSite\_cookies
+
+.
+
+|          |                                                                                                                                                                                                                                                                                 |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name     | Description                                                                                                                                                                                                                                                                     |
+| `NONE`   | The browser will send cookies with both cross-site requests and same-site requests.                                                                                                                                                                                             |
+| `STRICT` | The browser will only send cookies for same-site requests (requests originating from the site that set the cookie). If the request originated from a different URL than the URL of the current location, none of the cookies tagged with the Strict attribute will be included. |
+| `LAX`    | Same-site cookies are withheld on cross-site subrequests, such as calls to load images or frames, but will be sent when a user navigates to the URL from an external site; for example, by following a link.                                                                    |
+
 # DnsResponseCode
 
 Represents the possible response codes a server may send after receiving
