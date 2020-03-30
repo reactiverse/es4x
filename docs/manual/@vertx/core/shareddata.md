@@ -20,7 +20,7 @@ In practice, it provides:
   - asynchronous counters
 
 > **Important**
->
+> 
 > The behavior of the distributed data structure depends on the cluster
 > manager you use. Backup (replication) and behavior when a network
 > partition is faced are defined by the cluster manager and its
@@ -98,7 +98,7 @@ When Vert.x is clustered, data that you put into the map is accessible
 locally as well as on any of the other cluster members.
 
 > **Important**
->
+> 
 > In clustered mode, asynchronous shared maps rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared map operations can be much higher in
@@ -221,7 +221,7 @@ sharedData.getLockWithTimeout("mylock", 10000, (res) => {
 See the `API docs` for a detailed list of lock operations.
 
 > **Important**
->
+> 
 > In clustered mode, asynchronous locks rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared lock operations can be much higher in
@@ -277,7 +277,7 @@ increment it, decrement and add a value to it using the various methods.
 See the `API docs` for a detailed list of counter operations.
 
 > **Important**
->
+> 
 > In clustered mode, asynchronous counters rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared counter operations can be much higher

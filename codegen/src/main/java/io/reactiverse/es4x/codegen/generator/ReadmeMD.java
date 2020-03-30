@@ -81,7 +81,7 @@ public class ReadmeMD extends Generator<ModuleModel> {
     writer.print("When working in a project you can enable type hinting for the runtime as:\n");
     writer.print("\n");
     writer.print("```js\n");
-    writer.print("/// <definition types=\"es4x.d.ts\" />\n");
+    writer.print("/// <definition types=\"es4x\" />\n");
     writer.print("// @ts-check\n");
     writer.print("\n");
     writer.print("// your TypeScript code here...\n");

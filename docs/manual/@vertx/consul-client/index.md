@@ -51,24 +51,24 @@ let client = ConsulClient.create(vertx, options);
 
 The following configuration is supported by the consul client:
 
-  - `host`
+  - `host`  
     Consul host. Defaults to `localhost`
 
-  - `port`
+  - `port`  
     Consul HTTP API port. Defaults to `8500`
 
-  - `timeout`
+  - `timeout`  
     Sets the amount of time (in milliseconds) after which if the request
     does not return any data within the timeout period an failure will
     be passed to the handler and the request will be closed.
 
-  - `aclToken`
+  - `aclToken`  
     The ACL token. When provided, the client will use this token when
     making requests to the Consul by providing the "?token" query
     parameter. When not provided, the empty token, which maps to the
     'anonymous' ACL policy, is used.
 
-  - `dc`
+  - `dc`  
     The datacenter name. When provided, the client will use it when
     making requests to the Consul by providing the "?dc" query
     parameter. When not provided, the datacenter of the consul agent is
@@ -93,11 +93,11 @@ identifier (index) representing the current state of the requested
 resource. The following configuration is used to perform blocking
 queries:
 
-  - `index`
+  - `index`  
     value indicating that the client wishes to wait for any changes
     subsequent to that index.
 
-  - `wait`
+  - `wait`  
     parameter specifying a maximum duration for the blocking request.
     This is limited to 10 minutes.
 
@@ -159,27 +159,27 @@ consulClient.getValues("prefix", (res) => {
 The returned key-value object contains these fields (see
 [documentation](https://www.consul.io/docs/agent/http/kv.html#single)):
 
-  - `createIndex`
+  - `createIndex`  
     the internal index value that represents when the entry was created.
 
-  - `modifyIndex`
+  - `modifyIndex`  
     the last index that modified this key
 
-  - `lockIndex`
+  - `lockIndex`  
     the number of times this key has successfully been acquired in a
     lock
 
-  - `key`
+  - `key`  
     the key
 
-  - `flags`
+  - `flags`  
     the flags attached to this entry. Clients can choose to use this
     however makes sense for their application
 
-  - `value`
+  - `value`  
     the value
 
-  - `session`
+  - `session`  
     the session that owns the lock
 
 The modify index can be used for blocking queries:
@@ -233,12 +233,12 @@ consulClient.putValueWithOptions("key", "value", opts, (res) => {
 
 The list of the query options that can be used with a `PUT` request:
 
-  - `flags`
+  - `flags`  
     This can be used to specify an unsigned value between `0` and
     `264-1`. Clients can choose to use this however makes sense for
     their application.
 
-  - `casIndex`
+  - `casIndex`  
     This flag is used to turn the PUT into a Check-And-Set operation.
     This is very useful as a building block for more complex
     synchronization primitives. If the index is `0`, Consul will only
@@ -246,7 +246,7 @@ The list of the query options that can be used with a `PUT` request:
     the key is only set if the index matches the ModifyIndex of that
     key.
 
-  - `acquireSession`
+  - `acquireSession`  
     This flag is used to turn the PUT into a lock acquisition operation.
     This is useful as it allows leader election to be built on top of
     Consul. If the lock is not held and the session is valid, this
@@ -257,7 +257,7 @@ The list of the query options that can be used with a `PUT` request:
     updated. This lets the current lock holder update the key contents
     without having to give up the lock and reacquire it.
 
-  - `releaseSession`
+  - `releaseSession`  
     This flag is used to turn the PUT into a lock release operation.
     This is useful when paired with `acquireSession` as it allows
     clients to yield a lock. This will leave the LockIndex unmodified
@@ -342,29 +342,29 @@ let opts = new ServiceOptions()
   .setPort(8048);
 ```
 
-  - `name`
+  - `name`  
     the name of service
 
-  - `id`
+  - `id`  
     the `id` is set to the `name` if not provided. It is required that
     all services have a unique ID per node, so if names might conflict
     then unique IDs should be provided.
 
-  - `tags`
+  - `tags`  
     list of values that are opaque to Consul but can be used to
     distinguish between primary or secondary nodes, different versions,
     or any other service level labels.
 
-  - `address`
+  - `address`  
     used to specify a service-specific IP address. By default, the IP
     address of the agent is used, and this does not need to be provided.
 
-  - `port`
+  - `port`  
     used as well to make a service-oriented architecture simpler to
     configure; this way, the address and port of a service can be
     discovered.
 
-  - `checks`
+  - `checks`  
     associated health checks
 
 These options used to register service in catalog:
@@ -430,17 +430,17 @@ let queryOpts = new ServiceQueryOptions()
     .setIndex(lastIndex));
 ```
 
-  - `tag`
+  - `tag`  
     by default, all nodes matching the service are returned. The list
     can be filtered by tag using the `tag` query parameter
 
-  - `near`
+  - `near`  
     adding the optional `near` parameter with a node name will sort the
     node list in ascending order based on the estimated round trip time
     from that node. Passing `near`=`_agent` will use the agent’s node
     for the sort.
 
-  - `blockingOptions`
+  - `blockingOptions`  
     the blocking qyery options
 
 Then the request should look like
@@ -485,38 +485,38 @@ let opts = new CheckOptions()
 
 The list of check options that supported by Consul client is:
 
-  - `id`
+  - `id`  
     the check ID
 
-  - `name`
+  - `name`  
     check name
 
-  - `script`
+  - `script`  
     local path to checking script. Also you should set checking interval
 
-  - `http`
+  - `http`  
     HTTP address to check. Also you should set checking interval
 
-  - `ttl`
+  - `ttl`  
     Time to Live of check
 
-  - `tcp`
+  - `tcp`  
     TCP address to check. Also you should set checking interval
 
-  - `interval`
+  - `interval`  
     checking interval in Go’s time format which is sequence of decimal
     numbers, each with optional fraction and a unit suffix, such as
     "300ms", "-1.5h" or "2h45m". Valid time units are "ns", "us" (or
     "µs"), "ms", "s", "m", "h"
 
-  - `notes`
+  - `notes`  
     the check notes
 
-  - `serviceId`
+  - `serviceId`  
     the service ID to associate the registered check with an existing
     service provided by the agent.
 
-  - `deregisterAfter`
+  - `deregisterAfter`  
     deregister timeout. This is optional field, which is a timeout in
     the same time format as Interval and TTL. If a check is associated
     with a service and has the critical state for more than this
@@ -528,7 +528,7 @@ The list of check options that supported by Consul client is:
     generally be configured with a timeout that’s much, much longer than
     any expected recoverable outage for the given service.
 
-  - `status`
+  - `status`  
     the check status to specify the initial state of the health check
 
 The `Name` field is mandatory, as is one of `Script`, `HTTP`, `TCP` or
@@ -568,16 +568,16 @@ consulClient.fireEvent("eventName", (res) => {
 
 Also additional options can be specified.
 
-  - `node`
+  - `node`  
     regular expression to filter recipients by node name
 
-  - `service`
+  - `service`  
     regular expression to filter recipients by service
 
-  - `tag`
+  - `tag`  
     regular expression to filter recipients by tag
 
-  - `payload`
+  - `payload`  
     an optional body of the event. The body contents are opaque to
     Consul and become the "payload" of the event
 
@@ -653,30 +653,30 @@ let opts = new SessionOptions()
   .setBehavior("RELEASE");
 ```
 
-  - `lockDelay`
+  - `lockDelay`  
     can be specified as a duration string using an 's' suffix for
     seconds. The default is '15s'.
 
-  - `name`
+  - `name`  
     can be used to provide a human-readable name for the Session.
 
-  - `node`
+  - `node`  
     must refer to a node that is already registered, if specified. By
     default, the agent’s own node name is used.
 
-  - `checks`
+  - `checks`  
     is used to provide a list of associated health checks. It is highly
     recommended that, if you override this list, you include the default
     `serfHealth`.
 
-  - `behavior`
+  - `behavior`  
     can be set to either `release` or `delete`. This controls the
     behavior when a session is invalidated. By default, this is
     `release`, causing any locks that are held to be released. Changing
     this to `delete` causes any locks that are held to be deleted.
     `delete` is useful for creating ephemeral key/value entries.
 
-  - `ttl`
+  - `ttl`  
     is a duration string, and like `LockDelay` it can use s as a suffix
     for seconds. If specified, it must be between 10s and 86400s
     currently. When provided, the session is invalidated if it is not
@@ -787,22 +787,22 @@ be possible given the limited entry points exposed by DNS.
 There are many parameters to creating a prepared query. For full details
 please [see docs](https://www.consul.io/api/query.html)
 
-  - `dc`
+  - `dc`  
     Specifies the datacenter to query. This will default to the
     datacenter of the agent being queried. This is specified as part of
     the URL as a query parameter.
 
-  - `name`
+  - `name`  
     Specifies an optional friendly name that can be used to execute a
     query instead of using its ID.
 
-  - `session`
+  - `session`  
     Specifies the ID of an existing session. This provides a way to
     automatically remove a prepared query when the given session is
     invalidated. If not given the prepared query must be manually
     removed when no longer needed.
 
-  - `token`
+  - `token`  
     Specifies the ACL token to use each time the query is executed. This
     allows queries to be executed by clients with lesser or even no ACL
     Token, so this should be used with care. The token itself can only
@@ -812,23 +812,23 @@ please [see docs](https://www.consul.io/api/query.html)
     client does not supply an ACL Token, the anonymous token will be
     used.
 
-  - `service`
+  - `service`  
     Specifies the name of the service to query. This is required field.
 
-  - `failover`
+  - `failover`  
     contains two fields, both of which are optional, and determine what
     happens if no healthy nodes are available in the local datacenter
     when the query is executed. It allows the use of nodes in other
     datacenters with very little configuration.
 
-  - `nearestN`
+  - `nearestN`  
     Specifies that the query will be forwarded to up to NearestN other
     datacenters based on their estimated network round trip time using
     Network Coordinates from the WAN gossip pool. The median round trip
     time from the server handling the query to the servers in the remote
     datacenter is used to determine the priority.
 
-  - `datacenters`
+  - `datacenters`  
     Specifies a fixed list of remote datacenters to forward the query to
     if there are no healthy nodes in the local datacenter. Datacenters
     are queried in the order given in the list. If this option is
@@ -837,28 +837,28 @@ please [see docs](https://www.consul.io/api/query.html)
     will only be queried one time during a failover, even if it is
     selected by both NearestN and is listed in Datacenters.
 
-  - `onlyPassing`
+  - `onlyPassing`  
     Specifies the behavior of the query’s health check filtering. If
     this is set to false, the results will include nodes with checks in
     the passing as well as the warning states. If this is set to true,
     only nodes with checks in the passing state will be returned.
 
-  - `tags`
+  - `tags`  
     Specifies a list of service tags to filter the query results. For a
     service to pass the tag filter it must have all of the required
     tags, and none of the excluded tags (prefixed with \!).
 
-  - `nodeMeta`
+  - `nodeMeta`  
     Specifies a list of user-defined key/value pairs that will be used
     for filtering the query results to nodes with the given metadata
     values present.
 
-  - `dnsTtl`
+  - `dnsTtl`  
     Specifies the TTL duration when query results are served over DNS.
     If this is specified, it will take precedence over any Consul
     agent-specific configuration.
 
-  - `templateType`
+  - `templateType`  
     is the query type, which must be `name_prefix_match`. This means
     that the template will apply to any query lookup with a name whose
     prefix matches the Name field of the template. In this example, any
@@ -867,7 +867,7 @@ please [see docs](https://www.consul.io/api/query.html)
     templates that are overridden for specific services. Static queries
     are always resolved first, so they can also override templates.
 
-  - `templateRegexp`
+  - `templateRegexp`  
     is an optional regular expression which is used to extract fields
     from the entire name, once this template is selected. In this
     example, the regular expression takes the first item after the "-"

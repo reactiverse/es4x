@@ -95,7 +95,7 @@ follows:
 ```
 
 > **Note**
->
+> 
 > Most applications will only need a single Vert.x instance, but it’s
 > possible to create multiple Vert.x instances if you require, for
 > example, isolation between the event bus or different groups of
@@ -274,7 +274,7 @@ We call this pattern the **Multi-Reactor Pattern** to distinguish it
 from the single threaded reactor pattern.
 
 > **Note**
->
+> 
 > Even though a Vertx instance maintains multiple event loops, any
 > particular handler will never be executed concurrently, and in most
 > cases (with the exception of [worker verticles](#worker_verticles))
@@ -374,7 +374,7 @@ vertx.executeBlocking((promise) => {
 ```
 
 > **Warning**
->
+> 
 > Blocking code should block for a reasonable amount of time (i.e no
 > more than a few seconds). Long blocking operations or polling
 > operations (i.e a thread that spin in a loop polling events in a
@@ -441,7 +441,7 @@ let executor = vertx.createSharedWorkerExecutor("my-worker-pool", poolSize, maxE
 ```
 
 > **Note**
->
+> 
 > the configuration is set when the worker pool is created
 
 # Async coordination
@@ -468,7 +468,7 @@ let netServerFuture = Future.future((promise) => {
   netServer.listen(promise);
 });
 
-CompositeFuture.all(httpServerFuture, netServerFuture).setHandler((ar) => {
+CompositeFuture.all(httpServerFuture, netServerFuture).onComplete((ar) => {
   if (ar.succeeded()) {
     // All servers started
   } else {
@@ -498,7 +498,7 @@ failed when all the futures are failed:
 
 ``` js
 import { CompositeFuture } from "@vertx/core"
-CompositeFuture.any(future1, future2).setHandler((ar) => {
+CompositeFuture.any(future1, future2).onComplete((ar) => {
   if (ar.succeeded()) {
     // At least one is succeeded
   } else {
@@ -522,7 +522,7 @@ completed and at least one of them is failed:
 
 ``` js
 import { CompositeFuture } from "@vertx/core"
-CompositeFuture.join(future1, future2, future3).setHandler((ar) => {
+CompositeFuture.join(future1, future2, future3).onComplete((ar) => {
   if (ar.succeeded()) {
     // All succeeded
   } else {
@@ -630,15 +630,15 @@ extend the abstract class {@link io.vertx.core.AbstractVerticle}.
 Here’s an example verticle:
 
     public class MyVerticle extends AbstractVerticle {
-
+    
       // Called when verticle is deployed
       public void start() {
       }
-
+    
       // Optional - called when verticle is undeployed
       public void stop() {
       }
-
+    
     }
 
 Normally you would override the start method like in the example above.
@@ -674,16 +674,16 @@ signal that you’re done.
 Here’s an example:
 
     public class MyVerticle extends AbstractVerticle {
-
+    
       private HttpServer server;
-
+    
       public void start(Future<Void> startFuture) {
         server = vertx.createHttpServer().requestHandler(req -> {
           req.response()
             .putHeader("content-type", "text/plain")
             .end("Hello from Vert.x!");
           });
-
+    
         // Now bind the server:
         server.listen(8080, res -> {
           if (res.succeeded()) {
@@ -699,11 +699,11 @@ Similarly, there is an asynchronous version of the stop method too. You
 use this if you want to do some verticle cleanup that takes some time.
 
     public class MyVerticle extends AbstractVerticle {
-
+    
       public void start() {
         // Do something
       }
-
+    
       public void stop(Future<Void> stopFuture) {
         obj.doSomethingThatTakesTime(res -> {
           if (res.succeeded()) {
@@ -721,19 +721,15 @@ any running server when the verticle is undeployed.
 
 ## Verticle Types
 
-There are three different types of verticles:
+There are two different types of verticles:
 
-  - Standard Verticles
+  - Standard Verticles  
     These are the most common and useful type - they are always executed
     using an event loop thread. We’ll discuss this more in the next
     section.
 
-  - Worker Verticles
+  - Worker Verticles  
     These run using a thread from the worker pool. An instance is never
-    executed concurrently by more than one thread.
-
-  - Multi-threaded worker verticles
-    These run using a thread from the worker pool. An instance can be
     executed concurrently by more than one thread.
 
 ## Standard verticles
@@ -780,60 +776,6 @@ Worker verticle instances are never executed concurrently by Vert.x by
 more than one thread, but can executed by different threads at different
 times.
 
-### Multi-threaded worker verticles
-
-A multi-threaded worker verticle is just like a normal worker verticle
-but it **can** be executed concurrently by different threads.
-
-> **Caution**
->
-> Multi-threaded worker verticles are an advanced feature and most
-> applications will have no need for them.
-
-Because of the concurrency in these verticles you have to be very
-careful to keep the verticle in a consistent state using standard Java
-techniques for multi-threaded programming.
-
-Multi-threaded worker verticles were designed and are intended for the
-sole use of consuming simultaneously `EventBus` messages in a blocking
-fashion.
-
-> **Warning**
->
-> Vert.x clients and servers (TCP, HTTP, …​etc) cannot be created in a
-> multi-threaded worker verticle. Should you incidentally try, an
-> exception will be thrown.
-
-Essentially, multi-threaded worker verticles simply avoid the user from
-deploying as much instances of a worker verticle as the number of
-threads in a worker pool. So you could for example provide a worker pool
-name/size in `DeploymentOptions` and set the number of instances
-accordingly:
-
-``` js
-let options = new DeploymentOptions()
-  .setWorker(true)
-  .setInstances(5)
-  .setWorkerPoolName("the-specific-pool")
-  .setWorkerPoolSize(5);
-vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
-```
-
-Alternatively, you could create a regular verticle and wrap you blocking
-code with multiple `executeBlocking` with the `ordered` flag set to
-`false`:
-
-``` js
-vertx.eventBus().consumer("foo", (msg) => {
-  vertx.executeBlocking((promise) => {
-    // Invoke blocking code with received message data
-    promise.complete(someresult);
-  }, false, (ar) => {
-    // Handle result, e.g. reply to the message
-  });
-});
-```
-
 ## Deploying verticles programmatically
 
 You can deploy a verticle using one of the `deployVerticle` method,
@@ -841,7 +783,7 @@ specifying a verticle name or you can pass in a verticle instance you
 have already created yourself.
 
 > **Note**
->
+> 
 > Deploying Verticle **instances** is Java only.
 
 ``` java
@@ -1020,7 +962,7 @@ if you want to load classes or resources that aren’t already present on
 the main classpath you can add this.
 
 > **Warning**
->
+> 
 > Use this feature with caution. Class-loaders can be a can of worms,
 > and can make debugging difficult, amongst other things.
 
@@ -1066,7 +1008,7 @@ add the `bin` directory of the installation to your `PATH` environment
 variable. Also make sure you have a Java 8 JDK on your `PATH`.
 
 > **Note**
->
+> 
 > The JDK is required to support on the fly compilation of Java code.
 
 You can now run verticles by using the `vertx run` command. Here are
@@ -1074,10 +1016,10 @@ some examples:
 
     # Run a JavaScript verticle
     vertx run my_verticle.js
-
+    
     # Run a Ruby verticle
     vertx run a_n_other_verticle.rb
-
+    
     # Run a Groovy script verticle, clustered
     vertx run FooVerticle.groovy -cluster
 
@@ -2159,10 +2101,11 @@ TLS handshake.
 
 Every socket automatically registers a handler on the event bus, and
 when any buffers are received in this handler, it writes them to itself.
+Those are local subscriptions not routed on the cluster.
 
 This enables you to write data to a socket which is potentially in a
-completely different verticle or even in a different Vert.x instance by
-sending the buffer to the address of that handler.
+completely different verticle by sending the buffer to the address of
+that handler.
 
 The address of the handler is given by `writeHandlerID`
 
@@ -2192,10 +2135,10 @@ socket.sendFile("myfile.dat");
 ## Streaming sockets
 
 Instances of `NetSocket` are also `ReadStream` and `WriteStream`
-instances so they can be used to pump data to or from other read and
+instances so they can be used to pipe data to or from other read and
 write streams.
 
-See the chapter on [streams and pumps](#streams) for more information.
+See the chapter on [streams](#streams) for more information.
 
 ## Upgrading connections to SSL/TLS
 
@@ -2345,7 +2288,7 @@ server in the event that it cannot connect. This is configured with
 `setReconnectInterval` and `setReconnectAttempts`.
 
 > **Note**
->
+> 
 > Currently Vert.x will not attempt to reconnect if a connection fails,
 > reconnect attempts and interval only apply to creating initial
 > connections.
@@ -2505,7 +2448,7 @@ textual encoding of the certificate as defined by [RFC 7468,
 Section 5](https://tools.ietf.org/html/rfc7468#section-5).
 
 > **Warning**
->
+> 
 > Keep in mind that the keys contained in an unencrypted PKCS8 or a
 > PKCS1 PEM file can be extracted by anybody who can read the file.
 > Thus, make sure to put proper access restrictions on such PEM files in
@@ -2809,7 +2752,7 @@ Keep in mind that pem configuration, the private key is not crypted.
 ### Self-signed certificates for testing and development purposes
 
 > **Caution**
->
+> 
 > Do not use this in production settings, and note that the generated
 > keys are very insecure.
 
@@ -3206,7 +3149,7 @@ also accept a direct `h2c` connection beginning with the `PRI *
 HTTP/2.0\r\nSM\r\n` preface.
 
 > **Warning**
->
+> 
 > most browsers won’t support `h2c`, so for serving web sites you should
 > use `h2` and not `h2c`.
 
@@ -3219,7 +3162,7 @@ connection, the default initial settings for a server are:
   - the default HTTP/2 settings values for the others
 
 > **Note**
->
+> 
 > Worker Verticles are not compatible with HTTP/2
 
 ## Logging network server activity
@@ -3482,13 +3425,12 @@ request.bodyHandler((totalBuffer) => {
 });
 ```
 
-### Pumping requests
+### Streaming requests
 
-The request object is a `ReadStream` so you can pump the request body to
+The request object is a `ReadStream` so you can pipe the request body to
 any `WriteStream` instance.
 
-See the chapter on [streams and pumps](#streams) for a detailed
-explanation.
+See the chapter on [streams](#streams) for a detailed explanation.
 
 ### Handling HTML forms
 
@@ -3553,9 +3495,9 @@ request.uploadHandler((upload) => {
 });
 ```
 
-The upload object is a `ReadStream` so you can pump the request body to
-any `WriteStream` instance. See the chapter on [streams and
-pumps](#streams) for a detailed explanation.
+The upload object is a `ReadStream` so you can pipe the request body to
+any `WriteStream` instance. See the chapter on [streams](#streams) for a
+detailed explanation.
 
 If you just want to upload the file to disk somewhere you can use
 `streamToFileSystem`:
@@ -3567,7 +3509,7 @@ request.uploadHandler((upload) => {
 ```
 
 > **Warning**
->
+> 
 > Make sure you check the filename in a production system to avoid
 > malicious clients uploading files to arbitrary places on your
 > filesystem. See [security notes](#_security_notes) for more
@@ -3588,6 +3530,28 @@ when the response headers are written so the browser can store them.
 Cookies are described by instances of `Cookie`. This allows you to
 retrieve the name, value, domain, path and other normal cookie
 properties.
+
+Same Site Cookies let servers require that a cookie shouldn’t be sent
+with cross-site (where Site is defined by the registrable domain)
+requests, which provides some protection against cross-site request
+forgery attacks. This kind of cookies are enabled using the setter:
+`setSameSite`.
+
+Same site cookies can have one of 3 values:
+
+  - None - The browser will send cookies with both cross-site requests
+    and same-site requests.
+
+  - Strict - he browser will only send cookies for same-site requests
+    (requests originating from the site that set the cookie). If the
+    request originated from a different URL than the URL of the current
+    location, none of the cookies tagged with the Strict attribute will
+    be included.
+
+  - Lax - Same-site cookies are withheld on cross-site subrequests, such
+    as calls to load images or frames, but will be sent when a user
+    navigates to the URL from an external site; for example, by
+    following a link.
 
 Here’s an example of querying and adding cookies:
 
@@ -3657,7 +3621,7 @@ If you don’t specify a status message, the default one corresponding to
 the status code will be used.
 
 > **Note**
->
+> 
 > for HTTP/2 the status won’t be present in the response since the
 > protocol won’t transmit the message to the client
 
@@ -3786,7 +3750,7 @@ When in chunked mode you can also write HTTP response trailers to the
 response. These are actually written in the final chunk of the response.
 
 > **Note**
->
+> 
 > chunked response has no effect for an HTTP/2 stream
 
 To add trailers to the response, add them directly to the `trailers`.
@@ -3809,7 +3773,7 @@ response.putTrailer("X-wibble", "woobble").putTrailer("X-quux", "flooble");
 ### Serving files directly from disk or the classpath
 
 If you were writing a web server, one way to serve a file from disk
-would be to open it as an `AsyncFile` and pump it to the HTTP response.
+would be to open it as an `AsyncFile` and pipe it to the HTTP response.
 
 Or you could load it it one go using `readFile` and write it straight to
 the response.
@@ -3847,13 +3811,13 @@ classpath](#classpath) for restrictions about the classpath resolution
 or disabling it.
 
 > **Note**
->
+> 
 > If you use `sendFile` while using HTTPS it will copy through
 > user-space, since if the kernel is copying data directly from disk to
 > socket it doesn’t give us an opportunity to apply any encryption.
 
 > **Warning**
->
+> 
 > If you’re going to write web servers directly using Vert.x be careful
 > that users cannot exploit the path to access files outside the
 > directory from which you want to serve them or the classpath It may be
@@ -3901,27 +3865,23 @@ vertx.createHttpServer().requestHandler((request) => {
 }).listen(8080);
 ```
 
-### Pumping responses
+### Piping responses
 
-The server response is a `WriteStream` instance so you can pump to it
+The server response is a `WriteStream` instance so you can pipe to it
 from any `ReadStream`, e.g. `AsyncFile`, `NetSocket`, `WebSocket` or
 `HttpServerRequest`.
 
 Here’s an example which echoes the request body back in the response for
-any PUT methods. It uses a pump for the body, so it will work even if
+any PUT methods. It uses a pipe for the body, so it will work even if
 the HTTP request body is much larger than can fit in memory at any one
 time:
 
 ``` js
-import { Pump } from "@vertx/core"
 vertx.createHttpServer().requestHandler((request) => {
   let response = request.response();
   if (request.method() === 'PUT') {
     response.setChunked(true);
-    Pump.pump(request, response).start();
-    request.endHandler((v) => {
-      response.end();
-    });
+    request.pipeTo(response);
   } else {
     response.setStatusCode(400).end();
   }
@@ -4482,7 +4442,7 @@ request.end();
 ```
 
 > **Important**
->
+> 
 > `XXXNow` methods cannot receive an exception handler.
 
 ### Specifying a handler on the client request
@@ -4594,7 +4554,7 @@ client.getNow("some-uri", (response) => {
 ### Using the response as a stream
 
 The `HttpClientResponse` instance is also a `ReadStream` which means you
-can pump it to any `WriteStream` instance.
+can pipe it to any `WriteStream` instance.
 
 ### Response headers and trailers
 
@@ -5146,7 +5106,7 @@ connection.remoteSettingsHandler((settings) => {
 ```
 
 > **Note**
->
+> 
 > this only applies to the HTTP/2 protocol
 
 ### Connection ping
@@ -5180,7 +5140,7 @@ The handler is just notified, the acknowledgement is sent whatsoever.
 Such feature is aimed for implementing protocols on top of HTTP/2.
 
 > **Note**
->
+> 
 > this only applies to the HTTP/2 protocol
 
 ### Connection shutdown and go away
@@ -5232,7 +5192,7 @@ connection.shutdownHandler((v) => {
 This applies also when a {@literal GOAWAY} is received.
 
 > **Note**
->
+> 
 > this only applies to the HTTP/2 protocol
 
 ### Connection close
@@ -5422,7 +5382,7 @@ server.webSocketHandler((webSocket) => {
 ```
 
 > **Note**
->
+> 
 > the WebSocket will be automatically accepted after the handler is
 > called unless the WebSocket’s handshake has been set
 
@@ -5558,14 +5518,27 @@ webSocket.frameHandler((frame) => {
 Use `close` to close the WebSocket connection when you have finished
 with it.
 
-### Streaming WebSockets
+### Piping WebSockets
 
 The `WebSocket` instance is also a `ReadStream` and a `WriteStream` so
-it can be used with pumps.
+it can be used with pipes.
 
 When using a WebSocket as a write stream or a read stream it can only be
 used with WebSockets connections that are used with binary frames that
 are no split over multiple frames.
+
+### Event bus handlers
+
+Every WebSocket automatically registers two handler on the event bus,
+and when any data are received in this handler, it writes them to
+itself. Those are local subscriptions not routed on the cluster.
+
+This enables you to write data to a WebSocket which is potentially in a
+completely different verticle sending data to the address of that
+handler.
+
+The addresses of the handlers are given by `binaryHandlerID` and
+`textHandlerID`.
 
 ## Using a proxy for HTTP/HTTPS connections
 
@@ -5663,7 +5636,7 @@ In practice, it provides:
   - asynchronous counters
 
 > **Important**
->
+> 
 > The behavior of the distributed data structure depends on the cluster
 > manager you use. Backup (replication) and behavior when a network
 > partition is faced are defined by the cluster manager and its
@@ -5741,7 +5714,7 @@ When Vert.x is clustered, data that you put into the map is accessible
 locally as well as on any of the other cluster members.
 
 > **Important**
->
+> 
 > In clustered mode, asynchronous shared maps rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared map operations can be much higher in
@@ -5864,7 +5837,7 @@ sharedData.getLockWithTimeout("mylock", 10000, (res) => {
 See the `API docs` for a detailed list of lock operations.
 
 > **Important**
->
+> 
 > In clustered mode, asynchronous locks rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared lock operations can be much higher in
@@ -5920,7 +5893,7 @@ increment it, decrement and add a value to it using the various methods.
 See the `API docs` for a detailed list of counter operations.
 
 > **Important**
->
+> 
 > In clustered mode, asynchronous counters rely on distributed data
 > structures provided by the cluster manager. Beware that the latency
 > relative to asynchronous shared counter operations can be much higher
@@ -6051,7 +6024,7 @@ fileSystem.open("myfile.txt", options, (res) => {
 });
 ```
 
-`AsyncFile` implements `ReadStream` and `WriteStream` so you can *pump*
+`AsyncFile` implements `ReadStream` and `WriteStream` so you can *pipe*
 files to and from other stream objects such as net sockets, http
 requests and responses, and WebSockets.
 
@@ -6162,20 +6135,20 @@ the flush is complete.
 ### Using AsyncFile as ReadStream and WriteStream
 
 `AsyncFile` implements `ReadStream` and `WriteStream`. You can then use
-them with a *pump* to pump data to and from other read and write
+them with a *pipe* to pipe data to and from other read and write
 streams. For example, this would copy the content to another
 `AsyncFile`:
 
 ``` js
-import { Pump } from "@vertx/core"
 let output = vertx.fileSystem().openBlocking("target/classes/plagiary.txt", new OpenOptions());
 
 vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result) => {
   if (result.succeeded()) {
     let file = result.result();
-    Pump.pump(file, output).start();
-    file.endHandler((r) => {
-      console.log("Copy done");
+    file.pipeTo(output, (ar) => {
+      if (ar.succeeded()) {
+        console.log("Copy done");
+      }
     });
   } else {
     console.error("Cannot open file " + result.cause());
@@ -6183,7 +6156,7 @@ vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), 
 });
 ```
 
-You can also use the *pump* to write file content into HTTP responses,
+You can also use the *pipe* to write file content into HTTP responses,
 or more generally in any `WriteStream`.
 
 ### Accessing files from the classpath
@@ -6211,7 +6184,7 @@ The whole classpath resolving feature can be disabled system-wide by
 setting the system property `vertx.disableFileCPResolving` to `true`.
 
 > **Note**
->
+> 
 > these system properties are evaluated once when the the
 > `io.vertx.core.file.FileSystemOptions` class is loaded, so these
 > properties should be set before loading this class or as a JVM system
@@ -7178,7 +7151,7 @@ server.connectHandler((sock) => {
 ```
 
 > **Important**
->
+> 
 > Before Vert.x 3.7 the `Pump` was the advocated API for transferring a
 > read stream to a write stream. Since 3.7 the pipe API supersedes the
 > pump API.
@@ -7424,7 +7397,7 @@ of the installation to your `PATH` environment variable. Also make sure
 you have a Java 8 JDK on your `PATH`.
 
 > **Note**
->
+> 
 > The JDK is required to support on the fly compilation of Java code.
 
 ## Run verticles
@@ -7435,10 +7408,10 @@ You can run raw Vert.x verticles directly from the command line using
     vertx run my-verticle.js                                 (1)
     vertx run my-verticle.groovy                             (2)
     vertx run my-verticle.rb                                 (3)
-
+    
     vertx run io.vertx.example.MyVerticle                    (4)
     vertx run io.vertx.example.MVerticle -cp my-verticle.jar (5)
-
+    
     vertx run MyVerticle.java                                (6)
 
 1.  Deploys a JavaScript verticle
@@ -7624,7 +7597,7 @@ pass to `vertx run`:
     java -jar my-verticle-fat.jar -cluster -conf myconf.json -cp path/to/dir/conf/cluster_xml
 
 > **Note**
->
+> 
 > Please consult the Maven/Gradle simplest and Maven/Gradle verticle
 > examples in the examples repository for examples of building
 > applications as fatjars.
@@ -7925,7 +7898,7 @@ The default port of a DNS server is `53`, when a server uses a different
 port, this port can be set using a colon delimiter: `192.168.0.2:40000`.
 
 > **Note**
->
+> 
 > sometimes it can be desirable to use the JVM built-in resolver, the
 > JVM system property *-Dvertx.disableDnsResolver=true* activates this
 > behavior
@@ -8013,12 +7986,12 @@ instance that is running `my-other-verticle.js` will automatic deploy
 .js` so now that Vert.x instance is running both verticles.
 
 > **Note**
->
+> 
 > the migration is only possible if the second vert.x instance has
 > access to the verticle file (here `my-verticle.js`).
 
 > **Important**
->
+> 
 > Please note that cleanly closing a Vert.x instance will not cause
 > failover to occur, e.g. `CTRL-C` or `kill -SIGINT`
 
@@ -8032,7 +8005,7 @@ When using the `-ha` switch you do not need to provide the `-cluster`
 switch, as a cluster is assumed if you want HA.
 
 > **Note**
->
+> 
 > depending on your cluster configuration, you may need to customize the
 > cluster manager configuration (Hazelcast by default), and/or add the
 > `cluster-host` and `cluster-port` parameters.
@@ -8130,7 +8103,7 @@ available) on BSD (OSX) and Linux:
 ```
 
 > **Note**
->
+> 
 > preferring native transport will not prevent the application to
 > execute (for example if a JAR is missing). If your application
 > requires native transport, you need to check {@link
@@ -8503,9 +8476,9 @@ cli.usage(builder);
 It generates an usage message like this one:
 
     Usage: copy [-R] source target
-
+    
     A command line interface to copy files.
-
+    
      -R,--directory   enables directory support
 
 If you need to tune the usage message, check the `UsageMessageFormatter`
@@ -8690,7 +8663,7 @@ with:
     java -jar my-fat.jar vertx.cacheDirBase=/tmp/vertx-cache
 
 > **Important**
->
+> 
 > the directory must be **writable**.
 
 When you are editing resources such as HTML, CSS or JavaScript, this

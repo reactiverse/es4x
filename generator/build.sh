@@ -6,7 +6,7 @@ export PATH=$PATH:$(pwd)/../scripts
 # build
 if [ "$1" = "publish-local" ]; then
   REGISTRY="http://localhost:4873"
-  mvn -fae -Pio.vertx,io.reactiverse exec:exec@npm-publish
+  mvn -fae -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
 elif [ "$1" = "publish" ]; then
   REGISTRY="https://registry.npmjs.org"
 
@@ -18,5 +18,5 @@ elif [ "$1" = "publish" ]; then
   npm adduser --registry "$REGISTRY"
   mvn -fae -Pio.reactiverse -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
 else
-  mvn -fae -Pio.vertx,io.reactiverse clean generate-sources exec:exec@typedoc exec:exec@adoc2md
+  mvn -fae -Pio.vertx,io.reactiverse clean generate-sources install exec:exec@typedoc exec:exec@adoc2md
 fi

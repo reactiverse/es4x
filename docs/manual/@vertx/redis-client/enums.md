@@ -46,9 +46,6 @@
 
 # GeoUnit
 
-GeoUnit represents a geo spatial unit it covers both the metric and
-imperial systems.
-
 |      |             |
 | ---- | ----------- |
 | Name | Description |

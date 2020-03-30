@@ -68,7 +68,9 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Watches are a way of specifying a view of data (e.g. list of nodes, KV pairs, health checks)
-							which is monitored for updates. When an update is detected, an <code>Handler</code> with <code>AsyncResult</code> is invoked.
+							which is monitored for updates. When an update is detected, an <code>Handler</code> with <code>WatchResult</code> is invoked.
+							All errors, except <code>java.util.concurrent.TimeoutException</code>, will be handled, with resubscribing with a progressive delay.
+							All timeout errors will be ignored, with resubscribing without any delay.
 						As an example, you could watch the status of health checks and notify when a check is critical.</p>
 					</div>
 				</div>
@@ -122,7 +124,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:554</li>
+									<li>Defined in index.d.ts:558</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -150,7 +152,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:559</li>
+									<li>Defined in index.d.ts:563</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -172,7 +174,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:564</li>
+									<li>Defined in index.d.ts:568</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -195,7 +197,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:530</li>
+									<li>Defined in index.d.ts:534</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -219,7 +221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:536</li>
+									<li>Defined in index.d.ts:540</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -255,7 +257,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:478</li>
+									<li>Defined in index.d.ts:480</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -279,7 +281,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:484</li>
+									<li>Defined in index.d.ts:486</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -315,7 +317,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:491</li>
+									<li>Defined in index.d.ts:493</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -339,7 +341,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:497</li>
+									<li>Defined in index.d.ts:499</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -375,7 +377,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:543</li>
+									<li>Defined in index.d.ts:547</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -396,7 +398,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:549</li>
+									<li>Defined in index.d.ts:553</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -429,12 +431,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:517</li>
+									<li>Defined in index.d.ts:520</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Creates <code>Watch</code> to monitoring the nodes providing the service.
+										Nodes will be sorted by distance from the consul agent.
 										The underlying Consul client will be created with default options.
 									This maps to the <a href="https://www.consul.io/docs/agent/http/health.html#health_service">/v1/health/service/&lt;service&gt;</a> API internally.</p>
 								</div>
@@ -453,12 +456,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:523</li>
+									<li>Defined in index.d.ts:527</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Creates <code>Watch</code> to monitoring the nodes providing the service.
+										Nodes will be sorted by distance from the consul agent.
 									This maps to the <a href="https://www.consul.io/docs/agent/http/health.html#health_service">/v1/health/service/&lt;service&gt;</a> API internally.</p>
 								</div>
 							</div>
@@ -489,7 +493,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:504</li>
+									<li>Defined in index.d.ts:506</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -510,7 +514,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:510</li>
+									<li>Defined in index.d.ts:512</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

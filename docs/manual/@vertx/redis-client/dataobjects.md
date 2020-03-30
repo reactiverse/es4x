@@ -91,40 +91,26 @@
 
 Redis Client Configuration options.
 
-|                       |                    |                                                                                                                                                                                                                           |
-| --------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Name                  | Type               | Description                                                                                                                                                                                                               |
-| `@masterName`         | `String`           | Set the master name (only considered in HA mode).                                                                                                                                                                         |
-| `@maxNestedArrays`    | `Number (int)`     | Tune how much nested arrays are allowed on a redis response. This affects the parser performance.                                                                                                                         |
-| `@maxWaitingHandlers` | `Number (int)`     | The client will always work on pipeline mode, this means that messages can start queueing. You can control how much backlog you're willing to accept. This methods sets how much handlers is the client willing to queue. |
-| `@netClientOptions`   | `NetClientOptions` | Set the net client options to be used while connecting to the redis server. Use this to tune your connection.                                                                                                             |
-| `@password`           | `String`           | Set the provided password to be used when establishing a connection to the server.                                                                                                                                        |
-| `@role`               | `RedisRole`        | Set the role name (only considered in HA mode).                                                                                                                                                                           |
-| `@select`             | `Number (Integer)` | Set the provided database to be selected when establishing a connection to the server.                                                                                                                                    |
-| `@type`               | `RedisClientType`  | Set the desired client type to be created.                                                                                                                                                                                |
-| `@useSlave`           | `RedisSlaves`      | Set whether or not to use slave nodes (only considered in Cluster mode).                                                                                                                                                  |
+|                        |                    |                                                                                                                                                                                                                                                                                            |
+| ---------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Name                   | Type               | Description                                                                                                                                                                                                                                                                                |
+| `@connectionString`    | `String`           | Sets a single connection string (endpoint) to use while connecting to the redis server. Will replace the previously configured connection strings. Does not support rediss (redis over ssl scheme) for now.                                                                                |
+| `@connectionStrings`   | `Array of String`  | Adds a connection string (endpoint) to use while connecting to the redis server. Only the cluster mode will consider more than 1 element. If more are provided, they are not considered by the client when in single server mode. Does not support rediss (redis over ssl scheme) for now. |
+| `@endpoint`            | `String`           | Sets a single connection string to use while connecting to the redis server. Will replace the previously configured connection strings.                                                                                                                                                    |
+| `@endpoints`           | `Array of String`  | Set the endpoints to use while connecting to the redis server. Only the cluster mode will consider more than 1 element. If more are provided, they are not considered by the client when in single server mode.                                                                            |
+| `@masterName`          | `String`           | Set the master name (only considered in HA mode).                                                                                                                                                                                                                                          |
+| `@maxNestedArrays`     | `Number (int)`     | Tune how much nested arrays are allowed on a redis response. This affects the parser performance.                                                                                                                                                                                          |
+| `@maxPoolSize`         | `Number (int)`     | Tune the maximum size of the connection pool. When working with cluster or sentinel this value should be atleast the total number of cluster member (or number of sentinels + 1)                                                                                                           |
+| `@maxPoolWaiting`      | `Number (int)`     | Tune the maximum waiting requests for a connection from the pool.                                                                                                                                                                                                                          |
+| `@maxWaitingHandlers`  | `Number (int)`     | The client will always work on pipeline mode, this means that messages can start queueing. You can control how much backlog you're willing to accept. This methods sets how much handlers is the client willing to queue.                                                                  |
+| `@netClientOptions`    | `NetClientOptions` | Set the net client options to be used while connecting to the redis server. Use this to tune your connection.                                                                                                                                                                              |
+| `@poolCleanerInterval` | `Number (int)`     | Tune how often in milliseconds should the connection pool cleaner execute.                                                                                                                                                                                                                 |
+| `@poolRecycleTimeout`  | `Number (int)`     | Tune when a connection should be recycled in milliseconds.                                                                                                                                                                                                                                 |
+| `@role`                | `RedisRole`        | Set the role name (only considered in HA mode).                                                                                                                                                                                                                                            |
+| `@type`                | `RedisClientType`  | Set the desired client type to be created.                                                                                                                                                                                                                                                 |
+| `@useSlave`            | `RedisSlaves`      | Set whether or not to use slave nodes (only considered in Cluster mode).                                                                                                                                                                                                                   |
 
 # RedisOptions
-
-This object controls the connection setting to the Redis Server. There
-is no need to specify most of the settings since it has built the
-following sensible defaults:
-
-\* \`encoding\`: \`UTF-8\` \* \`host\`: \`localhost\` \* \`port\`: 6379
-\* \`tcpKeepAlive\`: true \* \`tcpNoDelay\`: true \* \`binary\`: false
-
-However there are two extra properties that have no defaults since they
-are optional:
-
-\* \`auth\` \* \`select\`
-
-The usage of this two extra properties is to setup required
-authentication and optionally the selection of the active database at
-connection time. If you define this extra properties on every connection
-to Redis server this client will perform the authentication handshake
-and database selection, however if you don't do this and call link
-yourself in case of connection failure the client will not be able to
-perform the correct authentication handshake.
 
 |                                    |                        |                                                                                                               |
 | ---------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------- |

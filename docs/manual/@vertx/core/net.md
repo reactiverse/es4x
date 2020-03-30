@@ -163,10 +163,11 @@ TLS handshake.
 
 Every socket automatically registers a handler on the event bus, and
 when any buffers are received in this handler, it writes them to itself.
+Those are local subscriptions not routed on the cluster.
 
 This enables you to write data to a socket which is potentially in a
-completely different verticle or even in a different Vert.x instance by
-sending the buffer to the address of that handler.
+completely different verticle by sending the buffer to the address of
+that handler.
 
 The address of the handler is given by `writeHandlerID`
 
@@ -196,10 +197,10 @@ socket.sendFile("myfile.dat");
 ## Streaming sockets
 
 Instances of `NetSocket` are also `ReadStream` and `WriteStream`
-instances so they can be used to pump data to or from other read and
+instances so they can be used to pipe data to or from other read and
 write streams.
 
-See the chapter on [streams and pumps](#streams) for more information.
+See the chapter on [streams](#streams) for more information.
 
 ## Upgrading connections to SSL/TLS
 
@@ -349,7 +350,7 @@ server in the event that it cannot connect. This is configured with
 `setReconnectInterval` and `setReconnectAttempts`.
 
 > **Note**
->
+> 
 > Currently Vert.x will not attempt to reconnect if a connection fails,
 > reconnect attempts and interval only apply to creating initial
 > connections.
@@ -509,7 +510,7 @@ textual encoding of the certificate as defined by [RFC 7468,
 Section 5](https://tools.ietf.org/html/rfc7468#section-5).
 
 > **Warning**
->
+> 
 > Keep in mind that the keys contained in an unencrypted PKCS8 or a
 > PKCS1 PEM file can be extracted by anybody who can read the file.
 > Thus, make sure to put proper access restrictions on such PEM files in
@@ -813,7 +814,7 @@ Keep in mind that pem configuration, the private key is not crypted.
 ### Self-signed certificates for testing and development purposes
 
 > **Caution**
->
+> 
 > Do not use this in production settings, and note that the generated
 > keys are very insecure.
 

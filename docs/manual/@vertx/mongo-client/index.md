@@ -232,13 +232,13 @@ To specify if the update should upsert or update multiple documents, use
 
 This has the following fields:
 
-  - `multi`
+  - `multi`  
     set to true to update multiple documents
 
-  - `upsert`
+  - `upsert`  
     set to true to insert the document if the query doesn’t match
 
-  - `writeConcern`
+  - `writeConcern`  
     the write concern for this operation
 
 <!-- end list -->
@@ -356,18 +356,18 @@ return, etc use `findWithOptions` and pass in the an instance of
 
 This has the following fields:
 
-  - `fields`
+  - `fields`  
     The fields to return in the results. Defaults to `null`, meaning all
     fields will be returned
 
-  - `sort`
+  - `sort`  
     The fields to sort by. Defaults to `null`.
 
-  - `limit`
+  - `limit`  
     The limit of the number of results to return. Default to `-1`,
     meaning all results will be returned.
 
-  - `skip`
+  - `skip`  
     The number of documents to skip before returning the results.
     Defaults to `0`.
 
@@ -502,7 +502,7 @@ mongoClient.createCollection("mynewcollectionr", (res) => {
 To drop a collection you can use `dropCollection`
 
 > **Note**
->
+> 
 > Dropping a collection will delete all documents within it\!
 
 ``` js
@@ -758,11 +758,11 @@ The client is configured with a json object.
 
 The following configuration is supported by the mongo client:
 
-  - `db_name`
+  - `db_name`  
     Name of the database in the MongoDB instance to use. Defaults to
     `default_db`
 
-  - `useObjectId`
+  - `useObjectId`  
     Toggle this option to support persisting and retrieving ObjectId’s
     as strings. If `true`, hex-strings will be saved as native Mongodb
     ObjectId types in the document collection. This will allow the
@@ -777,11 +777,11 @@ driver. There are two ways to configure mongo for use by the driver,
 either by a connection string or by separate configuration options.
 
 > **Note**
->
+> 
 > If the connection string is used the mongo client will ignore any
 > driver configuration options.
 
-  - `connection_string`
+  - `connection_string`  
     The connection string the driver uses to create the client. E.g.
     `mongodb://localhost:27017`. For more information on the format of
     the connection string please consult the driver documentation.
@@ -851,130 +851,130 @@ either by a connection string or by separate configuration options.
 
 **Driver option descriptions**
 
-  - `host`
+  - `host`  
     The host the MongoDB instance is running. Defaults to `127.0.0.1`.
     This is ignored if `hosts` is specified
 
-  - `port`
+  - `port`  
     The port the MongoDB instance is listening on. Defaults to `27017`.
     This is ignored if `hosts` is specified
 
-  - `hosts`
+  - `hosts`  
     An array representing the hosts and ports to support a MongoDB
     cluster (sharding / replication)
 
-  - `host`
+  - `host`  
     A host in the cluster
 
-  - `port`
+  - `port`  
     The port a host in the cluster is listening on
 
-  - `replicaSet`
+  - `replicaSet`  
     The name of the replica set, if the MongoDB instance is a member of
     a replica set
 
-  - `serverSelectionTimeoutMS`
+  - `serverSelectionTimeoutMS`  
     The time in milliseconds that the mongo driver will wait to select a
     server for an operation before raising an error.
 
-  - `maxPoolSize`
+  - `maxPoolSize`  
     The maximum number of connections in the connection pool. The
     default value is `100`
 
-  - `minPoolSize`
+  - `minPoolSize`  
     The minimum number of connections in the connection pool. The
     default value is `0`
 
-  - `maxIdleTimeMS`
+  - `maxIdleTimeMS`  
     The maximum idle time of a pooled connection. The default value is
     `0` which means there is no limit
 
-  - `maxLifeTimeMS`
+  - `maxLifeTimeMS`  
     The maximum time a pooled connection can live for. The default value
     is `0` which means there is no limit
 
-  - `waitQueueMultiple`
+  - `waitQueueMultiple`  
     The maximum number of waiters for a connection to become available
     from the pool. Default value is `500`
 
-  - `waitQueueTimeoutMS`
+  - `waitQueueTimeoutMS`  
     The maximum time that a thread may wait for a connection to become
     available. Default value is `120000` (2 minutes)
 
-  - `maintenanceFrequencyMS`
+  - `maintenanceFrequencyMS`  
     The time period between runs of the maintenance job. Default is `0`.
 
-  - `maintenanceInitialDelayMS`
+  - `maintenanceInitialDelayMS`  
     The period of time to wait before running the first maintenance job
     on the connection pool. Default is `0`.
 
-  - `username`
+  - `username`  
     The username to authenticate. Default is `null` (meaning no
     authentication required)
 
-  - `password`
+  - `password`  
     The password to use to authenticate.
 
-  - `authSource`
+  - `authSource`  
     The database name associated with the user’s credentials. Default
     value is the `db_name` value.
 
-  - `authMechanism`
+  - `authMechanism`  
     The authentication mechanism to use. See
     \[Authentication\](<http://docs.mongodb.org/manual/core/authentication/>)
     for more details.
 
-  - `gssapiServiceName`
+  - `gssapiServiceName`  
     The Kerberos service name if `GSSAPI` is specified as the
     `authMechanism`.
 
-  - `connectTimeoutMS`
+  - `connectTimeoutMS`  
     The time in milliseconds to attempt a connection before timing out.
     Default is `10000` (10 seconds)
 
-  - `socketTimeoutMS`
+  - `socketTimeoutMS`  
     The time in milliseconds to attempt a send or receive on a socket
     before the attempt times out. Default is `0` meaning there is no
     timeout
 
-  - `sendBufferSize`
+  - `sendBufferSize`  
     Sets the send buffer size (SO\_SNDBUF) for the socket. Default is
     `0`, meaning it will use the OS default for this option.
 
-  - `receiveBufferSize`
+  - `receiveBufferSize`  
     Sets the receive buffer size (SO\_RCVBUF) for the socket. Default is
     `0`, meaning it will use the OS default for this option.
 
-  - `keepAlive`
+  - `keepAlive`  
     Sets the keep alive (SO\_KEEPALIVE) for the socket. Default is
     `false`
 
-  - `heartbeat.socket`
+  - `heartbeat.socket`  
     Configures the socket settings for the cluster monitor of the
     MongoDB java driver.
 
-  - `heartbeatFrequencyMS`
+  - `heartbeatFrequencyMS`  
     The frequency that the cluster monitor attempts to reach each
     server. Default is `5000` (5 seconds)
 
-  - `minHeartbeatFrequencyMS`
+  - `minHeartbeatFrequencyMS`  
     The minimum heartbeat frequency. The default value is `1000` (1
     second)
 
-  - `ssl`
+  - `ssl`  
     Enable ssl between the vertx-mongo-client and mongo
 
-  - `trustAll`
+  - `trustAll`  
     When using ssl, trust *ALL* certificates. **WARNING** - Trusting
     *ALL* certificates will open you up to potential security issues
     such as MITM attacks.
 
-  - `caPath`
+  - `caPath`  
     Set a path to a file that contains a certificate that will be used
     as a source of trust when making SSL connections to mongo.
 
 > **Note**
->
+> 
 > Most of the default values listed above use the default values of the
 > MongoDB Java Driver. Please consult the driver documentation for up to
 > date information.

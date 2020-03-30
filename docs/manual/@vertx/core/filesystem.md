@@ -107,7 +107,7 @@ fileSystem.open("myfile.txt", options, (res) => {
 });
 ```
 
-`AsyncFile` implements `ReadStream` and `WriteStream` so you can *pump*
+`AsyncFile` implements `ReadStream` and `WriteStream` so you can *pipe*
 files to and from other stream objects such as net sockets, http
 requests and responses, and WebSockets.
 
@@ -218,20 +218,20 @@ the flush is complete.
 ### Using AsyncFile as ReadStream and WriteStream
 
 `AsyncFile` implements `ReadStream` and `WriteStream`. You can then use
-them with a *pump* to pump data to and from other read and write
+them with a *pipe* to pipe data to and from other read and write
 streams. For example, this would copy the content to another
 `AsyncFile`:
 
 ``` js
-import { Pump } from "@vertx/core"
 let output = vertx.fileSystem().openBlocking("target/classes/plagiary.txt", new OpenOptions());
 
 vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), (result) => {
   if (result.succeeded()) {
     let file = result.result();
-    Pump.pump(file, output).start();
-    file.endHandler((r) => {
-      console.log("Copy done");
+    file.pipeTo(output, (ar) => {
+      if (ar.succeeded()) {
+        console.log("Copy done");
+      }
     });
   } else {
     console.error("Cannot open file " + result.cause());
@@ -239,7 +239,7 @@ vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), 
 });
 ```
 
-You can also use the *pump* to write file content into HTTP responses,
+You can also use the *pipe* to write file content into HTTP responses,
 or more generally in any `WriteStream`.
 
 ### Accessing files from the classpath
@@ -267,7 +267,7 @@ The whole classpath resolving feature can be disabled system-wide by
 setting the system property `vertx.disableFileCPResolving` to `true`.
 
 > **Note**
->
+> 
 > these system properties are evaluated once when the the
 > `io.vertx.core.file.FileSystemOptions` class is loaded, so these
 > properties should be set before loading this class or as a JVM system

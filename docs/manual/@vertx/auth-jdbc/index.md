@@ -88,7 +88,7 @@ OWASP as of 2018-01-08 recommends the usage of stronger algorithms, for
 this case you can use the PBKDF2 strategy (OWASP recommendation).
 
 > **Warning**
->
+> 
 > If you already have a running application switching the strategies
 > will make break your existing passwords, so you will need to migrate
 > the passwords from one algorithm to the second.
@@ -97,7 +97,7 @@ If you want to override this behaviour you can do so by providing an
 alternative hash strategy and setting it with `setHashStrategy`.
 
 > **Warning**
->
+> 
 > It is advised to always store your passwords as hashes in your
 > database tables which have been created with a salt which should be
 > stored in the row too. A strong hashing algorithm should be used. It
@@ -200,7 +200,7 @@ conn.updateWithParams("INSERT INTO user VALUES (?, ?, ?)", [
 ```
 
 > **Warning**
->
+> 
 > Hashing user password with salt can be not enough, this approach his
 > good enough for avoiding rainbow tables attacks or precomputed table
 > attacks but if the attacker gets the database it will be easier to

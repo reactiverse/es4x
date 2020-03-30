@@ -229,9 +229,9 @@ suite.test("my_test_case", (context) => {
 The `assertInRange` targets real numbers.
 
     suite.test("my_test_case", (context) => {
-
+    
       // Assert that 0.1 is equals to 0.2 +/- 0.5
-
+    
       context.assertInRange(0.1, 0.2, 0.5);
     });
 
@@ -294,10 +294,10 @@ case callback, for instance:
 suite.test("my_test_case", (context) => {
   let async = context.async();
   eventBus.consumer("the-address", (msg) => {
-
+    
     async.complete();
   });
-
+  
 });
 ```
 
@@ -310,7 +310,7 @@ test case as non terminated. The test case terminates when the
 `complete` method is invoked.
 
 > **Note**
->
+> 
 > When the `complete` callback is not invoked, the test case fails after
 > a certain timeout.
 
@@ -380,7 +380,7 @@ async.awaitSuccess();
 ```
 
 > **Warning**
->
+> 
 > this should not be executed from the event loop\!
 
 Async can also be created with an initial count value, it completes when
@@ -554,7 +554,7 @@ When declared, *beforeEach* and *afterEach* callbacks will be executed
 as many times as the test is executed.
 
 > **Note**
->
+> 
 > test repetition are executed sequentially
 
 # Sharing objects
@@ -614,7 +614,7 @@ TestSuite.create("my_suite").before((context) => {
 ```
 
 > **Warning**
->
+> 
 > sharing any object is only supported in Java, other languages can
 > share only basic or json types. Other objects should be shared using
 > the features of that language.
@@ -674,7 +674,7 @@ executed and a return value is provided indicating the tests success (0)
 or failure (1).
 
 > **Note**
->
+> 
 > several test suites can executed in the same verticle, Vert.x Unit
 > waits until completion of all suite executed.
 
@@ -813,23 +813,23 @@ suite.run(new TestOptions()
 
 Reports to the JVM `System.out` and `System.err`:
 
-  - to
+  - to  
     *console*
 
-  - format
+  - format  
     *simple* or *junit*
 
 ## File reporting
 
 Reports to a file, a `Vertx` instance must be provided:
 
-  - to
+  - to  
     *file* `:` *dir name*
 
-  - format
+  - format  
     *simple* or *junit*
 
-  - example
+  - example  
     `file:.`
 
 The file reporter will create files in the configured directory, the
@@ -840,20 +840,20 @@ files will be named after the test suite name executed and the format
 
 Reports to a logger, a `Vertx` instance must be provided:
 
-  - to
+  - to  
     *log* `:` *logger name*
 
-  - example
+  - example  
     `log:mylogger`
 
 ## Event bus reporting
 
 Reports events to the event bus, a `Vertx` instance must be provided:
 
-  - to
+  - to  
     *bus* `:` *event bus address*
 
-  - example
+  - example  
     `bus:the-address`
 
 It allow to decouple the execution of the test suite from the reporting.
@@ -988,7 +988,7 @@ the former manages a Vert.x instance per test, the later a single Vert.x
 for the test methods of the class.
 
 > **Warning**
->
+> 
 > keep in mind that you cannot block the event loop when using this
 > rule. Usage of classes like `CountDownLatch` or similar classes must
 > be done with care.
@@ -1030,7 +1030,7 @@ public class TimeoutTestSuite {
 ```
 
 > **Note**
->
+> 
 > the `@Test` timeout overrides the the `Timeout` rule.
 
 ## Parameterized tests
@@ -1095,7 +1095,7 @@ When declared, *before* and *after* life cycle will be executed as many
 times as the test is executed.
 
 > **Note**
->
+> 
 > test repetition are executed sequentially
 
 ## Using with other assertion libraries

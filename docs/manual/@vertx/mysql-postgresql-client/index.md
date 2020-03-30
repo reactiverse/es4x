@@ -286,81 +286,81 @@ Both the PostgreSql and MySql clients take the same configuration:
      "sslRootCert" : <path to file with certificate>
     }
 
-  - `host`
+  - `host`  
     The host of the database. Defaults to `localhost`.
 
-  - `port`
+  - `port`  
     The port of the database. Defaults to `5432` for PostgreSQL and
     `3306` for MySQL.
 
-  - `maxPoolSize`
+  - `maxPoolSize`  
     The number of connections that may be kept open. Defaults to `10`.
 
-  - `username`
+  - `username`  
     The username to connect to the database. Defaults to `vertx`.
 
-  - `password`
+  - `password`  
     The password to connect to the database. Defaults to `password`.
 
-  - `database`
+  - `database`  
     The name of the database you want to connect to. Defaults to
     `testdb`.
 
-  - `charset`
+  - `charset`  
     The name of the character set you want to use for the connection.
     Defaults to `UTF-8`.
 
-  - `connectTimeout`
+  - `connectTimeout`  
     The timeout to wait for connecting to the database. Defaults to
     `10000` (= 10 seconds).
 
-  - `testTimeout`
+  - `testTimeout`  
     The timeout for connection tests performed by pools. Defaults to
     `10000` (= 10 seconds).
 
-  - `queryTimeout`
+  - `queryTimeout`  
     The timeout to wait for a query in milliseconds. Default is not set.
 
-  - `maxConnectionRetries`
+  - `maxConnectionRetries`  
     Maximum number of connection retries. Defaults to `0` (no
-    retries).
+    retries).  
     Special values:
-
-      - \-1
+    
+      - \-1  
         Unlimited number of connection retries
-
-      - 0
+    
+      - 0  
         No connection retries will be done
 
-  - `connectionRetryDelay`
+  - `connectionRetryDelay`  
     Delay in milliseconds between each retry attempt. Defaults to `5000`
     (= 5 seconds).
 
-  - `sslMode`
+  - `sslMode`  
     If you want to enable SSL support you should enable this parameter.
     For example to connect Heroku you will need to use **prefer**.
-
-      - "disable"
+    
+      - "disable"  
         only try a non-SSL connection
-
-      - "prefer"
+    
+      - "prefer"  
         first try an SSL connection; if that fails, try a non-SSL
         connection
-
-      - "require"
+    
+      - "require"  
         only try an SSL connection, but don’t verify Certificate
         Authority
-
-      - "verify-ca"
+    
+      - "verify-ca"  
         only try an SSL connection, and verify that the server
         certificate is issued by a trusted certificate authority (CA)
-
-      - "verify-full"
+    
+      - "verify-full"  
         only try an SSL connection, verify that the server certificate
         is issued by a trusted CA and that the server host name matches
         that in the certificate
 
-  - `sslRootCert`
+  - `sslRootCert`  
     Path to SSL root certificate file. Is used if you want to verify
     privately issued certificate. Refer to
     [postgresql-async](https://github.com/mauricio/postgresql-async)

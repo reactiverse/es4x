@@ -68,7 +68,7 @@ also accept a direct `h2c` connection beginning with the `PRI *
 HTTP/2.0\r\nSM\r\n` preface.
 
 > **Warning**
->
+> 
 > most browsers won’t support `h2c`, so for serving web sites you should
 > use `h2` and not `h2c`.
 
@@ -81,7 +81,7 @@ connection, the default initial settings for a server are:
   - the default HTTP/2 settings values for the others
 
 > **Note**
->
+> 
 > Worker Verticles are not compatible with HTTP/2
 
 ## Logging network server activity
@@ -344,13 +344,12 @@ request.bodyHandler((totalBuffer) => {
 });
 ```
 
-### Pumping requests
+### Streaming requests
 
-The request object is a `ReadStream` so you can pump the request body to
+The request object is a `ReadStream` so you can pipe the request body to
 any `WriteStream` instance.
 
-See the chapter on [streams and pumps](#streams) for a detailed
-explanation.
+See the chapter on [streams](#streams) for a detailed explanation.
 
 ### Handling HTML forms
 
@@ -415,9 +414,9 @@ request.uploadHandler((upload) => {
 });
 ```
 
-The upload object is a `ReadStream` so you can pump the request body to
-any `WriteStream` instance. See the chapter on [streams and
-pumps](#streams) for a detailed explanation.
+The upload object is a `ReadStream` so you can pipe the request body to
+any `WriteStream` instance. See the chapter on [streams](#streams) for a
+detailed explanation.
 
 If you just want to upload the file to disk somewhere you can use
 `streamToFileSystem`:
@@ -429,7 +428,7 @@ request.uploadHandler((upload) => {
 ```
 
 > **Warning**
->
+> 
 > Make sure you check the filename in a production system to avoid
 > malicious clients uploading files to arbitrary places on your
 > filesystem. See [security notes](#Security%20notes) for more
@@ -450,6 +449,28 @@ when the response headers are written so the browser can store them.
 Cookies are described by instances of `Cookie`. This allows you to
 retrieve the name, value, domain, path and other normal cookie
 properties.
+
+Same Site Cookies let servers require that a cookie shouldn’t be sent
+with cross-site (where Site is defined by the registrable domain)
+requests, which provides some protection against cross-site request
+forgery attacks. This kind of cookies are enabled using the setter:
+`setSameSite`.
+
+Same site cookies can have one of 3 values:
+
+  - None - The browser will send cookies with both cross-site requests
+    and same-site requests.
+
+  - Strict - he browser will only send cookies for same-site requests
+    (requests originating from the site that set the cookie). If the
+    request originated from a different URL than the URL of the current
+    location, none of the cookies tagged with the Strict attribute will
+    be included.
+
+  - Lax - Same-site cookies are withheld on cross-site subrequests, such
+    as calls to load images or frames, but will be sent when a user
+    navigates to the URL from an external site; for example, by
+    following a link.
 
 Here’s an example of querying and adding cookies:
 
@@ -519,7 +540,7 @@ If you don’t specify a status message, the default one corresponding to
 the status code will be used.
 
 > **Note**
->
+> 
 > for HTTP/2 the status won’t be present in the response since the
 > protocol won’t transmit the message to the client
 
@@ -648,7 +669,7 @@ When in chunked mode you can also write HTTP response trailers to the
 response. These are actually written in the final chunk of the response.
 
 > **Note**
->
+> 
 > chunked response has no effect for an HTTP/2 stream
 
 To add trailers to the response, add them directly to the `trailers`.
@@ -671,7 +692,7 @@ response.putTrailer("X-wibble", "woobble").putTrailer("X-quux", "flooble");
 ### Serving files directly from disk or the classpath
 
 If you were writing a web server, one way to serve a file from disk
-would be to open it as an `AsyncFile` and pump it to the HTTP response.
+would be to open it as an `AsyncFile` and pipe it to the HTTP response.
 
 Or you could load it it one go using `readFile` and write it straight to
 the response.
@@ -709,13 +730,13 @@ classpath](#classpath) for restrictions about the classpath resolution
 or disabling it.
 
 > **Note**
->
+> 
 > If you use `sendFile` while using HTTPS it will copy through
 > user-space, since if the kernel is copying data directly from disk to
 > socket it doesn’t give us an opportunity to apply any encryption.
 
 > **Warning**
->
+> 
 > If you’re going to write web servers directly using Vert.x be careful
 > that users cannot exploit the path to access files outside the
 > directory from which you want to serve them or the classpath It may be
@@ -763,27 +784,23 @@ vertx.createHttpServer().requestHandler((request) => {
 }).listen(8080);
 ```
 
-### Pumping responses
+### Piping responses
 
-The server response is a `WriteStream` instance so you can pump to it
+The server response is a `WriteStream` instance so you can pipe to it
 from any `ReadStream`, e.g. `AsyncFile`, `NetSocket`, `WebSocket` or
 `HttpServerRequest`.
 
 Here’s an example which echoes the request body back in the response for
-any PUT methods. It uses a pump for the body, so it will work even if
+any PUT methods. It uses a pipe for the body, so it will work even if
 the HTTP request body is much larger than can fit in memory at any one
 time:
 
 ``` js
-import { Pump } from "@vertx/core"
 vertx.createHttpServer().requestHandler((request) => {
   let response = request.response();
   if (request.method() === 'PUT') {
     response.setChunked(true);
-    Pump.pump(request, response).start();
-    request.endHandler((v) => {
-      response.end();
-    });
+    request.pipeTo(response);
   } else {
     response.setStatusCode(400).end();
   }
@@ -1344,7 +1361,7 @@ request.end();
 ```
 
 > **Important**
->
+> 
 > `XXXNow` methods cannot receive an exception handler.
 
 ### Specifying a handler on the client request
@@ -1456,7 +1473,7 @@ client.getNow("some-uri", (response) => {
 ### Using the response as a stream
 
 The `HttpClientResponse` instance is also a `ReadStream` which means you
-can pump it to any `WriteStream` instance.
+can pipe it to any `WriteStream` instance.
 
 ### Response headers and trailers
 
@@ -2008,7 +2025,7 @@ connection.remoteSettingsHandler((settings) => {
 ```
 
 > **Note**
->
+> 
 > this only applies to the HTTP/2 protocol
 
 ### Connection ping
@@ -2042,7 +2059,7 @@ The handler is just notified, the acknowledgement is sent whatsoever.
 Such feature is aimed for implementing protocols on top of HTTP/2.
 
 > **Note**
->
+> 
 > this only applies to the HTTP/2 protocol
 
 ### Connection shutdown and go away
@@ -2094,7 +2111,7 @@ connection.shutdownHandler((v) => {
 This applies also when a {@literal GOAWAY} is received.
 
 > **Note**
->
+> 
 > this only applies to the HTTP/2 protocol
 
 ### Connection close
@@ -2284,7 +2301,7 @@ server.webSocketHandler((webSocket) => {
 ```
 
 > **Note**
->
+> 
 > the WebSocket will be automatically accepted after the handler is
 > called unless the WebSocket’s handshake has been set
 
@@ -2420,14 +2437,27 @@ webSocket.frameHandler((frame) => {
 Use `close` to close the WebSocket connection when you have finished
 with it.
 
-### Streaming WebSockets
+### Piping WebSockets
 
 The `WebSocket` instance is also a `ReadStream` and a `WriteStream` so
-it can be used with pumps.
+it can be used with pipes.
 
 When using a WebSocket as a write stream or a read stream it can only be
 used with WebSockets connections that are used with binary frames that
 are no split over multiple frames.
+
+### Event bus handlers
+
+Every WebSocket automatically registers two handler on the event bus,
+and when any data are received in this handler, it writes them to
+itself. Those are local subscriptions not routed on the cluster.
+
+This enables you to write data to a WebSocket which is potentially in a
+completely different verticle sending data to the address of that
+handler.
+
+The addresses of the handlers are given by `binaryHandlerID` and
+`textHandlerID`.
 
 ## Using a proxy for HTTP/HTTPS connections
 
