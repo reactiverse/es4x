@@ -31,11 +31,11 @@ matrix:
       dist: xenial
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
     - env:
-      - JDK='OpenJDK 13'
+      - JDK='OpenJDK 14'
       - SKIP_JACOCO='true'
       os: linux
       dist: xenial
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk13?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk14?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
   # GraalVM
     - env:
       - JDK='GraalVM 19.3.1 (8) LTS'
@@ -83,17 +83,17 @@ matrix:
       dist: xenial
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
     - env:
-      - JDK='OpenJ9 13'
+      - JDK='OpenJ9 14'
       - SKIP_JACOCO='true'
       os: linux
       dist: xenial
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk13?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk14?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
   allow_failures:
     - env:
-      - JDK='OpenJDK 13'
+      - JDK='OpenJDK 14'
       - SKIP_JACOCO='true'
     - env:
-      - JDK='OpenJ9 13'
+      - JDK='OpenJ9 14'
       - SKIP_JACOCO='true'
     - env:
       - JDK='GraalVM 20.0.0 (8)'
