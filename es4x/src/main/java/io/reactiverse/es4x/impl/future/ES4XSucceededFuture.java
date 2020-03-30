@@ -46,7 +46,7 @@ class ES4XSucceededFuture<T> implements Future<T>, Promise<T>, Thenable {
   }
 
   @Override
-  public Future<T> setHandler(Handler<AsyncResult<T>> handler) {
+  public Future<T> onComplete(Handler<AsyncResult<T>> handler) {
     handler.handle(this);
     return this;
   }

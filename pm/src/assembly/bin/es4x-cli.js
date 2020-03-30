@@ -98,7 +98,7 @@ if (existsSync(path.join(process.cwd(), launcher))) {
   argv.push('io.reactiverse.es4x.cli.PM');
 }
 
-const subProcess = spawn(java, argv.concat(process.argv.slice(2)), { cwd: process.cwd(), stdio: 'inherit' });
+const subProcess = spawn(java, argv.concat(process.argv.slice(2)), { cwd: process.cwd(), env: process.env, stdio: 'inherit' });
 
 subProcess.on('error', (err) => {
   console.error(`es4x-pm ERROR: ${err}`);

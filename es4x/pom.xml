@@ -6,14 +6,14 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.10.1</version>
+    <version>0.11.0</version>
     <relativePath>..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>es4x</artifactId>
-  <version>0.10.1</version>
+  <version>0.11.0</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -112,6 +112,9 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.5</version>
+        <configuration>
+          <skip>${env.SKIP_JACOCO}</skip>
+        </configuration>
         <executions>
           <execution>
             <goals>

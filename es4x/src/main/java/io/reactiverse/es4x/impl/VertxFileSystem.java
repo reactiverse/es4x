@@ -67,13 +67,14 @@ public final class VertxFileSystem implements FileSystem {
   }
 
   private File resolve(String path) throws IOException {
+    final File fallback = vertx.resolveFile(path);
     File resolved;
 
     if (path.startsWith(".") || path.startsWith("/")) {
-      resolved = resolveFile(vertx.resolveFile(path));
-
+      resolved = resolveFile(fallback);
+      // try as dir
       if (resolved == null) {
-        resolved = resolveDir(vertx.resolveFile(path));
+        resolved = resolveDir(fallback);
       }
     } else {
       // module
@@ -82,6 +83,12 @@ public final class VertxFileSystem implements FileSystem {
       if (resolved == null) {
         resolved = resolveDir(vertx.resolveFile("node_modules/" + path));
       }
+    }
+
+    // fallback, this is used to resolve files that are not
+    // necessarily a module but requested by graalvm
+    if (resolved == null && fallback.exists()) {
+      return fallback.getCanonicalFile();
     }
 
     return resolved;

@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.10.1] -
+## [0.11.0] -
+- Upgraded vert.x to 3.9.0
+- Added `typedef` to generated js files to better hint IDE support
+- Correctly identify graal 20 so `jvmci` hiperf compile is activated
+- Implemented vert.x `docgen` to allow generate manuals for modules
+- Created simple React SSR example
+- Bumped graalvm to 20.0.0
+- Graal FS Resolver will allow other files than just js (require for graal 20)
+- Fixed interop with `Buffer` (Java <=> JS)
+- exposed java `Throwable` as a type to `JS` alias for non instantiable `Error`
+
+## [0.10.1] - 2020-01-24
 - fix resolver with credentials to process data as UTF8
 - VM version added to the `versions` command
 - New utility for proxies ASM

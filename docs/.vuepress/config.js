@@ -30,7 +30,7 @@ module.exports = {
       description: 'Um runtime JavaScript moderno para Eclipse Vert.x'
     }
   },
-  serviceWorker: true,
+  serviceWorker: false,
 
   themeConfig: {
     repo: 'reactiverse/es4x',
@@ -59,7 +59,11 @@ module.exports = {
             link: '/advanced/'
           },
           {
-            text: 'API reference',
+            text: 'Manual',
+            link: '/manual/'
+          },
+          {
+            text: 'APIs',
             link: '/api/'
           },
           {
@@ -98,9 +102,18 @@ module.exports = {
               ]
             }
           ],
+          '/manual/': [
+            {
+              title: 'Manuals',
+              collapsable: false,
+              children: [
+                ''
+              ]
+            }
+          ],
           '/api/': [
             {
-              title: 'API',
+              title: 'APIs',
               collapsable: false,
               children: [
                 ''
@@ -130,7 +143,11 @@ module.exports = {
             link: '/advanced/'
           },
           {
-            text: 'Referência da API',
+            text: 'Manuais',
+            link: '/manual/'
+          },
+          {
+            text: 'APIs',
             link: '/api/'
           },
           {
@@ -169,9 +186,18 @@ module.exports = {
               ]
             }
           ],
+          '/manual/': [
+            {
+              title: 'Manuals',
+              collapsable: false,
+              children: [
+                ''
+              ]
+            }
+          ],
           '/api/': [
             {
-              title: 'API',
+              title: 'APIs',
               collapsable: false,
               children: [
                 ''
@@ -199,6 +225,10 @@ module.exports = {
                 {
                   text: '进阶内容',
                   link: '/zh/advanced/'
+                },
+                {
+                  text: 'Manual',
+                  link: '/manual/'
                 },
                 {
                   text: 'API参考',
@@ -237,6 +267,15 @@ module.exports = {
                       'async-errors',
                       'worker',
                       'graphql'
+                    ]
+                  }
+                ],
+                '/manual/': [
+                  {
+                    title: 'Manuals',
+                    collapsable: false,
+                    children: [
+                      ''
                     ]
                   }
                 ],

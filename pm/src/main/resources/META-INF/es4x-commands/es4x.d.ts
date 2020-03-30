@@ -110,6 +110,54 @@ declare global {
   function clearInterval(intervalId: Number): any;
 
   function setImmediate(callback: (...args: any[]) => void, ...args: any[]): any;
+
+  /**
+   * The Throwable class is the superclass of all errors and exceptions in the Java language.
+   * Only objects that are instances of this class (or one of its subclasses) are thrown by
+   * the Java Virtual Machine or can be thrown by the Java throw statement.
+   *
+   * Similarly, only this class or one of its subclasses can be the argument type in a catch clause.
+   * For the purposes of compile-time checking of exceptions, Throwable and any subclass of Throwable
+   * that is not also a subclass of either RuntimeException or Error are regarded as checked exceptions.
+   */
+  abstract class Throwable {
+    /**
+     * The constructor is disabled to avoid creation of Throwables from
+     * the JavaScript side.
+     */
+    private constructor();
+
+    /**
+     * Prints this throwable and its backtrace to the standard error stream.
+     */
+    printStackTrace() : void;
+
+    /**
+     * Fills in the execution stack trace.
+     */
+    fillInStackTrace() : Throwable;
+
+    /**
+     * Returns the cause of this throwable or null if the cause is nonexistent or unknown.
+     */
+    getCause() : Throwable;
+
+    /**
+     * Returns the detail message string of this throwable.
+     */
+    getMessage() : String;
+
+    /**
+     * Returns an array containing all of the exceptions that were suppressed, typically by the
+     * try-with-resources statement, in order to deliver this exception.
+     */
+    getSuppressed() : Throwable[];
+
+    /**
+     * Creates a localized description of this throwable.
+     */
+    getLocalizedMessage() : String;
+  }
 }
 
 /**

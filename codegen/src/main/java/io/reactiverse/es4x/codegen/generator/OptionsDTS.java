@@ -119,44 +119,37 @@ public class OptionsDTS extends Generator<DataObjectModel> {
     // TODO: handle extends/implements
 
     writer.print("\n");
-    writer.print("  constructor();\n");
+    if (model.hasEmptyConstructor()) {
+      writer.print("  constructor();\n\n");
+    }
     // copy constructor
-    writer.printf("  constructor(obj: %s);\n", model.getType().getRaw().getSimpleName());
-
-    boolean more = false;
+    writer.printf("  constructor(obj: %s);\n\n", model.getType().getRaw().getSimpleName());
 
     for (Map.Entry<String, PropertyInfo> entry : model.getPropertyMap().entrySet()) {
 
       final PropertyInfo property = entry.getValue();
 
-      if (more) {
-        writer.print("\n");
+      if (property.getGetterMethod() != null) {
+        // write getter
+        generateDoc(writer, property.getDoc(), "  ");
+        writer.printf("  %s(): %s;\n\n", property.getGetterMethod(), genType(property.getType()));
       }
-
-      // write getter
-      generateDoc(writer, property.getDoc(), "  ");
-      // custom vert.x style
-      String getter = property.getGetterMethod();
-      writer.printf("  %s(): %s;\n", getter == null ? entry.getKey() : getter, genType(property.getType()));
-
 
       if (property.isSetter()) {
         // write setter
-        writer.print("\n");
-
         generateDoc(writer, property.getDoc(), "  ");
-        writer.printf("  %s(%s: %s): %s;\n", property.getSetterMethod(), cleanReserved(entry.getKey()), genType(property.getType()), model.getType().getRaw().getSimpleName());
+        writer.printf("  %s(%s: %s%s): %s;\n\n", property.getSetterMethod(), cleanReserved(property.getName()), genType(property.getType(), true), property.getType().isNullable() ? " | null | undefined" : "", model.getType().getRaw().getSimpleName());
       }
 
       if (property.isAdder()) {
         // write adder
-        writer.print("\n");
-
         generateDoc(writer, property.getDoc(), "  ");
-        writer.printf("  %s(%s: %s): %s;\n", property.getAdderMethod(), cleanReserved(entry.getKey()), genType(property.getType()), model.getType().getRaw().getSimpleName());
+        if (property.getKind() == PropertyKind.MAP) {
+          writer.printf("  %s(key: string, %s: %s%s): %s;\n\n", property.getAdderMethod(), cleanReserved(property.getName()), genType(property.getType(), true), property.getType().isNullable() ? " | null | undefined" : "", model.getType().getRaw().getSimpleName());
+        } else {
+          writer.printf("  %s(%s: %s%s): %s;\n\n", property.getAdderMethod(), cleanReserved(property.getName()), genType(property.getType(), true), property.getType().isNullable() ? " | null | undefined" : "", model.getType().getRaw().getSimpleName());
+        }
       }
-
-      more = true;
     }
 
     writer.print("}\n");

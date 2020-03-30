@@ -49,7 +49,11 @@ public class EnumMJS extends Generator<EnumModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
-      writer.printf("/// <reference types=\"%s/enums\" />\n", getNPMScope(model.getType().getRaw().getModule()));
+      writer.printf("/// <reference types=\"%s/enums\" />\n\n", getNPMScope(model.getType().getRaw().getModule()));
+      writer.printf(
+        "/**\n" +
+          " * @typedef { import(\"es4x\") } Java\n" +
+          " */\n");
     }
 
     writer.printf("export const %s = Java.type('%s');\n", model.getType().getRaw().getSimpleName(), model.getType().getName());

@@ -50,7 +50,11 @@ public class OptionsJS extends Generator<DataObjectModel> {
     if (index == 0) {
       Util.generateLicense(writer);
 
-      writer.printf("/// <reference types=\"%s/options\" />\n", getNPMScope(model.getType().getRaw().getModule()));
+      writer.printf("/// <reference types=\"%s/options\" />\n\n", getNPMScope(model.getType().getRaw().getModule()));
+      writer.printf(
+        "/**\n" +
+          " * @typedef { import(\"es4x\") } Java\n" +
+          " */\n");
       writer.print("module.exports = {\n");
     }
 

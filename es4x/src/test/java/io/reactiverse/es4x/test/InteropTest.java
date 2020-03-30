@@ -95,4 +95,22 @@ public class InteropTest {
         "print(l); print(l[0]); print(l[1]);" +
         "l[2] = true;");
   }
+
+  @Test
+  public void testErrorInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');\n" +
+        "var interop = new Interop();\n" +
+        "interop.printThrowable(new TypeError());\n");
+  }
+
+  @Test
+  public void testListPrintInterop() {
+    // console log was broken for array proxies as they do not follow the full js object spec
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "var l = interop.getList();" +
+        "console.log(l);");
+  }
 }
