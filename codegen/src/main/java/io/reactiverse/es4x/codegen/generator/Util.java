@@ -51,6 +51,8 @@ public final class Util {
   private final static Set<String> RESERVED = new HashSet<>();
 
   private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
+  private final static Map<String, JsonObject> BLACKLISTS = new HashMap<>();
+
   private final static JsonArray OPTIONAL_DEPENDENCIES;
   private final static JsonArray CLASS_BLACKLIST;
 
@@ -413,6 +415,21 @@ public final class Util {
     return overrides;
   }
 
+  private static JsonObject getBlacklist(String type) {
+    JsonObject blacklists = BLACKLISTS.get(type);
+
+    if (blacklists == null) {
+      String raw = includeFileIfPresent(type + ".blacklist.json");
+      if (raw.equals("")) {
+        blacklists = new JsonObject();
+      } else {
+        blacklists = new JsonObject(raw);
+      }
+      BLACKLISTS.put(type, blacklists);
+    }
+
+    return blacklists;
+  }
 
   public static String getOverrideArgs(String type, String method) {
     JsonObject overrides = getOverride(type);
@@ -445,6 +462,27 @@ public final class Util {
 
     return null;
   }
+
+  public static boolean isBlacklisted(String type, String method, Object params) {
+    JsonObject blacklists = getBlacklist(type);
+
+    Object result = blacklists.getValue(method);
+
+    if (result == null) {
+      return false;
+    }
+
+    if (result instanceof Boolean) {
+      return (Boolean) result;
+    }
+
+    if (result instanceof String) {
+      return result.equals(params != null ? params.toString() : null);
+    }
+
+    return false;
+  }
+
 
   public static void generateDoc(PrintWriter writer, Doc doc, String margin) {
     if (doc != null) {
