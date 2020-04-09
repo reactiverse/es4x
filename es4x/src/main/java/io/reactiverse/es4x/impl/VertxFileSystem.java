@@ -37,6 +37,13 @@ public final class VertxFileSystem implements FileSystem {
 
   private final String prefix = System.getProperty("es4x.prefix", "");
   private final VertxInternal vertx;
+  // computed roots
+  // there are always 2 roots:
+  // 1. the CWD
+  // 2. the vert.x cache where non fs resources are extracted
+  //
+  // the cache root may be null
+  private final String[] roots;
 
   public static String getCWD() {
     // clean up the current working dir
@@ -52,18 +59,29 @@ public final class VertxFileSystem implements FileSystem {
 
     // all paths are unix paths
     cwd = cwd.replace('\\', '/');
-    // ensure it ends with /
-    if (cwd.charAt(cwd.length() - 1) != '/') {
-      cwd += '/';
+
+    int len = cwd.length();
+
+    // ensure it doesn't end with /
+    if (cwd.charAt(len - 1) == '/') {
+      cwd = cwd.substring(0, len - 1);
     }
 
     return cwd;
   }
 
-
   public VertxFileSystem(final Vertx vertx) {
     Objects.requireNonNull(vertx, "vertx must be non null.");
     this.vertx = (VertxInternal) vertx;
+
+    String cwd = getCWD();
+    File cacheRoot = this.vertx.resolveFile("");
+
+    // lock the roots at start
+    roots = new String[] {
+      cwd,
+      cacheRoot == null ? null : cacheRoot.getAbsolutePath()
+    };
   }
 
   private File resolve(String path) throws IOException {
@@ -149,26 +167,42 @@ public final class VertxFileSystem implements FileSystem {
     throw new UnsupportedOperationException();
   }
 
+  private String strip(String path) {
+    for (String root : roots) {
+      if (root != null) {
+        if (path.startsWith(root)) {
+          int prefix = root.length();
+          if (path.length() > prefix) {
+            // strip the leading slash
+            prefix++;
+          }
+          return path.substring(prefix);
+        }
+      }
+    }
+
+    return path;
+  }
+
   @Override
   public Path parsePath(String path) {
     // EMPTY shortcut
     if ("".equals(path)) {
-      return EMPTY;
+      // always prefer CWD
+      return Paths.get(roots[0]);
     }
 
-    // apply the prefix is the path is relative
-    if (path.charAt(0) == '.' && prefix.length() > 0) {
-      path = prefix + path;
-    }
+    path = strip(path);
+    System.out.println("resolve: [" + path + "]");
 
     try {
-      File resolved = resolve(path);
+      File resolved = vertx.resolveFile(path);
       // can't resolve
       if (resolved == null) {
-        throw new InvalidPathException(path, "Does not resolve to a File");
+        throw new InvalidPathException(path, "Path not found");
       }
       return resolved.toPath();
-    } catch (IOException e) {
+    } catch (RuntimeException e) {
       throw new InvalidPathException(path, e.getMessage());
     }
   }

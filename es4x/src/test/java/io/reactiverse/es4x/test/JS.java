@@ -44,9 +44,10 @@ public final class JS {
       Source.newBuilder("js", JS.class.getResource("../polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/console.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/worker.js")).buildLiteral(),
-      Source.newBuilder("js", JS.class.getResource("../polyfill/arraybuffer.js")).buildLiteral(),
-      // commonjs loader
-      Source.newBuilder("js", JS.class.getResource("../jvm-npm.js")).buildLiteral()
+      Source.newBuilder("js", JS.class.getResource("../polyfill/arraybuffer.js")).buildLiteral()
+//      ,
+//      // commonjs loader
+//      Source.newBuilder("js", JS.class.getResource("../jvm-npm.js")).buildLiteral()
     );
   }
 

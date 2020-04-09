@@ -29,6 +29,7 @@ import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
 
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -252,6 +253,23 @@ public final class ECMAEngine {
     if (System.getProperty("js.ecmascript-version") != null) {
       builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version"));
     }
+
+    // experimental features
+    final Map<String, String> options = new HashMap<>();
+    // Enable CommonJS experimental support.
+    options.put("js.commonjs-require", "true");
+    // (optional) folder where the Npm modules to be loaded are located.
+    options.put("js.commonjs-require-cwd", VertxFileSystem.getCWD());
+//    // (optional) initialization script to pre-define globals.
+//    options.put("js.commonjs-global-properties", "./globals.js");
+    // (optional) Node.js built-in replacements as a comma separated list.
+    options.put("js.commonjs-core-modules-replacements",
+      "util:./polyfill/util.js," +
+      "async-error:./polyfill/async-error.js");
+
+    builder
+      .allowExperimentalOptions(true)
+      .options(options);
 
     // the instance
     final Context context = builder.build();
