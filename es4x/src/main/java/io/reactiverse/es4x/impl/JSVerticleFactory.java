@@ -18,8 +18,8 @@ package io.reactiverse.es4x.impl;
 import io.reactiverse.es4x.ESVerticleFactory;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.*;
-import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.proxy.ProxyExecutable;
 
 public final class JSVerticleFactory extends ESVerticleFactory {
 
@@ -30,12 +30,6 @@ public final class JSVerticleFactory extends ESVerticleFactory {
 
   @Override
   protected Verticle createVerticle(Runtime runtime, String fsVerticleName) {
-
-    final Value module;
-    // we need to setup the script loader
-    module = runtime.eval(
-      Source.newBuilder("js", JSVerticleFactory.class.getResource("/io/reactiverse/es4x/jvm-npm.js")).buildLiteral()
-    );
 
     return new Verticle() {
 
@@ -76,10 +70,20 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         try {
           runtime.enter();
           if (worker) {
-            self = module.invokeMember("runWorker", mainScript(fsVerticleName), address);
-          } else {
-            self = module.invokeMember("runMain", mainScript(fsVerticleName));
+            // workers will follow the browser semantics, they will have an extra global "postMessage"
+            runtime.put("postMessage", (ProxyExecutable) arguments -> {
+              // this implementation is not totally correct as it should be
+              // a shallow copy not a full encode/decode of JSON payload, however
+              // this works better in vert.x as we can be interacting with any
+              // polyglot language or across the cluster
+              vertx.eventBus()
+                .send(
+                  address + ".in",
+                  runtime.get("JSON").invokeMember("stringify", arguments).asString());
+              return null;
+            });
           }
+          self = runtime.get("require").execute(mainScript(fsVerticleName));
         } catch (RuntimeException e) {
           startFuture.fail(e);
           return;
@@ -89,8 +93,9 @@ public final class JSVerticleFactory extends ESVerticleFactory {
 
         if (self != null) {
           if (worker) {
+            final Value onmessage = runtime.get("onmessage");
             // if it is a worker and there is a onmessage handler we need to bind it to the eventbus
-            if (self.hasMember("onmessage")) {
+            if (onmessage != null && onmessage.canExecute()) {
               try {
                 // if the worker has specified a onmessage function we need to bind it to the eventbus
                 final Value JSON = runtime.eval("JSON");
@@ -99,7 +104,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
                   // parse the json back to the engine runtime type
                   Value json = JSON.invokeMember("parse", msg.body());
                   // deliver it to the handler
-                  self.invokeMember("onmessage", json);
+                  onmessage.executeVoid(json);
                 });
               } catch (RuntimeException e) {
                 startFuture.fail(e);
