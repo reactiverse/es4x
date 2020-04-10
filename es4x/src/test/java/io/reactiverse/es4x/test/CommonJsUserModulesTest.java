@@ -22,7 +22,7 @@ public class CommonJsUserModulesTest {
 
   @Before
   public void initialize() {
-    runtime = commonjs(rule.vertx());
+    runtime = runtime(rule.vertx());
   }
 
   @Test

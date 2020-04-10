@@ -9,7 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.reactiverse.es4x.test.JS.commonjs;
+import static io.reactiverse.es4x.test.JS.runtime;
 import static org.junit.Assert.*;
 
 @RunWith(VertxUnitRunner.class)
@@ -23,7 +23,7 @@ public class PolyglotTest {
   @Before
   public void initialize() {
     System.setProperty("es4x.polyglot", "true");
-    runtime = commonjs(rule.vertx());
+    runtime = runtime(rule.vertx());
     System.setProperty("es4x.polyglot", "false");
   }
 

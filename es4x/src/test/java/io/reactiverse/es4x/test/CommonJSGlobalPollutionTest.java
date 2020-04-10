@@ -8,7 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.reactiverse.es4x.test.JS.commonjs;
+import static io.reactiverse.es4x.test.JS.runtime;
 import static io.reactiverse.es4x.test.JS.require;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -23,7 +23,7 @@ public class CommonJSGlobalPollutionTest {
 
   @Before
   public void initialize() {
-    runtime = commonjs(rule.vertx());
+    runtime = runtime(rule.vertx());
   }
 
   @Test

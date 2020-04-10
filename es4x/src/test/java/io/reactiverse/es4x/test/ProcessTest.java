@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 
 import java.util.Map;
 
-import static io.reactiverse.es4x.test.JS.commonjs;
+import static io.reactiverse.es4x.test.JS.runtime;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
@@ -24,7 +24,7 @@ public class ProcessTest {
 
   @Before
   public void initialize() {
-    runtime = commonjs(rule.vertx());
+    runtime = runtime(rule.vertx());
   }
 
   @Test(timeout = 10000)

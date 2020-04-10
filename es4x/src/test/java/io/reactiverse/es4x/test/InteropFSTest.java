@@ -3,7 +3,6 @@ package io.reactiverse.es4x.test;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
-import org.graalvm.polyglot.Value;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,7 +21,7 @@ public class InteropFSTest {
 
   @Before
   public void initialize() {
-    runtime = commonjs(rule.vertx());
+    runtime = runtime(rule.vertx());
   }
 
   @Test

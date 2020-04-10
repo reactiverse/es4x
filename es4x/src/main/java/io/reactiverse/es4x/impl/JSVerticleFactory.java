@@ -93,7 +93,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
 
         if (self != null) {
           if (worker) {
-            final Value onmessage = runtime.get("onmessage");
+            final Value onmessage = self.hasMember("onmessage") ? self.getMember("onmessage") : runtime.get("onmessage");
             // if it is a worker and there is a onmessage handler we need to bind it to the eventbus
             if (onmessage != null && onmessage.canExecute()) {
               try {

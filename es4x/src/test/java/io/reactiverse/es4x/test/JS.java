@@ -1,7 +1,6 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.ECMAEngine;
-import io.reactiverse.es4x.impl.JSVerticleFactory;
 import io.vertx.core.Vertx;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
@@ -37,7 +36,7 @@ public final class JS {
     return runtime.get("require").execute(module);
   }
 
-  static Runtime commonjs(Vertx vertx) {
+  static Runtime runtime(Vertx vertx) {
     return new ECMAEngine(vertx).newContext(
       Source.newBuilder("js", JS.class.getResource("../polyfill/json.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/global.js")).buildLiteral(),
@@ -45,20 +44,6 @@ public final class JS {
       Source.newBuilder("js", JS.class.getResource("../polyfill/console.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/worker.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/arraybuffer.js")).buildLiteral()
-//      ,
-//      // commonjs loader
-//      Source.newBuilder("js", JS.class.getResource("../jvm-npm.js")).buildLiteral()
-    );
-  }
-
-  static Runtime esm(Vertx vertx) {
-    return new ECMAEngine(vertx).newContext(
-      Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/json.js")).buildLiteral(),
-      Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/global.js")).buildLiteral(),
-      Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/date.js")).buildLiteral(),
-      Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/console.js")).buildLiteral(),
-      Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/worker.js")).buildLiteral(),
-      Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/arraybuffer.js")).buildLiteral()
     );
   }
 }

@@ -8,7 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.reactiverse.es4x.test.JS.commonjs;
+import static io.reactiverse.es4x.test.JS.runtime;
 
 @RunWith(VertxUnitRunner.class)
 public class AliasTest {
@@ -23,7 +23,7 @@ public class AliasTest {
     System.setProperty(
       "js.commonjs-core-modules-replacements",
       "crypto:./alias/alias/crypto.js,fs:./alias2/alias/fs.js,stream:./alias2/specialStream.js");
-    runtime = commonjs(rule.vertx());
+    runtime = runtime(rule.vertx());
     System.getProperties().remove("js.commonjs-core-modules-replacements");
   }
 

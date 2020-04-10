@@ -9,9 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.nio.ByteBuffer;
-
-import static io.reactiverse.es4x.test.JS.commonjs;
+import static io.reactiverse.es4x.test.JS.runtime;
 import static org.junit.Assert.*;
 
 @RunWith(VertxUnitRunner.class)
@@ -24,7 +22,7 @@ public class ArrayBufferTest {
 
   @Before
   public void initialize() {
-    runtime = commonjs(rule.vertx());
+    runtime = runtime(rule.vertx());
   }
 
   @Test
