@@ -31,7 +31,7 @@ public class CommonJsTest {
       require(runtime, "./not_found.js");
       fail();
     } catch (RuntimeException e) {
-      assertTrue("Error: Module \"./not_found.js\" was not found".equals(e.getMessage()) || "ModuleError: Module \"./not_found.js\" was not found".equals(e.getMessage()));
+      assertEquals("TypeError: Cannot load CommonJS module: './not_found.js'", e.getMessage());
     }
   }
 
@@ -65,21 +65,6 @@ public class CommonJsTest {
   public void shouldReturnDotJsonFileAsJsonObject() {
     Value json = require(runtime, "./lib/some_data.json");
     assertEquals("This is a JSON file", getMember(json, "description", String.class));
-  }
-
-  @Test
-  public void shouldCacheModulesInRequireCache() {
-    Value outer = require(runtime, "./lib/outer.js");
-    Value require = runtime.eval("require");
-
-    Value cache = getMember(require, "cache");
-    String filename = getMember(outer, "filename", String.class);
-
-    // JS has no concept ot equals() so we cast to String to compare
-    assertEquals(getMember(cache, filename).toString(), outer.toString());
-    Object outer2 = require(runtime, "./lib/outer.js");
-    // JS has no concept ot equals() so we cast to String to compare
-    assertEquals(outer.toString(), outer2.toString());
   }
 
   @Test

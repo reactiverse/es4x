@@ -25,7 +25,7 @@
     constructor(...args) {
       super(...args);
       if (args[0] instanceof ByteBuffer) {
-        Object.defineProperty(this, "nioByteBuffer", {
+        Object.defineProperty(this, "__nioByteBuffer__", {
           value: args[0]
         });
       }

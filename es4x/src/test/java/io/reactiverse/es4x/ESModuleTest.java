@@ -51,6 +51,6 @@ public class ESModuleTest {
 
     Object result = runtime.eval("import { f } from './mjs/meta'\n f();\n", "script.mjs", false);
 
-    should.assertEquals("./mjs/meta", result.toString());
+    should.assertTrue(result.toString().contains("/mjs/meta"));
   }
 }

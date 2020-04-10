@@ -32,10 +32,9 @@ import java.util.*;
 
 public final class VertxFileSystem implements FileSystem {
 
-  private static final List<String> EXTENSIONS = Arrays.asList(".mjs", ".js");
+  private static final List<String> EXTENSIONS = Arrays.asList(".js", ".mjs");
   private static final Path EMPTY = Paths.get("");
 
-  private final String prefix = System.getProperty("es4x.prefix", "");
   private final VertxInternal vertx;
   // computed roots
   // there are always 2 roots:
@@ -191,20 +190,45 @@ public final class VertxFileSystem implements FileSystem {
       // always prefer CWD
       return Paths.get(roots[0]);
     }
-
+    // strip
     path = strip(path);
-    System.out.println("resolve: [" + path + "]");
-
-    try {
-      File resolved = vertx.resolveFile(path);
-      // can't resolve
-      if (resolved == null) {
-        throw new InvalidPathException(path, "Path not found");
-      }
-      return resolved.toPath();
-    } catch (RuntimeException e) {
-      throw new InvalidPathException(path, e.getMessage());
+    // EMPTY shortcut
+    if ("".equals(path)) {
+      // always prefer CWD
+      return Paths.get(roots[0]);
     }
+
+//    // apply the prefix is the path is relative
+//    if (path.charAt(0) == '.' && prefix.length() > 0) {
+//      path = prefix + path;
+//    }
+
+    File resolved = vertx.resolveFile(path);
+
+    if (resolved == null) {
+      throw new InvalidPathException(path, "Cannot resolve file");
+    }
+
+    if (resolved.exists()) {
+      System.out.println("resolve: [" + path + "]");
+      return resolved.toPath();
+    }
+
+    // allow resolving modules without extension (useful for typescript)
+    for (String ext : EXTENSIONS) {
+      File resolvedExt = vertx.resolveFile(path + ext);
+
+      if (resolvedExt == null) {
+        throw new InvalidPathException(path, "Cannot resolve file");
+      }
+
+      if (resolvedExt.exists() && resolvedExt.isFile()) {
+        System.out.println("resolve: [" + path + ext + "]");
+        return resolvedExt.toPath();
+      }
+    }
+
+    return resolved.toPath();
   }
 
   @Override

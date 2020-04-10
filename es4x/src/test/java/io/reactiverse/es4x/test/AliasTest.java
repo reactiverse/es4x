@@ -20,7 +20,11 @@ public class AliasTest {
 
   @Before
   public void initialize() {
+    System.setProperty(
+      "js.commonjs-core-modules-replacements",
+      "crypto:./alias/alias/crypto.js,fs:./alias2/alias/fs.js,stream:./alias2/specialStream.js");
     runtime = commonjs(rule.vertx());
+    System.getProperties().remove("js.commonjs-core-modules-replacements");
   }
 
   @Test(timeout = 10000)
@@ -28,7 +32,7 @@ public class AliasTest {
     runtime.eval("require('./alias')");
   }
 
-  @Test//(timeout = 10000)
+  @Test(timeout = 10000)
   public void testAlias2() {
     runtime.eval("require('./alias2')");
   }

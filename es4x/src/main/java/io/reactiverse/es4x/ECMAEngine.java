@@ -44,6 +44,11 @@ public final class ECMAEngine {
 
   private static final Logger LOG = LoggerFactory.getLogger(ECMAEngine.class);
 
+  private boolean hasProperty(String name) {
+    String value = System.getProperty(name);
+    return value != null && !"".equals(value);
+  }
+
   private static Pattern[] allowedHostClassFilters() {
     String hostClassFilter = System.getProperty("es4x.host.class.filter", System.getenv("ES4XHOSTCLASSFILTER"));
     if (hostClassFilter == null || hostClassFilter.length() == 0) {
@@ -131,19 +136,9 @@ public final class ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Buffer.class,
-        // ensure that the type really matches
-        v -> {
-          final Value meta = v.getMetaObject();
-          return isScriptObject(v) && meta != null && "ArrayBuffer".equals(meta.getMember("className").asString());
-        },
-        v -> {
-          if (v.hasMember("nioByteBuffer")) {
-            return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("nioByteBuffer").as(ByteBuffer.class)));
-          } else {
-            // this is a raw ArrayBuffer
-            throw new ClassCastException("Cannot cast ArrayBuffer(without j.n.ByteBuffer)");
-          }
-        })
+        // ensure that the it is a script object with a "__nioByteBuffer__" property
+        v -> isScriptObject(v) && v.hasMember("__nioByteBuffer__"),
+        v -> Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__nioByteBuffer__").as(ByteBuffer.class))))
       // Ensure Arrays are exposed as List when the Java API is accepting Object
       .targetTypeMapping(List.class, Object.class, null, v -> v)
       // map native Error Object to Throwable
@@ -250,7 +245,7 @@ public final class ECMAEngine {
       .allowPolyglotAccess(polyglotAccess);
 
     // allow specifying the custom ecma version
-    if (System.getProperty("js.ecmascript-version") != null) {
+    if (hasProperty("js.ecmascript-version")) {
       builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version"));
     }
 
@@ -263,9 +258,11 @@ public final class ECMAEngine {
 //    // (optional) initialization script to pre-define globals.
 //    options.put("js.commonjs-global-properties", "./globals.js");
     // (optional) Node.js built-in replacements as a comma separated list.
-    options.put("js.commonjs-core-modules-replacements",
-      "util:./polyfill/util.js," +
-      "async-error:./polyfill/async-error.js");
+    if (hasProperty("js.commonjs-core-modules-replacements")) {
+      options.put("js.commonjs-core-modules-replacements", "util:./node_modules/util.js,async-error:./node_modules/async-error.js," + System.getProperty("js.commonjs-core-modules-replacements"));
+    } else {
+      options.put("js.commonjs-core-modules-replacements", "util:./node_modules/util.js,async-error:./node_modules/async-error.js");
+    }
 
     builder
       .allowExperimentalOptions(true)

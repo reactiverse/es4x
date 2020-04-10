@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static io.reactiverse.es4x.test.JS.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(VertxUnitRunner.class)
 public class CommonJsUserModulesTest {
@@ -29,7 +29,7 @@ public class CommonJsUserModulesTest {
   public void shouldFindPackageJsonInModuleFolder() {
     Value packageJson = require(runtime, "./lib/other_package");
     assertEquals("cool ranch", getMember(packageJson, "flavor", String.class));
-    assertEquals("jar:/lib/other_package/lib/subdir", getMember(packageJson, "subdir", String.class));
+    assertTrue(getMember(packageJson, "subdir", String.class).endsWith("/lib/other_package/lib/subdir"));
   }
 
   @Test

@@ -74,8 +74,8 @@ public class ArrayBufferTest {
 
       fail("Should fail as raw buffers are not automatically casted.");
     } catch (RuntimeException e) {
-      e.printStackTrace();
       // OK!
+      assertNotNull(e.getMessage(), e);
     }
   }
 }
