@@ -139,8 +139,6 @@ public final class ECMAEngine {
         // ensure that the it is a script object with a "__nioByteBuffer__" property
         v -> isScriptObject(v) && v.hasMember("__nioByteBuffer__"),
         v -> Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__nioByteBuffer__").as(ByteBuffer.class))))
-      // Ensure Arrays are exposed as List when the Java API is accepting Object
-      .targetTypeMapping(List.class, Object.class, null, v -> v)
       // map native Error Object to Throwable
       .targetTypeMapping(
         Value.class,
@@ -165,6 +163,8 @@ public final class ECMAEngine {
 
           return t;
         })
+      // Ensure Arrays are exposed as List when the Java API is accepting Object
+      .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();
 
     fileSystem = new VertxFileSystem(vertx);
@@ -202,10 +202,9 @@ public final class ECMAEngine {
       .registerDefaultCodec(className, new JSObjectMessageCodec(className.getName()));
   }
 
-  public FileSystem fileSystem() {
-    return fileSystem;
-  }
-
+//  public FileSystem fileSystem() {
+//    return fileSystem;
+//  }
 
   /**
    * return a new context for this engine.

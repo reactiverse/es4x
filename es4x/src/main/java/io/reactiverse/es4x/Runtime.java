@@ -16,22 +16,13 @@
 package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.EventEmitterImpl;
-import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.function.Function;
 
 public final class Runtime extends EventEmitterImpl {
 
@@ -44,70 +35,11 @@ public final class Runtime extends EventEmitterImpl {
     this.bindings = this.context.getBindings("js");
 
     // remove specific features that we don't want to expose
-    for (String identifier : Arrays.asList("exit", "quit", "Packages", "java", "javafx", "javax", "com", "org", "edu")) {
+    for (String identifier : Arrays.asList("load", "exit", "quit", "Packages", "java", "javafx", "javax", "com", "org", "edu")) {
       bindings.removeMember(identifier);
     }
     // add vertx as a global
     bindings.putMember("vertx", vertx);
-
-    // clean up the current working dir
-    final String cwd = "file://" + VertxFileSystem.getCWD();
-
-    // override the default load function to allow proper mapping of file for debugging
-    bindings.putMember("load", new Function<Object, Value>() {
-      @Override
-      public Value apply(Object value) {
-
-        try {
-          final Source source;
-
-          if (value instanceof String) {
-            // a path or url in string format
-            try {
-              // try to parse as URL
-              return apply(new URL((String) value));
-            } catch (MalformedURLException murle) {
-              // on failure fallback to file
-              return apply(new File((String) value));
-            }
-          }
-          else if (value instanceof URL) {
-            // a url
-            source = Source.newBuilder("js", (URL) value).build();
-          }
-          else if (value instanceof File) {
-            // a local file
-            source = Source.newBuilder("js", (File) value).build();
-          }
-          else if (value instanceof Map) {
-            // a json document
-            final CharSequence script = (CharSequence) ((Map) value).get("script");
-            // might be optional
-            final CharSequence name = (CharSequence) ((Map) value).get("name");
-
-            if (name != null && name.length() > 0) {
-              final URI uri;
-              if (name.charAt(0) != '/') {
-                // relative uri
-                uri = new URI(cwd + name);
-              } else {
-                // absolute uri
-                uri = new URI("file://" + name);
-              }
-              source = Source.newBuilder("js", script, uri.getPath()).uri(uri).build();
-            } else {
-              source = Source.newBuilder("js", script, "<module-wrapper>").cached(false).build();
-            }
-          } else {
-            throw new RuntimeException("TypeError: cannot load [" + value.getClass() + "]");
-          }
-
-          return context.eval(source);
-        } catch (IOException | URISyntaxException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    });
 
     // load all the polyfills
     bindings.putMember("verticle", this);

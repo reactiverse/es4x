@@ -28,7 +28,7 @@ public class ESModuleTest {
     // mjs/foobar.mjs is not on the CWD but on the classpath
     // all IO is captured by a Vert.x file system implementation that
     // allows transparent access like in every other vert.x API
-    Object result = runtime.eval("import {foo, bar} from './mjs/foobar';\n" +
+    Object result = runtime.eval("import {foo, bar} from './mjs/foobar.mjs';\n" +
         "foo();\n" +
         "bar();\n", "durp.mjs", false);
 
@@ -41,7 +41,7 @@ public class ESModuleTest {
     // mjs/foobar.mjs is not on the CWD but on the classpath
     // all IO is captured by a Vert.x file system implementation that
     // allows transparent access like in every other vert.x API
-    Object result = runtime.eval("import { a } from './mjs/moduleA'\n a();\n", "script.mjs", false);
+    Object result = runtime.eval("import { a } from './mjs/moduleA.mjs'\n a();\n", "script.mjs", false);
 
     should.assertEquals("bar", result.toString());
   }
@@ -49,7 +49,7 @@ public class ESModuleTest {
   @Test
   public void testMeta(TestContext should) {
 
-    Object result = runtime.eval("import { f } from './mjs/meta'\n f();\n", "script.mjs", false);
+    Object result = runtime.eval("import { f } from './mjs/meta.mjs'\n f();\n", "script.mjs", false);
 
     should.assertTrue(result.toString().contains("/mjs/meta"));
   }

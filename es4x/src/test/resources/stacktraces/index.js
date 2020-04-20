@@ -1,3 +1,5 @@
+print(Error.captureStackTrace)
+
 var asyncError = require('async-error');
 var fs = vertx.fileSystem();
 

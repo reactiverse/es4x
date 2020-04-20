@@ -6,6 +6,7 @@ import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +38,7 @@ public class StackTraceTest {
   }
 
   @Test(timeout = 10000)
+//  @Ignore
   public void shouldGenerateUsefulStackTraceFromJS(TestContext should) {
     final Async test = should.async();
     // pass the assertion to the engine

@@ -70,6 +70,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         try {
           runtime.enter();
           if (worker) {
+            final Value undefined = runtime.eval("[undefined]").getArrayElement(0);
             // workers will follow the browser semantics, they will have an extra global "postMessage"
             runtime.put("postMessage", (ProxyExecutable) arguments -> {
               // this implementation is not totally correct as it should be
@@ -79,8 +80,9 @@ public final class JSVerticleFactory extends ESVerticleFactory {
               vertx.eventBus()
                 .send(
                   address + ".in",
-                  runtime.get("JSON").invokeMember("stringify", arguments).asString());
-              return null;
+                  runtime.get("JSON").invokeMember("stringify", arguments[0]).asString());
+
+              return undefined;
             });
           }
           self = runtime.get("require").execute(mainScript(fsVerticleName));

@@ -49,16 +49,16 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
 
       @Override
       public void start(Future<Void> startFuture) {
-        final FileSystem fs = engine.fileSystem();
+//        final FileSystem fs = engine.fileSystem();
 
         try {
-          final Path scriptPath = fs.parsePath(mainScript(fsVerticleName));
+//          final Path scriptPath = fs.parsePath(mainScript(fsVerticleName));
           // the main script buffer
-          final Buffer buffer = vertx.fileSystem().readFileBlocking(scriptPath.toString());
+          final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
           runtime.eval(
             // strip the shebang if present
             ESModuleIO.stripShebang(buffer.toString()),
-            scriptPath.toString(),
+            fsVerticleName,
             "application/javascript+module",
             false);
           startFuture.complete();
