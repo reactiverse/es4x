@@ -38,7 +38,6 @@ public class StackTraceTest {
   }
 
   @Test(timeout = 10000)
-//  @Ignore
   public void shouldGenerateUsefulStackTraceFromJS(TestContext should) {
     final Async test = should.async();
     // pass the assertion to the engine
