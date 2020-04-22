@@ -133,7 +133,17 @@ public final class ECMAEngine {
         // ensure that the type really matches
         v -> {
           final Value meta = v.getMetaObject();
-          return isScriptObject(v) && meta != null && "ArrayBuffer".equals(meta.getMember("className").asString());
+          if (meta != null) {
+            // 20.0.0
+            if (meta.hasMember("className")) {
+              return "ArrayBuffer".equals(meta.getMember("className").toString());
+            }
+            // 20.1.0
+            if (meta.hasMember("name")) {
+              return "EArrayBuffer".equals(meta.getMember("name").toString());
+            }
+          }
+          return false;
         },
         v -> {
           if (v.hasMember("nioByteBuffer")) {
@@ -272,5 +282,9 @@ public final class ECMAEngine {
 
     // setup complete
     return new Runtime(vertx, context, scripts);
+  }
+
+  public void close() {
+    engine.close();
   }
 }

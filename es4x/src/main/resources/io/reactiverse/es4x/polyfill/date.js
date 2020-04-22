@@ -19,16 +19,12 @@
   const Instant = Java.type('java.time.Instant');
 
   Date.fromInstant = function (instant) {
-    if (instant !== null && instant !== undefined) {
-      if (instant instanceof Instant) {
-        let date = new Date();
-        date.setTime(instant.toEpochMilli());
-        return date;
-      }
-      throw new TypeError('Not an java.time.Instant');
-    } else {
-      return instant;
+    if (instant && Java.isJavaObject(instant) && instant instanceof Instant) {
+      let date = new Date();
+      date.setTime(instant.toEpochMilli());
+      return date;
     }
+    throw new TypeError('Not an java.time.Instant');
   };
 
 })();
