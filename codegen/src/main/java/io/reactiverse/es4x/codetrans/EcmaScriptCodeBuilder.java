@@ -31,8 +31,10 @@ class EcmaScriptCodeBuilder implements CodeBuilder {
         .append(      getNPMScope(module.getModule()));
 
       switch (module.getKind()) {
-        case DATA_OBJECT:
-          writer.append("/options");
+        case OTHER:
+          if (module.getDataObject() != null) {
+            writer.append("/options");
+          }
           break;
         case ENUM:
           writer.append("/enums");

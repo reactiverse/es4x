@@ -82,7 +82,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
             imports = true;
           }
         }
-        if (referencedType.getKind() == ClassKind.DATA_OBJECT) {
+        if (referencedType.getKind() == ClassKind.OTHER && referencedType.getDataObject() != null) {
           if (!referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
             // ignore missing imports
             if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {

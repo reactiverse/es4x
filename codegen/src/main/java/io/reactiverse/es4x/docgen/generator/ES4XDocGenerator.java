@@ -55,9 +55,6 @@ public class ES4XDocGenerator implements DocGenerator {
         case ENUM:
           kind = "enums";
           break;
-        case DATA_OBJECT:
-          kind = "classes";
-          break;
         case HANDLER:
         case ASYNC_RESULT:
           kind = "interfaces";
@@ -71,7 +68,12 @@ public class ES4XDocGenerator implements DocGenerator {
           }
           break;
         case OTHER:
-          return null;
+          if (type.getDataObject() != null) {
+            kind = "classes";
+            break;
+          } else {
+            return null;
+          }
         default:
           System.err.println("Could not resolve doc link for kind " + type.getKind());
           return null;
