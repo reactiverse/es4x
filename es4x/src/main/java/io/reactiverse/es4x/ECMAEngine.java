@@ -29,8 +29,10 @@ import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
 
 import java.nio.ByteBuffer;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.logging.ConsoleHandler;
@@ -143,8 +145,6 @@ public final class ECMAEngine {
             throw new ClassCastException("Cannot cast ArrayBuffer(without j.n.ByteBuffer)");
           }
         })
-      // Ensure Arrays are exposed as List when the Java API is accepting Object
-      .targetTypeMapping(List.class, Object.class, null, v -> v)
       // map native Error Object to Throwable
       .targetTypeMapping(
         Value.class,
@@ -169,6 +169,10 @@ public final class ECMAEngine {
 
           return t;
         })
+      // Ensure Arrays are exposed as Set when the Java API is accepting Set
+      .targetTypeMapping(List.class, Set.class, null, HashSet::new)
+      // Ensure Arrays are exposed as List when the Java API is accepting Object
+      .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();
 
     fileSystem = new VertxFileSystem(vertx);

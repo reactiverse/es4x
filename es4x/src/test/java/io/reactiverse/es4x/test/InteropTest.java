@@ -48,6 +48,14 @@ public class InteropTest {
   }
 
   @Test
+  public void testSetInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "interop.printSet(['1', '2', '3']);");
+  }
+
+  @Test
   public void testAutocastJSObjectToMap() {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +

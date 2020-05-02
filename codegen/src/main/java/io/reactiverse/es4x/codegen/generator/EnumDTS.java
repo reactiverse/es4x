@@ -24,8 +24,7 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Map;
 
-import static io.reactiverse.es4x.codegen.generator.Util.generateDoc;
-import static io.reactiverse.es4x.codegen.generator.Util.isBlacklistedClass;
+import static io.reactiverse.es4x.codegen.generator.Util.*;
 
 public class EnumDTS extends Generator<EnumModel> {
 
@@ -55,6 +54,8 @@ public class EnumDTS extends Generator<EnumModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
+      // include a file if present
+      writer.print(includeFileIfPresent("enum.include.d.ts"));
     } else {
       writer.print("\n");
     }

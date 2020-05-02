@@ -9,6 +9,7 @@ import org.graalvm.polyglot.proxy.ProxyObject;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Interop {
 
@@ -22,6 +23,10 @@ public class Interop {
 
   public void printInstant(Instant json) {
     System.out.println(json);
+  }
+
+  public void printSet(Set<String> json) {
+    System.out.println(json.toArray());
   }
 
   public void printThrowable(Throwable throwable) {
