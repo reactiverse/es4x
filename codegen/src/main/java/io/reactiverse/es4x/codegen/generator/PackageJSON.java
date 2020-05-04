@@ -60,6 +60,13 @@ public class PackageJSON extends Generator<ModuleModel> {
     // extras
     json.put("sideEffects", false);
 
+//    // repository
+//    json.put("repository",
+//      new JsonObject()
+//        .put("type", "git")
+//        .put("url", "git")
+//        .put("directory", "git"));
+
     // fix version(s)
     json.put("version", toSemVer(json.getString("version")));
     if (json.containsKey("dependencies")) {

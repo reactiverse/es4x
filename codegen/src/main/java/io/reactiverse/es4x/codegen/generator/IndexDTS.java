@@ -56,6 +56,11 @@ public class IndexDTS extends Generator<ClassModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
+      registerJvmClasses();
+      for (Object fqcn : jvmClasses()) {
+        JVMClass.generateDTS(writer, fqcn.toString());
+      }
+
       // include a file if present
       writer.print(includeFileIfPresent("index.include.d.ts"));
 

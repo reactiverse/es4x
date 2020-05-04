@@ -55,6 +55,7 @@ public final class Util {
 
   private final static JsonArray OPTIONAL_DEPENDENCIES;
   private final static JsonArray CLASS_BLACKLIST;
+  private final static JsonArray JVMCLASSES;
 
   static {
     /* parse the registry from the system property */
@@ -63,18 +64,56 @@ public final class Util {
     OPTIONAL_DEPENDENCIES = new JsonArray(System.getProperty("npm-optional-dependencies", "[]"));
     CLASS_BLACKLIST = new JsonArray(System.getProperty("npm-class-blacklist", "[]"));
 
+    JVMCLASSES = new JsonArray(System.getProperty("jvm-classes", "[]"));
+
     // register known java <-> js types
-    TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
+    TYPES.put("void", "void");
+
+    TYPES.put("boolean", "boolean");
+    TYPES.put("byte", "number");
+    TYPES.put("short", "number");
+    TYPES.put("int", "number");
+    TYPES.put("long", "number");
+    TYPES.put("float", "number");
+    TYPES.put("double", "number");
+    TYPES.put("char", "string");
+
+    TYPES.put("[B", "boolean[]");
+    TYPES.put("[S", "number[]");
+    TYPES.put("[I", "number[]");
+    TYPES.put("[L", "number[]");
+    TYPES.put("[F", "number[]");
+    TYPES.put("[D", "number[]");
+    TYPES.put("[C", "string[]");
+
+    TYPES.put("Void", "void");
+    TYPES.put("java.lang.Boolean", "boolean");
+    TYPES.put("java.lang.Double", "number");
+    TYPES.put("java.lang.Float", "number");
+    TYPES.put("java.lang.Integer", "number");
+    TYPES.put("java.lang.Long", "number");
+    TYPES.put("java.lang.Short", "number");
+    TYPES.put("java.lang.Char", "string");
+    TYPES.put("java.lang.String", "string");
     TYPES.put("java.lang.CharSequence", "string");
-    TYPES.put("java.lang.Iterable<java.lang.String>", "string[]");
-    TYPES.put("java.lang.Iterable<java.lang.CharSequence>", "string[]");
+
     TYPES.put("java.lang.Boolean[]", "boolean[]");
     TYPES.put("java.lang.Double[]", "number[]");
     TYPES.put("java.lang.Float[]", "number[]");
     TYPES.put("java.lang.Integer[]", "number[]");
     TYPES.put("java.lang.Long[]", "number[]");
     TYPES.put("java.lang.Short[]", "number[]");
+    TYPES.put("java.lang.Char[]", "string[]");
     TYPES.put("java.lang.String[]", "string[]");
+    TYPES.put("java.lang.CharSequence[]", "string[]");
+
+    TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
+    TYPES.put("java.lang.Iterable<java.lang.String>", "string[]");
+    TYPES.put("java.lang.Iterable<java.lang.CharSequence>", "string[]");
+
+    TYPES.put("java.util.function.Consumer", "(arg0: any) => void");
+    TYPES.put("java.util.function.Function", "(arg0: any) => any");
+    TYPES.put("java.util.function.Supplier", "() => any");
 
     TYPES.put("java.time.Instant", "Date");
     TYPES.put("java.time.LocalDate", "Date");
@@ -142,6 +181,10 @@ public final class Util {
 
   public static boolean isBlacklistedClass(String name) {
     return CLASS_BLACKLIST.contains(name);
+  }
+
+  public static List<?> jvmClasses() {
+    return JVMCLASSES.getList();
   }
 
   public static String genType(TypeInfo type) {
@@ -483,7 +526,6 @@ public final class Util {
     return false;
   }
 
-
   public static void generateDoc(PrintWriter writer, Doc doc, String margin) {
     if (doc != null) {
       writer.print(margin);
@@ -530,4 +572,42 @@ public final class Util {
     }
     return null;
   }
+
+  public static void registerJvmClasses() {
+    JVMCLASSES.forEach(fqcn -> {
+      try {
+        Class<?> clazz = Class.forName(fqcn.toString());
+        String name = clazz.getName();
+        int idx = name.lastIndexOf('.');
+        TYPES.put(clazz.getName(), name.substring(idx + 1));
+      } catch (ClassNotFoundException e) {
+        System.err.println("Can't process: " + fqcn);
+      }
+    });
+  }
+
+  public static void unregisterJvmClasses() {
+    JVMCLASSES.forEach(fqcn -> {
+      try {
+        Class<?> clazz = Class.forName(fqcn.toString());
+        TYPES.remove(clazz.getName());
+      } catch (ClassNotFoundException e) {
+        System.err.println("Can't process: " + fqcn);
+      }
+    });
+  }
+
+  public static CharSequence genType(Class<?> type) {
+    String name = type.getName();
+    if (TYPES.containsKey(name)) {
+      return TYPES.get(name);
+    } else {
+      if (name.startsWith("[")) {
+        return "/* " + type.getName() + " */ any[]";
+      } else {
+        return "/* " + type.getName() + " */ any";
+      }
+    }
+  }
+
 }

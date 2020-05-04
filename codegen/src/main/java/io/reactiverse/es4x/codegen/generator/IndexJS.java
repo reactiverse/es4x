@@ -23,8 +23,8 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Map;
 
-import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
-import static io.reactiverse.es4x.codegen.generator.Util.includeFileIfPresent;
+import static io.reactiverse.es4x.codegen.generator.Util.*;
+import static io.reactiverse.es4x.codegen.generator.Util.jvmClasses;
 
 public class IndexJS extends Generator<ClassModel> {
 
@@ -57,6 +57,13 @@ public class IndexJS extends Generator<ClassModel> {
           " * @typedef { import(\"es4x\") } Java\n" +
           " */\n");
       writer.print("module.exports = {\n");
+
+      registerJvmClasses();
+      for (Object fqcn : jvmClasses()) {
+        JVMClass.generateJS(writer, fqcn.toString());
+        writer.println(',');
+      }
+
       // include a file if present
       writer.print(includeFileIfPresent("index.include.js"));
     }
