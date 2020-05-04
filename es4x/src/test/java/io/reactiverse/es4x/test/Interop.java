@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+
 public class Interop {
 
   public void printObject(JsonObject json) {
@@ -61,6 +63,18 @@ public class Interop {
           .put("k2", "two")
           .put("k3", true)
           .put("k4", new JsonArray().addNull().add(1).add("two"))));
+  }
+
+  public void passBytes(byte[] data) {
+    assertEquals(4, data.length);
+    assertEquals((byte) 0xca, data[0]);
+    assertEquals((byte) 0xfe, data[1]);
+    assertEquals((byte) 0xba, data[2]);
+    assertEquals((byte) 0xbe, data[3]);
+  }
+
+  public void passByte(byte data) {
+    assertEquals((byte) 0xca, data);
   }
 }
 

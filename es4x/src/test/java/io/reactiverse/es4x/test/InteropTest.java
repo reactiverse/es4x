@@ -121,4 +121,20 @@ public class InteropTest {
         "var l = interop.getList();" +
         "console.log(l);");
   }
+
+  @Test
+  public void testByteInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "interop.passByte(0xca);");
+  }
+
+  @Test
+  public void testByteArrayInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "interop.passBytes([0xca, 0xfe, 0xba, 0xbe]);");
+  }
 }

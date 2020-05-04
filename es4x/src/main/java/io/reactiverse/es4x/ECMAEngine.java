@@ -116,18 +116,16 @@ public final class ECMAEngine {
     polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
 
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
+      // Ensure bytes are supported
+      .targetTypeMapping(Number.class, Byte.class, null, Number::byteValue)
       // map native JSON Object to Vert.x JSONObject
-      .targetTypeMapping(
-        Map.class,
-        JsonObject.class,
-        null,
-        JsonObject::new)
+      .targetTypeMapping(Map.class, JsonObject.class, null, JsonObject::new)
       // map native JSON Array to Vert.x JSONArray
-      .targetTypeMapping(
-        List.class,
-        JsonArray.class,
-        null,
-        JsonArray::new)
+      .targetTypeMapping(List.class, JsonArray.class, null, JsonArray::new)
+      // Ensure Arrays are exposed as Set when the Java API is accepting Set
+      .targetTypeMapping(List.class, Set.class, null, HashSet::new)
+      // Ensure Arrays are exposed as List when the Java API is accepting Object
+      .targetTypeMapping(List.class, Object.class, null, v -> v)
       // map native buffer to Vert.x Buffer
       .targetTypeMapping(
         Value.class,
@@ -169,10 +167,6 @@ public final class ECMAEngine {
 
           return t;
         })
-      // Ensure Arrays are exposed as Set when the Java API is accepting Set
-      .targetTypeMapping(List.class, Set.class, null, HashSet::new)
-      // Ensure Arrays are exposed as List when the Java API is accepting Object
-      .targetTypeMapping(List.class, Object.class, null, v -> v)
       .build();
 
     fileSystem = new VertxFileSystem(vertx);
