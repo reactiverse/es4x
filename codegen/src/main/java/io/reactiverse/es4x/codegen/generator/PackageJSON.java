@@ -60,12 +60,23 @@ public class PackageJSON extends Generator<ModuleModel> {
     // extras
     json.put("sideEffects", false);
 
-//    // repository
-//    json.put("repository",
-//      new JsonObject()
-//        .put("type", "git")
-//        .put("url", "git")
-//        .put("directory", "git"));
+    // repository
+    String url = System.getProperty("git-url");
+    if (url != null && url.length() > 0) {
+      String directory = System.getProperty("git-directory");
+      if (directory != null && directory.length() > 0) {
+        json.put("repository",
+          new JsonObject()
+            .put("type", "git")
+            .put("url", url)
+            .put("directory", directory));
+      } else {
+        json.put("repository",
+          new JsonObject()
+            .put("type", "git")
+            .put("url", url));
+      }
+    }
 
     // fix version(s)
     json.put("version", toSemVer(json.getString("version")));

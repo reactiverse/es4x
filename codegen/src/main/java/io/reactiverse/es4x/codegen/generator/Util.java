@@ -32,8 +32,6 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static io.vertx.codegen.type.ClassKind.DATA_OBJECT;
 import static io.vertx.codegen.type.ClassKind.ENUM;
@@ -119,15 +117,15 @@ public final class Util {
     // generics will not fully follow the inferred type, they are "generic" as this is
     // just used to generate helper code for jvm classes and it would require full knowledge
     // on the class type tree and dependencies
-    TYPES.put("java.util.function.BiConsumer", "<T extends ?, U extends ?>(arg0: T, arg1: U) => void");
-    TYPES.put("java.util.function.BiFunction", "<T extends ?, U extends ?, R extends ?>(arg0: T, arg1: U) => R");
-    TYPES.put("java.util.function.BinaryOperator", "<T extends ?>(arg0: T, arg1: T) => T");
-    TYPES.put("java.util.function.BiPredicate", "<T extends ?, U extends ?>(arg0: T, arg1: U) => boolean");
-    TYPES.put("java.util.function.Consumer", "<T extends ?>(arg0: T) => void");
-    TYPES.put("java.util.function.Function", "<T extends ?, R extends ?>(arg0: T) => R");
-    TYPES.put("java.util.function.Predicate", "<T extends ?>(arg0: T) => boolean");
-    TYPES.put("java.util.function.Supplier", "<T extends ?>() => T");
-    TYPES.put("java.util.function.UnaryOperator", "<T extends ?>(arg0: T) => T");
+    TYPES.put("java.util.function.BiConsumer", "<T extends any, U extends any>(arg0: T, arg1: U) => void");
+    TYPES.put("java.util.function.BiFunction", "<T extends any, U extends any, R extends any>(arg0: T, arg1: U) => R");
+    TYPES.put("java.util.function.BinaryOperator", "<T extends any>(arg0: T, arg1: T) => T");
+    TYPES.put("java.util.function.BiPredicate", "<T extends any, U extends any>(arg0: T, arg1: U) => boolean");
+    TYPES.put("java.util.function.Consumer", "<T extends any>(arg0: T) => void");
+    TYPES.put("java.util.function.Function", "<T extends any, R extends any>(arg0: T) => R");
+    TYPES.put("java.util.function.Predicate", "<T extends any>(arg0: T) => boolean");
+    TYPES.put("java.util.function.Supplier", "<T extends any>() => T");
+    TYPES.put("java.util.function.UnaryOperator", "<T extends any>(arg0: T) => T");
 
     TYPES.put("java.time.Instant", "Date");
     TYPES.put("java.time.LocalDate", "Date");
