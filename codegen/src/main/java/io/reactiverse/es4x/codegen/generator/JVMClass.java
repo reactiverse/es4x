@@ -1,12 +1,10 @@
 package io.reactiverse.es4x.codegen.generator;
 
 import java.io.PrintWriter;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 
 import static io.reactiverse.es4x.codegen.generator.Util.genType;
+import static io.reactiverse.es4x.codegen.generator.Util.isBlacklisted;
 
 public class JVMClass {
 
@@ -75,7 +73,7 @@ public class JVMClass {
         if (field.isAnnotationPresent(Deprecated.class)) {
           writer.println("  /** @deprecated */");
         }
-        writer.printf("  %s%s : %s;\n", Modifier.isStatic(field.getModifiers()) ? "static " : "", field.getName(), genType(field.getType()));
+        writer.printf("  %s%s : %s;\n", Modifier.isStatic(field.getModifiers()) ? "static " : "", field.getName(), genType(field.getGenericType().getTypeName()));
         writer.println();
       }
     }
@@ -93,7 +91,7 @@ public class JVMClass {
         }
         writer.println("   */");
         // Print all name of each constructor
-        writer.printf("  constructor(%s);\n", getParamDefinition(constructor.getParameterTypes()));
+        writer.printf("  constructor(%s);\n", getParamDefinition(constructor.getGenericParameterTypes()));
         writer.println();
       }
     }
@@ -112,7 +110,7 @@ public class JVMClass {
         }
         writer.println("   */");
 
-        writer.printf("  %s%s(%s) : %s;\n", Modifier.isStatic(method.getModifiers()) ? "static " : "", method.getName(), getParamDefinition(method.getParameterTypes()), genType(method.getReturnType()));
+        writer.printf("  %s%s(%s) : %s;\n", Modifier.isStatic(method.getModifiers()) ? "static " : "", method.getName(), getParamDefinition(method.getParameterTypes()), genType(method.getGenericReturnType().getTypeName()));
         writer.println();
       }
     }
@@ -121,17 +119,17 @@ public class JVMClass {
     writer.println();
   }
 
-  private static CharSequence getParamDefinition(Class<?>[] params) {
+  private static CharSequence getParamDefinition(Type[] params) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < params.length; i++) {
       if (i != 0) {
         sb.append(", ");
       }
-      Class<?> param = params[i];
+      Type param = params[i];
       sb.append("arg");
       sb.append(i);
-      sb.append(" : ");
-      sb.append(genType(param));
+      sb.append(": ");
+      sb.append(genType(param.getTypeName()));
     }
 
     return sb;
