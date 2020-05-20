@@ -71,6 +71,13 @@ if (!skipJvmci) {
   }
 }
 
+// If exists security.policy
+// use it's class path (else rely on default runtime)
+if (existsSync(path.join(process.cwd(), 'security.policy'))) {
+  argv.push('-Djava.security.manager');
+  argv.push('-Djava.security.policy=security.policy');
+}
+
 if (process.env['JAVA_OPTS']) {
   // Attempt to use JAVA_OPTS
   parseArgsToArgv(process.env['JAVA_OPTS'], argv);

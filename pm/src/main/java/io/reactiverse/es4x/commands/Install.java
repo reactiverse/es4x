@@ -459,7 +459,11 @@ public class Install implements Runnable {
         "  JVMCI=\"--module-path=$basedir/../.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=$basedir/../.jvmci/compiler.jar\"\n" +
         "fi\n" +
         "\n" +
-        "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -jar \"$basedir/es4x-launcher.jar\" \"$@\"\n";
+        "if [[ -d \"$basedir/../../security.policy\" ]]; then\n" +
+        "  SECURITY_MANAGER=\"-Djava.security.manager -Djava.security.policy=$basedir/../../security.policy\"\n" +
+        "fi\n" +
+        "\n" +
+        "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $JAVA_OPTS -jar \"$basedir/es4x-launcher.jar\" \"$@\"\n";
 
     final File exe = new File(bin, "es4x-launcher");
     try (FileOutputStream out = new FileOutputStream(exe)) {
@@ -488,7 +492,11 @@ public class Install implements Runnable {
         "  SET \"JVMCI=--module-path=\"\"%~dp0\\..\\.jvmci\"\" -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=\"\"%~dp0\\..\\.jvmci\\compiler.jar\"\"\"\n" +
         ")\n" +
         "\n" +
-        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %JAVA_OPTS% -jar \"%~dp0\\es4x-launcher.jar\" %*\n";
+        "IF EXIST \"%~dp0\\..\\..\\security.policy\" (\n" +
+        "  SET \"SECURITY_MANAGER=-Djava.security.manager -Djava.security.policy=\"\"%~dp0\\..\\..\\security.policy\"\"\"\n" +
+        ")\n" +
+        "\n" +
+        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %SECURITY_MANAGER% %JAVA_OPTS% -jar \"%~dp0\\es4x-launcher.jar\" %*\n";
 
     final File exe = new File(bin, "es4x-launcher.cmd");
     try (FileOutputStream out = new FileOutputStream(exe)) {
