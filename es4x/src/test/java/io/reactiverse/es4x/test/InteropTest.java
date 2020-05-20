@@ -27,7 +27,7 @@ public class InteropTest {
   public void testJSONObjectInterop() {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
-      "var interop = new Interop();" +
+        "var interop = new Interop();" +
         "interop.printObject({a:1});");
   }
 
@@ -136,5 +136,18 @@ public class InteropTest {
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +
         "interop.passBytes([0xca, 0xfe, 0xba, 0xbe]);");
+  }
+
+  @Test
+  public void testSameArityJSONInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        // JS Native Array can convert to Java Map (but it's not desired in this case)
+        "interop.sameArityJson([ \"a\", \"b\", \"c\" ]);" +
+        // Right type is picked
+        "interop.sameArityJson({ name:\"vv\", age:18 });" +
+        // JS Native Array can convert to Java Map (but it's not desired in this case)
+        "interop.sameArityJson([]);");
   }
 }

@@ -76,6 +76,26 @@ public class Interop {
   public void passByte(byte data) {
     assertEquals((byte) 0xca, data);
   }
+
+  public void sameArityJson(JsonObject jsonObject) {
+    // force calling a method from the type to trigger any exception if a proxy
+    // is wrapping the given value
+    if (jsonObject != null) {
+      System.out.println(jsonObject.fieldNames());
+    } else {
+      System.out.println("null");
+    }
+  }
+
+  public void sameArityJson(JsonArray jsonObject) {
+    // force calling a method from the type to trigger any exception if a proxy
+    // is wrapping the given value
+    if (jsonObject != null) {
+      System.out.println(jsonObject.size());
+    } else {
+      System.out.println("null");
+    }
+  }
 }
 
 class MyObjectProxy implements ProxyObject {

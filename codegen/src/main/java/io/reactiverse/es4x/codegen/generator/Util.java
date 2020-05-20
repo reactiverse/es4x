@@ -15,6 +15,7 @@
  */
 package io.reactiverse.es4x.codegen.generator;
 
+import io.vertx.codegen.Model;
 import io.vertx.codegen.ModuleInfo;
 import io.vertx.codegen.TypeParamInfo;
 import io.vertx.codegen.doc.Doc;
@@ -57,6 +58,8 @@ public final class Util {
   private final static JsonArray OPTIONAL_DEPENDENCIES;
   private final static JsonArray CLASS_BLACKLIST;
   private final static JsonArray JVMCLASSES;
+
+  private static final Set<String> GENERATED = new HashSet<>();
 
   static {
     /* parse the registry from the system property */
@@ -191,6 +194,14 @@ public final class Util {
       "static",
       "yield"
     ));
+  }
+
+  public static void addGenerated(Model model, String type) {
+    GENERATED.add(getNPMScope(model.getModule()) + "/" + type);
+  }
+
+  public static boolean generated(Model model, String type) {
+    return GENERATED.contains(getNPMScope(model.getModule()) + "/" + type);
   }
 
   public static boolean isOptionalModule(String name) {

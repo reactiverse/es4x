@@ -59,9 +59,20 @@ public final class ES4X extends Launcher {
 
     // small behavior change
     if (args.length == 1) {
-      File script = new File(args[0]);
-      // script can be either a file or directory
-      if (script.exists()) {
+      // arg[0] is a file (or directory)
+      boolean isFileOrDir;
+
+      try {
+        // script can be either a file or directory
+        isFileOrDir = new File(args[0]).exists();
+      } catch (SecurityException e) {
+        // a security policy is preventing this file
+        // from being read by the virtual machine,
+        // fallback to the default behavior
+        isFileOrDir = false;
+      }
+
+      if (isFileOrDir) {
         // we will assume a js command
         launcher.execute("run", args);
         return;

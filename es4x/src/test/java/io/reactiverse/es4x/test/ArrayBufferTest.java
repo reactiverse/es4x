@@ -9,8 +9,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.nio.ByteBuffer;
-
 import static io.reactiverse.es4x.test.JS.commonjs;
 import static org.junit.Assert.*;
 
