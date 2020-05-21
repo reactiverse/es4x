@@ -141,13 +141,15 @@ public class InteropTest {
   @Test
   public void testSameArityJSONInterop() {
     runtime.eval(
-      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
-        "var interop = new Interop();" +
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');\n" +
+        "var interop = new Interop();\n" +
         // JS Native Array can convert to Java Map (but it's not desired in this case)
-        "interop.sameArityJson([ \"a\", \"b\", \"c\" ]);" +
+        "interop.sameArityJson([ \"a\", \"b\", \"c\" ]);\n" +
         // Right type is picked
-        "interop.sameArityJson({ name:\"vv\", age:18 });" +
+        "interop.sameArityJson({ name:\"vv\", age:18 });\n" +
         // JS Native Array can convert to Java Map (but it's not desired in this case)
-        "interop.sameArityJson([]);");
+        // what about empty
+        "interop.sameArityJson({});\n" +
+        "interop.sameArityJson([]);\n");
   }
 }

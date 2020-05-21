@@ -459,7 +459,7 @@ public class Install implements Runnable {
         "  JVMCI=\"--module-path=$basedir/../.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=$basedir/../.jvmci/compiler.jar\"\n" +
         "fi\n" +
         "\n" +
-        "if [[ -d \"$basedir/../../security.policy\" ]]; then\n" +
+        "if [[ -f \"$basedir/../../security.policy\" ]]; then\n" +
         "  SECURITY_MANAGER=\"-Djava.security.manager -Djava.security.policy=$basedir/../../security.policy\"\n" +
         "fi\n" +
         "\n" +

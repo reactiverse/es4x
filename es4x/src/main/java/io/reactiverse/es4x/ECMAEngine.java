@@ -122,13 +122,22 @@ public final class ECMAEngine {
       // Ensure bytes are supported
       .targetTypeMapping(Number.class, Byte.class, null, Number::byteValue)
       // map native JSON Object to Vert.x JSONObject
-      .targetTypeMapping(Map.class, JsonObject.class, v -> !Value.asValue(v).hasArrayElements(), JsonObject::new)
+      .targetTypeMapping(Map.class, JsonObject.class, v -> {
+        final Value it = Value.asValue(v);
+        return it.hasMembers() && !it.hasArrayElements();
+      }, JsonObject::new)
       // map native JSON Array to Vert.x JSONArray
-      .targetTypeMapping(List.class, JsonArray.class, null, JsonArray::new)
+      .targetTypeMapping(List.class, JsonArray.class, v -> {
+        final Value it = Value.asValue(v);
+        return it.hasMembers() && it.hasArrayElements();
+      }, JsonArray::new)
       // Ensure Arrays are exposed as Set when the Java API is accepting Set
       .targetTypeMapping(List.class, Set.class, null, HashSet::new)
       // Ensure Arrays are exposed as List when the Java API is accepting Object
-      .targetTypeMapping(List.class, Object.class, null, v -> v)
+      .targetTypeMapping(List.class, Object.class, v -> {
+        final Value it = Value.asValue(v);
+        return it.hasMembers() && it.hasArrayElements();
+      }, v -> v)
       // map native buffer to Vert.x Buffer
       .targetTypeMapping(
         Value.class,
