@@ -5,7 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.11.0] -
+## [0.12.0] -
+- Upgraded vert.x to 3.9.1
+- Upgraded graalvm to 20.1.0
+- PM can generate `security.policy` files to sandbox an application
+- Allow `.d.ts` generation from plain java classes
+- Added interop for `byte` type
+- Docgen fixed `enum` to use proper enums, not string values
+- Added interop with `Set`
+- Fixed overrides on `pg-sqlclient`
+- Added support for graphql vert.x module
+- Replaced complex console code (which didn't work properly) with a logger
+- All logging is now happening with loggers, so they can be enabled or disabled
+
+## [0.11.0] - 2020-03-30
 - Upgraded vert.x to 3.9.0
 - Added `typedef` to generated js files to better hint IDE support
 - Correctly identify graal 20 so `jvmci` hiperf compile is activated
