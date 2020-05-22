@@ -23,8 +23,8 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Map;
 
-import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
-import static io.reactiverse.es4x.codegen.generator.Util.includeFileIfPresent;
+import static io.reactiverse.es4x.codegen.generator.Util.*;
+import static io.reactiverse.es4x.codegen.generator.Util.jvmClasses;
 
 public class ModuleMJS extends Generator<ClassModel> {
 
@@ -56,6 +56,13 @@ public class ModuleMJS extends Generator<ClassModel> {
         "/**\n" +
           " * @typedef { import(\"es4x\") } Java\n" +
           " */\n");
+
+      registerJvmClasses();
+      for (Object fqcn : jvmClasses()) {
+        JVMClass.generateMJS(writer, fqcn.toString());
+        writer.println();
+      }
+
       // include a file if present
       writer.print(includeFileIfPresent("module.include.mjs"));
     }

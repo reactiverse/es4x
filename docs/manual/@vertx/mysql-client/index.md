@@ -344,7 +344,163 @@ connection uri(keys are case-insensitive)
 
   - useAffectedRows
 
-Unresolved directive in index.adoc - include::queries.adoc\[\]
+# Running queries
+
+When you don’t need a transaction or run single queries, you can run
+queries directly on the pool; the pool will use one of its connection to
+run the query and return the result to you.
+
+Here is how to run simple queries:
+
+``` js
+client.query("SELECT * FROM users WHERE id='julien'").execute((ar) => {
+  if (ar.succeeded()) {
+    let result = ar.result();
+    console.log("Got " + result.size() + " rows ");
+  } else {
+    console.log("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+## Prepared queries
+
+You can do the same with prepared queries.
+
+The SQL string can refer to parameters by position, using the database
+syntax \`?\`
+
+``` js
+import { Tuple } from "@vertx/sql-client"
+client.preparedQuery("SELECT * FROM users WHERE id=?").execute(Tuple.of("julien"), (ar) => {
+  if (ar.succeeded()) {
+    let rows = ar.result();
+    console.log("Got " + rows.size() + " rows ");
+  } else {
+    console.log("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+Query methods provides an asynchronous `RowSet` instance that works for
+*SELECT* queries
+
+``` js
+client.preparedQuery("SELECT first_name, last_name FROM users").execute((ar) => {
+  if (ar.succeeded()) {
+    let rows = ar.result();
+    rows.forEach(row => {
+      console.log("User " + row.getString(0) + " " + row.getString(1));
+    });
+  } else {
+    console.log("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+or *UPDATE*/*INSERT* queries:
+
+``` js
+import { Tuple } from "@vertx/sql-client"
+client.preparedQuery("INSERT INTO users (first_name, last_name) VALUES (?, ?)").execute(Tuple.of("Julien", "Viet"), (ar) => {
+  if (ar.succeeded()) {
+    let rows = ar.result();
+    console.log(rows.rowCount());
+  } else {
+    console.log("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+The `Row` gives you access to your data by index
+
+``` js
+console.log("User " + row.getString(0) + " " + row.getString(1));
+```
+
+or by name
+
+``` js
+console.log("User " + row.getString("first_name") + " " + row.getString("last_name"));
+```
+
+The client will not do any magic here and the column name is identified
+with the name in the table regardless of how your SQL text is.
+
+You can access a wide variety of of types
+
+``` js
+let firstName = row.getString("first_name");
+let male = row.getBoolean("male");
+let age = row.getInteger("age");
+
+// ...
+```
+
+You can use cached prepared statements to execute one-shot prepared
+queries:
+
+``` js
+import { Tuple } from "@vertx/sql-client"
+
+// Enable prepare statements caching
+connectOptions.cachePreparedStatements = true;
+client.preparedQuery("SELECT * FROM users WHERE id = ?").execute(Tuple.of("julien"), (ar) => {
+  if (ar.succeeded()) {
+    let rows = ar.result();
+    console.log("Got " + rows.size() + " rows ");
+  } else {
+    console.log("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+You can create a `PreparedStatement` and manage the lifecycle by
+yourself.
+
+``` js
+import { Tuple } from "@vertx/sql-client"
+sqlConnection.prepare("SELECT * FROM users WHERE id = ?", (ar) => {
+  if (ar.succeeded()) {
+    let preparedStatement = ar.result();
+    preparedStatement.query().execute(Tuple.of("julien"), (ar2) => {
+      if (ar2.succeeded()) {
+        let rows = ar2.result();
+        console.log("Got " + rows.size() + " rows ");
+        preparedStatement.close();
+      } else {
+        console.log("Failure: " + ar2.cause().getMessage());
+      }
+    });
+  } else {
+    console.log("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+## Batches
+
+You can execute prepared batch
+
+``` js
+import { Tuple } from "@vertx/sql-client"
+
+// Add commands to the batch
+let batch = [];
+batch.push(Tuple.of("julien", "Julien Viet"));
+batch.push(Tuple.of("emad", "Emad Alblueshi"));
+
+// Execute the prepared batch
+client.preparedQuery("INSERT INTO USERS (id, name) VALUES (?, ?)").executeBatch(batch, (res) => {
+  if (res.succeeded()) {
+
+    // Process rows
+    let rows = res.result();
+  } else {
+    console.log("Batch failed " + res.cause());
+  }
+});
+```
 
 # MySQL LAST\_INSERT\_ID
 
@@ -368,11 +524,209 @@ More information can be found in [How to Get the Unique ID for the Last
 Inserted
 Row](https://dev.mysql.com/doc/refman/8.0/en/getting-unique-id.html).
 
-Unresolved directive in index.adoc - include::connections.adoc\[\]
+# Using connections
 
-Unresolved directive in index.adoc - include::transactions.adoc\[\]
+When you need to execute sequential queries (without a transaction), you
+can create a new connection or borrow one from the pool:
 
-Unresolved directive in index.adoc - include::cursor.adoc\[\]
+``` js
+Code not translatable
+```
+
+Prepared queries can be created:
+
+``` js
+import { Tuple } from "@vertx/sql-client"
+connection.prepare("SELECT * FROM users WHERE first_name LIKE ?", (ar1) => {
+  if (ar1.succeeded()) {
+    let prepared = ar1.result();
+    prepared.query().execute(Tuple.of("julien"), (ar2) => {
+      if (ar2.succeeded()) {
+        // All rows
+        let rows = ar2.result();
+      }
+    });
+  }
+});
+```
+
+# Using transactions
+
+## Transactions with connections
+
+You can execute transaction using SQL `BEGIN`/`COMMIT`/`ROLLBACK`, if
+you do so you must use a `SqlConnection` and manage it yourself.
+
+Or you can use the transaction API of `SqlConnection`:
+
+``` js
+pool.getConnection((res) => {
+  if (res.succeeded()) {
+
+    // Transaction must use a connection
+    let conn = res.result();
+
+    // Begin the transaction
+    let tx = conn.begin();
+
+    // Various statements
+    conn.query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')").execute((ar1) => {
+      if (ar1.succeeded()) {
+        conn.query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')").execute((ar2) => {
+          if (ar2.succeeded()) {
+            // Commit the transaction
+            tx.commit((ar3) => {
+              if (ar3.succeeded()) {
+                console.log("Transaction succeeded");
+              } else {
+                console.log("Transaction failed " + ar3.cause().getMessage());
+              }
+              // Return the connection to the pool
+              conn.close();
+            });
+          } else {
+            // Return the connection to the pool
+            conn.close();
+          }
+        });
+      } else {
+        // Return the connection to the pool
+        conn.close();
+      }
+    });
+  }
+});
+```
+
+When the database server reports the current transaction is failed (e.g
+the infamous *current transaction is aborted, commands ignored until end
+of transaction block*), the transaction is rollbacked and the
+`abortHandler` is called:
+
+``` js
+tx.abortHandler((v) => {
+  console.log("Transaction failed => rollbacked");
+});
+```
+
+## Simplified transaction API
+
+When you use a pool, you can start a transaction directly on the pool.
+
+It borrows a connection from the pool, begins the transaction and
+releases the connection to the pool when the transaction ends.
+
+``` js
+// Acquire a transaction and begin the transaction
+pool.begin((res) => {
+  if (res.succeeded()) {
+
+    // Get the transaction
+    let tx = res.result();
+
+    // Various statements
+    tx.query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')").execute((ar1) => {
+      if (ar1.succeeded()) {
+        tx.query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')").execute((ar2) => {
+          if (ar2.succeeded()) {
+            // Commit the transaction
+            // the connection will automatically return to the pool
+            tx.commit((ar3) => {
+              if (ar3.succeeded()) {
+                console.log("Transaction succeeded");
+              } else {
+                console.log("Transaction failed " + ar3.cause().getMessage());
+              }
+            });
+          }
+        });
+      } else {
+        // No need to close connection as transaction will abort and be returned to the pool
+      }
+    });
+  }
+});
+```
+
+> **Note**
+> 
+> this code will not close the connection because it will always be
+> released back to the pool when the transaction
+
+# Cursors and streaming
+
+By default prepared query execution fetches all rows, you can use a
+`Cursor` to control the amount of rows you want to read:
+
+``` js
+import { Tuple } from "@vertx/sql-client"
+connection.prepare("SELECT * FROM users WHERE age > ?", (ar1) => {
+  if (ar1.succeeded()) {
+    let pq = ar1.result();
+
+    // Create a cursor
+    let cursor = pq.cursor(Tuple.of(18));
+
+    // Read 50 rows
+    cursor.read(50, (ar2) => {
+      if (ar2.succeeded()) {
+        let rows = ar2.result();
+
+        // Check for more ?
+        if (cursor.hasMore()) {
+          // Repeat the process...
+        } else {
+          // No more rows - close the cursor
+          cursor.close();
+        }
+      }
+    });
+  }
+});
+```
+
+Cursors shall be closed when they are released prematurely:
+
+``` js
+cursor.read(50, (ar2) => {
+  if (ar2.succeeded()) {
+    // Close the cursor
+    cursor.close();
+  }
+});
+```
+
+A stream API is also available for cursors, which can be more
+convenient, specially with the Rxified version.
+
+``` js
+import { Tuple } from "@vertx/sql-client"
+connection.prepare("SELECT * FROM users WHERE age > ?", (ar1) => {
+  if (ar1.succeeded()) {
+    let pq = ar1.result();
+
+    // Fetch 50 rows at a time
+    let stream = pq.createStream(50, Tuple.of(18));
+
+    // Use the stream
+    stream.exceptionHandler((err) => {
+      console.log("Error: " + err.getMessage());
+    });
+    stream.endHandler((v) => {
+      console.log("End of stream");
+    });
+    stream.handler((row) => {
+      console.log("User: " + row.getString("last_name"));
+    });
+  }
+});
+```
+
+The stream read the rows by batch of `50` and stream them, when the rows
+have been passed to the handler, a new batch of `50` is read and so on.
+
+The stream can be resumed or paused, the loaded rows will remain in
+memory until they are delivered and the cursor will stop iterating.
 
 # MySQL type mapping
 
@@ -834,7 +1188,7 @@ For example, you can disable `CLIENT_MULTI_STATEMENTS` with this
 command.
 
 ``` js
-connection.setOption('MYSQL_OPTION_MULTI_STATEMENTS_OFF', (ar) => {
+connection.setOption(MySQLSetOption.MYSQL_OPTION_MULTI_STATEMENTS_OFF, (ar) => {
   if (ar.succeeded()) {
     console.log("CLIENT_MULTI_STATEMENTS is off now");
   } else {
@@ -889,15 +1243,15 @@ Note using `SqlClient#preparedQuery` without prepared statement caching
 enabled will not close the prepared statement after executing\!
 
 You can also manage the lifecycle of prepared statements manually by
-creating a `PreparedQuery` object via `SqlConnection#prepare` interface,
-or even use the [SQL syntax prepared
+creating a `PreparedStatement` object via `SqlConnection#prepare`
+interface, or even use the [SQL syntax prepared
 statement](https://dev.mysql.com/doc/refman/8.0/en/sql-prepared-statements.html).
 
 ## demystifying prepared batch
 
 There is time when you want to batch insert data into the database, you
-can use `SqlClient#preparedBatch` which provides a simple API to handle
-this. Keep in mind that MySQL does not natively support batching
+can use `PreparedQuery#executeBatch` which provides a simple API to
+handle this. Keep in mind that MySQL does not natively support batching
 protocol so the API is only a sugar by executing the prepared statement
 one after another, which means more network round trips are required
 comparing to inserting multiple rows by executing one prepared statement

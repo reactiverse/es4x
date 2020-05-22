@@ -41,4 +41,9 @@ else
   APP_RUNTIME="$basedir/../es4x-pm-${project.version}.jar"
 fi
 
-exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $JAVA_OPTS -cp "$APP_RUNTIME" $APP_MAIN "$@"
+# If exists security.policy start the VM in secure mode
+if [[ -f "security.policy" ]]; then
+  SECURITY_MANAGER="-Djava.security.manager -Djava.security.policy=security.policy"
+fi
+
+exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $JAVA_OPTS -cp "$APP_RUNTIME" $APP_MAIN "$@"

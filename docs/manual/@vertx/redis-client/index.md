@@ -157,7 +157,7 @@ iterators:
 
 ``` js
 // this is a multi redis response (think of it as an array
-if (response.type() === 'MULTI') {
+if (response.type() === ResponseType.MULTI) {
   response.forEach(item => {
     // do something with item...
   });

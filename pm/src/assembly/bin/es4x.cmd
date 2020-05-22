@@ -30,4 +30,10 @@ IF EXIST "node_modules\.bin\es4x-launcher.jar" (
   SET "APP_MAIN=io.reactiverse.es4x.cli.PM"
 )
 
-"$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %JAVA_OPTS% -cp "%APP_RUNTIME%" %APP_MAIN% %*
+:: If exists security.policy
+:: start the VM in secure mode
+IF EXIST "security.policy" (
+  SET "SECURITY_MANAGER=-Djava.security.manager -Djava.security.policy=security.policy"
+)
+
+"$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %SECURITY_MANAGER% %JAVA_OPTS% -cp "%APP_RUNTIME%" %APP_MAIN% %*

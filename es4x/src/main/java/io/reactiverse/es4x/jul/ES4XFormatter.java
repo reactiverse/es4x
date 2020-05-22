@@ -24,6 +24,9 @@ import static java.util.logging.Level.*;
 
 public class ES4XFormatter extends Formatter {
 
+  // the user is not explicitly disable ANSI colors
+  private final boolean colors = !Boolean.getBoolean("es4x.bare");
+
   @Override
   public synchronized String format(LogRecord record) {
 
@@ -54,13 +57,17 @@ public class ES4XFormatter extends Formatter {
 
     StringBuilder sb = new StringBuilder();
 
-    sb.append(prefix(record.getLevel()));
+    if (colors) {
+      sb.append(prefix(record.getLevel()));
+    }
     sb.append(message);
     if (thrownMessage != null) {
       sb.append(" caused by ");
       sb.append(thrownMessage);
     }
-    sb.append(suffix(record.getLevel()));
+    if (colors) {
+      sb.append(suffix(record.getLevel()));
+    }
     if (thrownTrace != null) {
       sb.append(thrownTrace);
     } else {
@@ -78,16 +85,16 @@ public class ES4XFormatter extends Formatter {
         return "\u001B[1m\u001B[33m";
     }
     if (INFO.equals(l)) {
-        return "\u001B[1m\u001B[34m";
+        return "";
     }
     if (CONFIG.equals(l)) {
-        return "\u001B[1m\u001B[36m";
+      return "\u001B[1m\u001B[34m";
     }
     if (FINE.equals(l)) {
-        return "\u001B[1m\u001B[94m";
+      return "\u001B[1m\u001B[32m";
     }
     if (FINER.equals(l)) {
-        return "\u001B[94m";
+      return "\u001B[1m\u001B[94m";
     }
     if (FINEST.equals(l)) {
         return "\u001B[94m";
@@ -97,6 +104,28 @@ public class ES4XFormatter extends Formatter {
   }
 
   private static String suffix(Level l) {
-    return "\u001B[0m";
+    if (SEVERE.equals(l)) {
+      return "\u001B[0m";
+    }
+    if (WARNING.equals(l)) {
+      return "\u001B[0m";
+    }
+    if (INFO.equals(l)) {
+      return "";
+    }
+    if (CONFIG.equals(l)) {
+      return "\u001B[0m";
+    }
+    if (FINE.equals(l)) {
+      return "\u001B[0m";
+    }
+    if (FINER.equals(l)) {
+      return "\u001B[0m";
+    }
+    if (FINEST.equals(l)) {
+      return "\u001B[0m";
+    }
+
+    return "";
   }
 }

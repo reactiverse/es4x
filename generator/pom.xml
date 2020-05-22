@@ -6,13 +6,13 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.11.0</version>
+    <version>0.12.0</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>io.reactiverse.es4x</groupId>
   <artifactId>es4x-generator</artifactId>
-  <version>0.11.0</version>
+  <version>0.12.0</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -262,6 +262,11 @@
     <npm-optional-dependencies>[]</npm-optional-dependencies>
     <!-- language=json -->
     <npm-class-blacklist>[]</npm-class-blacklist>
+    <!-- language=json -->
+    <jvm-classes>[]</jvm-classes>
+    <!-- git -->
+    <git-url>https://github.com/reactiverse/es4x.git</git-url>
+    <git-directory>/generator/${maven.groupId}/${project.artifactId}</git-directory>
   </properties>
 
   <dependencies>
@@ -402,6 +407,18 @@
                   <name>npm-class-blacklist</name>
                   <value>${npm-class-blacklist}</value>
                 </property>
+                <property>
+                  <name>jvm-classes</name>
+                  <value>${jvm-classes}</value>
+                </property>
+                <property>
+                  <name>git-url</name>
+                  <value>${git-url}</value>
+                </property>
+                <property>
+                  <name>git-directory</name>
+                  <value>${git-directory}</value>
+                </property>
               </properties>
             </configuration>
           </execution>
@@ -494,7 +511,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.1.0</version>
         <executions>
           <execution>
             <id>copy-extras</id>
@@ -539,7 +555,7 @@
               <resources>
                 <resource>
                   <filtering>false</filtering>
-                  <directory>${basedir}/npm</directory>
+                  <directory>${project.build.directory}/npm</directory>
                 </resource>
               </resources>
             </configuration>

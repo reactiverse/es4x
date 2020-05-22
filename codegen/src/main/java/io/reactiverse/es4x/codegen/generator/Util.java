@@ -15,6 +15,7 @@
  */
 package io.reactiverse.es4x.codegen.generator;
 
+import io.vertx.codegen.Model;
 import io.vertx.codegen.ModuleInfo;
 import io.vertx.codegen.TypeParamInfo;
 import io.vertx.codegen.doc.Doc;
@@ -47,12 +48,18 @@ public final class Util {
   private final static int YEAR;
 
   private final static Map<String, String> TYPES = new HashMap<>();
+  private final static Map<String, String> GENERIC_TYPES = new HashMap<>();
 
   private final static Set<String> RESERVED = new HashSet<>();
 
   private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
+  private final static Map<String, JsonObject> BLACKLISTS = new HashMap<>();
+
   private final static JsonArray OPTIONAL_DEPENDENCIES;
   private final static JsonArray CLASS_BLACKLIST;
+  private final static JsonArray JVMCLASSES;
+
+  private static final Set<String> GENERATED = new HashSet<>();
 
   static {
     /* parse the registry from the system property */
@@ -61,18 +68,67 @@ public final class Util {
     OPTIONAL_DEPENDENCIES = new JsonArray(System.getProperty("npm-optional-dependencies", "[]"));
     CLASS_BLACKLIST = new JsonArray(System.getProperty("npm-class-blacklist", "[]"));
 
+    JVMCLASSES = new JsonArray(System.getProperty("jvm-classes", "[]"));
+
     // register known java <-> js types
-    TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
+    TYPES.put("void", "void");
+
+    TYPES.put("boolean", "boolean");
+    TYPES.put("byte", "number");
+    TYPES.put("short", "number");
+    TYPES.put("int", "number");
+    TYPES.put("long", "number");
+    TYPES.put("float", "number");
+    TYPES.put("double", "number");
+    TYPES.put("char", "string");
+
+    TYPES.put("boolean[]", "boolean[]");
+    TYPES.put("byte[]", "number[]");
+    TYPES.put("short[]", "number[]");
+    TYPES.put("int[]", "number[]");
+    TYPES.put("long[]", "number[]");
+    TYPES.put("float[]", "number[]");
+    TYPES.put("double[]", "number[]");
+    TYPES.put("char[]", "string[]");
+
+    TYPES.put("java.lang.Void", "void");
+    TYPES.put("java.lang.Object", "any");
+    TYPES.put("java.lang.Boolean", "boolean");
+    TYPES.put("java.lang.Double", "number");
+    TYPES.put("java.lang.Float", "number");
+    TYPES.put("java.lang.Integer", "number");
+    TYPES.put("java.lang.Long", "number");
+    TYPES.put("java.lang.Short", "number");
+    TYPES.put("java.lang.Char", "string");
+    TYPES.put("java.lang.String", "string");
     TYPES.put("java.lang.CharSequence", "string");
-    TYPES.put("java.lang.Iterable<java.lang.String>", "string[]");
-    TYPES.put("java.lang.Iterable<java.lang.CharSequence>", "string[]");
+
     TYPES.put("java.lang.Boolean[]", "boolean[]");
     TYPES.put("java.lang.Double[]", "number[]");
     TYPES.put("java.lang.Float[]", "number[]");
     TYPES.put("java.lang.Integer[]", "number[]");
     TYPES.put("java.lang.Long[]", "number[]");
     TYPES.put("java.lang.Short[]", "number[]");
+    TYPES.put("java.lang.Char[]", "string[]");
     TYPES.put("java.lang.String[]", "string[]");
+    TYPES.put("java.lang.CharSequence[]", "string[]");
+    TYPES.put("java.lang.Object[]", "any[]");
+
+    TYPES.put("io.vertx.core.Closeable", "(completionHandler: ((res: AsyncResult<void>) => void) | Handler<AsyncResult<void>>) => void");
+    TYPES.put("java.lang.Iterable", "any[]");
+
+    // generics will not fully follow the inferred type, they are "generic" as this is
+    // just used to generate helper code for jvm classes and it would require full knowledge
+    // on the class type tree and dependencies
+    TYPES.put("java.util.function.BiConsumer", "<T extends any, U extends any>(arg0: T, arg1: U) => void");
+    TYPES.put("java.util.function.BiFunction", "<T extends any, U extends any, R extends any>(arg0: T, arg1: U) => R");
+    TYPES.put("java.util.function.BinaryOperator", "<T extends any>(arg0: T, arg1: T) => T");
+    TYPES.put("java.util.function.BiPredicate", "<T extends any, U extends any>(arg0: T, arg1: U) => boolean");
+    TYPES.put("java.util.function.Consumer", "<T extends any>(arg0: T) => void");
+    TYPES.put("java.util.function.Function", "<T extends any, R extends any>(arg0: T) => R");
+    TYPES.put("java.util.function.Predicate", "<T extends any>(arg0: T) => boolean");
+    TYPES.put("java.util.function.Supplier", "<T extends any>() => T");
+    TYPES.put("java.util.function.UnaryOperator", "<T extends any>(arg0: T) => T");
 
     TYPES.put("java.time.Instant", "Date");
     TYPES.put("java.time.LocalDate", "Date");
@@ -81,6 +137,12 @@ public final class Util {
     TYPES.put("java.time.ZonedDateTime", "Date");
 //    TYPES.put("java.time.ZoneId", "Date");
 //    TYPES.put("java.time.Duration", "Date");
+
+    // special cases
+    GENERIC_TYPES.put("java.lang.Iterable", "%s[]");
+    GENERIC_TYPES.put("java.util.Collection", "%s[]");
+    GENERIC_TYPES.put("java.util.List", "%s[]");
+    GENERIC_TYPES.put("java.util.Map", "{ [key: %s]: %s }");
 
     // reserved typescript keywords
     RESERVED.addAll(Arrays.asList(
@@ -134,12 +196,24 @@ public final class Util {
     ));
   }
 
+  public static void addGenerated(Model model, String type) {
+    GENERATED.add(getNPMScope(model.getModule()) + "/" + type);
+  }
+
+  public static boolean generated(Model model, String type) {
+    return GENERATED.contains(getNPMScope(model.getModule()) + "/" + type);
+  }
+
   public static boolean isOptionalModule(String name) {
     return OPTIONAL_DEPENDENCIES.contains(name);
   }
 
   public static boolean isBlacklistedClass(String name) {
     return CLASS_BLACKLIST.contains(name);
+  }
+
+  public static List<?> jvmClasses() {
+    return JVMCLASSES.getList();
   }
 
   public static String genType(TypeInfo type) {
@@ -413,6 +487,21 @@ public final class Util {
     return overrides;
   }
 
+  private static JsonObject getBlacklist(String type) {
+    JsonObject blacklists = BLACKLISTS.get(type);
+
+    if (blacklists == null) {
+      String raw = includeFileIfPresent(type + ".blacklist.json");
+      if (raw.equals("")) {
+        blacklists = new JsonObject();
+      } else {
+        blacklists = new JsonObject(raw);
+      }
+      BLACKLISTS.put(type, blacklists);
+    }
+
+    return blacklists;
+  }
 
   public static String getOverrideArgs(String type, String method) {
     JsonObject overrides = getOverride(type);
@@ -444,6 +533,26 @@ public final class Util {
     }
 
     return null;
+  }
+
+  public static boolean isBlacklisted(String type, String method, Object params) {
+    JsonObject blacklists = getBlacklist(type);
+
+    Object result = blacklists.getValue(method);
+
+    if (result == null) {
+      return false;
+    }
+
+    if (result instanceof Boolean) {
+      return (Boolean) result;
+    }
+
+    if (result instanceof String) {
+      return result.equals(params != null ? params.toString() : null);
+    }
+
+    return false;
   }
 
   public static void generateDoc(PrintWriter writer, Doc doc, String margin) {
@@ -491,5 +600,59 @@ public final class Util {
       }
     }
     return null;
+  }
+
+  public static void registerJvmClasses() {
+    JVMCLASSES.forEach(fqcn -> {
+      try {
+        Class<?> clazz = Class.forName(fqcn.toString());
+        String name = clazz.getName();
+        int idx = name.lastIndexOf('.');
+        TYPES.put(clazz.getName(), name.substring(idx + 1));
+      } catch (ClassNotFoundException e) {
+        System.err.println("Can't process: " + fqcn);
+      }
+    });
+  }
+
+  public static void unregisterJvmClasses() {
+    JVMCLASSES.forEach(fqcn -> {
+      try {
+        Class<?> clazz = Class.forName(fqcn.toString());
+        TYPES.remove(clazz.getName());
+      } catch (ClassNotFoundException e) {
+        System.err.println("Can't process: " + fqcn);
+      }
+    });
+  }
+
+  public static CharSequence genType(String name) {
+    if (TYPES.containsKey(name)) {
+      return TYPES.get(name);
+    } else {
+      int s = name.indexOf('<');
+      int e = name.lastIndexOf('>');
+      if (s != -1 && e != -1) {
+        // it's a generic
+        String base = name.substring(0, s);
+        if (GENERIC_TYPES.containsKey(base)) {
+          String arg = name.substring(s + 1, e);
+          int c = arg.indexOf(',');
+          if (c != -1) {
+            // more than 1 arg (we only consider at most 2)
+            CharSequence arg1 = genType(arg.substring(c + 2));
+            return String.format(GENERIC_TYPES.get(base), genType(arg.substring(0, c)), arg1);
+          } else {
+            return String.format(GENERIC_TYPES.get(base), genType(arg));
+          }
+        }
+      }
+      System.out.println("@@@ " + name);
+      if (name.endsWith("]")) {
+        return "/* " + name + " */ any[]";
+      } else {
+        return "/* " + name + " */ any";
+      }
+    }
   }
 }

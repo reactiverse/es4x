@@ -27,7 +27,7 @@ public class InteropTest {
   public void testJSONObjectInterop() {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
-      "var interop = new Interop();" +
+        "var interop = new Interop();" +
         "interop.printObject({a:1});");
   }
 
@@ -45,6 +45,14 @@ public class InteropTest {
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +
         "interop.printInstant(new Date());");
+  }
+
+  @Test
+  public void testSetInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "interop.printSet(['1', '2', '3']);");
   }
 
   @Test
@@ -112,5 +120,36 @@ public class InteropTest {
         "var interop = new Interop();" +
         "var l = interop.getList();" +
         "console.log(l);");
+  }
+
+  @Test
+  public void testByteInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "interop.passByte(0xca);");
+  }
+
+  @Test
+  public void testByteArrayInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
+        "var interop = new Interop();" +
+        "interop.passBytes([0xca, 0xfe, 0xba, 0xbe]);");
+  }
+
+  @Test
+  public void testSameArityJSONInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');\n" +
+        "var interop = new Interop();\n" +
+        // JS Native Array can convert to Java Map (but it's not desired in this case)
+        "interop.sameArityJson([ \"a\", \"b\", \"c\" ]);\n" +
+        // Right type is picked
+        "interop.sameArityJson({ name:\"vv\", age:18 });\n" +
+        // JS Native Array can convert to Java Map (but it's not desired in this case)
+        // what about empty
+        "interop.sameArityJson({});\n" +
+        "interop.sameArityJson([]);\n");
   }
 }

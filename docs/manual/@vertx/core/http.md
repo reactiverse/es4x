@@ -798,7 +798,7 @@ time:
 ``` js
 vertx.createHttpServer().requestHandler((request) => {
   let response = request.response();
-  if (request.method() === 'PUT') {
+  if (request.method() === HttpMethod.PUT) {
     response.setChunked(true);
     request.pipeTo(response);
   } else {
@@ -879,7 +879,7 @@ client:
 let response = request.response();
 
 // Push main.js to the client
-response.push('GET', "/main.js", (ar) => {
+response.push(HttpMethod.GET, "/main.js", (ar) => {
 
   if (ar.succeeded()) {
 
@@ -1127,11 +1127,11 @@ run-time:
 ``` js
 let client = vertx.createHttpClient();
 
-client.request('GET', "some-uri", (response) => {
+client.request(HttpMethod.GET, "some-uri", (response) => {
   console.log("Received response with status code " + response.statusCode());
 }).end();
 
-client.request('POST', "foo-uri", (response) => {
+client.request(HttpMethod.POST, "foo-uri", (response) => {
   console.log("Received response with status code " + response.statusCode());
 }).end("some-data");
 ```

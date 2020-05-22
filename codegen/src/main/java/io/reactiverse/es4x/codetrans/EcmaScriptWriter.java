@@ -284,7 +284,7 @@ class EcmaScriptWriter extends CodeWriter {
 
   @Override
   public void renderEnumConstant(EnumTypeInfo type, String constant) {
-    append('\'').append(constant).append('\'');
+    append(type.getSimpleName()).append('.').append(constant);
   }
 
   @Override

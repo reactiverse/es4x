@@ -717,7 +717,7 @@ Options describing how an link will make connections.
 <tr class="even">
 <td><p><code>@http2KeepAliveTimeout</code></p></td>
 <td><p><code>Number (int)</code></p></td>
-<td><p>Set the keep alive timeout for HTTP/2 connections, in seconds. This value determines how long a connection remains unused in the pool before being evicted and closed.</p></td>
+<td><p>Set the keep alive timeout for HTTP/2 connections, in seconds. This value determines how long a connection remains unused in the pool before being evicted and closed. A timeout of <code>0</code> means there is no timeout and the connection can remain indefinitely in the pool.</p></td>
 </tr>
 <tr class="odd">
 <td><p><code>@http2MaxPoolSize</code></p></td>
@@ -758,7 +758,7 @@ Options describing how an link will make connections.
 <tr class="even">
 <td><p><code>@keepAliveTimeout</code></p></td>
 <td><p><code>Number (int)</code></p></td>
-<td><p>Set the keep alive timeout for HTTP/1.x, in seconds. This value determines how long a connection remains unused in the pool before being evicted and closed.</p></td>
+<td><p>Set the keep alive timeout for HTTP/1.x, in seconds. This value determines how long a connection remains unused in the pool before being evicted and closed. A timeout of <code>0</code> means there is no timeout and the connection can remain indefinitely in the pool.</p></td>
 </tr>
 <tr class="odd">
 <td><p><code>@keyStoreOptions</code></p></td>

@@ -29,8 +29,10 @@ import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
 
 import java.nio.ByteBuffer;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.logging.ConsoleHandler;
@@ -78,7 +80,6 @@ public final class ECMAEngine {
     return patterns;
   }
 
-
   private final Vertx vertx;
   private final Engine engine;
   private final HostAccess hostAccess;
@@ -113,28 +114,36 @@ public final class ECMAEngine {
     // enable or disable the polyglot access
     polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
 
+    // cache common source lookups
+    final Source error = Source.create("js", "Error");
+    final Source arrayBuffer = Source.create("js", "ArrayBuffer");
+
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
+      // Ensure bytes are supported
+      .targetTypeMapping(Number.class, Byte.class, null, Number::byteValue)
       // map native JSON Object to Vert.x JSONObject
-      .targetTypeMapping(
-        Map.class,
-        JsonObject.class,
-        null,
-        JsonObject::new)
+      .targetTypeMapping(Map.class, JsonObject.class, v -> {
+        final Value it = Value.asValue(v);
+        return it.hasMembers() && !it.hasArrayElements();
+      }, JsonObject::new)
       // map native JSON Array to Vert.x JSONArray
-      .targetTypeMapping(
-        List.class,
-        JsonArray.class,
-        null,
-        JsonArray::new)
+      .targetTypeMapping(List.class, JsonArray.class, v -> {
+        final Value it = Value.asValue(v);
+        return it.hasMembers() && it.hasArrayElements();
+      }, JsonArray::new)
+      // Ensure Arrays are exposed as Set when the Java API is accepting Set
+      .targetTypeMapping(List.class, Set.class, null, HashSet::new)
+      // Ensure Arrays are exposed as List when the Java API is accepting Object
+      .targetTypeMapping(List.class, Object.class, v -> {
+        final Value it = Value.asValue(v);
+        return it.hasMembers() && it.hasArrayElements();
+      }, v -> v)
       // map native buffer to Vert.x Buffer
       .targetTypeMapping(
         Value.class,
         Buffer.class,
         // ensure that the type really matches
-        v -> {
-          final Value meta = v.getMetaObject();
-          return isScriptObject(v) && meta != null && "ArrayBuffer".equals(meta.getMember("className").asString());
-        },
+        v -> isScriptObject(v) && Context.getCurrent().eval(arrayBuffer).isMetaInstance(v),
         v -> {
           if (v.hasMember("nioByteBuffer")) {
             return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("nioByteBuffer").as(ByteBuffer.class)));
@@ -143,15 +152,13 @@ public final class ECMAEngine {
             throw new ClassCastException("Cannot cast ArrayBuffer(without j.n.ByteBuffer)");
           }
         })
-      // Ensure Arrays are exposed as List when the Java API is accepting Object
-      .targetTypeMapping(List.class, Object.class, null, v -> v)
       // map native Error Object to Throwable
       .targetTypeMapping(
         Value.class,
         Throwable.class,
-        // an error has 2 fields: name + message
-        it -> isScriptObject(it) && it.hasMember("name") && it.hasMember("message"),
+        v -> isScriptObject(v) && Context.getCurrent().eval(error).isMetaInstance(v),
         v -> {
+          // an error has 2 fields: name + message
           final String nameField = v.getMember("name").asString();
           final String messageField = v.getMember("message").asString();
           // empty message fields usually it JS prints the name field
@@ -162,7 +169,7 @@ public final class ECMAEngine {
             String[] sel = stack.split("\n");
             StackTraceElement[] elements = new StackTraceElement[sel.length - 1];
             for (int i = 1; i < sel.length; i++) {
-              elements[i-1] = parseStrackTraceElement(sel[i]);
+              elements[i - 1] = parseStrackTraceElement(sel[i]);
             }
             t.setStackTrace(elements);
           }
@@ -184,20 +191,22 @@ public final class ECMAEngine {
     return
       // nullability
       !v.isNull() &&
-      // primitives
-      !v.isBoolean() &&
-      !v.isDate() &&
-      !v.isDuration() &&
-      !v.isInstant() &&
-      !v.isNumber() &&
-      !v.isString() &&
-      !v.isTime() &&
-      !v.isTimeZone() &&
-      // exceptions
-      !v.isException() &&
-      // rest
-      !v.isNativePointer() &&
-      !v.isHostObject();
+        // primitives
+        !v.isNumber() &&
+        !v.isBoolean() &&
+        !v.isString() &&
+        !v.isDate() &&
+        !v.isTime() &&
+        !v.isTimeZone() &&
+        !v.isDuration() &&
+        !v.isInstant() &&
+        // exceptions
+        !v.isException() &&
+        // rest
+        !v.isNativePointer() &&
+        !v.isHostObject() &&
+        // meta
+        !v.isMetaObject();
   }
 
   private void registerCodec(Class className) {

@@ -444,7 +444,7 @@ let vertx = Vertx.vertx(new VertxOptions()
   .setMetricsOptions(new MicrometerMetricsOptions()
     .setPrometheusOptions(new VertxPrometheusOptions()
       .setEnabled(true))
-    .setLabels(Java.type("java.util.EnumSet").of('REMOTE', 'LOCAL', 'HTTP_CODE', 'HTTP_PATH'))
+    .setLabels(Java.type("java.util.EnumSet").of(Label.REMOTE, Label.LOCAL, Label.HTTP_CODE, Label.HTTP_PATH))
     .setEnabled(true)));
 ```
 
@@ -506,7 +506,7 @@ with a generic form using regex:
 let registry = Java.type("io.vertx.micrometer.backends.BackendRegistries").getDefaultNow();
 let pattern = Java.type("java.util.regex.Pattern").compile("/foo/bar/.*");
 
-registry.config().meterFilter(Java.type("io.micrometer.core.instrument.config.MeterFilter").replaceTagValues('HTTP_PATH'.toString(), (actualPath) => {
+registry.config().meterFilter(Java.type("io.micrometer.core.instrument.config.MeterFilter").replaceTagValues(Label.HTTP_PATH.toString(), (actualPath) => {
   let m = pattern.matcher(actualPath);
   if (m.matches()) {
     return "/foo/bar/:id"

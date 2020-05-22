@@ -56,6 +56,11 @@ public class IndexDTS extends Generator<ClassModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
+      registerJvmClasses();
+      for (Object fqcn : jvmClasses()) {
+        JVMClass.generateDTS(writer, fqcn.toString());
+      }
+
       // include a file if present
       writer.print(includeFileIfPresent("index.include.d.ts"));
 
@@ -182,6 +187,10 @@ public class IndexDTS extends Generator<ClassModel> {
     boolean hasStaticMethodsInInterface = false;
 
     for (MethodInfo method : model.getMethods()) {
+      if (isBlacklisted(type.getSimpleName(), method.getName(), method.getParams())) {
+        continue;
+      }
+
       if (!model.isConcrete() && method.isStaticMethod()) {
         hasStaticMethodsInInterface = true;
         continue;
@@ -198,6 +207,10 @@ public class IndexDTS extends Generator<ClassModel> {
     // BEGIN of non polyglot methods...
 
     for (MethodInfo method : model.getAnyJavaTypeMethods()) {
+      if (isBlacklisted(type.getSimpleName(), method.getName(), method.getParams())) {
+        continue;
+      }
+
       if (moreMethods || moreConstants) {
         writer.print("\n");
       }
@@ -245,6 +258,10 @@ public class IndexDTS extends Generator<ClassModel> {
 
       moreMethods = false;
       for (MethodInfo method : model.getMethods()) {
+        if (isBlacklisted(type.getSimpleName(), method.getName(), method.getParams())) {
+          continue;
+        }
+
         if (!method.isStaticMethod()) {
           continue;
         }

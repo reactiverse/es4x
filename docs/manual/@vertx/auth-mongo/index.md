@@ -104,7 +104,7 @@ let client = MongoClient.createShared(vertx, mongoClientConfig);
 let authProperties = {
 };
 let authProvider = MongoAuth.create(client, authProperties);
-authProvider.setHashAlgorithm('PBKDF2');
+authProvider.setHashAlgorithm(HashAlgorithm.PBKDF2);
 ```
 
 # Vertx Auth JDBC and GDPR

@@ -63,6 +63,8 @@ public class OptionsDTS extends Generator<DataObjectModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
+      // include a file if present
+      writer.print(includeFileIfPresent("options.include.d.ts"));
     } else {
       writer.print("\n");
     }

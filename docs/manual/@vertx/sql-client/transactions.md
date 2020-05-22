@@ -11,9 +11,9 @@ Or you can use the transaction API of `SqlConnection`:
 `transaction01`
 ```
 
-When PostgreSQL reports the current transaction is failed (e.g the
-infamous *current transaction is aborted, commands ignored until end of
-transaction block*), the transaction is rollbacked and the
+When the database server reports the current transaction is failed (e.g
+the infamous *current transaction is aborted, commands ignored until end
+of transaction block*), the transaction is rollbacked and the
 `abortHandler` is called:
 
 ``` js
