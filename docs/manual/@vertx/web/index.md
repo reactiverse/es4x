@@ -424,7 +424,7 @@ then available in the request `params`.
 Here’s an example
 
 ``` js
-let route = router.route('POST', "/catalogue/products/:producttype/:productid/");
+let route = router.route(HttpMethod.POST, "/catalogue/products/:producttype/:productid/");
 
 route.handler((routingContext) => {
 
@@ -536,7 +536,7 @@ If you want a route to only match for a specific HTTP method you can use
 `method`
 
 ``` js
-let route = router.route().method('POST');
+let route = router.route().method(HttpMethod.POST);
 
 route.handler((routingContext) => {
 
@@ -548,7 +548,7 @@ route.handler((routingContext) => {
 Or you can specify this with a path when creating the route:
 
 ``` js
-let route = router.route('POST', "/some/path/");
+let route = router.route(HttpMethod.POST, "/some/path/");
 
 route.handler((routingContext) => {
 
@@ -589,7 +589,7 @@ If you want to specify a route will match for more than HTTP method you
 can call `method` multiple times:
 
 ``` js
-let route = router.route().method('POST').method('PUT');
+let route = router.route().method(HttpMethod.POST).method(HttpMethod.PUT);
 
 route.handler((routingContext) => {
 
@@ -783,7 +783,7 @@ the sub-type.
 The HTTP `accept` header is used to signify which MIME types of the
 response are acceptable to the client.
 
-An `accept` header can have multiple MIME types separated by ‘,’.
+An `accept` header can have multiple MIME types separated by “,”.
 
 MIME types can also have a `q` value appended to them\* which signifies
 a weighting to apply if more than one response MIME type is available
@@ -864,7 +864,7 @@ You can combine all the above routing criteria in many different ways,
 for example:
 
 ``` js
-let route = router.route('PUT', "myapi/orders").consumes("application/json").produces("application/json");
+let route = router.route(HttpMethod.PUT, "myapi/orders").consumes("application/json").produces("application/json");
 
 route.handler((routingContext) => {
 
@@ -1359,6 +1359,28 @@ on a matching route before your application logic.
 The session handler handles the creation of session cookies and the
 lookup of the session so you don’t have to do that yourself.
 
+Sessions data is saved to a session store automatically after the
+response headers have been sent to the client. But note that, with this
+mechanism, there is no guarantee the data is fully persisted before the
+client receives the response. There are occasions though when this
+guarantee is needed. In this case you can force a flush. This will
+disable the automatic saving process, unless the flushing operation
+failed. This allows to control the state before completing the response
+like:
+
+``` js
+router.route().handler((ctx) => {
+  sessionHandler.flush(ctx, (flush) => {
+    if (flush.succeeded()) {
+      ctx.response().end("Success!");
+    } else {
+      // session wasn't saved...
+      // go for plan B
+    }
+  });
+});
+```
+
 ## Session stores
 
 To create a session handler you need to have a session store instance.
@@ -1496,7 +1518,7 @@ let sessionHandler = SessionHandler.create(store);
 // the session handler controls the cookie used for the session
 // this includes configuring, for example, the same site policy
 // like this, for strict same site policy.
-sessionHandler.setCookieSameSite('STRICT');
+sessionHandler.setCookieSameSite(CookieSameSite.STRICT);
 
 // Make sure all requests are routed through the session handler too
 router.route().handler(sessionHandler);
@@ -2079,7 +2101,7 @@ Here’s an example:
 import { CorsHandler } from "@vertx/web"
 
 // Will only accept GET requests from origin "vertx.io"
-router.route().handler(CorsHandler.create("vertx\\.io").allowedMethod('GET'));
+router.route().handler(CorsHandler.create("vertx\\.io").allowedMethod(HttpMethod.GET));
 
 router.route().handler((routingContext) => {
 
@@ -2721,7 +2743,7 @@ import { SockJSHandler } from "@vertx/web"
 let router = Router.router(vertx);
 
 let sockJSHandler = SockJSHandler.create(vertx);
-let options = new BridgeOptions();
+let options = new SockJSBridgeOptions();
 // mount the bridge on the router
 router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
 ```
@@ -2855,8 +2877,8 @@ Configuring the bridge to tell it what messages it should pass through
 is easy.
 
 You can specify which *matches* you want to allow for inbound and
-outbound traffic using the `BridgeOptions` that you pass in when calling
-bridge.
+outbound traffic using the `SockJSBridgeOptions` that you pass in when
+calling bridge.
 
 Each match is a `PermittedOptions` object:
 
@@ -2943,7 +2965,7 @@ let outboundPermitted2 = new PermittedOptions()
   .setAddressRegex("news\\..+");
 
 // Let's define what we're going to allow from client -> server
-let options = new BridgeOptions()
+let options = new SockJSBridgeOptions()
   .setInboundPermitteds([inboundPermitted1, inboundPermitted1, inboundPermitted3])
   .setOutboundPermitteds([outboundPermitted1, outboundPermitted2]);
 
@@ -2975,7 +2997,7 @@ let inboundPermitted = new PermittedOptions()
 // But only if the user is logged in and has the authority "place_orders"
 inboundPermitted.requiredAuthority = "place_orders";
 
-let options = new BridgeOptions()
+let options = new SockJSBridgeOptions()
   .setInboundPermitteds([inboundPermitted]);
 ```
 
@@ -3012,7 +3034,7 @@ let basicAuthHandler = BasicAuthHandler.create(authProvider);
 router.route("/eventbus/*").handler(basicAuthHandler);
 
 // mount the bridge on the router
-router.mountSubRouter("/eventbus", sockJSHandler.bridge(new BridgeOptions()
+router.mountSubRouter("/eventbus", sockJSHandler.bridge(new SockJSBridgeOptions()
   .setInboundPermitteds([inboundPermitted])));
 ```
 
@@ -3093,12 +3115,12 @@ let inboundPermitted = new PermittedOptions()
   .setAddress("demo.someService");
 
 let sockJSHandler = SockJSHandler.create(vertx);
-let options = new BridgeOptions()
+let options = new SockJSBridgeOptions()
   .setInboundPermitteds([inboundPermitted]);
 
 // mount the bridge on the router
 router.mountSubRouter("/eventbus", sockJSHandler.bridge(options, (be) => {
-  if (be.type() === 'PUBLISH' || be.type() === 'RECEIVE') {
+  if (be.type() === BridgeEventType.PUBLISH || be.type() === BridgeEventType.RECEIVE) {
     if (be.getRawMessage().body == "armadillos") {
       // Reject it
       be.complete(false);
@@ -3121,13 +3143,13 @@ let router = Router.router(vertx);
 
 // Initialize SockJS handler
 let sockJSHandler = SockJSHandler.create(vertx);
-let options = new BridgeOptions()
+let options = new SockJSBridgeOptions()
   .setInboundPermitteds([inboundPermitted])
   .setPingTimeout(5000);
 
 // mount the bridge on the router
 router.mountSubRouter("/eventbus", sockJSHandler.bridge(options, (be) => {
-  if (be.type() === 'SOCKET_IDLE') {
+  if (be.type() === BridgeEventType.SOCKET_IDLE) {
     // Do some custom handling...
   }
 
@@ -3186,12 +3208,12 @@ let inboundPermitted = new PermittedOptions()
   .setAddress("demo.orderService");
 
 let sockJSHandler = SockJSHandler.create(vertx);
-let options = new BridgeOptions()
+let options = new SockJSBridgeOptions()
   .setInboundPermitteds([inboundPermitted]);
 
 // mount the bridge on the router
 router.mountSubRouter("/eventbus", sockJSHandler.bridge(options, (be) => {
-  if (be.type() === 'PUBLISH' || be.type() === 'SEND') {
+  if (be.type() === BridgeEventType.PUBLISH || be.type() === BridgeEventType.SEND) {
     // Add some headers
     let headers = {
       "header1" : "val",
@@ -3393,7 +3415,7 @@ import { OAuth2Auth } from "@vertx/auth-oauth2"
 import { OAuth2AuthHandler } from "@vertx/web"
 
 // create an OAuth2 provider, clientID and clientSecret should be requested to Google
-let authProvider = OAuth2Auth.create(vertx, 'AUTH_CODE', new OAuth2ClientOptions()
+let authProvider = OAuth2Auth.create(vertx, OAuth2FlowType.AUTH_CODE, new OAuth2ClientOptions()
   .setClientID("CLIENT_ID")
   .setClientSecret("CLIENT_SECRET")
   .setSite("https://accounts.google.com")

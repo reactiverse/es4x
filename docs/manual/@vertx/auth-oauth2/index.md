@@ -103,7 +103,7 @@ be implemented as:
 ``` js
 import { OAuth2Auth } from "@vertx/auth-oauth2"
 
-let oauth2 = OAuth2Auth.create(vertx, 'AUTH_CODE', new OAuth2ClientOptions()
+let oauth2 = OAuth2Auth.create(vertx, OAuth2FlowType.AUTH_CODE, new OAuth2ClientOptions()
   .setClientID("YOUR_CLIENT_ID")
   .setClientSecret("YOUR_CLIENT_SECRET")
   .setSite("https://github.com/login")
@@ -158,7 +158,7 @@ let credentials = new OAuth2ClientOptions()
 
 
 // Initialize the OAuth2 Library
-let oauth2 = OAuth2Auth.create(vertx, 'AUTH_CODE', credentials);
+let oauth2 = OAuth2Auth.create(vertx, OAuth2FlowType.AUTH_CODE, credentials);
 
 // Authorization oauth2 URI
 let authorization_uri = oauth2.authorizeURL({
@@ -199,7 +199,7 @@ import { OAuth2Auth } from "@vertx/auth-oauth2"
 import { AccessToken } from "@vertx/auth-oauth2"
 
 // Initialize the OAuth2 Library
-let oauth2 = OAuth2Auth.create(vertx, 'PASSWORD');
+let oauth2 = OAuth2Auth.create(vertx, OAuth2FlowType.PASSWORD);
 
 let tokenConfig = {
   "username" : "username",
@@ -238,7 +238,7 @@ let credentials = new OAuth2ClientOptions()
 
 
 // Initialize the OAuth2 Library
-let oauth2 = OAuth2Auth.create(vertx, 'CLIENT', credentials);
+let oauth2 = OAuth2Auth.create(vertx, OAuth2FlowType.CLIENT, credentials);
 
 let tokenConfig = {
 };
@@ -398,7 +398,7 @@ let keycloakJson = {
 };
 
 // Initialize the OAuth2 Library
-let oauth2 = KeycloakAuth.create(vertx, 'PASSWORD', keycloakJson);
+let oauth2 = KeycloakAuth.create(vertx, OAuth2FlowType.PASSWORD, keycloakJson);
 
 // first get a token (authenticate)
 oauth2.authenticate({

@@ -1,6 +1,6 @@
 # BridgeOptions
 
-Options for configuring the event bus bridge.
+Deprecated: use link instead.
 
 |                         |                             |             |
 | ----------------------- | --------------------------- | ----------- |
@@ -35,6 +35,22 @@ link.
 | `@addressRegex`      | `String`      | \-          |
 | `@match`             | `Json object` | \-          |
 | `@requiredAuthority` | `String`      | \-          |
+
+# SockJSBridgeOptions
+
+Options for configuring the event bus bridge.
+
+|                         |                             |             |
+| ----------------------- | --------------------------- | ----------- |
+| Name                    | Type                        | Description |
+| `@inboundPermitted`     | `Array of PermittedOptions` | \-          |
+| `@inboundPermitteds`    | `Array of PermittedOptions` | \-          |
+| `@maxAddressLength`     | `Number (int)`              | \-          |
+| `@maxHandlersPerSocket` | `Number (int)`              | \-          |
+| `@outboundPermitted`    | `Array of PermittedOptions` | \-          |
+| `@outboundPermitteds`   | `Array of PermittedOptions` | \-          |
+| `@pingTimeout`          | `Number (long)`             | \-          |
+| `@replyTimeout`         | `Number (long)`             | \-          |
 
 # SockJSHandlerOptions
 

@@ -60,7 +60,7 @@ Core API:
 <dependency>
   <groupId>io.vertx</groupId>
   <artifactId>vertx-core</artifactId>
-  <version>3.5.4</version>
+  <version>3.6.3</version>
 </dependency>
 ```
 
@@ -70,7 +70,7 @@ Core API:
 
 ``` groovy
 dependencies {
-  compile 'io.vertx:vertx-core:3.5.4'
+  compile 'io.vertx:vertx-core:3.6.3'
 }
 ```
 
@@ -435,7 +435,7 @@ let poolSize = 10;
 
 // 2 minutes
 let maxExecuteTime = 2;
-let maxExecuteTimeUnit = 'MINUTES';
+let maxExecuteTimeUnit = TimeUnit.MINUTES;
 
 let executor = vertx.createSharedWorkerExecutor("my-worker-pool", poolSize, maxExecuteTime, maxExecuteTimeUnit);
 ```
@@ -589,6 +589,62 @@ This example uses:
 
 In this second case, the `Handler` should complete the `next` future to
 report its success or failure.
+
+## CompletionStage interoperability
+
+The Vert.x `Future` API offers compatibility *from* and *to*
+`CompletionStage` which is the JDK interface for composable asynchronous
+operations.
+
+We can go from a Vert.x `Future` to a `CompletionStage` using the
+`toCompletionStage` method, as in:
+
+``` js
+import { Promise } from "@vertx/core"
+let promise = Promise.promise();
+vertx.createDnsClient().lookup("vertx.io", promise);
+promise.future().toCompletionStage().whenComplete((ip, err) => {
+  if ((err !== null && err !== undefined)) {
+    console.error("Could not resolve vertx.io");
+    err.printStackTrace();
+  } else {
+    console.log("vertx.io => " + ip);
+  }
+});
+```
+
+We can conversely go from a `CompletionStage` to Vert.x `Future` using
+`Future.fromCompletionStage`. There are 2 variants:
+
+1.  the first variant takes just a `CompletionStage` and calls the
+    `Future` methods from the thread that resolves the `CompletionStage`
+    instance, and
+
+2.  the second variant takes an extra `Context` parameter to call the
+    `Future` methods on a Vert.x context.
+
+> **Important**
+> 
+> In most cases the variant with a `CompletionStage` and a `Context` is
+> the one you will want to use to respect the Vert.x threading model,
+> since Vert.x `Future` are more likely to be used with Vert.x code,
+> libraries and clients.
+
+Here is an example of going from a `CompletionStage` to a Vert.x
+`Future` and dispatching on a context:
+
+``` js
+import { Future } from "@vertx/core"
+Future.fromCompletionStage(completionStage, vertx.getOrCreateContext()).flatMap((str) => {
+  let key = Java.type("java.util.UUID").randomUUID().toString();
+  return storeInDb(key, str)
+}).onSuccess((str) => {
+  console.log("We have a result: " + str);
+}).onFailure((err) => {
+  console.error("We have a problem");
+  err.printStackTrace();
+});
+```
 
 # Verticles
 
@@ -3879,7 +3935,7 @@ time:
 ``` js
 vertx.createHttpServer().requestHandler((request) => {
   let response = request.response();
-  if (request.method() === 'PUT') {
+  if (request.method() === HttpMethod.PUT) {
     response.setChunked(true);
     request.pipeTo(response);
   } else {
@@ -3960,7 +4016,7 @@ client:
 let response = request.response();
 
 // Push main.js to the client
-response.push('GET', "/main.js", (ar) => {
+response.push(HttpMethod.GET, "/main.js", (ar) => {
 
   if (ar.succeeded()) {
 
@@ -4208,11 +4264,11 @@ run-time:
 ``` js
 let client = vertx.createHttpClient();
 
-client.request('GET', "some-uri", (response) => {
+client.request(HttpMethod.GET, "some-uri", (response) => {
   console.log("Received response with status code " + response.statusCode());
 }).end();
 
-client.request('POST', "foo-uri", (response) => {
+client.request(HttpMethod.POST, "foo-uri", (response) => {
   console.log("Received response with status code " + response.statusCode());
 }).end("some-data");
 ```
@@ -8226,7 +8282,7 @@ let httpClient = vertx.createHttpClient();
 let addr = SocketAddress.domainSocketAddress("/var/tmp/myservice.sock");
 
 // Send request to the server
-httpClient.request('GET', addr, 8080, "localhost", "/", (resp) => {
+httpClient.request(HttpMethod.GET, addr, 8080, "localhost", "/", (resp) => {
   // Process response
 }).end();
 ```

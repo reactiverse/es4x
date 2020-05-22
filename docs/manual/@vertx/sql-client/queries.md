@@ -55,10 +55,18 @@ You can access a wide variety of of types
 `queries07`
 ```
 
-You can cache prepared queries:
+You can use cached prepared statements to execute one-shot prepared
+queries:
 
 ``` js
 `queries09`
+```
+
+You can create a `PreparedStatement` and manage the lifecycle by
+yourself.
+
+``` js
+`queries10`
 ```
 
 ## Batches
