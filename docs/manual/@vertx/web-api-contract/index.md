@@ -43,7 +43,7 @@ you and will put results of validation inside a container. To define a
 ``` js
 import { HTTPRequestValidationHandler } from "@vertx/web-api-contract"
 // Create Validation Handler with some stuff
-let validationHandler = HTTPRequestValidationHandler.create().addQueryParam("parameterName", 'INT', true).addFormParamWithPattern("formParameterName", "a{4}", true).addPathParam("pathParam", 'FLOAT');
+let validationHandler = HTTPRequestValidationHandler.create().addQueryParam("parameterName", ParameterType.INT, true).addFormParamWithPattern("formParameterName", "a{4}", true).addPathParam("pathParam", ParameterType.FLOAT);
 ```
 
 Then you can mount your validation handler:

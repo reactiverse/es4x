@@ -244,9 +244,9 @@ endpoint.publishHandler((message) => {
 
   console.log("Just received message [" + message.payload().toString(Java.type("java.nio.charset.Charset").defaultCharset()) + "] with QoS [" + message.qosLevel() + "]");
 
-  if (message.qosLevel() === 'AT_LEAST_ONCE') {
+  if (message.qosLevel() === MqttQoS.AT_LEAST_ONCE) {
     endpoint.publishAcknowledge(message.messageId());
-  } else if (message.qosLevel() === 'EXACTLY_ONCE') {
+  } else if (message.qosLevel() === MqttQoS.EXACTLY_ONCE) {
     endpoint.publishReceived(message.messageId());
   }
 
@@ -284,7 +284,7 @@ handler called when the final PUBCOMP message is received.
 import { Buffer } from "@vertx/core"
 
 // just as example, publish a message with QoS level 2
-endpoint.publish("my_topic", Buffer.buffer("Hello from the Vert.x MQTT server"), 'EXACTLY_ONCE', false, false);
+endpoint.publish("my_topic", Buffer.buffer("Hello from the Vert.x MQTT server"), MqttQoS.EXACTLY_ONCE, false, false);
 
 // specifing handlers for handling QoS 1 and 2
 endpoint.publishAcknowledgeHandler((messageId) => {
@@ -449,7 +449,7 @@ should be called. Let’s take a look at the example:
 
 ``` js
 import { Buffer } from "@vertx/core"
-client.publish("temperature", Buffer.buffer("hello"), 'AT_LEAST_ONCE', false, false);
+client.publish("temperature", Buffer.buffer("hello"), MqttQoS.AT_LEAST_ONCE, false, false);
 ```
 
 In the example we send message to topic with name "temperature".
@@ -487,7 +487,7 @@ options.autoKeepAlive = false;
     import { Buffer } from "@vertx/core"
     client.publishCompletionHandler((id) => {
       console.log("Id of just received PUBACK or PUBCOMP packet is " + id);
-    }).publish("hello", Buffer.buffer("hello"), 'EXACTLY_ONCE', false, false).publish("hello", Buffer.buffer("hello"), 'AT_LEAST_ONCE', false, false).publish("hello", Buffer.buffer("hello"), 'AT_LEAST_ONCE', false, false);
+    }).publish("hello", Buffer.buffer("hello"), MqttQoS.EXACTLY_ONCE, false, false).publish("hello", Buffer.buffer("hello"), MqttQoS.AT_LEAST_ONCE, false, false).publish("hello", Buffer.buffer("hello"), MqttQoS.AT_LEAST_ONCE, false, false);
 
 > **Warning**
 > 

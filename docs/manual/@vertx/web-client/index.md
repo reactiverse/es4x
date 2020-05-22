@@ -640,7 +640,7 @@ let methodsPredicate = (resp) => {
 };
 
 // Send pre-flight CORS request
-client.request('OPTIONS', 8080, "myserver.mycompany.com", "/some-uri").putHeader("Origin", "Server-b.com").putHeader("Access-Control-Request-Method", "POST").expect(methodsPredicate).send((ar) => {
+client.request(HttpMethod.OPTIONS, 8080, "myserver.mycompany.com", "/some-uri").putHeader("Origin", "Server-b.com").putHeader("Access-Control-Request-Method", "POST").expect(methodsPredicate).send((ar) => {
   if (ar.succeeded()) {
     // Process the POST request now
   } else {
@@ -805,7 +805,7 @@ let serverAddress = SocketAddress.domainSocketAddress("/var/run/docker.sock");
 // We still need to specify host and port so the request HTTP header will be localhost:8080
 // otherwise it will be a malformed HTTP request
 // the actual value does not matter much for this example
-client.request('GET', serverAddress, 8080, "localhost", "/images/json").expect(ResponsePredicate.SC_ACCEPTED).as(BodyCodec.jsonObject()).send((ar) => {
+client.request(HttpMethod.GET, serverAddress, 8080, "localhost", "/images/json").expect(ResponsePredicate.SC_ACCEPTED).as(BodyCodec.jsonObject()).send((ar) => {
   if (ar.succeeded()) {
     // Obtain response
     let response = ar.result();
