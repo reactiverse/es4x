@@ -6,10 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static io.reactiverse.es4x.commands.Helper.fatal;
+import static io.reactiverse.es4x.commands.Helper.warn;
 
 public class SecurityPolicy implements Runnable {
 
@@ -68,9 +67,12 @@ public class SecurityPolicy implements Runnable {
         } else {
           Files.copy(in, file.toPath());
         }
+        warn("Creating a new 'security.policy' with full network access and read-only IO access to the working directory.");
       } catch (IOException e) {
         fatal(e.getMessage());
       }
+    } else {
+      warn("'security.policy' already exists, not over writing.");
     }
   }
 }

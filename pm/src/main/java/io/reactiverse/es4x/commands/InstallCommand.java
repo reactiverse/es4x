@@ -19,8 +19,8 @@ import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.*;
 import io.vertx.core.spi.launcher.DefaultCommand;
 
-@Name("install")
-@Summary("Installs required jars from maven to 'node_modules'.")
+@Name(Install.NAME)
+@Summary(Install.SUMMARY)
 public class InstallCommand extends DefaultCommand {
 
   private final Install command = new Install();

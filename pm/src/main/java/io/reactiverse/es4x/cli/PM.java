@@ -2,6 +2,7 @@ package io.reactiverse.es4x.cli;
 
 import io.reactiverse.es4x.commands.Init;
 import io.reactiverse.es4x.commands.Install;
+import io.reactiverse.es4x.commands.SecurityPolicy;
 import io.reactiverse.es4x.commands.Versions;
 
 public class PM {
@@ -12,6 +13,7 @@ public class PM {
     System.err.println("Commands:");
     System.err.println(Init.NAME + "\t\t" + Init.SUMMARY);
     System.err.println(Install.NAME + "\t\t" + Install.SUMMARY);
+    System.err.println(SecurityPolicy.NAME + "\t\t" + SecurityPolicy.SUMMARY);
     System.err.println(Versions.NAME + "\t\t" + Versions.SUMMARY);
     System.err.println();
     System.err.println("Run 'es4x COMMAND --help' for more information on a command.");
@@ -35,6 +37,10 @@ public class PM {
         return;
       case Install.NAME:
         new Install(cmdArgs).run();
+        System.exit(0);
+        return;
+      case SecurityPolicy.NAME:
+        new SecurityPolicy(cmdArgs).run();
         System.exit(0);
         return;
       case Versions.NAME:
