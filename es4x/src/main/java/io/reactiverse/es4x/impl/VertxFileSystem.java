@@ -35,7 +35,7 @@ public final class VertxFileSystem implements FileSystem {
   private static final List<String> EXTENSIONS = Arrays.asList(".mjs", ".js");
   private static final Path EMPTY = Paths.get("");
 
-  private final String prefix = System.getProperty("es4x.prefix", "");
+  private final String prefix = System.getProperty("baseUrl", "");
   private final VertxInternal vertx;
 
   public static String getCWD() {

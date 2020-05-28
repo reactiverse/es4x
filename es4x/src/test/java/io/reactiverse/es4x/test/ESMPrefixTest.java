@@ -20,9 +20,9 @@ public class ESMPrefixTest {
 
   @Before
   public void initialize() {
-    System.setProperty("es4x.prefix", "./prefix/");
+    System.setProperty("baseUrl", "./prefix/");
     runtime = esm(rule.vertx());
-    System.setProperty("es4x.prefix", "");
+    System.clearProperty("baseUrl");
   }
 
   @Test
