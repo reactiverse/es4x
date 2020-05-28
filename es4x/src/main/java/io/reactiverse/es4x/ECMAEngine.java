@@ -29,10 +29,7 @@ import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
 
 import java.nio.ByteBuffer;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.logging.ConsoleHandler;
@@ -178,7 +175,7 @@ public final class ECMAEngine {
         })
       .build();
 
-    fileSystem = new VertxFileSystem(vertx);
+    fileSystem = new VertxFileSystem(vertx, ".mjs", ".js");
   }
 
   /**

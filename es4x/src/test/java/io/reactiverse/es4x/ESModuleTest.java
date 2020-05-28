@@ -54,4 +54,16 @@ public class ESModuleTest {
 
     should.assertEquals("./mjs/meta", result.toString());
   }
+
+  @Test
+  public void testDeep(TestContext should) {
+
+    // mjs/foobar.mjs is not on the CWD but on the classpath
+    // all IO is captured by a Vert.x file system implementation that
+    // allows transparent access like in every other vert.x API
+    Object result = runtime.eval("import { foo } from '@vertx/web';\n" +
+      "foo;\n", "index.mjs", false);
+
+    should.assertEquals("bar", result.toString());
+  }
 }

@@ -41,8 +41,6 @@ public final class VertxFileSystem implements FileSystem {
   private static final Logger LOGGER = LoggerFactory.getLogger(VertxFileSystem.class);
 
   private static final Pattern DOT_SLASH = Pattern.compile("[^.]\\." + File.separator);
-  private static final List<String> EXTENSIONS = Arrays.asList(".mjs", ".js");
-  private static final Path EMPTY = Paths.get("");
   private static final FileSystemProvider DELEGATE = FileSystems.getDefault().provider();
 
   private static String md5(String input) throws NoSuchAlgorithmException {
@@ -113,35 +111,38 @@ public final class VertxFileSystem implements FileSystem {
   private final Map<String, String> urlMap = new ConcurrentHashMap<>();
   private final VertxInternal vertx;
 
+  private final String[] extensions;
   // keep track of the well-known roots
-  private final File cwd;
-  private final File cache;
-  private final File download;
-  private final File baseUrl;
+  private final String cwd;
+  private final String cachedir;
+  private final String downloaddir;
+  private final String baseUrl;
 
-  public VertxFileSystem(final Vertx vertx) {
-    Objects.requireNonNull(vertx, "vertx must be non null.");
+  public VertxFileSystem(final Vertx vertx, String... extensions) {
     this.vertx = (VertxInternal) vertx;
+    this.extensions = extensions;
     // resolve the well known roots
-    this.cwd = new File(getCWD());
-    this.cache = this.vertx.resolveFile("");
-    this.baseUrl = new File(this.cwd, System.getProperty("baseUrl", "node_modules"));
-    this.download = new File(this.baseUrl, ".download");
+    this.cwd = getCWD();
+    this.cachedir = this.vertx.resolveFile("").getPath() + File.separator;
+    this.baseUrl = new File(this.cwd, System.getProperty("baseUrl", "node_modules")).getPath() + File.separator;
+    this.downloaddir = new File(this.baseUrl, ".download").getPath() + File.separator;
   }
 
-  private File resolveFile(File file) throws IOException {
+  private File resolveFile(File file) {
     if (file.isFile()) {
-      return file.getCanonicalFile();
+      return file;
     }
 
     // keep a reference as we will use it in a loop
-    final String path = file.getPath();
+    if (extensions != null) {
+      final String path = file.getPath();
 
-    for (String ext : EXTENSIONS) {
-      file = vertx.resolveFile(path + ext);
+      for (String ext : extensions) {
+        File f = vertx.resolveFile(path + ext);
 
-      if (file.isFile()) {
-        return file.getCanonicalFile();
+        if (f.isFile()) {
+          return f;
+        }
       }
     }
 
@@ -163,7 +164,7 @@ public final class VertxFileSystem implements FileSystem {
           String hash = md5(source);
           // save
           urlMap.put(hash, source);
-          File target = new File(download, hash + File.separator + uri.getPath());
+          File target = new File(downloaddir, hash + File.separator + uri.getPath());
 
           if (uri.getQuery() != null) {
             LOGGER.warn("URI with query will always force a download");
@@ -173,8 +174,11 @@ public final class VertxFileSystem implements FileSystem {
               download(uri.toURL(), target);
             }
           }
-          // relativize back to CWD to allow better interop with vert.x file system
-          return Paths.get(target.getPath().substring(cwd.getPath().length() + 1));
+          // the newly saved file
+          assert target.isAbsolute() : "path should be absolute";
+          System.out.println(uri + " --> " + target.toPath());
+
+          return target.toPath();
         } catch (IOException | NoSuchAlgorithmException e) {
           throw new InvalidPathException(uri.toString(), e.getMessage());
         }
@@ -183,6 +187,9 @@ public final class VertxFileSystem implements FileSystem {
     }
   }
 
+  /**
+   * Given a path string returns a absolute path relative to the CWD
+   */
   @Override
   public Path parsePath(String path) {
     File file;
@@ -192,26 +199,26 @@ public final class VertxFileSystem implements FileSystem {
     } else {
       file = new File(path);
     }
+
     // make absolute
     if (!file.isAbsolute()) {
       file = new File(cwd, file.getPath());
     }
+
     // simple normalize
     file = new File(DOT_SLASH.matcher(file.getPath()).replaceAll(File.separator));
+
     // aliasing from cache back to CWD
-    if (file.getPath().startsWith(cache.getPath())) {
-      if (file.equals(cache)) {
-        file = cache;
-      } else {
-        file = new File(cwd, file.getPath().substring(cache.getPath().length()));
-      }
+    if (file.getPath().startsWith(cachedir)) {
+      file = new File(cwd, file.getPath().substring(cachedir.length()));
     }
+
     // if it's a download, get the file to the download dir
-    if (file.getPath().startsWith(download.getPath())) {
+    if (file.getPath().startsWith(downloaddir)) {
       // download if missing
       if (!file.exists()) {
         // build an URL from the path
-        String target = file.getPath().substring(download.getPath().length() + 1);
+        String target = file.getPath().substring(downloaddir.length());
         int split = target.indexOf(File.separator);
         String source = target.substring(0, split);
         if (!urlMap.containsKey(source)) {
@@ -224,17 +231,8 @@ public final class VertxFileSystem implements FileSystem {
         }
       }
     }
-    // relativize back to CWD to allow better interop with vert.x file system
-    if (file.getPath().startsWith(cwd.getPath())) {
-      if (file.equals(cwd)) {
-        System.out.println(path + " --> " + EMPTY);
-        return EMPTY;
-      } else {
-        System.out.println(path + " --> " + Paths.get(file.getPath().substring(cwd.getPath().length() + 1)));
-        return Paths.get(file.getPath().substring(cwd.getPath().length() + 1));
-      }
-    }
 
+    assert file.isAbsolute() : "path should be absolute";
     System.out.println(path + " --> " + file.toPath());
     return file.toPath();
   }
@@ -296,20 +294,25 @@ public final class VertxFileSystem implements FileSystem {
 
   @Override
   public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException {
-    // force all resolutions to go over vertx file resolver to allow
-    // getting the right path objects even if on the classpath
-    File resolved = vertx.resolveFile(path.toString());
-    if (resolved == null) {
-      throw new InvalidPathException(path.toString(), "Cannot resolve the path");
+    String name = path.toString();
+
+    // if a path starts with cachedir -> strip + force resolve through vertx
+    if (name.startsWith(cachedir)) {
+      String stripped = name.substring(cachedir.length());
+      // force all resolutions to go over vertx file resolver to allow
+      // getting the right path objects even if on the classpath
+      return DELEGATE.newByteChannel(resolveFile(vertx.resolveFile(stripped)).toPath(), options, attrs);
     }
-    if (resolved.isDirectory()) {
-      System.out.println("@@ going inside dir: " + resolved);
-      resolved = resolveFile(new File(resolved, "index"));
+
+    // if a paths starts with cwd -> strip + force resolve through vertx
+    if (name.startsWith(cwd)) {
+      String stripped = name.substring(cwd.length());
+      // force all resolutions to go over vertx file resolver to allow
+      // getting the right path objects even if on the classpath
+      return DELEGATE.newByteChannel(resolveFile(vertx.resolveFile(stripped)).toPath(), options, attrs);
     }
-    if (resolved == null) {
-      throw new InvalidPathException(path.toString(), "Cannot resolve the path");
-    }
-    return DELEGATE.newByteChannel(resolved.toPath(), options, attrs);
+
+    return DELEGATE.newByteChannel(path, options, attrs);
   }
 
   @Override
@@ -354,32 +357,51 @@ public final class VertxFileSystem implements FileSystem {
 
   @Override
   public Path toRealPath(Path path, LinkOption... linkOptions) throws IOException {
-    if (path.isAbsolute()) {
-      // this path has been resolved, before
-      return path;
-    }
-    // force all resolutions to go over vertx file resolver to allow
-    // getting the right path objects even if on the classpath
-    File resolved = vertx.resolveFile(path.toString());
-    if (resolved.exists()) {
-      return resolved.toPath()
+    String name = path.toString();
+
+    // if a path starts with cachedir -> strip + force resolve through vertx
+    if (name.startsWith(cachedir)) {
+      String stripped = name.substring(cachedir.length());
+      // force all resolutions to go over vertx file resolver to allow
+      // getting the right path objects even if on the classpath
+      return resolveFile(vertx.resolveFile(stripped))
+        .toPath()
         .toRealPath(linkOptions);
     }
-    // attempt to fallback with some basic resolution add missing extension, directory root -> index
-    return resolveFile(resolved)
-      .toPath()
-      .toRealPath(linkOptions);
+
+    // if a paths starts with cwd -> strip + force resolve through vertx
+    if (name.startsWith(cwd)) {
+      String stripped = name.substring(cwd.length());
+      // force all resolutions to go over vertx file resolver to allow
+      // getting the right path objects even if on the classpath
+      return resolveFile(vertx.resolveFile(stripped))
+        .toPath()
+        .toRealPath(linkOptions);
+    }
+
+    return path.toRealPath(linkOptions);
   }
 
   private Path resolve(Path path) {
-    if (path.isAbsolute()) {
-      // this path has been resolved, before
-      return path;
+    String name = path.toString();
+
+    // if a path starts with cachedir -> strip + force resolve through vertx
+    if (name.startsWith(cachedir)) {
+      // force all resolutions to go over vertx file resolver to allow
+      // getting the right path objects even if on the classpath
+      return vertx.resolveFile(name.substring(cachedir.length()))
+        .toPath();
     }
-    // force all resolutions to go over vertx file resolver to allow
-    // getting the right path objects even if on the classpath
-    return vertx.resolveFile(path.toString())
-      .toPath();
+
+    // if a paths starts with cwd -> strip + force resolve through vertx
+    if (name.startsWith(cwd)) {
+      // force all resolutions to go over vertx file resolver to allow
+      // getting the right path objects even if on the classpath
+      return vertx.resolveFile(name.substring(cwd.length()))
+        .toPath();
+    }
+
+    return path;
   }
 
   private static boolean isFollowLinks(final LinkOption... linkOptions) {
