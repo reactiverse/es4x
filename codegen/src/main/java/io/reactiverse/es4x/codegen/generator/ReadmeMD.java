@@ -15,8 +15,7 @@
  */
 package io.reactiverse.es4x.codegen.generator;
 
-import io.vertx.codegen.Generator;
-import io.vertx.codegen.ModuleModel;
+import io.vertx.codegen.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -25,22 +24,43 @@ import java.util.Map;
 
 import static io.reactiverse.es4x.codegen.generator.Util.*;
 
-public class ReadmeMD extends Generator<ModuleModel> {
+public class ReadmeMD extends Generator<Model> {
 
   public ReadmeMD() {
     kinds = new HashSet<>();
+    kinds.add("class");
+    kinds.add("enum");
+    kinds.add("dataObject");
     kinds.add("module");
 
     name = "es4x-generator (README.md)";
+    incremental = true;
   }
 
   @Override
-  public String filename(ModuleModel model) {
+  public String filename(Model model) {
     return "npm/README.md";
   }
 
   @Override
-  public String render(ModuleModel model, int index, int size, Map<String, Object> session) {
+  public String render(Model model, int index, int size, Map<String, Object> session) {
+
+    if (model instanceof EnumModel) {
+      session.putIfAbsent("enum", "seen");
+    }
+
+    if (model instanceof ClassModel) {
+      session.putIfAbsent("index", "seen");
+    }
+
+    if (model instanceof DataObjectModel) {
+      session.putIfAbsent("options", "seen");
+    }
+
+    if (index != size - 1) {
+      // wait for the last run
+      return "";
+    }
 
     StringWriter sw = new StringWriter();
     PrintWriter writer = new PrintWriter(sw);
@@ -56,7 +76,7 @@ public class ReadmeMD extends Generator<ModuleModel> {
     writer.printf("* [Manual](https://reactiverse.io/es4x/manual/%s)\n", getNPMScope(model.getModule()));
     writer.printf("* [NPM module](https://www.npmjs.com/package/%s)\n", getNPMScope(model.getModule()));
     writer.print("\n");
-    if (!Boolean.getBoolean("npm-meta-package")) {
+    if (!session.containsKey("index") && !session.containsKey("enum") && session.containsKey("options")) {
       writer.print("## Usage\n");
       writer.print("\n");
       writer.print("This is a meta package, meaning that it contains only metadata for the build.\n");
@@ -67,12 +87,18 @@ public class ReadmeMD extends Generator<ModuleModel> {
       writer.print("Import the required `API`/`Enum`/`DataObject` and profit!\n");
       writer.print("\n");
       writer.print("```js\n");
-      writer.print("// Base API\n");
-      writer.printf("import { Api }  from '%s';\n", getNPMScope(model.getModule()));
-      writer.print("// Base ENUMs\n");
-      writer.printf("import { Enums }  from '%s/enums';\n", getNPMScope(model.getModule()));
-      writer.print("// DataObject's\n");
-      writer.printf("import { Options }  from '%s/options';\n", getNPMScope(model.getModule()));
+      if (session.containsKey("index")) {
+        writer.print("// Base API\n");
+        writer.printf("import * as API from '%s';\n", getNPMScope(model.getModule()));
+      }
+      if (session.containsKey("enum")) {
+        writer.print("// Base ENUMs\n");
+        writer.printf("import * as ENUMS from '%s/enums';\n", getNPMScope(model.getModule()));
+      }
+      if (session.containsKey("options")) {
+        writer.print("// DataObject's\n");
+        writer.printf("import * as OPTIONS from '%s/options';\n", getNPMScope(model.getModule()));
+      }
       writer.print("\n");
       writer.print("// refer to the API docs for specific help...\n");
       writer.print("\n");

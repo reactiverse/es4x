@@ -15,8 +15,7 @@
  */
 package io.reactiverse.es4x.codegen.generator;
 
-import io.vertx.codegen.Generator;
-import io.vertx.codegen.ModuleModel;
+import io.vertx.codegen.*;
 import io.vertx.core.json.JsonObject;
 
 import java.util.HashSet;
@@ -24,24 +23,45 @@ import java.util.Map;
 
 import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
 
-public class PackageJSON extends Generator<ModuleModel> {
+public class PackageJSON extends Generator<Model> {
 
   private final String build = System.getenv("PRERELEASE");
 
   public PackageJSON() {
     kinds = new HashSet<>();
+    kinds.add("class");
+    kinds.add("enum");
+    kinds.add("dataObject");
     kinds.add("module");
 
     name = "es4x-generator (package.json)";
+    incremental = true;
   }
 
   @Override
-  public String filename(ModuleModel model) {
+  public String filename(Model model) {
     return "npm/package.json";
   }
 
   @Override
-  public String render(ModuleModel model, int index, int size, Map<String, Object> session) {
+  public String render(Model model, int index, int size, Map<String, Object> session) {
+
+    if (model instanceof EnumModel) {
+      session.putIfAbsent("enum", "seen");
+    }
+
+    if (model instanceof ClassModel) {
+      session.putIfAbsent("index", "seen");
+    }
+
+    if (model instanceof DataObjectModel) {
+      session.putIfAbsent("options", "seen");
+    }
+
+    if (index != size - 1) {
+      // wait for the last run
+      return "";
+    }
 
     /* attempt to merge from the environment config */
     JsonObject json = new JsonObject(System.getProperty("package-json", "{\"version\": \"0.0.0\", \"private\": true, \"name\": \"noname\"}"));
@@ -50,10 +70,10 @@ public class PackageJSON extends Generator<ModuleModel> {
       json.put("name", getNPMScope(model.getModule()));
     }
 
-    if (!Boolean.getBoolean("npm-meta-package")) {
+    if (session.containsKey("index")) {
       /* always overwritten */
       json.put("main", "index.js");
-      json.put("module", "module.mjs");
+      json.put("module", "index.mjs");
       json.put("types", "index.d.ts");
     }
 
