@@ -7,7 +7,7 @@ import {PgClient, Tuple} from '@reactiverse/reactive-pg-client';
 import {PgPoolOptions} from '@reactiverse/reactive-pg-client/options';
 import {HandlebarsTemplateEngine} from '@vertx/web-templ-handlebars'
 
-import {randomWorld, getQueries} from './util.mjs'
+import {randomWorld, getQueries} from './util.js'
 
 const SERVER = 'vertx.js';
 

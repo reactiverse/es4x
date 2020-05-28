@@ -19,7 +19,6 @@ public class ES4XTest {
     System.clearProperty("polyglot");
     System.clearProperty("inspect");
     System.clearProperty("inspect-brk");
-    System.clearProperty("es4x.prefix");
     System.clearProperty("es4x.polyglot");
     System.clearProperty("polyglot.inspect");
     System.clearProperty("polyglot.inspect.Suspend");
@@ -40,25 +39,6 @@ public class ES4XTest {
     }
 
     ES4X.main("run", script.getAbsolutePath());
-  }
-
-  @Test
-  public void testPrefix() {
-    System.setProperty("prefix", "foo");
-    ES4X runner = new ES4X();
-    runner.beforeStartingVertx(new VertxOptions());
-    assertNull(System.getProperty("prefix"));
-    assertNotNull(System.getProperty("es4x.prefix"));
-    assertEquals("foo/", System.getProperty("es4x.prefix"));
-  }
-
-  @Test
-  public void testNullPrefix() {
-    System.setProperty("prefix", "");
-    ES4X runner = new ES4X();
-    runner.beforeStartingVertx(new VertxOptions());
-    assertNull(System.getProperty("prefix"));
-    assertNull(System.getProperty("es4x.prefix"));
   }
 
   @Test

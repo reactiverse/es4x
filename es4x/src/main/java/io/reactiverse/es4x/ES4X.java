@@ -25,15 +25,6 @@ public final class ES4X extends Launcher {
 
   @Override
   public void beforeStartingVertx(VertxOptions options) {
-    processProperty("prefix", null, prefix -> {
-      if (prefix != null) {
-        if (!prefix.endsWith("/")) {
-          prefix += "/";
-        }
-        System.setProperty("es4x.prefix", prefix);
-      }
-    });
-
     processProperty("polyglot", "true", polyglot -> System.setProperty("es4x.polyglot", polyglot));
 
     processProperty("inspect", "9229", inspect -> {

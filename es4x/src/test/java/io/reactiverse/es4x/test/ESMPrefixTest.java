@@ -20,15 +20,15 @@ public class ESMPrefixTest {
 
   @Before
   public void initialize() {
-    System.setProperty("es4x.prefix", "./prefix/");
+    System.setProperty("baseUrl", "./prefix/");
     runtime = esm(rule.vertx());
-    System.setProperty("es4x.prefix", "");
+    System.clearProperty("es4x.prefix");
   }
 
   @Test
   public void testESMPrefix() {
     // this test shows that if the prefix was set
     // then all relative scripts will be prefixed by it
-    runtime.eval("import { hi } from './verticle4'; hi();", "boot.mjs", false);
+    runtime.eval("import { hi } from 'verticle4.mjs'; hi();", "boot.mjs", false);
   }
 }
