@@ -178,7 +178,7 @@ public final class ECMAEngine {
         })
       .build();
 
-    fileSystem = new VertxFileSystem(vertx);
+    fileSystem = new VertxFileSystem(vertx, ".mjs", ".js");
   }
 
   /**
