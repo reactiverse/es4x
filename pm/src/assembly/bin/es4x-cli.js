@@ -72,10 +72,16 @@ if (!skipJvmci) {
 }
 
 // If exists security.policy
-// use it's class path (else rely on default runtime)
+// use it (else rely on default runtime)
 if (existsSync(path.join(process.cwd(), 'security.policy'))) {
   argv.push('-Djava.security.manager');
   argv.push('-Djava.security.policy=security.policy');
+}
+
+// If exists logging.properties
+// use it (else rely on default runtime)
+if (existsSync(path.join(process.cwd(), 'logging.properties'))) {
+  argv.push('-Djava.util.logging.config.file=logging.properties');
 }
 
 if (process.env['JAVA_OPTS']) {

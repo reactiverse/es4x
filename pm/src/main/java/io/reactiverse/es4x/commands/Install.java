@@ -463,7 +463,11 @@ public class Install implements Runnable {
         "  SECURITY_MANAGER=\"-Djava.security.manager -Djava.security.policy=$basedir/../../security.policy\"\n" +
         "fi\n" +
         "\n" +
-        "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $JAVA_OPTS -jar \"$basedir/es4x-launcher.jar\" \"$@\"\n";
+        "if [[ -f \"$basedir/../../logging.properties\" ]]; then\n" +
+        "  LOGGING_PROPERTIES=\"-Djava.util.logging.config.file=$basedir/../../logging.properties\"\n" +
+        "fi\n" +
+        "\n" +
+        "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS -jar \"$basedir/es4x-launcher.jar\" \"$@\"\n";
 
     final File exe = new File(bin, "es4x-launcher");
     try (FileOutputStream out = new FileOutputStream(exe)) {
@@ -496,7 +500,11 @@ public class Install implements Runnable {
         "  SET \"SECURITY_MANAGER=-Djava.security.manager -Djava.security.policy=\"\"%~dp0\\..\\..\\security.policy\"\"\"\n" +
         ")\n" +
         "\n" +
-        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %SECURITY_MANAGER% %JAVA_OPTS% -jar \"%~dp0\\es4x-launcher.jar\" %*\n";
+        "IF EXIST \"%~dp0\\..\\..\\logging.properties\" (\n" +
+        "  SET \"LOGGING_PROPERTIES=-Djava.util.logging.config.file=\"\"%~dp0\\..\\..\\logging.properties\"\"\"\n" +
+        ")\n" +
+        "\n" +
+        "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %SECURITY_MANAGER% %LOGGING_PROPERTIES% %JAVA_OPTS% -jar \"%~dp0\\es4x-launcher.jar\" %*\n";
 
     final File exe = new File(bin, "es4x-launcher.cmd");
     try (FileOutputStream out = new FileOutputStream(exe)) {

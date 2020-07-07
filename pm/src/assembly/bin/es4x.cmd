@@ -36,4 +36,10 @@ IF EXIST "security.policy" (
   SET "SECURITY_MANAGER=-Djava.security.manager -Djava.security.policy=security.policy"
 )
 
-"$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %SECURITY_MANAGER% %JAVA_OPTS% -cp "%APP_RUNTIME%" %APP_MAIN% %*
+:: If exists logging.properties
+:: start JUL using it
+IF EXIST "logging.properties" (
+  SET "LOGGING_PROPERTIES=-Djava.util.logging.config.file=logging.properties"
+)
+
+"$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %SECURITY_MANAGER% %LOGGING_PROPERTIES% %JAVA_OPTS% -cp "%APP_RUNTIME%" %APP_MAIN% %*
