@@ -36,6 +36,18 @@ public class FactoryTest {
   }
 
   @Test(timeout = 10000)
+  public void shouldDeployVerticleWithOnStopAsync(TestContext ctx) {
+    final Async async = ctx.async();
+    rule.vertx().deployVerticle("js:./verticle4.js", deploy -> {
+      ctx.assertTrue(deploy.succeeded());
+      rule.vertx().setTimer(1000L, t -> rule.vertx().undeploy(deploy.result(), undeploy -> {
+        ctx.assertTrue(undeploy.succeeded());
+        async.complete();
+      }));
+    });
+  }
+
+  @Test(timeout = 10000)
   public void shouldDeployVerticleWithoutOnStop(TestContext ctx) {
     final Async async = ctx.async();
     rule.vertx().deployVerticle("js:./verticle.js", deploy -> {

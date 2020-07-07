@@ -16,28 +16,35 @@
 package io.reactiverse.es4x.impl;
 
 import io.reactiverse.es4x.EventEmitter;
+import org.graalvm.polyglot.Value;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class EventEmitterImpl implements EventEmitter {
 
-  private Map<String, Runnable> events;
+  private Map<String, Value> events;
 
   @Override
-  public void on(String eventName, Runnable callback) {
-    if (events == null) {
-      events = new HashMap<>();
+  public void on(String eventName, Value callback) {
+    if (callback.canExecute()) {
+      if (events == null) {
+        events = new HashMap<>();
+      }
+      events.put(eventName, callback);
     }
-    events.put(eventName, callback);
   }
 
-  public void emit(String eventName) {
+  @Override
+  public int emit(String eventName, Object... args) {
     if (events != null) {
-      Runnable r = events.get(eventName);
-      if (r != null) {
-        r.run();
+      Value cb = events.get(eventName);
+      if (cb != null) {
+        int length = cb.getMember("length").asInt();
+        cb.executeVoid(args);
+        return length;
       }
     }
+    return 0;
   }
 }
