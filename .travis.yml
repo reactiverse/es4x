@@ -23,19 +23,19 @@ matrix:
       - SKIP_JACOCO='true'
       os: linux
       dist: xenial
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk8?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk"
     - env:
       - JDK='OpenJDK 11'
       - SKIP_JACOCO='false'
       os: linux
       dist: xenial
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk"
     - env:
       - JDK='OpenJDK 14'
       - SKIP_JACOCO='true'
       os: linux
       dist: xenial
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk14?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/14/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk"
   # GraalVM
     - env:
       - JDK='GraalVM 20.1.0 (8)'
@@ -62,13 +62,13 @@ matrix:
       - SKIP_JACOCO='true'
       os: linux
       dist: xenial
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk11?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/openj9/normal/adoptopenjdk"
     - env:
       - JDK='OpenJ9 14'
       - SKIP_JACOCO='true'
       os: linux
       dist: xenial
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk14?openjdk_impl=openj9&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/14/ga/linux/x64/jdk/openj9/normal/adoptopenjdk"
   allow_failures:
     - env:
       - JDK='OpenJDK 14'
