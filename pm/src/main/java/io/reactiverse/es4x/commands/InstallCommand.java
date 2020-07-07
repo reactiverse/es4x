@@ -38,7 +38,7 @@ public class InstallCommand extends DefaultCommand {
   }
 
   @Option(longName = "link", shortName = "l", flag = true)
-  @Description("ymlink jars instead of copy.")
+  @Description("Symlink jars instead of copy.")
   public void setLink(boolean link) {
     command.setLink(link);
   }
