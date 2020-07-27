@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.13.0] - 2020-07-27
+- Upgraded vert.x to 3.9.2
+- shutdown hook can be async now
+- Initial support for web modules
+- Allow custom logging from `logging.properties`
+
 ## [0.12.0] - 2020-05-21
 - Upgraded vert.x to 3.9.1
 - Upgraded graalvm to 20.1.0

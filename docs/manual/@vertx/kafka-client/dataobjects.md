@@ -1,3 +1,14 @@
+# ClusterDescription
+
+A detailed description of the cluster
+
+|               |                 |                                         |
+| ------------- | --------------- | --------------------------------------- |
+| Name          | Type            | Description                             |
+| `@clusterId`  | `String`        | Set the cluster ID                      |
+| `@controller` | `Node`          | Set the controller node.                |
+| `@nodes`      | `Array of Node` | Set the nodes belonging to this cluster |
+
 # Config
 
 A configuration object containing the configuration entries for a
@@ -69,6 +80,12 @@ A listing of a consumer group in the cluster.
 | Name                   | Type      | Description                            |
 | `@groupId`             | `String`  | Set the consumer group id              |
 | `@simpleConsumerGroup` | `Boolean` | Set if consumer group is simple or not |
+
+# ListConsumerGroupOffsetsOptions
+
+|      |      |             |
+| ---- | ---- | ----------- |
+| Name | Type | Description |
 
 # MemberAssignment
 

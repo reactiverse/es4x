@@ -733,7 +733,7 @@ Here’s an example:
     
       private HttpServer server;
     
-      public void start(Future<Void> startFuture) {
+      public void start(Promise<Void> startPromise) {
         server = vertx.createHttpServer().requestHandler(req -> {
           req.response()
             .putHeader("content-type", "text/plain")
@@ -743,9 +743,9 @@ Here’s an example:
         // Now bind the server:
         server.listen(8080, res -> {
           if (res.succeeded()) {
-            startFuture.complete();
+            startPromise.complete();
           } else {
-            startFuture.fail(res.cause());
+            startPromise.fail(res.cause());
           }
         });
       }

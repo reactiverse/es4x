@@ -20,7 +20,7 @@ import io.vertx.codegen.Generator;
 import io.vertx.codegen.GeneratorLoader;
 
 import javax.annotation.processing.ProcessingEnvironment;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -28,7 +28,7 @@ public class ES4XGeneratorLoader implements GeneratorLoader {
   @Override
   public Stream<Generator<?>> loadGenerators(ProcessingEnvironment processingEnv) {
 
-    final List<Generator<?>> generators = new LinkedList<>();
+    final List<Generator<?>> generators = new ArrayList<>();
 
     // JS core
     generators.add(new IndexJS());
@@ -38,15 +38,16 @@ public class ES4XGeneratorLoader implements GeneratorLoader {
     generators.add(new IndexDTS());
     generators.add(new OptionsDTS());
     generators.add(new EnumDTS());
-    // ES6 modules (for transpilers/optimizers)
-    generators.add(new ModuleMJS());
+    // ES6 modules
+    generators.add(new IndexMJS());
     generators.add(new OptionsMJS());
     generators.add(new EnumMJS());
     // package
     generators.add(new PackageJSON());
     generators.add(new ReadmeMD());
+    // single download src
+    generators.add(new ModJS());
 
     return generators.stream();
-
   }
 }

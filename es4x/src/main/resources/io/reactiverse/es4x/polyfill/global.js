@@ -106,7 +106,11 @@
   }
 
   global.process = {
-    env: System.getenv(),
+    env: new Proxy({}, {
+      get: function (obj, prop) {
+        return System.getenv(prop);
+      }
+    }),
     pid: pid,
     engine: 'graaljs',
 

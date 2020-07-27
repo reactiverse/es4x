@@ -24,9 +24,11 @@ import io.vertx.core.spi.launcher.DefaultCommand;
 @Summary(SecurityPolicy.SUMMARY)
 public class SecurityPolicyCommand extends DefaultCommand {
 
+  final SecurityPolicy command = new SecurityPolicy();
+
   @Override
   public void run() throws CLIException {
-    new SecurityPolicy()
+    command
       .setCwd(getCwd())
       .run();
   }

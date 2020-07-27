@@ -85,22 +85,22 @@ Code not translatable
 A procedure is a function checking some aspect of the system to deduce
 the current health. It reports a `Status` indicating whether or not the
 test has passed or failed. This function must not block and report to
-the given `Future` whether or not it succeed.
+the given `Promise` whether or not it succeed.
 
 When you register a procedure, you give a name, and the function
 (handler) executing the check.
 
 Rules deducing the status are the following
 
-  - if the future is mark as failed, the check is considered as *KO*
+  - if the promise is mark as failed, the check is considered as *KO*
 
-  - if the future is completed successfully but without a `Status`, the
+  - if the promise is completed successfully but without a `Status`, the
     check is considered as *OK*.
 
-  - if the future is completed successfully with a `Status` marked as
+  - if the promise is completed successfully with a `Status` marked as
     *OK*, the check is considered as *OK*.
 
-  - if the future is completed successfully with a `Status` marked as
+  - if the promise is completed successfully with a `Status` marked as
     *KO*, the check is considered as *KO*.
 
 `Status` can also provide additional data:
@@ -120,10 +120,10 @@ let healthCheckHandler = HealthCheckHandler.create(vertx);
 // Register procedures
 // Procedure can be grouped. The group is deduced using a name with "/".
 // Groups can contains other group
-healthCheckHandler.register("a-group/my-procedure-name", (future) => {
+healthCheckHandler.register("a-group/my-procedure-name", (promise) => {
   //....
 });
-healthCheckHandler.register("a-group/a-second-group/my-second-procedure-name", (future) => {
+healthCheckHandler.register("a-group/a-second-group/my-second-procedure-name", (promise) => {
   //....
 });
 

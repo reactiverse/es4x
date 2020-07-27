@@ -24,22 +24,21 @@ import java.util.HashSet;
 import java.util.Map;
 
 import static io.reactiverse.es4x.codegen.generator.Util.*;
-import static io.reactiverse.es4x.codegen.generator.Util.jvmClasses;
 
-public class ModuleMJS extends Generator<ClassModel> {
+public class IndexMJS extends Generator<ClassModel> {
 
-  public ModuleMJS() {
+  public IndexMJS() {
     incremental = true;
 
     kinds = new HashSet<>();
     kinds.add("class");
 
-    name = "es4x-generator (module.mjs)";
+    name = "es4x-generator (index.mjs)";
   }
 
   @Override
   public String filename(ClassModel model) {
-    return "npm/module.mjs";
+    return "npm/index.mjs";
   }
 
   @Override

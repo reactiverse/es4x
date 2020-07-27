@@ -368,6 +368,22 @@ let route = router.route().path("/some/path/");
 route.handler((routingContext) => {
   // This handler will be called for the following request paths:
 
+  // `/some/path/`
+  // `/some/path//`
+  //
+  // but not:
+  // `/some/path` the end slash in the path makes it strict
+  // `/some/path/subdir`
+});
+
+// paths that do not end with slash are not strict
+// this means that the trailing slash is optional
+// and they match regardless
+let route2 = router.route().path("/some/path");
+
+route2.handler((ctx) => {
+  // This handler will be called for the following request paths:
+
   // `/some/path`
   // `/some/path/`
   // `/some/path//`
@@ -396,12 +412,12 @@ route.handler((routingContext) => {
   // This handler will be called for any path that starts with
   // `/some/path/`, e.g.
 
-  // `/some/path`
   // `/some/path/`
   // `/some/path/subdir`
   // `/some/path/subdir/blah.html`
   //
   // but not:
+  // `/some/path` the path is strict because it ends with slash
   // `/some/bath`
 });
 ```
@@ -2328,13 +2344,13 @@ response, session or context data.
 
 Here are some examples:
 
-``` html
+    [snip]
     <p th:text="${context.get('foo')}"></p>
     <p th:text="${context.get('bar')}"></p>
     <p th:text="${context.normalisedPath()}"></p>
     <p th:text="${context.request().params().get('param1')}"></p>
     <p th:text="${context.request().params().get('param2')}"></p>
-```
+    [snip]
 
 Please consult the [Thymeleaf documentation](http://www.thymeleaf.org/)
 for how to write Thymeleaf templates.
