@@ -1423,7 +1423,7 @@ JKSOptions().setPath("/mykeystore.jks").setPassword("foo"));
 
 Or directly provided as a buffer:
 
-Buffer store = vertx.fileSystem().readFileSync("/mykeystore.jks");
+Buffer store = vertx.fileSystem().readFileBlocking("/mykeystore.jks");
 options.setKeyStore(new
 JKSOptions().setValue(store).setPassword("foo"));
 
@@ -1985,8 +1985,8 @@ PemKeyCertOptions().setKeyPath("/mykey.pem").setCertPath("/mycert.pem"));
 
 Or directly provided as a buffer:
 
-Buffer key = vertx.fileSystem().readFileSync("/mykey.pem"); Buffer cert
-= vertx.fileSystem().readFileSync("/mycert.pem");
+Buffer key = vertx.fileSystem().readFileBlocking("/mykey.pem"); Buffer
+cert = vertx.fileSystem().readFileBlocking("/mycert.pem");
 options.setPemKeyCertOptions(new
 PemKeyCertOptions().setKeyValue(key).setCertValue(cert));
 
@@ -2033,7 +2033,7 @@ PemTrustOptions().addCertPath("/cert.pem"));
 
 Or directly provided as a buffer:
 
-Buffer cert = vertx.fileSystem().readFileSync("/cert.pem");
+Buffer cert = vertx.fileSystem().readFileBlocking("/cert.pem");
 HttpServerOptions options = new HttpServerOptions();
 options.setPemTrustOptions(new PemTrustOptions().addCertValue(cert));
 
@@ -2060,7 +2060,7 @@ PfxOptions().setPath("/mykeystore.p12").setPassword("foo"));
 
 Or directly provided as a buffer:
 
-Buffer store = vertx.fileSystem().readFileSync("/mykeystore.p12");
+Buffer store = vertx.fileSystem().readFileBlocking("/mykeystore.p12");
 options.setPfxKeyCertOptions(new
 PfxOptions().setValue(store).setPassword("foo"));
 

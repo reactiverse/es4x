@@ -296,7 +296,7 @@ consumer.subscribe("test", (ar) => {
 
     vertx.setPeriodic(1000, (timerId) => {
 
-      consumer.poll(100, (ar1) => {
+      consumer.poll(Java.type("java.time.Duration").ofMillis(100), (ar1) => {
 
         if (ar1.succeeded()) {
 

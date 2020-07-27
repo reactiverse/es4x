@@ -31,6 +31,8 @@ API focusing on scalability and low overhead.
 
   - Rich collation and charset support
 
+  - Unix domain socket
+
 # Usage
 
 To use the Reactive MySQL Client add the following dependency to the
@@ -202,6 +204,74 @@ client.getConnection((ar1) => {
 Once you are done with the connection you must close it to release it to
 the pool, so it can be reused.
 
+## Unix Domain Socket
+
+Sometimes for simplicity, security or performance reasons, it is
+required to connect via a [Unix Domain
+Socket](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_socket).
+
+Since the JVM does not support domain sockets, first you must add native
+transport extensions to your project.
+
+  - Maven (in your `pom.xml`):
+
+<!-- end list -->
+
+``` xml
+<dependency>
+ <groupId>io.netty</groupId>
+ <artifactId>netty-transport-native-epoll</artifactId>
+ <version>${netty.version}</version>
+ <classifier>linux-x86_64</classifier>
+</dependency>
+```
+
+  - Gradle (in your `build.gradle` file):
+
+<!-- end list -->
+
+``` groovy
+dependencies {
+ compile 'io.netty:netty-transport-native-epoll:${netty.version}:linux-x86_64'
+}
+```
+
+> **Note**
+> 
+> The native `epoll` support for ARM64 can also be added with the
+> classifier `linux-aarch64`.
+
+> **Note**
+> 
+> If there are Mac users in your team, add
+> `netty-transport-native-kqueue` with the classifier `osx-x86_64`.
+
+Then set the path to the domain socket in `MySQLConnectOptions#setHost`:
+
+``` js
+import { MySQLPool } from "@vertx/mysql-client"
+// Connect Options
+// Socket file name /var/run/mysqld/mysqld.sock
+let connectOptions = new MySQLConnectOptions()
+  .setHost("/var/run/mysqld/mysqld.sock")
+  .setDatabase("the-db");
+
+// Pool options
+let poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the pooled client
+let client = MySQLPool.pool(connectOptions, poolOptions);
+
+// Create the pooled client with a vertx instance
+// Make sure the vertx instance has enabled native transports
+// vertxOptions.setPreferNativeTransport(true);
+let client2 = MySQLPool.pool(vertx, connectOptions, poolOptions);
+```
+
+More information about native transports can be found in the \[Vert.x
+documentation\](<https://vertx.io/docs/vertx-core/java/#_native_transports>).
+
 # Configuration
 
 There are several alternatives for you to configure the client.
@@ -327,8 +397,8 @@ More information about connection string formats can be found in the
 [MySQL Reference
 Manual](https://dev.mysql.com/doc/refman/8.0/en/connecting-using-uri-or-key-value-pairs.html#connecting-using-uri).
 
-Currently the client supports the following parameter key words in
-connection uri(keys are case-insensitive)
+Currently, the client supports the following parameter keywords in
+connection uri (keys are case-insensitive):
 
   - host
 
@@ -1234,17 +1304,14 @@ way.
 The best way to alleviate this is enabling prepared statement caching,
 so the prepared statements with the same SQL string could be reused and
 the client does not have to create a brand new prepared statement for
-every request. The prepared statement will be automatically closed when
-it’s evicted from the cache. In this way the chances of reaching the
-limit could be greatly reduced though it could not be totally
-eliminated.
-
-Note using `SqlClient#preparedQuery` without prepared statement caching
-enabled will not close the prepared statement after executing\!
+every request. The prepared statement will be automatically closed after
+the statement is executed. In this way the chances of reaching the limit
+could be greatly reduced though it could not be totally eliminated.
 
 You can also manage the lifecycle of prepared statements manually by
 creating a `PreparedStatement` object via `SqlConnection#prepare`
-interface, or even use the [SQL syntax prepared
+interface so that you can choose when to deallocate the statement
+handle, or even use the [SQL syntax prepared
 statement](https://dev.mysql.com/doc/refman/8.0/en/sql-prepared-statements.html).
 
 ## demystifying prepared batch

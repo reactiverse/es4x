@@ -81,7 +81,7 @@ options.setPfxKeyCertOptions(new PfxOptions().setPath("/mykeystore.p12").setPass
 </pre>
 						<p>Or directly provided as a buffer:<p></p>
 							<pre>
-Buffer store = vertx.fileSystem().readFileSync("/mykeystore.p12");
+Buffer store = vertx.fileSystem().readFileBlocking("/mykeystore.p12");
 options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo"));
 </pre>
 				</div>
