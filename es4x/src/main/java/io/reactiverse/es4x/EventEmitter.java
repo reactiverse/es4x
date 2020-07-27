@@ -15,6 +15,8 @@
  */
 package io.reactiverse.es4x;
 
+import org.graalvm.polyglot.Value;
+
 /**
  * Simple EventEmitter
  */
@@ -26,12 +28,14 @@ public interface EventEmitter {
    * @param eventName the event name
    * @param callback the action to perform
    */
-  void on(String eventName, Runnable callback);
+  void on(String eventName, Value callback);
 
   /**
    * Will trigger the event callback if any on the given event.
    *
    * @param eventName the event.
+   * @param args arguments to be passed
+   * @return callback arity
    */
-  void emit(String eventName);
+  int emit(String eventName, Object... args);
 }
