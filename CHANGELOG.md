@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.12.1] -
 - Upgraded vert.x to 3.9.2
+- shutdown hook can be async now
 - Initial support for web modules
 - Allow custom logging from `logging.properties`
 
