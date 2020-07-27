@@ -116,8 +116,10 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       public void stop(Future<Void> stopFuture) {
         try {
           runtime.enter();
-          runtime.emit("undeploy");
-          stopFuture.complete();
+          int arity = runtime.emit("undeploy", stopFuture);
+          if (arity == 0) {
+            stopFuture.complete();
+          }
         } catch (RuntimeException e) {
           stopFuture.fail(e);
         } finally {
