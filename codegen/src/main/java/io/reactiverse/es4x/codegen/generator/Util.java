@@ -33,8 +33,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-import static io.vertx.codegen.type.ClassKind.DATA_OBJECT;
 import static io.vertx.codegen.type.ClassKind.ENUM;
+import static io.vertx.codegen.type.ClassKind.OTHER;
 import static javax.lang.model.element.ElementKind.*;
 
 public final class Util {
@@ -303,8 +303,6 @@ public final class Util {
             }
           }
         }
-      case DATA_OBJECT:
-        return type.getErased().getSimpleName();
       case HANDLER:
         if (type.isParameterized()) {
           return "((res: " + genType(((ParameterizedTypeInfo) type).getArg(0)) + ") => void) | Handler<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
@@ -326,11 +324,15 @@ public final class Util {
       case CLASS_TYPE:
         return "any /* TODO: class */";
       case OTHER:
-        if (TYPES.containsKey(type.getName())) {
-          return TYPES.get(type.getName());
+        if (type.getDataObject() != null) {
+          return type.getErased().getSimpleName();
         } else {
-          System.out.println("@@@ " + type.getName());
-          return "any /* " + type.getName() + " */";
+          if (TYPES.containsKey(type.getName())) {
+            return TYPES.get(type.getName());
+          } else {
+            System.out.println("@@@ " + type.getName());
+            return "any /* " + type.getName() + " */";
+          }
         }
       default:
         System.out.println("!!! " + type + " - " + type.getKind());
@@ -562,7 +564,7 @@ public final class Util {
     ClassTypeInfo rawType = link.getTargetType().getRaw();
     if (rawType.getModule() != null) {
       String label = link.getLabel().trim();
-      if (rawType.getKind() == DATA_OBJECT) {
+      if (rawType.getKind() == OTHER && rawType.getDataObject() != null) {
         if (label.length() == 0) {
           label = rawType.getSimpleName();
         }

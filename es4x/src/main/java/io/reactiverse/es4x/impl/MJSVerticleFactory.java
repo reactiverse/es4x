@@ -46,7 +46,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void start(Future<Void> startFuture) {
+      public void start(Promise<Void> startFuture) {
         try {
           // the main script buffer
           final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
@@ -65,7 +65,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void stop(Future<Void> stopFuture) {
+      public void stop(Promise<Void> stopFuture) {
         try {
           runtime.enter();
           runtime.emit("undeploy");

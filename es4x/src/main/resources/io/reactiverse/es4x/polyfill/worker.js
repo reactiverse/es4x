@@ -49,18 +49,6 @@
       writable: false
     });
 
-    this.producer.exceptionHandler(function (error) {
-      if (self.onerror) {
-        if (self.context) {
-          self.context.runOnContext(function () {
-            self.onerror(error);
-          });
-        } else {
-          self.onerror(error);
-        }
-      }
-    });
-
     // the interface contract defines 2 callbacks, "onmessage" to receive message, "onerror" for error handling.
 
     // keep a reference to the context
@@ -114,7 +102,21 @@
    * @return {void} void
    */
   Worker.prototype.postMessage = function (aMessage) {
-    this.producer.send(JSON.stringify(aMessage));
+    this.producer.write(JSON.stringify(aMessage), function(write) {
+      if (write.failed()) {
+        let error = write.cause();
+
+        if (self.onerror) {
+          if (self.context) {
+            self.context.runOnContext(function () {
+              self.onerror(error);
+            });
+          } else {
+            self.onerror(error);
+          }
+        }
+      }
+    });
   };
 
   /**

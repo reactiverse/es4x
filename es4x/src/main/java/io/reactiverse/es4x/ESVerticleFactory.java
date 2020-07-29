@@ -16,10 +16,13 @@
 package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.REPLVerticle;
+import io.vertx.core.Promise;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.spi.VerticleFactory;
 import org.graalvm.polyglot.Source;
+
+import java.util.concurrent.Callable;
 
 /**
  * An abstract verticle factory for EcmaScript verticles. All factories can extend
@@ -81,16 +84,25 @@ public abstract class ESVerticleFactory implements VerticleFactory {
   protected abstract Verticle createVerticle(Runtime runtime, String fsVerticleName);
 
   @Override
-  public final Verticle createVerticle(String verticleName, ClassLoader classLoader) {
+  public final void createVerticle(String verticleName, ClassLoader classLoader, Promise<Callable<Verticle>> promise) {
 
     final String fsVerticleName = VerticleFactory.removePrefix(verticleName);
-    final Runtime runtime = createRuntime(engine);
 
     if (">".equals(fsVerticleName)) {
-      return new REPLVerticle(runtime);
+      promise.complete(() -> {
+        // Runtime needs to be initialized here to ensure
+        // we are on the right context thread for the graaljs engine
+        final Runtime runtime = createRuntime(engine);
+        return new REPLVerticle(runtime);
+      });
+    } else {
+      promise.complete(() -> {
+        // Runtime needs to be initialized here to ensure
+        // we are on the right context thread for the graaljs engine
+        final Runtime runtime = createRuntime(engine);
+        return createVerticle(runtime, fsVerticleName);
+      });
     }
-
-    return createVerticle(runtime, fsVerticleName);
   }
 
   /**
@@ -113,5 +125,15 @@ public abstract class ESVerticleFactory implements VerticleFactory {
     }
 
     return main;
+  }
+
+  /**
+   * Close the factory. The implementation must release all resources.
+   */
+  @Override
+  public void close() {
+    if (engine != null) {
+      engine.close();
+    }
   }
 }

@@ -282,4 +282,8 @@ public final class ECMAEngine {
     // setup complete
     return new Runtime(vertx, context, scripts);
   }
+
+  public void close() {
+    engine.close();
+  }
 }

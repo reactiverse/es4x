@@ -1,5 +1,6 @@
 package io.reactiverse.es4x.impl;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
 
@@ -73,6 +74,13 @@ public class StructuredClone {
           ((JsonObject) oClone).put(key, cloneObject(oToBeCloned.getMember(key), dejaVu));
         }
         break;
+      case "Array":
+        oClone = new JsonArray();
+        dejaVu.put(oToBeCloned, oClone);
+        for (long l = 0; l < oToBeCloned.getArraySize(); l++) {
+          ((JsonArray) oClone).add(cloneObject(oToBeCloned.getArrayElement(l), dejaVu));
+        }
+        break;
 
 //      case RegExp:
 //        oClone = new fConstr(oToBeCloned.source, "g".substr(0, Number(oToBeCloned.global)) + "i".substr(0, Number(oToBeCloned.ignoreCase)) + "m".substr(0, Number(oToBeCloned.multiline)));
@@ -81,7 +89,8 @@ public class StructuredClone {
 //        oClone = new fConstr(oToBeCloned.getTime());
 //        break;
 //      // etc.
-//      default:
+      default:
+        throw new IllegalStateException("Not Implemented!");
 //        if (Buffer.isBuffer(oToBeCloned)) {
 //          oClone = new Buffer(oToBeCloned.length);
 //          oToBeCloned.copy(oClone);
