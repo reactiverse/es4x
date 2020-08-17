@@ -74,7 +74,6 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         // this can take some time to load so it might block the event loop
         // this is usually not a issue as it is a one time operation
         try {
-          runtime.enter();
           if (worker) {
             self = module.invokeMember("runWorker", mainScript(fsVerticleName), address);
           } else {
@@ -83,8 +82,6 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         } catch (RuntimeException e) {
           startFuture.fail(e);
           return;
-        } finally {
-          runtime.leave();
         }
 
         if (self != null) {
@@ -114,17 +111,22 @@ public final class JSVerticleFactory extends ESVerticleFactory {
 
       @Override
       public void stop(Promise<Void> stopFuture) {
+        final Promise<Void> wrapper = Promise.promise();
+
         try {
-          runtime.enter();
-          int arity = runtime.emit("undeploy", stopFuture);
+          int arity = runtime.emit("undeploy", wrapper);
+          final Future<Void> future = wrapper.future();
+
+          future.onComplete(undeploy -> {
+            stopFuture.handle(undeploy);
+            runtime.close();
+          });
+
           if (arity == 0) {
-            stopFuture.complete();
+            wrapper.complete();
           }
         } catch (RuntimeException e) {
-          stopFuture.fail(e);
-        } finally {
-          runtime.leave();
-          runtime.close();
+          wrapper.fail(e);
         }
       }
     };

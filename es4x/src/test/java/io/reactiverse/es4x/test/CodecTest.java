@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 public class CodecTest {
 
   @Test(timeout = 30000)
-  public void testCodec(TestContext should) {
+  public void testClusteredCodec(TestContext should) {
     final Async test = should.async();
     Vertx.clusteredVertx(new VertxOptions(), clusteredVertx -> {
       should.assertTrue(clusteredVertx.succeeded());
@@ -29,6 +29,24 @@ public class CodecTest {
 
         vertx.deployVerticle("js:cluster/sender.js", deploySender -> should.assertTrue(deploySender.succeeded()));
       });
+    });
+  }
+
+  @Test(timeout = 30000)
+  public void testNonClusteredCodec(TestContext should) {
+    final Async test = should.async();
+    Vertx vertx = Vertx.vertx(new VertxOptions());
+
+    vertx.eventBus().consumer("test-complete", msg -> {
+      should.assertEquals("OK", msg.body());
+      vertx.close();
+      test.complete();
+    });
+
+    vertx.deployVerticle("js:cluster/receiver.js", deployReceiver -> {
+      should.assertTrue(deployReceiver.succeeded());
+
+      vertx.deployVerticle("js:cluster/sender.js", deploySender -> should.assertTrue(deploySender.succeeded()));
     });
   }
 }

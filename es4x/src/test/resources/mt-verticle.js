@@ -1,4 +1,4 @@
-vertx.executeBlocking(function (fut) {
+// vertx.executeBlocking(function (fut) {
   console.debug('requiring dependency');
   var adder = require('./adder');
 
@@ -9,9 +9,9 @@ vertx.executeBlocking(function (fut) {
     message.reply({result: onePlusOne})
   });
 
-  fut.complete();
-}, function(executeBlocking) {
-  if (executeBlocking.failed()) {
-    throw executeBlocking.cause();
-  }
-});
+//   fut.complete();
+// }, function(executeBlocking) {
+//   if (executeBlocking.failed()) {
+//     throw executeBlocking.cause();
+//   }
+// });

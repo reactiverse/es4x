@@ -66,17 +66,23 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
 
       @Override
       public void stop(Promise<Void> stopFuture) {
+        final Promise<Void> wrapper = Promise.promise();
+
         try {
-          runtime.enter();
-          runtime.emit("undeploy");
-          runtime.leave();
-          runtime.close();
-          stopFuture.complete();
+          int arity = runtime.emit("undeploy", wrapper);
+          final Future<Void> future = wrapper.future();
+
+          // ensure we shutdown this runtime
+          future.onComplete(undeploy -> {
+            stopFuture.handle(undeploy);
+            runtime.close();
+          });
+
+          if (arity == 0) {
+            wrapper.complete();
+          }
         } catch (RuntimeException e) {
-          // done!
-          runtime.leave();
-          runtime.close();
-          stopFuture.fail(e);
+          wrapper.fail(e);
         }
       }
     };
