@@ -1,19 +1,33 @@
-package io.reactiverse.es4x.commands.proxies;
+/*
+ * Copyright 2019 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
+package io.reactiverse.es4x.asm;
 
 import org.objectweb.asm.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.IRETURN;
 
-public class JsonObjectProxy extends ClassVisitor {
+public class JsonObject extends ClassVisitor {
 
-  public JsonObjectProxy() {
+  public JsonObject() {
     super(ASM6, new ClassWriter(COMPUTE_FRAMES) {
       @Override
       protected String getCommonSuperClass(String type1, String type2) {
@@ -47,7 +61,7 @@ public class JsonObjectProxy extends ClassVisitor {
     mv.visitCode();
     mv.visitVarInsn(ALOAD, 0);
     mv.visitVarInsn(ALOAD, 1);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonObject", "getValue", "(Ljava/lang/String;)Ljava/lang/Object;", false);
+    mv.visitMethodInsn(INVOKESTATIC, "io/reactiverse/es4x/impl/ProxyUtil", "getMember", "(Lio/vertx/core/json/JsonObject;Ljava/lang/String;)Ljava/lang/Object;", false);
     mv.visitInsn(ARETURN);
     mv.visitMaxs(2, 2);
     mv.visitEnd();
@@ -57,8 +71,7 @@ public class JsonObjectProxy extends ClassVisitor {
     MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getMemberKeys", "()Ljava/lang/Object;", null, null);
     mv.visitCode();
     mv.visitVarInsn(ALOAD, 0);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonObject", "fieldNames", "()Ljava/util/Set;", false);
-    mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Set", "toArray", "()[Ljava/lang/Object;", true);
+    mv.visitMethodInsn(INVOKESTATIC, "io/reactiverse/es4x/impl/ProxyUtil", "getMemberKeys", "(Lio/vertx/core/json/JsonObject;)Ljava/lang/Object;", false);
     mv.visitInsn(ARETURN);
     mv.visitMaxs(1, 1);
     mv.visitEnd();
@@ -69,7 +82,7 @@ public class JsonObjectProxy extends ClassVisitor {
     mv.visitCode();
     mv.visitVarInsn(ALOAD, 0);
     mv.visitVarInsn(ALOAD, 1);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonObject", "containsKey", "(Ljava/lang/String;)Z", false);
+    mv.visitMethodInsn(INVOKESTATIC, "io/reactiverse/es4x/impl/ProxyUtil", "hasMember", "(Lio/vertx/core/json/JsonObject;Ljava/lang/String;)Z", false);
     mv.visitInsn(IRETURN);
     mv.visitMaxs(2, 2);
     mv.visitEnd();
@@ -81,10 +94,7 @@ public class JsonObjectProxy extends ClassVisitor {
     mv.visitVarInsn(ALOAD, 0);
     mv.visitVarInsn(ALOAD, 1);
     mv.visitVarInsn(ALOAD, 2);
-    mv.visitLdcInsn(Type.getType(Object.class));
-    mv.visitMethodInsn(INVOKEVIRTUAL, "org/graalvm/polyglot/Value", "as", "(Ljava/lang/Class;)Ljava/lang/Object;", false);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonObject", "put", "(Ljava/lang/String;Ljava/lang/Object;)Lio/vertx/core/json/JsonObject;", false);
-    mv.visitInsn(POP);
+    mv.visitMethodInsn(INVOKESTATIC, "io/reactiverse/es4x/impl/ProxyUtil", "putMember", "(Lio/vertx/core/json/JsonObject;Ljava/lang/String;Lorg/graalvm/polyglot/Value;)V", false);
     mv.visitInsn(RETURN);
     mv.visitMaxs(3, 3);
     mv.visitEnd();
@@ -95,13 +105,7 @@ public class JsonObjectProxy extends ClassVisitor {
     mv.visitCode();
     mv.visitVarInsn(ALOAD, 0);
     mv.visitVarInsn(ALOAD, 1);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "io/vertx/core/json/JsonObject", "remove", "(Ljava/lang/String;)Ljava/lang/Object;", false);
-    Label falseLabel = new Label();
-    mv.visitJumpInsn(IFNULL, falseLabel);
-    mv.visitLdcInsn(true);
-    mv.visitInsn(IRETURN);
-    mv.visitLabel(falseLabel);
-    mv.visitLdcInsn(false);
+    mv.visitMethodInsn(INVOKESTATIC, "io/reactiverse/es4x/impl/ProxyUtil", "removeMember", "(Lio/vertx/core/json/JsonObject;Ljava/lang/String;)Z", false);
     mv.visitInsn(IRETURN);
     mv.visitMaxs(2, 2);
     mv.visitEnd();

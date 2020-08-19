@@ -29,7 +29,9 @@ public class JSONTest {
     runtime.eval("console.log(JSON.stringify([]))");
     runtime.eval("console.log(JSON.stringify({K:1}))");
     runtime.eval("console.log(JSON.stringify([1,2,'', null]))");
+    // these tests show the interop
     runtime.eval("var JsonObject = Java.type('io.vertx.core.json.JsonObject'); console.log(JSON.stringify(new JsonObject()))");
-    runtime.eval("var JsonObject = Java.type('io.vertx.core.json.JsonObject'); console.log(JSON.stringify(new JsonObject().put('k', 1)))");
+    runtime.eval("var JsonObject = Java.type('io.vertx.core.json.JsonObject'); var x = new JsonObject(); x['k'] = 1; console.log(JSON.stringify(x))");
+    runtime.eval("var JsonObject = Java.type('io.vertx.core.json.JsonObject'); var x = new JsonObject(); x.k = 1; console.log(JSON.stringify(x))");
   }
 }

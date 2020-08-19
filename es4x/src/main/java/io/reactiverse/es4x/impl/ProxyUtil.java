@@ -15,6 +15,9 @@
  */
 package io.reactiverse.es4x.impl;
 
+import io.vertx.core.Future;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
@@ -25,6 +28,8 @@ import org.graalvm.polyglot.proxy.ProxyArray;
  * vertx json types.
  */
 public final class ProxyUtil {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ProxyUtil.class.getSimpleName());
 
   public static void putMember(JsonObject self, String key, Value value) {
     self.put(key, value.isHostObject() ? value.asHostObject() : value);
@@ -87,5 +92,33 @@ public final class ProxyUtil {
 
   public static long getSize(JsonArray self) {
     return self.size();
+  }
+
+
+  public static boolean remove(JsonArray self, long index) {
+    checkIndex(index);
+    if (index < 0 || index >= self.size()) {
+      return false;
+    }
+    self.remove((int) index);
+    return true;
+  }
+
+  public static void then(Future<?> self, Value onFulfilled, Value onRejected) {
+    self.onComplete(ar -> {
+      if (ar.succeeded()) {
+        if (onFulfilled != null) {
+          onFulfilled.executeVoid(ar.result());
+        } else {
+          LOG.warn("Possible Unhandled Promise: " + self);
+        }
+      } else {
+        if (onRejected != null) {
+          onRejected.execute(ar.cause());
+        } else {
+          LOG.warn("Possible Unhandled Rejection: " + self);
+        }
+      }
+    });
   }
 }
