@@ -23,6 +23,9 @@ import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
 import org.graalvm.polyglot.proxy.ProxyArray;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * This class provides a default implementation for the graalvm proxy interface methods, to be used by
  * vertx json types.
@@ -44,7 +47,7 @@ public final class ProxyUtil {
       private final Object[] keys = self.fieldNames().toArray();
 
       public void set(long index, Value value) {
-        throw new UnsupportedOperationException();
+        putMember(self, (String) get(index), value);
       }
 
       public long getSize() {
@@ -62,7 +65,7 @@ public final class ProxyUtil {
   }
 
   public static Object getMember(JsonObject self, String key) {
-    return self.getValue(key);
+    return wrapJsonValue(self.getMap().get(key));
   }
 
   public static boolean removeMember(JsonObject self, String key) {
@@ -76,7 +79,7 @@ public final class ProxyUtil {
 
   public static Object get(JsonArray self, long index) {
     checkIndex(index);
-    return self.getValue((int) index);
+    return wrapJsonValue(self.getList().get((int) index));
   }
 
   public static void set(JsonArray self, long index, Value value) {
@@ -121,4 +124,20 @@ public final class ProxyUtil {
       }
     });
   }
+
+  private static Object wrapJsonValue(Object val) {
+    if (val == null) {
+      return null;
+    }
+
+    // perform wrapping
+    if (val instanceof Map) {
+      val = new JsonObject((Map) val);
+    } else if (val instanceof List) {
+      val = new JsonArray((List) val);
+    }
+
+    return val;
+  }
+
 }

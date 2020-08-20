@@ -27,7 +27,6 @@ public class StructuredCloneTest {
   }
 
   @Test
-  @Ignore
   public void test(TestContext should) {
     final Async test = should.async();
     // pass the assertion to the engine
