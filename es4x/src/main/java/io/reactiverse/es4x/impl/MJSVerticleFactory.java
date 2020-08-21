@@ -19,6 +19,8 @@ import io.reactiverse.es4x.ESVerticleFactory;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
+import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.proxy.ProxyExecutable;
 
 import java.nio.file.InvalidPathException;
 
@@ -34,6 +36,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
     return new Verticle() {
 
       private Vertx vertx;
+      private Context context;
 
       @Override
       public Vertx getVertx() {
@@ -43,11 +46,31 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       @Override
       public void init(Vertx vertx, Context context) {
         this.vertx = vertx;
+        this.context = context;
       }
 
       @Override
       public void start(Promise<Void> startFuture) {
+        final String address;
+        final boolean worker;
+
+        if (context != null) {
+          address = context.deploymentID();
+          worker = context.isWorkerContext();
+          // expose config
+          if (context.config() != null) {
+            runtime.config(context.config());
+          }
+        } else {
+          worker = false;
+          address = null;
+        }
+
         try {
+          if (worker) {
+            setupVerticleMessaging(runtime, vertx, address);
+          }
+
           // the main script buffer
           final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
           runtime.eval(

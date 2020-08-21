@@ -16,11 +16,14 @@
 package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.REPLVerticle;
+import io.reactiverse.es4x.impl.StructuredClone;
 import io.vertx.core.Promise;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.spi.VerticleFactory;
 import org.graalvm.polyglot.Source;
+import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.proxy.ProxyExecutable;
 
 import java.util.concurrent.Callable;
 
@@ -103,6 +106,32 @@ public abstract class ESVerticleFactory implements VerticleFactory {
         return createVerticle(runtime, fsVerticleName);
       });
     }
+  }
+
+  protected void setupVerticleMessaging(Runtime runtime, Vertx vertx, String address) {
+    final Value undefined = runtime.eval("[undefined]").getArrayElement(0);
+
+    // workers will follow the browser semantics, they will have an extra global "postMessage"
+    runtime.put("postMessage", (ProxyExecutable) arguments -> {
+      // a shallow copy of the first argument is to be sent over the eventbus,
+      // JS specific types are to be converted to Java types for better
+      // polyglot support
+      vertx.eventBus()
+        .send(
+          address + ".in",
+          StructuredClone.cloneObject(arguments[0]));
+
+      return undefined;
+    });
+
+    // if it is a worker and there is a onmessage handler we need to bind it to the eventbus
+    vertx.eventBus().consumer(address + ".out", msg -> {
+      final Value onmessage = runtime.get("onmessage");
+      if (onmessage != null && onmessage.canExecute()) {
+        // deliver it
+        onmessage.executeVoid(msg.body());
+      }
+    });
   }
 
   /**

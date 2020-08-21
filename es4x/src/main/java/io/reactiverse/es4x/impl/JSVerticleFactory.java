@@ -57,7 +57,6 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       public void start(Promise<Void> startFuture) {
         final String address;
         final boolean worker;
-        final Value self;
 
         if (context != null) {
           address = context.deploymentID();
@@ -75,30 +74,13 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         // this is usually not a issue as it is a one time operation
         try {
           if (worker) {
-            self = module.invokeMember("runWorker", mainScript(fsVerticleName), address);
-          } else {
-            self = module.invokeMember("runMain", mainScript(fsVerticleName));
+            setupVerticleMessaging(runtime, vertx, address);
           }
+
+          module.invokeMember("runMain", mainScript(fsVerticleName));
         } catch (RuntimeException e) {
           startFuture.fail(e);
           return;
-        }
-
-        if (self != null) {
-          if (worker) {
-            // if it is a worker and there is a onmessage handler we need to bind it to the eventbus
-            if (self.hasMember("onmessage")) {
-              try {
-                vertx.eventBus().consumer(address + ".out", msg -> {
-                  // deliver it to the handler
-                  self.invokeMember("onmessage", msg.body());
-                });
-              } catch (RuntimeException e) {
-                startFuture.fail(e);
-                return;
-              }
-            }
-          }
         }
 
         startFuture.complete();
