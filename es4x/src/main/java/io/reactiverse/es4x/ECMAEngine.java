@@ -145,8 +145,8 @@ public final class ECMAEngine {
         // ensure that the type really matches
         v -> isScriptObject(v) && Context.getCurrent().eval(arrayBuffer).isMetaInstance(v),
         v -> {
-          if (v.hasMember("nioByteBuffer")) {
-            return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("nioByteBuffer").as(ByteBuffer.class)));
+          if (v.hasMember("__jbuffer")) {
+            return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class)));
           } else {
             // this is a raw ArrayBuffer
             throw new ClassCastException("Cannot cast ArrayBuffer(without j.n.ByteBuffer)");

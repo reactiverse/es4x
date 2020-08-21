@@ -15,7 +15,6 @@
  */
 package io.reactiverse.es4x.impl;
 
-import io.netty.buffer.Unpooled;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -115,16 +114,17 @@ public class StructuredClone {
         oClone = flags != 0 ? Pattern.compile(oToBeCloned.getMember("source").asString(), flags) : Pattern.compile(oToBeCloned.getMember("source").asString());
         dejaVu.put(oToBeCloned, oClone);
         break;
+      case "ArrayBuffer":
       case "EArrayBuffer":
-        if (oToBeCloned.hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractArrayBuffer(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
           break;
         }
         throw new IllegalStateException("ArrayBuffer not backed by j.n.ByteBuffer not allowed, use a TypedArray instead!");
       case "Int8Array":
-        if (oToBeCloned.getMember("buffer").hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("buffer").getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractTypedArray(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
         } else {
           long size = oToBeCloned.getArraySize();
@@ -137,8 +137,8 @@ public class StructuredClone {
         break;
       case "Uint8Array":
       case "Uint8ClampedArray":
-        if (oToBeCloned.getMember("buffer").hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("buffer").getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractTypedArray(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
         } else {
           long size = oToBeCloned.getArraySize();
@@ -150,8 +150,8 @@ public class StructuredClone {
         }
         break;
       case "Int16Array":
-        if (oToBeCloned.getMember("buffer").hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("buffer").getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractTypedArray(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
         } else {
           long size = oToBeCloned.getArraySize();
@@ -163,8 +163,8 @@ public class StructuredClone {
         }
         break;
       case "Uint16Array":
-        if (oToBeCloned.getMember("buffer").hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("buffer").getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractTypedArray(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
         } else {
           long size = oToBeCloned.getArraySize();
@@ -176,8 +176,8 @@ public class StructuredClone {
         }
         break;
       case "Int32Array":
-        if (oToBeCloned.getMember("buffer").hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("buffer").getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractTypedArray(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
         } else {
           long size = oToBeCloned.getArraySize();
@@ -189,8 +189,8 @@ public class StructuredClone {
         }
         break;
       case "Uint32Array":
-        if (oToBeCloned.getMember("buffer").hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("buffer").getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractTypedArray(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
         } else {
           long size = oToBeCloned.getArraySize();
@@ -202,8 +202,8 @@ public class StructuredClone {
         }
         break;
       case "Float32Array":
-        if (oToBeCloned.getMember("buffer").hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("buffer").getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractTypedArray(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
         } else {
           long size = oToBeCloned.getArraySize();
@@ -215,8 +215,8 @@ public class StructuredClone {
         }
         break;
       case "Float64Array":
-        if (oToBeCloned.getMember("buffer").hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("buffer").getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractTypedArray(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
         } else {
           long size = oToBeCloned.getArraySize();
@@ -229,8 +229,8 @@ public class StructuredClone {
         break;
       case "BigInt64Array":
       case "BigUint64Array":
-        if (oToBeCloned.getMember("buffer").hasMember("nioByteBuffer")) {
-          oClone = Buffer.buffer(Unpooled.wrappedBuffer(oToBeCloned.getMember("buffer").getMember("nioByteBuffer").as(ByteBuffer.class)));
+        oClone = extractTypedArray(oToBeCloned);
+        if (oClone != null) {
           dejaVu.put(oToBeCloned, oClone);
         } else {
           long size = oToBeCloned.getArraySize();
@@ -246,10 +246,51 @@ public class StructuredClone {
         dejaVu.put(oToBeCloned, oClone);
         break;
       default:
-        throw new IllegalStateException("Type not allowed: " + fConstrName);
 //          oClone = new fConstr();
 //          for (var sProp in oToBeCloned) { oClone[sProp] = clone(oToBeCloned[sProp], cloned, clonedpairs); }
+        throw new IllegalStateException("Type not allowed: " + fConstrName);
     }
     return oClone;
+  }
+
+  private static ByteBuffer extractArrayBuffer(Value arrayBuffer) {
+    // null
+    if (arrayBuffer == null || arrayBuffer.isNull()) {
+      return null;
+    }
+
+    if (arrayBuffer.hasMember("__jbuffer")) {
+      Value jbuffer = arrayBuffer.getMember("__jbuffer");
+      // null
+      if (jbuffer == null || jbuffer.isNull()) {
+        return null;
+      }
+
+      // extract the j.n.ByteBuffer
+      return jbuffer.as(ByteBuffer.class);
+    }
+
+    return null;
+  }
+
+  private static ByteBuffer extractTypedArray(Value typedArray) {
+    ByteBuffer jbuffer = extractArrayBuffer(typedArray.getMember("buffer"));
+
+    if (jbuffer != null) {
+      int offset = typedArray.getMember("byteOffset").asInt();
+      int length = typedArray.getMember("byteLength").asInt();
+
+      if (jbuffer.position() != offset || jbuffer.limit() != length) {
+        jbuffer
+          // reset read index
+          .position(offset)
+          // reset the capacity
+          .limit(length);
+      }
+
+      return jbuffer;
+    }
+
+    return null;
   }
 }
