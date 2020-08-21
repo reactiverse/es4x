@@ -17,11 +17,10 @@ package io.reactiverse.es4x.impl;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-
-import java.util.List;
-import java.util.Map;
+import org.graalvm.polyglot.Value;
 
 public final class JSObjectMessageCodec implements MessageCodec<Object, Object> {
 
@@ -71,21 +70,10 @@ public final class JSObjectMessageCodec implements MessageCodec<Object, Object> 
       return;
     }
 
-    if (jsObject instanceof List) {
-      final Buffer encoded = new JsonArray((List) jsObject).toBuffer();
-      buffer.appendInt(encoded.length());
-      buffer.appendBuffer(encoded);
-      return;
-    }
+    final Buffer encoded = Json.encodeToBuffer(StructuredClone.cloneObject(Value.asValue(jsObject)));
 
-    if (jsObject instanceof Map) {
-      final Buffer encoded = new JsonObject((Map) jsObject).toBuffer();
-      buffer.appendInt(encoded.length());
-      buffer.appendBuffer(encoded);
-      return;
-    }
-
-    throw new ClassCastException("type is not Object or Array");
+    buffer.appendInt(encoded.length());
+    buffer.appendBuffer(encoded);
   }
 
   @Override
@@ -95,14 +83,6 @@ public final class JSObjectMessageCodec implements MessageCodec<Object, Object> 
       return null;
     }
 
-    if (jsObject instanceof List) {
-      return new JsonArray((List) jsObject).copy();
-    }
-
-    if (jsObject instanceof Map) {
-      return new JsonObject((Map) jsObject).copy();
-    }
-
-    throw new ClassCastException("type is not Object or Array");
+    return StructuredClone.cloneObject(Value.asValue(jsObject));
   }
 }

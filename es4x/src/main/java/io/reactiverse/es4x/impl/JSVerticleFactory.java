@@ -89,14 +89,9 @@ public final class JSVerticleFactory extends ESVerticleFactory {
             // if it is a worker and there is a onmessage handler we need to bind it to the eventbus
             if (self.hasMember("onmessage")) {
               try {
-                // if the worker has specified a onmessage function we need to bind it to the eventbus
-                final Value JSON = runtime.eval("JSON");
-
                 vertx.eventBus().consumer(address + ".out", msg -> {
-                  // parse the json back to the engine runtime type
-                  Value json = JSON.invokeMember("parse", msg.body());
                   // deliver it to the handler
-                  self.invokeMember("onmessage", json);
+                  self.invokeMember("onmessage", msg.body());
                 });
               } catch (RuntimeException e) {
                 startFuture.fail(e);

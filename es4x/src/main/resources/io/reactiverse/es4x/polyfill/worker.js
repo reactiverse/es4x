@@ -68,10 +68,10 @@
         self.consumer = eventBus[remote ? 'consumer' : 'localConsumer'](deploymentId + '.in', function (aMessage) {
           if (self.context) {
             self.context.runOnContext(function () {
-              value(JSON.parse(aMessage.body()));
+              value(aMessage.body());
             });
           } else {
-            value(JSON.parse(aMessage.body()));
+            value(aMessage.body());
           }
         });
         // attach any errors to the error handler
@@ -96,13 +96,13 @@
   /**
    * The postMessage() method of the Worker interface sends a message to the worker's inner scope.
    * This accepts a single parameter, which is the data to send to the worker. The data may be any
-   * value or JavaScript object handled by the JSON stringify algorithm.
+   * value or JavaScript object handled by the JSON EventBus Codec.
    *
    * @param {Object} aMessage - The object to deliver to the worker.
    * @return {void} void
    */
   Worker.prototype.postMessage = function (aMessage) {
-    this.producer.write(JSON.stringify(aMessage), function(write) {
+    this.producer.write(aMessage, function(write) {
       if (write.failed()) {
         let error = write.cause();
 
