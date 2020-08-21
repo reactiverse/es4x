@@ -28,7 +28,7 @@ import static org.objectweb.asm.Opcodes.IRETURN;
 public class JsonObject extends ClassVisitor {
 
   public JsonObject() {
-    super(ASM6, new ClassWriter(COMPUTE_FRAMES) {
+    super(ASM7, new ClassWriter(COMPUTE_FRAMES) {
       @Override
       protected String getCommonSuperClass(String type1, String type2) {
         // Because we can't load dependent classes, this pleases the frame computation algorithm
