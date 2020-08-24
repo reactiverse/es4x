@@ -36,7 +36,7 @@ declare global {
     env: { [key: string]: string };
     pid: String;
     engine: String;
-    exit: (exitCode: Number) => void;
+    exit: (exitCode: number) => void;
     nextTick: (callback: (...args: any[]) => void) => void;
     stdout: any;
     stderr: any;
@@ -101,11 +101,11 @@ declare global {
     typeName(obj: any): string | undefined;
   };
 
-  function setTimeout(callback: (...args: any[]) => void, ms: number, ...args: any[]): Number;
+  function setTimeout(callback: (...args: any[]) => void, ms: number, ...args: any[]): number;
 
   function clearTimeout(timeoutId: Number): any;
 
-  function setInterval(callback: (...args: any[]) => void, ms: number, ...args: any[]): Number;
+  function setInterval(callback: (...args: any[]) => void, ms: number, ...args: any[]): number;
 
   function clearInterval(intervalId: Number): any;
 
@@ -145,7 +145,7 @@ declare global {
     /**
      * Returns the detail message string of this throwable.
      */
-    getMessage() : String;
+    getMessage() : string;
 
     /**
      * Returns an array containing all of the exceptions that were suppressed, typically by the
@@ -156,13 +156,15 @@ declare global {
     /**
      * Creates a localized description of this throwable.
      */
-    getLocalizedMessage() : String;
+    getLocalizedMessage() : string;
   }
-}
 
-/**
- * The internal async error module
- */
-declare module "async-error" {
-  export default function asyncError(error: Error | String | any): Error;
+  interface ErrorConstructor {
+    new(message?: string): Error;
+    (message?: string): Error;
+    readonly prototype: Error;
+    asyncTrace: (error: Error | Throwable | string | any) => Error | Throwable;
+  }
+
+  var Error: ErrorConstructor;
 }
