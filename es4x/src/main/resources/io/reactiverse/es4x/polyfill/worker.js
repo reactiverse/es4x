@@ -67,7 +67,7 @@
         // create a new consumer
         self.consumer = eventBus[remote ? 'consumer' : 'localConsumer'](deploymentId + '.in', function (aMessage) {
           if (self.context) {
-            self.context.runOnContext(function () {
+            self.context.runOnContext(function onmessage() {
               value(aMessage.body());
             });
           } else {
@@ -78,7 +78,7 @@
         self.consumer.exceptionHandler(function (error) {
           if (self.onerror) {
             if (self.context) {
-              self.context.runOnContext(function () {
+              self.context.runOnContext(function onerror() {
                 self.onerror(error);
               });
             } else {
@@ -102,13 +102,13 @@
    * @return {void} void
    */
   Worker.prototype.postMessage = function (aMessage) {
-    this.producer.write(aMessage, function(write) {
+    this.producer.write(aMessage, function postMessage(write) {
       if (write.failed()) {
         let error = write.cause();
 
         if (self.onerror) {
           if (self.context) {
-            self.context.runOnContext(function () {
+            self.context.runOnContext(function onerror() {
               self.onerror(error);
             });
           } else {
@@ -152,7 +152,7 @@
       // workers **must** be deployed as worker
       new DeploymentOptions().setWorker(true),
       // handler
-      function (deployVerticle) {
+      function create(deployVerticle) {
         if (deployVerticle.failed()) {
           // with JS we don't need to match types, so no need to re wrap the failure
           return handler(deployVerticle);

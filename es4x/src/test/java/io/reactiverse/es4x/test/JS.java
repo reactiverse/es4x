@@ -45,6 +45,7 @@ public final class JS {
       Source.newBuilder("js", JS.class.getResource("../polyfill/console.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/worker.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/arraybuffer.js")).buildLiteral(),
+      Source.newBuilder("js", JS.class.getResource("../polyfill/async-error.js")).buildLiteral(),
       // commonjs loader
       Source.newBuilder("js", JS.class.getResource("../jvm-npm.js")).buildLiteral()
     );
@@ -57,7 +58,8 @@ public final class JS {
       Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/console.js")).buildLiteral(),
       Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/worker.js")).buildLiteral(),
-      Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/arraybuffer.js")).buildLiteral()
+      Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/arraybuffer.js")).buildLiteral(),
+      Source.newBuilder("js", JSVerticleFactory.class.getResource("../polyfill/async-error.js")).buildLiteral()
     );
   }
 }

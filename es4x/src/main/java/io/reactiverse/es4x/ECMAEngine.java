@@ -23,8 +23,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
 
@@ -37,13 +35,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import static io.reactiverse.es4x.impl.AsyncError.parseStrackTraceElement;
 
 public final class ECMAEngine {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ECMAEngine.class);
+  private static final Logger LOG = Logger.getLogger(ECMAEngine.class.getName());
 
   private static Pattern[] allowedHostClassFilters() {
     String hostClassFilter = System.getProperty("es4x.host.class.filter", System.getenv("ES4XHOSTCLASSFILTER"));
@@ -107,7 +106,7 @@ public final class ECMAEngine {
     if (nag) {
       nag = false;
       if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
-        LOG.warn("ES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!");
+        LOG.warning("ES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!");
       }
     }
 

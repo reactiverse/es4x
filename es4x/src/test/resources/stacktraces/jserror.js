@@ -1,5 +1,3 @@
-var asyncError = require('async-error');
-
 function one() {
   two(function (err) {
     should.assertNotNull(err);
@@ -21,7 +19,7 @@ function two(callback) {
     three(function (err) {
       if (err) {
         setTimeout(function () {
-          callback(asyncError(err));
+          callback(Error.asyncTrace(err));
         }, 0);
         return;
       }
@@ -37,7 +35,7 @@ function three(callback) {
     four(function (err) {
       if (err) {
         setTimeout(function () {
-          callback(asyncError(err));
+          callback(Error.asyncTrace(err));
         }, 0);
         return;
       }
@@ -50,7 +48,7 @@ function three(callback) {
 
 function four(callback) {
   setTimeout(function () {
-    callback(asyncError(new Error('File not found!')));
+    callback(Error.asyncTrace(new Error('File not found!')));
   }, 0);
 }
 
