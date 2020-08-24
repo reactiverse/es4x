@@ -14,8 +14,8 @@ If using Yarn:
 ```bash
 $ yarn create es4x-app <project-name>
 $ cd <project-name>
-$ yarn install
 $ yarn
+$ yarn start
 ```
 
 ## Templates
