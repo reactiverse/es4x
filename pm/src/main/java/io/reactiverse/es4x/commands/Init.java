@@ -6,10 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static io.reactiverse.es4x.commands.Helper.*;
+import static io.reactiverse.es4x.commands.Helper.fatal;
 
 public class Init implements Runnable {
 
@@ -17,6 +16,7 @@ public class Init implements Runnable {
   public static final String SUMMARY = "Initializes the 'package.json' to work with ES4X.";
 
   private File cwd;
+  private boolean typeScript;
 
   public Init() {
   }
@@ -24,6 +24,7 @@ public class Init implements Runnable {
   public Init(String[] args) {
     CmdLineParser parser = new CmdLineParser();
     CmdLineParser.Option<Boolean> helpOption = parser.addBooleanOption('h', "help");
+    CmdLineParser.Option<Boolean> tsOption = parser.addBooleanOption('t', "ts");
 
     try {
       parser.parse(args);
@@ -41,13 +42,42 @@ public class Init implements Runnable {
       return;
     }
 
-    setCwd(new File("."));
+    Boolean typeScript = parser.getOptionValue(tsOption, Boolean.FALSE);
+    if (typeScript != null && typeScript) {
+      setTypeScript(true);
+    }
+
+    String[] commandArgs = parser.getRemainingArgs();
+
+    switch (commandArgs.length) {
+      case 0:
+        setCwd(new File("."));
+        break;
+      case 1:
+        File d = new File(commandArgs[0]);
+        if (d.exists()) {
+          if (!d.isDirectory()) {
+            fatal(commandArgs[0] + " is not a directory!");
+          }
+        } else {
+          if (!d.mkdirs()) {
+            fatal("Failed to create directory(s): " + commandArgs[0] + "!");
+          }
+        }
+        setCwd(d);
+        break;
+      default:
+        fatal("Too many arguments, only 1 project name allowed!");
+    }
   }
 
   private void printUsage() {
     System.err.println("Usage: es4x " + NAME + " [OPTIONS] [arg...]");
     System.err.println();
     System.err.println(SUMMARY);
+    System.err.println();
+    System.err.println("Options and Arguments:");
+    System.err.println(" -t,--ts\t\t\t\tCreate a TypeScript project instead of JavaScript.");
     System.err.println();
   }
 
@@ -56,18 +86,42 @@ public class Init implements Runnable {
     return this;
   }
 
+  public void setTypeScript(boolean typeScript) {
+    this.typeScript = typeScript;
+  }
+
   @Override
   public void run() {
     try {
       final File file = new File(cwd, "package.json");
 
-      if (!file.exists()) {
+      if (file.exists()) {
+        fatal(file.toPath().toRealPath().toString() + " already exists!");
+      }
+
+      String[] templates = typeScript ?
+        new String[]
+          {
+            "META-INF/es4x-commands/init/ts/package.json",
+            "META-INF/es4x-commands/init/ts/index.ts",
+            "META-INF/es4x-commands/init/ts/index.test.ts",
+            "META-INF/es4x-commands/init/ts/tsconfig.json"
+          } :
+        new String[]
+          {
+            "META-INF/es4x-commands/init/js/package.json",
+            "META-INF/es4x-commands/init/js/index.js",
+            "META-INF/es4x-commands/init/js/index.test.js"
+          };
+
+      for (String template : templates) {
         // Load the file from the class path
-        try (InputStream in = Init.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/package.json")) {
+        try (InputStream in = Init.class.getClassLoader().getResourceAsStream(template)) {
           if (in == null) {
-            fatal("Cannot load package.json template.");
+            fatal("Cannot load: " + template);
           } else {
-            Files.copy(in, file.toPath());
+            File target = new File(cwd, template.substring(template.lastIndexOf('/') + 1));
+            Files.copy(in, target.toPath());
           }
         } catch (IOException e) {
           fatal(e.getMessage());
@@ -75,48 +129,23 @@ public class Init implements Runnable {
       }
 
       Map npm = JSON.parse(file, Map.class);
-      String name = (String) npm.get("name");
+      String name = null;
 
-      if (name == null) {
-        // this was a new project, either derive the name from the cwd or set to "unnamed"
-        if (cwd != null) {
-          name = cwd.toPath().toRealPath().getFileName().toString();
-        }
-
-        if (name == null || "".equals(name)) {
-          name = "unnamed";
-        }
-
-        npm.put("name", name);
+      // this was a new project, either derive the name from the cwd or set to "unnamed"
+      if (cwd != null) {
+        name = cwd.toPath().toRealPath().getFileName().toString();
       }
 
-      Map scripts = (Map) npm.get("scripts");
-
-      if (scripts == null) {
-        scripts = new LinkedHashMap();
-        npm.put("scripts", scripts);
+      if (name == null || "".equals(name)) {
+        name = "unnamed";
       }
 
-      String main = (String) npm.get("main");
-      if (main == null) {
-        main = "index.js";
-      }
-
-      String test = main;
-      if (test.endsWith(".js")) {
-        test = test.substring(0, test.length() - 3) + ".test.js";
-      }
-      if (test.endsWith(".mjs")) {
-        test = test.substring(0, test.length() - 3) + ".test.mjs";
-      }
-
-      scripts.put("postinstall", "es4x install");
-      scripts.put("start", "es4x");
-      scripts.put("test", "es4x test " + test);
+      npm.put("name", name);
 
       JSON.encode(file, npm);
 
-    } catch (IOException e) {
+    } catch (
+      IOException e) {
       fatal(e.getMessage());
     }
   }

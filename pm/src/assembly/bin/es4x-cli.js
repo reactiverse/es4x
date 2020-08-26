@@ -118,11 +118,4 @@ subProcess.on('error', (err) => {
   process.exit(1);
 });
 
-subProcess.on('close', (code) => {
-  if (code !== 0) {
-    console.debug(java);
-    console.debug(argv.concat(process.argv.slice(2)));
-
-    console.error(`java process exited with code ${code}`);
-  }
-});
+subProcess.on('close', process.exit);
