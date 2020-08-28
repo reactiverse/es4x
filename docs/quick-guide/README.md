@@ -51,13 +51,12 @@ Cluster manager implementation that uses Infinispan.
 Cluster manager implementation that uses Apache Ignite.
 
 ## Testing
-### Vert.x JUnit 5
-
-Asynchronous testing with Vert.x and JUnit 5.
 
 ### Vert.x Unit
 
 A unit testing tool-kit designed to work with asynchronous code. Includes JUnit 4 support.
+
+[Unit Examples](./unit)
 
 ## Standards
 ### JSON Schema
