@@ -108,7 +108,9 @@ module.exports = {
               collapsable: false,
               children: [
                 '',
-                'core/'
+                'core/',
+                'redis/',
+                'unit/',
               ]
             }
           ],
@@ -193,7 +195,9 @@ module.exports = {
               collapsable: false,
               children: [
                 '',
-                'core/'
+                'core/',
+                'redis/',
+                'unit/',
               ]
             }
           ],
@@ -278,7 +282,9 @@ module.exports = {
                     collapsable: false,
                     children: [
                       '',
-                      'core/'
+                      'core/',
+                      'redis/',
+                      'unit/',
                     ]
                   }
                 ],

@@ -125,6 +125,8 @@ MongoDB client.
 
 Redis client.
 
+[Redis Examples](./redis)
+
 ### Cassandra Client
 
 Apache Cassandra client.
