@@ -59,8 +59,8 @@ module.exports = {
             link: '/advanced/'
           },
           {
-            text: 'Manual',
-            link: '/manual/'
+            text: 'Quick Guides',
+            link: '/quick-guide/'
           },
           {
             text: 'APIs',
@@ -102,12 +102,13 @@ module.exports = {
               ]
             }
           ],
-          '/manual/': [
+          '/quick-guide/': [
             {
-              title: 'Manuals',
+              title: 'Quick Guides',
               collapsable: false,
               children: [
-                ''
+                '',
+                'core/'
               ]
             }
           ],
@@ -143,8 +144,8 @@ module.exports = {
             link: '/advanced/'
           },
           {
-            text: 'Manuais',
-            link: '/manual/'
+            text: 'Guias Rápidos',
+            link: '/quick-guide/'
           },
           {
             text: 'APIs',
@@ -186,12 +187,13 @@ module.exports = {
               ]
             }
           ],
-          '/manual/': [
+          '/quick-guide/': [
             {
-              title: 'Manuals',
+              title: 'Guias Rápidos',
               collapsable: false,
               children: [
-                ''
+                '',
+                'core/'
               ]
             }
           ],
@@ -227,8 +229,8 @@ module.exports = {
                   link: '/zh/advanced/'
                 },
                 {
-                  text: 'Manual',
-                  link: '/manual/'
+                  text: 'Quick Guides',
+                  link: '/quick-guide/'
                 },
                 {
                   text: 'API参考',
@@ -270,12 +272,13 @@ module.exports = {
                     ]
                   }
                 ],
-                '/manual/': [
+                '/quick-guide/': [
                   {
-                    title: 'Manuals',
+                    title: 'Quick Guides',
                     collapsable: false,
                     children: [
-                      ''
+                      '',
+                      'core/'
                     ]
                   }
                 ],
