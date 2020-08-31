@@ -5,7 +5,8 @@ sidebarDepth: 2
 ---
 # Vert.x Redis Client examples
 
-Here you will find examples demonstrating the usage of the Vert.x Redis Client.
+Here you will find examples demonstrating the usage of the Vert.x Redis Client. For detailed documentation, consult
+the Vert.x [core manual](https://vertx.io/docs).
 
 ## Project setup
 
