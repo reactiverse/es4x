@@ -1,5 +1,7 @@
-# node-jvm
-Node.jvm is an open-source, cross-platform, Java runtime environment with a unifyed Context based API for embedded 3th Party languages like Javascript, Python, R. It executes JavaScript code and other Code that is supported by the truffleapi. For more information on using Node.jvm, see the Website.
+# graalvm-node
+NodeJS like Environment for graalvm written in Java to be used as javaObj Inside embeded Languages like ECMAScript / Javascript it provieds all NodeJS internal Modules as Objects so they can get used directly from your code as would it run directly inside nodejs. Also it will allow to use this objects via context sharing inside other languages like php, python. It can be seen as stdlib for GraalVM
+
+is an open-source, cross-platform, Java runtime environment with a unifyed Context based API for embedded 3th Party languages like Javascript, Python, R. It executes JavaScript code and other Code that is supported by the truffleapi. For more information on using Node.jvm, see the Website.
 
 
 ## Why?
