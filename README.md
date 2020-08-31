@@ -9,6 +9,32 @@ The Only way to get as good and fast development with graalvm we need to port ev
 Vertx has done a lot in this sector already and i want to say thanks to https://github.com/pmlopes for that he is a Hero as he belived in this idea as the first!
 
 ## What needs to get done?
+example
+```java
+public static class MyClass {
+    public int               id    = 42;
+    public String            text  = "42";
+    public int[]             arr   = new int[]{1, 42, 3};
+    public Callable<Integer> ret42 = () -> 42;
+}
+
+public static void main(String[] args) {
+    try (Context context = Context.newBuilder()
+                               .allowAllAccess(true)
+                           .build()) {
+        context.getBindings("js").putMember("javaObj", new MyClass());
+        boolean valid = context.eval("js",
+               "    javaObj.id         == 42"          +
+               " && javaObj.text       == '42'"        +
+               " && javaObj.arr[1]     == 42"          +
+               " && javaObj.ret42()    == 42")
+           .asBoolean();
+        assert valid == true;
+    }
+}
+```
+The MyClass class should expose everything single NodeJS internal Module as Java Equivalent.we will name the javaObj === node and access inside JavaScript node.fs node.http node.crypto ......
+
 We need to create Java Factorys that do expose a context first for JavaScript / ECMAScript so that we can use a http object or an fs object like we could do it in nodejs this gets then compiled into 1 single java bytecode that should be more performant then the original nodejs code as vertx has proven already.
 
 same needs then to get done for other interpreted languages the whole IO part needs to get replaced with java async code we need something like libuv in java. And vertx is a good starting point for that. 
