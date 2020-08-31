@@ -13,6 +13,9 @@ We need to create Java Factorys that do expose a context first for JavaScript / 
 
 same needs then to get done for other interpreted languages the whole IO part needs to get replaced with java async code we need something like libuv in java. And vertx is a good starting point for that. 
 
+https://github.com/graalvm/graaljs/blob/master/docs/user/RunOnJDK.md this is the first that we should takle we should make sure that this works on ubuntu current and windows as also mac when that works we are in a good shape.
+
+after that we should additional start working on getting it also working with graalvm it self maybe even with less effort but it should get done later.
 
 ## Vertx Results.
 
