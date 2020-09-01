@@ -23,7 +23,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
 
-import static io.reactiverse.es4x.commands.Helper.*;
+import static io.reactiverse.es4x.cli.Helper.*;
 
 @Name("vscode")
 @Summary("Launcher for vscode project.")

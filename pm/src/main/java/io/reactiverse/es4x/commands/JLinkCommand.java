@@ -21,7 +21,7 @@ import io.vertx.core.spi.launcher.DefaultCommand;
 
 import java.io.IOException;
 
-import static io.reactiverse.es4x.commands.Helper.*;
+import static io.reactiverse.es4x.cli.Helper.*;
 
 @Name("jlink")
 @Summary("Creates a slim runtime (requires java >= 11).")

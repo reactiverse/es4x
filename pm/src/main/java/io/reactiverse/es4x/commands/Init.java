@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Map;
 
-import static io.reactiverse.es4x.commands.Helper.fatal;
+import static io.reactiverse.es4x.cli.Helper.fatal;
 
 public class Init implements Runnable {
 
