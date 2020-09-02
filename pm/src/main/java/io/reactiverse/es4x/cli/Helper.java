@@ -13,7 +13,7 @@
  *
  *  You may elect to redistribute this code under either of these licenses.
  */
-package io.reactiverse.es4x.commands;
+package io.reactiverse.es4x.cli;
 
 import java.io.File;
 import java.io.IOException;
