@@ -10,18 +10,18 @@ import java.util.Map;
 
 import static io.reactiverse.es4x.cli.Helper.fatal;
 
-public class Init implements Runnable {
+public class Project implements Runnable {
 
-  public static final String NAME = "init";
+  public static final String NAME = "project";
   public static final String SUMMARY = "Initializes the 'package.json' to work with ES4X.";
 
   private File cwd;
   private boolean typeScript;
 
-  public Init() {
+  public Project() {
   }
 
-  public Init(String[] args) {
+  public Project(String[] args) {
     CmdLineParser parser = new CmdLineParser();
     CmdLineParser.Option<Boolean> helpOption = parser.addBooleanOption('h', "help");
     CmdLineParser.Option<Boolean> tsOption = parser.addBooleanOption('t', "ts");
@@ -81,7 +81,7 @@ public class Init implements Runnable {
     System.err.println();
   }
 
-  public Init setCwd(File cwd) {
+  public Project setCwd(File cwd) {
     this.cwd = cwd;
     return this;
   }
@@ -116,7 +116,7 @@ public class Init implements Runnable {
 
       for (String template : templates) {
         // Load the file from the class path
-        try (InputStream in = Init.class.getClassLoader().getResourceAsStream(template)) {
+        try (InputStream in = Project.class.getClassLoader().getResourceAsStream(template)) {
           if (in == null) {
             fatal("Cannot load: " + template);
           } else {

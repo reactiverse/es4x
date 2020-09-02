@@ -63,6 +63,25 @@ public final class Helper {
     System.exit(1);
   }
 
+  public static String pad(String text, int padding) {
+    StringBuilder sb = new StringBuilder();
+
+    if (text.length() >= padding) {
+      sb.append(text);
+      sb.append(System.lineSeparator());
+      for (int i = 0; i < padding; i++) {
+        sb.append(' ');
+      }
+    } else {
+      sb.append(text);
+      for (int i = text.length(); i < padding; i++) {
+        sb.append(' ');
+      }
+    }
+
+    return sb.toString();
+  }
+
   public static void err(String message) {
     System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
   }

@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static io.reactiverse.es4x.cli.Helper.fatal;
-import static io.reactiverse.es4x.cli.Helper.warn;
+import static io.reactiverse.es4x.cli.Helper.*;
 
 public class PM {
 
@@ -15,16 +14,15 @@ public class PM {
     System.err.println("Usage: es4x [COMMAND] [OPTIONS] [arg...]");
     System.err.println();
     System.err.println("Commands:");
-    System.err.println(Init.NAME + "\t\t" + Init.SUMMARY);
-    System.err.println(Install.NAME + "\t\t" + Install.SUMMARY);
-    System.err.println(SecurityPolicy.NAME + "\t\t" + SecurityPolicy.SUMMARY);
-    System.err.println(Versions.NAME + "\t\t" + Versions.SUMMARY);
+    System.err.println(pad(Project.NAME + "/app", 16) + Project.SUMMARY);
+    System.err.println(pad(Install.NAME, 16) + Install.SUMMARY);
+    System.err.println(pad(SecurityPolicy.NAME, 16) + SecurityPolicy.SUMMARY);
+    System.err.println(pad(Versions.NAME, 16) + Versions.SUMMARY);
     System.err.println();
-    System.err.println("Running:");
-    System.out.println("VM:        " + System.getProperty("java.vm.name") + " - " + System.getProperty("java.version"));
-    System.out.println("VM Vendor: " + System.getProperty("java.vendor.version"));
+    System.err.println("Current VM:");
+    System.out.println("Name:   " + System.getProperty("java.vm.name") + " - " + System.getProperty("java.version"));
+    System.out.println("Vendor: " + System.getProperty("java.vendor.version", "-"));
     System.err.println();
-    verifyRuntime(false);
     System.err.println("Run 'es4x COMMAND --help' for more information on a command.");
   }
 
@@ -41,9 +39,9 @@ public class PM {
           String wanted = versions.getProperty("graalvm");
           if (!vmVersion.isGreaterOrEqual(wanted)) {
             if (fatal) {
-              fatal(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }", wanted, vmVersion.toString()));
+              fatal(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }%sFor installation help see: https://www.graalvm.org/docs/getting-started-with-graalvm/", wanted, vmVersion.toString(), System.lineSeparator()));
             } else {
-              warn(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }", wanted, vmVersion.toString()));
+              warn(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }%sFor installation help see: https://www.graalvm.org/docs/getting-started-with-graalvm/", wanted, vmVersion.toString(), System.lineSeparator()));
             }
           }
         }
@@ -65,9 +63,9 @@ public class PM {
     System.arraycopy(args, 1, cmdArgs, 0, cmdArgs.length);
 
     switch (command) {
-      case Init.NAME:
+      case Project.NAME:
         verifyRuntime(true);
-        new Init(cmdArgs).run();
+        new Project(cmdArgs).run();
         System.exit(0);
         return;
       case Install.NAME:
@@ -87,10 +85,12 @@ public class PM {
         return;
       case "-h":
       case "--help":
+        verifyRuntime(false);
         printUsage();
         System.exit(0);
         return;
       default:
+        verifyRuntime(false);
         printUsage();
         System.exit(2);
     }

@@ -8,9 +8,9 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class InitCommandTest {
+public class ProjectCommandTest {
 
-  private final InitCommand command = new InitCommand();
+  private final ProjectCommand command = new ProjectCommand();
 
   @Test
   public void shouldCreateAnEmptyProject() throws IOException {

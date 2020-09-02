@@ -22,11 +22,11 @@ import io.vertx.core.cli.annotations.Option;
 import io.vertx.core.cli.annotations.Summary;
 import io.vertx.core.spi.launcher.DefaultCommand;
 
-@Name(Init.NAME)
-@Summary(Init.SUMMARY)
-public class InitCommand extends DefaultCommand {
+@Name(Project.NAME)
+@Summary(Project.SUMMARY)
+public class ProjectCommand extends DefaultCommand {
 
-  private final Init command = new Init();
+  private final Project command = new Project();
 
   @Option(longName = "ts", shortName = "t", flag = true)
   @Description("Init a TypeScript project.")
@@ -36,7 +36,7 @@ public class InitCommand extends DefaultCommand {
 
   @Override
   public void run() throws CLIException {
-    new Init()
+    new Project()
       .setCwd(getCwd())
       .run();
   }
