@@ -55,7 +55,8 @@ public class IndexJS extends Generator<ClassModel> {
       writer.printf(
         "/**\n" +
           " * @typedef { import(\"es4x\") } Java\n" +
-          " */\n");
+          " */\n" +
+          "/** */\n");
       writer.print("module.exports = {\n");
 
       registerJvmClasses();

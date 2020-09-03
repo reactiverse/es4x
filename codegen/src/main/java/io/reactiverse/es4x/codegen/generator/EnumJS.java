@@ -53,7 +53,8 @@ public class EnumJS extends Generator<EnumModel> {
       writer.printf(
         "/**\n" +
         " * @typedef { import(\"es4x\") } Java\n" +
-        " */\n");
+        " */\n" +
+        "/** */\n");
       writer.print("module.exports = {\n");
     }
 

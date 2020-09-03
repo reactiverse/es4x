@@ -53,7 +53,8 @@ public class OptionsMJS extends Generator<DataObjectModel> {
       writer.printf(
         "/**\n" +
           " * @typedef { import(\"es4x\") } Java\n" +
-          " */\n");
+          " */\n" +
+          "/** */\n");
     }
 
     writer.printf("export const %s = Java.type('%s');\n", model.getType().getRaw().getSimpleName(), model.getType().getName());

@@ -54,7 +54,8 @@ public class IndexMJS extends Generator<ClassModel> {
       writer.printf(
         "/**\n" +
           " * @typedef { import(\"es4x\") } Java\n" +
-          " */\n");
+          " */\n" +
+          "/** */\n");
 
       registerJvmClasses();
       for (Object fqcn : jvmClasses()) {
