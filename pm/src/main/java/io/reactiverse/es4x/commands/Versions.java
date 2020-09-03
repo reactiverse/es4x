@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Scanner;
 
-import static io.reactiverse.es4x.commands.Helper.fatal;
+import static io.reactiverse.es4x.cli.Helper.fatal;
 
 public class Versions implements Runnable {
 
@@ -46,14 +46,15 @@ public class Versions implements Runnable {
 
   @Override
   public void run() {
-    System.out.println("VM:      " + System.getProperty("java.vm.name") + " - " + System.getProperty("java.version"));
+    System.out.println("VM:        " + System.getProperty("java.vm.name") + " - " + System.getProperty("java.version"));
+    System.out.println("VM Vendor: " + System.getProperty("java.vendor.version"));
 
     // load the versions from vertx if possible
     try (InputStream is = Versions.class.getClassLoader().getResourceAsStream("META-INF/vertx/vertx-version.txt")) {
       if (is != null) {
         Scanner scanner = (new Scanner(is, "UTF-8")).useDelimiter("\\A");
         if (scanner.hasNext()) {
-          System.out.println("Vert.x:  " + scanner.next().trim());
+          System.out.println("Vert.x:    " + scanner.next().trim());
         }
       }
     } catch (IOException e) {
@@ -67,8 +68,8 @@ public class Versions implements Runnable {
       } else {
         final Properties versions = new Properties();
         versions.load(is);
-        System.out.println("ES4X:    " + versions.getProperty("es4x"));
-        System.out.println("graaljs: " + versions.getProperty("graalvm"));
+        System.out.println("ES4X:      " + versions.getProperty("es4x"));
+        System.out.println("graaljs:   " + versions.getProperty("graalvm"));
       }
     } catch (IOException e) {
       fatal(e.getMessage());

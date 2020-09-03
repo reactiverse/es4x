@@ -1,0 +1,25 @@
+{
+  "name": "template-js",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A barebones es4x application",
+  "main": "dist/index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vertx/core": "${stack.version}"
+  },
+  "devDependencies": {
+    "create-es4x-app": "${project.version}",
+    "typescript": "^4.0.2",
+    "@vertx/unit": "${stack.version}"
+  },
+  "scripts": {
+    "postinstall": "es4x install",
+    "prestart": "tsc",
+    "start": "es4x",
+    "pretest": "tsc",
+    "test": "es4x test dist/index.test.js"
+  }
+}

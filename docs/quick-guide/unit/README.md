@@ -5,7 +5,8 @@ sidebarDepth: 2
 ---
 # Vert.x Unit examples
 
-Here you'll find some examples of how to use Vert.x unit to test your asynchronous applications.
+Here you'll find some examples of how to use Vert.x unit to test your asynchronous applications. For detailed
+documentation, consult the Vert.x [core manual](https://vertx.io/docs).
 
 ## Project setup
 

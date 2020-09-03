@@ -16,17 +16,27 @@
 package io.reactiverse.es4x.commands;
 
 import io.vertx.core.cli.CLIException;
+import io.vertx.core.cli.annotations.Description;
 import io.vertx.core.cli.annotations.Name;
+import io.vertx.core.cli.annotations.Option;
 import io.vertx.core.cli.annotations.Summary;
 import io.vertx.core.spi.launcher.DefaultCommand;
 
-@Name(Init.NAME)
-@Summary(Init.SUMMARY)
-public class InitCommand extends DefaultCommand {
+@Name(Project.NAME)
+@Summary(Project.SUMMARY)
+public class ProjectCommand extends DefaultCommand {
+
+  private final Project command = new Project();
+
+  @Option(longName = "ts", shortName = "t", flag = true)
+  @Description("Init a TypeScript project.")
+  public void setForce(boolean force) {
+    command.setTypeScript(force);
+  }
 
   @Override
   public void run() throws CLIException {
-    new Init()
+    new Project()
       .setCwd(getCwd())
       .run();
   }

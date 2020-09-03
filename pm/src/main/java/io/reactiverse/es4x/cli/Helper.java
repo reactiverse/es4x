@@ -1,18 +1,18 @@
-package io.reactiverse.es4x.commands;
+package io.reactiverse.es4x.cli;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-final class Helper {
+public final class Helper {
 
-  private static String OS = System.getProperty("os.name").toLowerCase();
+  private static final String OS = System.getProperty("os.name").toLowerCase();
 
-  static boolean isWindows() {
+  public static boolean isWindows() {
     return OS.contains("win");
   }
 
-  static boolean isUnix() {
+  public static boolean isUnix() {
     return
       OS.contains("nix") ||
         OS.contains("nux") ||
@@ -21,7 +21,7 @@ final class Helper {
         OS.contains("sunos");
   }
 
-  static String javaHomePrefix() {
+  public static String javaHomePrefix() {
     String prefix = System.getenv("JAVA_HOME");
 
     if (prefix == null) {
@@ -36,7 +36,7 @@ final class Helper {
     return prefix;
   }
 
-  static String exec(String... command) throws IOException, InterruptedException {
+  public static String exec(String... command) throws IOException, InterruptedException {
     ProcessBuilder jdeps = new ProcessBuilder(command);
     jdeps.redirectError(ProcessBuilder.Redirect.INHERIT);
     File tmp = File.createTempFile(command[0], "out");
@@ -58,16 +58,35 @@ final class Helper {
     }
   }
 
-  static void fatal(String message) {
+  public static void fatal(String message) {
     System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
     System.exit(1);
   }
 
-  static void err(String message) {
+  public static String pad(String text, int padding) {
+    StringBuilder sb = new StringBuilder();
+
+    if (text.length() >= padding) {
+      sb.append(text);
+      sb.append(System.lineSeparator());
+      for (int i = 0; i < padding; i++) {
+        sb.append(' ');
+      }
+    } else {
+      sb.append(text);
+      for (int i = text.length(); i < padding; i++) {
+        sb.append(' ');
+      }
+    }
+
+    return sb.toString();
+  }
+
+  public static void err(String message) {
     System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
   }
 
-  static void warn(String message) {
+  public static void warn(String message) {
     System.err.println("\u001B[1m\u001B[33m" + message + "\u001B[0m");
   }
 }

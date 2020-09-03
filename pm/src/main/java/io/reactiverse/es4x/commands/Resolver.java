@@ -47,7 +47,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.reactiverse.es4x.commands.Helper.warn;
+import static io.reactiverse.es4x.cli.Helper.warn;
 
 final class Resolver {
 
@@ -57,7 +57,7 @@ final class Resolver {
   private static final String DEFAULT_MAVEN_REMOTE = "https://repo1.maven.org/maven2/";
 
   private final RepositorySystem system;
-  private LocalRepository localRepo;
+  private final LocalRepository localRepo;
   private final List<RemoteRepository> remotes = new ArrayList<>();
 
   Resolver() throws MalformedURLException {
@@ -217,8 +217,8 @@ final class Resolver {
         }
       } catch (final UnsupportedEncodingException e) {
         throw new IllegalArgumentException(
-          "maven registry url is not encoded with " + defaultCharset + 
-          " charset and percent-encoded username/password: " + url, 
+          "maven registry url is not encoded with " + defaultCharset +
+          " charset and percent-encoded username/password: " + url,
           e);
       }
       return authBuilder.build();

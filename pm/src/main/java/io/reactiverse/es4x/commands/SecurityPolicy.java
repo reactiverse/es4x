@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-import static io.reactiverse.es4x.commands.Helper.fatal;
-import static io.reactiverse.es4x.commands.Helper.warn;
+import static io.reactiverse.es4x.cli.Helper.fatal;
+import static io.reactiverse.es4x.cli.Helper.warn;
 
 public class SecurityPolicy implements Runnable {
 
