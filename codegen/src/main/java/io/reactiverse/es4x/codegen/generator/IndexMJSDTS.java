@@ -65,10 +65,8 @@ public class IndexMJSDTS extends Generator<Model> {
     StringWriter sw = new StringWriter();
     PrintWriter writer = new PrintWriter(sw);
 
+    writer.print("import commonjs from \"./index\";export = commonjs;\n");
     
-    writer.print("import commonjs from \"../types/index\";export = commonjs;\n");
-
-
     return sw.toString();
   }
 }

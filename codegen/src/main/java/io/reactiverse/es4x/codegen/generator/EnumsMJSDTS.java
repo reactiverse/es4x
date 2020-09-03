@@ -66,7 +66,7 @@ public class EnumsMJSDTS extends Generator<Model> {
     PrintWriter writer = new PrintWriter(sw);
 
     
-    writer.print("import commonjs from \"../types/index\";export = commonjs;\n");
+    writer.print("import commonjs from \"./enums\";export = commonjs;\n");
 
 
     return sw.toString();
