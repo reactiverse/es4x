@@ -33,15 +33,19 @@ public class ES4XGeneratorLoader implements GeneratorLoader {
     // JS core
     generators.add(new IndexJS());
     generators.add(new OptionsJS());
-    generators.add(new EnumJS());
-    // d.ts
+    generators.add(new EnumsJS());
+    // d.ts for CommonJS Modules
     generators.add(new IndexDTS());
     generators.add(new OptionsDTS());
-    generators.add(new EnumDTS());
+    generators.add(new EnumsDTS());
     // ES6 modules
     generators.add(new IndexMJS());
     generators.add(new OptionsMJS());
-    generators.add(new EnumMJS());
+    generators.add(new EnumsMJS());
+    // d.ts for ECMAScript Modules
+    generators.add(new IndexMJSDTS());
+    generators.add(new OptionsMJSDTS());
+    generators.add(new EnumsMJSDTS());
     // package
     generators.add(new PackageJSON());
     generators.add(new ReadmeMD());
