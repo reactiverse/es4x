@@ -164,5 +164,6 @@
       return path;
     }
   };
-
+  // Add globalThis support
+  global.globalThis = global
 })(this, verticle);

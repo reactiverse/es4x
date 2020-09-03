@@ -144,6 +144,7 @@ public final class Runtime extends EventEmitterImpl {
     final Source source = Source
       .newBuilder("js", script, name)
       .interactive(interactive)
+      //TODO: if contentType === "application" should look if code contains "import " with space if yes it is application/javascript+module
       .mimeType(contentType)
       .buildLiteral();
 
@@ -201,6 +202,7 @@ public final class Runtime extends EventEmitterImpl {
     context.leave();
   }
 
+  //TODO: needs switch to choose if string is esm or cjs
   /**
    * Evals a given sript string.
    *
@@ -221,9 +223,13 @@ public final class Runtime extends EventEmitterImpl {
    * @return returns the evaluation result.
    */
   public Value eval(String script, String name, boolean literal) {
+    if (name.endsWith(".cjs")) {
+      return eval(script, name, "application/javascript", literal);
+    }
     if (name.endsWith(".mjs")) {
       return eval(script, name, "application/javascript+module", literal);
     } else {
+      //TODO: This should call with "application" and eval should look if code contains "import " with space if yes it is .mjs
       return eval(script, name, "application/javascript", literal);
     }
   }
