@@ -10,10 +10,51 @@ import static org.junit.Assert.*;
 public class ESModuleAdapterTest {
 
   @Test
+  public void shouldAdaptImportDefault() {
+    assertEquals(
+      "const myModule = require('/modules/my-module.js').default;",
+      ESModuleIO.adapt("import myModule from '/modules/my-module.js'"));
+  }
+
+  @Test
+  public void shouldAdaptImportDefaultAndAlias() {
+    assertEquals(
+      "const def = require('/modules/my-module.js').default;const fn = require('/modules/my-module.js').fn;const shortName = require('/modules/my-module.js').fullName;",
+      ESModuleIO.adapt("import def, { fn, fullName as shortName } from '/modules/my-module.js'"));
+  }
+
+  @Test
+  public void shouldAdaptExport() {
+    assertEquals(
+      "const hello = (name) => `Hello ${name}`;\n"+
+      "module.exports.hello = hello;module.exports.h = hello;",
+      ESModuleIO.adapt(
+        "const hello = (name) => `Hello ${name}`;\n"+
+        "export { hello, hello as h }"));
+  }
+
+  @Test
+  public void shouldAdaptExportDefaultVariable() {
+    assertEquals(
+      "const hello = (name) => `Hello ${name}`;\n"+
+      "module.exports.default = hello;",
+      ESModuleIO.adapt(
+        "const hello = (name) => `Hello ${name}`;\n"+
+          "export default hello;"));
+  }
+
+  @Test
+  public void shouldAdaptExportDefaultFunctionDeclaration() {
+    assertEquals(
+      "module.exports.default = (name) => `Hello ${name}`;",
+      ESModuleIO.adapt("export default (name) => `Hello ${name}`;"));
+  }
+
+  @Test
   public void shouldAdaptWildcard() {
     assertEquals(
       "const myModule = require('/modules/my-module.js');",
-      ESModuleIO.adapt("import * as myModule from '/modules/my-module.js'"));
+      ESModuleIO.adapt("import * as myModule from '/modules/my-module.js';"));
   }
 
   @Test
