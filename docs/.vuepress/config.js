@@ -166,12 +166,12 @@ module.exports = {
               collapsable: false,
               children: [
                 '',
-                'commonjs',
-                'esm',
-                'vertx',
-                'globals',
-                'worker',
-                'graphql'
+                // 'commonjs',
+                // 'esm',
+                // 'vertx',
+                // 'globals',
+                // 'worker',
+                // 'graphql'
               ]
             }
           ],
@@ -240,9 +240,9 @@ module.exports = {
                     collapsable: false,
                     children: [
                       '',
-                      'commonjs',
-                      'esm',
-                      'vertx',
+                      // 'commonjs',
+                      // 'esm',
+                      // 'vertx',
                       'globals',
                       'worker',
                       'graphql'

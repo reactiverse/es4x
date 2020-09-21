@@ -1,5 +1,9 @@
 # API Reference
 
+All generated APIs relate to the core vert.x APIs, so for better understanding one should read the vert.x
+[manuals](https://vertx.io/docs) and adapt the manual imports/examples as explained in
+[vert.x interop](../advanced/vertx#generated-apis).
+
 ## Vertx
 
 The Vert.x core APIs contain the backbone for writing Vert.x applications and low-level support for HTTP, TCP, UDP,
