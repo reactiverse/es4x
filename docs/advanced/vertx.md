@@ -3,6 +3,54 @@
 As it should be clear at this point, Vert.x is the IO and default programming model used by ES4X. There are however some
 nice improvements to the standard [Vert.x APIs](https://vertx.io).
 
+## Generated APIs
+
+All APIs published to `npm` under the namespaces `@vertx` and `@reactiverse` are code generated. Code generation is an
+helper that allows these APIs to be used by `JavaScript` users in a format that feels familiar without compromising the
+application performance.
+
+Interacting with the JVM all happens over the `Java` object. The most important bit is to pull a JVM class to JS:
+
+```js
+// Import the java.lang.Math class to be usable
+// as a JS type in the script
+const Math = Java.type('javalang.Math');
+```
+
+Now one could just do this for all APIs but there are several limitations that ES4X tries to address:
+
+* **Error Prone** - One needs to know the exact Java APIs and Types in order to use them from JavaScript.
+* **No way to define dependencies** - If you need to use APIs from different modules, importing class by class cannot define dependencies between them.
+* **No IDE support** - The developer will need to know the API before using it and the IDE will not assist.
+
+ES4X generator solves this by creating a `npm` module for each `vertx` module and type defintions for each class.
+
+Each module will have the following files:
+
+* `package.json` - Defines dependencies between modules
+* `index.js` - commonjs API interfaces
+* `index.mjs` - ESM API interfaces
+* `index.d.ts` - Full type definitions for the API interfaces
+* `enum.js` - commonjs API enumerations
+* `enum.mjs` - ESM API enumerations
+* `enum.d.ts` - Full type definitions for the API enumerations
+* `options.js` - commonjs API data objects.
+* `options.mjs` - ESM API data objects.
+* `options.d.ts` - Full type definitions for the API data objects
+
+All the `index` files will simplify importing of JVM classes by replacing, for example:
+
+```js
+// without ES4X
+const Router = Java.type('io.vertx.ext.web.Router');
+// with
+import { Router } from '@vertx/web';
+```
+
+This small change will make IDEs assist with development and package managers to download dependencies as needed.
+Finally all the `.d.ts` files will hint IDEs about types and give code completion support.
+
+
 ## Promise/Future
 
 Vert.x has 2 types:

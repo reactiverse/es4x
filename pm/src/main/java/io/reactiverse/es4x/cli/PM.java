@@ -21,7 +21,10 @@ public class PM {
     System.err.println();
     System.err.println("Current VM:");
     System.out.println("Name:   " + System.getProperty("java.vm.name") + " - " + System.getProperty("java.version"));
-    System.out.println("Vendor: " + System.getProperty("java.vendor.version", "-"));
+    String vendor = System.getProperty("java.vendor.version");
+    if (vendor != null && vendor.length() > 0) {
+      System.out.println("Vendor: " + vendor);
+    }
     System.err.println();
     System.err.println("Run 'es4x COMMAND --help' for more information on a command.");
   }
@@ -63,6 +66,7 @@ public class PM {
     System.arraycopy(args, 1, cmdArgs, 0, cmdArgs.length);
 
     switch (command) {
+      case "app":
       case Project.NAME:
         verifyRuntime(true);
         new Project(cmdArgs).run();
