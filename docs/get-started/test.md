@@ -4,10 +4,10 @@ In order to test code a test framework should be added to the project, since ver
 [vert.x unit](https://github.com/vert-x3/vertx-unit), we can add it easily with:
 
 ```bash
-yarn add -D @vertx/unit # OR npm install @vertx/unit --save-dev
+npm install @vertx/unit --save-dev # OR yarn add -D @vertx/unit
 
 # ensure es4x fetches the non npm dependencies
-yarn # OR npm install
+npm install # OR yarn
 ```
 
 ## Writing test
@@ -41,7 +41,7 @@ suite.run();
 This command replaces the default `npm` operation by running the application on the JVM runtime.
 
 ```bash
-Running: java ... 
+Running: java ...
 Begin test suite the_test_suite
 Begin test my_test_case
 Passed my_test_case
@@ -55,7 +55,7 @@ In order to run tests using `npm`/`yarn` the `test` script must be present in th
 {
    ...
   "scripts" : {
-    "test" : "es4x-launcher test index.test.js",
+    "test" : "es4x test index.test.js",
     ...
 }
 ```

@@ -23,7 +23,7 @@ import io.vertx.core.spi.launcher.DefaultCommand;
 import java.io.*;
 import java.nio.file.Files;
 
-import static io.reactiverse.es4x.commands.Helper.fatal;
+import static io.reactiverse.es4x.cli.Helper.fatal;
 
 @Name("dockerfile")
 @Summary("Creates a generic Dockerfile for building and deploying the current project.")

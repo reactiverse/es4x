@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.13.1] - 2020-09-22
+- Upgraded vert.x to 3.9.3
+- PM will warn about misalign Graal version
+- New docs explaining the details of ES4X
+- `es4x-pm` npm renamed to `@vertx/create`
+
 ## [0.13.0] - 2020-07-27
 - Upgraded vert.x to 3.9.2
 - shutdown hook can be async now

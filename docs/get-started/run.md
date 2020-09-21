@@ -4,7 +4,7 @@ ES4X application should create a `es4x-launcher` during the install phase of `np
 running:
 
 ```bash
-yarn # OR npm install
+npm install # OR yarn
 ```
 
 ::: tip
@@ -14,7 +14,7 @@ The launcher should be created in `node_modules/.bin/es4x-lancher.*`.
 Running the application is now as simple as::
 
 ```bash
-yarn start # OR npm start
+npm start # OR yarn start
 ```
 
 This command replaces the default `npm` operation by running the application on the JVM runtime and using the *Hello
@@ -72,4 +72,4 @@ Same as with the number of verticles, an ES4X application can be clustered as si
 ./node_modules/.bin/es4x-launcher -cluster
 ```
 
-To know more about clustering please read the official vert.x documentation.
+To know more about clustering please read the official [vert.x](https://www.vertx.io) documentation.

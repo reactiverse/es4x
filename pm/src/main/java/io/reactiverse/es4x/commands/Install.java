@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.jar.*;
 
-import static io.reactiverse.es4x.commands.Helper.*;
+import static io.reactiverse.es4x.cli.Helper.*;
 
 public class Install implements Runnable {
 

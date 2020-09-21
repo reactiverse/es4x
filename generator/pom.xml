@@ -6,13 +6,13 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.13.0</version>
+    <version>0.13.1</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>io.reactiverse.es4x</groupId>
   <artifactId>es4x-generator</artifactId>
-  <version>0.13.0</version>
+  <version>0.13.1</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -328,7 +328,7 @@
               <includeArtifactIds>${project.artifactId}</includeArtifactIds>
               <includeTypes>jar</includeTypes>
               <includeClassifiers>sources</includeClassifiers>
-              <includes>**/*.java,**/*.adoc</includes>
+              <includes>**/*.java</includes>
               <excludes>
                 **/groovy/**/*.*,**/rxjava/**/*.*,**/reactivex/**/*.*
               </excludes>
@@ -358,12 +358,9 @@
             <configuration>
               <processors>
                 <processor>io.vertx.codegen.CodeGenProcessor</processor>
-                <processor>io.vertx.docgen.DocGenProcessor</processor>
               </processors>
               <optionMap>
                 <codegen.output>${project.build.directory}</codegen.output>
-                <docgen.source>${project.build.directory}/sources/${project.artifactId}/*.adoc</docgen.source>
-                <docgen.output>${project.build.directory}/manual</docgen.output>
               </optionMap>
               <sourceDirectory>${project.build.directory}/sources/${project.artifactId}</sourceDirectory>
             </configuration>
@@ -486,20 +483,6 @@
               <goal>exec</goal>
             </goals>
           </execution>
-          <execution>
-            <id>adoc2md</id>
-            <configuration>
-              <executable>adoc2md.sh</executable>
-              <arguments>
-                <argument>${project.build.directory}/manual</argument>
-                <argument>${project.basedir}/../../../docs/manual/${npm-name}</argument>
-              </arguments>
-              <workingDirectory>${project.build.directory}</workingDirectory>
-            </configuration>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -518,22 +501,6 @@
                 <resource>
                   <filtering>true</filtering>
                   <directory>${project.basedir}/extra</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy-asciidoc-override</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/manual/override</outputDirectory>
-              <resources>
-                <resource>
-                  <filtering>true</filtering>
-                  <directory>${project.build.directory}/sources/${project.artifactId}/override</directory>
                 </resource>
               </resources>
             </configuration>

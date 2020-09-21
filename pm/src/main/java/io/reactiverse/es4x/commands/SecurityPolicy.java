@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-import static io.reactiverse.es4x.commands.Helper.fatal;
-import static io.reactiverse.es4x.commands.Helper.warn;
+import static io.reactiverse.es4x.cli.Helper.fatal;
+import static io.reactiverse.es4x.cli.Helper.warn;
 
 public class SecurityPolicy implements Runnable {
 
   public static final String NAME = "security-policy";
-  public static final String SUMMARY = "Initializes a secure by default VM 'security.policy' to work with ES4X.";
+  public static final String SUMMARY = "Initializes a secure by default VM 'security.policy'.";
 
   private File cwd;
 

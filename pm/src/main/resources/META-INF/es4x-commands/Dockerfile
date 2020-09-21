@@ -7,8 +7,6 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
-# If you are not building your code for production
-# remove the final argument
 # npm is run with unsafe permissions because the default docker user is root
 RUN npm --unsafe-perm update
 

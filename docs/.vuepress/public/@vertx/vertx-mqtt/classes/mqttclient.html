@@ -95,7 +95,9 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttclient.html#ping" class="tsd-kind-icon">ping</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttclient.html#pingresponsehandler" class="tsd-kind-icon">ping<wbr>Response<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttclient.html#publish" class="tsd-kind-icon">publish</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttclient.html#publishcompletionexpirationhandler" class="tsd-kind-icon">publish<wbr>Completion<wbr>Expiration<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttclient.html#publishcompletionhandler" class="tsd-kind-icon">publish<wbr>Completion<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttclient.html#publishcompletionunknownpacketidhandler" class="tsd-kind-icon">publish<wbr>Completion<wbr>Unknown<wbr>Packet<wbr>IdHandler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttclient.html#publishhandler" class="tsd-kind-icon">publish<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttclient.html#subscribe" class="tsd-kind-icon">subscribe</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mqttclient.html#subscribecompletionhandler" class="tsd-kind-icon">subscribe<wbr>Completion<wbr>Handler</a></li>
@@ -119,7 +121,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:143</li>
+									<li>Defined in index.d.ts:171</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -136,7 +138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:133</li>
+									<li>Defined in index.d.ts:161</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -269,7 +271,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:128</li>
+									<li>Defined in index.d.ts:156</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -299,7 +301,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:147</li>
+									<li>Defined in index.d.ts:175</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -316,7 +318,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:139</li>
+									<li>Defined in index.d.ts:167</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -339,7 +341,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:120</li>
+									<li>Defined in index.d.ts:148</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -433,6 +435,44 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="publishcompletionexpirationhandler" class="tsd-anchor"></a>
+					<h3>publish<wbr>Completion<wbr>Expiration<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">publish<wbr>Completion<wbr>Expiration<wbr>Handler<span class="tsd-signature-symbol">(</span>publishCompletionExpirationHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttclient.html" class="tsd-signature-type">MqttClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:92</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets a handler which will be called when the client does not receive a PUBACK or
+									PUBREC/PUBCOMP for a message published using QoS 1 or 2 respectively.</p>
+									<p>
+										The time to wait for an acknowledgement message can be configured using
+										<a href="../../dataobjects.html#MqttClientOptions">MqttClientOptions</a>.
+										If the client receives a PUBACK/PUBREC/PUBCOMP for a message after its completion
+										has expired, the handler registered using {@link MqttClient#publishCompletionUnknownPacketIdHandler}
+										will be invoked.
+										<p>
+											Note that this behavior is outside the scope of the MQTT 3.1.1 specification. The client's default
+											behavior is therefore to wait forever for the server's corresponding acknowledgement.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>publishCompletionExpirationHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mqttclient.html" class="tsd-signature-type">MqttClient</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="publishcompletionhandler" class="tsd-anchor"></a>
 					<h3>publish<wbr>Completion<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -442,18 +482,54 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:70</li>
+									<li>Defined in index.d.ts:77</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets handler which will be called each time publish is completed</p>
+									<p>Sets a handler which will be called each time the publishing of a message has been completed.</p>
+									<p>
+										For a message that has been published using
+										<ul>
+											<li>QoS 0 this means that the client has successfully sent the corresponding PUBLISH packet,</li>
+											<li>QoS 1 this means that a corresponding PUBACK has been received from the server,</li>
+											<li>QoS 2 this means that a corresponding PUBCOMP has been received from the server.</li>
+										</ul>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>publishCompletionHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mqttclient.html" class="tsd-signature-type">MqttClient</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="publishcompletionunknownpacketidhandler" class="tsd-anchor"></a>
+					<h3>publish<wbr>Completion<wbr>Unknown<wbr>Packet<wbr>IdHandler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">publish<wbr>Completion<wbr>Unknown<wbr>Packet<wbr>IdHandler<span class="tsd-signature-symbol">(</span>publishCompletionPhantomHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mqttclient.html" class="tsd-signature-type">MqttClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in index.d.ts:98</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets a handler which will be called when the client receives a PUBACK/PUBREC/PUBCOMP with an unknown
+									packet ID.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>publishCompletionPhantomHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mqttclient.html" class="tsd-signature-type">MqttClient</a></h4>
@@ -470,7 +546,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:75</li>
+									<li>Defined in index.d.ts:103</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -501,7 +577,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:85</li>
+									<li>Defined in index.d.ts:113</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -523,7 +599,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:90</li>
+									<li>Defined in index.d.ts:118</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -548,7 +624,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:95</li>
+									<li>Defined in index.d.ts:123</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -572,7 +648,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:100</li>
+									<li>Defined in index.d.ts:128</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -608,7 +684,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:80</li>
+									<li>Defined in index.d.ts:108</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -637,7 +713,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:110</li>
+									<li>Defined in index.d.ts:138</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -656,7 +732,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:115</li>
+									<li>Defined in index.d.ts:143</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -687,7 +763,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:105</li>
+									<li>Defined in index.d.ts:133</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -804,7 +880,13 @@
 								<a href="mqttclient.html#publish" class="tsd-kind-icon">publish</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="mqttclient.html#publishcompletionexpirationhandler" class="tsd-kind-icon">publish<wbr>Completion<wbr>Expiration<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="mqttclient.html#publishcompletionhandler" class="tsd-kind-icon">publish<wbr>Completion<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="mqttclient.html#publishcompletionunknownpacketidhandler" class="tsd-kind-icon">publish<wbr>Completion<wbr>Unknown<wbr>Packet<wbr>IdHandler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="mqttclient.html#publishhandler" class="tsd-kind-icon">publish<wbr>Handler</a>

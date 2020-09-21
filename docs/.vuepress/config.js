@@ -59,10 +59,6 @@ module.exports = {
             link: '/advanced/'
           },
           {
-            text: 'Manual',
-            link: '/manual/'
-          },
-          {
             text: 'APIs',
             link: '/api/'
           },
@@ -96,18 +92,12 @@ module.exports = {
               collapsable: false,
               children: [
                 '',
-                'async-errors',
+                'commonjs',
+                'esm',
+                'vertx',
+                'globals',
                 'worker',
                 'graphql'
-              ]
-            }
-          ],
-          '/manual/': [
-            {
-              title: 'Manuals',
-              collapsable: false,
-              children: [
-                ''
               ]
             }
           ],
@@ -143,10 +133,6 @@ module.exports = {
             link: '/advanced/'
           },
           {
-            text: 'Manuais',
-            link: '/manual/'
-          },
-          {
             text: 'APIs',
             link: '/api/'
           },
@@ -180,18 +166,12 @@ module.exports = {
               collapsable: false,
               children: [
                 '',
-                'async-errors',
-                'worker',
-                'graphql'
-              ]
-            }
-          ],
-          '/manual/': [
-            {
-              title: 'Manuals',
-              collapsable: false,
-              children: [
-                ''
+                // 'commonjs',
+                // 'esm',
+                // 'vertx',
+                // 'globals',
+                // 'worker',
+                // 'graphql'
               ]
             }
           ],
@@ -227,10 +207,6 @@ module.exports = {
                   link: '/zh/advanced/'
                 },
                 {
-                  text: 'Manual',
-                  link: '/manual/'
-                },
-                {
                   text: 'API参考',
                   link: '/api/'
                 },
@@ -264,18 +240,12 @@ module.exports = {
                     collapsable: false,
                     children: [
                       '',
-                      'async-errors',
+                      // 'commonjs',
+                      // 'esm',
+                      // 'vertx',
+                      'globals',
                       'worker',
                       'graphql'
-                    ]
-                  }
-                ],
-                '/manual/': [
-                  {
-                    title: 'Manuals',
-                    collapsable: false,
-                    children: [
-                      ''
                     ]
                   }
                 ],

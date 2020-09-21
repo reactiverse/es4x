@@ -12,7 +12,7 @@ async function futureTest2 () {
 
 futureTest2()
   .then(function (result) {
-    should.fail('Expected to fail with nagative port');
+    should.fail('Expected to fail with negative port');
   })
   .catch(function (err) {
     test.complete();

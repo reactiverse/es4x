@@ -67,6 +67,7 @@ public class ReadmeMD extends Generator<Model> {
 
     writer.printf("![npm (scoped)](https://img.shields.io/npm/v/%s.svg)\n", getNPMScope(model.getModule()));
     writer.printf("![npm](https://img.shields.io/npm/l/%s.svg)\n", getNPMScope(model.getModule()));
+    writer.printf("![Security Status](https://snyk-widget.herokuapp.com/badge/npm/%s.svg)\n", getNPMScope(model.getModule()));
     writer.print("\n");
     writer.print("Generated JavaScript bindings for Eclipse Vert.x.\n");
     writer.print("\n");

@@ -1,18 +1,28 @@
 # Install
 
 Assuming you’ve already installed [Node.js](https://nodejs.org/) and ([Java](https://adoptopenjdk.net/) or
-[GraalVM](http://www.graalvm.org/)), install the project management utilities development tool.
+[GraalVM](http://www.graalvm.org/)), optionally install the project management utilities development tool.
 
 ## Using NPM
 
 ```bash
-yarn global add es4x-pm # OR npm install -g es4x-pm
+npm install -g @es4x/create # OR yarn global add @es4x/create
 ```
 
-::: tip
-Using `npm` should be the preferred way to install as it allows easy upgrades and should be portable across different
-*Operating Systems*. 
-:::
+The package will install a `es4x` command globally that can be used to create projects and perform other tasks. To know
+more about the tool:
+
+```bash
+es4x --help
+```
+
+### Using NPX
+
+The same package can be used as a one-shot operation with `npx`. In this case refer to it as:
+
+```bash
+npx @es4x/create --help
+```
 
 ## OS package
 
@@ -27,6 +37,11 @@ ES4X='0.9.0' \
 ```
 
 For Windows Operating Systems the same can be done using a `zip` file instead.
+
+::: tip
+Using `npm` should be the preferred way to install as it allows easy upgrades and should be portable across different
+*Operating Systems*.
+:::
 
 
 ## Verify the installation
@@ -43,7 +58,7 @@ Commands:
     bare         Creates a bare instance of vert.x.
     dockerfile   Creates a generic Dockerfile for building and deploying the
                  current project.
-    init         Initializes the 'package.json' to work with ES4X.
+    project      Initializes the 'package.json' to work with ES4X.
     install      Installs required jars from maven to 'node_modules'.
     list         List vert.x applications
     run          Runs a JS script called <main-verticle> in its own instance of

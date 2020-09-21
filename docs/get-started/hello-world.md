@@ -19,7 +19,7 @@ $ es4x hello-es4x.js
 
 ::: tip
 In UNIX systems, scripts can be made executable and the shebang `#!/usr/bin/env es4x` used which will make them
-auto-runnable.
+auto-runnable. Note however that the dependencies should be already present in the current working directory.
 :::
 
 And in a second terminal:
@@ -46,21 +46,25 @@ mkdir myapp
 cd myapp
 
 # create the project
-es4x init
+es4x project
 ```
 
 A project is a `package.json` file with a few items already pre configured:
 
-```json{7-9,12}
+```json{7-9,11-17}
 {
   "version" : "1.0.0",
   "description" : "This is a ES4X empty project.",
   "name" : "myapp",
   "main" : "index.js",
   "scripts" : {
-    "test" : "es4x-launcher test index.test.js",
+    "test" : "es4x test index.test.js",
     "postinstall" : "es4x install",
-    "start" : "es4x-launcher"
+    "start" : "es4x"
+  },
+  "dependencies": {
+    "@vertx/create": "latest",
+    "@vertx/unit": "latest"
   },
   "dependencies": {
     "@vertx/core": "latest"
@@ -71,18 +75,23 @@ A project is a `package.json` file with a few items already pre configured:
 }
 ```
 
+::: tip
+For `TypeScript` projects, run the project create tool with: `es4x --ts`
+:::
+
 The `post-install` hook will delegate to es4x to resolve all `maven` maven dependencies and create the `es4x-launcher`
 script.
 
 ::: tip
-The `es4x-launcher` script will ensure that the application is run or tested using es4x and not `nodejs`.
+The `es4x-launcher` script will ensure that the application runs using es4x and not `nodejs`. This script can be used
+in production, where you can avoid `@vertx/create` package.
 :::
 
 ### create-vertx-app
 
-With the `create-vertx-app` you can quickly bootstrap your ES4X TypeScript or JavaScript
-application with a new keystrokes. If GUI is the preferred way to create applications, then
-the same generator can be used as a [PWA](https://vertx-starter.jetdrone.xyz/#npm).
+With the `create-vertx-app` you can quickly bootstrap your ES4X TypeScript or JavaScript application with a few
+keystrokes. If GUI is the preferred way to create applications, then the same generator can be used as a
+ [PWA](https://vertx-starter.jetdrone.xyz/#npm).
 
 <asciinema :src="$withBase('/cast/es4x-ts.cast')" cols="80" rows="24" />
 
@@ -92,11 +101,10 @@ Adding dependencies is not different from what `JavaScript` developers are used 
 
 ```bash
 # add other dependencies...
-yarn add -D @vertx/unit # OR npm install @vertx/unit --save-dev
-yarn add @vertx/web # OR npm install @vertx/web --save-prod
+npm install @vertx/unit --save-dev # OR yarn add -D @vertx/unit
+npm install @vertx/web --save-prod # OR yarn add @vertx/web
 
-# will trigger the download
-# of the java dependencies
+# will trigger the download of the npm + java dependencies
 npm install
 ```
 
@@ -119,7 +127,7 @@ script should be:
 
 The hello application `index.js` should be like:
 
-```js{3}
+```js{1-2}
 /// <reference types="es4x" />
 // @ts-check
 import { Router } from '@vertx/web';
@@ -134,7 +142,7 @@ app.route('/').handler(ctx => {
 vertx.createHttpServer()
   .requestHandler(app)
   .listen(8080);
-  
+
 console.log('Server listening at: http://localhost:8080/')
 ```
 
