@@ -25,3 +25,7 @@ java -jar es4x-launcher.jar run "js:>"
 ```
 
 A bootstrapped shell will be available to run your code with all the components available in your classpath.
+
+::: warning
+The REPL will not be able to use `MJS` modules references as those are computed at initialization time.
+:::

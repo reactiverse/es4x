@@ -1,22 +1,29 @@
 # GraalVM
 
-ES4X uses GraalVM, however the same code will run either in **interpreted** mode on Java 8, 9, 10 and OpenJ9 or
-**compiled** mode on JDK >= 11 (with JVMCI support) or GraalVM.
+ES4X uses GraalVM, however the same code will run either in **interpreted** mode on Java 8, 9, 10 and OpenJ9.
+
+For JDK >= 11 (with JVMCI support) or GraalVM ES4X runs in **compiled** mode.
+
+::: tip
+In order words, please use Java >= 11 or GraalVM.
+:::
 
 There are benefits on using GraalJS namely the updated language support >=ES6 and support out of the box for generators,
 promises, etc....
 
-Java interop follows the **exact** class/method name from Java. For example, the usage of property names to refer to
-getters and setters, must use the *getter* and *setter*. For example:
+## Differences to Nashorn
+
+Unlike `Nashorn`, `GraalJS` *java* interop follows the **exact** class/method name from Java. For example, the usage of
+property names to refer to getters and setters, must use the *getter* and *setter*. For example:
 
 ```java
 class Hello {
   private String name;
-  
+
   public String getName() {
     return name;
   }
-  
+
   public void setName(String name) {
     this.name = name;
   }
@@ -43,8 +50,16 @@ var name = hello.getName();
 hello.setName('Paulo');
 ```
 
+## Threading
+
+GraalJS is very strict with only a single thread on the JS context at a time. When working with only Asynchronous Vert.x
+APIs this shall not be an issue. However other libraries can cause problems. To avoid this limitation, it is advised to
+use the `Worker` API or the `EventBus`.
+
+::: warning
 GraalJS will not allow multi thread access to the same script context. If there is a need to work with multiple
 threads, then consider looking at the [Worker API](./worker).
+:::
 
 ## Native Images
 

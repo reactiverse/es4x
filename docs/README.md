@@ -24,24 +24,14 @@ footer: MIT Licensed | Copyright © 2018-present Paulo Lopes
 ### As Easy as 1, 2, 3
 
 ``` bash
-# install
-yarn global add es4x-pm # OR npm install -g es4x-pm
+# (1) create
+npm init @es4x project
 
-# create a project file
-es4x init
+# (2) install dependencies
+npm install # OR yarn
 
-# create a hello world
-cat << EOF
-vertx.createHttpServer()
-  .requestHandler(req => req.response().end('Hello ES4X world!'))
-  .listen(8080);
-EOF > index.js
-
-# install dependencies (npm and maven)
-yarn # OR npm install
-
-# run it
-yarn start # OR npm start
+# (3) run
+npm start # OR yarn start
 ```
 
 ::: warning COMPATIBILITY NOTE

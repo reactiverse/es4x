@@ -93,7 +93,7 @@ environment:
 If you have `GraalVM` and `Maven` installed you might skip the installation of `Node.js`
 and `NPM` although the `node` binary included with `GraalVM` is known to have some
 performance issues with some of `npm` packages such as `TypeScript Compiler`.
- 
+
 ### Modules
 
 This projects is composed of several main modules/components:

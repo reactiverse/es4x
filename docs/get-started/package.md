@@ -10,7 +10,7 @@ npm pack
 location. However applications can also be [published](https://docs.npmjs.com/cli/publish) to a NPM registry.
 
 It is important to notice that in order to work with `published/packed` the target environment needs to have access to
-the package [es4x-pm](https://www.npmjs.com/package/es4x-pm) as it will be required to install the `java` bits.
+the package [@es4x/create](https://www.npmjs.com/package/@es4x/create) as it will be required to install the `java` bits.
 
 
 ## Docker
@@ -48,7 +48,7 @@ This will produce a **optimized** runtime, which means it can be used instead of
 As comparision, a hello world application will produce a runtime weighting about **80Mb**, while a full JDK installation
 requires around **200Mb**.
 
-This feature can be using in colaboration with `Dockerfile`. Instead of using the graal base image, use the `OpenJDK`
+This feature can be using in collaboration with `Dockerfile`. Instead of using the graal base image, use the `OpenJDK`
 base image. Then on the second stage, run jlink:
 
 ```dockerfile
@@ -87,4 +87,4 @@ ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
 ENTRYPOINT [ "./node_modules/.bin/es4x-launcher" ]
 ```
 
-This will produce a small final image but a larger layer as you're packaging the optimized runtime too.
+This will produce a small final image, but a larger layer as you're packaging the optimized runtime too.

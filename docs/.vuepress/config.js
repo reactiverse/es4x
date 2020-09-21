@@ -59,10 +59,6 @@ module.exports = {
             link: '/advanced/'
           },
           {
-            text: 'Quick Guides',
-            link: '/quick-guide/'
-          },
-          {
             text: 'APIs',
             link: '/api/'
           },
@@ -96,21 +92,12 @@ module.exports = {
               collapsable: false,
               children: [
                 '',
-                'async-errors',
+                'commonjs',
+                'esm',
+                'vertx',
+                'globals',
                 'worker',
                 'graphql'
-              ]
-            }
-          ],
-          '/quick-guide/': [
-            {
-              title: 'Quick Guides',
-              collapsable: false,
-              children: [
-                '',
-                'core/',
-                'redis/',
-                'unit/',
               ]
             }
           ],
@@ -146,10 +133,6 @@ module.exports = {
             link: '/advanced/'
           },
           {
-            text: 'Guias Rápidos',
-            link: '/quick-guide/'
-          },
-          {
             text: 'APIs',
             link: '/api/'
           },
@@ -183,21 +166,12 @@ module.exports = {
               collapsable: false,
               children: [
                 '',
-                'async-errors',
+                'commonjs',
+                'esm',
+                'vertx',
+                'globals',
                 'worker',
                 'graphql'
-              ]
-            }
-          ],
-          '/quick-guide/': [
-            {
-              title: 'Guias Rápidos',
-              collapsable: false,
-              children: [
-                '',
-                'core/',
-                'redis/',
-                'unit/',
               ]
             }
           ],
@@ -233,10 +207,6 @@ module.exports = {
                   link: '/zh/advanced/'
                 },
                 {
-                  text: 'Quick Guides',
-                  link: '/quick-guide/'
-                },
-                {
                   text: 'API参考',
                   link: '/api/'
                 },
@@ -270,21 +240,12 @@ module.exports = {
                     collapsable: false,
                     children: [
                       '',
-                      'async-errors',
+                      'commonjs',
+                      'esm',
+                      'vertx',
+                      'globals',
                       'worker',
                       'graphql'
-                    ]
-                  }
-                ],
-                '/quick-guide/': [
-                  {
-                    title: 'Quick Guides',
-                    collapsable: false,
-                    children: [
-                      '',
-                      'core/',
-                      'redis/',
-                      'unit/',
                     ]
                   }
                 ],
