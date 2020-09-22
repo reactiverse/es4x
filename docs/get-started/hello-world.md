@@ -76,7 +76,7 @@ A project is a `package.json` file with a few items already pre configured:
 ```
 
 ::: tip
-For `TypeScript` projects, run the project create tool with: `es4x --ts`
+For `TypeScript` projects, run the project create tool with: `es4x project --ts`
 :::
 
 The `post-install` hook will delegate to es4x to resolve all `maven` maven dependencies and create the `es4x-launcher`
