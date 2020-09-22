@@ -1,4 +1,3 @@
-var asyncError = require('async-error');
 var fs = vertx.fileSystem();
 
 function one() {
@@ -8,10 +7,10 @@ function one() {
       // the trace should contain 3 frames from JS code that were
       // stitched to the original exception
       var trace = err.getStackTrace();
-      should.assertTrue(trace.length > 3);
+      should.assertTrue(trace.length > 6);
       should.assertNotEquals(-1, trace[0].getFileName().indexOf('stacktraces/index.js'));
-      should.assertNotEquals(-1, trace[1].getFileName().indexOf('stacktraces/index.js'));
       should.assertNotEquals(-1, trace[2].getFileName().indexOf('stacktraces/index.js'));
+      should.assertNotEquals(-1, trace[4].getFileName().indexOf('stacktraces/index.js'));
       console.trace(err);
       test.complete();
       return;
@@ -27,7 +26,7 @@ function two(callback) {
     three(function (err) {
       if (err) {
         setTimeout(function () {
-          callback(asyncError(err));
+          callback(Error.asyncTrace(err));
         }, 0);
         return;
       }
@@ -43,7 +42,7 @@ function three(callback) {
     four(function (err) {
       if (err) {
         setTimeout(function () {
-          callback(asyncError(err));
+          callback(Error.asyncTrace(err));
         }, 0);
         return;
       }
@@ -58,7 +57,7 @@ function four(callback) {
   setTimeout(function () {
     fs.readFile("durpa/durp.txt", function (ar) {
       if (ar.failed()) {
-        callback(asyncError(ar));
+        callback(Error.asyncTrace(ar));
       }
     });
   }, 0);

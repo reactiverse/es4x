@@ -49,18 +49,6 @@
       writable: false
     });
 
-    this.producer.exceptionHandler(function (error) {
-      if (self.onerror) {
-        if (self.context) {
-          self.context.runOnContext(function () {
-            self.onerror(error);
-          });
-        } else {
-          self.onerror(error);
-        }
-      }
-    });
-
     // the interface contract defines 2 callbacks, "onmessage" to receive message, "onerror" for error handling.
 
     // keep a reference to the context
@@ -79,18 +67,18 @@
         // create a new consumer
         self.consumer = eventBus[remote ? 'consumer' : 'localConsumer'](deploymentId + '.in', function (aMessage) {
           if (self.context) {
-            self.context.runOnContext(function () {
-              value(JSON.parse(aMessage.body()));
+            self.context.runOnContext(function onmessage() {
+              value(aMessage.body());
             });
           } else {
-            value(JSON.parse(aMessage.body()));
+            value(aMessage.body());
           }
         });
         // attach any errors to the error handler
         self.consumer.exceptionHandler(function (error) {
           if (self.onerror) {
             if (self.context) {
-              self.context.runOnContext(function () {
+              self.context.runOnContext(function onerror() {
                 self.onerror(error);
               });
             } else {
@@ -108,13 +96,27 @@
   /**
    * The postMessage() method of the Worker interface sends a message to the worker's inner scope.
    * This accepts a single parameter, which is the data to send to the worker. The data may be any
-   * value or JavaScript object handled by the JSON stringify algorithm.
+   * value or JavaScript object handled by the JSON EventBus Codec.
    *
    * @param {Object} aMessage - The object to deliver to the worker.
    * @return {void} void
    */
   Worker.prototype.postMessage = function (aMessage) {
-    this.producer.send(JSON.stringify(aMessage));
+    this.producer.write(aMessage, function postMessage(write) {
+      if (write.failed()) {
+        let error = write.cause();
+
+        if (self.onerror) {
+          if (self.context) {
+            self.context.runOnContext(function onerror() {
+              self.onerror(error);
+            });
+          } else {
+            self.onerror(error);
+          }
+        }
+      }
+    });
   };
 
   /**
@@ -150,7 +152,7 @@
       // workers **must** be deployed as worker
       new DeploymentOptions().setWorker(true),
       // handler
-      function (deployVerticle) {
+      function create(deployVerticle) {
         if (deployVerticle.failed()) {
           // with JS we don't need to match types, so no need to re wrap the failure
           return handler(deployVerticle);

@@ -188,20 +188,6 @@ public final class Runtime extends EventEmitterImpl {
   }
 
   /**
-   * explicitly enter the script engine scope.
-   */
-  public void enter() {
-    context.enter();
-  }
-
-  /**
-   * explicitly leave the script engine scope.
-   */
-  public void leave() {
-    context.leave();
-  }
-
-  /**
    * Evals a given sript string.
    *
    * @param script string containing code.

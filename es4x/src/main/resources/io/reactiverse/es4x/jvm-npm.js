@@ -47,7 +47,7 @@
     }.bind(this);
   }
 
-  Module._load = function _load(uri, parent, main, workerAddress) {
+  Module._load = function _load(uri, parent, main) {
     const module = new Module(uri, parent);
     const body = io.readFile(uri, !!main);
     const dir = io.getParent(uri);
@@ -63,42 +63,17 @@
         break;
     }
 
-    if (workerAddress) {
+    // wrap the module with a eval statement instead of Function object so we
+    // can preserve the correct line numbering during exceptions
+    const func = load({
+      script: '(function (exports, require, module, __filename, __dirname) { ' + body + '\n});',
+      name: sourceURL
+    });
 
-      let workerContext = {
-        postMessage: function (msg) {
-          // this implementation is not totally correct as it should be
-          // a shallow copy not a full encode/decode of JSON payload, however
-          // this works better in vert.x as we can be interacting with any
-          // polyglot language or across the cluster
-          vertx.eventBus().send(workerAddress + '.in', JSON.stringify(msg));
-        }
-      };
-
-      // wrap the module with a eval statement instead of Function object so we
-      // can preserve the correct line numbering during exceptions
-      const func = load({
-        script: '(function (self, require, postMessage, __filename, __dirname) { ' + body + '\n});',
-        name: sourceURL
-      });
-      func.apply(module, [workerContext, module.require, workerContext.postMessage, module.filename, dir]);
-      module.loaded = true;
-      module.main = main;
-      // we don't return the exported, but the worker context
-      return workerContext;
-    } else {
-      // wrap the module with a eval statement instead of Function object so we
-      // can preserve the correct line numbering during exceptions
-      const func = load({
-        script: '(function (exports, require, module, __filename, __dirname) { ' + body + '\n});',
-        name: sourceURL
-      });
-
-      func.apply(module, [module.exports, module.require, module, module.filename, dir]);
-      module.loaded = true;
-      module.main = main;
-      return module.exports;
-    }
+    func.apply(module, [module.exports, module.require, module, module.filename, dir]);
+    module.loaded = true;
+    module.main = main;
+    return module.exports;
   };
 
   Module.runMain = function runMain(main) {
@@ -108,24 +83,6 @@
       throw new ModuleError('Module "' + main + '" was not found', 'MODULE_NOT_FOUND');
     }
     return Module._load(uri, undefined, true, undefined);
-  };
-
-  Module.runWorker = function runWorker(main, address) {
-    if (!address) {
-      throw new ModuleError('Worker address must be supplied!', 'ADDRESS_NOT_FOUND');
-    }
-    // workers should supply a uri, so we only look in 2 roots
-    const uri =
-      // in the jar
-      resolveAsFile(main, 'jar://', '.js') ||
-      // from the current working dir
-      resolveAsFile(main, parsePaths('file://', System.getProperty("user.dir")), '.js');
-
-    if (!uri) {
-      throw new ModuleError('Module "' + main + '" was not found', 'MODULE_NOT_FOUND');
-    }
-
-    return Module._load(uri, undefined, true, address);
   };
 
   function Require(id, parent) {

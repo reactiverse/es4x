@@ -1,4 +1,4 @@
-# Worker API
+# Workers
 
 [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) defines Web Workers as:
 
@@ -50,11 +50,11 @@ The verticle side of the API allows you to receive errors and `terminate()` work
 Worker.create('workers/worker.js', function (create) {
   if (create.succeeded()) {
     var worker = create.result();
-    
+
     worker.onmessage = function (msg) {
       console.log('onmessage: ' + msg);
     };
-    
+
     worker.onerror = function (err) {
       console.err(err);
       // terminate the worker

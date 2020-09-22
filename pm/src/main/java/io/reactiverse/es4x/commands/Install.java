@@ -1,8 +1,24 @@
+/*
+ * Copyright 2019 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.commands;
 
 import io.reactiverse.es4x.cli.CmdLineParser;
-import io.reactiverse.es4x.commands.proxies.JsonArrayProxy;
-import io.reactiverse.es4x.commands.proxies.JsonObjectProxy;
+import io.reactiverse.es4x.asm.FutureBase;
+import io.reactiverse.es4x.asm.JsonArray;
+import io.reactiverse.es4x.asm.JsonObject;
 import org.eclipse.aether.artifact.Artifact;
 
 import java.io.*;
@@ -395,15 +411,22 @@ public class Install implements Runnable {
               try (JarInputStream jar = new JarInputStream(in)) {
                 JarEntry je;
                 while ((je = jar.getNextJarEntry()) != null) {
-                  if ("io/vertx/core/json/JsonObject.class".equals(je.getName())) {
-                    target.putNextEntry(je);
-                    target.write(new JsonObjectProxy().rewrite(jar));
-                    target.closeEntry();
-                  }
-                  if ("io/vertx/core/json/JsonArray.class".equals(je.getName())) {
-                    target.putNextEntry(je);
-                    target.write(new JsonArrayProxy().rewrite(jar));
-                    target.closeEntry();
+                  switch (je.getName()) {
+                    case "io/vertx/core/json/JsonObject.class":
+                      target.putNextEntry(je);
+                      target.write(new JsonObject().rewrite(jar));
+                      target.closeEntry();
+                      break;
+                    case "io/vertx/core/json/JsonArray.class":
+                      target.putNextEntry(je);
+                      target.write(new JsonArray().rewrite(jar));
+                      target.closeEntry();
+                      break;
+                    case "io/vertx/core/impl/future/FutureBase.class":
+                      target.putNextEntry(je);
+                      target.write(new FutureBase().rewrite(jar));
+                      target.closeEntry();
+                      break;
                   }
                 }
               } catch (RuntimeException e) {

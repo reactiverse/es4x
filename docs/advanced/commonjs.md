@@ -1,4 +1,4 @@
-# CommonJS
+# CommonJS Modules
 
 [CommonJS](http://www.commonjs.org/) module loader, the `require()` function, is also available on ES4X. It is important
 to know that this loader is not the same as `nodejs` loader. It is a fork of [npm-jvm](https://github.com/nodyn/jvm-npm)

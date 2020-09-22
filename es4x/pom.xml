@@ -79,6 +79,12 @@
     </dependency>
     <!-- testing -->
     <dependency>
+      <groupId>io.reactiverse</groupId>
+      <artifactId>es4x-pm</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.13</version>
@@ -143,6 +149,27 @@
               <Default-Verticle-Factory>js</Default-Verticle-Factory>
             </manifestEntries>
           </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-asm</id>
+            <phase>process-test-classes</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>io.reactiverse.es4x.VertxPatch</mainClass>
+          <arguments>
+            <argument>${stack.version}</argument>
+            <argument>${project.build.testOutputDirectory}</argument>
+          </arguments>
+          <classpathScope>test</classpathScope>
         </configuration>
       </plugin>
     </plugins>

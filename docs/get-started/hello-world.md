@@ -63,7 +63,7 @@ A project is a `package.json` file with a few items already pre configured:
     "start" : "es4x"
   },
   "dependencies": {
-    "@vertx/create": "latest",
+    "@es4x/create": "latest",
     "@vertx/unit": "latest"
   },
   "dependencies": {
@@ -84,7 +84,7 @@ script.
 
 ::: tip
 The `es4x-launcher` script will ensure that the application runs using es4x and not `nodejs`. This script can be used
-in production, where you can avoid `@vertx/create` package.
+in production, where you can avoid `@es4x/create` package.
 :::
 
 ### create-vertx-app

@@ -36,7 +36,7 @@ declare global {
     env: { [key: string]: string };
     pid: String;
     engine: String;
-    exit: (exitCode: Number) => void;
+    exit: (exitCode: number) => void;
     nextTick: (callback: (...args: any[]) => void) => void;
     stdout: any;
     stderr: any;
@@ -101,11 +101,11 @@ declare global {
     typeName(obj: any): string | undefined;
   };
 
-  function setTimeout(callback: (...args: any[]) => void, ms: number, ...args: any[]): Number;
+  function setTimeout(callback: (...args: any[]) => void, ms: number, ...args: any[]): number;
 
   function clearTimeout(timeoutId: Number): any;
 
-  function setInterval(callback: (...args: any[]) => void, ms: number, ...args: any[]): Number;
+  function setInterval(callback: (...args: any[]) => void, ms: number, ...args: any[]): number;
 
   function clearInterval(intervalId: Number): any;
 
@@ -145,7 +145,7 @@ declare global {
     /**
      * Returns the detail message string of this throwable.
      */
-    getMessage() : String;
+    getMessage() : string;
 
     /**
      * Returns an array containing all of the exceptions that were suppressed, typically by the
@@ -156,30 +156,15 @@ declare global {
     /**
      * Creates a localized description of this throwable.
      */
-    getLocalizedMessage() : String;
+    getLocalizedMessage() : string;
   }
-}
 
-/**
- * The internal module for promisify functions or objects
- */
-declare module "util" {
-  export function promisify<R>(fn: (callback: (err: Error | null, result: R) => void) => void): () => PromiseLike<R>;
+  interface ErrorConstructor {
+    new(message?: string): Error;
+    (message?: string): Error;
+    readonly prototype: Error;
+    asyncTrace: (error: Error | Throwable | string | any) => Error | Throwable;
+  }
 
-  export function promisify<R, P0>(arg0: P0, fn: (callback: (err: Error | null, result: R) => void) => void): (arg0: P0) => PromiseLike<R>;
-  export function promisify<R, P0, P1>(arg0: P0, arg1: P1, fn: (callback: (err: Error | null, result: R) => void) => void): (arg0: P0, arg1: P1) => PromiseLike<R>;
-  export function promisify<R, P0, P1, P2>(arg0: P0, arg1: P1, arg2: P2, fn: (callback: (err: Error | null, result: R) => void) => void): (arg0: P0, arg1: P1, arg2: P2) => PromiseLike<R>;
-  export function promisify<R, P0, P1, P2, P3>(arg0: P0, arg1: P1, arg2: P2, arg3: P3, fn: (callback: (err: Error | null, result: R) => void) => void): (arg0: P0, arg1: P1, arg2: P2, arg3: P3) => PromiseLike<R>;
-  export function promisify<R, P0, P1, P2, P3, P4>(arg0: P0, arg1: P1, arg2: P2, arg3: P3, arg4: P4,  fn: (callback: (err: Error | null, result: R) => void) => void): (arg0: P0, arg1: P1, arg2: P2, arg3: P3, arg4: P4) => PromiseLike<R>;
-  export function promisify<R, P0, P1, P2, P3, P4, P5>(arg0: P0, arg1: P1, arg2: P2, arg3: P3, arg4: P4, arg5: P5,  fn: (callback: (err: Error | null, result: R) => void) => void): (arg0: P0, arg1: P1, arg2: P2, arg3: P3, arg4: P4, arg5: P5) => PromiseLike<R>;
-  export function promisify<R, P0, P1, P2, P3, P4, P5, P6>(arg0: P0, arg1: P1, arg2: P2, arg3: P3, arg4: P4, arg5: P5, arg6: P6, fn: (callback: (err: Error | null, result: R) => void) => void): (arg0: P0, arg1: P1, arg2: P2, arg3: P3, arg4: P4, arg5: P5, arg6: P6) => PromiseLike<R>;
-
-  export function promisify<TResult>(o: TResult): TResult;
-}
-
-/**
- * The internal async error module
- */
-declare module "async-error" {
-  export default function asyncError(error: Error | String | any): Error;
+  var Error: ErrorConstructor;
 }

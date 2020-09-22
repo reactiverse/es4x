@@ -1,6 +1,7 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
+import io.reactiverse.es4x.impl.AsyncError;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -10,7 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.reactiverse.es4x.impl.AsyncError.asyncError;
 import static io.reactiverse.es4x.test.JS.commonjs;
 
 @RunWith(VertxUnitRunner.class)
@@ -48,11 +48,11 @@ public class StackTraceTest {
 
   @Test
   public void shouldReturnNullWhenNull(TestContext should) {
-    should.assertNull(asyncError((Throwable) null, null));
+    should.assertNull(AsyncError.combine((Throwable) null, null));
   }
 
   @Test
   public void shouldReturnThrowableWhenNotNull(TestContext should) {
-    should.assertTrue(asyncError(new RuntimeException("Oops!"), null) instanceof Throwable);
+    should.assertTrue(AsyncError.combine(new RuntimeException("Oops!"), null) instanceof Throwable);
   }
 }
