@@ -59,6 +59,10 @@ module.exports = {
             link: '/advanced/'
           },
           {
+            text: 'Examples',
+            link: '/examples/'
+          },
+          {
             text: 'APIs',
             link: '/api/'
           },
@@ -83,6 +87,15 @@ module.exports = {
                 'shell',
                 'contributing',
                 'license'
+              ]
+            }
+          ],
+          '/examples/': [
+            {
+              title: 'Examples',
+              collapsable: false,
+              children: [
+                '',
               ]
             }
           ],
