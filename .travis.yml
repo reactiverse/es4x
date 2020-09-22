@@ -31,11 +31,11 @@ matrix:
       dist: xenial
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk"
     - env:
-      - JDK='OpenJDK 14'
+      - JDK='OpenJDK 15'
       - SKIP_JACOCO='true'
       os: linux
       dist: xenial
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/14/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk"
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/15/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk"
   # GraalVM
     - env:
       - JDK='GraalVM 20.2.0 (8)'
@@ -64,17 +64,17 @@ matrix:
       dist: xenial
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/openj9/normal/adoptopenjdk"
     - env:
-      - JDK='OpenJ9 14'
+      - JDK='OpenJ9 15'
       - SKIP_JACOCO='true'
       os: linux
       dist: xenial
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/14/ga/linux/x64/jdk/openj9/normal/adoptopenjdk"
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/15/ga/linux/x64/jdk/openj9/normal/adoptopenjdk"
   allow_failures:
     - env:
-      - JDK='OpenJDK 14'
+      - JDK='OpenJDK 15'
       - SKIP_JACOCO='true'
     - env:
-      - JDK='OpenJ9 14'
+      - JDK='OpenJ9 15'
       - SKIP_JACOCO='true'
 
 script:
