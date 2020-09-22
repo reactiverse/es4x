@@ -32,7 +32,7 @@ export function someRoute(ctx) {
 }
 ```
 
-### Compatibility
+## Compatibility
 
 For compatibility reasons, you may have noticed that the `import` statement in the initial script, does not include an
 extension:
@@ -52,4 +52,25 @@ This is a small divergence from the official spec where ES4X loader will lookup 
 
 ::: warning
 When working with `ESM` the `require()` is not available!
+:::
+
+## Download Modules
+
+Downloading modules at runtime is also possible. This feature is not `ES4X` specific. In fact it just relies on the
+official module loader from `GraalJS`. Importing such modules is as simple as:
+
+```js
+import { VertxOptions } from 'https://unpkg.io/@vertx/core@3.9.1/mod.mjs';
+```
+
+There are a few rules to know:
+
+1. **HTTP** modules will not be downloaded if there is not [security manager](./security) in place.
+2. If such module has a `maven` counter part module, that is will **NOT** be downloaded.
+3. Downloading executable code at runtime can be a security issue.
+
+There could be cases where this could be useful, for example, to avoid a dependency on `npm` when code is not public.
+
+::: warning
+Downloaded modules will not process any dependencies or maven counter parts.
 :::

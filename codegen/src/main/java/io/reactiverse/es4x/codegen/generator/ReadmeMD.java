@@ -19,6 +19,8 @@ import io.vertx.codegen.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -67,7 +69,11 @@ public class ReadmeMD extends Generator<Model> {
 
     writer.printf("![npm (scoped)](https://img.shields.io/npm/v/%s.svg)\n", getNPMScope(model.getModule()));
     writer.printf("![npm](https://img.shields.io/npm/l/%s.svg)\n", getNPMScope(model.getModule()));
-    writer.printf("![Security Status](https://snyk-widget.herokuapp.com/badge/npm/%s.svg)\n", getNPMScope(model.getModule()));
+    try {
+      writer.printf("![Security Status](https://snyk-widget.herokuapp.com/badge/npm/%s/badge.svg)\n", URLEncoder.encode(getNPMScope(model.getModule()), "UTF-8"));
+    } catch (UnsupportedEncodingException e) {
+      // Ignore
+    }
     writer.print("\n");
     writer.print("Generated JavaScript bindings for Eclipse Vert.x.\n");
     writer.print("\n");

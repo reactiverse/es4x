@@ -107,10 +107,12 @@ module.exports = {
                 '',
                 'commonjs',
                 'esm',
-                'vertx',
                 'globals',
+                'vertx',
                 'worker',
-                'graphql'
+                'jars',
+                'security',
+                'logging'
               ]
             }
           ],
