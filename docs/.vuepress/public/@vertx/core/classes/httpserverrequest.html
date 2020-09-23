@@ -74,7 +74,7 @@
 								Each instance of this class is associated with a corresponding <a href="httpserverresponse.html">HttpServerResponse</a> instance via
 								{@link HttpServerRequest#response}.<p>
 									It implements <a href="../interfaces/readstream.html">ReadStream</a> so it can be used with
-									<a href="pump.html">Pump</a> to pump data with flow control.
+									<a href="pipe.html">Pipe</a> to pipe data with flow control.
 									<p>
 					</div>
 				</div>
@@ -101,11 +101,14 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#absoluteuri" class="tsd-kind-icon">absoluteURI</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#body" class="tsd-kind-icon">body</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#bodyhandler" class="tsd-kind-icon">body<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#bytesread" class="tsd-kind-icon">bytes<wbr>Read</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#connection" class="tsd-kind-icon">connection</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#cookiecount" class="tsd-kind-icon">cookie<wbr>Count</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#cookiemap" class="tsd-kind-icon">cookie<wbr>Map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#customframehandler" class="tsd-kind-icon">custom<wbr>Frame<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#end" class="tsd-kind-icon">end</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#endhandler" class="tsd-kind-icon">end<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#fetch" class="tsd-kind-icon">fetch</a></li>
@@ -122,17 +125,16 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#isssl" class="tsd-kind-icon">isSSL</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#localaddress" class="tsd-kind-icon">local<wbr>Address</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#method" class="tsd-kind-icon">method</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#netsocket" class="tsd-kind-icon">net<wbr>Socket</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#params" class="tsd-kind-icon">params</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#path" class="tsd-kind-icon">path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#pause" class="tsd-kind-icon">pause</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#pipe" class="tsd-kind-icon">pipe</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#pipeto" class="tsd-kind-icon">pipe<wbr>To</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#query" class="tsd-kind-icon">query</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#rawmethod" class="tsd-kind-icon">raw<wbr>Method</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#remoteaddress" class="tsd-kind-icon">remote<wbr>Address</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#response" class="tsd-kind-icon">response</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#resume" class="tsd-kind-icon">resume</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#routed" class="tsd-kind-icon">routed</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#scheme" class="tsd-kind-icon">scheme</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#setexpectmultipart" class="tsd-kind-icon">set<wbr>Expect<wbr>Multipart</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#sslsession" class="tsd-kind-icon">ssl<wbr>Session</a></li>
@@ -140,7 +142,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#streampriorityhandler" class="tsd-kind-icon">stream<wbr>Priority<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#tonetsocket" class="tsd-kind-icon">to<wbr>Net<wbr>Socket</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#towebsocket" class="tsd-kind-icon">to<wbr>Web<wbr>Socket</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#upgrade" class="tsd-kind-icon">upgrade</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#uploadhandler" class="tsd-kind-icon">upload<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#uri" class="tsd-kind-icon">uri</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpserverrequest.html#version" class="tsd-kind-icon">version</a></li>
@@ -161,10 +162,38 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4641</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4121</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="body" class="tsd-anchor"></a>
+					<h3>body</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">body<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4134</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as {@link HttpServerRequest#body} but with an <code>handler</code> called when the operation completes</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -178,7 +207,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4649</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4129</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -209,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4607</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4087</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -226,7 +255,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4773</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4224</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="httpconnection.html" class="tsd-signature-type">HttpConnection</a></h4>
@@ -243,10 +272,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4793</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4244</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="cookiemap" class="tsd-anchor"></a>
+					<h3>cookie<wbr>Map</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">cookie<wbr>Map<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4248</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-index-signature">
+									<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="cookie.html" class="tsd-signature-type">Cookie</a></h5>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -260,7 +311,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4769</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4220</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -280,6 +331,34 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="end" class="tsd-anchor"></a>
+					<h3>end</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4139</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as {@link HttpServerRequest#end} but with an <code>handler</code> called when the operation completes</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="endhandler" class="tsd-anchor"></a>
 					<h3>end<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -289,7 +368,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4567</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4051</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -312,7 +391,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4557</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4041</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -336,7 +415,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4565</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4049</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -359,7 +438,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4730</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4189</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -386,7 +465,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4789</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4240</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -414,7 +493,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4735</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4194</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -443,7 +522,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4620</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4100</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -462,7 +541,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4798</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4259</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -490,7 +569,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4629</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4109</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -518,7 +597,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4559</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4043</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -541,7 +620,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4615</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4095</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="multimap.html" class="tsd-signature-type">MultiMap</a></h4>
@@ -558,7 +637,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4603</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4083</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
@@ -575,7 +654,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4763</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4214</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -597,7 +676,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4714</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4173</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -614,7 +693,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4583</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4063</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -631,7 +710,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4637</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4117</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="socketaddress.html" class="tsd-signature-type">SocketAddress</a></h4>
@@ -642,64 +721,16 @@
 					<a name="method" class="tsd-anchor"></a>
 					<h3>method</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a></li>
+						<li class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpmethod.html" class="tsd-signature-type">HttpMethod</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4575</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4059</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="../enums/httpmethod.html" class="tsd-signature-type">HttpMethod</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="netsocket" class="tsd-anchor"></a>
-					<h3>net<wbr>Socket</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">net<wbr>Socket<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="netsocket.html" class="tsd-signature-type">NetSocket</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:4680</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get a net socket for the underlying connection of this request.</p>
-									<p/>
-										This method must be called before the server response is ended.
-										<p/>
-											With <code>CONNECT</code> requests, a <code>200</code> response is sent with no <code>content-length</code> header set
-											before returning the socket.
-											<p/>
-												<pre>
-server.requestHandler(req -> {
-  if (req.method() == HttpMethod.CONNECT) {
-    // Send a 200 response to accept the connect
-    NetSocket socket = req.netSocket();
-    socket.handler(buff -> {
-      socket.write(buff);
-    });
-  }
-  ...
-});
-</pre>
-												<p/>
-													For other HTTP/1 requests once you have called this method, you must handle writing to the connection yourself using
-													the net socket, the server request instance will no longer be usable as normal. USE THIS WITH CAUTION! Writing to the socket directly if you don't know what you're
-													doing can easily break the HTTP protocol.
-													<p/>
-														With HTTP/2, a <code>200</code> response is always sent with no <code>content-length</code> header set before returning the socket
-														like in the <code>CONNECT</code> case above.
-														<p/>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="netsocket.html" class="tsd-signature-type">NetSocket</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="httpmethod.html" class="tsd-signature-type">HttpMethod</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -713,7 +744,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4624</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4104</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="multimap.html" class="tsd-signature-type">MultiMap</a></h4>
@@ -730,7 +761,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4595</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4075</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
@@ -748,7 +779,7 @@ server.requestHandler(req -> {
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pause">pause</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4561</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4045</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
@@ -766,7 +797,7 @@ server.requestHandler(req -> {
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipe">pipe</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4540</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4029</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -784,34 +815,13 @@ server.requestHandler(req -> {
 					<a name="pipeto" class="tsd-anchor"></a>
 					<h3>pipe<wbr>To</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">pipe<wbr>To<span class="tsd-signature-symbol">(</span>dst<span class="tsd-signature-symbol">: </span><a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">pipe<wbr>To<span class="tsd-signature-symbol">(</span>dst<span class="tsd-signature-symbol">: </span><a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#pipeto">pipeTo</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4545</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Like {@link ReadStream#pipeTo} but with no completion handler.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>dst: <a href="../interfaces/writestream.html" class="tsd-signature-type">WriteStream</a><span class="tsd-signature-symbol">&lt;</span><a href="buffer.html" class="tsd-signature-type">Buffer</a><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:4555</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4039</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -847,27 +857,10 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4599</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4079</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="rawmethod" class="tsd-anchor"></a>
-					<h3>raw<wbr>Method</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">raw<wbr>Method<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:4579</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -881,7 +874,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4633</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4113</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="socketaddress.html" class="tsd-signature-type">SocketAddress</a></h4>
@@ -898,7 +891,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4611</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4091</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverresponse.html" class="tsd-signature-type">HttpServerResponse</a></h4>
@@ -916,9 +909,38 @@ server.requestHandler(req -> {
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/readstream.html">ReadStream</a>.<a href="../interfaces/readstream.html#resume">resume</a></p>
 								<ul>
-									<li>Defined in index.d.ts:4563</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4047</li>
 								</ul>
 							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="routed" class="tsd-anchor"></a>
+					<h3>routed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">routed<span class="tsd-signature-symbol">(</span>route<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4254</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Marks this request as being routed to the given route. This is purely informational and is
+									being provided to metrics.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>route: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpserverrequest.html" class="tsd-signature-type">HttpServerRequest</a></h4>
 						</li>
 					</ul>
@@ -933,7 +955,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4587</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4067</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
@@ -950,7 +972,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4710</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4169</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -979,7 +1001,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4802</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4263</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -996,7 +1018,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4777</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4228</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="streampriority.html" class="tsd-signature-type">StreamPriority</a></h4>
@@ -1013,7 +1035,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4784</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4235</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1043,7 +1065,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4704</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4163</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1087,7 +1109,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4758</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4209</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1114,31 +1136,6 @@ server.requestHandler(req -> {
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="upgrade" class="tsd-anchor"></a>
-					<h3>upgrade</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">upgrade<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:4743</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Upgrade the connection to a WebSocket connection.</p>
-									<p>
-										This is an alternative way of handling WebSockets and can only be used if no WebSocket handler is set on the
-										<code>HttpServer</code>, and can only be used during the upgrade request during the WebSocket handshake.
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="serverwebsocket.html" class="tsd-signature-type">ServerWebSocket</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="uploadhandler" class="tsd-anchor"></a>
 					<h3>upload<wbr>Handler</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -1148,7 +1145,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4720</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4179</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1177,7 +1174,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4591</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4071</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -1194,7 +1191,7 @@ server.requestHandler(req -> {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:4571</li>
+									<li>Defined in home/paulo/Projects/reactiverse/es4x/generator/io.vertx/vertx-core/target/npm/index.d.ts:4055</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a></h4>
@@ -1222,6 +1219,9 @@ server.requestHandler(req -> {
 								<a href="httpserverrequest.html#absoluteuri" class="tsd-kind-icon">absoluteURI</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpserverrequest.html#body" class="tsd-kind-icon">body</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpserverrequest.html#bodyhandler" class="tsd-kind-icon">body<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -1234,7 +1234,13 @@ server.requestHandler(req -> {
 								<a href="httpserverrequest.html#cookiecount" class="tsd-kind-icon">cookie<wbr>Count</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpserverrequest.html#cookiemap" class="tsd-kind-icon">cookie<wbr>Map</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpserverrequest.html#customframehandler" class="tsd-kind-icon">custom<wbr>Frame<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpserverrequest.html#end" class="tsd-kind-icon">end</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpserverrequest.html#endhandler" class="tsd-kind-icon">end<wbr>Handler</a>
@@ -1285,9 +1291,6 @@ server.requestHandler(req -> {
 								<a href="httpserverrequest.html#method" class="tsd-kind-icon">method</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="httpserverrequest.html#netsocket" class="tsd-kind-icon">net<wbr>Socket</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpserverrequest.html#params" class="tsd-kind-icon">params</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -1306,9 +1309,6 @@ server.requestHandler(req -> {
 								<a href="httpserverrequest.html#query" class="tsd-kind-icon">query</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="httpserverrequest.html#rawmethod" class="tsd-kind-icon">raw<wbr>Method</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpserverrequest.html#remoteaddress" class="tsd-kind-icon">remote<wbr>Address</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -1316,6 +1316,9 @@ server.requestHandler(req -> {
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpserverrequest.html#resume" class="tsd-kind-icon">resume</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpserverrequest.html#routed" class="tsd-kind-icon">routed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpserverrequest.html#scheme" class="tsd-kind-icon">scheme</a>
@@ -1337,9 +1340,6 @@ server.requestHandler(req -> {
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpserverrequest.html#towebsocket" class="tsd-kind-icon">to<wbr>Web<wbr>Socket</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="httpserverrequest.html#upgrade" class="tsd-kind-icon">upgrade</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpserverrequest.html#uploadhandler" class="tsd-kind-icon">upload<wbr>Handler</a>
@@ -1368,14 +1368,15 @@ server.requestHandler(req -> {
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 		</div>
 	</div>

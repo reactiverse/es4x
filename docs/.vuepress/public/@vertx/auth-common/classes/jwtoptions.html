@@ -64,16 +64,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Options related to creation of new tokens.</p>
-					</div>
-					<p>If any expiresInMinutes, audience, subject, issuer are not provided, there is no default.
-					The jwt generated won&#39;t include those properties in the payload.</p>
-					<p>Generated JWTs will include an iat claim by default unless noTimestamp is specified.</p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -97,6 +87,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#addaudience" class="tsd-kind-icon">add<wbr>Audience</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#addpermission" class="tsd-kind-icon">add<wbr>Permission</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#addscope" class="tsd-kind-icon">add<wbr>Scope</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#getalgorithm" class="tsd-kind-icon">get<wbr>Algorithm</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#getaudience" class="tsd-kind-icon">get<wbr>Audience</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#getexpiresinseconds" class="tsd-kind-icon">get<wbr>Expires<wbr>InSeconds</a></li>
@@ -104,6 +95,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#getissuer" class="tsd-kind-icon">get<wbr>Issuer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#getleeway" class="tsd-kind-icon">get<wbr>Leeway</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#getpermissions" class="tsd-kind-icon">get<wbr>Permissions</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#getscopedelimiter" class="tsd-kind-icon">get<wbr>Scope<wbr>Delimiter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#getscopes" class="tsd-kind-icon">get<wbr>Scopes</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#getsubject" class="tsd-kind-icon">get<wbr>Subject</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#isignoreexpiration" class="tsd-kind-icon">is<wbr>Ignore<wbr>Expiration</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#isnotimestamp" class="tsd-kind-icon">is<wbr>NoTimestamp</a></li>
@@ -117,6 +110,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#setleeway" class="tsd-kind-icon">set<wbr>Leeway</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#setnotimestamp" class="tsd-kind-icon">set<wbr>NoTimestamp</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#setpermissions" class="tsd-kind-icon">set<wbr>Permissions</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#setscopes" class="tsd-kind-icon">set<wbr>Scopes</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtoptions.html#setsubject" class="tsd-kind-icon">set<wbr>Subject</a></li>
 							</ul>
 						</section>
@@ -136,7 +130,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:34</li>
+									<li>Defined in options.d.ts:26</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="jwtoptions.html" class="tsd-signature-type">JWTOptions</a></h4>
@@ -144,7 +138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:36</li>
+									<li>Defined in options.d.ts:28</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -170,7 +164,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:48</li>
+									<li>Defined in options.d.ts:40</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -193,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:89</li>
+									<li>Defined in options.d.ts:81</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -212,6 +206,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="addscope" class="tsd-anchor"></a>
+					<h3>add<wbr>Scope</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Scope<span class="tsd-signature-symbol">(</span>scopes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jwtoptions.html" class="tsd-signature-type">JWTOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:97</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>scopes: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="jwtoptions.html" class="tsd-signature-type">JWTOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getalgorithm" class="tsd-anchor"></a>
 					<h3>get<wbr>Algorithm</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -221,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:40</li>
+									<li>Defined in options.d.ts:32</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -238,7 +255,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:44</li>
+									<li>Defined in options.d.ts:36</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -255,7 +272,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:52</li>
+									<li>Defined in options.d.ts:44</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -272,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:56</li>
+									<li>Defined in options.d.ts:48</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
@@ -294,7 +311,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:64</li>
+									<li>Defined in options.d.ts:56</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -311,7 +328,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:68</li>
+									<li>Defined in options.d.ts:60</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -328,7 +345,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:79</li>
+									<li>Defined in options.d.ts:71</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -336,6 +353,40 @@
 									<p>The permissions of this token.</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getscopedelimiter" class="tsd-anchor"></a>
+					<h3>get<wbr>Scope<wbr>Delimiter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Scope<wbr>Delimiter<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:85</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getscopes" class="tsd-anchor"></a>
+					<h3>get<wbr>Scopes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Scopes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:89</li>
+								</ul>
+							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -350,7 +401,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:91</li>
+									<li>Defined in options.d.ts:99</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -367,7 +418,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:60</li>
+									<li>Defined in options.d.ts:52</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -384,7 +435,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:72</li>
+									<li>Defined in options.d.ts:64</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -401,7 +452,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:42</li>
+									<li>Defined in options.d.ts:34</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -424,7 +475,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:46</li>
+									<li>Defined in options.d.ts:38</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -447,7 +498,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:50</li>
+									<li>Defined in options.d.ts:42</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -470,7 +521,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:54</li>
+									<li>Defined in options.d.ts:46</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -493,7 +544,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:58</li>
+									<li>Defined in options.d.ts:50</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -521,7 +572,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:62</li>
+									<li>Defined in options.d.ts:54</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -544,7 +595,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:66</li>
+									<li>Defined in options.d.ts:58</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -567,7 +618,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:70</li>
+									<li>Defined in options.d.ts:62</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -590,7 +641,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:74</li>
+									<li>Defined in options.d.ts:66</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -613,7 +664,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:84</li>
+									<li>Defined in options.d.ts:76</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -632,6 +683,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setscopes" class="tsd-anchor"></a>
+					<h3>set<wbr>Scopes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Scopes<span class="tsd-signature-symbol">(</span>scopes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jwtoptions.html" class="tsd-signature-type">JWTOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in options.d.ts:93</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>scopes: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="jwtoptions.html" class="tsd-signature-type">JWTOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="setsubject" class="tsd-anchor"></a>
 					<h3>set<wbr>Subject</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -641,7 +715,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in options.d.ts:93</li>
+									<li>Defined in options.d.ts:101</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -667,10 +741,28 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
+						<a href="andauthorization.html" class="tsd-kind-icon">And<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="authoptions.html" class="tsd-kind-icon">Auth<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="authprovider.html" class="tsd-kind-icon">Auth<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authenticationprovider.html" class="tsd-kind-icon">Authentication<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authorization.html" class="tsd-kind-icon">Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authorizationcontext.html" class="tsd-kind-icon">Authorization<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authorizationprovider.html" class="tsd-kind-icon">Authorization<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authorizations.html" class="tsd-kind-icon">Authorizations</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="chainauth.html" class="tsd-kind-icon">Chain<wbr>Auth</a>
@@ -696,6 +788,9 @@
 								<a href="jwtoptions.html#addpermission" class="tsd-kind-icon">add<wbr>Permission</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jwtoptions.html#addscope" class="tsd-kind-icon">add<wbr>Scope</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="jwtoptions.html#getalgorithm" class="tsd-kind-icon">get<wbr>Algorithm</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -715,6 +810,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="jwtoptions.html#getpermissions" class="tsd-kind-icon">get<wbr>Permissions</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jwtoptions.html#getscopedelimiter" class="tsd-kind-icon">get<wbr>Scope<wbr>Delimiter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jwtoptions.html#getscopes" class="tsd-kind-icon">get<wbr>Scopes</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="jwtoptions.html#getsubject" class="tsd-kind-icon">get<wbr>Subject</a>
@@ -756,6 +857,9 @@
 								<a href="jwtoptions.html#setpermissions" class="tsd-kind-icon">set<wbr>Permissions</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jwtoptions.html#setscopes" class="tsd-kind-icon">set<wbr>Scopes</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="jwtoptions.html#setsubject" class="tsd-kind-icon">set<wbr>Subject</a>
 							</li>
 						</ul>
@@ -766,16 +870,37 @@
 						<a href="keystoreoptions.html" class="tsd-kind-icon">Key<wbr>Store<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="notauthorization.html" class="tsd-kind-icon">Not<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="orauthorization.html" class="tsd-kind-icon">Or<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="permissionbasedauthorization.html" class="tsd-kind-icon">Permission<wbr>Based<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="pubseckeyoptions.html" class="tsd-kind-icon">Pub<wbr>Sec<wbr>Key<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="secretoptions.html" class="tsd-kind-icon">Secret<wbr>Options</a>
+						<a href="rolebasedauthorization.html" class="tsd-kind-icon">Role<wbr>Based<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="tokencredentials.html" class="tsd-kind-icon">Token<wbr>Credentials</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="user.html" class="tsd-kind-icon">User</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="usernamepasswordcredentials.html" class="tsd-kind-icon">Username<wbr>Password<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="vertxcontextprng.html" class="tsd-kind-icon">Vertx<wbr>ContextPRNG</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="wildcardpermissionbasedauthorization.html" class="tsd-kind-icon">Wildcard<wbr>Permission<wbr>Based<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/credentials.html" class="tsd-kind-icon">Credentials</a>
 					</li>
 				</ul>
 			</nav>
@@ -789,6 +914,9 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>

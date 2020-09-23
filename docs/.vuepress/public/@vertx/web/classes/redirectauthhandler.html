@@ -82,8 +82,8 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></li>
 					<li><span class="tsd-signature-type">any</span></li>
+					<li><a href="../interfaces/authenticationhandler.html" class="tsd-signature-type">AuthenticationHandler</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -100,9 +100,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redirectauthhandler.html#addauthorities" class="tsd-kind-icon">add<wbr>Authorities</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redirectauthhandler.html#addauthority" class="tsd-kind-icon">add<wbr>Authority</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redirectauthhandler.html#authorize" class="tsd-kind-icon">authorize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redirectauthhandler.html#authenticateheader" class="tsd-kind-icon">authenticate<wbr>Header</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redirectauthhandler.html#handle" class="tsd-kind-icon">handle</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="redirectauthhandler.html#parsecredentials" class="tsd-kind-icon">parse<wbr>Credentials</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="redirectauthhandler.html#create" class="tsd-kind-icon">create</a></li>
@@ -119,7 +117,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>LOGIN_<wbr>REDIRECT_<wbr>URL<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:1215</li>
+							<li>Defined in index.d.ts:1213</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,7 +132,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>RETURN_<wbr>URL_<wbr>PARAM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in index.d.ts:1220</li>
+							<li>Defined in index.d.ts:1218</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -147,91 +145,31 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="addauthorities" class="tsd-anchor"></a>
-					<h3>add<wbr>Authorities</h3>
+					<a name="authenticateheader" class="tsd-anchor"></a>
+					<h3>authenticate<wbr>Header</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Authorities<span class="tsd-signature-symbol">(</span>authorities<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></li>
+						<li class="tsd-signature tsd-kind-icon">authenticate<wbr>Header<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/authhandler.html">AuthHandler</a>.<a href="../interfaces/authhandler.html#addauthorities">addAuthorities</a></p>
+								<p>Implementation of <a href="../interfaces/authenticationhandler.html">AuthenticationHandler</a>.<a href="../interfaces/authenticationhandler.html#authenticateheader">authenticateHeader</a></p>
 								<ul>
 									<li>Defined in index.d.ts:1232</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Add a set of required authorities for this auth handler</p>
+									<p>Returns</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>authorities: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>context: <a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="addauthority" class="tsd-anchor"></a>
-					<h3>add<wbr>Authority</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Authority<span class="tsd-signature-symbol">(</span>authority<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/authhandler.html">AuthHandler</a>.<a href="../interfaces/authhandler.html#addauthority">addAuthority</a></p>
-								<ul>
-									<li>Defined in index.d.ts:1227</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Add a required authority for this auth handler</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>authority: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="authorize" class="tsd-anchor"></a>
-					<h3>authorize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">authorize<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:1244</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Authorizes the given user against all added authorities.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>user: <span class="tsd-signature-type">User</span></h5>
-								</li>
-								<li>
-									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -244,9 +182,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/authhandler.html">AuthHandler</a>.<a href="../interfaces/authhandler.html#handle">handle</a></p>
+								<p>Implementation of <a href="../interfaces/authenticationhandler.html">AuthenticationHandler</a>.<a href="../interfaces/authenticationhandler.html#handle">handle</a></p>
 								<ul>
-									<li>Defined in index.d.ts:1222</li>
+									<li>Defined in index.d.ts:1220</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -263,13 +201,13 @@
 					<a name="parsecredentials" class="tsd-anchor"></a>
 					<h3>parse<wbr>Credentials</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Credentials<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Credentials<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Credentials</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Credentials</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1239</li>
+									<li>Defined in index.d.ts:1227</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -285,7 +223,7 @@
 									<h5>context: <a href="routingcontext.html" class="tsd-signature-type">RoutingContext</a></h5>
 								</li>
 								<li>
-									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Credentials</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Credentials</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -296,15 +234,15 @@
 					<a name="create" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>authProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AuthProvider</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></li>
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>authProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AuthProvider</span>, loginRedirectURL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></li>
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>authProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AuthProvider</span>, loginRedirectURL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, returnURLParam<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>authProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AuthenticationProvider</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redirectauthhandler.html" class="tsd-signature-type">RedirectAuthHandler</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>authProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AuthenticationProvider</span>, loginRedirectURL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redirectauthhandler.html" class="tsd-signature-type">RedirectAuthHandler</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>authProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AuthenticationProvider</span>, loginRedirectURL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, returnURLParam<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="redirectauthhandler.html" class="tsd-signature-type">RedirectAuthHandler</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1249</li>
+									<li>Defined in index.d.ts:1237</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -315,15 +253,15 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>authProvider: <span class="tsd-signature-type">AuthProvider</span></h5>
+									<h5>authProvider: <span class="tsd-signature-type">AuthenticationProvider</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="redirectauthhandler.html" class="tsd-signature-type">RedirectAuthHandler</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1254</li>
+									<li>Defined in index.d.ts:1242</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -334,18 +272,18 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>authProvider: <span class="tsd-signature-type">AuthProvider</span></h5>
+									<h5>authProvider: <span class="tsd-signature-type">AuthenticationProvider</span></h5>
 								</li>
 								<li>
 									<h5>loginRedirectURL: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="redirectauthhandler.html" class="tsd-signature-type">RedirectAuthHandler</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:1259</li>
+									<li>Defined in index.d.ts:1247</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -356,7 +294,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>authProvider: <span class="tsd-signature-type">AuthProvider</span></h5>
+									<h5>authProvider: <span class="tsd-signature-type">AuthenticationProvider</span></h5>
 								</li>
 								<li>
 									<h5>loginRedirectURL: <span class="tsd-signature-type">string</span></h5>
@@ -365,7 +303,7 @@
 									<h5>returnURLParam: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/authhandler.html" class="tsd-signature-type">AuthHandler</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="redirectauthhandler.html" class="tsd-signature-type">RedirectAuthHandler</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -393,13 +331,7 @@
 								<a href="redirectauthhandler.html#default_return_url_param" class="tsd-kind-icon">DEFAULT_<wbr>RETURN_<wbr>URL_<wbr>PARAM</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="redirectauthhandler.html#addauthorities" class="tsd-kind-icon">add<wbr>Authorities</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="redirectauthhandler.html#addauthority" class="tsd-kind-icon">add<wbr>Authority</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="redirectauthhandler.html#authorize" class="tsd-kind-icon">authorize</a>
+								<a href="redirectauthhandler.html#authenticateheader" class="tsd-kind-icon">authenticate<wbr>Header</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="redirectauthhandler.html#handle" class="tsd-kind-icon">handle</a>

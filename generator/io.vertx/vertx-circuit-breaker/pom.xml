@@ -20,7 +20,12 @@
     <npm-name>@vertx/circuit-breaker</npm-name>
     <npm-version>${stack.version}</npm-version>
     <npm-skip>false</npm-skip>
-
+    <!-- language=json -->
+    <npm-dependencies>
+      {
+        "@vertx/core": "${stack.version}"
+      }
+    </npm-dependencies>
     <!-- language=json -->
     <npm-optional-dependencies>["@vertx/web"]</npm-optional-dependencies>
     <hystrix.version>1.5.2</hystrix.version>
@@ -44,7 +49,7 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web</artifactId>
-      <version>${npm-version}</version>
+      <version>${stack.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>

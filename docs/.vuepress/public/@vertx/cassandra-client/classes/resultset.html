@@ -67,7 +67,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>It is like ResultSet, but adapted for Vert.x.</p>
+						<p>It is like AsyncResultSet, but adapted for Vert.x.</p>
 					</div>
 				</div>
 			</section>
@@ -87,15 +87,13 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#all" class="tsd-kind-icon">all</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#fetchmoreresults" class="tsd-kind-icon">fetch<wbr>More<wbr>Results</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#getallexecutioninfo" class="tsd-kind-icon">get<wbr>All<wbr>Execution<wbr>Info</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#getavailablewithoutfetching" class="tsd-kind-icon">get<wbr>Available<wbr>Without<wbr>Fetching</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#currentpage" class="tsd-kind-icon">current<wbr>Page</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#fetchnextpage" class="tsd-kind-icon">fetch<wbr>Next<wbr>Page</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#getcolumndefinitions" class="tsd-kind-icon">get<wbr>Column<wbr>Definitions</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#getexecutioninfo" class="tsd-kind-icon">get<wbr>Execution<wbr>Info</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#isexhausted" class="tsd-kind-icon">is<wbr>Exhausted</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#isfullyfetched" class="tsd-kind-icon">is<wbr>Fully<wbr>Fetched</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#hasmorepages" class="tsd-kind-icon">has<wbr>More<wbr>Pages</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#one" class="tsd-kind-icon">one</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#several" class="tsd-kind-icon">several</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#remaining" class="tsd-kind-icon">remaining</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="resultset.html#wasapplied" class="tsd-kind-icon">was<wbr>Applied</a></li>
 							</ul>
 						</section>
@@ -114,12 +112,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:229</li>
+									<li>Defined in index.d.ts:178</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>The method should <strong>not</strong> be used concurrently with others like {@link ResultSet#several} or {@link ResultSet#one}.
+									<p>The method should <strong>not</strong> be used concurrently with others like {@link ResultSet#fetchNextPage} or .
 									This may lead to unexpected result.</p>
 								</div>
 							</div>
@@ -134,59 +132,36 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="fetchmoreresults" class="tsd-anchor"></a>
-					<h3>fetch<wbr>More<wbr>Results</h3>
+					<a name="currentpage" class="tsd-anchor"></a>
+					<h3>current<wbr>Page</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">fetch<wbr>More<wbr>Results<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="resultset.html" class="tsd-signature-type">ResultSet</a></li>
+						<li class="tsd-signature tsd-kind-icon">current<wbr>Page<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:201</li>
+									<li>Defined in index.d.ts:190</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="resultset.html" class="tsd-signature-type">ResultSet</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getallexecutioninfo" class="tsd-anchor"></a>
-					<h3>get<wbr>All<wbr>Execution<wbr>Info</h3>
+					<a name="fetchnextpage" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Next<wbr>Page</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Execution<wbr>Info<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Next<wbr>Page<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><a href="resultset.html" class="tsd-signature-type">ResultSet</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:241</li>
+									<li>Defined in index.d.ts:168</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getavailablewithoutfetching" class="tsd-anchor"></a>
-					<h3>get<wbr>Available<wbr>Without<wbr>Fetching</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Available<wbr>Without<wbr>Fetching<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:197</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><a href="resultset.html" class="tsd-signature-type">ResultSet</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -200,7 +175,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:233</li>
+									<li>Defined in index.d.ts:182</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -217,7 +192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:237</li>
+									<li>Defined in index.d.ts:186</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -225,33 +200,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="isexhausted" class="tsd-anchor"></a>
-					<h3>is<wbr>Exhausted</h3>
+					<a name="hasmorepages" class="tsd-anchor"></a>
+					<h3>has<wbr>More<wbr>Pages</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Exhausted<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">has<wbr>More<wbr>Pages<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:189</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="isfullyfetched" class="tsd-anchor"></a>
-					<h3>is<wbr>Fully<wbr>Fetched</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Fully<wbr>Fetched<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:193</li>
+									<li>Defined in index.d.ts:164</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -262,65 +220,33 @@
 					<a name="one" class="tsd-anchor"></a>
 					<h3>one</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">one<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="resultset.html" class="tsd-signature-type">ResultSet</a></li>
+						<li class="tsd-signature tsd-kind-icon">one<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:211</li>
+									<li>Defined in index.d.ts:194</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The method should <strong>not</strong> be used concurrently with others like {@link ResultSet#several} or {@link ResultSet#all}.
-									This may lead to unexpected result.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="resultset.html" class="tsd-signature-type">ResultSet</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="several" class="tsd-anchor"></a>
-					<h3>several</h3>
+					<a name="remaining" class="tsd-anchor"></a>
+					<h3>remaining</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">several<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="resultset.html" class="tsd-signature-type">ResultSet</a></li>
+						<li class="tsd-signature tsd-kind-icon">remaining<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:223</li>
+									<li>Defined in index.d.ts:160</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Fetch a specific amount of rows and notify via a handler.</p>
-									<p>
-										If remaining amount of rows in a result set is less than desired amount of rows to fetch,
-										the <code>handler</code> will be called with a successful result encompassing just the remaining rows.
-								</div>
-								<p>
-									The method should <strong>not</strong> be used concurrently with others like {@link ResultSet#one} or {@link ResultSet#all}.
-									This may lead to unexpected result.
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>amount: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="resultset.html" class="tsd-signature-type">ResultSet</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -334,7 +260,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:205</li>
+									<li>Defined in index.d.ts:172</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -362,12 +288,6 @@
 					<li class=" tsd-kind-class">
 						<a href="cassandrarowstream.html" class="tsd-kind-icon">Cassandra<wbr>Row<wbr>Stream</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="mapper.html" class="tsd-kind-icon">Mapper</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="mappingmanager.html" class="tsd-kind-icon">Mapping<wbr>Manager</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -377,13 +297,10 @@
 								<a href="resultset.html#all" class="tsd-kind-icon">all</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="resultset.html#fetchmoreresults" class="tsd-kind-icon">fetch<wbr>More<wbr>Results</a>
+								<a href="resultset.html#currentpage" class="tsd-kind-icon">current<wbr>Page</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="resultset.html#getallexecutioninfo" class="tsd-kind-icon">get<wbr>All<wbr>Execution<wbr>Info</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="resultset.html#getavailablewithoutfetching" class="tsd-kind-icon">get<wbr>Available<wbr>Without<wbr>Fetching</a>
+								<a href="resultset.html#fetchnextpage" class="tsd-kind-icon">fetch<wbr>Next<wbr>Page</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="resultset.html#getcolumndefinitions" class="tsd-kind-icon">get<wbr>Column<wbr>Definitions</a>
@@ -392,16 +309,13 @@
 								<a href="resultset.html#getexecutioninfo" class="tsd-kind-icon">get<wbr>Execution<wbr>Info</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="resultset.html#isexhausted" class="tsd-kind-icon">is<wbr>Exhausted</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="resultset.html#isfullyfetched" class="tsd-kind-icon">is<wbr>Fully<wbr>Fetched</a>
+								<a href="resultset.html#hasmorepages" class="tsd-kind-icon">has<wbr>More<wbr>Pages</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="resultset.html#one" class="tsd-kind-icon">one</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="resultset.html#several" class="tsd-kind-icon">several</a>
+								<a href="resultset.html#remaining" class="tsd-kind-icon">remaining</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="resultset.html#wasapplied" class="tsd-kind-icon">was<wbr>Applied</a>

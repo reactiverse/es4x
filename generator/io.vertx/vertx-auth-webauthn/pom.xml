@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>io.reactiverse.es4x</groupId>
+    <artifactId>es4x-generator</artifactId>
+    <version>0.13.2-SNAPSHOT</version>
+    <relativePath>../..</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>vertx-auth-webauthn</artifactId>
+  <version>0.13.2-SNAPSHOT</version>
+
+  <properties>
+    <maven.groupId>io.vertx</maven.groupId>
+    <npm-name>@vertx/auth-webauthn</npm-name>
+    <npm-version>${stack.version}</npm-version>
+    <npm-skip>false</npm-skip>
+
+    <!-- language=json -->
+    <npm-dependencies>
+      {
+        "@vertx/core": "${stack.version}",
+        "@vertx/auth-common": "${stack.version}"
+      }
+    </npm-dependencies>
+  </properties>
+
+  <dependencies>
+    <!-- SOURCE TO GENERATE -->
+    <dependency>
+      <groupId>${maven.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${npm-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${maven.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${npm-version}</version>
+      <scope>provided</scope>
+      <classifier>sources</classifier>
+    </dependency>
+  </dependencies>
+
+</project>

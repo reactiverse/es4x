@@ -78,10 +78,16 @@
 						<span class="target">OpenIDConnectAuth</span>
 						<ul class="tsd-hierarchy">
 							<li>
+								<a href="amazoncognitoauth.html" class="tsd-signature-type">AmazonCognitoAuth</a>
+							</li>
+							<li>
 								<a href="azureadauth.html" class="tsd-signature-type">AzureADAuth</a>
 							</li>
 							<li>
 								<a href="googleauth.html" class="tsd-signature-type">GoogleAuth</a>
+							</li>
+							<li>
+								<a href="ibmcloudauth.html" class="tsd-signature-type">IBMCloudAuth</a>
 							</li>
 							<li>
 								<a href="keycloakauth.html" class="tsd-signature-type">KeycloakAuth</a>
@@ -112,22 +118,23 @@
 					<a name="discover" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> discover</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">discover<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, config<span class="tsd-signature-symbol">: </span><a href="oauth2clientoptions.html" class="tsd-signature-type">OAuth2ClientOptions</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">discover<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, config<span class="tsd-signature-symbol">: </span><a href="oauth2options.html" class="tsd-signature-type">OAuth2Options</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:612</li>
+									<li>Defined in index.d.ts:694</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Create a OAuth2Auth provider for OpenID Connect Discovery. The discovery will use the given site in the
 									configuration options and attempt to load the well known descriptor.</p>
+									<p>
+										If the discovered config includes a json web key url, it will be also fetched and the JWKs will be loaded
+										into the OAuth provider so tokens can be decoded.
 								</div>
-								<p>If the discovered config includes a json web key url, it will be also fetched and the JWKs will be loaded
-								into the OAuth provider so tokens can be decoded.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -135,7 +142,7 @@
 									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
 								</li>
 								<li>
-									<h5>config: <a href="oauth2clientoptions.html" class="tsd-signature-type">OAuth2ClientOptions</a></h5>
+									<h5>config: <a href="oauth2options.html" class="tsd-signature-type">OAuth2Options</a></h5>
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
@@ -162,6 +169,9 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="accesstoken.html" class="tsd-kind-icon">Access<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="amazoncognitoauth.html" class="tsd-kind-icon">Amazon<wbr>Cognito<wbr>Auth</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="azureadauth.html" class="tsd-kind-icon">AzureADAuth</a>
@@ -191,10 +201,16 @@
 						<a href="herokuauth.html" class="tsd-kind-icon">Heroku<wbr>Auth</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="ibmcloudauth.html" class="tsd-kind-icon">IBMCloud<wbr>Auth</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="instagramauth.html" class="tsd-kind-icon">Instagram<wbr>Auth</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="keycloakauth.html" class="tsd-kind-icon">Keycloak<wbr>Auth</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="keycloakauthorization.html" class="tsd-kind-icon">Keycloak<wbr>Authorization</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="keycloakhelper.html" class="tsd-kind-icon">Keycloak<wbr>Helper</a>
@@ -218,13 +234,16 @@
 						<a href="oauth2auth.html" class="tsd-kind-icon">OAuth2<wbr>Auth</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="oauth2clientoptions.html" class="tsd-kind-icon">OAuth2<wbr>Client<wbr>Options</a>
+						<a href="oauth2options.html" class="tsd-kind-icon">OAuth2<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="oauth2rbac.html" class="tsd-kind-icon">OAuth2RBAC</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="oauth2response.html" class="tsd-kind-icon">OAuth2<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="oauth2credentials.html" class="tsd-kind-icon">Oauth2<wbr>Credentials</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -240,6 +259,9 @@
 				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="salesforceauth.html" class="tsd-kind-icon">Salesforce<wbr>Auth</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="scopeauthorization.html" class="tsd-kind-icon">Scope<wbr>Authorization</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="shopifyauth.html" class="tsd-kind-icon">Shopify<wbr>Auth</a>

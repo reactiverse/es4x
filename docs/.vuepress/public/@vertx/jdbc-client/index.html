@@ -62,24 +62,28 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<p><img src="https://img.shields.io/npm/v/@vertx/jdbc-client.svg" alt="npm (scoped)">
-					<img src="https://img.shields.io/npm/l/@vertx/jdbc-client.svg" alt="npm">
-				<img src="https://snyk-widget.herokuapp.com/badge/npm/@vertx/jdbc-client.svg" alt="Security Status"></p>
+				<p><img src="https://img.shields.io/npm/v/@vertx/sql-common.svg" alt="npm (scoped)">
+					<img src="https://img.shields.io/npm/l/@vertx/sql-common.svg" alt="npm">
+				<img src="https://snyk-widget.herokuapp.com/badge/npm/%40vertx%2Fsql-common/badge.svg" alt="Security Status"></p>
 				<p>Generated JavaScript bindings for Eclipse Vert.x.</p>
 				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
 					<h2>Documentation</h2>
 				</a>
 				<ul>
-					<li><a href="https://reactiverse.io/es4x/@vertx/jdbc-client">API Docs</a></li>
-					<li><a href="https://reactiverse.io/es4x/manual/@vertx/jdbc-client">Manual</a></li>
-					<li><a href="https://www.npmjs.com/package/@vertx/jdbc-client">NPM module</a></li>
+					<li><a href="https://reactiverse.io/es4x/@vertx/sql-common">API Docs</a></li>
+					<li><a href="https://reactiverse.io/es4x/manual/@vertx/sql-common">Manual</a></li>
+					<li><a href="https://www.npmjs.com/package/@vertx/sql-common">NPM module</a></li>
 				</ul>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
 				</a>
 				<p>Import the required <code>API</code>/<code>Enum</code>/<code>DataObject</code> and profit!</p>
 				<pre><code class="language-js"><span class="hljs-comment">// Base API</span>
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> API <span class="hljs-keyword">from</span> <span class="hljs-string">'@vertx/jdbc-client'</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> API <span class="hljs-keyword">from</span> <span class="hljs-string">'@vertx/sql-common'</span>;
+<span class="hljs-comment">// Base ENUMs</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> ENUMS <span class="hljs-keyword">from</span> <span class="hljs-string">'@vertx/sql-common/enums'</span>;
+<span class="hljs-comment">// DataObject's</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> OPTIONS <span class="hljs-keyword">from</span> <span class="hljs-string">'@vertx/sql-common/options'</span>;
 
 <span class="hljs-comment">// refer to the API docs for specific help...</span>
 
@@ -113,8 +117,50 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/fetchdirection.html" class="tsd-kind-icon">Fetch<wbr>Direction</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/resultsetconcurrency.html" class="tsd-kind-icon">Result<wbr>Set<wbr>Concurrency</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/resultsettype.html" class="tsd-kind-icon">Result<wbr>Set<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/transactionisolation.html" class="tsd-kind-icon">Transaction<wbr>Isolation</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/jdbcclient.html" class="tsd-kind-icon">JDBCClient</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/jdbcconnectoptions.html" class="tsd-kind-icon">JDBCConnect<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/jdbcpool.html" class="tsd-kind-icon">JDBCPool</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/resultset.html" class="tsd-kind-icon">Result<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sqlclient.html" class="tsd-kind-icon">SQLClient</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sqlconnection.html" class="tsd-kind-icon">SQLConnection</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sqloptions.html" class="tsd-kind-icon">SQLOptions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sqlrowstream.html" class="tsd-kind-icon">SQLRow<wbr>Stream</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sqloutparam.html" class="tsd-kind-icon">Sql<wbr>Out<wbr>Param</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/updateresult.html" class="tsd-kind-icon">Update<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqloperations.html" class="tsd-kind-icon">SQLOperations</a>
 					</li>
 				</ul>
 			</nav>
@@ -126,11 +172,18 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 		</div>
 	</div>
