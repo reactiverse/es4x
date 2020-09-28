@@ -30,8 +30,7 @@ public class PM {
   }
 
   private static void verifyRuntime(boolean fatal) {
-    final GraalVMVersion vmVersion = new GraalVMVersion();
-    if (vmVersion.isGraalVM()) {
+    if (GraalVMVersion.isGraalVM()) {
       // graalvm version should be aligned with the dependencies
       // used on the application, otherwise it introduces some
       // unwanted side effects
@@ -40,11 +39,11 @@ public class PM {
           final Properties versions = new Properties();
           versions.load(is);
           String wanted = versions.getProperty("graalvm");
-          if (!vmVersion.isGreaterOrEqual(wanted)) {
+          if (!GraalVMVersion.isGreaterOrEqual(wanted)) {
             if (fatal) {
-              fatal(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }%sFor installation help see: https://www.graalvm.org/docs/getting-started-with-graalvm/", wanted, vmVersion.toString(), System.lineSeparator()));
+              fatal(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }%sFor installation help see: https://www.graalvm.org/docs/getting-started-with-graalvm/", wanted, GraalVMVersion.version(), System.lineSeparator()));
             } else {
-              warn(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }%sFor installation help see: https://www.graalvm.org/docs/getting-started-with-graalvm/", wanted, vmVersion.toString(), System.lineSeparator()));
+              warn(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }%sFor installation help see: https://www.graalvm.org/docs/getting-started-with-graalvm/", wanted, GraalVMVersion.version(), System.lineSeparator()));
             }
           }
         }
@@ -85,6 +84,11 @@ public class PM {
       case Versions.NAME:
         verifyRuntime(true);
         new Versions(cmdArgs).run();
+        System.exit(0);
+        return;
+      case Vmargs.NAME:
+        verifyRuntime(true);
+        new Vmargs(cmdArgs).run();
         System.exit(0);
         return;
       case "-h":

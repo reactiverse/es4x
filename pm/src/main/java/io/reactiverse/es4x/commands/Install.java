@@ -3,6 +3,7 @@ package io.reactiverse.es4x.commands;
 import io.reactiverse.es4x.cli.CmdLineParser;
 import io.reactiverse.es4x.commands.proxies.JsonArrayProxy;
 import io.reactiverse.es4x.commands.proxies.JsonObjectProxy;
+import io.reactiverse.es4x.cli.GraalVMVersion;
 import org.eclipse.aether.artifact.Artifact;
 
 import java.io.*;
@@ -177,20 +178,13 @@ public class Install implements Runnable {
     final File libs = new File(base, ".lib");
 
     if (force || libs.exists()) {
-      final double version = Double.parseDouble(System.getProperty("java.specification.version"));
-      final boolean isGraalVM =
-        System.getProperty("java.vm.name", "").toLowerCase().contains("graalvm") ||
-        // from graal 20.0.0 the vm name doesn't contain graalvm in the name
-        // but it is now part of the vendor version
-        System.getProperty("java.vendor.version", "").toLowerCase().contains("graalvm");
-
-      if (!isGraalVM) {
-
+      if (!GraalVMVersion.isGraalVM()) {
         // not on graal, install graaljs and dependencies
         warn("Installing GraalJS...");
         // graaljs + dependencies
         installGraalJS(artifacts);
 
+        final double version = Double.parseDouble(System.getProperty("java.specification.version"));
         if (version >= 11) {
           // verify if the current JDK contains the jdk.internal.vm.ci module
           try {
