@@ -86,11 +86,11 @@ public class PM {
         new Versions(cmdArgs).run();
         System.exit(0);
         return;
-      case Vmargs.NAME:
-        verifyRuntime(true);
-        new Vmargs(cmdArgs).run();
-        System.exit(0);
-        return;
+//      case Vmargs.NAME:
+//        verifyRuntime(true);
+//        new Vmargs(cmdArgs).run();
+//        System.exit(0);
+//        return;
       case "-h":
       case "--help":
         verifyRuntime(false);
