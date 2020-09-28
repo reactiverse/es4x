@@ -6,17 +6,17 @@ import java.util.regex.Pattern;
 public class GraalVMVersion {
 
   /* graalvm version format: year.release.bugfix */
-  private final boolean graalvm;
-  private final int year;
-  private final int release;
-  private final int bugfix;
+  private static final boolean GRAALVM;
+  private static final int YEAR;
+  private static final int RELEASE;
+  private static final int BUGFIX;
 
-  public GraalVMVersion() {
+  static {
 
     final String VM_NAME = System.getProperty("java.vm.name", "").toLowerCase();
     final String VENDOR_VERSION = System.getProperty("java.vendor.version", "").toLowerCase();
 
-    graalvm =
+    GRAALVM =
       // from graal 20.0.0 the vm name doesn't contain graalvm in the name
       // but it is now part of the vendor version
       VENDOR_VERSION.contains("graalvm") || VM_NAME.contains("graalvm");
@@ -24,30 +24,31 @@ public class GraalVMVersion {
     Pattern p;
     Matcher m;
 
-    if (graalvm) {
+    if (GRAALVM) {
       p = Pattern.compile("graalvm .+? (\\d+)\\.(\\d+)\\.(\\d+)");
-      m = p.matcher(VENDOR_VERSION);
-      if (m.matches()) {
-        year = Integer.parseInt(m.group(1));
-        release = Integer.parseInt(m.group(2));
-        bugfix = Integer.parseInt(m.group(3));
+      // fallback for jdk8 graal, which seems to have a empty vendor
+      m = p.matcher("".equals(VENDOR_VERSION) ? VM_NAME : VENDOR_VERSION);
+      if (m.find()) {
+        YEAR = Integer.parseInt(m.group(1));
+        RELEASE = Integer.parseInt(m.group(2));
+        BUGFIX = Integer.parseInt(m.group(3));
       } else {
-        year = 0;
-        release = 0;
-        bugfix = 0;
+        YEAR = 0;
+        RELEASE = 0;
+        BUGFIX = 0;
       }
     } else {
-      year = 0;
-      release = 0;
-      bugfix = 0;
+      YEAR = 0;
+      RELEASE = 0;
+      BUGFIX = 0;
     }
   }
 
-  public boolean isGraalVM() {
-    return graalvm;
+  public static boolean isGraalVM() {
+    return GRAALVM;
   }
 
-  public boolean isGreaterOrEqual(String version) {
+  public static boolean isGreaterOrEqual(String version) {
     if (version == null) {
       return false;
     }
@@ -58,9 +59,9 @@ public class GraalVMVersion {
     int release = parseInt(parts, 1);
     int bugfix = parseInt(parts, 2);
 
-    if (this.year != year) return this.year - year >= 0;
-    if (this.release != release) return this.release - release >= 0;
-    return this.bugfix - bugfix >= 0;
+    if (YEAR != year) return YEAR - year >= 0;
+    if (RELEASE != release) return RELEASE - release >= 0;
+    return BUGFIX - bugfix >= 0;
   }
 
   private static int parseInt(String[] parts, int idx) {
@@ -75,8 +76,12 @@ public class GraalVMVersion {
     }
   }
 
+  public static String version() {
+    return String.format("%d.%d.%d", YEAR, RELEASE, BUGFIX);
+  }
+
   @Override
   public String toString() {
-    return String.format("%d.%d.%d", year, release, bugfix);
+    return version();
   }
 }
