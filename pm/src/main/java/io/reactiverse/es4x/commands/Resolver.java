@@ -102,12 +102,11 @@ final class Resolver {
   }
 
   private static boolean isOffline() {
-    boolean result = false;
     try {
-      result = Boolean.parseBoolean(System.getenv("npm_config_offline"));
+      return Boolean.parseBoolean(System.getenv("npm_config_offline"));
     } catch (IllegalArgumentException | NullPointerException e) {
+      return false;
     }
-    return result;
   }
 
   /**

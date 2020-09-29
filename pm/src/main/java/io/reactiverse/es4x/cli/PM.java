@@ -40,10 +40,11 @@ public class PM {
           versions.load(is);
           String wanted = versions.getProperty("graalvm");
           if (!GraalVMVersion.isGreaterOrEqual(wanted)) {
+            String msg = "Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }%sFor installation help see: https://www.graalvm.org/docs/getting-started-with-graalvm/";
             if (fatal) {
-              fatal(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }%sFor installation help see: https://www.graalvm.org/docs/getting-started-with-graalvm/", wanted, GraalVMVersion.version(), System.lineSeparator()));
+              fatal(String.format(msg, wanted, GraalVMVersion.version(), System.lineSeparator()));
             } else {
-              warn(String.format("Runtime GraalVM version mismatch { wanted: [%s], provided: [%s] }%sFor installation help see: https://www.graalvm.org/docs/getting-started-with-graalvm/", wanted, GraalVMVersion.version(), System.lineSeparator()));
+              warn(String.format(msg, wanted, GraalVMVersion.version(), System.lineSeparator()));
             }
           }
         }
@@ -55,8 +56,8 @@ public class PM {
 
   public static void main(String[] args) {
     if (args == null || args.length == 0) {
-      // default action is help
-      args = new String[] { "--help" };
+      // default action is "install -s"
+      args = new String[] { Install.NAME, "-s" };
     }
 
     String command = args[0];
@@ -86,11 +87,6 @@ public class PM {
         new Versions(cmdArgs).run();
         System.exit(0);
         return;
-//      case Vmargs.NAME:
-//        verifyRuntime(true);
-//        new Vmargs(cmdArgs).run();
-//        System.exit(0);
-//        return;
       case "-h":
       case "--help":
         verifyRuntime(false);

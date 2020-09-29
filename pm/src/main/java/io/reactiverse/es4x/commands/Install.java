@@ -16,6 +16,8 @@ import static io.reactiverse.es4x.cli.Helper.*;
 
 public class Install implements Runnable {
 
+  private static final int ENOPKG = 65;
+
   public static final String NAME = "install";
   public static final String SUMMARY = "Installs required jars from maven to 'node_modules'.";
 
@@ -33,7 +35,7 @@ public class Install implements Runnable {
     }
   }
 
-  private boolean force;
+  private boolean silent;
   private boolean link;
   private List<String> vendor;
   private File coreJar;
@@ -46,7 +48,7 @@ public class Install implements Runnable {
   public Install(String[] args) {
     CmdLineParser parser = new CmdLineParser();
     CmdLineParser.Option<Boolean> helpOption = parser.addBooleanOption('h', "help");
-    CmdLineParser.Option<Boolean> forceOption = parser.addBooleanOption('f', "force");
+    CmdLineParser.Option<Boolean> silentOption = parser.addBooleanOption('s', "silent");
     CmdLineParser.Option<String> vendorOption = parser.addStringOption('v', "vendor");
     CmdLineParser.Option<Boolean> linkOption = parser.addBooleanOption('l', "link");
 
@@ -66,9 +68,9 @@ public class Install implements Runnable {
       return;
     }
 
-    Boolean force = parser.getOptionValue(forceOption, Boolean.FALSE);
-    if (force != null && force) {
-      setForce(true);
+    Boolean silent = parser.getOptionValue(silentOption, Boolean.FALSE);
+    if (silent != null && silent) {
+      setSilent(true);
     }
 
     Boolean link = parser.getOptionValue(linkOption, Boolean.FALSE);
@@ -89,6 +91,7 @@ public class Install implements Runnable {
     System.err.println(" -f,--force\t\t\t\tWill always install a basic runtime in the current working dir.");
     System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
     System.err.println(" -l,--link\t\t\t\tSymlink jars instead of copy.");
+    System.err.println(" -s,--silent\t\t\t\tReturn statuscode 65 on success.");
     System.err.println();
   }
 
@@ -97,8 +100,8 @@ public class Install implements Runnable {
     return this;
   }
 
-  public void setForce(boolean force) {
-    this.force = force;
+  public void setSilent(boolean silent) {
+    this.silent = silent;
   }
 
   public void setLink(boolean link) {
@@ -174,32 +177,27 @@ public class Install implements Runnable {
     final Set<String> artifacts = new HashSet<>();
     installNodeModules(artifacts);
 
-    final File base = new File(cwd, "node_modules");
-    final File libs = new File(base, ".lib");
+    if (!GraalVMVersion.isGraalVM()) {
+      // not on graal, install graaljs and dependencies
+      warn("Installing GraalJS...");
+      // graaljs + dependencies
+      installGraalJS(artifacts);
 
-    if (force || libs.exists()) {
-      if (!GraalVMVersion.isGraalVM()) {
-        // not on graal, install graaljs and dependencies
-        warn("Installing GraalJS...");
-        // graaljs + dependencies
-        installGraalJS(artifacts);
-
-        final double version = Double.parseDouble(System.getProperty("java.specification.version"));
-        if (version >= 11) {
-          // verify if the current JDK contains the jdk.internal.vm.ci module
-          try {
-            String modules = exec(javaHomePrefix() + "java", "--list-modules");
-            if (modules.contains("jdk.internal.vm.ci")) {
-              warn("Installing JVMCI Compiler...");
-              // jvmci compiler + dependencies
-              installGraalJMVCICompiler();
-            }
-          } catch (IOException | InterruptedException e) {
-            err(e.getMessage());
+      final double version = Double.parseDouble(System.getProperty("java.specification.version"));
+      if (version >= 11) {
+        // verify if the current JDK contains the jdk.internal.vm.ci module
+        try {
+          String modules = exec(javaHomePrefix() + "java", "--list-modules");
+          if (modules.contains("jdk.internal.vm.ci")) {
+            warn("Installing JVMCI Compiler...");
+            // jvmci compiler + dependencies
+            installGraalJMVCICompiler();
           }
-        } else {
-          warn("Current JDK only supports GraalJS in Interpreted mode!");
+        } catch (IOException | InterruptedException e) {
+          err(e.getMessage());
         }
+      } else {
+        warn("Current JDK only supports GraalJS in Interpreted mode!");
       }
     }
 
@@ -207,6 +205,10 @@ public class Install implements Runnable {
     createLauncher(artifacts);
     // always install the es4x type definitions
     installTypeDefinitions();
+
+    if (silent) {
+      System.exit(ENOPKG);
+    }
   }
 
   private void installGraalJS(Set<String> artifacts) {
@@ -286,49 +288,46 @@ public class Install implements Runnable {
       }
     }
 
-    if (force || dependencies.size() > 0) {
-      File libs = new File(base, ".lib");
+    File libs = new File(base, ".lib");
 
-      try {
-        Resolver resolver = new Resolver();
+    try {
+      Resolver resolver = new Resolver();
 
-        // lookup root
-        String root = "io.reactiverse:es4x:" + VERSIONS.getProperty("es4x");
+      // lookup root
+      String root = "io.reactiverse:es4x:" + VERSIONS.getProperty("es4x");
 
-        for (String el : dependencies) {
-          // ensure we respect the wish of the user
-          if (el.startsWith("io.reactiverse:es4x:")) {
-            root = el;
-            break;
-          }
+      for (String el : dependencies) {
+        // ensure we respect the wish of the user
+        if (el.startsWith("io.reactiverse:es4x:")) {
+          root = el;
+          break;
         }
-
-        for (Artifact a : resolver.resolve(root, dependencies)) {
-
-          if (!libs.exists()) {
-            if (!libs.mkdirs()) {
-              fatal("Failed to mkdirs 'node_modules/.lib'.");
-            }
-          }
-          artifacts.add(".." + File.separator + ".lib" + File.separator + a.getFile().getName());
-          File destination = new File(libs, a.getFile().getName());
-
-          // locate core jar
-          if ("io.vertx".equals(a.getGroupId()) && "vertx-core".equals(a.getArtifactId())) {
-            coreJar = a.getFile();
-          }
-
-          if (!destination.exists()) {
-            if (link) {
-              Files.createSymbolicLink(destination.toPath(), a.getFile().toPath());
-            } else {
-              Files.copy(a.getFile().toPath(), destination.toPath());
-            }
-          }
-        }
-      } catch (IOException e) {
-        fatal(e.getMessage());
       }
+
+      for (Artifact a : resolver.resolve(root, dependencies)) {
+        if (!libs.exists()) {
+          if (!libs.mkdirs()) {
+            fatal("Failed to mkdirs 'node_modules/.lib'.");
+          }
+        }
+        artifacts.add(".." + File.separator + ".lib" + File.separator + a.getFile().getName());
+        File destination = new File(libs, a.getFile().getName());
+
+        // locate core jar
+        if ("io.vertx".equals(a.getGroupId()) && "vertx-core".equals(a.getArtifactId())) {
+          coreJar = a.getFile();
+        }
+
+        if (!destination.exists()) {
+          if (link) {
+            Files.createSymbolicLink(destination.toPath(), a.getFile().toPath());
+          } else {
+            Files.copy(a.getFile().toPath(), destination.toPath());
+          }
+        }
+      }
+    } catch (IOException e) {
+      fatal(e.getMessage());
     }
   }
 
@@ -518,7 +517,7 @@ public class Install implements Runnable {
 
     final File file = new File(atTypes, "es4x.d.ts");
 
-    if (force || !file.exists()) {
+    if (!file.exists()) {
       // Load the file from the class path
       try (InputStream in = Install.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/es4x.d.ts")) {
         if (in == null) {
