@@ -11,7 +11,7 @@ IF NOT EXIST "%JAVA_EXE%" (
 )
 
 IF NOT EXIST "node_modules\.bin\es4x-launcher.jar" (
-  %JAVA_EXE% %JAVA_OPTS% -cp %~dp0\..\es4x-pm-${project.version}.jar io.reactiverse.es4x.cli.PM %*
+  %JAVA_EXE% %JAVA_OPTS% -jar %~dp0\..\es4x-pm-${project.version}.jar %*
   IF %ERRORLEVEL% NEQ 65 (
     EXIT /B %ERRORLEVEL%
   )
@@ -36,5 +36,5 @@ IF EXIST "node_modules\.bin\es4x-launcher.jar" (
   %JAVA_EXE% -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %SECURITY_MANAGER% %LOGGING_PROPERTIES% %JAVA_OPTS% -cp "node_modules\.bin\es4x-launcher.jar;%~dp0\..\es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X %*
 ) ELSE (
   ECHO "Missing node_modules\.bin\es4x-launcher.jar"
-  EXIT /B 2
+  EXIT /B 3
 )

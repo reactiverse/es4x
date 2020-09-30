@@ -25,10 +25,10 @@ import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.IRETURN;
 
-public class JsonArray extends ClassVisitor {
+public class JsonArrayVisitor extends ClassVisitor {
 
-  public JsonArray() {
-    super(ASM7, new ClassWriter(COMPUTE_FRAMES) {
+  public JsonArrayVisitor() {
+    super(ASM9, new ClassWriter(COMPUTE_FRAMES) {
       @Override
       protected String getCommonSuperClass(String type1, String type2) {
         // Because we can't load dependent classes, this pleases the frame computation algorithm

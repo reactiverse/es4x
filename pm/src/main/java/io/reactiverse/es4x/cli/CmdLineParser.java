@@ -96,7 +96,7 @@ public class CmdLineParser {
    */
   public static class UnknownSuboptionException
     extends UnknownOptionException {
-    private char suboption;
+    private final char suboption;
 
     UnknownSuboptionException( String option, char suboption ) {
       super(option, "Illegal option: '"+suboption+"' in '"+option+"'");
@@ -115,7 +115,7 @@ public class CmdLineParser {
    * @author Vidar Holen
    */
   public static class NotFlagException extends UnknownOptionException {
-    private char notflag;
+    private final char notflag;
 
     NotFlagException( String option, char unflaggish ) {
       super(option, "Illegal option: '"+option+"', '"+
@@ -644,6 +644,6 @@ public class CmdLineParser {
 
 
   private String[] remainingArgs = null;
-  private Map<String, Option<?>> options = new HashMap<>(10);
+  private final Map<String, Option<?>> options = new HashMap<>(10);
   private Map<String, List<?>> values = new HashMap<>(10);
 }

@@ -27,7 +27,7 @@ else
 fi
 
 if [ ! -f "node_modules/.bin/es4x-launcher.jar" ]; then
-  "$JAVA_EXE" $JAVA_OPTS -cp "$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.cli.PM "$@"
+  "$JAVA_EXE" $JAVA_OPTS -jar "$basedir/../es4x-pm-${project.version}.jar" "$@"
   EXIT_STATUS=$?
   if [[ "$EXIT_STATUS" -ne "65" ]]; then
     exit $EXIT_STATUS
@@ -53,5 +53,5 @@ if [[ -f "node_modules/.bin/es4x-launcher.jar" ]]; then
   exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS -cp "node_modules/.bin/es4x-launcher.jar:$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X "$@"
 else
   echo "Missing node_modules/.bin/es4x-launcher.jar"
-  exit 2
+  exit 3
 fi

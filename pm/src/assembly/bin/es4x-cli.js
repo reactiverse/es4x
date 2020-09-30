@@ -21,7 +21,7 @@ if (!existsSync(path.join(process.cwd(), launcher))) {
   let statusCode =
     spawnSync(
       java,
-      ['-cp', `${path.join(__dirname, '..', pm)}`, 'io.reactiverse.es4x.cli.PM'].concat(process.argv.slice(2)),
+      ['-jar', `${path.join(__dirname, '..', pm)}`].concat(process.argv.slice(2)),
       {cwd: process.cwd(), env: process.env, stdio: 'inherit'}).status;
 
   if (statusCode !== 65) {

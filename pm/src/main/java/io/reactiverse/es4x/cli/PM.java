@@ -15,8 +15,12 @@
  */
 package io.reactiverse.es4x.cli;
 
-import io.reactiverse.es4x.commands.*;
+import io.reactiverse.es4x.commands.Install;
+import io.reactiverse.es4x.commands.Project;
+import io.reactiverse.es4x.commands.SecurityPolicy;
+import io.reactiverse.es4x.commands.Versions;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -24,6 +28,8 @@ import java.util.Properties;
 import static io.reactiverse.es4x.cli.Helper.*;
 
 public class PM {
+
+  private static final int ENOPKG = 65;
 
   private static void printUsage() {
     System.err.println("Usage: es4x [COMMAND] [OPTIONS] [arg...]");
@@ -69,16 +75,23 @@ public class PM {
     }
   }
 
+  private static final String[] EMPTY_ARGS = new String[]{""};
+  private static final String[] EMPTY = new String[]{};
+
   public static void main(String[] args) {
     if (args == null || args.length == 0) {
-      // default action is "install -s"
-      args = new String[] { Install.NAME, "-s" };
+      args = EMPTY_ARGS;
     }
 
     String command = args[0];
+    String[] cmdArgs;
     // strip the command out of the arguments
-    String[] cmdArgs = new String[args.length - 1];
-    System.arraycopy(args, 1, cmdArgs, 0, cmdArgs.length);
+    if (args.length > 1) {
+      cmdArgs = new String[args.length - 1];
+      System.arraycopy(args, 1, cmdArgs, 0, cmdArgs.length);
+    } else {
+      cmdArgs = EMPTY;
+    }
 
     switch (command) {
       case "app":
@@ -102,6 +115,13 @@ public class PM {
         new Versions(cmdArgs).run();
         System.exit(0);
         return;
+      case "":
+      case "run":
+      case "start":
+        verifyRuntime(true);
+        new Install(cmdArgs).run();
+        System.exit(ENOPKG);
+        return;
       case "-h":
       case "--help":
         verifyRuntime(false);
@@ -109,9 +129,24 @@ public class PM {
         System.exit(0);
         return;
       default:
-        verifyRuntime(false);
-        printUsage();
-        System.exit(2);
+        // special case, the argument is a valid path
+        // in this case, assume install is needed
+        try {
+          File path = new File(command);
+          if (path.exists()) {
+            verifyRuntime(true);
+            new Install(cmdArgs).run();
+            System.exit(ENOPKG);
+          } else {
+            verifyRuntime(false);
+            printUsage();
+            System.exit(2);
+          }
+        } catch (RuntimeException e) {
+          verifyRuntime(false);
+          printUsage();
+          System.exit(2);
+        }
     }
   }
 }

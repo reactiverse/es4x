@@ -1,8 +1,8 @@
 package io.reactiverse.es4x;
 
-import io.reactiverse.es4x.asm.FutureBase;
-import io.reactiverse.es4x.asm.JsonArray;
-import io.reactiverse.es4x.asm.JsonObject;
+import io.reactiverse.es4x.asm.FutureBaseVisitor;
+import io.reactiverse.es4x.asm.JsonArrayVisitor;
+import io.reactiverse.es4x.asm.JsonObjectVisitor;
 import io.reactiverse.es4x.commands.Resolver;
 import org.eclipse.aether.artifact.Artifact;
 
@@ -39,7 +39,7 @@ public class VertxPatch {
       while ((je = jar.getNextJarEntry()) != null) {
         switch (je.getName()) {
           case "io/vertx/core/json/JsonObject.class":
-            bytes = new JsonObject().rewrite(jar);
+            bytes = new JsonObjectVisitor().rewrite(jar);
             target = new File(args[1], "io/vertx/core/json");
             target.mkdirs();
             try (OutputStream writer = new FileOutputStream(new File(target, "JsonObject.class"))) {
@@ -48,7 +48,7 @@ public class VertxPatch {
             break;
 
           case "io/vertx/core/json/JsonArray.class":
-            bytes = new JsonArray().rewrite(jar);
+            bytes = new JsonArrayVisitor().rewrite(jar);
             target = new File(args[1], "io/vertx/core/json");
             target.mkdirs();
             try (OutputStream writer = new FileOutputStream(new File(target, "JsonArray.class"))) {
@@ -56,7 +56,7 @@ public class VertxPatch {
             }
             break;
           case "io/vertx/core/impl/future/FutureBase.class":
-            bytes = new FutureBase().rewrite(jar);
+            bytes = new FutureBaseVisitor().rewrite(jar);
             target = new File(args[1], "io/vertx/core/impl/future");
             target.mkdirs();
             try (OutputStream writer = new FileOutputStream(new File(target, "FutureBase.class"))) {

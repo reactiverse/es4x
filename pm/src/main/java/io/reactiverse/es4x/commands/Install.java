@@ -15,10 +15,12 @@
  */
 package io.reactiverse.es4x.commands;
 
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
 import io.reactiverse.es4x.cli.CmdLineParser;
-import io.reactiverse.es4x.asm.FutureBase;
-import io.reactiverse.es4x.asm.JsonArray;
-import io.reactiverse.es4x.asm.JsonObject;
+import io.reactiverse.es4x.asm.FutureBaseVisitor;
+import io.reactiverse.es4x.asm.JsonArrayVisitor;
+import io.reactiverse.es4x.asm.JsonObjectVisitor;
 import io.reactiverse.es4x.cli.GraalVMVersion;
 import org.eclipse.aether.artifact.Artifact;
 
@@ -31,8 +33,6 @@ import java.util.jar.*;
 import static io.reactiverse.es4x.cli.Helper.*;
 
 public class Install implements Runnable {
-
-  private static final int ENOPKG = 65;
 
   public static final String NAME = "install";
   public static final String SUMMARY = "Installs required jars from maven to 'node_modules'.";
@@ -51,7 +51,6 @@ public class Install implements Runnable {
     }
   }
 
-  private boolean silent;
   private boolean link;
   private List<String> vendor;
   private File coreJar;
@@ -59,12 +58,14 @@ public class Install implements Runnable {
   private File cwd;
 
   public Install() {
+    if (isUnix()) {
+      link = true;
+    }
   }
 
   public Install(String[] args) {
     CmdLineParser parser = new CmdLineParser();
     CmdLineParser.Option<Boolean> helpOption = parser.addBooleanOption('h', "help");
-    CmdLineParser.Option<Boolean> silentOption = parser.addBooleanOption('s', "silent");
     CmdLineParser.Option<String> vendorOption = parser.addStringOption('v', "vendor");
     CmdLineParser.Option<Boolean> linkOption = parser.addBooleanOption('l', "link");
 
@@ -84,12 +85,7 @@ public class Install implements Runnable {
       return;
     }
 
-    Boolean silent = parser.getOptionValue(silentOption, Boolean.FALSE);
-    if (silent != null && silent) {
-      setSilent(true);
-    }
-
-    Boolean link = parser.getOptionValue(linkOption, Boolean.FALSE);
+    Boolean link = parser.getOptionValue(linkOption, isUnix());
     if (link != null && link) {
       setLink(true);
     }
@@ -107,17 +103,12 @@ public class Install implements Runnable {
     System.err.println(" -f,--force\t\t\t\tWill always install a basic runtime in the current working dir.");
     System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
     System.err.println(" -l,--link\t\t\t\tSymlink jars instead of copy.");
-    System.err.println(" -s,--silent\t\t\t\tReturn statuscode 65 on success.");
     System.err.println();
   }
 
   public Install setCwd(File cwd) {
     this.cwd = cwd;
     return this;
-  }
-
-  public void setSilent(boolean silent) {
-    this.silent = silent;
   }
 
   public void setLink(boolean link) {
@@ -136,15 +127,15 @@ public class Install implements Runnable {
 
   private static void processPackageJson(File json, Set<String> dependencies) throws IOException {
     if (json.exists()) {
-      Map npm = JSON.parse(json, Map.class);
+      JsonObject npm = JSON.parse(json);
       if (npm.containsKey("maven")) {
-        final Map maven = (Map) npm.get("maven");
+        final JsonObject maven = (JsonObject) npm.get("maven");
         // add this dependency
         dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
       }
 
       if (npm.containsKey("mvnDependencies")) {
-        final List maven = (List) npm.get("mvnDependencies");
+        final JsonArray maven = (JsonArray) npm.get("mvnDependencies");
         for (Object el : maven) {
           // add this dependency
           dependencies.add((String) el);
@@ -154,7 +145,7 @@ public class Install implements Runnable {
       // only run if not production
       if (!isProduction()) {
         if (npm.containsKey("mvnDevDependencies")) {
-          final List maven = (List) npm.get("mvnDevDependencies");
+          final JsonArray maven = (JsonArray) npm.get("mvnDevDependencies");
           for (Object el : maven) {
             // add this dependency
             dependencies.add((String) el);
@@ -221,10 +212,6 @@ public class Install implements Runnable {
     createLauncher(artifacts);
     // always install the es4x type definitions
     installTypeDefinitions();
-
-    if (silent) {
-      System.exit(ENOPKG);
-    }
   }
 
   private void installGraalJS(Set<String> artifacts) {
@@ -353,7 +340,7 @@ public class Install implements Runnable {
 
     if (json.exists()) {
       try {
-        Map npm = JSON.parse(json, Map.class);
+        JsonObject npm = JSON.parse(json);
         // default main script
         String main = ".";
         String verticleFactory = "js";
@@ -407,17 +394,17 @@ public class Install implements Runnable {
                   switch (je.getName()) {
                     case "io/vertx/core/json/JsonObject.class":
                       target.putNextEntry(je);
-                      target.write(new JsonObject().rewrite(jar));
+                      target.write(new JsonObjectVisitor().rewrite(jar));
                       target.closeEntry();
                       break;
                     case "io/vertx/core/json/JsonArray.class":
                       target.putNextEntry(je);
-                      target.write(new JsonArray().rewrite(jar));
+                      target.write(new JsonArrayVisitor().rewrite(jar));
                       target.closeEntry();
                       break;
                     case "io/vertx/core/impl/future/FutureBase.class":
                       target.putNextEntry(je);
-                      target.write(new FutureBase().rewrite(jar));
+                      target.write(new FutureBaseVisitor().rewrite(jar));
                       target.closeEntry();
                       break;
                   }

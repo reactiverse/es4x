@@ -25,7 +25,7 @@ public class ProjectCommandTest {
     command.run();
     assertTrue(packageJson.exists());
 
-    Map json = JSON.parse(packageJson, Map.class);
+    Map json = JSON.parse(packageJson);
     assertEquals(projectName, json.get("name"));
   }
 }

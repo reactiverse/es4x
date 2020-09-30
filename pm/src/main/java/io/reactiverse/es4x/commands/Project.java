@@ -1,12 +1,27 @@
+/*
+ * Copyright 2019 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.commands;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
 import io.reactiverse.es4x.cli.CmdLineParser;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.Map;
 
 import static io.reactiverse.es4x.cli.Helper.fatal;
 
@@ -128,7 +143,7 @@ public class Project implements Runnable {
         }
       }
 
-      Map npm = JSON.parse(file, Map.class);
+      JsonObject npm = JSON.parse(file);
       String name = null;
 
       // this was a new project, either derive the name from the cwd or set to "unnamed"
@@ -144,8 +159,7 @@ public class Project implements Runnable {
 
       JSON.encode(file, npm);
 
-    } catch (
-      IOException e) {
+    } catch (IOException e) {
       fatal(e.getMessage());
     }
   }

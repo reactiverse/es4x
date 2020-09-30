@@ -25,12 +25,6 @@ public class InstallCommand extends DefaultCommand {
 
   private final Install command = new Install();
 
-  @Option(longName = "silent", shortName = "s", flag = true)
-  @Description("Will will silently install and return a status code 65.")
-  public void setForce(boolean silent) {
-    command.setSilent(silent);
-  }
-
   @Option(longName = "vendor", shortName = "v")
   @Description("Comma separated list of vendor jars.")
   public void setVendor(String vendor) {

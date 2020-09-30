@@ -27,10 +27,10 @@ import java.io.InputStream;
 import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
 import static org.objectweb.asm.Opcodes.*;
 
-public class FutureBase extends ClassVisitor {
+public class FutureBaseVisitor extends ClassVisitor {
 
-  public FutureBase() {
-    super(ASM7, new ClassWriter(COMPUTE_FRAMES) {
+  public FutureBaseVisitor() {
+    super(ASM9, new ClassWriter(COMPUTE_FRAMES) {
       @Override
       protected String getCommonSuperClass(String type1, String type2) {
         // Because we can't load dependent classes, this pleases the frame computation algorithm

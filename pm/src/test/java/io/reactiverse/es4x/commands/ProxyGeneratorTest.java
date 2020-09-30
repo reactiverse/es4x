@@ -1,8 +1,8 @@
 package io.reactiverse.es4x.commands;
 
-import io.reactiverse.es4x.asm.FutureBase;
-import io.reactiverse.es4x.asm.JsonArray;
-import io.reactiverse.es4x.asm.JsonObject;
+import io.reactiverse.es4x.asm.FutureBaseVisitor;
+import io.reactiverse.es4x.asm.JsonArrayVisitor;
+import io.reactiverse.es4x.asm.JsonObjectVisitor;
 import io.vertx.core.impl.launcher.commands.VersionCommand;
 import org.eclipse.aether.artifact.Artifact;
 import org.junit.BeforeClass;
@@ -42,7 +42,7 @@ public class ProxyGeneratorTest {
       JarEntry je;
       while ((je = jar.getNextJarEntry()) != null) {
         if ("io/vertx/core/json/JsonObject.class".equals(je.getName())) {
-          byte[] bytes = new JsonObject().rewrite(jar);
+          byte[] bytes = new JsonObjectVisitor().rewrite(jar);
           assertNotNull(bytes);
           new File("target/classes/io/vertx/core/json").mkdirs();
           try (OutputStream writer = new FileOutputStream("target/classes/io/vertx/core/json/JsonObject.class")) {
@@ -50,7 +50,7 @@ public class ProxyGeneratorTest {
           }
         }
         if ("io/vertx/core/json/JsonArray.class".equals(je.getName())) {
-          byte[] bytes = new JsonArray().rewrite(jar);
+          byte[] bytes = new JsonArrayVisitor().rewrite(jar);
           assertNotNull(bytes);
           new File("target/classes/io/vertx/core/json").mkdirs();
           try (OutputStream writer = new FileOutputStream("target/classes/io/vertx/core/json/JsonArray.class")) {
@@ -58,7 +58,7 @@ public class ProxyGeneratorTest {
           }
         }
         if ("io/vertx/core/impl/future/FutureBase.class".equals(je.getName())) {
-          byte[] bytes = new FutureBase().rewrite(jar);
+          byte[] bytes = new FutureBaseVisitor().rewrite(jar);
           assertNotNull(bytes);
           new File("target/classes/io/vertx/core/impl/future").mkdirs();
           try (OutputStream writer = new FileOutputStream("target/classes/io/vertx/core/impl/future/FutureBase.class")) {
