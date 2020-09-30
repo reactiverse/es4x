@@ -26,19 +26,17 @@ else
   fi
 fi
 
+if [ ! -f "node_modules/.bin/es4x-launcher.jar" ]; then
+  "$JAVA_EXE" $JAVA_OPTS -cp "$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.cli.PM "$@"
+  EXIT_STATUS=$?
+  if [[ "$EXIT_STATUS" -ne "65" ]]; then
+    exit $EXIT_STATUS
+  fi
+fi
+
 # Use JVMCI if installed
 if [[ -d "node_modules/.jvmci" ]]; then
   JVMCI="--module-path=node_modules/.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=node_modules/.jvmci/compiler.jar"
-fi
-
-# If exists node_modules/.bin/es4x-launcher.jar && node_modules/.lib
-# use it's class path (else rely on PM runtime)
-if [[ -f "node_modules/.bin/es4x-launcher.jar" ]] && [[ -d "node_modules/.lib" ]]; then
-  APP_RUNTIME="node_modules/.bin/es4x-launcher.jar:$basedir/../es4x-pm-${project.version}.jar"
-  APP_MAIN="io.reactiverse.es4x.ES4X"
-else
-  APP_MAIN="io.reactiverse.es4x.cli.PM"
-  APP_RUNTIME="$basedir/../es4x-pm-${project.version}.jar"
 fi
 
 # If exists security.policy start the VM in secure mode
@@ -51,4 +49,9 @@ if [[ -f "logging.properties" ]]; then
   LOGGING_PROPERTIES="-Djava.util.logging.config.file=logging.properties"
 fi
 
-exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS -cp "$APP_RUNTIME" $APP_MAIN "$@"
+if [[ -f "node_modules/.bin/es4x-launcher.jar" ]]; then
+  exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS -cp "node_modules/.bin/es4x-launcher.jar:$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X "$@"
+else
+  echo "Missing node_modules/.bin/es4x-launcher.jar"
+  exit 2
+fi

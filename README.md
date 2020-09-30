@@ -14,11 +14,6 @@ JavaScript is fast, and this is the way to make it even faster 🚀🚀🚀
 
 ## Usage
 
-```bash
-# add es4x-pm globally
-npm install -g es4x-pm
-```
-
 Create a project:
 
 ```
@@ -26,7 +21,7 @@ Create a project:
 mkdir my-app
 cd my-app
 # init the project
-es4x init
+npm init @es4x project
 # add other dependencies...
 npm install @vertx/unit --save-dev
 npm install @vertx/core --save-prod
