@@ -2,13 +2,12 @@
   "name": "es4x-docs",
   "version": "1.0.0",
   "private": true,
-  "devDependencies": {
-    "vuepress": "^1.5.4",
-    "gh-pages": "^3.1.0"
+  "dependencies": {
+    "vuepress": "^1.5.4"
   },
   "scripts": {
+    "docs:tsdocs": "cd generator && ./build.sh",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "docs:publish": "node -e 'require(\"gh-pages\").publish(\"docs/.vuepress/dist\", (err) => { if (err) { throw err; }})'"
+    "docs:build": "vuepress build docs"
   }
 }
