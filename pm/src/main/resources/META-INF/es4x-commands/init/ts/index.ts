@@ -7,7 +7,7 @@ vertx
     req.response()
       .putHeader("content-type", "text/plain")
       .end("Hello!");
-  }).listen(8080);
+  }).listen(3000);
 
-console.log('Listening at http://127.0.0.1:8080');
+console.log('Server started on port 3000');
 

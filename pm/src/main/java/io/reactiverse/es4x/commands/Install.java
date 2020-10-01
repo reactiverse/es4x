@@ -58,9 +58,6 @@ public class Install implements Runnable {
   private File cwd;
 
   public Install() {
-    if (isUnix()) {
-      link = true;
-    }
   }
 
   public Install(String[] args) {
@@ -85,7 +82,7 @@ public class Install implements Runnable {
       return;
     }
 
-    Boolean link = parser.getOptionValue(linkOption, isUnix());
+    Boolean link = parser.getOptionValue(linkOption, false);
     if (link != null && link) {
       setLink(true);
     }
