@@ -9,7 +9,7 @@ All generated APIs relate to the core vert.x APIs, so for better understanding o
 The Vert.x core APIs contain the backbone for writing Vert.x applications and low-level support for HTTP, TCP, UDP,
 file system, asynchronous streams and many other building blocks. It is also used by many other components of Vert.x.
 
-* [core](/@vertx/core)
+* [core](/es4x/@vertx/core)
 
 ## Web
 
