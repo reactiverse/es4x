@@ -29,6 +29,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-
 
+      - run: mvn install
       - run: npm ci
       - run: npm run docs:tsdocs
       - run: npm run docs:build
