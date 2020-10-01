@@ -80,23 +80,15 @@
 				<ul class="tsd-hierarchy">
 					<li>
 						<span class="tsd-signature-type">any</span>
+					</li>
+					<li>
+						<a href="authenticationhandler.html" class="tsd-signature-type">AuthenticationHandler</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">AuthHandler</span>
 							</li>
 						</ul>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implemented by</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../classes/basicauthhandler.html" class="tsd-signature-type">BasicAuthHandler</a></li>
-					<li><a href="../classes/chainauthhandler.html" class="tsd-signature-type">ChainAuthHandler</a></li>
-					<li><a href="../classes/digestauthhandler.html" class="tsd-signature-type">DigestAuthHandler</a></li>
-					<li><a href="../classes/jwtauthhandler.html" class="tsd-signature-type">JWTAuthHandler</a></li>
-					<li><a href="../classes/oauth2authhandler.html" class="tsd-signature-type">OAuth2AuthHandler</a></li>
-					<li><a href="../classes/redirectauthhandler.html" class="tsd-signature-type">RedirectAuthHandler</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -108,9 +100,10 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="authhandler.html#addauthorities" class="tsd-kind-icon">add<wbr>Authorities</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="authhandler.html#addauthority" class="tsd-kind-icon">add<wbr>Authority</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="authhandler.html#authenticateheader" class="tsd-kind-icon">authenticate<wbr>Header</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="authhandler.html#authorize" class="tsd-kind-icon">authorize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="authhandler.html#handle" class="tsd-kind-icon">handle</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="authhandler.html#parsecredentials" class="tsd-kind-icon">parse<wbr>Credentials</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="authhandler.html#handle" class="tsd-kind-icon">handle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite"><a href="authhandler.html#parsecredentials" class="tsd-kind-icon">parse<wbr>Credentials</a></li>
 							</ul>
 						</section>
 					</div>
@@ -128,7 +121,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:39</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/index.d.ts:53</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -156,7 +149,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:34</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/index.d.ts:48</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -174,6 +167,35 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+					<a name="authenticateheader" class="tsd-anchor"></a>
+					<h3>authenticate<wbr>Header</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">authenticate<wbr>Header<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../classes/routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="authenticationhandler.html">AuthenticationHandler</a>.<a href="authenticationhandler.html#authenticateheader">authenticateHeader</a></p>
+								<ul>
+									<li>Defined in io.vertx/vertx-web/target/npm/index.d.ts:43</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>context: <a href="../classes/routingcontext.html" class="tsd-signature-type">RoutingContext</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 					<a name="authorize" class="tsd-anchor"></a>
 					<h3>authorize</h3>
@@ -184,7 +206,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:51</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/index.d.ts:58</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -205,17 +227,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="handle" class="tsd-anchor"></a>
 					<h3>handle</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">handle<span class="tsd-signature-symbol">(</span>arg0<span class="tsd-signature-symbol">: </span><a href="../classes/routingcontext.html" class="tsd-signature-type">RoutingContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="authenticationhandler.html">AuthenticationHandler</a>.<a href="authenticationhandler.html#handle">handle</a></p>
 								<ul>
-									<li>Defined in index.d.ts:29</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/index.d.ts:31</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -228,17 +251,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="parsecredentials" class="tsd-anchor"></a>
 					<h3>parse<wbr>Credentials</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Credentials<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../classes/routingcontext.html" class="tsd-signature-type">RoutingContext</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Credentials<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../classes/routingcontext.html" class="tsd-signature-type">RoutingContext</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Credentials</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Credentials</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="authenticationhandler.html">AuthenticationHandler</a>.<a href="authenticationhandler.html#parsecredentials">parseCredentials</a></p>
 								<ul>
-									<li>Defined in index.d.ts:46</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/index.d.ts:38</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -254,7 +278,7 @@
 									<h5>context: <a href="../classes/routingcontext.html" class="tsd-signature-type">RoutingContext</a></h5>
 								</li>
 								<li>
-									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Credentials</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Credentials</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -284,13 +308,16 @@
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="authhandler.html#addauthority" class="tsd-kind-icon">add<wbr>Authority</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
+								<a href="authhandler.html#authenticateheader" class="tsd-kind-icon">authenticate<wbr>Header</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="authhandler.html#authorize" class="tsd-kind-icon">authorize</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="authhandler.html#handle" class="tsd-kind-icon">handle</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="authhandler.html#parsecredentials" class="tsd-kind-icon">parse<wbr>Credentials</a>
 							</li>
 						</ul>
@@ -328,6 +355,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

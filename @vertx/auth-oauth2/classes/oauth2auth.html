@@ -67,7 +67,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Factory interface for creating OAuth2 based {@link AuthProvider} instances.</p>
+						<p>Factory interface for creating OAuth2 based {@link AuthenticationProvider} instances.</p>
 					</div>
 				</div>
 			</section>
@@ -93,15 +93,17 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#authorizeurl" class="tsd-kind-icon">authorizeURL</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#decodetoken" class="tsd-kind-icon">decode<wbr>Token</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#endsessionurl" class="tsd-kind-icon">end<wbr>SessionURL</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#getflowtype" class="tsd-kind-icon">get<wbr>Flow<wbr>Type</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#getscopeseparator" class="tsd-kind-icon">get<wbr>Scope<wbr>Separator</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#gettoken" class="tsd-kind-icon">get<wbr>Token</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#introspecttoken" class="tsd-kind-icon">introspect<wbr>Token</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#jwkset" class="tsd-kind-icon">jWKSet</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#loadjwk" class="tsd-kind-icon">loadJWK</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#missingkeyhandler" class="tsd-kind-icon">missing<wbr>Key<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#rbachandler" class="tsd-kind-icon">rbac<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#refresh" class="tsd-kind-icon">refresh</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#revoke" class="tsd-kind-icon">revoke</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oauth2auth.html#userinfo" class="tsd-kind-icon">user<wbr>Info</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="oauth2auth.html#create" class="tsd-kind-icon">create</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="oauth2auth.html#createkeycloak" class="tsd-kind-icon">create<wbr>Keycloak</a></li>
 							</ul>
 						</section>
 					</div>
@@ -119,12 +121,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:474</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:548</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Generate a redirect URL to the authN/Z backend. It only applies to auth_code flow.</p>
+									<p>The client sends the end-user&#39;s browser to this endpoint to request their
+										authentication and consent. This endpoint is used in the code and implicit
+									OAuth 2.0 flows which require end-user interaction.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -152,7 +156,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:484</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:585</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -174,6 +178,64 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="endsessionurl" class="tsd-anchor"></a>
+					<h3>end<wbr>SessionURL</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">end<wbr>SessionURL<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span>, params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">end<wbr>SessionURL<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:574</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The logout (end-session) endpoint is specified in OpenID Connect Session Management 1.0.
+									More info: <a href="https://openid.net/specs/openid-connect-session-1_0.html">https://openid.net/specs/openid-connect-session-1_0.html</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>user: <span class="tsd-signature-type">User</span></h5>
+								</li>
+								<li>
+									<h5>params: <span class="tsd-signature-symbol">{}</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-index-signature">
+											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:580</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The logout (end-session) endpoint is specified in OpenID Connect Session Management 1.0.
+									More info: <a href="https://openid.net/specs/openid-connect-session-1_0.html">https://openid.net/specs/openid-connect-session-1_0.html</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>user: <span class="tsd-signature-type">User</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getflowtype" class="tsd-anchor"></a>
 					<h3>get<wbr>Flow<wbr>Type</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -183,7 +245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:509</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:602</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -192,66 +254,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/oauth2flowtype.html" class="tsd-signature-type">OAuth2FlowType</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getscopeseparator" class="tsd-anchor"></a>
-					<h3>get<wbr>Scope<wbr>Separator</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Scope<wbr>Separator<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:504</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the scope separator.</p>
-								</div>
-								<p>The RFC 6749 states that a scope is expressed as a set of case-sensitive and space-delimited strings, however
-								vendors tend not to agree on this and we see the following cases being used: space, plus sign, comma.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="gettoken" class="tsd-anchor"></a>
-					<h3>get<wbr>Token</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Token<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="accesstoken.html" class="tsd-signature-type">AccessToken</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="accesstoken.html" class="tsd-signature-type">AccessToken</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:479</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the Access Token object.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>params: <span class="tsd-signature-symbol">{}</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-index-signature">
-											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="accesstoken.html" class="tsd-signature-type">AccessToken</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="accesstoken.html" class="tsd-signature-type">AccessToken</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -266,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:490</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:591</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -289,7 +291,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:496</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:597</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -315,6 +317,39 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="jwkset" class="tsd-anchor"></a>
+					<h3>jWKSet</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">jWKSet<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:530</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Retrieve the public server JSON Web Key (JWK) required to verify the authenticity
+										of issued ID and access tokens. The provider will refresh the keys according to:
+									<a href="https://openid.net/specs/openid-connect-core-1_0.html#RotateEncKeys">https://openid.net/specs/openid-connect-core-1_0.html#RotateEncKeys</a></p>
+								</div>
+								<p>This means that the provider will look at the cache headers and will refresh when
+									the max-age is reached. If the server does not return any cache headers it shall
+								be up to the end user to call this method to refresh.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="loadjwk" class="tsd-anchor"></a>
 					<h3>loadJWK</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -324,7 +359,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:516</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:609</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -353,13 +388,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:529</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:541</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Handled to be called when a key (mentioned on a JWT) is missing from the current config.
-										Users are advised to call {@link OAuth2Auth#loadJWK} but being careful to implement
+										Users are advised to call {@link OAuth2Auth#jWKSet} but being careful to implement
 									some rate limiting function.</p>
 								</div>
 								<p>This method isn&#39;t generic for several reasons. The provider is not aware of the capabilities
@@ -386,7 +421,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:518</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:611</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -399,37 +434,66 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="create" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, flow<span class="tsd-signature-symbol">: </span><a href="../enums/oauth2flowtype.html" class="tsd-signature-type">OAuth2FlowType</a>, config<span class="tsd-signature-symbol">: </span><a href="oauth2clientoptions.html" class="tsd-signature-type">OAuth2ClientOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, flow<span class="tsd-signature-symbol">: </span><a href="../enums/oauth2flowtype.html" class="tsd-signature-type">OAuth2FlowType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, config<span class="tsd-signature-symbol">: </span><a href="oauth2clientoptions.html" class="tsd-signature-type">OAuth2ClientOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="refresh" class="tsd-anchor"></a>
+					<h3>refresh</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">refresh<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:454</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:553</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a OAuth2 auth provider</p>
+									<p>Refresh the current User (access token).</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
+									<h5>user: <span class="tsd-signature-type">User</span></h5>
 								</li>
 								<li>
-									<h5>flow: <a href="../enums/oauth2flowtype.html" class="tsd-signature-type">OAuth2FlowType</a></h5>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">User</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="revoke" class="tsd-anchor"></a>
+					<h3>revoke</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">revoke<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span>, tokenType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
+						<li class="tsd-signature tsd-kind-icon">revoke<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:558</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Revoke an obtained access or refresh token. More info <a href="https://tools.ietf.org/html/rfc7009">https://tools.ietf.org/html/rfc7009</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>user: <span class="tsd-signature-type">User</span></h5>
 								</li>
 								<li>
-									<h5>config: <a href="oauth2clientoptions.html" class="tsd-signature-type">OAuth2ClientOptions</a></h5>
+									<h5>tokenType: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></h4>
@@ -437,62 +501,52 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:459</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:563</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a OAuth2 auth provider</p>
+									<p>Revoke an obtained access token. More info <a href="https://tools.ietf.org/html/rfc7009">https://tools.ietf.org/html/rfc7009</a>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
+									<h5>user: <span class="tsd-signature-type">User</span></h5>
 								</li>
 								<li>
-									<h5>flow: <a href="../enums/oauth2flowtype.html" class="tsd-signature-type">OAuth2FlowType</a></h5>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></h4>
 						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="userinfo" class="tsd-anchor"></a>
+					<h3>user<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">user<wbr>Info<span class="tsd-signature-symbol">(</span>user<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">User</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:464</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:568</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a OAuth2 auth provider</p>
+									<p>Retrieve profile information and other attributes for a logged-in end-user. More info <a href="https://openid.net/specs/openid-connect-core-1_0.html#UserInfo">https://openid.net/specs/openid-connect-core-1_0.html#UserInfo</a></p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in index.d.ts:469</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a OAuth2 auth provider</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
+									<h5>user: <span class="tsd-signature-type">User</span></h5>
 								</li>
 								<li>
-									<h5>config: <a href="oauth2clientoptions.html" class="tsd-signature-type">OAuth2ClientOptions</a></h5>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></h4>
@@ -500,33 +554,50 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="createkeycloak" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Keycloak</h3>
+					<a name="create" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Keycloak<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, flow<span class="tsd-signature-symbol">: </span><a href="../enums/oauth2flowtype.html" class="tsd-signature-type">OAuth2FlowType</a>, config<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span>, config<span class="tsd-signature-symbol">: </span><a href="oauth2options.html" class="tsd-signature-type">OAuth2Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in index.d.ts:449</li>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:514</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a OAuth2 auth provider</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-oauth2/target/npm/index.d.ts:519</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a OAuth2 auth provider</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
 								</li>
 								<li>
-									<h5>flow: <a href="../enums/oauth2flowtype.html" class="tsd-signature-type">OAuth2FlowType</a></h5>
-								</li>
-								<li>
-									<h5>config: <span class="tsd-signature-symbol">{}</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-index-signature">
-											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
-										</li>
-									</ul>
+									<h5>config: <a href="oauth2options.html" class="tsd-signature-type">OAuth2Options</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="oauth2auth.html" class="tsd-signature-type">OAuth2Auth</a></h4>
@@ -550,6 +621,9 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="accesstoken.html" class="tsd-kind-icon">Access<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="amazoncognitoauth.html" class="tsd-kind-icon">Amazon<wbr>Cognito<wbr>Auth</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="azureadauth.html" class="tsd-kind-icon">AzureADAuth</a>
@@ -579,10 +653,16 @@
 						<a href="herokuauth.html" class="tsd-kind-icon">Heroku<wbr>Auth</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="ibmcloudauth.html" class="tsd-kind-icon">IBMCloud<wbr>Auth</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="instagramauth.html" class="tsd-kind-icon">Instagram<wbr>Auth</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="keycloakauth.html" class="tsd-kind-icon">Keycloak<wbr>Auth</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="keycloakauthorization.html" class="tsd-kind-icon">Keycloak<wbr>Authorization</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="keycloakhelper.html" class="tsd-kind-icon">Keycloak<wbr>Helper</a>
@@ -614,16 +694,16 @@
 								<a href="oauth2auth.html#decodetoken" class="tsd-kind-icon">decode<wbr>Token</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="oauth2auth.html#endsessionurl" class="tsd-kind-icon">end<wbr>SessionURL</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="oauth2auth.html#getflowtype" class="tsd-kind-icon">get<wbr>Flow<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="oauth2auth.html#getscopeseparator" class="tsd-kind-icon">get<wbr>Scope<wbr>Separator</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="oauth2auth.html#gettoken" class="tsd-kind-icon">get<wbr>Token</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="oauth2auth.html#introspecttoken" class="tsd-kind-icon">introspect<wbr>Token</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="oauth2auth.html#jwkset" class="tsd-kind-icon">jWKSet</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="oauth2auth.html#loadjwk" class="tsd-kind-icon">loadJWK</a>
@@ -634,18 +714,24 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="oauth2auth.html#rbachandler" class="tsd-kind-icon">rbac<wbr>Handler</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="oauth2auth.html#create" class="tsd-kind-icon">create</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="oauth2auth.html#refresh" class="tsd-kind-icon">refresh</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="oauth2auth.html#revoke" class="tsd-kind-icon">revoke</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="oauth2auth.html#userinfo" class="tsd-kind-icon">user<wbr>Info</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="oauth2auth.html#createkeycloak" class="tsd-kind-icon">create<wbr>Keycloak</a>
+								<a href="oauth2auth.html#create" class="tsd-kind-icon">create</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class">
-						<a href="oauth2clientoptions.html" class="tsd-kind-icon">OAuth2<wbr>Client<wbr>Options</a>
+						<a href="oauth2options.html" class="tsd-kind-icon">OAuth2<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="oauth2rbac.html" class="tsd-kind-icon">OAuth2RBAC</a>
@@ -654,10 +740,16 @@
 						<a href="oauth2response.html" class="tsd-kind-icon">OAuth2<wbr>Response</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="oauth2credentials.html" class="tsd-kind-icon">Oauth2<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="openidconnectauth.html" class="tsd-kind-icon">OpenIDConnect<wbr>Auth</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="salesforceauth.html" class="tsd-kind-icon">Salesforce<wbr>Auth</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="scopeauthorization.html" class="tsd-kind-icon">Scope<wbr>Authorization</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="shopifyauth.html" class="tsd-kind-icon">Shopify<wbr>Auth</a>
@@ -695,6 +787,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
