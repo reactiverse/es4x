@@ -19,7 +19,7 @@ read-only IO access to the working directory.
 
 The generated file is a plain template, if you open it you can read:
 
-```text
+```js
 // Grant the following permissions to code that shall be executed from
 // the node_modules/.lib/* directory
 grant codeBase "file:\${user.dir}\${/}node_modules\${/}.lib\${/}*" {
