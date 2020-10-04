@@ -21,8 +21,8 @@ module.exports = {
     },
     '/gr/': {
       lang: 'el-GR',
-      title: 'ES for Eclipse Vert.x',
-      description: 'A Modern JavaScript runtime for Eclipse Vert.x'
+      title: 'ES για Eclipse Vert.x',
+      description: 'Ένα σύγχρονο JavaScript runtime για το Eclipse Vert.x'
     },
     '/zh/': {
       lang: 'zh-CN',
@@ -395,27 +395,27 @@ module.exports = {
         },
       },
       '/gr/': {
-        label: 'Greek',
-        selectText: 'Languages',
-        editLinkText: 'Edit this page on GitHub',
-        lastUpdated: 'Last Updated',
+        label: 'Ελληνικά',
+        selectText: 'Γλώσσες',
+        editLinkText: 'Επεξεργαστείτε αυτήν τη σελίδα στο GitHub',
+        lastUpdated: 'Τελευταία ενημέρωση',
         serviceWorker: {
           updatePopup: {
-            message: "New content is available.",
-            buttonText: "Refresh"
+            message: "Νέο περιεχόμενο είναι διαθέσιμο.",
+            buttonText: "Ανανέωση"
           }
         },
         nav: [
           {
-            text: 'Get started',
+            text: 'Έναρξη',
             link: '/gr/get-started/',
           },
           {
-            text: 'Advanced',
+            text: 'Για προχωρημένους',
             link: '/gr/advanced/'
           },
           {
-            text: 'Examples',
+            text: 'Παραδείγματα',
             link: '/gr/examples/'
           },
           {
@@ -423,14 +423,14 @@ module.exports = {
             link: '/gr/api/'
           },
           {
-            text: 'Changelog',
+            text: 'Αρχείο καταγραφής αλλαγών',
             link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
           },
         ],
         sidebar: {
           '/gr/get-started/': [
             {
-              title: 'Getting Started',
+              title: 'Έναρξη',
               collapsable: false,
               children: [
                 '',
@@ -448,7 +448,7 @@ module.exports = {
           ],
           '/gr/examples/': [
             {
-              title: 'Examples',
+              title: 'Παραδείγματα',
               collapsable: false,
               children: [
                 '',
@@ -457,7 +457,7 @@ module.exports = {
           ],
           '/gr/advanced/': [
             {
-              title: 'Advanced',
+              title: 'Για προχωρημένους',
               collapsable: false,
               children: [
                 '',
