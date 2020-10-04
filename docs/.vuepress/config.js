@@ -318,23 +318,23 @@ module.exports = {
         },
         nav: [
           {
-            text: 'Get started',
+            text: 'Wprowadzenie',
             link: '/pl/get-started/',
           },
           {
-            text: 'Advanced',
+            text: 'Dalsze kroki',
             link: '/pl/advanced/'
           },
           {
-            text: 'Examples',
+            text: 'Przykłady',
             link: '/pl/examples/'
           },
           {
-            text: 'APIs',
+            text: 'API',
             link: '/pl/api/'
           },
           {
-            text: 'Changelog',
+            text: 'Lista zmian - CHANGELOG',
             link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
           },
         ],
