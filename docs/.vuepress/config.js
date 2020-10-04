@@ -29,6 +29,11 @@ module.exports = {
       title: 'ES for Eclipse Vert.x',
       description: 'Um runtime JavaScript moderno para Eclipse Vert.x'
     },
+    '/pl/': {
+      lang: 'pl-PL',
+      title: 'ES for Eclipse Vert.x',
+      description: 'A Modern JavaScript runtime for Eclipse Vert.x'
+    },
     '/ru/': {
       lang: 'ru-RU',
       title: 'ES for Eclipse Vert.x',
@@ -285,6 +290,95 @@ module.exports = {
             }
           ],
           '/ru/api/': [
+            {
+              title: 'APIs',
+              collapsable: false,
+              children: [
+                ''
+              ]
+            }
+          ]
+        },
+      },
+      '/pl/': {
+        label: 'Polish',
+        selectText: 'Languages',
+        editLinkText: 'Edit this page on GitHub',
+        lastUpdated: 'Last Updated',
+        serviceWorker: {
+          updatePopup: {
+            message: "New content is available.",
+            buttonText: "Refresh"
+          }
+        },
+        nav: [
+          {
+            text: 'Get started',
+            link: '/pl/get-started/',
+          },
+          {
+            text: 'Advanced',
+            link: '/pl/advanced/'
+          },
+          {
+            text: 'Examples',
+            link: '/pl/examples/'
+          },
+          {
+            text: 'APIs',
+            link: '/pl/api/'
+          },
+          {
+            text: 'Changelog',
+            link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
+          },
+        ],
+        sidebar: {
+          '/pl/get-started/': [
+            {
+              title: 'Getting Started',
+              collapsable: false,
+              children: [
+                '',
+                'install',
+                'hello-world',
+                'run',
+                'test',
+                'debug',
+                'package',
+                'shell',
+                'contributing',
+                'license'
+              ]
+            }
+          ],
+          '/pl/examples/': [
+            {
+              title: 'Examples',
+              collapsable: false,
+              children: [
+                '',
+              ]
+            }
+          ],
+          '/pl/advanced/': [
+            {
+              title: 'Advanced',
+              collapsable: false,
+              children: [
+                '',
+                'commonjs',
+                'esm',
+                'globals',
+                'vertx',
+                'worker',
+                'jars',
+                'security',
+                'logging'
+              ]
+            }
+          ],
+          '/pl/api/': [
             {
               title: 'APIs',
               collapsable: false,
