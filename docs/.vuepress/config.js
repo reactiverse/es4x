@@ -19,6 +19,11 @@ module.exports = {
       title: 'ES for Eclipse Vert.x',
       description: 'A Modern JavaScript runtime for Eclipse Vert.x'
     },
+    '/gr/': {
+      lang: 'el-GR',
+      title: 'ES for Eclipse Vert.x',
+      description: 'A Modern JavaScript runtime for Eclipse Vert.x'
+    },
     '/zh/': {
       lang: 'zh-CN',
       title: '基于Eclipse Vert.x的ES',
@@ -379,6 +384,95 @@ module.exports = {
             }
           ],
           '/pl/api/': [
+            {
+              title: 'APIs',
+              collapsable: false,
+              children: [
+                ''
+              ]
+            }
+          ]
+        },
+      },
+      '/gr/': {
+        label: 'Greek',
+        selectText: 'Languages',
+        editLinkText: 'Edit this page on GitHub',
+        lastUpdated: 'Last Updated',
+        serviceWorker: {
+          updatePopup: {
+            message: "New content is available.",
+            buttonText: "Refresh"
+          }
+        },
+        nav: [
+          {
+            text: 'Get started',
+            link: '/gr/get-started/',
+          },
+          {
+            text: 'Advanced',
+            link: '/gr/advanced/'
+          },
+          {
+            text: 'Examples',
+            link: '/gr/examples/'
+          },
+          {
+            text: 'APIs',
+            link: '/gr/api/'
+          },
+          {
+            text: 'Changelog',
+            link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
+          },
+        ],
+        sidebar: {
+          '/gr/get-started/': [
+            {
+              title: 'Getting Started',
+              collapsable: false,
+              children: [
+                '',
+                'install',
+                'hello-world',
+                'run',
+                'test',
+                'debug',
+                'package',
+                'shell',
+                'contributing',
+                'license'
+              ]
+            }
+          ],
+          '/gr/examples/': [
+            {
+              title: 'Examples',
+              collapsable: false,
+              children: [
+                '',
+              ]
+            }
+          ],
+          '/gr/advanced/': [
+            {
+              title: 'Advanced',
+              collapsable: false,
+              children: [
+                '',
+                'commonjs',
+                'esm',
+                'globals',
+                'vertx',
+                'worker',
+                'jars',
+                'security',
+                'logging'
+              ]
+            }
+          ],
+          '/gr/api/': [
             {
               title: 'APIs',
               collapsable: false,
