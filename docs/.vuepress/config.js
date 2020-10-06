@@ -36,8 +36,8 @@ module.exports = {
     },
     '/pl/': {
       lang: 'pl-PL',
-      title: 'ES for Eclipse Vert.x',
-      description: 'A Modern JavaScript runtime for Eclipse Vert.x'
+      title: 'ES dla Eclipse Vert.x',
+      description: 'Nowoczesny runtime JavaScript dla Eclipse Vert.x'
     },
     '/ru/': {
       lang: 'ru-RU',
@@ -306,14 +306,14 @@ module.exports = {
         },
       },
       '/pl/': {
-        label: 'Polish',
-        selectText: 'Languages',
-        editLinkText: 'Edit this page on GitHub',
-        lastUpdated: 'Last Updated',
+        label: 'Polski',
+        selectText: 'Języki',
+        editLinkText: 'Edytuj stronę na GitHubie',
+        lastUpdated: 'Ostatnio updatowane',
         serviceWorker: {
           updatePopup: {
-            message: "New content is available.",
-            buttonText: "Refresh"
+            message: "Dodano nowe treści.",
+            buttonText: "Odśwież"
           }
         },
         nav: [
@@ -341,7 +341,7 @@ module.exports = {
         sidebar: {
           '/pl/get-started/': [
             {
-              title: 'Getting Started',
+              title: 'Wprowadzenie',
               collapsable: false,
               children: [
                 '',
@@ -359,7 +359,7 @@ module.exports = {
           ],
           '/pl/examples/': [
             {
-              title: 'Examples',
+              title: 'Przykłady',
               collapsable: false,
               children: [
                 '',
@@ -368,7 +368,7 @@ module.exports = {
           ],
           '/pl/advanced/': [
             {
-              title: 'Advanced',
+              title: 'Dalsze kroki',
               collapsable: false,
               children: [
                 '',
@@ -385,7 +385,7 @@ module.exports = {
           ],
           '/pl/api/': [
             {
-              title: 'APIs',
+              title: 'API',
               collapsable: false,
               children: [
                 ''
