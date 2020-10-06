@@ -217,42 +217,42 @@ module.exports = {
         },
       },
       '/ru/': {
-        label: 'Russian',
-        selectText: 'Languages',
-        editLinkText: 'Edit this page on GitHub',
-        lastUpdated: 'Last Updated',
+        label: 'Русский',
+        selectText: 'Языки',
+        editLinkText: 'Редактируйте эту страницу на GitHub',
+        lastUpdated: 'Последнее обновление',
         serviceWorker: {
           updatePopup: {
-            message: "New content is available.",
-            buttonText: "Refresh"
+            message: "Новый контент доступен.",
+            buttonText: "Обновить"
           }
         },
         nav: [
           {
-            text: 'Get started',
+            text: 'Как начать',
             link: '/ru/get-started/',
           },
           {
-            text: 'Advanced',
+            text: 'Дополнительно',
             link: '/ru/advanced/'
           },
           {
-            text: 'Examples',
+            text: 'Примеры',
             link: '/ru/examples/'
           },
           {
-            text: 'APIs',
+            text: 'API',
             link: '/ru/api/'
           },
           {
-            text: 'Changelog',
+            text: 'Список изменений',
             link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
           },
         ],
         sidebar: {
           '/ru/get-started/': [
             {
-              title: 'Getting Started',
+              title: 'Как начать',
               collapsable: false,
               children: [
                 '',
@@ -270,7 +270,7 @@ module.exports = {
           ],
           '/ru/examples/': [
             {
-              title: 'Examples',
+              title: 'Примеры',
               collapsable: false,
               children: [
                 '',
@@ -279,7 +279,7 @@ module.exports = {
           ],
           '/ru/advanced/': [
             {
-              title: 'Advanced',
+              title: 'Дополнительно',
               collapsable: false,
               children: [
                 '',
@@ -296,7 +296,7 @@ module.exports = {
           ],
           '/ru/api/': [
             {
-              title: 'APIs',
+              title: 'API',
               collapsable: false,
               children: [
                 ''
