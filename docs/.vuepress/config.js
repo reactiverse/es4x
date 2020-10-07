@@ -36,8 +36,8 @@ module.exports = {
     },
     '/pl/': {
       lang: 'pl-PL',
-      title: 'ES for Eclipse Vert.x',
-      description: 'A Modern JavaScript runtime for Eclipse Vert.x'
+      title: 'ES dla Eclipse Vert.x',
+      description: 'Nowoczesny runtime JavaScript dla Eclipse Vert.x'
     },
     '/ru/': {
       lang: 'ru-RU',
@@ -306,42 +306,42 @@ module.exports = {
         },
       },
       '/pl/': {
-        label: 'Polish',
-        selectText: 'Languages',
-        editLinkText: 'Edit this page on GitHub',
-        lastUpdated: 'Last Updated',
+        label: 'Polski',
+        selectText: 'Języki',
+        editLinkText: 'Edytuj stronę na GitHubie',
+        lastUpdated: 'Ostatnio updatowane',
         serviceWorker: {
           updatePopup: {
-            message: "New content is available.",
-            buttonText: "Refresh"
+            message: "Dodano nowe treści.",
+            buttonText: "Odśwież"
           }
         },
         nav: [
           {
-            text: 'Get started',
+            text: 'Wprowadzenie',
             link: '/pl/get-started/',
           },
           {
-            text: 'Advanced',
+            text: 'Dalsze kroki',
             link: '/pl/advanced/'
           },
           {
-            text: 'Examples',
+            text: 'Przykłady',
             link: '/pl/examples/'
           },
           {
-            text: 'APIs',
+            text: 'API',
             link: '/pl/api/'
           },
           {
-            text: 'Changelog',
+            text: 'Lista zmian - CHANGELOG',
             link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
           },
         ],
         sidebar: {
           '/pl/get-started/': [
             {
-              title: 'Getting Started',
+              title: 'Wprowadzenie',
               collapsable: false,
               children: [
                 '',
@@ -359,7 +359,7 @@ module.exports = {
           ],
           '/pl/examples/': [
             {
-              title: 'Examples',
+              title: 'Przykłady',
               collapsable: false,
               children: [
                 '',
@@ -368,7 +368,7 @@ module.exports = {
           ],
           '/pl/advanced/': [
             {
-              title: 'Advanced',
+              title: 'Dalsze kroki',
               collapsable: false,
               children: [
                 '',
@@ -385,7 +385,7 @@ module.exports = {
           ],
           '/pl/api/': [
             {
-              title: 'APIs',
+              title: 'API',
               collapsable: false,
               children: [
                 ''
