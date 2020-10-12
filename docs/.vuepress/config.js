@@ -576,19 +576,19 @@ module.exports = {
         nav: [
           {
             text: 'Empezar',
-            link: '/get-started/',
+            link: '/es/get-started/',
           },
           {
             text: 'Avanzado',
-            link: '/advanced/'
+            link: '/es/advanced/'
           },
           {
             text: 'Ejemplos',
-            link: '/examples/'
+            link: '/es/examples/'
           },
           {
             text: 'APIs',
-            link: '/api/'
+            link: '/es/api/'
           },
           {
             text: 'Cambios (changelog)',
@@ -596,7 +596,7 @@ module.exports = {
           },
         ],
         sidebar: {
-          '/get-started/': [
+          '/es/get-started/': [
             {
               title: 'Empezando',
               collapsable: false,
@@ -614,7 +614,7 @@ module.exports = {
               ]
             }
           ],
-          '/examples/': [
+          '/es/examples/': [
             {
               title: 'Ejemplos',
               collapsable: false,
@@ -623,7 +623,7 @@ module.exports = {
               ]
             }
           ],
-          '/advanced/': [
+          '/es/advanced/': [
             {
               title: 'Avanzado',
               collapsable: false,
@@ -640,7 +640,7 @@ module.exports = {
               ]
             }
           ],
-          '/api/': [
+          '/es/api/': [
             {
               title: 'APIs',
               collapsable: false,
