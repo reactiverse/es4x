@@ -19,6 +19,11 @@ module.exports = {
       title: 'ES for Eclipse Vert.x',
       description: 'A Modern JavaScript runtime for Eclipse Vert.x'
     },
+    '/es/': {
+      lang: 'es-ES',
+      title: 'ES para Eclipse Vert.x',
+      description: 'Un JavaScript runtime moderno para Eclipse Vert.x'
+    },
     '/gr/': {
       lang: 'el-GR',
       title: 'ES για Eclipse Vert.x',
@@ -556,7 +561,96 @@ module.exports = {
                   }
                 ]
               },
+      },
+      '/es/': {
+        label: 'English',
+        selectText: 'Lenguajes',
+        editLinkText: 'Edita esta pagina en GitHub',
+        lastUpdated: 'Ultima actualizacion',
+        serviceWorker: {
+          updatePopup: {
+            message: "Nuevo contenido disponible.",
+            buttonText: "Refresca"
+          }
+        },
+        nav: [
+          {
+            text: 'Empezar',
+            link: '/get-started/',
+          },
+          {
+            text: 'Avanzado',
+            link: '/advanced/'
+          },
+          {
+            text: 'Ejemplos',
+            link: '/examples/'
+          },
+          {
+            text: 'APIs',
+            link: '/api/'
+          },
+          {
+            text: 'Cambios (changelog)',
+            link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
+          },
+        ],
+        sidebar: {
+          '/get-started/': [
+            {
+              title: 'Empezando',
+              collapsable: false,
+              children: [
+                '',
+                'install',
+                'hello-world',
+                'run',
+                'test',
+                'debug',
+                'package',
+                'shell',
+                'contributing',
+                'license'
+              ]
             }
+          ],
+          '/examples/': [
+            {
+              title: 'Ejemplos',
+              collapsable: false,
+              children: [
+                '',
+              ]
+            }
+          ],
+          '/advanced/': [
+            {
+              title: 'Avanzado',
+              collapsable: false,
+              children: [
+                '',
+                'commonjs',
+                'esm',
+                'globals',
+                'vertx',
+                'worker',
+                'jars',
+                'security',
+                'logging'
+              ]
+            }
+          ],
+          '/api/': [
+            {
+              title: 'APIs',
+              collapsable: false,
+              children: [
+                ''
+              ]
+            }
+          ]
+        },
+      }
     }
   }
 };
