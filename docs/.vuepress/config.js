@@ -563,7 +563,7 @@ module.exports = {
               },
       },
       '/es/': {
-        label: 'English',
+        label: 'Español',
         selectText: 'Lenguajes',
         editLinkText: 'Edita esta pagina en GitHub',
         lastUpdated: 'Ultima actualizacion',
