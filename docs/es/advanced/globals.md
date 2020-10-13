@@ -52,7 +52,7 @@ Borra un timeout.
 
 ## clearImmediate()
 
-::: Advertencia
+::: warning
 Esta funcion existe para asegurar que muchas librerias no se rompen, **PERO** no tiene ningun efecto debido a la forma
 en la que los callbacks se programan en los bucles de evento de Vert.x.
 :::

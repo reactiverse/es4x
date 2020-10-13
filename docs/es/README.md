@@ -34,6 +34,6 @@ npm install # OR yarn
 npm start # OR yarn start
 ```
 
-::: consejo NOTA DE COMPATIBILIDAD
+::: tip NOTA DE COMPATIBILIDAD
 ES4X necesita [GraalVM](https://www.graalvm.org) o Java >= 8. No estas seguro de que version tienes instalada en tu sistema, considera usar [jabba](https://github.com/shyiko/jabba).
 :::

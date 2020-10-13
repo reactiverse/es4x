@@ -39,7 +39,7 @@ npm install # OR yarn
 npm start # OR yarn start
 ```
 
-::: Совет Примечание о совместимости!
+::: tip Примечание о совместимости!
 Для ES4X требуется [GraalVM](https://www.graalvm.org) или Java >= 8. Если вы не знаете, какая версия установлена на
 вашей системе, попробуйте воспользоваться [jabba](https://github.com/shyiko/jabba).
 :::

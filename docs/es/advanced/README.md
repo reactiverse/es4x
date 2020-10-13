@@ -4,7 +4,7 @@ ES4X utiliza GraalVM, sin embargo el mismo codigo se ejecutara en mode **interpr
 
 Para JDK >= 11 (con soporte JVMCI) o GraalVM ES4X se ejecuta en modo **compilado** (compiled).
 
-::: Consejo
+::: tip
 Es decir, por favor utiliza Java >= 11 o GraalVM.
 :::
 
@@ -52,11 +52,11 @@ hello.setName('Paulo');
 
 ## Multihilo (threading)
 
-GraalJS es muy estricto con un hilo unico en el contexto JS del momento. Cuando se trabaja con APIS de Vert.x asincronico 
+GraalJS es muy estricto con un hilo unico en el contexto JS del momento. Cuando se trabaja con APIS de Vert.x asincronico
 esto no deberia suponer un problema. Sin embargo otras librerias pueden causar problemas. Para evitar esta limitacion, se
 recomienda el uso del API `Worker` o de `EventBus`.
 
-::: Advertencia
+::: warning
 GraalJS no permitira el acceso multihilo en el contexto de un mismo script. Si es necesario trabajor con varios hilos,
 considera mirar el [Worker API](./worker).
 :::
@@ -64,7 +64,7 @@ considera mirar el [Worker API](./worker).
 ## Imagines Nativas
 
 Actualmente no puedes generar imagenes nativas en ES4X, esta limitacion es porque el analisis estatico del compilador AOT
-no considerara el codigo Java invocado desde el script (las clases no estaran disponibles), ademas del hecho de que el 
+no considerara el codigo Java invocado desde el script (las clases no estaran disponibles), ademas del hecho de que el
 compilador no dispone de interoperatibilidad JVM durante la ejecucion.
 
 Hay trabajo en progreso en esta area asi que podria ser disponible en el futuro.

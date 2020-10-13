@@ -34,6 +34,6 @@ npm install # OR yarn
 npm start # OR yarn start
 ```
 
-::: ΣΗΜΕΙΩΣΗ ΣΥΜΒΑΤΟΤΗΤΑΣ
+::: tip ΣΗΜΕΙΩΣΗ ΣΥΜΒΑΤΟΤΗΤΑΣ
 Tο ES4X απαιτεί [GraalVM](https://www.graalvm.org) ή Java >= 8. Εάν δεν είστε βέβαιοι ποια έκδοση είναι εγκατεστημένη στο σύστημά σας, μπορείτε να χρησιμοποιήσετε [jabba](https://github.com/shyiko/jabba).
 :::

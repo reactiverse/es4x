@@ -19,12 +19,12 @@ added 2 packages from 1 contributor and audited 2 packages in 6.704s
 found 0 vulnerabilities
 ```
 
-::: Внимание
+::: warning
 Если вы видите сообщение `Installing GraalJS...`, это значит, что ваша `java` - не GraalVM. Это вполне
 нормально, так как дополнительные пакеты будут загружены для лучшей производительности.
 :::
 
-::: Опасно!
+::: danger
 Если вы видите сообщение `Current JDK only supports GraalJS in Interpreted mode!`, это значит, что ваша
 `java` ниже версией, чем 11 или `OpenJ9`.
 :::
@@ -47,7 +47,7 @@ Hello ES4X
 Succeeded in deploying verticle
 ```
 
-::: Опасно!
+::: danger
 Если вы видите сообщение `Current JDK only supports GraalJS in Interpreted mode!`, это значит, что ваша
 `java` ниже версией, чем 11 или `OpenJ9`.
 :::
@@ -71,12 +71,12 @@ added 2 packages from 1 contributor and audited 2 packages in 6.704s
 found 0 vulnerabilities
 ```
 
-::: Внимание
+::: warning
 Если вы видите сообщение `Installing GraalJS...`, это значит, что ваша `java` - не GraalVM. Это вполне
 нормально, так как дополнительные пакеты будут загружены для лучшей производительности.
 :::
 
-::: Опасно!
+::: danger
 Если вы видите сообщение `Current JDK only supports GraalJS in Interpreted mode!`, это значит, что ваша
 `java` ниже версией, чем 11 или `OpenJ9`.
 :::
@@ -106,12 +106,12 @@ added 2 packages from 1 contributor and audited 2 packages in 6.704s
 found 0 vulnerabilities
 ```
 
-::: Внимание
+::: warning
 Если вы видите сообщение `Installing GraalJS...`, это значит, что ваша `java` - не GraalVM. Это вполне
 нормально, так как дополнительные пакеты будут загружены для лучшей производительности.
 :::
 
-::: Опасно!
+::: danger
 Если вы видите сообщение `Current JDK only supports GraalJS in Interpreted mode!`, это значит, что ваша
 `java` ниже версией, чем 11 или `OpenJ9`.
 :::

@@ -32,7 +32,7 @@ const suite = TestSuite.create("the_test_suite");
 suite.run();
 ```
 
-::: Внимание
+::: warning
 Выражения импорта будут исправлены, но не выражения экспорта. Все выражения экспорта должны использовать формат commonjs:
 ```js
 module.exports = { /* ... */ }

@@ -33,7 +33,7 @@ const suite = TestSuite.create("the_test_suite");
 suite.run();
 ```
 
-::: προσοχή
+::: warning
 Αν και ή εισαγωγή θα προσαρμωστεί, οι εξαγωγές δεν θα αλλάξουν. Όλες οι εξαγωγές πρέπει να είναι σε commonjs συντακτικό:
 ```js
 module.exports = { /* ... */ }

@@ -19,12 +19,12 @@ added 2 packages from 1 contributor and audited 2 packages in 6.704s
 found 0 vulnerabilities
 ```
 
-::: προειδοποίηση
+::: warning
 Εάν δείτε το μήνυμα `Installing GraalJS...`, αυτό σημαίνει ότι το σύστημά σας δεν έχει εγκατάσταση GraalVM `java`.
 Αυτό είναι απολύτως εντάξει, καθώς λαμβάνονται επιπλέον πακέτα για να εξασφαλιστεί η καλύτερη απόδοση.
 :::
 
-::: κίνδυνος
+::: danger
 Εάν δείτε το μήνυμα `Current JDK only supports GraalJS in Interpreted mode!`, σημαίνει οτι η έκδοση της `java` είναι είτε μικρότερη από 11 ή `OpenJ9`.
 :::
 
@@ -46,7 +46,7 @@ Hello ES4X
 Succeeded in deploying verticle
 ```
 
-::: κίνδυνος
+::: danger
 Εάν δείτε το μήνυμα `Current JDK only supports GraalJS in Interpreted mode!`, σημαίνει οτι η έκδοση της `java` είναι είτε μικρότερη από 11 ή `OpenJ9`.
 :::
 
@@ -69,12 +69,12 @@ added 2 packages from 1 contributor and audited 2 packages in 6.704s
 found 0 vulnerabilities
 ```
 
-::: προειδοποίηση
+::: warning
 Εάν δείτε το μήνυμα `Installing GraalJS...`, αυτό σημαίνει ότι το σύστημά σας δεν έχει εγκατάσταση GraalVM `java`.
 Αυτό είναι απολύτως εντάξει, καθώς λαμβάνονται επιπλέον πακέτα για να εξασφαλιστεί η καλύτερη απόδοση.
 :::
 
-::: κίνδυνος
+::: danger
 Εάν δείτε το μήνυμα `Current JDK only supports GraalJS in Interpreted mode!`, σημαίνει οτι η έκδοση της `java` είναι είτε μικρότερη από 11 ή `OpenJ9`.
 :::
 
@@ -103,12 +103,12 @@ added 2 packages from 1 contributor and audited 2 packages in 6.704s
 found 0 vulnerabilities
 ```
 
-::: προειδοποίηση
+::: warning
 Εάν δείτε το μήνυμα `Installing GraalJS...`, αυτό σημαίνει ότι το σύστημά σας δεν έχει εγκατάσταση GraalVM `java`.
 Αυτό είναι απολύτως εντάξει, καθώς λαμβάνονται επιπλέον πακέτα για να εξασφαλιστεί η καλύτερη απόδοση.
 :::
 
-::: κίνδυνος
+::: danger
 Εάν δείτε το μήνυμα `Current JDK only supports GraalJS in Interpreted mode!`, σημαίνει οτι η έκδοση της `java` είναι είτε μικρότερη από 11 ή `OpenJ9`.
 :::
 

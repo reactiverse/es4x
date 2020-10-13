@@ -55,11 +55,11 @@ grant codeBase "file:\${user.dir}\${/}node_modules\${/}.lib\${/}*" {
 ```
 Esta plantilla permite acceso total a la red y solo lectura a todos los archivos desde `CWD` donde se inicia la aplicacion.
 
-::: Consejo
+::: tip
 Una vez que conozcas todos los permisos que necesita tu aplicacion puedes comenzar a restringirlos incluso mas!
 :::
 
-::: Advertencia
+::: warning
 Aunque esta plantilla parece buena para comenzar, recuerda que el `CWD` es de solo lectura, asi que si por ejemplo
 estas ejecutando un servidor http que escribe uploads, a menos que estos uploads vayan al directorio `$TEMP`, van
 a fallar porque la aplicacion no tiene persmisos para escribir.

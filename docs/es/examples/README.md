@@ -19,12 +19,12 @@ added 2 packages from 1 contributor and audited 2 packages in 6.704s
 found 0 vulnerabilities
 ```
 
-::: Advertencia
+::: warning
 Si ves el mensaje `Installing GraalJS...`, significa que tu instalacion `java` en el sistema no es una instalacion GraalVM.
 Esto es totalmente OK porque se descargan paquetes adicionales para asegurar el mejor rendimiento.
 :::
 
-::: Peligro
+::: danger
 Si ves el mensaje `Current JDK only supports GraalJS in Interpreted mode!`, significa que tu instalacion `java` en la linea
 de comandos es menor que 11 o `OpenJ9`.
 :::
@@ -47,7 +47,7 @@ Hello ES4X
 Succeeded in deploying verticle
 ```
 
-::: Peligro
+::: danger
 Si ves el mensaje `Current JDK only supports GraalJS in Interpreted mode!`, significa que tu instalacion `java` en la linea
 de comandos es menor que 11 o `OpenJ9`.
 :::
@@ -71,12 +71,12 @@ added 2 packages from 1 contributor and audited 2 packages in 6.704s
 found 0 vulnerabilities
 ```
 
-::: Advertencia
+::: warning
 Si ves el mensaje `Installing GraalJS...`, significa que tu instalacion `java` en el sistema no es una instalacion GraalVM.
 Esto es totalmente OK porque se descargan paquetes adicionales para asegurar el mejor rendimiento.
 :::
 
-::: Peligro
+::: danger
 Si ves el mensaje `Current JDK only supports GraalJS in Interpreted mode!`, significa que tu instalacion `java` en la linea
 de comandos es menor que 11 o `OpenJ9`.
 :::
@@ -106,12 +106,12 @@ added 2 packages from 1 contributor and audited 2 packages in 6.704s
 found 0 vulnerabilities
 ```
 
-::: Advertencia
+::: warning
 Si ves el mensaje `Installing GraalJS...`, significa que tu instalacion `java` en el sistema no es una instalacion GraalVM.
 Esto es totalmente OK porque se descargan paquetes adicionales para asegurar el mejor rendimiento.
 :::
 
-::: Peligro
+::: danger
 Si ves el mensaje `Current JDK only supports GraalJS in Interpreted mode!`, significa que tu instalacion `java` en la linea
 de comandos es menor que 11 o `OpenJ9`.
 :::

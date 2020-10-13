@@ -34,7 +34,7 @@ export function someRoute(ctx) {
 
 ## Compatibilidad
 
-Por razones de compatibilidad, puede que hayas notado que la declaracion `import` en el script inicial no include la 
+Por razones de compatibilidad, puede que hayas notado que la declaracion `import` en el script inicial no include la
 extension:
 
 ```js{2}
@@ -50,13 +50,13 @@ Esta es una minuscula divergencia de la especificacion original en la que el car
 2. Look up with `.mjs` suffix: `./routes.mjs`
 2. Look up with `.js` suffix: `./routes.js`
 
-::: Advertencia
+::: warning
 Cuando trabajas con `ESM` el `require()` no esta disponible!
 :::
 
 ## Descargar Modulos
 
-Descargar modulos durante durante la ejecucion (runtime) tambien es posible. Esta caracteristica no es especifica de `ES4X`. De hecho, solo 
+Descargar modulos durante durante la ejecucion (runtime) tambien es posible. Esta caracteristica no es especifica de `ES4X`. De hecho, solo
 depende del cargador oficial de `GraalJS`. Importar estos modules es tan simple como:
 
 ```js
@@ -71,6 +71,6 @@ Hay algunas reglas que debes conocer:
 
 Pueden existir casos en los que esto sea util, por ejemplo, para evitar depender de `npm` cuando el codigo no es publico.
 
-::: Advertencia
+::: warning
 Modulos descargados no procesaran ninguna dependencia o contrapartidas maven.
 :::

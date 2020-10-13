@@ -17,7 +17,7 @@ Ahora puedes ejecutar esta aplicacion usando:
 $ es4x hello-es4x.js
 ```
 
-::: Consejo
+::: tip
 En sistemas UNIX, los scripts se pueden hacer ejecutables y puedes usar `#!/usr/bin/env es4x` para hacerlos
 auto ejecutables. Recuerda de todos modos que las dependencias deberian estar listas en el directorio de trabajo.
 :::
@@ -29,7 +29,7 @@ $ curl localhost:8080
 Hola mundo ES4X!
 ```
 
-::: Aviso
+::: warning
 Ejecutar scripts utilizando el comando `es4x` directamente puede ser util para scripts basicos que no tienen dependencias
 a parte de `vertx`. Para aplicaciones mas complejas se deberia utilizar un proyecto y un gestor de paquetes.
 :::
@@ -75,13 +75,13 @@ Un proyecto es un archivo `package.json` con algunas cosas pre-configuradas:
 }
 ```
 
-::: Consejo
+::: tip
 Para proyectos `TypeScript`, ejecuta la herramienta para crear proyectos con: `es4x project --ts`
 :::
 
 El gancho `post-install` delegara en es4x para resolver todos las dependencias `maven` y crear el script `es4x-launcher`
 
-::: Consejo
+::: tip
 El script `es4x-launcher` se asegurara de que la aplicacion se ejecuta utilizando es4x y no `nodejs`. Este script puede
 utilizarse en produccion, donde se puede evitar el paquete `@es4x/create`.
 :::
@@ -116,7 +116,7 @@ Con la configuracion del proyecto completa, es hora de escribir algo de codigo. 
 Con todas las aplicaciones ES4X hay un objeto global `vertx` que es la instancia configurada de *vert.x* que se utiliza
 en la aplicacion.
 
-::: Consejo
+::: tip
 Para conseguir codigo auto completado en [Visual Studio Code](https://code.visualstudio.com/) la primera linea en tu script principal
 deberia ser:
 
@@ -146,12 +146,12 @@ vertx.createHttpServer()
 console.log('Server escuchando: http://localhost:8080/')
 ```
 
-Esta app arranca el servidor y escucha en el puerto 8080 para las conexiones. El app responde con "`Saludos desde Vert.x Web!`" 
+Esta app arranca el servidor y escucha en el puerto 8080 para las conexiones. El app responde con "`Saludos desde Vert.x Web!`"
 para las peticiones en la URL principal (`/`) o ruta. Para cualquier otro camino, respondera con un **404 Not Found**.
 
-::: Advertencia
+::: warning
 La sintaxis del modulo ES6 puede ser utilizada en archivos `.js`. ES4X los traduce a declaraciones `commonjs` `require()`
-sin embrago `exports` no seran traducidos. Esta funcion es solo para ayudar a trabajar con IDEs que pueden auto importar 
+sin embrago `exports` no seran traducidos. Esta funcion es solo para ayudar a trabajar con IDEs que pueden auto importar
 tal como `Visual Studio Code`.
 :::
 
@@ -162,10 +162,10 @@ usara el cargador nativo de modulos de graaljs.
 
 Con soporte graaljs para `.mjs` tanto `import` como `export` funcionaran como han sido diseñados en la especificacion ES6.
 
-::: Consejo
+::: tip
 Para permitir soporte `.mjs` utiliza la extension `.mjs` en tus archivos `JavaScript, o arranca tu aplicacion con `-Desm`.
 :::
 
-::: Advertencia
+::: warning
 No es posible mezclar `commonjs` con `esm` en el mismo proyecto. Si no estas seguro, usa `commonjs`.
 :::

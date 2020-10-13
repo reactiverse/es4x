@@ -6,7 +6,7 @@ La aplicacion ES4X deberia crear un `es4x-launcher` durante la instalacion de `n
 npm install # O yarn
 ```
 
-::: Consejo
+::: tip
 El lanzador deberia crearse en `node_modules/.bin/es4x-lancher.*`.
 :::
 
@@ -16,7 +16,7 @@ Ejecutar tu aplicacion es tan sencillo como:
 npm start # O yarn start
 ```
 
-Este comando 
+Este comando
 Este comando reemplaza la operación `npm` predeterminada ejecutando la aplicación en el tiempo de ejecución de JVM y usando el
 proyecto *Hello World* deberia producir el siguiente resultado:
 
@@ -42,7 +42,7 @@ tu aplicacion. Para este caso la aplicacion no utilizara `npm`/`yarn`. Ejecutar 
 ./node_modules/.bin/es4x-launcher
 ```
 
-::: Consejo
+::: tip
 Es posible personalizar el inicio de la aplicacion, comprueba:
 
 ```bash
@@ -60,7 +60,7 @@ N=2 \
   ./node_modules/.bin/es4x-launcher -instances $N
 ```
 
-::: Consejo
+::: tip
 
 En general, aumentar el numero de vertices hasta el doble del numero de nucleos proporciona el mejor rendimiento.
 :::

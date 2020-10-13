@@ -26,6 +26,6 @@ java -jar es4x-launcher.jar run "js:>"
 
 Un shell de arranque estara disponible para ejecutar tu codigo con todos los componentes disponibles en su classpath.
 
-::: Advertencia
+::: warning
 El REPL no sera capaz de usar referencia de modulo `MJS` ya que se calculan durante la inicializacion
 :::

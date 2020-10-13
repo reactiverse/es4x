@@ -48,7 +48,7 @@ Passed my_test_case
 End test suite the_test_suite , run: 1, Failures: 0, Errors: 0
 ```
 
-::: Внимание
+::: warning
 Для запуска тестов с `npm`/`yarn` скрипт `test` должен быть объявлен в `package.json`:
 
 ```json{4}

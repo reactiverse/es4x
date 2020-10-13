@@ -6,7 +6,7 @@
 npm install # OR yarn
 ```
 
-::: Заметка
+::: tip
 Лаунчер должен быть создан в `node_modules/.bin/es4x-lancher.*`.
 :::
 
@@ -41,7 +41,7 @@ Hello from Vert.x Web!
 ./node_modules/.bin/es4x-launcher
 ```
 
-::: Заметка
+::: tip
 Можно настроить запуск приложения, подробности можно найти тут:
 
 ```bash
@@ -59,7 +59,7 @@ N=2 \
   ./node_modules/.bin/es4x-launcher -instances $N
 ```
 
-::: Заметка
+::: tip
 Обычно повышение числа verticle до числа ядер, умноженного на 2, дает наилучшую производительность.
 :::
 
