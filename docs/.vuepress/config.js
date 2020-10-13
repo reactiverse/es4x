@@ -19,6 +19,11 @@ module.exports = {
       title: 'ES for Eclipse Vert.x',
       description: 'A Modern JavaScript runtime for Eclipse Vert.x'
     },
+    '/es/': {
+      lang: 'es-ES',
+      title: 'ES para Eclipse Vert.x',
+      description: 'Un JavaScript runtime moderno para Eclipse Vert.x'
+    },
     '/gr/': {
       lang: 'el-GR',
       title: 'ES για Eclipse Vert.x',
@@ -36,8 +41,8 @@ module.exports = {
     },
     '/pl/': {
       lang: 'pl-PL',
-      title: 'ES for Eclipse Vert.x',
-      description: 'A Modern JavaScript runtime for Eclipse Vert.x'
+      title: 'ES dla Eclipse Vert.x',
+      description: 'Nowoczesny runtime JavaScript dla Eclipse Vert.x'
     },
     '/ru/': {
       lang: 'ru-RU',
@@ -217,42 +222,42 @@ module.exports = {
         },
       },
       '/ru/': {
-        label: 'Russian',
-        selectText: 'Languages',
-        editLinkText: 'Edit this page on GitHub',
-        lastUpdated: 'Last Updated',
+        label: 'Русский',
+        selectText: 'Языки',
+        editLinkText: 'Редактируйте эту страницу на GitHub',
+        lastUpdated: 'Последнее обновление',
         serviceWorker: {
           updatePopup: {
-            message: "New content is available.",
-            buttonText: "Refresh"
+            message: "Новый контент доступен.",
+            buttonText: "Обновить"
           }
         },
         nav: [
           {
-            text: 'Get started',
+            text: 'Как начать',
             link: '/ru/get-started/',
           },
           {
-            text: 'Advanced',
+            text: 'Дополнительно',
             link: '/ru/advanced/'
           },
           {
-            text: 'Examples',
+            text: 'Примеры',
             link: '/ru/examples/'
           },
           {
-            text: 'APIs',
+            text: 'API',
             link: '/ru/api/'
           },
           {
-            text: 'Changelog',
+            text: 'Список изменений',
             link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
           },
         ],
         sidebar: {
           '/ru/get-started/': [
             {
-              title: 'Getting Started',
+              title: 'Как начать',
               collapsable: false,
               children: [
                 '',
@@ -270,7 +275,7 @@ module.exports = {
           ],
           '/ru/examples/': [
             {
-              title: 'Examples',
+              title: 'Примеры',
               collapsable: false,
               children: [
                 '',
@@ -279,7 +284,7 @@ module.exports = {
           ],
           '/ru/advanced/': [
             {
-              title: 'Advanced',
+              title: 'Дополнительно',
               collapsable: false,
               children: [
                 '',
@@ -296,7 +301,7 @@ module.exports = {
           ],
           '/ru/api/': [
             {
-              title: 'APIs',
+              title: 'API',
               collapsable: false,
               children: [
                 ''
@@ -306,42 +311,42 @@ module.exports = {
         },
       },
       '/pl/': {
-        label: 'Polish',
-        selectText: 'Languages',
-        editLinkText: 'Edit this page on GitHub',
-        lastUpdated: 'Last Updated',
+        label: 'Polski',
+        selectText: 'Języki',
+        editLinkText: 'Edytuj stronę na GitHubie',
+        lastUpdated: 'Ostatnio updatowane',
         serviceWorker: {
           updatePopup: {
-            message: "New content is available.",
-            buttonText: "Refresh"
+            message: "Dodano nowe treści.",
+            buttonText: "Odśwież"
           }
         },
         nav: [
           {
-            text: 'Get started',
+            text: 'Wprowadzenie',
             link: '/pl/get-started/',
           },
           {
-            text: 'Advanced',
+            text: 'Dalsze kroki',
             link: '/pl/advanced/'
           },
           {
-            text: 'Examples',
+            text: 'Przykłady',
             link: '/pl/examples/'
           },
           {
-            text: 'APIs',
+            text: 'API',
             link: '/pl/api/'
           },
           {
-            text: 'Changelog',
+            text: 'Lista zmian - CHANGELOG',
             link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
           },
         ],
         sidebar: {
           '/pl/get-started/': [
             {
-              title: 'Getting Started',
+              title: 'Wprowadzenie',
               collapsable: false,
               children: [
                 '',
@@ -359,7 +364,7 @@ module.exports = {
           ],
           '/pl/examples/': [
             {
-              title: 'Examples',
+              title: 'Przykłady',
               collapsable: false,
               children: [
                 '',
@@ -368,7 +373,7 @@ module.exports = {
           ],
           '/pl/advanced/': [
             {
-              title: 'Advanced',
+              title: 'Dalsze kroki',
               collapsable: false,
               children: [
                 '',
@@ -385,7 +390,7 @@ module.exports = {
           ],
           '/pl/api/': [
             {
-              title: 'APIs',
+              title: 'API',
               collapsable: false,
               children: [
                 ''
@@ -556,7 +561,96 @@ module.exports = {
                   }
                 ]
               },
+      },
+      '/es/': {
+        label: 'Español',
+        selectText: 'Lenguajes',
+        editLinkText: 'Edita esta pagina en GitHub',
+        lastUpdated: 'Ultima actualizacion',
+        serviceWorker: {
+          updatePopup: {
+            message: "Nuevo contenido disponible.",
+            buttonText: "Refresca"
+          }
+        },
+        nav: [
+          {
+            text: 'Empezar',
+            link: '/es/get-started/',
+          },
+          {
+            text: 'Avanzado',
+            link: '/es/advanced/'
+          },
+          {
+            text: 'Ejemplos',
+            link: '/es/examples/'
+          },
+          {
+            text: 'APIs',
+            link: '/es/api/'
+          },
+          {
+            text: 'Cambios (changelog)',
+            link: 'https://github.com/reactiverse/es4x/blob/master/CHANGELOG.md'
+          },
+        ],
+        sidebar: {
+          '/es/get-started/': [
+            {
+              title: 'Empezando',
+              collapsable: false,
+              children: [
+                '',
+                'install',
+                'hello-world',
+                'run',
+                'test',
+                'debug',
+                'package',
+                'shell',
+                'contributing',
+                'license'
+              ]
             }
+          ],
+          '/es/examples/': [
+            {
+              title: 'Ejemplos',
+              collapsable: false,
+              children: [
+                '',
+              ]
+            }
+          ],
+          '/es/advanced/': [
+            {
+              title: 'Avanzado',
+              collapsable: false,
+              children: [
+                '',
+                'commonjs',
+                'esm',
+                'globals',
+                'vertx',
+                'worker',
+                'jars',
+                'security',
+                'logging'
+              ]
+            }
+          ],
+          '/es/api/': [
+            {
+              title: 'APIs',
+              collapsable: false,
+              children: [
+                ''
+              ]
+            }
+          ]
+        },
+      }
     }
   }
 };
