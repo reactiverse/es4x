@@ -46,6 +46,10 @@ public class JLinkCommand extends DefaultCommand {
         String mods = exec(javaHomePrefix() + "jdeps", "-q", "--module-path", "node_modules/.lib", "--print-module-deps", "node_modules/.bin/es4x-launcher.jar");
         // trim any new line
         mods = mods.replaceAll("\r?\n", "");
+//        if (!mods.contains("java.naming.sql")) {
+//          // add the java.naming.sql module for DNS
+//          mods = mods + ",java.naming.sql";
+//        }
         // enable jvmci if supported
         String modules = exec(javaHomePrefix() + "java", "--list-modules");
         if (modules.contains("jdk.internal.vm.ci")) {

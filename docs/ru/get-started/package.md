@@ -65,7 +65,7 @@ WORKDIR /usr/src/app
 RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | \
     tar zx --strip-components=1 -C /usr/local
 # Устанавливаем зависимости Java
-RUN es4x install -f
+RUN es4x install
 # Создаем оптимизированный образ среды выполнения
 RUN es4x jlink -t /usr/local
 ```

@@ -66,7 +66,7 @@ WORKDIR /usr/src/app
 RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | \
     tar zx --strip-components=1 -C /usr/local
 # Zainstaluj dependencje Javy
-RUN es4x install -f
+RUN es4x install
 # Stwórz zoptymalizowany runtime
 RUN es4x jlink -t /usr/local
 ```

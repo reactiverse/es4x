@@ -21,7 +21,7 @@ Imagenes Docker tambien pueden ser creadas para ti.
 es4x dockerfile
 ```
 
-Esto producira un sencillo `dockerfile` que puedes personalizar a tus necesidades, por defecto el archivo sera 
+Esto producira un sencillo `dockerfile` que puedes personalizar a tus necesidades, por defecto el archivo sera
 construido en 3 fases.
 
 1. En la primera fase `node` es utilizado para instalar todas las dependencias `NPM`
@@ -48,7 +48,7 @@ Esto producira un runtime **optimizado**, que significa que puede ser utilizado 
 JDK completa. Como comparacion, una aplicacion "hello world" producira un runtime de unos **80Mb**, mientras que una
 instalacion completa JDK necesita unos **200Mb**.
 
-Esta caracteristica puede utilizarse en colaboracion con `Dockerfile`. En lugar de usar la imagen graal base, usa la imagen 
+Esta caracteristica puede utilizarse en colaboracion con `Dockerfile`. En lugar de usar la imagen graal base, usa la imagen
 `OpenJDK` base. Y en la segunda fase, ejecuta jlink:
 
 ```dockerfile
@@ -65,7 +65,7 @@ WORKDIR /usr/src/app
 RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | \
     tar zx --strip-components=1 -C /usr/local
 # Instala las dependencias Java
-RUN es4x install -f
+RUN es4x install
 # Crea un runtime optimizado
 RUN es4x jlink -t /usr/local
 ```
