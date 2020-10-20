@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [0.14.0]
+* jlink command support for multi-release dependencies
 * Re-enabled support for shebang
 * Reduce PM package size by 600Kb
 * Bump ASM to 9.0
