@@ -55,8 +55,6 @@ Esta caracteristica puede utilizarse en colaboracion con `Dockerfile`. En lugar 
 # Segunda fase (construye el cpdigo relacionado con JVM)
 FROM openjdk:11 AS JVM
 ARG ES4X_VERSION=${project.version}
-# fuerza a que la resolucion es4x maven solo considere dependencias de produccion
-ENV ES4X_ENV=production
 # Copia el paso de construccion previo
 COPY --from=NPM /usr/src/app /usr/src/app
 # usa el espacio de trabajo (workspace) copiado
@@ -65,7 +63,8 @@ WORKDIR /usr/src/app
 RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | \
     tar zx --strip-components=1 -C /usr/local
 # Instala las dependencias Java
-RUN es4x install
+# fuerza a que la resolucion es4x maven solo considere dependencias de produccion
+RUN es4x install --only=prod
 # Crea un runtime optimizado
 RUN es4x jlink -t /usr/local
 ```

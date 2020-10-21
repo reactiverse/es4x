@@ -148,7 +148,12 @@ public class Project implements Runnable {
 
       // this was a new project, either derive the name from the cwd or set to "unnamed"
       if (cwd != null) {
-        name = cwd.toPath().toRealPath().getFileName().toString();
+        try {
+          name = cwd.toPath().toRealPath().getFileName().toString();
+        } catch (NullPointerException e) {
+          // lots of de-referencing, which can be ignored in case of error
+          name = null;
+        }
       }
 
       if (name == null || "".equals(name)) {

@@ -37,6 +37,12 @@ public class Install implements Runnable {
   public static final String NAME = "install";
   public static final String SUMMARY = "Installs required jars from maven to 'node_modules'.";
 
+  enum Only {
+    PROD,
+    DEV,
+    ALL
+  }
+
   private static final Properties VERSIONS = new Properties();
 
   static {
@@ -54,6 +60,7 @@ public class Install implements Runnable {
   private boolean link;
   private List<String> vendor;
   private File coreJar;
+  private Only only = Only.ALL;
 
   private File cwd;
 
@@ -65,6 +72,7 @@ public class Install implements Runnable {
     CmdLineParser.Option<Boolean> helpOption = parser.addBooleanOption('h', "help");
     CmdLineParser.Option<String> vendorOption = parser.addStringOption('v', "vendor");
     CmdLineParser.Option<Boolean> linkOption = parser.addBooleanOption('l', "link");
+    CmdLineParser.Option<String> onlyOption = parser.addStringOption('o', "only");
 
     try {
       parser.parse(args);
@@ -88,6 +96,7 @@ public class Install implements Runnable {
     }
 
     setVendor(parser.getOptionValue(vendorOption));
+    setOnly(parser.getOptionValue(onlyOption));
     setCwd(new File("."));
   }
 
@@ -98,8 +107,9 @@ public class Install implements Runnable {
     System.err.println();
     System.err.println("Options and Arguments:");
     System.err.println(" -f,--force\t\t\t\tWill always install a basic runtime in the current working dir.");
-    System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
+    System.err.println(" -o,--only\t\t\t\tOnly install 'prod/dev/all' (default: all).");
     System.err.println(" -l,--link\t\t\t\tSymlink jars instead of copy.");
+    System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
     System.err.println();
   }
 
@@ -122,7 +132,13 @@ public class Install implements Runnable {
     }
   }
 
-  private static void processPackageJson(File json, Set<String> dependencies) throws IOException {
+  public void setOnly(String only) {
+    if (only != null) {
+      this.only = Only.valueOf(only.toUpperCase());
+    }
+  }
+
+  private void processPackageJson(File json, Set<String> dependencies) throws IOException {
     if (json.exists()) {
       JsonObject npm = JSON.parse(json);
       if (npm.containsKey("maven")) {
@@ -131,16 +147,17 @@ public class Install implements Runnable {
         dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
       }
 
-      if (npm.containsKey("mvnDependencies")) {
-        final JsonArray maven = (JsonArray) npm.get("mvnDependencies");
-        for (Object el : maven) {
-          // add this dependency
-          dependencies.add((String) el);
+      if (only == Only.ALL || only == Only.PROD) {
+        if (npm.containsKey("mvnDependencies")) {
+          final JsonArray maven = (JsonArray) npm.get("mvnDependencies");
+          for (Object el : maven) {
+            // add this dependency
+            dependencies.add((String) el);
+          }
         }
       }
 
-      // only run if not production
-      if (!isProduction()) {
+      if (only == Only.ALL || only == Only.DEV) {
         if (npm.containsKey("mvnDevDependencies")) {
           final JsonArray maven = (JsonArray) npm.get("mvnDevDependencies");
           for (Object el : maven) {
@@ -150,10 +167,9 @@ public class Install implements Runnable {
         }
       }
     }
-
   }
 
-  private static void processModules(File dir, Set<String> dependencies) throws IOException {
+  private void processModules(File dir, Set<String> dependencies) throws IOException {
     File[] mods = dir.listFiles(File::isDirectory);
     if (mods != null) {
       for (File mod : mods) {
@@ -224,7 +240,7 @@ public class Install implements Runnable {
     try {
       Resolver resolver = new Resolver();
 
-      for (Artifact a : resolver.resolve("org.graalvm.js:js:" + VERSIONS.getProperty("graalvm"), Arrays.asList("org.graalvm.tools:profiler:" + VERSIONS.getProperty("graalvm"), "org.graalvm.tools:chromeinspector:" + VERSIONS.getProperty("graalvm")))) {
+      for (Artifact a : resolver.resolve("org.graalvm.js:js:" + VERSIONS.getProperty("graalvm"), Collections.singletonList("org.graalvm.tools:chromeinspector:" + VERSIONS.getProperty("graalvm")))) {
         artifacts.add(".." + File.separator + ".lib" + File.separator +  a.getFile().getName());
         File destination = new File(libs, a.getFile().getName());
         if (!destination.exists()) {
@@ -536,14 +552,5 @@ public class Install implements Runnable {
         fatal(e.getMessage());
       }
     }
-  }
-
-  private static boolean isProduction() {
-    // NODE_ENV set to production
-    if ("production".equalsIgnoreCase(System.getenv("NODE_ENV"))) {
-      return true;
-    }
-
-    return "production".equalsIgnoreCase(System.getenv("ES4X_ENV"));
   }
 }

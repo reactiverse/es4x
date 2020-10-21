@@ -259,7 +259,7 @@ public final class VertxFileSystem implements FileSystem {
   private void download(URL url, File target) throws IOException {
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setInstanceFollowRedirects(true);
-    conn.setRequestProperty("User-Agent", "es4x/0.12.0");
+    conn.setRequestProperty("User-Agent", "es4x/pm");
 
     if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
       throw new IOException(conn.getResponseMessage());

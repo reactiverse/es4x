@@ -286,7 +286,7 @@ public class CmdLineParser {
       protected Integer parseValue( String arg, Locale locale )
         throws IllegalOptionValueException {
         try {
-          return new Integer(arg);
+          return Integer.decode(arg);
         } catch (NumberFormatException e) {
           throw new IllegalOptionValueException(this, arg);
         }
@@ -308,7 +308,7 @@ public class CmdLineParser {
       protected Long parseValue( String arg, Locale locale )
         throws IllegalOptionValueException {
         try {
-          return new Long(arg);
+          return Long.decode(arg);
         } catch (NumberFormatException e) {
           throw new IllegalOptionValueException(this, arg);
         }

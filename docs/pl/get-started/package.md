@@ -56,8 +56,6 @@ obrazu `OpenJDK`. Następnie w drugim etapie uruchom jlink:
 # Etap drugi (tworzenie JVM związanego z kodem)
 FROM openjdk:11 AS JVM
 ARG ES4X_VERSION=${project.version}
-# Wymuś rozwiązanie es4x maven tylko dla dependencji produkcyjnych
-ENV ES4X_ENV=production
 # Skopiuj build z poprzedniego etapu
 COPY --from=NPM /usr/src/app /usr/src/app
 # Użyj skopiowanego workspace'u
@@ -66,7 +64,8 @@ WORKDIR /usr/src/app
 RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | \
     tar zx --strip-components=1 -C /usr/local
 # Zainstaluj dependencje Javy
-RUN es4x install
+# Wymuś rozwiązanie es4x maven tylko dla dependencji produkcyjnych
+RUN es4x install --only=prod
 # Stwórz zoptymalizowany runtime
 RUN es4x jlink -t /usr/local
 ```

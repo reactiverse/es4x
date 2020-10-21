@@ -56,8 +56,6 @@ H παραπάνω εντολή θα παράγει `βελτιστοποιημ�
 # Second stage (build the JVM related code)
 FROM openjdk:11 AS JVM
 ARG ES4X_VERSION=${project.version}
-# force es4x maven resolution only to consider production dependencies
-ENV ES4X_ENV=production
 # Copy the previous build step
 COPY --from=NPM /usr/src/app /usr/src/app
 # use the copied workspace
@@ -66,7 +64,8 @@ WORKDIR /usr/src/app
 RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | \
     tar zx --strip-components=1 -C /usr/local
 # Install the Java Dependencies
-RUN es4x install
+# force es4x maven resolution only to consider production dependencies
+RUN es4x install --only-prod
 # Create the optimized runtime
 RUN es4x jlink -t /usr/local
 ```

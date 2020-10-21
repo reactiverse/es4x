@@ -55,8 +55,6 @@ JDK. Для сравнения, приложение hello world при запу
 # Вторая стадия (собираем код, относящийся к JVM)
 FROM openjdk:11 AS JVM
 ARG ES4X_VERSION=${project.version}
-# Заставляем разрешение es4x maven учитывать только зависимости production
-ENV ES4X_ENV=production
 # Копируем предыдущий шаг сборки
 COPY --from=NPM /usr/src/app /usr/src/app
 # Используем скопированное окружение
@@ -65,7 +63,8 @@ WORKDIR /usr/src/app
 RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | \
     tar zx --strip-components=1 -C /usr/local
 # Устанавливаем зависимости Java
-RUN es4x install
+# Заставляем разрешение es4x maven учитывать только зависимости production
+RUN es4x install --only=prod
 # Создаем оптимизированный образ среды выполнения
 RUN es4x jlink -t /usr/local
 ```

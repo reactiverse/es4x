@@ -37,6 +37,12 @@ public class InstallCommand extends DefaultCommand {
     command.setLink(link);
   }
 
+  @Option(longName = "only", shortName = "o", choices = {"prod", "dev", "all"})
+  @Description("Only install 'prod/dev/all' (default: all).")
+  public void setOnly(String only) {
+    command.setOnly(only);
+  }
+
   @Override
   public void run() throws CLIException {
     command
