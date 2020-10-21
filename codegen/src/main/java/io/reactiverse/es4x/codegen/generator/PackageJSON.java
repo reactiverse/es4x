@@ -77,6 +77,24 @@ public class PackageJSON extends Generator<Model> {
       json.put("types", "index.d.ts");
     }
 
+    // generate exports for bundlers/cdn's
+    if (session.containsKey("index") || session.containsKey("enum") || session.containsKey("options")) {
+      JsonObject exports = new JsonObject();
+
+      if (session.containsKey("index")) {
+        exports.put(".", "./index.mjs");
+        exports.put("./index", "./index.mjs");
+      }
+      if (session.containsKey("enum")) {
+        exports.put("./enum", "./enum.mjs");
+      }
+      if (session.containsKey("index")) {
+        exports.put("./options", "./options.mjs");
+      }
+
+      json.put("exports", exports);
+    }
+
     // extras
     json.put("sideEffects", false);
 
