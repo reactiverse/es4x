@@ -6,12 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [0.14.0]
-* jlink command support for multi-release dependencies
 * Re-enabled support for shebang
 * Reduce PM package size by 600Kb
 * Bump ASM to 9.0
 * Sync modules with upstream
 * Bump vert.x to 4.0.0.Beta3
+
+## [0.13.3] - 2020-10-22
+- Fix jlink to work with multi-release-jars
+- Upgrade to vert.x 3.9.4
 
 ## [0.13.2] - 2020-09-30
 - Fix detecting GraalVM version on GraalVM JDK8
