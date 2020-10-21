@@ -3,12 +3,12 @@ ARG BASEIMAGE=oracle/graalvm-ce:${graalvm.version}
 FROM node:lts AS NPM
 # Create app directory
 WORKDIR /usr/src/app
+# Add the application to the container
+COPY . .
 # Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+ENV NODE_ENV=production
 # npm is run with unsafe permissions because the default docker user is root
-RUN npm --unsafe-perm update
+RUN npm --unsafe-perm ci
 
 # Second stage (build the JVM related code)
 FROM $BASEIMAGE AS JVM
@@ -22,7 +22,7 @@ COPY --from=NPM /usr/src/app /usr/src/app
 # use the copied workspace
 WORKDIR /usr/src/app
 # Install the maven dependencies
-RUN es4x install -f
+RUN es4x install
 
 # Third stage (contain)
 FROM $BASEIMAGE
@@ -30,8 +30,6 @@ FROM $BASEIMAGE
 COPY --from=JVM /usr/src/app /usr/src/app
 # use the copied workspace
 WORKDIR /usr/src/app
-# Bundle app source
-COPY . .
 # Define custom java options for containers
 ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:+UseContainerSupport"
 # define the entrypoint
