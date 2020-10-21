@@ -14,6 +14,8 @@ elif [ "$1" = "publish" ]; then
   echo "login as reactiverse"
   npm adduser --registry "$REGISTRY"
   mvn -fae -Pio.reactiverse -Dnpm-registry="$REGISTRY" exec:exec@npm-publish
-else
+elif [ "$1" = "tsdocs" ]; then
   mvn -fae -Pio.vertx,io.reactiverse clean generate-sources install exec:exec@typedoc
+else
+  mvn -fae -Pio.vertx,io.reactiverse clean generate-sources install
 fi
