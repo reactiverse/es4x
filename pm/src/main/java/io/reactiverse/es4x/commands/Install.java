@@ -194,15 +194,10 @@ public class Install implements Runnable {
 
   @Override
   public void run() {
-    final Set<String> artifacts = new HashSet<>();
+    final List<String> artifacts = new ArrayList<>();
     installNodeModules(artifacts);
 
     if (!GraalVMVersion.isGraalVM()) {
-      // not on graal, install graaljs and dependencies
-      warn("Installing GraalJS...");
-      // graaljs + dependencies
-      installGraalJS(artifacts);
-
       final double version = Double.parseDouble(System.getProperty("java.specification.version"));
       if (version >= 11) {
         // verify if the current JDK contains the jdk.internal.vm.ci module
@@ -219,6 +214,10 @@ public class Install implements Runnable {
       } else {
         warn("Current JDK only supports GraalJS in Interpreted mode!");
       }
+      // not on graal, install graaljs and dependencies
+      warn("Installing GraalJS...");
+      // graaljs + dependencies
+      installGraalJS(artifacts);
     }
 
     // always create a launcher even if no dependencies are needed
@@ -227,29 +226,47 @@ public class Install implements Runnable {
     installTypeDefinitions();
   }
 
-  private void installGraalJS(Set<String> artifacts) {
+  private static <T> void addIfMissing(Collection<T> collection, T element) {
+    if (!collection.contains(element)) {
+      collection.add(element);
+    }
+  }
+
+  private void installGraalJS(Collection<String> artifacts) {
     final File base = new File(cwd,"node_modules");
 
-    File libs = new File(base, ".lib");
-    if (!libs.exists()) {
-      if (!libs.mkdirs()) {
+    File lib = new File(base, ".lib");
+    if (!lib.exists()) {
+      if (!lib.mkdirs()) {
         fatal("Failed to mkdirs 'node_modules/.lib'.");
       }
     }
 
+    File jvmci = new File(base, ".jvmci");
+
     try {
       Resolver resolver = new Resolver();
+      List<String> mvnArtifacts = only == Only.ALL || only == Only.DEV ?
+        Collections.singletonList("org.graalvm.tools:chromeinspector:" + VERSIONS.getProperty("graalvm")) :
+        Collections.emptyList();
 
-      for (Artifact a : resolver.resolve("org.graalvm.js:js:" + VERSIONS.getProperty("graalvm"), Collections.singletonList("org.graalvm.tools:chromeinspector:" + VERSIONS.getProperty("graalvm")))) {
-        artifacts.add(".." + File.separator + ".lib" + File.separator +  a.getFile().getName());
-        File destination = new File(libs, a.getFile().getName());
+      for (Artifact a : resolver.resolve("org.graalvm.js:js:" + VERSIONS.getProperty("graalvm"), mvnArtifacts)) {
+        File destination = new File(lib, a.getFile().getName());
         if (!destination.exists()) {
+          // if jvmci is installed we refer to the common dependency
+          if (jvmci.exists()) {
+            if (new File(jvmci, a.getArtifactId() + "." + a.getExtension()).exists()) {
+              addIfMissing(artifacts, ".." + File.separator + ".jvmci" + File.separator + a.getArtifactId() + "." + a.getExtension());
+              continue;
+            }
+          }
           if (link) {
             Files.createSymbolicLink(destination.toPath(), a.getFile().toPath());
           } else {
             Files.copy(a.getFile().toPath(), destination.toPath());
           }
         }
+        addIfMissing(artifacts, ".." + File.separator + ".lib" + File.separator +  a.getFile().getName());
       }
     } catch (IOException e) {
       fatal(e.getMessage());
@@ -259,9 +276,9 @@ public class Install implements Runnable {
   private void installGraalJMVCICompiler() {
     final File base = new File(cwd, "node_modules");
 
-    File libs = new File(base, ".jvmci");
-    if (!libs.exists()) {
-      if (!libs.mkdirs()) {
+    File jvmci = new File(base, ".jvmci");
+    if (!jvmci.exists()) {
+      if (!jvmci.mkdirs()) {
         fatal("Failed to mkdirs 'node_modules/.jvmci'.");
       }
     }
@@ -270,7 +287,7 @@ public class Install implements Runnable {
       Resolver resolver = new Resolver();
 
       for (Artifact a : resolver.resolve("org.graalvm.compiler:compiler:" + VERSIONS.getProperty("graalvm"), Collections.emptyList())) {
-        File destination = new File(libs, a.getArtifactId() + "." + a.getExtension());
+        File destination = new File(jvmci, a.getArtifactId() + "." + a.getExtension());
         if (!destination.exists()) {
           if (link) {
             Files.createSymbolicLink(destination.toPath(), a.getFile().toPath());
@@ -284,7 +301,7 @@ public class Install implements Runnable {
     }
   }
 
-  private void installNodeModules(Set<String> artifacts) {
+  private void installNodeModules(Collection<String> artifacts) {
     final File base = new File(cwd, "node_modules");
     final Set<String> dependencies = new HashSet<>();
 
@@ -326,7 +343,7 @@ public class Install implements Runnable {
             fatal("Failed to mkdirs 'node_modules/.lib'.");
           }
         }
-        artifacts.add(".." + File.separator + ".lib" + File.separator + a.getFile().getName());
+        addIfMissing(artifacts, ".." + File.separator + ".lib" + File.separator + a.getFile().getName());
         File destination = new File(libs, a.getFile().getName());
 
         // locate core jar
@@ -347,8 +364,7 @@ public class Install implements Runnable {
     }
   }
 
-  private void createLauncher(Set<String> artifacts) {
-
+  private void createLauncher(Collection<String> artifacts) {
     File json = new File(cwd, "package.json");
 
     if (json.exists()) {

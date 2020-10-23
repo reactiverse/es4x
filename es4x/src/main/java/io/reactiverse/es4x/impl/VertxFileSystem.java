@@ -17,8 +17,8 @@ package io.reactiverse.es4x.impl;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.VertxInternal;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import org.graalvm.polyglot.io.FileSystem;
 
 import java.io.*;
@@ -40,7 +40,7 @@ public final class VertxFileSystem implements FileSystem {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(VertxFileSystem.class);
 
-  private static final Pattern DOT_SLASH = Pattern.compile("^\\." + File.separator + "|" + File.separator + "\\." + File.separator);
+  private static final Pattern DOT_SLASH = Pattern.compile("^\\." + Pattern.quote(File.separator) + "|" + Pattern.quote(File.separator) + "\\." + Pattern.quote(File.separator));
   private static final FileSystemProvider DELEGATE = FileSystems.getDefault().provider();
 
   private static String md5(String input) throws NoSuchAlgorithmException {
@@ -267,7 +267,12 @@ public final class VertxFileSystem implements FileSystem {
 
     try (InputStream inputStream = conn.getInputStream()) {
       try (BufferedInputStream reader = new BufferedInputStream(inputStream)) {
-        target.getParentFile().mkdirs();
+        final File parent = target.getParentFile();
+        if (!parent.exists()) {
+          if (!parent.mkdirs()) {
+            throw new RuntimeException("Failed to mkdirs: " + parent);
+          }
+        }
         try (BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(target))) {
           byte[] buffer = new byte[4096];
           int bytesRead;
