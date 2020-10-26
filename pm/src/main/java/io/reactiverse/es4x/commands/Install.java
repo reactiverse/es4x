@@ -39,7 +39,9 @@ public class Install implements Runnable {
 
   enum Only {
     PROD,
+    PRODUCTION,
     DEV,
+    DEVELOPMENT,
     ALL
   }
 
@@ -107,7 +109,7 @@ public class Install implements Runnable {
     System.err.println();
     System.err.println("Options and Arguments:");
     System.err.println(" -f,--force\t\t\t\tWill always install a basic runtime in the current working dir.");
-    System.err.println(" -o,--only\t\t\t\tOnly install 'prod/dev/all' (default: all).");
+    System.err.println(" -o,--only\t\t\t\tOnly install 'prod[uction]/dev[elopment]' (default: all).");
     System.err.println(" -l,--link\t\t\t\tSymlink jars instead of copy.");
     System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
     System.err.println();
@@ -147,24 +149,30 @@ public class Install implements Runnable {
         dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
       }
 
-      if (only == Only.ALL || only == Only.PROD) {
-        if (npm.containsKey("mvnDependencies")) {
-          final JsonArray maven = (JsonArray) npm.get("mvnDependencies");
-          for (Object el : maven) {
-            // add this dependency
-            dependencies.add((String) el);
+      switch (only) {
+        case ALL:
+        case PROD:
+        case PRODUCTION:
+          if (npm.containsKey("mvnDependencies")) {
+            final JsonArray maven = (JsonArray) npm.get("mvnDependencies");
+            for (Object el : maven) {
+              // add this dependency
+              dependencies.add((String) el);
+            }
           }
-        }
       }
 
-      if (only == Only.ALL || only == Only.DEV) {
-        if (npm.containsKey("mvnDevDependencies")) {
-          final JsonArray maven = (JsonArray) npm.get("mvnDevDependencies");
-          for (Object el : maven) {
-            // add this dependency
-            dependencies.add((String) el);
+      switch (only) {
+        case ALL:
+        case DEV:
+        case DEVELOPMENT:
+          if (npm.containsKey("mvnDevDependencies")) {
+            final JsonArray maven = (JsonArray) npm.get("mvnDevDependencies");
+            for (Object el : maven) {
+              // add this dependency
+              dependencies.add((String) el);
+            }
           }
-        }
       }
     }
   }
@@ -222,8 +230,6 @@ public class Install implements Runnable {
 
     // always create a launcher even if no dependencies are needed
     createLauncher(artifacts);
-    // always install the es4x type definitions
-    installTypeDefinitions();
   }
 
   private static <T> void addIfMissing(Collection<T> collection, T element) {
@@ -541,32 +547,6 @@ public class Install implements Runnable {
     final File exe = new File(bin, "es4x-launcher.cmd");
     try (FileOutputStream out = new FileOutputStream(exe)) {
       out.write(script.getBytes(StandardCharsets.UTF_8));
-    }
-  }
-
-  private void installTypeDefinitions() {
-    final File base = new File(cwd, "node_modules");
-
-    File atTypes = new File(base, "@types");
-    if (!atTypes.exists()) {
-      if (!atTypes.mkdirs()) {
-        fatal("Failed to mkdirs 'node_modules/@types'.");
-      }
-    }
-
-    final File file = new File(atTypes, "es4x.d.ts");
-
-    if (!file.exists()) {
-      // Load the file from the class path
-      try (InputStream in = Install.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/es4x.d.ts")) {
-        if (in == null) {
-          fatal("Cannot load es4x.d.ts.");
-        } else {
-          Files.copy(in, file.toPath());
-        }
-      } catch (IOException e) {
-        fatal(e.getMessage());
-      }
     }
   }
 }
