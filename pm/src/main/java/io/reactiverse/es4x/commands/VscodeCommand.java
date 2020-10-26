@@ -35,7 +35,7 @@ public class VscodeCommand extends DefaultCommand {
 
 	@Option(longName = "launcher", shortName = "l")
 	@Description("The launcher name")
-  @DefaultValue("${workspaceFolder}/node_modules/.bin/es4x-launcher")
+  @DefaultValue("npm")
 	public void setLauncher(String launcher) {
 		this.launcher = launcher;
 	}
@@ -90,9 +90,9 @@ public class VscodeCommand extends DefaultCommand {
       // delegate to npm
       args.add("start");
     }
-    args.add("-Dinspect=5858");
+    args.add("-Dinspect=9229");
 		config.put("runtimeArgs", args);
-		config.put("port", 5858);
+		config.put("port", 9229);
 		config.put("outputCapture", "std");
 		// server ready
     Map<String, Object> serverReady = new LinkedHashMap<>();

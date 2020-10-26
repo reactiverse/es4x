@@ -62,7 +62,7 @@ public class IndexDTS extends Generator<ClassModel> {
       }
 
       // include a file if present
-      writer.print(includeFileIfPresent("index.include.d.ts"));
+      writer.print(includeFileIfPresent("index.header.d.ts"));
 
       if (!type.getModuleName().equals("vertx")) {
         if (isOptionalModule("@vertx/core")) {
@@ -275,6 +275,11 @@ public class IndexDTS extends Generator<ClassModel> {
       }
 
       writer.print("}\n");
+    }
+
+    if (index == size - 1) {
+      // include a file if present
+      writer.print(includeFileIfPresent("index.footer.d.ts"));
     }
 
     return sw.toString();
