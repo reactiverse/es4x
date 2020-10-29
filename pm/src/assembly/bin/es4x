@@ -26,10 +26,10 @@ else
   fi
 fi
 
-if [ ! -f "node_modules/.bin/es4x-launcher.jar" ]; then
-  "$JAVA_EXE" $JAVA_OPTS -jar "$basedir/../es4x-pm-${project.version}.jar" "$@"
+if [ ! -f "node_modules/es4x_install_successful" ]; then
+  "$JAVA_EXE" $JAVA_OPTS -Dsilent-install -jar "$basedir/../es4x-pm-${project.version}.jar" "$@"
   EXIT_STATUS=$?
-  if [[ "$EXIT_STATUS" -ne "65" ]]; then
+  if [[ "$EXIT_STATUS" -ne "0" ]]; then
     exit $EXIT_STATUS
   fi
 fi

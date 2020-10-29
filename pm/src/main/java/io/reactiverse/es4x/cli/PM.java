@@ -20,7 +20,6 @@ import io.reactiverse.es4x.commands.Project;
 import io.reactiverse.es4x.commands.SecurityPolicy;
 import io.reactiverse.es4x.commands.Versions;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -28,8 +27,6 @@ import java.util.Properties;
 import static io.reactiverse.es4x.cli.Helper.*;
 
 public class PM {
-
-  private static final int ENOPKG = 65;
 
   private static void printUsage() {
     System.err.println("Usage: es4x [COMMAND] [OPTIONS] [arg...]");
@@ -115,13 +112,6 @@ public class PM {
         new Versions(cmdArgs).run();
         System.exit(0);
         return;
-      case "":
-      case "run":
-      case "start":
-        verifyRuntime(true);
-        new Install(cmdArgs).run();
-        System.exit(ENOPKG);
-        return;
       case "-h":
       case "--help":
         verifyRuntime(false);
@@ -129,20 +119,13 @@ public class PM {
         System.exit(0);
         return;
       default:
-        // special case, the argument is a valid path
-        // in this case, assume install is needed
-        try {
-          File path = new File(command);
-          if (path.exists()) {
-            verifyRuntime(true);
-            new Install(cmdArgs).run();
-            System.exit(ENOPKG);
-          } else {
-            verifyRuntime(false);
-            printUsage();
-            System.exit(2);
-          }
-        } catch (RuntimeException e) {
+        // if the user is requesting a unknown command, but silent install is active
+        // then perform the silent install and let the control flow from the script
+        if (System.getProperty("silent-install") != null) {
+          verifyRuntime(true);
+          new Install(cmdArgs).run();
+          System.exit(0);
+        } else {
           verifyRuntime(false);
           printUsage();
           System.exit(2);

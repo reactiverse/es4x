@@ -10,9 +10,9 @@ IF NOT EXIST "%JAVA_EXE%" (
   SET "JAVA_EXE=java"
 )
 
-IF NOT EXIST "node_modules\.bin\es4x-launcher.jar" (
-  %JAVA_EXE% %JAVA_OPTS% -jar %~dp0\..\es4x-pm-${project.version}.jar %*
-  IF %ERRORLEVEL% NEQ 65 (
+IF NOT EXIST "node_modules\es4x_install_successful" (
+  %JAVA_EXE% %JAVA_OPTS% -Dsilent-install -jar %~dp0\..\es4x-pm-${project.version}.jar %*
+  IF %ERRORLEVEL% NEQ 0 (
     EXIT /B %ERRORLEVEL%
   )
 )

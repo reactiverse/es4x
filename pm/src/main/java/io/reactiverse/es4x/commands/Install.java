@@ -202,34 +202,62 @@ public class Install implements Runnable {
 
   @Override
   public void run() {
+
     final List<String> artifacts = new ArrayList<>();
-    installNodeModules(artifacts);
 
-    if (!GraalVMVersion.isGraalVM()) {
-      final double version = Double.parseDouble(System.getProperty("java.specification.version"));
-      if (version >= 11) {
-        // verify if the current JDK contains the jdk.internal.vm.ci module
-        try {
-          String modules = exec(javaHomePrefix() + "java", "--list-modules");
-          if (modules.contains("jdk.internal.vm.ci")) {
-            warn("Installing JVMCI Compiler...");
-            // jvmci compiler + dependencies
-            installGraalJMVCICompiler();
+    final Runnable run = () -> {
+      installNodeModules(artifacts);
+
+      if (!GraalVMVersion.isGraalVM()) {
+        final double version = Double.parseDouble(System.getProperty("java.specification.version"));
+        if (version >= 11) {
+          // verify if the current JDK contains the jdk.internal.vm.ci module
+          try {
+            String modules = exec(javaHomePrefix() + "java", "--list-modules");
+            if (modules.contains("jdk.internal.vm.ci")) {
+              warn("Installing JVMCI Compiler...");
+              // jvmci compiler + dependencies
+              installGraalJMVCICompiler();
+            }
+          } catch (IOException | InterruptedException e) {
+            err(e.getMessage());
           }
-        } catch (IOException | InterruptedException e) {
-          err(e.getMessage());
+        } else {
+          warn("Current JDK only supports GraalJS in Interpreted mode!");
         }
-      } else {
-        warn("Current JDK only supports GraalJS in Interpreted mode!");
+        // not on graal, install graaljs and dependencies
+        warn("Installing GraalJS...");
+        // graaljs + dependencies
+        installGraalJS(artifacts);
       }
-      // not on graal, install graaljs and dependencies
-      warn("Installing GraalJS...");
-      // graaljs + dependencies
-      installGraalJS(artifacts);
-    }
 
-    // always create a launcher even if no dependencies are needed
-    createLauncher(artifacts);
+      // always create a launcher even if no dependencies are needed
+      createLauncher(artifacts);
+    };
+
+    switch (only) {
+      case ALL:
+      case DEV:
+      case DEVELOPMENT:
+        File control = new File(new File(cwd,"node_modules"), "es4x_install_successful");
+        if (control.exists()) {
+          warn("Skipping install (recent successful run)");
+          return;
+        }
+        run.run();
+        // touch the control file
+        try (FileOutputStream fileOutputStream = new FileOutputStream(control)) {
+          for (String s : artifacts) {
+            fileOutputStream.write(s.getBytes(StandardCharsets.UTF_8));
+            fileOutputStream.write('\n');
+          }
+        } catch (IOException e) {
+          fatal(e.getMessage());
+        }
+        break;
+      default:
+        run.run();
+    }
   }
 
   private static <T> void addIfMissing(Collection<T> collection, T element) {
