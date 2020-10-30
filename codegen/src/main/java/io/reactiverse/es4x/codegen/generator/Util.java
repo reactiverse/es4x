@@ -52,10 +52,10 @@ public final class Util {
   private final static Set<String> RESERVED = new HashSet<>();
 
   private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
-  private final static Map<String, JsonObject> BLACKLISTS = new HashMap<>();
+  private final static Map<String, JsonObject> EXCLUDES = new HashMap<>();
 
   private final static JsonArray OPTIONAL_DEPENDENCIES;
-  private final static JsonArray CLASS_BLACKLIST;
+  private final static JsonArray CLASS_EXCLUSIONS;
   private final static JsonArray JVMCLASSES;
 
   static {
@@ -63,7 +63,7 @@ public final class Util {
     REGISTRY = new JsonArray(System.getProperty("scope-registry", "[]"));
     YEAR = Calendar.getInstance().get(Calendar.YEAR);
     OPTIONAL_DEPENDENCIES = new JsonArray(System.getProperty("npm-optional-dependencies", "[]"));
-    CLASS_BLACKLIST = new JsonArray(System.getProperty("npm-class-blacklist", "[]"));
+    CLASS_EXCLUSIONS = new JsonArray(System.getProperty("npm-class-exclusions", "[]"));
 
     JVMCLASSES = new JsonArray(System.getProperty("jvm-classes", "[]"));
 
@@ -197,8 +197,8 @@ public final class Util {
     return OPTIONAL_DEPENDENCIES.contains(name);
   }
 
-  public static boolean isBlacklistedClass(String name) {
-    return CLASS_BLACKLIST.contains(name);
+  public static boolean isExcludedClass(String name) {
+    return CLASS_EXCLUSIONS.contains(name);
   }
 
   public static List<?> jvmClasses() {
@@ -478,20 +478,20 @@ public final class Util {
     return overrides;
   }
 
-  private static JsonObject getBlacklist(String type) {
-    JsonObject blacklists = BLACKLISTS.get(type);
+  private static JsonObject getExclude(String type) {
+    JsonObject excludes = EXCLUDES.get(type);
 
-    if (blacklists == null) {
-      String raw = includeFileIfPresent(type + ".blacklist.json");
+    if (excludes == null) {
+      String raw = includeFileIfPresent(type + ".excludes.json");
       if (raw.equals("")) {
-        blacklists = new JsonObject();
+        excludes = new JsonObject();
       } else {
-        blacklists = new JsonObject(raw);
+        excludes = new JsonObject(raw);
       }
-      BLACKLISTS.put(type, blacklists);
+      EXCLUDES.put(type, excludes);
     }
 
-    return blacklists;
+    return excludes;
   }
 
   public static String getOverrideArgs(String type, String method) {
@@ -526,10 +526,10 @@ public final class Util {
     return null;
   }
 
-  public static boolean isBlacklisted(String type, String method, Object params) {
-    JsonObject blacklists = getBlacklist(type);
+  public static boolean isEcluded(String type, String method, Object params) {
+    JsonObject excludes = getExclude(type);
 
-    Object result = blacklists.getValue(method);
+    Object result = excludes.getValue(method);
 
     if (result == null) {
       return false;

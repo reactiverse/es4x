@@ -45,7 +45,7 @@ public class EnumDTS extends Generator<EnumModel> {
   @Override
   public String render(EnumModel model, int index, int size, Map<String, Object> session) {
 
-    if (isBlacklistedClass(model.getType().getName())) {
+    if (isExcludedClass(model.getType().getName())) {
       return null;
     }
 

@@ -52,7 +52,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
   @Override
   public String render(DataObjectModel model, int index, int size, Map<String, Object> session) {
 
-    if (isBlacklistedClass(model.getType().getName())) {
+    if (isExcludedClass(model.getType().getName())) {
       return null;
     }
 
