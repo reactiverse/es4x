@@ -16,9 +16,10 @@
 (function (JSON) {
   'use strict';
 
-  const JsonArray = Java.type('io.vertx.core.json.JsonArray');
-  const JsonObject = Java.type('io.vertx.core.json.JsonObject');
-  const Instant = Java.type('java.time.Instant');
+  const Buffer = Java.type('io.vertx.core.buffer.Buffer');
+  const Json = Java.type('io.vertx.core.json.Json');
+
+  const ProxyUtil = Java.type('io.reactiverse.es4x.impl.ProxyUtil');
 
   // this will wrap the original function to handle Vert.x native types too
   const _stringify = JSON.stringify;
@@ -26,12 +27,19 @@
 
   // patch the original JSON object
   JSON.stringify = function (value, replacer, space) {
-    if (value && Java.isJavaObject(value)) {
-      if (value instanceof JsonArray || value instanceof JsonObject) {
-        return value.encode();
-      }
-      if (value instanceof Instant) {
-        return value.toString();
+    if (value === undefined) {
+      return undefined;
+    }
+
+    if (ProxyUtil.isJavaObject(value)) {
+      switch (replacer) {
+        case 'buffer':
+          return Json.encodeToBuffer(value);
+        case 'pretty':
+        case 'prettily':
+          return Json.encodePrettily(value);
+        default:
+          return Json.encode(value);
       }
     }
     return _stringify(value, replacer, space);
@@ -39,12 +47,13 @@
 
   // patch the original JSON object
   JSON.parse = function (text, reviver) {
-    if (text && Java.isJavaObject(text)) {
-      if (text instanceof JsonArray) {
-        return text.getList();
-      }
-      if (text instanceof JsonObject) {
-        return text.getMap();
+    if (text === undefined) {
+      return undefined;
+    }
+
+    if (Java.isJavaObject(text)) {
+      if (text instanceof Buffer) {
+        return Json.decodeValue(text);
       }
     }
     return _parse(text, reviver);

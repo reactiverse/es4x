@@ -21,6 +21,7 @@ import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.proxy.Proxy;
 import org.graalvm.polyglot.proxy.ProxyArray;
 
 import java.util.List;
@@ -140,4 +141,18 @@ public final class ProxyUtil {
     return val;
   }
 
+  public static boolean isJavaObject(Value value) {
+    if (value.isHostObject()) {
+      return true;
+    }
+
+    if (value.isProxyObject()) {
+      final Proxy unwrap = value.asProxyObject();
+
+      return
+        unwrap instanceof JsonObject || unwrap instanceof JsonArray;
+    }
+
+    return false;
+  }
 }
