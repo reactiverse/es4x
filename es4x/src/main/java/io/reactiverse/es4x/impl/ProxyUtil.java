@@ -142,6 +142,10 @@ public final class ProxyUtil {
   }
 
   public static boolean isJavaObject(Value value) {
+    if (value == null) {
+      return false;
+    }
+
     if (value.isHostObject()) {
       return true;
     }
