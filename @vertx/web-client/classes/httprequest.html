@@ -123,6 +123,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#addqueryparam" class="tsd-kind-icon">add<wbr>Query<wbr>Param</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="httprequest.html#as" class="tsd-kind-icon">as</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#authentication" class="tsd-kind-icon">authentication</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#basicauthentication" class="tsd-kind-icon">basic<wbr>Authentication</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#bearertokenauthentication" class="tsd-kind-icon">bearer<wbr>Token<wbr>Authentication</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httprequest.html#copy" class="tsd-kind-icon">copy</a></li>
@@ -165,7 +166,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:181</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:194</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,7 +197,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:98</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:99</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -221,6 +222,38 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="authentication" class="tsd-anchor"></a>
+					<h3>authentication</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">authentication<span class="tsd-signature-symbol">(</span>credentials<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Credentials</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:149</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Configure the request to perform HTTP Authentication.</p>
+									<p>
+										Performs a generic authentication using the credentials provided by the user. For the sake of validation safety
+										it is recommended that  is called to ensure that the credentials
+										are applicable to the HTTP Challenged received on a previous request that returned a 401 response code.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>credentials: <span class="tsd-signature-type">Credentials</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httprequest.html" class="tsd-signature-type">HttpRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="basicauthentication" class="tsd-anchor"></a>
 					<h3>basic<wbr>Authentication</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -231,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:148</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:159</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -241,6 +274,7 @@
 										In basic HTTP authentication, a request contains a header field of the form 'Authorization: Basic &#60;credentials&#62;',
 										where credentials is the base64 encoding of id and password joined by a colon.
 									</p>
+									In practical terms the arguments are converted to a  object.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -257,7 +291,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:157</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:169</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -267,6 +301,7 @@
 										In basic HTTP authentication, a request contains a header field of the form 'Authorization: Basic &#60;credentials&#62;',
 										where credentials is the base64 encoding of id and password joined by a colon.
 									</p>
+									In practical terms the arguments are converted to a  object.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -292,7 +327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:166</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:179</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -302,6 +337,7 @@
 										In OAuth 2.0, a request contains a header field of the form 'Authorization: Bearer &#60;bearerToken&#62;',
 										where bearerToken is the bearer token issued by an authorization server to access protected resources.
 									</p>
+									In practical terms the arguments are converted to a  object.
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -324,7 +360,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:215</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:228</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -347,7 +383,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:198</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:211</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -386,7 +422,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:205</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:218</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -416,7 +452,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:191</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:204</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -444,7 +480,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:139</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:140</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MultiMap</span></h4>
@@ -461,7 +497,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:103</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:104</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -489,7 +525,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:88</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:89</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -517,7 +553,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:225</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:238</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -550,7 +586,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:93</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:94</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -579,7 +615,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:135</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:136</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -601,7 +637,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:271</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:284</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -632,7 +668,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:130</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:131</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -660,7 +696,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:210</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:223</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -682,7 +718,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:266</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:279</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -710,7 +746,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:235</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:248</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -741,7 +777,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:255</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:268</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -775,7 +811,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:247</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:260</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -807,7 +843,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:241</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:254</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -844,7 +880,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:261</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:274</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -876,7 +912,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:230</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:243</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -907,7 +943,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:186</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:199</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -938,7 +974,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:168</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:181</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -961,7 +997,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:176</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:189</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -992,7 +1028,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:125</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:126</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1023,7 +1059,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:117</li>
+									<li>Defined in io.vertx/vertx-web-client/target/npm/index.d.ts:118</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1075,6 +1111,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="httprequest.html#as" class="tsd-kind-icon">as</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httprequest.html#authentication" class="tsd-kind-icon">authentication</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httprequest.html#basicauthentication" class="tsd-kind-icon">basic<wbr>Authentication</a>

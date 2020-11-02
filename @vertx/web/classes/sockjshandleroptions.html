@@ -99,10 +99,14 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#getmaxbytesstreaming" class="tsd-kind-icon">get<wbr>Max<wbr>Bytes<wbr>Streaming</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#getsessiontimeout" class="tsd-kind-icon">get<wbr>Session<wbr>Timeout</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#isinsertjsessionid" class="tsd-kind-icon">is<wbr>InsertJSESSIONID</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#islocalwritehandler" class="tsd-kind-icon">is<wbr>Local<wbr>Write<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#isregisterwritehandler" class="tsd-kind-icon">is<wbr>Register<wbr>Write<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#setheartbeatinterval" class="tsd-kind-icon">set<wbr>Heartbeat<wbr>Interval</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#setinsertjsessionid" class="tsd-kind-icon">set<wbr>InsertJSESSIONID</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#setlibraryurl" class="tsd-kind-icon">set<wbr>LibraryURL</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#setlocalwritehandler" class="tsd-kind-icon">set<wbr>Local<wbr>Write<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#setmaxbytesstreaming" class="tsd-kind-icon">set<wbr>Max<wbr>Bytes<wbr>Streaming</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#setregisterwritehandler" class="tsd-kind-icon">set<wbr>Register<wbr>Write<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sockjshandleroptions.html#setsessiontimeout" class="tsd-kind-icon">set<wbr>Session<wbr>Timeout</a></li>
 							</ul>
 						</section>
@@ -156,9 +160,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:89</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:95</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a transport (by name) to the set of disabled transports.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -179,9 +188,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:87</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:90</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a transport (by name) to the set of disabled transports.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -196,9 +210,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:91</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:103</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>In order to keep proxies and load balancers from closing long running HTTP requests we need to pretend that the connection is active and send a heartbeat packet once in a while.
+									This setting controls how often this is done.</p>
+									<p>
+										Defaults to 25 seconds.
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -213,9 +235,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:99</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:134</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transports which don&#39;t support cross-domain communication natively use an iframe trick.
+									A simple page is served from the SockJS server (using its foreign domain) and is placed in an invisible iframe.</p>
+									<p>
+										Code run from this iframe doesn't need to worry about cross-domain issues, as it's being run from domain local to the SockJS server.
+										This iframe also does need to load SockJS javascript client library, and this option lets you specify its URL.
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -230,9 +261,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:103</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:169</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Most streaming transports save responses on the client side and don&#39;t free memory used by delivered messages.
+									Such transports need to be garbage-collected once in a while.</p>
+									<p>
+										This setting controls the maximum number of bytes that can be sent over a single HTTP streaming request before it will be closed.
+										After that the client needs to open new request.
+										Setting this value to one effectively disables streaming and will make streaming transports to behave like polling transports.
+										<p>
+											Defaults to 128K.
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -247,9 +290,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:107</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:202</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the delay before the server sends a <code>close</code> event when a client receiving connection has not been seen for a while.</p>
+									<p>
+										Defaults to 5 seconds.
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -264,9 +314,64 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:95</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:118</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether to insert a <code>JSESSIONID</code> cookie so load-balancers ensure requests for a specific SockJS session are always routed to the correct server.</p>
+									<p>
+										Defaults to <code>true</code>.
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="islocalwritehandler" class="tsd-anchor"></a>
+					<h3>is<wbr>Local<wbr>Write<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Local<wbr>Write<wbr>Handler<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:150</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether the <code>writeHandler</code> should be local only or cluster-wide.</p>
+									<p>
+										Defaults to <code>true</code>.
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isregisterwritehandler" class="tsd-anchor"></a>
+					<h3>is<wbr>Register<wbr>Write<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Register<wbr>Write<wbr>Handler<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:188</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether a <code>writeHandler</code> should be registered on the {@link EventBus}.</p>
+									<p>
+										Defaults to <code>false</code>.
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -281,9 +386,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:93</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:111</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>In order to keep proxies and load balancers from closing long running HTTP requests we need to pretend that the connection is active and send a heartbeat packet once in a while.
+									This setting controls how often this is done.</p>
+									<p>
+										Defaults to 25 seconds.
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -304,9 +417,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:97</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:125</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether to insert a <code>JSESSIONID</code> cookie so load-balancers ensure requests for a specific SockJS session are always routed to the correct server.</p>
+									<p>
+										Defaults to <code>true</code>.
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -327,13 +447,52 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:101</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:143</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transports which don&#39;t support cross-domain communication natively use an iframe trick.
+									A simple page is served from the SockJS server (using its foreign domain) and is placed in an invisible iframe.</p>
+									<p>
+										Code run from this iframe doesn't need to worry about cross-domain issues, as it's being run from domain local to the SockJS server.
+										This iframe also does need to load SockJS javascript client library, and this option lets you specify its URL.
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>libraryURL: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="sockjshandleroptions.html" class="tsd-signature-type">SockJSHandlerOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setlocalwritehandler" class="tsd-anchor"></a>
+					<h3>set<wbr>Local<wbr>Write<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Local<wbr>Write<wbr>Handler<span class="tsd-signature-symbol">(</span>localWriteHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sockjshandleroptions.html" class="tsd-signature-type">SockJSHandlerOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:157</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether the <code>writeHandler</code> should be local only or cluster-wide.</p>
+									<p>
+										Defaults to <code>true</code>.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>localWriteHandler: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="sockjshandleroptions.html" class="tsd-signature-type">SockJSHandlerOptions</a></h4>
@@ -350,13 +509,55 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:105</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:181</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Most streaming transports save responses on the client side and don&#39;t free memory used by delivered messages.
+									Such transports need to be garbage-collected once in a while.</p>
+									<p>
+										This setting controls the maximum number of bytes that can be sent over a single HTTP streaming request before it will be closed.
+										After that the client needs to open new request.
+										Setting this value to one effectively disables streaming and will make streaming transports to behave like polling transports.
+										<p>
+											Defaults to 128K.
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>maxBytesStreaming: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="sockjshandleroptions.html" class="tsd-signature-type">SockJSHandlerOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setregisterwritehandler" class="tsd-anchor"></a>
+					<h3>set<wbr>Register<wbr>Write<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Register<wbr>Write<wbr>Handler<span class="tsd-signature-symbol">(</span>registerWriteHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sockjshandleroptions.html" class="tsd-signature-type">SockJSHandlerOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:195</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether a <code>writeHandler</code> should be registered on the {@link EventBus}.</p>
+									<p>
+										Defaults to <code>false</code>.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>registerWriteHandler: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="sockjshandleroptions.html" class="tsd-signature-type">SockJSHandlerOptions</a></h4>
@@ -373,9 +574,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:109</li>
+									<li>Defined in io.vertx/vertx-web/target/npm/options.d.ts:209</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the delay before the server sends a <code>close</code> event when a client receiving connection has not been seen for a while.</p>
+									<p>
+										Defaults to 5 seconds.
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -428,6 +636,12 @@
 								<a href="sockjshandleroptions.html#isinsertjsessionid" class="tsd-kind-icon">is<wbr>InsertJSESSIONID</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="sockjshandleroptions.html#islocalwritehandler" class="tsd-kind-icon">is<wbr>Local<wbr>Write<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="sockjshandleroptions.html#isregisterwritehandler" class="tsd-kind-icon">is<wbr>Register<wbr>Write<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="sockjshandleroptions.html#setheartbeatinterval" class="tsd-kind-icon">set<wbr>Heartbeat<wbr>Interval</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -437,7 +651,13 @@
 								<a href="sockjshandleroptions.html#setlibraryurl" class="tsd-kind-icon">set<wbr>LibraryURL</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="sockjshandleroptions.html#setlocalwritehandler" class="tsd-kind-icon">set<wbr>Local<wbr>Write<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="sockjshandleroptions.html#setmaxbytesstreaming" class="tsd-kind-icon">set<wbr>Max<wbr>Bytes<wbr>Streaming</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="sockjshandleroptions.html#setregisterwritehandler" class="tsd-kind-icon">set<wbr>Register<wbr>Write<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="sockjshandleroptions.html#setsessiontimeout" class="tsd-kind-icon">set<wbr>Session<wbr>Timeout</a>

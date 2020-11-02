@@ -68,22 +68,7 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Key or trust store options configuring private key and/or certificates based on PKCS#12 files.</p>
-						<p>
-							When used as a key store, it should point to a store containing a private key and its certificate.
-							When used as a trust store, it should point to a store containing a list of accepted certificates.
-							<p>
 					</div>
-					<p>The store can either be loaded by Vert.x from the filesystem:</p>
-					<p>
-						<pre>
-HttpServerOptions options = new HttpServerOptions();
-options.setPfxKeyCertOptions(new PfxOptions().setPath("/mykeystore.p12").setPassword("foo"));
-</pre>
-						<p>Or directly provided as a buffer:<p></p>
-							<pre>
-Buffer store = vertx.fileSystem().readFileBlocking("/mykeystore.p12");
-options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo"));
-</pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -109,6 +94,7 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pfxoptions.html#getpassword" class="tsd-kind-icon">get<wbr>Password</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pfxoptions.html#getpath" class="tsd-kind-icon">get<wbr>Path</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pfxoptions.html#gettype" class="tsd-kind-icon">get<wbr>Type</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pfxoptions.html#getvalue" class="tsd-kind-icon">get<wbr>Value</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pfxoptions.html#setpassword" class="tsd-kind-icon">set<wbr>Password</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pfxoptions.html#setpath" class="tsd-kind-icon">set<wbr>Path</a></li>
@@ -131,7 +117,7 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4783</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4794</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="pfxoptions.html" class="tsd-signature-type">PfxOptions</a></h4>
@@ -139,7 +125,7 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4785</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4796</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -165,12 +151,12 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4792</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4803</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the password</p>
+									<p>Set the password for the key store</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -187,14 +173,31 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4802</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4813</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the path</p>
+									<p>Set the path to the key store</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettype" class="tsd-anchor"></a>
+					<h3>get<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Type<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4820</li>
+								</ul>
+							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -209,12 +212,12 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4812</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4825</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the store as a buffer</p>
+									<p>Set the key store as a buffer</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="buffer.html" class="tsd-signature-type">Buffer</a></h4>
@@ -231,12 +234,12 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4797</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4808</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the password</p>
+									<p>Set the password for the key store</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -259,12 +262,12 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4807</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4818</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the path</p>
+									<p>Set the path to the key store</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -287,12 +290,12 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4817</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:4830</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the store as a buffer</p>
+									<p>Set the key store as a buffer</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -330,6 +333,9 @@ options.setPfxKeyCertOptions(new PfxOptions().setValue(store).setPassword("foo")
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="pfxoptions.html#getpath" class="tsd-kind-icon">get<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="pfxoptions.html#gettype" class="tsd-kind-icon">get<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="pfxoptions.html#getvalue" class="tsd-kind-icon">get<wbr>Value</a>

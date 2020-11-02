@@ -68,23 +68,7 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Key or trust store options configuring private key and/or certificates based on Java Keystore files.</p>
-						<p>
-							When used as a key store, it should point to a store containing a private key and its certificate.
-							When used as a trust store, it should point to a store containing a list of trusted certificates.
-							<p>
-								The store can either be loaded by Vert.x from the filesystem:
-								<p>
-									<pre>
-HttpServerOptions options = HttpServerOptions.httpServerOptions();
-options.setKeyStore(new JKSOptions().setPath("/mykeystore.jks").setPassword("foo"));
-</pre>
 					</div>
-					<p>Or directly provided as a buffer:</p>
-					<p>
-						<pre>
-Buffer store = vertx.fileSystem().readFileBlocking("/mykeystore.jks");
-options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
-</pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -110,6 +94,7 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jksoptions.html#getpassword" class="tsd-kind-icon">get<wbr>Password</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jksoptions.html#getpath" class="tsd-kind-icon">get<wbr>Path</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jksoptions.html#gettype" class="tsd-kind-icon">get<wbr>Type</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jksoptions.html#getvalue" class="tsd-kind-icon">get<wbr>Value</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jksoptions.html#setpassword" class="tsd-kind-icon">set<wbr>Password</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jksoptions.html#setpath" class="tsd-kind-icon">set<wbr>Path</a></li>
@@ -132,7 +117,7 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3277</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3304</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="jksoptions.html" class="tsd-signature-type">JksOptions</a></h4>
@@ -140,7 +125,7 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3279</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3306</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -166,7 +151,7 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3286</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3313</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -188,7 +173,7 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3296</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3323</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,6 +181,23 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 									<p>Set the path to the key store</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettype" class="tsd-anchor"></a>
+					<h3>get<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Type<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3330</li>
+								</ul>
+							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -210,7 +212,7 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3306</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3335</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -232,7 +234,7 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3291</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3318</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -260,7 +262,7 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3301</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3328</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -288,7 +290,7 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3311</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/options.d.ts:3340</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -331,6 +333,9 @@ options.setKeyStore(new JKSOptions().setValue(store).setPassword("foo"));
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="jksoptions.html#getpath" class="tsd-kind-icon">get<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jksoptions.html#gettype" class="tsd-kind-icon">get<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="jksoptions.html#getvalue" class="tsd-kind-icon">get<wbr>Value</a>
