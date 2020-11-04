@@ -1,4 +1,4 @@
-/// <reference types="es4x" />
+/// <reference types="@vertx/core" />
 // @ts-check
 
 vertx

@@ -9,95 +9,95 @@ All generated APIs relate to the core vert.x APIs, so for better understanding o
 The Vert.x core APIs contain the backbone for writing Vert.x applications and low-level support for HTTP, TCP, UDP,
 file system, asynchronous streams and many other building blocks. It is also used by many other components of Vert.x.
 
-* [core](/@vertx/core)
+* [core](/es4x/@vertx/core)
 
 ## Web
 
 A tool-kit for writing sophisticated modern web applications and HTTP microservices.
 
-* [web](/@vertx/web)
-* [web-api-contract](/@vertx/web-api-contract)
-* [web-client](/@vertx/web-client)
-* [web-common](/@vertx/web-common)
+* [web](/es4x/@vertx/web)
+* [web-api-contract](/es4x/@vertx/web-api-contract)
+* [web-client](/es4x/@vertx/web-client)
+* [web-common](/es4x/@vertx/web-common)
 
 ## Authentication / Authorization
 
 Modules to perform authentication and/or authorization.
 
-* [auth-common](/@vertx/auth-common)
-* [auth-digest](/@vertx/auth-digest)
-* [auth-jdbc](/@vertx/auth-jdbc)
-* [auth-jwt](/@vertx/auth-jwt)
-* [auth-mongo](/@vertx/auth-mongo)
-* [auth-oauth2](/@vertx/auth-oauth2)
-* [auth-shiro](/@vertx/auth-shiro)
+* [auth-common](/es4x/@vertx/auth-common)
+* [auth-digest](/es4x/@vertx/auth-digest)
+* [auth-jdbc](/es4x/@vertx/auth-jdbc)
+* [auth-jwt](/es4x/@vertx/auth-jwt)
+* [auth-mongo](/es4x/@vertx/auth-mongo)
+* [auth-oauth2](/es4x/@vertx/auth-oauth2)
+* [auth-shiro](/es4x/@vertx/auth-shiro)
 
 ## Data Access
 
 Modules for accessing data.
 
-* [sql-common](/@vertx/sql-common)
-* [jdbc-client](/@vertx/jdbc-client)
-* [kafka-client](/@vertx/kafka-client)
-* [mongo-client](/@vertx/mongo-client)
-* [redis-client](/@vertx/redis-client)
+* [sql-common](/es4x/@vertx/sql-common)
+* [jdbc-client](/es4x/@vertx/jdbc-client)
+* [kafka-client](/es4x/@vertx/kafka-client)
+* [mongo-client](/es4x/@vertx/mongo-client)
+* [redis-client](/es4x/@vertx/redis-client)
 
 ## Monitoring
 
 Modules to work with monitoring tools.
 
-* [dropwizard-metrics](/@vertx/dropwizard-metrics)
-* [hawkular-metrics](/@vertx/hawkular-metrics)
+* [dropwizard-metrics](/es4x/@vertx/dropwizard-metrics)
+* [hawkular-metrics](/es4x/@vertx/hawkular-metrics)
 
 ## Microservices
 
 Microservice related modules.
 
-* [circuit-breaker](/@vertx/circuit-breaker)
-* [cofig-redis](/@vertx/cofig-redis)
-* [config](/@vertx/config)
-* [config-consul](/@vertx/config-consul)
-* [config-git](/@vertx/config-git)
-* [config-hocon](/@vertx/config-hocon)
-* [config-kubernetes-configmap](/@vertx/config-kubernetes-configmap)
-* [config-spring-config-server](/@vertx/config-spring-config-server)
-* [config-vault](/@vertx/config-vault)
-* [config-yaml](/@vertx/config-yaml)
-* [config-zookeeper](/@vertx/config-zookeeper)
-* [consul-client](/@vertx/consul-client)
-* [health-check](/@vertx/health-check)
-* [mysql-postgresql-client](/@vertx/mysql-postgresql-client)
-* [service-discovery](/@vertx/service-discovery)
-* [service-discovery-backend-consul](/@vertx/service-discovery-backend-consul)
-* [service-discovery-backend-redis](/@vertx/service-discovery-backend-redis)
-* [service-discovery-backend-zookeeper](/@vertx/service-discovery-backend-zookeeper)
-* [service-discovery-bridge-consul](/@vertx/service-discovery-bridge-consul)
-* [service-discovery-bridge-docker](/@vertx/service-discovery-bridge-docker)
-* [service-discovery-bridge-docker-links](/@vertx/service-discovery-bridge-docker-links)
-* [service-discovery-bridge-kubernetes](/@vertx/service-discovery-bridge-kubernetes)
-* [service-discovery-bridge-zookeeper](/@vertx/service-discovery-bridge-zookeeper)
+* [circuit-breaker](/es4x/@vertx/circuit-breaker)
+* [cofig-redis](/es4x/@vertx/cofig-redis)
+* [config](/es4x/@vertx/config)
+* [config-consul](/es4x/@vertx/config-consul)
+* [config-git](/es4x/@vertx/config-git)
+* [config-hocon](/es4x/@vertx/config-hocon)
+* [config-kubernetes-configmap](/es4x/@vertx/config-kubernetes-configmap)
+* [config-spring-config-server](/es4x/@vertx/config-spring-config-server)
+* [config-vault](/es4x/@vertx/config-vault)
+* [config-yaml](/es4x/@vertx/config-yaml)
+* [config-zookeeper](/es4x/@vertx/config-zookeeper)
+* [consul-client](/es4x/@vertx/consul-client)
+* [health-check](/es4x/@vertx/health-check)
+* [mysql-postgresql-client](/es4x/@vertx/mysql-postgresql-client)
+* [service-discovery](/es4x/@vertx/service-discovery)
+* [service-discovery-backend-consul](/es4x/@vertx/service-discovery-backend-consul)
+* [service-discovery-backend-redis](/es4x/@vertx/service-discovery-backend-redis)
+* [service-discovery-backend-zookeeper](/es4x/@vertx/service-discovery-backend-zookeeper)
+* [service-discovery-bridge-consul](/es4x/@vertx/service-discovery-bridge-consul)
+* [service-discovery-bridge-docker](/es4x/@vertx/service-discovery-bridge-docker)
+* [service-discovery-bridge-docker-links](/es4x/@vertx/service-discovery-bridge-docker-links)
+* [service-discovery-bridge-kubernetes](/es4x/@vertx/service-discovery-bridge-kubernetes)
+* [service-discovery-bridge-zookeeper](/es4x/@vertx/service-discovery-bridge-zookeeper)
 
 ## EventBus Bridges
 
 EventBus bridge modules.
 
-* [amqp-bridge](/@vertx/amqp-bridge)
-* [bridge-common](/@vertx/bridge-common)
-* [camel-bridge](/@vertx/camel-bridge)
-* [tcp-eventbus-bridge](/@vertx/tcp-eventbus-bridge)
+* [amqp-bridge](/es4x/@vertx/amqp-bridge)
+* [bridge-common](/es4x/@vertx/bridge-common)
+* [camel-bridge](/es4x/@vertx/camel-bridge)
+* [tcp-eventbus-bridge](/es4x/@vertx/tcp-eventbus-bridge)
 
 ## Other
 
 Other uncategorized modules.
 
-* [mail-client](/@vertx/mail-client)
-* [shell](/@vertx/shell)
-* [stomp](/@vertx/stomp)
-* [unit](/@vertx/unit)
-* [vertx-mqtt](/@vertx/vertx-mqtt)
-* [rabbitmq-client](/@vertx/rabbitmq-client)
+* [mail-client](/es4x/@vertx/mail-client)
+* [shell](/es4x/@vertx/shell)
+* [stomp](/es4x/@vertx/stomp)
+* [unit](/es4x/@vertx/unit)
+* [vertx-mqtt](/es4x/@vertx/vertx-mqtt)
+* [rabbitmq-client](/es4x/@vertx/rabbitmq-client)
 
 ## Reactiverse
 
-* [reactive-pg-client](/@reactiverse/reactive-pg-client)
-* [elasticsearch-client](/@reactiverse/elasticsearch-client)
+* [reactive-pg-client](/es4x/@reactiverse/reactive-pg-client)
+* [elasticsearch-client](/es4x/@reactiverse/elasticsearch-client)

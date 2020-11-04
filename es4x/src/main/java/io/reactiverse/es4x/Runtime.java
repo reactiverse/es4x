@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
@@ -51,7 +50,7 @@ public final class Runtime extends EventEmitterImpl {
     bindings.putMember("vertx", vertx);
 
     // clean up the current working dir
-    final String cwd = "file://" + VertxFileSystem.getCWD();
+    final File cwd = new File(VertxFileSystem.getCWD());
 
     // override the default load function to allow proper mapping of file for debugging
     bindings.putMember("load", new Function<Object, Value>() {
@@ -81,18 +80,18 @@ public final class Runtime extends EventEmitterImpl {
           }
           else if (value instanceof Map) {
             // a json document
-            final CharSequence script = (CharSequence) ((Map) value).get("script");
+            final String script = (String) ((Map) value).get("script");
             // might be optional
-            final CharSequence name = (CharSequence) ((Map) value).get("name");
+            final String name = (String) ((Map) value).get("name");
 
             if (name != null && name.length() > 0) {
               final URI uri;
               if (name.charAt(0) != '/') {
                 // relative uri
-                uri = new URI(cwd + name);
+                uri = new File(cwd, name).toURI();
               } else {
                 // absolute uri
-                uri = new URI("file://" + name);
+                uri = new File(name).toURI();
               }
               source = Source.newBuilder("js", script, uri.getPath()).uri(uri).build();
             } else {
@@ -103,7 +102,7 @@ public final class Runtime extends EventEmitterImpl {
           }
 
           return context.eval(source);
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
           throw new RuntimeException(e);
         }
       }
@@ -185,20 +184,6 @@ public final class Runtime extends EventEmitterImpl {
    */
   public void close() {
     context.close();
-  }
-
-  /**
-   * explicitly enter the script engine scope.
-   */
-  public void enter() {
-    context.enter();
-  }
-
-  /**
-   * explicitly leave the script engine scope.
-   */
-  public void leave() {
-    context.leave();
   }
 
   /**

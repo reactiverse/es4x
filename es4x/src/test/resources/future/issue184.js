@@ -13,7 +13,7 @@ let f0 = p0.future();
 let f1 = p1.future();
 
 CompositeFuture.all(f0, f1)
-  .setHandler(res => {
+  .onComplete(res => {
     if (res.succeeded()) {
       test.complete();
     } else {

@@ -6,14 +6,14 @@
   <parent>
     <groupId>io.reactiverse.es4x</groupId>
     <artifactId>es4x-generator</artifactId>
-    <version>0.13.3</version>
+    <version>0.14.0-CR1</version>
     <relativePath>../..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>vertx-web</artifactId>
-  <version>0.13.3</version>
+  <version>0.14.0-CR1</version>
 
   <properties>
     <maven.groupId>io.vertx</maven.groupId>
@@ -39,9 +39,9 @@
       }
     </npm-dev-dependencies>
     <!-- language=json -->
-    <npm-optional-dependencies>["@vertx/auth-htdigest", "@vertx/auth-jwt", "@vertx/auth-oauth2", "@vertx/jwt"]</npm-optional-dependencies>
+    <npm-optional-dependencies>["@vertx/auth-htdigest", "@vertx/auth-jwt", "@vertx/auth-oauth2", "@vertx/auth-webauthn"]</npm-optional-dependencies>
     <!-- language=json -->
-    <npm-class-blacklist>["io.vertx.ext.web.handler.sockjs.PermittedOptions"]</npm-class-blacklist>
+    <npm-class-exclusions>["io.vertx.ext.web.handler.sockjs.PermittedOptions"]</npm-class-exclusions>
   </properties>
 
   <dependencies>
@@ -60,6 +60,12 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-auth-oauth2</artifactId>
+      <version>${stack.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-auth-webauthn</artifactId>
       <version>${stack.version}</version>
       <optional>true</optional>
     </dependency>

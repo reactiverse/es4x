@@ -33,8 +33,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-import static io.vertx.codegen.type.ClassKind.DATA_OBJECT;
 import static io.vertx.codegen.type.ClassKind.ENUM;
+import static io.vertx.codegen.type.ClassKind.OTHER;
 import static javax.lang.model.element.ElementKind.*;
 
 public final class Util {
@@ -52,10 +52,10 @@ public final class Util {
   private final static Set<String> RESERVED = new HashSet<>();
 
   private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
-  private final static Map<String, JsonObject> BLACKLISTS = new HashMap<>();
+  private final static Map<String, JsonObject> EXCLUDES = new HashMap<>();
 
   private final static JsonArray OPTIONAL_DEPENDENCIES;
-  private final static JsonArray CLASS_BLACKLIST;
+  private final static JsonArray CLASS_EXCLUSIONS;
   private final static JsonArray JVMCLASSES;
 
   static {
@@ -63,7 +63,7 @@ public final class Util {
     REGISTRY = new JsonArray(System.getProperty("scope-registry", "[]"));
     YEAR = Calendar.getInstance().get(Calendar.YEAR);
     OPTIONAL_DEPENDENCIES = new JsonArray(System.getProperty("npm-optional-dependencies", "[]"));
-    CLASS_BLACKLIST = new JsonArray(System.getProperty("npm-class-blacklist", "[]"));
+    CLASS_EXCLUSIONS = new JsonArray(System.getProperty("npm-class-exclusions", "[]"));
 
     JVMCLASSES = new JsonArray(System.getProperty("jvm-classes", "[]"));
 
@@ -197,8 +197,8 @@ public final class Util {
     return OPTIONAL_DEPENDENCIES.contains(name);
   }
 
-  public static boolean isBlacklistedClass(String name) {
-    return CLASS_BLACKLIST.contains(name);
+  public static boolean isExcludedClass(String name) {
+    return CLASS_EXCLUSIONS.contains(name);
   }
 
   public static List<?> jvmClasses() {
@@ -303,8 +303,6 @@ public final class Util {
             }
           }
         }
-      case DATA_OBJECT:
-        return type.getErased().getSimpleName();
       case HANDLER:
         if (type.isParameterized()) {
           return "((res: " + genType(((ParameterizedTypeInfo) type).getArg(0)) + ") => void) | Handler<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
@@ -326,11 +324,15 @@ public final class Util {
       case CLASS_TYPE:
         return "any /* TODO: class */";
       case OTHER:
-        if (TYPES.containsKey(type.getName())) {
-          return TYPES.get(type.getName());
+        if (type.getDataObject() != null) {
+          return type.getErased().getSimpleName();
         } else {
-          System.out.println("@@@ " + type.getName());
-          return "any /* " + type.getName() + " */";
+          if (TYPES.containsKey(type.getName())) {
+            return TYPES.get(type.getName());
+          } else {
+            System.out.println("@@@ " + type.getName());
+            return "any /* " + type.getName() + " */";
+          }
         }
       default:
         System.out.println("!!! " + type + " - " + type.getKind());
@@ -476,20 +478,20 @@ public final class Util {
     return overrides;
   }
 
-  private static JsonObject getBlacklist(String type) {
-    JsonObject blacklists = BLACKLISTS.get(type);
+  private static JsonObject getExclude(String type) {
+    JsonObject excludes = EXCLUDES.get(type);
 
-    if (blacklists == null) {
-      String raw = includeFileIfPresent(type + ".blacklist.json");
+    if (excludes == null) {
+      String raw = includeFileIfPresent(type + ".excludes.json");
       if (raw.equals("")) {
-        blacklists = new JsonObject();
+        excludes = new JsonObject();
       } else {
-        blacklists = new JsonObject(raw);
+        excludes = new JsonObject(raw);
       }
-      BLACKLISTS.put(type, blacklists);
+      EXCLUDES.put(type, excludes);
     }
 
-    return blacklists;
+    return excludes;
   }
 
   public static String getOverrideArgs(String type, String method) {
@@ -524,10 +526,10 @@ public final class Util {
     return null;
   }
 
-  public static boolean isBlacklisted(String type, String method, Object params) {
-    JsonObject blacklists = getBlacklist(type);
+  public static boolean isEcluded(String type, String method, Object params) {
+    JsonObject excludes = getExclude(type);
 
-    Object result = blacklists.getValue(method);
+    Object result = excludes.getValue(method);
 
     if (result == null) {
       return false;
@@ -562,7 +564,7 @@ public final class Util {
     ClassTypeInfo rawType = link.getTargetType().getRaw();
     if (rawType.getModule() != null) {
       String label = link.getLabel().trim();
-      if (rawType.getKind() == DATA_OBJECT) {
+      if (rawType.getKind() == OTHER && rawType.getDataObject() != null) {
         if (label.length() == 0) {
           label = rawType.getSimpleName();
         }

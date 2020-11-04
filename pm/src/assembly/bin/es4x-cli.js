@@ -15,16 +15,16 @@ if (process.env['JAVA_HOME']) {
   }
 }
 
-let launcher = path.join('node_modules', '.bin', 'es4x-launcher.jar');
+let launcher = path.join('node_modules', 'es4x_install_successful');
 if (!existsSync(path.join(process.cwd(), launcher))) {
   // classpath is incomplete we need to run the PM package
   let statusCode =
     spawnSync(
       java,
-      ['-cp', `${path.join(__dirname, '..', pm)}`, 'io.reactiverse.es4x.cli.PM'].concat(process.argv.slice(2)),
+      [ '-Dsilent-install', '-jar', `${path.join(__dirname, '..', pm)}`].concat(process.argv.slice(2)),
       {cwd: process.cwd(), env: process.env, stdio: 'inherit'}).status;
 
-  if (statusCode !== 65) {
+  if (statusCode !== 0) {
     process.exit(statusCode);
   }
 }
@@ -72,5 +72,5 @@ if (existsSync(path.join(process.cwd(), launcher))) {
   subProcess.on('close', process.exit);
 } else {
   console.error(`Missing ${launcher}`);
-  process.exit(2);
+  process.exit(3);
 }

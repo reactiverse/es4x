@@ -19,6 +19,8 @@ import io.reactiverse.es4x.ESVerticleFactory;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
+import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.proxy.ProxyExecutable;
 
 import java.nio.file.InvalidPathException;
 
@@ -34,6 +36,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
     return new Verticle() {
 
       private Vertx vertx;
+      private Context context;
 
       @Override
       public Vertx getVertx() {
@@ -43,11 +46,31 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       @Override
       public void init(Vertx vertx, Context context) {
         this.vertx = vertx;
+        this.context = context;
       }
 
       @Override
-      public void start(Future<Void> startFuture) {
+      public void start(Promise<Void> startFuture) {
+        final String address;
+        final boolean worker;
+
+        if (context != null) {
+          address = context.deploymentID();
+          worker = context.isWorkerContext();
+          // expose config
+          if (context.config() != null) {
+            runtime.config(context.config());
+          }
+        } else {
+          worker = false;
+          address = null;
+        }
+
         try {
+          if (worker) {
+            setupVerticleMessaging(runtime, vertx, address);
+          }
+
           // the main script buffer
           final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
           runtime.eval(
@@ -65,18 +88,24 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void stop(Future<Void> stopFuture) {
+      public void stop(Promise<Void> stopFuture) {
+        final Promise<Void> wrapper = Promise.promise();
+
         try {
-          runtime.enter();
-          runtime.emit("undeploy");
-          runtime.leave();
-          runtime.close();
-          stopFuture.complete();
+          int arity = runtime.emit("undeploy", wrapper);
+          final Future<Void> future = wrapper.future();
+
+          // ensure we shutdown this runtime
+          future.onComplete(undeploy -> {
+            stopFuture.handle(undeploy);
+            runtime.close();
+          });
+
+          if (arity == 0) {
+            wrapper.complete();
+          }
         } catch (RuntimeException e) {
-          // done!
-          runtime.leave();
-          runtime.close();
-          stopFuture.fail(e);
+          wrapper.fail(e);
         }
       }
     };

@@ -52,7 +52,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
   @Override
   public String render(DataObjectModel model, int index, int size, Map<String, Object> session) {
 
-    if (isBlacklistedClass(model.getType().getName())) {
+    if (isExcludedClass(model.getType().getName())) {
       return null;
     }
 
@@ -64,7 +64,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
     if (index == 0) {
       Util.generateLicense(writer);
       // include a file if present
-      writer.print(includeFileIfPresent("options.include.d.ts"));
+      writer.print(includeFileIfPresent("options.header.d.ts"));
     } else {
       writer.print("\n");
     }
@@ -84,7 +84,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
             imports = true;
           }
         }
-        if (referencedType.getKind() == ClassKind.DATA_OBJECT) {
+        if (referencedType.getKind() == ClassKind.OTHER && referencedType.getDataObject() != null) {
           if (!referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
             // ignore missing imports
             if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
@@ -155,6 +155,11 @@ public class OptionsDTS extends Generator<DataObjectModel> {
     }
 
     writer.print("}\n");
+
+    if (index == size - 1) {
+      // include a file if present
+      writer.print(includeFileIfPresent("options.footer.d.ts"));
+    }
 
     return sw.toString();
   }

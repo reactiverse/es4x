@@ -1,8 +1,26 @@
+/*
+ * Copyright 2019 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.commands;
 
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
 import io.reactiverse.es4x.cli.CmdLineParser;
-import io.reactiverse.es4x.commands.proxies.JsonArrayProxy;
-import io.reactiverse.es4x.commands.proxies.JsonObjectProxy;
+import io.reactiverse.es4x.asm.FutureBaseVisitor;
+import io.reactiverse.es4x.asm.JsonArrayVisitor;
+import io.reactiverse.es4x.asm.JsonObjectVisitor;
 import io.reactiverse.es4x.cli.GraalVMVersion;
 import org.eclipse.aether.artifact.Artifact;
 
@@ -16,10 +34,16 @@ import static io.reactiverse.es4x.cli.Helper.*;
 
 public class Install implements Runnable {
 
-  private static final int ENOPKG = 65;
-
   public static final String NAME = "install";
   public static final String SUMMARY = "Installs required jars from maven to 'node_modules'.";
+
+  enum Only {
+    PROD,
+    PRODUCTION,
+    DEV,
+    DEVELOPMENT,
+    ALL
+  }
 
   private static final Properties VERSIONS = new Properties();
 
@@ -35,10 +59,10 @@ public class Install implements Runnable {
     }
   }
 
-  private boolean silent;
   private boolean link;
   private List<String> vendor;
   private File coreJar;
+  private Only only = Only.ALL;
 
   private File cwd;
 
@@ -48,9 +72,9 @@ public class Install implements Runnable {
   public Install(String[] args) {
     CmdLineParser parser = new CmdLineParser();
     CmdLineParser.Option<Boolean> helpOption = parser.addBooleanOption('h', "help");
-    CmdLineParser.Option<Boolean> silentOption = parser.addBooleanOption('s', "silent");
     CmdLineParser.Option<String> vendorOption = parser.addStringOption('v', "vendor");
     CmdLineParser.Option<Boolean> linkOption = parser.addBooleanOption('l', "link");
+    CmdLineParser.Option<String> onlyOption = parser.addStringOption('o', "only");
 
     try {
       parser.parse(args);
@@ -68,17 +92,13 @@ public class Install implements Runnable {
       return;
     }
 
-    Boolean silent = parser.getOptionValue(silentOption, Boolean.FALSE);
-    if (silent != null && silent) {
-      setSilent(true);
-    }
-
-    Boolean link = parser.getOptionValue(linkOption, Boolean.FALSE);
+    Boolean link = parser.getOptionValue(linkOption, false);
     if (link != null && link) {
       setLink(true);
     }
 
     setVendor(parser.getOptionValue(vendorOption));
+    setOnly(parser.getOptionValue(onlyOption));
     setCwd(new File("."));
   }
 
@@ -89,19 +109,15 @@ public class Install implements Runnable {
     System.err.println();
     System.err.println("Options and Arguments:");
     System.err.println(" -f,--force\t\t\t\tWill always install a basic runtime in the current working dir.");
-    System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
+    System.err.println(" -o,--only\t\t\t\tOnly install 'prod[uction]/dev[elopment]' (default: all).");
     System.err.println(" -l,--link\t\t\t\tSymlink jars instead of copy.");
-    System.err.println(" -s,--silent\t\t\t\tReturn statuscode 65 on success.");
+    System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
     System.err.println();
   }
 
   public Install setCwd(File cwd) {
     this.cwd = cwd;
     return this;
-  }
-
-  public void setSilent(boolean silent) {
-    this.silent = silent;
   }
 
   public void setLink(boolean link) {
@@ -118,38 +134,50 @@ public class Install implements Runnable {
     }
   }
 
-  private static void processPackageJson(File json, Set<String> dependencies) throws IOException {
+  public void setOnly(String only) {
+    if (only != null) {
+      this.only = Only.valueOf(only.toUpperCase());
+    }
+  }
+
+  private void processPackageJson(File json, Set<String> dependencies) throws IOException {
     if (json.exists()) {
-      Map npm = JSON.parse(json, Map.class);
+      JsonObject npm = JSON.parse(json);
       if (npm.containsKey("maven")) {
-        final Map maven = (Map) npm.get("maven");
+        final JsonObject maven = (JsonObject) npm.get("maven");
         // add this dependency
         dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
       }
 
-      if (npm.containsKey("mvnDependencies")) {
-        final List maven = (List) npm.get("mvnDependencies");
-        for (Object el : maven) {
-          // add this dependency
-          dependencies.add((String) el);
-        }
+      switch (only) {
+        case ALL:
+        case PROD:
+        case PRODUCTION:
+          if (npm.containsKey("mvnDependencies")) {
+            final JsonArray maven = (JsonArray) npm.get("mvnDependencies");
+            for (Object el : maven) {
+              // add this dependency
+              dependencies.add((String) el);
+            }
+          }
       }
 
-      // only run if not production
-      if (!isProduction()) {
-        if (npm.containsKey("mvnDevDependencies")) {
-          final List maven = (List) npm.get("mvnDevDependencies");
-          for (Object el : maven) {
-            // add this dependency
-            dependencies.add((String) el);
+      switch (only) {
+        case ALL:
+        case DEV:
+        case DEVELOPMENT:
+          if (npm.containsKey("mvnDevDependencies")) {
+            final JsonArray maven = (JsonArray) npm.get("mvnDevDependencies");
+            for (Object el : maven) {
+              // add this dependency
+              dependencies.add((String) el);
+            }
           }
-        }
       }
     }
-
   }
 
-  private static void processModules(File dir, Set<String> dependencies) throws IOException {
+  private void processModules(File dir, Set<String> dependencies) throws IOException {
     File[] mods = dir.listFiles(File::isDirectory);
     if (mods != null) {
       for (File mod : mods) {
@@ -174,66 +202,105 @@ public class Install implements Runnable {
 
   @Override
   public void run() {
-    final Set<String> artifacts = new HashSet<>();
-    installNodeModules(artifacts);
 
-    if (!GraalVMVersion.isGraalVM()) {
-      // not on graal, install graaljs and dependencies
-      warn("Installing GraalJS...");
-      // graaljs + dependencies
-      installGraalJS(artifacts);
+    final List<String> artifacts = new ArrayList<>();
 
-      final double version = Double.parseDouble(System.getProperty("java.specification.version"));
-      if (version >= 11) {
-        // verify if the current JDK contains the jdk.internal.vm.ci module
-        try {
-          String modules = exec(javaHomePrefix() + "java", "--list-modules");
-          if (modules.contains("jdk.internal.vm.ci")) {
-            warn("Installing JVMCI Compiler...");
-            // jvmci compiler + dependencies
-            installGraalJMVCICompiler();
+    final Runnable run = () -> {
+      installNodeModules(artifacts);
+
+      if (!GraalVMVersion.isGraalVM()) {
+        final double version = Double.parseDouble(System.getProperty("java.specification.version"));
+        if (version >= 11) {
+          // verify if the current JDK contains the jdk.internal.vm.ci module
+          try {
+            String modules = exec(javaHomePrefix() + "java", "--list-modules");
+            if (modules.contains("jdk.internal.vm.ci")) {
+              warn("Installing JVMCI Compiler...");
+              // jvmci compiler + dependencies
+              installGraalJMVCICompiler();
+            }
+          } catch (IOException | InterruptedException e) {
+            err(e.getMessage());
           }
-        } catch (IOException | InterruptedException e) {
-          err(e.getMessage());
+        } else {
+          warn("Current JDK only supports GraalJS in Interpreted mode!");
         }
-      } else {
-        warn("Current JDK only supports GraalJS in Interpreted mode!");
+        // not on graal, install graaljs and dependencies
+        warn("Installing GraalJS...");
+        // graaljs + dependencies
+        installGraalJS(artifacts);
       }
-    }
 
-    // always create a launcher even if no dependencies are needed
-    createLauncher(artifacts);
-    // always install the es4x type definitions
-    installTypeDefinitions();
+      // always create a launcher even if no dependencies are needed
+      createLauncher(artifacts);
+    };
 
-    if (silent) {
-      System.exit(ENOPKG);
+    switch (only) {
+      case ALL:
+      case DEV:
+      case DEVELOPMENT:
+        File control = new File(new File(cwd,"node_modules"), "es4x_install_successful");
+        if (control.exists()) {
+          warn("Skipping install (recent successful run)");
+          return;
+        }
+        run.run();
+        // touch the control file
+        try (FileOutputStream fileOutputStream = new FileOutputStream(control)) {
+          for (String s : artifacts) {
+            fileOutputStream.write(s.getBytes(StandardCharsets.UTF_8));
+            fileOutputStream.write('\n');
+          }
+        } catch (IOException e) {
+          fatal(e.getMessage());
+        }
+        break;
+      default:
+        run.run();
     }
   }
 
-  private void installGraalJS(Set<String> artifacts) {
+  private static <T> void addIfMissing(Collection<T> collection, T element) {
+    if (!collection.contains(element)) {
+      collection.add(element);
+    }
+  }
+
+  private void installGraalJS(Collection<String> artifacts) {
     final File base = new File(cwd,"node_modules");
 
-    File libs = new File(base, ".lib");
-    if (!libs.exists()) {
-      if (!libs.mkdirs()) {
+    File lib = new File(base, ".lib");
+    if (!lib.exists()) {
+      if (!lib.mkdirs()) {
         fatal("Failed to mkdirs 'node_modules/.lib'.");
       }
     }
 
+    File jvmci = new File(base, ".jvmci");
+
     try {
       Resolver resolver = new Resolver();
+      List<String> mvnArtifacts = only == Only.ALL || only == Only.DEV ?
+        Collections.singletonList("org.graalvm.tools:chromeinspector:" + VERSIONS.getProperty("graalvm")) :
+        Collections.emptyList();
 
-      for (Artifact a : resolver.resolve("org.graalvm.js:js:" + VERSIONS.getProperty("graalvm"), Arrays.asList("org.graalvm.tools:profiler:" + VERSIONS.getProperty("graalvm"), "org.graalvm.tools:chromeinspector:" + VERSIONS.getProperty("graalvm")))) {
-        artifacts.add(".." + File.separator + ".lib" + File.separator +  a.getFile().getName());
-        File destination = new File(libs, a.getFile().getName());
+      for (Artifact a : resolver.resolve("org.graalvm.js:js:" + VERSIONS.getProperty("graalvm"), mvnArtifacts)) {
+        File destination = new File(lib, a.getFile().getName());
         if (!destination.exists()) {
+          // if jvmci is installed we refer to the common dependency
+          if (jvmci.exists()) {
+            if (new File(jvmci, a.getArtifactId() + "." + a.getExtension()).exists()) {
+              addIfMissing(artifacts, ".." + File.separator + ".jvmci" + File.separator + a.getArtifactId() + "." + a.getExtension());
+              continue;
+            }
+          }
           if (link) {
             Files.createSymbolicLink(destination.toPath(), a.getFile().toPath());
           } else {
             Files.copy(a.getFile().toPath(), destination.toPath());
           }
         }
+        addIfMissing(artifacts, ".." + File.separator + ".lib" + File.separator +  a.getFile().getName());
       }
     } catch (IOException e) {
       fatal(e.getMessage());
@@ -243,9 +310,9 @@ public class Install implements Runnable {
   private void installGraalJMVCICompiler() {
     final File base = new File(cwd, "node_modules");
 
-    File libs = new File(base, ".jvmci");
-    if (!libs.exists()) {
-      if (!libs.mkdirs()) {
+    File jvmci = new File(base, ".jvmci");
+    if (!jvmci.exists()) {
+      if (!jvmci.mkdirs()) {
         fatal("Failed to mkdirs 'node_modules/.jvmci'.");
       }
     }
@@ -254,7 +321,7 @@ public class Install implements Runnable {
       Resolver resolver = new Resolver();
 
       for (Artifact a : resolver.resolve("org.graalvm.compiler:compiler:" + VERSIONS.getProperty("graalvm"), Collections.emptyList())) {
-        File destination = new File(libs, a.getArtifactId() + "." + a.getExtension());
+        File destination = new File(jvmci, a.getArtifactId() + "." + a.getExtension());
         if (!destination.exists()) {
           if (link) {
             Files.createSymbolicLink(destination.toPath(), a.getFile().toPath());
@@ -268,7 +335,7 @@ public class Install implements Runnable {
     }
   }
 
-  private void installNodeModules(Set<String> artifacts) {
+  private void installNodeModules(Collection<String> artifacts) {
     final File base = new File(cwd, "node_modules");
     final Set<String> dependencies = new HashSet<>();
 
@@ -310,7 +377,7 @@ public class Install implements Runnable {
             fatal("Failed to mkdirs 'node_modules/.lib'.");
           }
         }
-        artifacts.add(".." + File.separator + ".lib" + File.separator + a.getFile().getName());
+        addIfMissing(artifacts, ".." + File.separator + ".lib" + File.separator + a.getFile().getName());
         File destination = new File(libs, a.getFile().getName());
 
         // locate core jar
@@ -331,13 +398,12 @@ public class Install implements Runnable {
     }
   }
 
-  private void createLauncher(Set<String> artifacts) {
-
+  private void createLauncher(Collection<String> artifacts) {
     File json = new File(cwd, "package.json");
 
     if (json.exists()) {
       try {
-        Map npm = JSON.parse(json, Map.class);
+        JsonObject npm = JSON.parse(json);
         // default main script
         String main = ".";
         String verticleFactory = "js";
@@ -388,15 +454,22 @@ public class Install implements Runnable {
               try (JarInputStream jar = new JarInputStream(in)) {
                 JarEntry je;
                 while ((je = jar.getNextJarEntry()) != null) {
-                  if ("io/vertx/core/json/JsonObject.class".equals(je.getName())) {
-                    target.putNextEntry(je);
-                    target.write(new JsonObjectProxy().rewrite(jar));
-                    target.closeEntry();
-                  }
-                  if ("io/vertx/core/json/JsonArray.class".equals(je.getName())) {
-                    target.putNextEntry(je);
-                    target.write(new JsonArrayProxy().rewrite(jar));
-                    target.closeEntry();
+                  switch (je.getName()) {
+                    case "io/vertx/core/json/JsonObject.class":
+                      target.putNextEntry(je);
+                      target.write(new JsonObjectVisitor().rewrite(jar));
+                      target.closeEntry();
+                      break;
+                    case "io/vertx/core/json/JsonArray.class":
+                      target.putNextEntry(je);
+                      target.write(new JsonArrayVisitor().rewrite(jar));
+                      target.closeEntry();
+                      break;
+                    case "io/vertx/core/impl/future/FutureBase.class":
+                      target.putNextEntry(je);
+                      target.write(new FutureBaseVisitor().rewrite(jar));
+                      target.closeEntry();
+                      break;
                   }
                 }
               } catch (RuntimeException e) {
@@ -503,40 +576,5 @@ public class Install implements Runnable {
     try (FileOutputStream out = new FileOutputStream(exe)) {
       out.write(script.getBytes(StandardCharsets.UTF_8));
     }
-  }
-
-  private void installTypeDefinitions() {
-    final File base = new File(cwd, "node_modules");
-
-    File atTypes = new File(base, "@types");
-    if (!atTypes.exists()) {
-      if (!atTypes.mkdirs()) {
-        fatal("Failed to mkdirs 'node_modules/@types'.");
-      }
-    }
-
-    final File file = new File(atTypes, "es4x.d.ts");
-
-    if (!file.exists()) {
-      // Load the file from the class path
-      try (InputStream in = Install.class.getClassLoader().getResourceAsStream("META-INF/es4x-commands/es4x.d.ts")) {
-        if (in == null) {
-          fatal("Cannot load es4x.d.ts.");
-        } else {
-          Files.copy(in, file.toPath());
-        }
-      } catch (IOException e) {
-        fatal(e.getMessage());
-      }
-    }
-  }
-
-  private static boolean isProduction() {
-    // NODE_ENV set to production
-    if ("production".equalsIgnoreCase(System.getenv("NODE_ENV"))) {
-      return true;
-    }
-
-    return "production".equalsIgnoreCase(System.getenv("ES4X_ENV"));
   }
 }

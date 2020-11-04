@@ -6,20 +6,26 @@
   <parent>
     <groupId>io.reactiverse.es4x</groupId>
     <artifactId>es4x-generator</artifactId>
-    <version>0.13.3</version>
+    <version>0.14.0-CR1</version>
     <relativePath>../..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>vertx-bridge-common</artifactId>
-  <version>0.13.3</version>
+  <version>0.14.0-CR1</version>
 
   <properties>
     <maven.groupId>io.vertx</maven.groupId>
     <npm-name>@vertx/bridge-common</npm-name>
     <npm-version>${stack.version}</npm-version>
     <npm-skip>false</npm-skip>
+    <!-- language=json -->
+    <npm-dependencies>
+      {
+        "@vertx/core": "${stack.version}"
+      }
+    </npm-dependencies>
   </properties>
 
   <dependencies>

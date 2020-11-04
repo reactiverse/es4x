@@ -1,36 +1,37 @@
-ARG BASEIMAGE=oracle/graalvm-ce:${graalvm.version}
 # Use official node for build
 FROM node:lts AS NPM
+# Disable calls to es4x command (this container has no JVM)
+RUN ln -s /bin/true /usr/bin/es4x
 # Create app directory
 WORKDIR /usr/src/app
 # Add the application to the container
 COPY . .
-# Install app dependencies
-ENV NODE_ENV=production
 # npm is run with unsafe permissions because the default docker user is root
-RUN npm --unsafe-perm ci
+# also all dev packages are not installed
+RUN npm --unsafe-perm install --only=prod
 
 # Second stage (build the JVM related code)
-FROM $BASEIMAGE AS JVM
-ARG ES4X_VERSION=${project.version}
+FROM adoptopenjdk/openjdk11 AS JVM
 # Download the ES4X runtime tool
-RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | tar zx --strip-components=1 -C /usr/local
-# force es4x maven resolution only to consider production dependencies
-ENV ES4X_ENV=production
+RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${project.version}/es4x-pm-${project.version}-bin.tar.gz | tar zx --strip-components=1 -C /usr/local
 # Copy the previous build step
 COPY --from=NPM /usr/src/app /usr/src/app
 # use the copied workspace
 WORKDIR /usr/src/app
-# Install the maven dependencies
-RUN es4x install
+# force es4x maven resolution only to consider production dependencies
+RUN es4x install --only=prod
+# Build Custom runtime
+RUN es4x jlink --target=/es4x
 
 # Third stage (contain)
-FROM $BASEIMAGE
+FROM gcr.io/distroless/base
 # Collect the jars from the previous step
 COPY --from=JVM /usr/src/app /usr/src/app
+# Collect the runtime
+COPY --from=JVM /es4x /usr
+# We also need libz
+COPY --from=JVM /lib/x86_64-linux-gnu/libz.so.1 /usr/lib
 # use the copied workspace
 WORKDIR /usr/src/app
-# Define custom java options for containers
-ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:+UseContainerSupport"
 # define the entrypoint
-ENTRYPOINT [ "./node_modules/.bin/es4x-launcher" ]
+ENTRYPOINT [  "/usr/bin/java", "--module-path=node_modules/.jvmci", "-XX:+UnlockExperimentalVMOptions", "-XX:+EnableJVMCI", "--upgrade-module-path=node_modules/.jvmci/compiler.jar", "-XX:+UseContainerSupport", "-jar", "./node_modules/.bin/es4x-launcher.jar" ]

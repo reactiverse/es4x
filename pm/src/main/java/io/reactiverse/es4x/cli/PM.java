@@ -1,6 +1,24 @@
+/*
+ * Copyright 2019 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.cli;
 
-import io.reactiverse.es4x.commands.*;
+import io.reactiverse.es4x.commands.Install;
+import io.reactiverse.es4x.commands.Project;
+import io.reactiverse.es4x.commands.SecurityPolicy;
+import io.reactiverse.es4x.commands.Versions;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,16 +72,23 @@ public class PM {
     }
   }
 
+  private static final String[] EMPTY_ARGS = new String[]{""};
+  private static final String[] EMPTY = new String[]{};
+
   public static void main(String[] args) {
     if (args == null || args.length == 0) {
-      // default action is "install -s"
-      args = new String[] { Install.NAME, "-s" };
+      args = EMPTY_ARGS;
     }
 
     String command = args[0];
+    String[] cmdArgs;
     // strip the command out of the arguments
-    String[] cmdArgs = new String[args.length - 1];
-    System.arraycopy(args, 1, cmdArgs, 0, cmdArgs.length);
+    if (args.length > 1) {
+      cmdArgs = new String[args.length - 1];
+      System.arraycopy(args, 1, cmdArgs, 0, cmdArgs.length);
+    } else {
+      cmdArgs = EMPTY;
+    }
 
     switch (command) {
       case "app":
@@ -94,9 +119,17 @@ public class PM {
         System.exit(0);
         return;
       default:
-        verifyRuntime(false);
-        printUsage();
-        System.exit(2);
+        // if the user is requesting a unknown command, but silent install is active
+        // then perform the silent install and let the control flow from the script
+        if (System.getProperty("silent-install") != null) {
+          verifyRuntime(true);
+          new Install(cmdArgs).run();
+          System.exit(0);
+        } else {
+          verifyRuntime(false);
+          printUsage();
+          System.exit(2);
+        }
     }
   }
 }

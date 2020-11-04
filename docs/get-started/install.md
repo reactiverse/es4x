@@ -1,9 +1,42 @@
 # Install
 
-Assuming you’ve already installed [Node.js](https://nodejs.org/) and ([Java](https://adoptopenjdk.net/) or
-[GraalVM](http://www.graalvm.org/)), optionally install the project management utilities development tool.
+Assuming you’ve already installed [Node.js](https://nodejs.org/), you will need a working JVM. The requirements are
+either ([Java](https://adoptopenjdk.net/) or [GraalVM](http://www.graalvm.org/)).
 
-## Using NPM
+```bash
+$ java -version
+openjdk version "1.8.0_265"
+OpenJDK Runtime Environment (build 1.8.0_265-8u265-b01-0ubuntu2~20.04-b01)
+OpenJDK 64-Bit Server VM (build 25.265-b01, mixed mode)
+```
+
+If you see a similar output, this means your system currently has `java` **8**, which is not the best option as it will
+not benefit from the high performance engine `es4x` uses.
+
+## GraalVM/OpenJDK
+
+In order to have a compatible runtime it is recommended to install a higher runtime (for example using
+[jabba](https://github.com/shyiko/jabba)). For instructions on installing `jabba`, please refer to the official
+[manual](https://github.com/shyiko/jabba#installation).
+
+::: tip
+Using `jabba` you can install `openjdk 11` and/or `graalvm` (once) as:
+
+```bash
+jabba install openjdk@1.11.0
+jabba install graalvm@20.2.0
+```
+
+And later switch to the desired runtime by executing:
+
+```bash
+jabba use openjdk@1.11 # OR jabba use graalvm@20.2
+```
+:::
+
+Once a valid JVM is installed you can optionally install the project management utilities development tool.
+
+## Project Tools
 
 ```bash
 npm install -g @es4x/create # OR yarn global add @es4x/create
@@ -44,7 +77,7 @@ Using `npm` should be the preferred way to install as it allows easy upgrades an
 :::
 
 
-## Verify the installation
+## Verify
 
 You should now have a `es4x` command available in your path, you can test it by running:
 

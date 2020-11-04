@@ -1,4 +1,4 @@
-# Vert.x Interop
+# Eclipse Vert.x
 
 As it should be clear at this point, Vert.x is the IO and default programming model used by ES4X. There are however some
 nice improvements to the standard [Vert.x APIs](https://vertx.io).

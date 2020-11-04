@@ -15,6 +15,8 @@
  */
 package io.reactiverse.es4x.commands;
 
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
 import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.*;
 import io.vertx.core.spi.launcher.DefaultCommand;
@@ -33,7 +35,7 @@ public class VscodeCommand extends DefaultCommand {
 
 	@Option(longName = "launcher", shortName = "l")
 	@Description("The launcher name")
-  @DefaultValue("${workspaceFolder}/node_modules/.bin/es4x-launcher")
+  @DefaultValue("npm")
 	public void setLauncher(String launcher) {
 		this.launcher = launcher;
 	}
@@ -45,23 +47,23 @@ public class VscodeCommand extends DefaultCommand {
     String app = "Launch";
 
     if (pkg.exists()) {
-      Map pkgJson = JSON.parse(pkg, Map.class);
+      JsonObject pkgJson = JSON.parse(pkg);
       app = "Launch " + pkgJson.get("name");
     }
 
-    Map launch = JSON.parse(json, Map.class);
+    JsonObject launch = JSON.parse(json);
 
     if (!launch.containsKey("configurations")) {
 			launch.put("configurations", new ArrayList<>());
 		}
 
-		final List configurations = (List) launch.get("configurations");
+		final JsonArray configurations = (JsonArray) launch.get("configurations");
 
     // replace the launcher if already present
     Object toRemove = null;
 
     for (Object c : configurations) {
-      Map<String, Object> config = (Map<String, Object>) c;
+      JsonObject config = (JsonObject) c;
       if (app.equals(config.get("name"))) {
         toRemove = c;
         break;
@@ -88,9 +90,9 @@ public class VscodeCommand extends DefaultCommand {
       // delegate to npm
       args.add("start");
     }
-    args.add("-Dinspect=5858");
+    args.add("-Dinspect=9229");
 		config.put("runtimeArgs", args);
-		config.put("port", 5858);
+		config.put("port", 9229);
 		config.put("outputCapture", "std");
 		// server ready
     Map<String, Object> serverReady = new LinkedHashMap<>();
@@ -105,16 +107,19 @@ public class VscodeCommand extends DefaultCommand {
 
 	@Override
 	public void run() throws CLIException {
-		File vscodefile = new File(getCwd(), ".vscode/launch.json");
+		File launch = new File(getCwd(), ".vscode/launch.json");
 
-		if (!vscodefile.exists()) {
-			new File(getCwd(), ".vscode").mkdirs();
+		if (!launch.exists()) {
+		  final File vscode = new File(getCwd(), ".vscode");
+			if (!vscode.exists() && !vscode.mkdirs()) {
+        fatal("Failed to mkdir .vscode");
+      }
 			try (InputStream in = VscodeCommand.class.getClassLoader()
 					.getResourceAsStream("META-INF/es4x-commands/vscode-launcher.json")) {
 				if (in == null) {
 					fatal("Cannot load vscode launcher.json template.");
 				} else {
-					Files.copy(in, vscodefile.toPath());
+					Files.copy(in, launch.toPath());
 				}
 			} catch (IOException e) {
 				fatal(e.getMessage());
@@ -122,7 +127,7 @@ public class VscodeCommand extends DefaultCommand {
     }
 
     try {
-      processLauncher(vscodefile);
+      processLauncher(launch);
     } catch (IOException e) {
       fatal(e.getMessage());
     }

@@ -24,11 +24,11 @@
 
     if (Number(timeout) === 0) {
       // special case
-      vertx.runOnContext(function (v) {
+      vertx.runOnContext(function setTimeout(v) {
         callback.apply(global, args);
       });
     } else {
-      return vertx.setTimer(Number(timeout), function (t) {
+      return vertx.setTimer(Number(timeout), function setTimeout(t) {
         callback.apply(global, args);
       });
     }
@@ -39,11 +39,11 @@
 
     if (Number(timeout) === 0) {
       // special case
-      vertx.runOnContext(function (v) {
+      vertx.runOnContext(function setInterval(v) {
         callback.apply(global, args);
       });
     } else {
-      return vertx.setPeriodic(Number(timeout), function (t) {
+      return vertx.setPeriodic(Number(timeout), function setInterval(t) {
         callback.apply(global, args);
       });
     }
@@ -52,7 +52,7 @@
   global.setImmediate = function (callback) {
     const args = Array.prototype.slice.call(arguments, 1);
 
-    vertx.runOnContext(function (v) {
+    vertx.runOnContext(function setImmediate(v) {
       callback.apply(global, args);
     });
   };
@@ -115,7 +115,7 @@
     engine: 'graaljs',
 
     exit: function (exitCode) {
-      vertx.close(function (res) {
+      vertx.close(function exit(res) {
         if (res.failed()) {
           System.exit(-1);
         } else {
@@ -126,7 +126,7 @@
 
     nextTick: function (callback) {
       const args = Array.prototype.slice.call(arguments, 1);
-      vertx.runOnContext(function () {
+      vertx.runOnContext(function nextTick() {
         callback.apply(global, args);
       });
     },

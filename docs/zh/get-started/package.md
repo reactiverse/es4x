@@ -49,9 +49,6 @@ es4x jlink
 # 第二步（构建JVM相关代码）
 FROM openjdk:11 AS JVM
 ARG ES4X_VERSION=${project.version}
-# force es4x maven resolution only to consider production dependencies
-# 强制es4x的maven解析仅仅关心生产环境的依赖
-ENV ES4X_ENV=production
 # 复制上一步的构建步骤
 COPY --from=NPM /usr/src/app /usr/src/app
 # 指定工作空间
@@ -60,7 +57,9 @@ WORKDIR /usr/src/app
 RUN curl -sL https://github.com/reactiverse/es4x/releases/download/${ES4X_VERSION}/es4x-pm-${ES4X_VERSION}-bin.tar.gz | \
     tar zx --strip-components=1 -C /usr/local
 # 安装java依赖
-RUN es4x install -f
+# force es4x maven resolution only to consider production dependencies
+# 强制es4x的maven解析仅仅关心生产环境的依赖
+RUN es4x install --only=prod
 # 创建最简化的运行环境
 RUN es4x jlink -t /usr/local
 ```

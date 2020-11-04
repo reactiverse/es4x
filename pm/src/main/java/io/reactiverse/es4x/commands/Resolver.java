@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 
 import static io.reactiverse.es4x.cli.Helper.warn;
 
-final class Resolver {
+public final class Resolver {
 
   private static final String USER_HOME = System.getProperty("user.home");
   private static final String FILE_SEP = System.getProperty("file.separator");
@@ -60,7 +60,7 @@ final class Resolver {
   private final LocalRepository localRepo;
   private final List<RemoteRepository> remotes = new ArrayList<>();
 
-  Resolver() throws MalformedURLException {
+  public Resolver() throws MalformedURLException {
     DefaultServiceLocator locator = getDefaultServiceLocator();
 
     system = locator.getService(RepositorySystem.class);
@@ -115,7 +115,7 @@ final class Resolver {
    * @param artifacts the artifact
    * @return the list of artifact
    */
-  List<Artifact> resolve(String root, Collection<String> artifacts) {
+  public List<Artifact> resolve(String root, Collection<String> artifacts) {
 
     DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
     session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));

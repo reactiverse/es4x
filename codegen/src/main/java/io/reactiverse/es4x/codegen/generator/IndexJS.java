@@ -54,7 +54,7 @@ public class IndexJS extends Generator<ClassModel> {
       writer.printf("/// <reference types=\"%s\" />\n\n", getNPMScope(model.getType().getRaw().getModule()));
       writer.printf(
         "/**\n" +
-          " * @typedef { import(\"es4x\") } Java\n" +
+          " * @typedef { import(\"@vertx/core\") } Java\n" +
           " */\n");
       writer.print("module.exports = {\n");
 
@@ -65,7 +65,7 @@ public class IndexJS extends Generator<ClassModel> {
       }
 
       // include a file if present
-      writer.print(includeFileIfPresent("index.include.js"));
+      writer.print(includeFileIfPresent("index.header.js"));
     }
 
     writer.printf("  %s: Java.type('%s')", model.getType().getRaw().getSimpleName(), model.getType().getName());
@@ -77,6 +77,8 @@ public class IndexJS extends Generator<ClassModel> {
     writer.print('\n');
 
     if (index == size - 1) {
+      // include a file if present
+      writer.print(includeFileIfPresent("index.footer.js"));
       writer.print("};\n");
     }
 

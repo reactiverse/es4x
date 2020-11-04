@@ -54,10 +54,9 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void start(Future<Void> startFuture) {
+      public void start(Promise<Void> startFuture) {
         final String address;
         final boolean worker;
-        final Value self;
 
         if (context != null) {
           address = context.deploymentID();
@@ -74,57 +73,37 @@ public final class JSVerticleFactory extends ESVerticleFactory {
         // this can take some time to load so it might block the event loop
         // this is usually not a issue as it is a one time operation
         try {
-          runtime.enter();
           if (worker) {
-            self = module.invokeMember("runWorker", mainScript(fsVerticleName), address);
-          } else {
-            self = module.invokeMember("runMain", mainScript(fsVerticleName));
+            setupVerticleMessaging(runtime, vertx, address);
           }
+
+          module.invokeMember("runMain", mainScript(fsVerticleName));
         } catch (RuntimeException e) {
           startFuture.fail(e);
           return;
-        } finally {
-          runtime.leave();
-        }
-
-        if (self != null) {
-          if (worker) {
-            // if it is a worker and there is a onmessage handler we need to bind it to the eventbus
-            if (self.hasMember("onmessage")) {
-              try {
-                // if the worker has specified a onmessage function we need to bind it to the eventbus
-                final Value JSON = runtime.eval("JSON");
-
-                vertx.eventBus().consumer(address + ".out", msg -> {
-                  // parse the json back to the engine runtime type
-                  Value json = JSON.invokeMember("parse", msg.body());
-                  // deliver it to the handler
-                  self.invokeMember("onmessage", json);
-                });
-              } catch (RuntimeException e) {
-                startFuture.fail(e);
-                return;
-              }
-            }
-          }
         }
 
         startFuture.complete();
       }
 
       @Override
-      public void stop(Future<Void> stopFuture) {
+      public void stop(Promise<Void> stopFuture) {
+        final Promise<Void> wrapper = Promise.promise();
+
         try {
-          runtime.enter();
-          int arity = runtime.emit("undeploy", stopFuture);
+          int arity = runtime.emit("undeploy", wrapper);
+          final Future<Void> future = wrapper.future();
+
+          future.onComplete(undeploy -> {
+            stopFuture.handle(undeploy);
+            runtime.close();
+          });
+
           if (arity == 0) {
-            stopFuture.complete();
+            wrapper.complete();
           }
         } catch (RuntimeException e) {
-          stopFuture.fail(e);
-        } finally {
-          runtime.leave();
-          runtime.close();
+          wrapper.fail(e);
         }
       }
     };

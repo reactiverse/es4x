@@ -25,8 +25,6 @@ import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
 
 public class PackageJSON extends Generator<Model> {
 
-  private final String build = System.getenv("PRERELEASE");
-
   public PackageJSON() {
     kinds = new HashSet<>();
     kinds.add("class");
@@ -75,6 +73,24 @@ public class PackageJSON extends Generator<Model> {
       json.put("main", "index.js");
       json.put("module", "index.mjs");
       json.put("types", "index.d.ts");
+    }
+
+    // generate exports for bundlers/cdn's
+    if (session.containsKey("index") || session.containsKey("enum") || session.containsKey("options")) {
+      JsonObject exports = new JsonObject();
+
+      if (session.containsKey("index")) {
+        exports.put(".", "./index.mjs");
+        exports.put("./index", "./index.mjs");
+      }
+      if (session.containsKey("enum")) {
+        exports.put("./enum", "./enum.mjs");
+      }
+      if (session.containsKey("index")) {
+        exports.put("./options", "./options.mjs");
+      }
+
+      json.put("exports", exports);
     }
 
     // extras
@@ -142,16 +158,12 @@ public class PackageJSON extends Generator<Model> {
       }
     }
 
-    String semver;
-
     if (dots == 2) {
-      semver = string;
+      return string;
     } else if (dots > 2) {
-      semver = new String(version);
+      return new String(version);
     } else {
-      semver = base.substring(0, 2 * dots) + new String(version);
+      return base.substring(0, 2 * dots) + new String(version);
     }
-
-    return build != null ? semver + "-" + build : semver;
   }
 }

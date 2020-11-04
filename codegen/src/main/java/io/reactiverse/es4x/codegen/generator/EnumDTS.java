@@ -45,7 +45,7 @@ public class EnumDTS extends Generator<EnumModel> {
   @Override
   public String render(EnumModel model, int index, int size, Map<String, Object> session) {
 
-    if (isBlacklistedClass(model.getType().getName())) {
+    if (isExcludedClass(model.getType().getName())) {
       return null;
     }
 
@@ -55,7 +55,7 @@ public class EnumDTS extends Generator<EnumModel> {
     if (index == 0) {
       Util.generateLicense(writer);
       // include a file if present
-      writer.print(includeFileIfPresent("enum.include.d.ts"));
+      writer.print(includeFileIfPresent("enum.header.d.ts"));
     } else {
       writer.print("\n");
     }
@@ -72,6 +72,11 @@ public class EnumDTS extends Generator<EnumModel> {
       writer.print("\n");
     }
     writer.print("}\n");
+
+    if (index == size - 1) {
+      // include a file if present
+      writer.print(includeFileIfPresent("enum.footer.d.ts"));
+    }
 
     return sw.toString();
   }

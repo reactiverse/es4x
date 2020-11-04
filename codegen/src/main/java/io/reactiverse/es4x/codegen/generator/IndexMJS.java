@@ -53,7 +53,7 @@ public class IndexMJS extends Generator<ClassModel> {
       writer.printf("/// <reference types=\"%s\" />\n\n", getNPMScope(model.getType().getRaw().getModule()));
       writer.printf(
         "/**\n" +
-          " * @typedef { import(\"es4x\") } Java\n" +
+          " * @typedef { import(\"@vertx/core\") } Java\n" +
           " */\n");
 
       registerJvmClasses();
@@ -63,10 +63,15 @@ public class IndexMJS extends Generator<ClassModel> {
       }
 
       // include a file if present
-      writer.print(includeFileIfPresent("module.include.mjs"));
+      writer.print(includeFileIfPresent("module.header.mjs"));
     }
 
     writer.printf("export const %s = Java.type('%s');\n", model.getType().getRaw().getSimpleName(), model.getType().getName());
+
+    if (index == size - 1) {
+      // include a file if present
+      writer.print(includeFileIfPresent("module.footer.mjs"));
+    }
 
     return sw.toString();
   }

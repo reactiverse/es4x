@@ -45,7 +45,7 @@ public class IndexDTS extends Generator<ClassModel> {
   @Override
   public String render(ClassModel model, int index, int size, Map<String, Object> session) {
 
-    if (isBlacklistedClass(model.getType().getName())) {
+    if (isExcludedClass(model.getType().getName())) {
       return null;
     }
 
@@ -62,7 +62,7 @@ public class IndexDTS extends Generator<ClassModel> {
       }
 
       // include a file if present
-      writer.print(includeFileIfPresent("index.include.d.ts"));
+      writer.print(includeFileIfPresent("index.header.d.ts"));
 
       if (!type.getModuleName().equals("vertx")) {
         if (isOptionalModule("@vertx/core")) {
@@ -187,7 +187,7 @@ public class IndexDTS extends Generator<ClassModel> {
     boolean hasStaticMethodsInInterface = false;
 
     for (MethodInfo method : model.getMethods()) {
-      if (isBlacklisted(type.getSimpleName(), method.getName(), method.getParams())) {
+      if (isEcluded(type.getSimpleName(), method.getName(), method.getParams())) {
         continue;
       }
 
@@ -207,7 +207,7 @@ public class IndexDTS extends Generator<ClassModel> {
     // BEGIN of non polyglot methods...
 
     for (MethodInfo method : model.getAnyJavaTypeMethods()) {
-      if (isBlacklisted(type.getSimpleName(), method.getName(), method.getParams())) {
+      if (isEcluded(type.getSimpleName(), method.getName(), method.getParams())) {
         continue;
       }
 
@@ -258,7 +258,7 @@ public class IndexDTS extends Generator<ClassModel> {
 
       moreMethods = false;
       for (MethodInfo method : model.getMethods()) {
-        if (isBlacklisted(type.getSimpleName(), method.getName(), method.getParams())) {
+        if (isEcluded(type.getSimpleName(), method.getName(), method.getParams())) {
           continue;
         }
 
@@ -275,6 +275,11 @@ public class IndexDTS extends Generator<ClassModel> {
       }
 
       writer.print("}\n");
+    }
+
+    if (index == size - 1) {
+      // include a file if present
+      writer.print(includeFileIfPresent("index.footer.d.ts"));
     }
 
     return sw.toString();

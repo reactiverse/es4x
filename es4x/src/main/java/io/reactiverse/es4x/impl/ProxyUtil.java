@@ -15,16 +15,25 @@
  */
 package io.reactiverse.es4x.impl;
 
+import io.vertx.core.Future;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.proxy.Proxy;
 import org.graalvm.polyglot.proxy.ProxyArray;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides a default implementation for the graalvm proxy interface methods, to be used by
  * vertx json types.
  */
 public final class ProxyUtil {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ProxyUtil.class.getSimpleName());
 
   public static void putMember(JsonObject self, String key, Value value) {
     self.put(key, value.isHostObject() ? value.asHostObject() : value);
@@ -39,7 +48,7 @@ public final class ProxyUtil {
       private final Object[] keys = self.fieldNames().toArray();
 
       public void set(long index, Value value) {
-        throw new UnsupportedOperationException();
+        putMember(self, (String) get(index), value);
       }
 
       public long getSize() {
@@ -57,7 +66,7 @@ public final class ProxyUtil {
   }
 
   public static Object getMember(JsonObject self, String key) {
-    return self.getValue(key);
+    return wrapJsonValue(self.getMap().get(key));
   }
 
   public static boolean removeMember(JsonObject self, String key) {
@@ -71,7 +80,7 @@ public final class ProxyUtil {
 
   public static Object get(JsonArray self, long index) {
     checkIndex(index);
-    return self.getValue((int) index);
+    return wrapJsonValue(self.getList().get((int) index));
   }
 
   public static void set(JsonArray self, long index, Value value) {
@@ -87,5 +96,67 @@ public final class ProxyUtil {
 
   public static long getSize(JsonArray self) {
     return self.size();
+  }
+
+
+  public static boolean remove(JsonArray self, long index) {
+    checkIndex(index);
+    if (index < 0 || index >= self.size()) {
+      return false;
+    }
+    self.remove((int) index);
+    return true;
+  }
+
+  public static void then(Future<?> self, Value onFulfilled, Value onRejected) {
+    self.onComplete(ar -> {
+      if (ar.succeeded()) {
+        if (onFulfilled != null) {
+          onFulfilled.executeVoid(ar.result());
+        } else {
+          LOG.warn("Possible Unhandled Promise: " + self);
+        }
+      } else {
+        if (onRejected != null) {
+          onRejected.execute(ar.cause());
+        } else {
+          LOG.warn("Possible Unhandled Rejection: " + self);
+        }
+      }
+    });
+  }
+
+  private static Object wrapJsonValue(Object val) {
+    if (val == null) {
+      return null;
+    }
+
+    // perform wrapping
+    if (val instanceof Map) {
+      val = new JsonObject((Map) val);
+    } else if (val instanceof List) {
+      val = new JsonArray((List) val);
+    }
+
+    return val;
+  }
+
+  public static boolean isJavaObject(Value value) {
+    if (value == null) {
+      return false;
+    }
+
+    if (value.isHostObject()) {
+      return true;
+    }
+
+    if (value.isProxyObject()) {
+      final Proxy unwrap = value.asProxyObject();
+
+      return
+        unwrap instanceof JsonObject || unwrap instanceof JsonArray;
+    }
+
+    return false;
   }
 }

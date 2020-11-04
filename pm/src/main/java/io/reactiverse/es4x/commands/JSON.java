@@ -15,29 +15,31 @@
  */
 package io.reactiverse.es4x.commands;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.github.cliftonlabs.json_simple.JsonException;
+import com.github.cliftonlabs.json_simple.Jsoner;
 
 import java.io.*;
-import java.util.Map;
 
 /**
  * Utility class to handle JSON read/write
  */
 public class JSON {
 
-  private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
-  static <T> T parse(File in, Class<T> type) throws IOException {
-    try (Reader reader = new FileReader(in)) {
-      return GSON.fromJson(reader, type);
+  @SuppressWarnings("unchecked")
+  static <T> T parse(File in) throws IOException {
+    try (Reader fileReader = new FileReader(in)) {
+      return (T) Jsoner.deserialize(fileReader);
+    } catch (JsonException | ClassCastException e) {
+      throw new IOException(e);
     }
   }
 
-  static void encode(File file, Map json) throws IOException {
+  static void encode(File file, Object json) throws IOException {
     try (Writer writer = new FileWriter(file)) {
-      GSON.toJson(json, writer);
+      Jsoner.prettyPrint(new StringReader(Jsoner.serialize(json)), writer, "  ", System.lineSeparator());
       writer.flush();
+    } catch (JsonException e) {
+      throw new IOException(e);
     }
   }
 }
