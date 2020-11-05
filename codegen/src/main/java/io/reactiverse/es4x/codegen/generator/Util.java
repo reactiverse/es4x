@@ -321,6 +321,12 @@ public final class Util {
         } else {
           return "AsyncResult<any>";
         }
+      case FUTURE:
+        if (type.isParameterized()) {
+          return "PromiseLike<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
+        } else {
+          return "PromiseLike<any>";
+        }
       case CLASS_TYPE:
         return "any /* TODO: class */";
       case OTHER:
