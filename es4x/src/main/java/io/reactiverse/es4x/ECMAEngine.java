@@ -19,8 +19,11 @@ import io.netty.buffer.Unpooled;
 import io.reactiverse.es4x.impl.JSObjectMessageCodec;
 import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.reactiverse.es4x.jul.ES4XFormatter;
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.impl.VertxInternal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.*;
@@ -156,28 +159,56 @@ public final class ECMAEngine {
         Value.class,
         Throwable.class,
         v -> isScriptObject(v) && Context.getCurrent().eval(error).isMetaInstance(v),
+        ECMAEngine::wrap)
+      .targetTypeMapping(
+        Value.class,
+        Future.class,
+        v -> isScriptObject(v) && v.hasMember("then"),
         v -> {
-          // an error has 2 fields: name + message
-          final String nameField = v.getMember("name").asString();
-          final String messageField = v.getMember("message").asString();
-          // empty message fields usually it JS prints the name field
-          final Throwable t = new Throwable("".equals(messageField) ? nameField : messageField);
-          // the stacktrace for JS is a single string and we need to parse it back to a Java friendly way
-          if (v.hasMember("stack")) {
-            String stack = v.getMember("stack").asString();
-            String[] sel = stack.split("\n");
-            StackTraceElement[] elements = new StackTraceElement[sel.length - 1];
-            for (int i = 1; i < sel.length; i++) {
-              elements[i - 1] = parseStrackTraceElement(sel[i]);
-            }
-            t.setStackTrace(elements);
-          }
+          final Promise<Object> promise = ((VertxInternal) vertx).promise();
+          v.getMember("then")
+            .executeVoid(
+              (io.vertx.core.Handler<Object>) promise::complete,
+              (io.vertx.core.Handler<Object>) failure -> {
 
-          return t;
-        })
+                if (failure instanceof Throwable) {
+                  promise.fail((Throwable) failure);
+                } else {
+                  Value obj = Value.asValue(failure);
+                  if (Context.getCurrent().eval(error).isMetaInstance(obj)) {
+                    promise.fail(wrap(obj));
+                  } else {
+                    promise.fail(failure == null ? null : failure.toString());
+                  }
+                }
+              }
+            );
+          return promise.future();
+        }
+      )
       .build();
 
     fileSystem = new VertxFileSystem(vertx, ".mjs", ".js");
+  }
+
+  private static Throwable wrap(Value v) {
+    // an error has 2 fields: name + message
+    final String nameField = v.getMember("name").asString();
+    final String messageField = v.getMember("message").asString();
+    // empty message fields usually it JS prints the name field
+    final Throwable t = new Throwable("".equals(messageField) ? nameField : messageField);
+    // the stacktrace for JS is a single string and we need to parse it back to a Java friendly way
+    if (v.hasMember("stack")) {
+      String stack = v.getMember("stack").asString();
+      String[] sel = stack.split("\n");
+      StackTraceElement[] elements = new StackTraceElement[sel.length - 1];
+      for (int i = 1; i < sel.length; i++) {
+        elements[i - 1] = parseStrackTraceElement(sel[i]);
+      }
+      t.setStackTrace(elements);
+    }
+
+    return t;
   }
 
   /**
@@ -188,8 +219,9 @@ public final class ECMAEngine {
    */
   private static boolean isScriptObject(Value v) {
     return
-      // nullability
-      !v.isNull() &&
+      !v.isHostObject() && !v.isNativePointer() && !v.isMetaObject() && !v.isException() &&
+        // nullability
+        !v.isNull() &&
         // primitives
         !v.isNumber() &&
         !v.isBoolean() &&
@@ -198,14 +230,7 @@ public final class ECMAEngine {
         !v.isTime() &&
         !v.isTimeZone() &&
         !v.isDuration() &&
-        !v.isInstant() &&
-        // exceptions
-        !v.isException() &&
-        // rest
-        !v.isNativePointer() &&
-        !v.isHostObject() &&
-        // meta
-        !v.isMetaObject();
+        !v.isInstant();
   }
 
   private void registerCodec(Class className) {
