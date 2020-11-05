@@ -15,8 +15,7 @@ if (process.env['JAVA_HOME']) {
   }
 }
 
-let launcher = path.join('node_modules', 'es4x_install_successful');
-if (!existsSync(path.join(process.cwd(), launcher))) {
+if (!existsSync(path.join(process.cwd(), 'node_modules', 'es4x_install_successful'))) {
   // classpath is incomplete we need to run the PM package
   let statusCode =
     spawnSync(
@@ -54,6 +53,7 @@ if (existsSync(path.join(process.cwd(), 'logging.properties'))) {
 
 argv.push('-cp');
 
+let launcher = path.join('node_modules', '.bin', 'es4x-launcher.jar');
 if (existsSync(path.join(process.cwd(), launcher))) {
   argv.push(`${launcher}${path.delimiter}${path.join(__dirname, '..', pm)}`);
   argv.push('io.reactiverse.es4x.ES4X');

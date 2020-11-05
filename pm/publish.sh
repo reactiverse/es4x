@@ -14,13 +14,13 @@ rm package/bin/es4x.cmd || true
 cd package
 
 REGISTRY="https://registry.npmjs.org"
-
 if [ "$1" = "local" ]; then
   REGISTRY="http://localhost:4873"
 else
   echo "login as es4x"
   npm adduser --registry "$REGISTRY"
 fi
+TAG=${2:-release}
 
 # publish
-npm publish --registry $REGISTRY
+npm publish --registry $REGISTRY --tag=${TAG}
