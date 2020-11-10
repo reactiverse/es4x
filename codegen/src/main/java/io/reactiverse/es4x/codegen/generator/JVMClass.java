@@ -5,7 +5,7 @@ import java.lang.reflect.*;
 import java.util.Arrays;
 
 import static io.reactiverse.es4x.codegen.generator.Util.genType;
-import static io.reactiverse.es4x.codegen.generator.Util.isEcluded;
+import static io.reactiverse.es4x.codegen.generator.Util.isExcluded;
 
 public class JVMClass {
 
@@ -70,7 +70,7 @@ public class JVMClass {
     // Get the metadata of all the fields of the class
 
     for (Field field : clazz.getFields()) {
-      if (isEcluded(getSimpleName(clazz), field.getName(), null)) {
+      if (isExcluded(getSimpleName(clazz), field.getName(), null)) {
         continue;
       }
       if (Modifier.isPublic(field.getModifiers())) {
@@ -84,7 +84,7 @@ public class JVMClass {
 
     // Get all the constructor information in the Constructor array
     for (Constructor<?> constructor : clazz.getConstructors()) {
-      if (isEcluded(getSimpleName(clazz), "<ctor>", Arrays.asList(constructor.getParameterTypes()))) {
+      if (isExcluded(getSimpleName(clazz), "<ctor>", Arrays.asList(constructor.getParameterTypes()))) {
         continue;
       }
       if (Modifier.isPublic(constructor.getModifiers())) {
@@ -105,7 +105,7 @@ public class JVMClass {
 
     // Get the metadata or information of all the methods of the class using getDeclaredMethods()
     for (Method method : clazz.getMethods()) {
-      if (isEcluded(getSimpleName(clazz), method.getName(), Arrays.asList(method.getParameterTypes()))) {
+      if (isExcluded(getSimpleName(clazz), method.getName(), Arrays.asList(method.getParameterTypes()))) {
         continue;
       }
       if (Modifier.isPublic(method.getModifiers())) {

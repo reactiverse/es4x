@@ -52,7 +52,7 @@ public class InteropTest {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +
-        "interop.printSet(['1', '2', '3']);");
+        "interop.printSet(new Set(['1', '2', '3']));");
   }
 
   @Test
@@ -151,5 +151,45 @@ public class InteropTest {
         // what about empty
         "interop.sameArityJson({});\n" +
         "interop.sameArityJson([]);\n");
+  }
+
+  @Test
+  public void testSameArityJSONInterop2() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');\n" +
+        "var interop = new Interop();\n" +
+        // JS Native Array can convert to Java Map (but it's not desired in this case)
+        "interop.end(JSON.stringify([ \"a\", \"b\", \"c\" ]));\n" +
+        // Right type is picked
+        "interop.end(JSON.stringify({ name:\"vv\", age:18 }));\n");
+  }
+
+  @Test
+  public void testSameArityJSONInterop3() {
+    long t0 = System.currentTimeMillis();
+    for (int i = 0; i < 10_000; i++) {
+      runtime.eval(
+        "var JsonObject = Java.type('io.vertx.core.json.JsonObject');\n" +
+          "var Interop = Java.type('io.reactiverse.es4x.test.Interop');\n" +
+          "var interop = new Interop();\n" +
+          "var json = {};\n" +
+          "json.name = 'vv'; json.age = 18;\n" +
+          // Right type is picked
+          "interop.end(JSON.stringify(json));\n");
+    }
+    long t1 = System.currentTimeMillis();
+    for (int i = 0; i < 20_000; i++) {
+      runtime.eval(
+        "var JsonObject = Java.type('io.vertx.core.json.JsonObject');\n" +
+          "var Interop = Java.type('io.reactiverse.es4x.test.Interop');\n" +
+          "var interop = new Interop();\n" +
+          "var json = {};\n" +
+          "json.name = 'vv'; json.age = 18;\n" +
+          // Right type is picked
+          "interop.end(JSON.stringify(json));\n");
+    }
+    long t2 = System.currentTimeMillis();
+    System.out.println(t1 - t0);
+    System.out.println(t2 - t1);
   }
 }

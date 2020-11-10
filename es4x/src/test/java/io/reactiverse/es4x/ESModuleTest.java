@@ -47,11 +47,10 @@ public class ESModuleTest {
   }
 
   @Test
-  @Ignore
   public void testMeta(TestContext should) {
 
     Object result = runtime.eval("import { f } from './mjs/meta'\n f();\n", "script.mjs", false);
 
-    should.assertEquals("./mjs/meta", result.toString());
+    should.assertTrue(result.toString().endsWith("/mjs/meta.mjs"));
   }
 }

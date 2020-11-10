@@ -16,9 +16,7 @@
 package io.reactiverse.es4x.codegen.generator;
 
 import io.vertx.codegen.*;
-import io.vertx.codegen.type.ApiTypeInfo;
-import io.vertx.codegen.type.ClassTypeInfo;
-import io.vertx.codegen.type.EnumTypeInfo;
+import io.vertx.codegen.type.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -182,7 +180,7 @@ public class IndexDTS extends Generator<ClassModel> {
     boolean hasStaticMethodsInInterface = false;
 
     for (MethodInfo method : model.getMethods()) {
-      if (isEcluded(type.getSimpleName(), method.getName(), method.getParams())) {
+      if (isExcluded(type.getSimpleName(), method.getName(), method.getParams())) {
         continue;
       }
 
@@ -202,7 +200,7 @@ public class IndexDTS extends Generator<ClassModel> {
     // BEGIN of non polyglot methods...
 
     for (MethodInfo method : model.getAnyJavaTypeMethods()) {
-      if (isEcluded(type.getSimpleName(), method.getName(), method.getParams())) {
+      if (isExcluded(type.getSimpleName(), method.getName(), method.getParams())) {
         continue;
       }
 
@@ -238,7 +236,7 @@ public class IndexDTS extends Generator<ClassModel> {
 
       moreMethods = false;
       for (MethodInfo method : model.getMethods()) {
-        if (isEcluded(type.getSimpleName(), method.getName(), method.getParams())) {
+        if (isExcluded(type.getSimpleName(), method.getName(), method.getParams())) {
           continue;
         }
 
@@ -266,6 +264,19 @@ public class IndexDTS extends Generator<ClassModel> {
   }
 
   private void generateMethod(PrintWriter writer, ClassTypeInfo type, MethodInfo method) {
+    if (method.getKind() == MethodKind.FUTURE) {
+      // slice the last element
+      List<ParamInfo> params = new ArrayList<>(method.getParams());
+      ParamInfo lastParam = params.remove(params.size() - 1);
+      // extract the generic param out of the Future
+      TypeInfo arg = ((ParameterizedTypeInfo) lastParam.getType()).getArg(0);
+      generateMethod(writer, type, method, params, lastParam.isNullable(), "PromiseLike<" + (arg.isParameterized() ? genType(((ParameterizedTypeInfo) arg).getArg(0)) : "any") + ">");
+      writer.print("\n");
+    }
+    generateMethod(writer, type, method, method.getParams(), method.getReturnType().isNullable(), genType(method.getReturnType()));
+  }
+
+  private void generateMethod(PrintWriter writer, ClassTypeInfo type, MethodInfo method, List<ParamInfo> params, boolean returnTypeNullable, String returnOverride) {
 
     generateDoc(writer, method.getDoc(), "  ");
 
@@ -274,7 +285,7 @@ public class IndexDTS extends Generator<ClassModel> {
     } else {
       writer.printf("  %s%s%s(", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()));
       boolean more = false;
-      for (ParamInfo param : method.getParams()) {
+      for (ParamInfo param : params) {
         if (more) {
           writer.print(", ");
         }
@@ -284,9 +295,9 @@ public class IndexDTS extends Generator<ClassModel> {
     }
 
     if (getOverrideReturn(type.getSimpleName(), method.getName()) != null) {
-      writer.printf(") : %s%s;\n", getOverrideReturn(type.getSimpleName(), method.getName()), method.getReturnType().isNullable() ? " | null" : "");
+      writer.printf(") : %s%s;\n", getOverrideReturn(type.getSimpleName(), method.getName()), returnTypeNullable ? " | null" : "");
     } else {
-      writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
+      writer.printf(") : %s%s;\n", returnOverride, returnTypeNullable ? " | null" : "");
     }
   }
 }

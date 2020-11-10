@@ -25,7 +25,7 @@
     let currentStack = new Error().stack;
 
     if (currentStack) {
-      if (err && Java.isJavaObject(err)) {
+      if (err) {
         if (err instanceof AsyncResult || err instanceof Throwable) {
           return AsyncError.combine(err, currentStack);
         }

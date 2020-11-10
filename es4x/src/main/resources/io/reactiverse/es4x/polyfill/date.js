@@ -19,7 +19,7 @@
   const Instant = Java.type('java.time.Instant');
 
   Date.fromInstant = function (instant) {
-    if (instant && Java.isJavaObject(instant) && instant instanceof Instant) {
+    if (instant && instant instanceof Instant) {
       let date = new Date();
       date.setTime(instant.toEpochMilli());
       return date;

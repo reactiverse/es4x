@@ -254,9 +254,9 @@ public final class Util {
       case LIST:
       case SET:
         if (type.isParameterized()) {
-          return genType(((ParameterizedTypeInfo) type).getArg(0)) + "[]";
+          return "Set<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
         } else {
-          return "any[]";
+          return "Set<any>";
         }
       case MAP:
         if (type.isParameterized()) {
@@ -532,7 +532,7 @@ public final class Util {
     return null;
   }
 
-  public static boolean isEcluded(String type, String method, Object params) {
+  public static boolean isExcluded(String type, String method, Object params) {
     JsonObject excludes = getExclude(type);
 
     Object result = excludes.getValue(method);

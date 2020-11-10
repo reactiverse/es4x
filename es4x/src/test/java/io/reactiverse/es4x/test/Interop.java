@@ -1,5 +1,6 @@
 package io.reactiverse.es4x.test;
 
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class Interop {
 
@@ -95,6 +96,14 @@ public class Interop {
     } else {
       System.out.println("null");
     }
+  }
+
+  public void end(String string) {
+    end(Buffer.buffer(string));
+  }
+
+  public void end(Buffer buffer) {
+    assertNotNull(buffer);
   }
 }
 

@@ -28,6 +28,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
+import org.graalvm.polyglot.proxy.Proxy;
 
 import java.nio.ByteBuffer;
 import java.util.HashSet;
@@ -116,54 +117,83 @@ public final class ECMAEngine {
     // enable or disable the polyglot access
     polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
 
-    // cache common source lookups
-    final Source error = Source.create("js", "Error");
-    final Source arrayBuffer = Source.create("js", "ArrayBuffer");
-
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
-      // Ensure bytes are supported
-      .targetTypeMapping(Number.class, Byte.class, null, Number::byteValue)
-      // map native JSON Object to Vert.x JSONObject
-      .targetTypeMapping(Map.class, JsonObject.class, v -> {
-        final Value it = Value.asValue(v);
-        return it.hasMembers() && !it.hasArrayElements();
-      }, JsonObject::new)
-      // map native JSON Array to Vert.x JSONArray
-      .targetTypeMapping(List.class, JsonArray.class, v -> {
-        final Value it = Value.asValue(v);
-        return it.hasMembers() && it.hasArrayElements();
-      }, JsonArray::new)
-      // Ensure Arrays are exposed as Set when the Java API is accepting Set
-      .targetTypeMapping(List.class, Set.class, null, HashSet::new)
-      // Ensure Arrays are exposed as List when the Java API is accepting Object
-      .targetTypeMapping(List.class, Object.class, v -> {
-        final Value it = Value.asValue(v);
-        return it.hasMembers() && it.hasArrayElements();
-      }, v -> v)
-      // map native buffer to Vert.x Buffer
+      // number -> Byte
+      .targetTypeMapping(
+        Value.class,
+        Byte.class,
+        Value::isNumber,
+        v -> v.as(Number.class).byteValue())
+      // [...] -> JsonArray
+      .targetTypeMapping(
+        Value.class,
+        JsonArray.class,
+        Value::hasArrayElements,
+        v -> {
+          // special case, if the value is a proxy and JsonArray, just unwrap
+          if (v.isProxyObject()) {
+            final Proxy unwrap = v.asProxyObject();
+            if (unwrap instanceof JsonArray) {
+              return (JsonArray) unwrap;
+            }
+          }
+          return new JsonArray(v.as(List.class));
+        })
+      // {...} -> JsonObject
+      .targetTypeMapping(
+        Value.class,
+        JsonObject.class,
+        v -> v.hasMembers() && !v.hasArrayElements(),
+        v -> {
+          // special case, if the value is a proxy and JsonObject, just unwrap
+          if (v.isProxyObject()) {
+            final Proxy p = v.asProxyObject();
+            if (p instanceof JsonObject) {
+              return (JsonObject) p;
+            }
+          }
+          return new JsonObject(v.as(Map.class));
+        })
+      // Set -> java.util.Set
+      .targetTypeMapping(
+        Value.class,
+        Set.class,
+        v -> isInstanceOf(v, "Set"),
+        v ->
+          new HashSet<Object>(
+            v.getContext()
+              .eval("js", "Array.from")
+              .execute(v)
+              .as(List.class)))
+      // [] -> Object
+      .targetTypeMapping(
+        Value.class,
+        Object.class,
+        Value::hasArrayElements,
+        v -> v.as(List.class))
+      // ArrayBuffer -> Buffer
       .targetTypeMapping(
         Value.class,
         Buffer.class,
-        // ensure that the type really matches
-        v -> isScriptObject(v) && Context.getCurrent().eval(arrayBuffer).isMetaInstance(v),
+        v -> isInstanceOf(v, "EArrayBuffer"),
         v -> {
           if (v.hasMember("__jbuffer")) {
             return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class)));
           } else {
-            // this is a raw ArrayBuffer
-            throw new ClassCastException("Cannot cast ArrayBuffer(without j.n.ByteBuffer)");
+            throw new ClassCastException("Cannot cast ArrayBuffer without j.n.ByteBuffer to Buffer");
           }
         })
-      // map native Error Object to Throwable
+      // Error -> Throwable
       .targetTypeMapping(
         Value.class,
         Throwable.class,
-        v -> isScriptObject(v) && Context.getCurrent().eval(error).isMetaInstance(v),
+        v -> isInstanceOf(v, "Error"),
         ECMAEngine::wrap)
+      // Thenable -> Future
       .targetTypeMapping(
         Value.class,
         Future.class,
-        v -> isScriptObject(v) && v.hasMember("then"),
+        v -> v.hasMember("then"),
         v -> {
           final Promise<Object> promise = ((VertxInternal) vertx).promise();
           v.getMember("then")
@@ -174,9 +204,8 @@ public final class ECMAEngine {
                 if (failure instanceof Throwable) {
                   promise.fail((Throwable) failure);
                 } else {
-                  Value obj = Value.asValue(failure);
-                  if (Context.getCurrent().eval(error).isMetaInstance(obj)) {
-                    promise.fail(wrap(obj));
+                  if (failure instanceof Value) {
+                    promise.fail(wrap((Value) failure));
                   } else {
                     promise.fail(failure == null ? null : failure.toString());
                   }
@@ -189,6 +218,48 @@ public final class ECMAEngine {
       .build();
 
     fileSystem = new VertxFileSystem(vertx, ".mjs", ".js");
+  }
+
+  /**
+   * Get a constructor function name from a given object.
+   * @param proto The prototype object
+   * @return the constructor name for the given prototype
+   */
+  private static String constructorName(Value proto) {
+    if (proto != null && !proto.isHostObject() && proto.hasMembers()) {
+      Value constructor = proto.getMember("constructor");
+      if (constructor != null && !constructor.isHostObject() && constructor.hasMembers()) {
+        return constructor.getMember("name").asString();
+      }
+    }
+    return null;
+  }
+
+  /**
+   * This is a simple and Naive way to perform inheritance checks on JavaScript without
+   * (hopefully) relying on running code on the engine.
+   * @param obj the object to check
+   * @param match the expected type name to be checked
+   * @return true if the prototype constructor name matches
+   */
+  private static boolean isInstanceOf(Value obj, String match) {
+    if (obj.isHostObject() || !obj.hasMembers()) {
+      return false;
+    }
+
+    while (obj.hasMember("__proto__")) {
+      obj = obj.getMember("__proto__");
+      String constructorName = constructorName(obj);
+      if (constructorName == null) {
+        return false;
+      } else {
+        if (match.equals(constructorName)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   private static Throwable wrap(Value v) {
@@ -211,38 +282,11 @@ public final class ECMAEngine {
     return t;
   }
 
-  /**
-   * Is script like object.
-   *
-   * @param v the value to consider
-   * @return true for non null, unknown shape and not Proxy
-   */
-  private static boolean isScriptObject(Value v) {
-    return
-      !v.isHostObject() && !v.isNativePointer() && !v.isMetaObject() && !v.isException() &&
-        // nullability
-        !v.isNull() &&
-        // primitives
-        !v.isNumber() &&
-        !v.isBoolean() &&
-        !v.isString() &&
-        !v.isDate() &&
-        !v.isTime() &&
-        !v.isTimeZone() &&
-        !v.isDuration() &&
-        !v.isInstant();
-  }
-
   private void registerCodec(Class className) {
     vertx.eventBus()
       .unregisterDefaultCodec(className)
       .registerDefaultCodec(className, new JSObjectMessageCodec(className.getName()));
   }
-
-  public FileSystem fileSystem() {
-    return fileSystem;
-  }
-
 
   /**
    * return a new context for this engine.
