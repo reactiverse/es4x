@@ -278,7 +278,7 @@
 					<a name="registeredschemas" class="tsd-anchor"></a>
 					<h3>registered<wbr>Schemas</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">registered<wbr>Schemas<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">registered<wbr>Schemas<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -287,7 +287,7 @@
 									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:199</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -301,7 +301,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:165</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:164</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -329,22 +329,19 @@
 					<a name="resolveref" class="tsd-anchor"></a>
 					<h3>resolve<wbr>Ref</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">resolve<wbr>Ref<span class="tsd-signature-symbol">(</span>pointer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JsonPointer</span>, scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JsonPointer</span>, schemaParser<span class="tsd-signature-symbol">: </span><a href="schemaparser.html" class="tsd-signature-type">SchemaParser</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">resolve<wbr>Ref<span class="tsd-signature-symbol">(</span>pointer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JsonPointer</span>, scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JsonPointer</span>, schemaParser<span class="tsd-signature-symbol">: </span><a href="schemaparser.html" class="tsd-signature-type">SchemaParser</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">resolve<wbr>Ref<span class="tsd-signature-symbol">(</span>pointer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JsonPointer</span>, scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JsonPointer</span>, schemaParser<span class="tsd-signature-symbol">: </span><a href="schemaparser.html" class="tsd-signature-type">SchemaParser</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:174</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:169</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Resolve $ref. <br/>
-										This method tries to resolve schema from local cache. If it&#39;s not found, it solve external references.
-										It can solve external references on filesystem and remote references using http.
-										When you pass a relative reference without protocol, it tries to infer the absolute path from scope and cached schemas <br/>
-									Returns a future that can contain Schema or be null or can fail with a {@link SchemaException} or an IllegalArgumentException</p>
+									<p>Like {@link SchemaRouter#resolveRef} but with a direct callback.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -359,7 +356,35 @@
 									<h5>schemaParser: <a href="schemaparser.html" class="tsd-signature-type">SchemaParser</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Future</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:174</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Like {@link SchemaRouter#resolveRef} but with a direct callback.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pointer: <span class="tsd-signature-type">JsonPointer</span></h5>
+								</li>
+								<li>
+									<h5>scope: <span class="tsd-signature-type">JsonPointer</span></h5>
+								</li>
+								<li>
+									<h5>schemaParser: <a href="schemaparser.html" class="tsd-signature-type">SchemaParser</a></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><a href="schema.html" class="tsd-signature-type">Schema</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
