@@ -88,6 +88,9 @@ public final class ECMAEngine {
   private final HostAccess hostAccess;
   private final FileSystem fileSystem;
   private final PolyglotAccess polyglotAccess;
+  private final Source arrayFrom;
+  private final Source objLookup;
+  private final Source arrLookup;
 
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
@@ -117,18 +120,23 @@ public final class ECMAEngine {
     // enable or disable the polyglot access
     polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
 
+    // source caches
+    arrayFrom = Source.newBuilder("js", "Array.from", "<cache#1>").cached(true).internal(true).buildLiteral();
+    objLookup = Source.newBuilder("js", "(function (fn) { fn({}); })", "<cache#2>").cached(true).internal(true).buildLiteral();
+    arrLookup = Source.newBuilder("js", "(function (fn) { fn([]); })", "<cache#3>").cached(true).internal(true).buildLiteral();
+
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
       // number -> Byte
       .targetTypeMapping(
         Value.class,
         Byte.class,
-        Value::isNumber,
+        v -> typeOf(v, true, "number"),
         v -> v.as(Number.class).byteValue())
       // [...] -> JsonArray
       .targetTypeMapping(
         Value.class,
         JsonArray.class,
-        Value::hasArrayElements,
+        v -> typeOf(v, true, "Array", "io.vertx.core.json.JsonArray"),
         v -> {
           // special case, if the value is a proxy and JsonArray, just unwrap
           if (v.isProxyObject()) {
@@ -143,7 +151,7 @@ public final class ECMAEngine {
       .targetTypeMapping(
         Value.class,
         JsonObject.class,
-        v -> v.hasMembers() && !v.hasArrayElements(),
+        v -> typeOf(v, true, "Object", "io.vertx.core.json.JsonObject"),
         v -> {
           // special case, if the value is a proxy and JsonObject, just unwrap
           if (v.isProxyObject()) {
@@ -158,24 +166,24 @@ public final class ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Set.class,
-        v -> isInstanceOf(v, "Set"),
+        v -> typeOf(v, true,"Set"),
         v ->
-          new HashSet<Object>(
+          new HashSet(
             v.getContext()
-              .eval("js", "Array.from")
+              .eval(arrayFrom)
               .execute(v)
               .as(List.class)))
       // [] -> Object
       .targetTypeMapping(
-        Value.class,
+        List.class,
         Object.class,
-        Value::hasArrayElements,
-        v -> v.as(List.class))
+        null,
+        v -> v)
       // ArrayBuffer -> Buffer
       .targetTypeMapping(
         Value.class,
         Buffer.class,
-        v -> isInstanceOf(v, "EArrayBuffer"),
+        v -> typeOf(v, false, "ArrayBuffer"),
         v -> {
           if (v.hasMember("__jbuffer")) {
             return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class)));
@@ -187,7 +195,7 @@ public final class ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Throwable.class,
-        v -> isInstanceOf(v, "Error"),
+        v -> typeOf(v, false,"Error"),
         ECMAEngine::wrap)
       // Thenable -> Future
       .targetTypeMapping(
@@ -205,7 +213,11 @@ public final class ECMAEngine {
                   promise.fail((Throwable) failure);
                 } else {
                   if (failure instanceof Value) {
-                    promise.fail(wrap((Value) failure));
+                    if (typeOf((Value) failure, false,"Error")) {
+                      promise.fail(wrap((Value) failure));
+                    } else {
+                      promise.fail(failure.toString());
+                    }
                   } else {
                     promise.fail(failure == null ? null : failure.toString());
                   }
@@ -221,40 +233,33 @@ public final class ECMAEngine {
   }
 
   /**
-   * Get a constructor function name from a given object.
-   * @param proto The prototype object
-   * @return the constructor name for the given prototype
-   */
-  private static String constructorName(Value proto) {
-    if (proto != null && !proto.isHostObject() && proto.hasMembers()) {
-      Value constructor = proto.getMember("constructor");
-      if (constructor != null && !constructor.isHostObject() && constructor.hasMembers()) {
-        return constructor.getMember("name").asString();
-      }
-    }
-    return null;
-  }
-
-  /**
    * This is a simple and Naive way to perform inheritance checks on JavaScript without
    * (hopefully) relying on running code on the engine.
    * @param obj the object to check
-   * @param match the expected type name to be checked
+   * @param matches any of the expected type name to be matched
    * @return true if the prototype constructor name matches
    */
-  private static boolean isInstanceOf(Value obj, String match) {
-    if (obj.isHostObject() || !obj.hasMembers()) {
+  private boolean typeOf(Value obj, boolean exact, String... matches) {
+    if (obj == null) {
       return false;
     }
-
-    while (obj.hasMember("__proto__")) {
-      obj = obj.getMember("__proto__");
-      String constructorName = constructorName(obj);
-      if (constructorName == null) {
-        return false;
-      } else {
-        if (match.equals(constructorName)) {
-          return true;
+    Value meta = obj.getMetaObject();
+    if (meta == null) {
+      return false;
+    }
+    if (meta.isMetaObject()) {
+      for (String match : matches) {
+        final String mqn = meta.getMetaQualifiedName();
+        if (mqn != null) {
+          if (exact) {
+            if (match.equals(mqn)) {
+              return true;
+            }
+          } else {
+            if (mqn.endsWith(match)) {
+              return true;
+            }
+          }
         }
       }
     }
@@ -337,14 +342,8 @@ public final class ECMAEngine {
     if (codecInstalled.compareAndSet(false, true)) {
       // register a default codec to allow JSON messages directly from GraalJS to the JVM world
       final Consumer<?> callback = value -> registerCodec(value.getClass());
-
-      context.eval(
-        Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
-      ).execute(callback);
-
-      context.eval(
-        Source.newBuilder("js", "(function (fn) { fn([]); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
-      ).execute(callback);
+      context.eval(objLookup).execute(callback);
+      context.eval(arrLookup).execute(callback);
     }
 
     // setup complete

@@ -1,5 +1,8 @@
 const ByteBuffer = Java.type('java.nio.ByteBuffer');
 
+const JsonObject = Java.type('io.vertx.core.json.JsonObject');
+const JsonArray = Java.type('io.vertx.core.json.JsonArray');
+
 try {
   mapping.map(undefined);
   should.fail('Should have failed [undefined]');
@@ -178,4 +181,20 @@ try {
   mapping.mapObject([]);
 } catch (e) {
   should.fail('Should have not failed [[]]');
+}
+
+try {
+  mapping.map(new JsonObject());
+} catch (e) {
+  should.fail('Should have not failed [null]');
+}
+
+try {
+  let arr = new JsonArray('[1,2,3,4,5]');
+  arr[5] = 6;
+  arr[6] = undefined;
+  mapping.map(arr);
+} catch (e) {
+  print(e)
+  should.fail('Should have not failed [null]');
 }

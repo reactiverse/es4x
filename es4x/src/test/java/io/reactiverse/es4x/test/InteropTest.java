@@ -165,6 +165,19 @@ public class InteropTest {
   }
 
   @Test
+  public void testProxyInterop() {
+    runtime.eval(
+      "var Interop = Java.type('io.reactiverse.es4x.test.Interop');\n" +
+        "var JsonObject = Java.type('io.vertx.core.json.JsonObject');\n" +
+        "var JsonArray = Java.type('io.vertx.core.json.JsonArray');\n" +
+        "var interop = new Interop();\n" +
+        // JS Native Array can convert to Java Map (but it's not desired in this case)
+        "interop.end(JSON.stringify(new JsonArray()));\n" +
+        // Right type is picked
+        "interop.end(JSON.stringify(new JsonObject()));\n");
+  }
+
+  @Test
   public void testSameArityJSONInterop3() {
     long t0 = System.currentTimeMillis();
     for (int i = 0; i < 10_000; i++) {
