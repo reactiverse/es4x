@@ -102,6 +102,7 @@ try {
 try {
   mapping.map([1, 2, 3]);
 } catch (e) {
+  print(e)
   should.fail('Should have not failed [[1,2,3]]');
 }
 
@@ -161,7 +162,6 @@ try {
 try {
   mapping.mapBuffer(new ArrayBuffer(ByteBuffer.allocateDirect(16)));
 } catch (e) {
-  print(e)
   should.fail('Should have not failed [new ArrayBuffer(ByteBuffer.allocateDirect(16))]');
 }
 
