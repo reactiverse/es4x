@@ -63,6 +63,7 @@ public class Install implements Runnable {
   private List<String> vendor;
   private File coreJar;
   private Only only = Only.ALL;
+  private String dest;
 
   private File cwd;
 
@@ -75,6 +76,7 @@ public class Install implements Runnable {
     CmdLineParser.Option<String> vendorOption = parser.addStringOption('v', "vendor");
     CmdLineParser.Option<Boolean> linkOption = parser.addBooleanOption('l', "link");
     CmdLineParser.Option<String> onlyOption = parser.addStringOption('o', "only");
+    CmdLineParser.Option<String> destOption = parser.addStringOption('d', "dest");
 
     try {
       parser.parse(args);
@@ -98,7 +100,8 @@ public class Install implements Runnable {
     }
 
     setVendor(parser.getOptionValue(vendorOption));
-    setOnly(parser.getOptionValue(onlyOption));
+    setOnly(parser.getOptionValue(onlyOption, "all"));
+    setDestination(parser.getOptionValue(destOption, "node_modules"));
     setCwd(new File("."));
   }
 
@@ -137,6 +140,12 @@ public class Install implements Runnable {
   public void setOnly(String only) {
     if (only != null) {
       this.only = Only.valueOf(only.toUpperCase());
+    }
+  }
+
+  public void setDestination(String dest) {
+    if (only != null) {
+      this.dest = dest;
     }
   }
 

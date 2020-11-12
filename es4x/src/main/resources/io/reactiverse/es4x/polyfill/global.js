@@ -52,7 +52,7 @@
   global.setImmediate = function (callback) {
     const args = Array.prototype.slice.call(arguments, 1);
 
-    vertx.runOnContext(function setImmediate(v) {
+    vertx.execute(null, function setImmediate(v) {
       callback.apply(global, args);
     });
   };

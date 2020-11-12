@@ -32,23 +32,15 @@
       return _encodeToBuffer(value);
     }
 
-    return _stringify(value, replacer, space);
+    return _stringify.call(JSON, value, replacer, space);
   };
 
   // patch the original JSON object
   JSON.parse = function (text, reviver) {
-    if (text === undefined) {
-      return undefined;
-    }
-
-    if (text === null) {
-      return null;
-    }
-
     if (text instanceof Buffer) {
       return _decodeValue(text);
     }
 
-    return _parse(text, reviver);
+    return _parse.call(JSON, text, reviver);
   };
 })(JSON);

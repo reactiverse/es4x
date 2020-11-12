@@ -44,7 +44,9 @@ public final class Runtime extends EventEmitterImpl {
 
     // remove specific features that we don't want to expose
     for (String identifier : Arrays.asList("exit", "quit", "Packages", "java", "javafx", "javax", "com", "org", "edu")) {
-      bindings.removeMember(identifier);
+      if (bindings.hasMember(identifier)) {
+        bindings.removeMember(identifier);
+      }
     }
     // add vertx as a global
     bindings.putMember("vertx", vertx);
@@ -69,16 +71,13 @@ public final class Runtime extends EventEmitterImpl {
               // on failure fallback to file
               return apply(new File((String) value));
             }
-          }
-          else if (value instanceof URL) {
+          } else if (value instanceof URL) {
             // a url
             source = Source.newBuilder("js", (URL) value).build();
-          }
-          else if (value instanceof File) {
+          } else if (value instanceof File) {
             // a local file
             source = Source.newBuilder("js", (File) value).build();
-          }
-          else if (value instanceof Map) {
+          } else if (value instanceof Map) {
             // a json document
             final String script = (String) ((Map) value).get("script");
             // might be optional
@@ -110,7 +109,7 @@ public final class Runtime extends EventEmitterImpl {
 
     // load all the polyfills
     bindings.putMember("verticle", this);
-    if(scripts != null) {
+    if (scripts != null) {
       for (Source script : scripts) {
         context.eval(script);
       }
@@ -133,8 +132,8 @@ public final class Runtime extends EventEmitterImpl {
   /**
    * Evals a given script string.
    *
-   * @param script string containing code.
-   * @param name string containing name of the script (e.g.: the filename).
+   * @param script      string containing code.
+   * @param name        string containing name of the script (e.g.: the filename).
    * @param contentType the script content type
    * @param interactive literals are non listed on debug sessions
    * @return returns the evaluation result.
@@ -162,7 +161,7 @@ public final class Runtime extends EventEmitterImpl {
   /**
    * Puts a value to the global scope.
    *
-   * @param name the key to identify the value in the global scope
+   * @param name  the key to identify the value in the global scope
    * @param value the value to store.
    */
   public void put(String name, Object value) {
@@ -187,9 +186,9 @@ public final class Runtime extends EventEmitterImpl {
   }
 
   /**
-   * Evals a given sript string.
+   * Evals a given script string.
    *
-   * @param script string containing code.
+   * @param script      string containing code.
    * @param interactive literals are non listed on debug sessions
    * @return returns the evaluation result.
    */
@@ -198,10 +197,38 @@ public final class Runtime extends EventEmitterImpl {
   }
 
   /**
-   * Evals a given sript string.
+   * Parse a given script string.
    *
    * @param script string containing code.
-   * @param name string containing name of the script (e.g.: the filename).
+   * @param interactive literals are non listed on debug sessions
+   * @return returns the parsing result.
+   */
+  public Value parse(String script, boolean interactive) {
+    return parse(script, "application/javascript", interactive);
+  }
+
+  /**
+   * Parse a given script string.
+   *
+   * @param script string containing code.
+   * @param contentType the script content type
+   * @param interactive literals are non listed on debug sessions
+   * @return returns the parsing result.
+   */
+  public Value parse(String script, String contentType, boolean interactive) {
+    return context.parse(
+      Source
+        .newBuilder("js", script, "<eval>")
+        .interactive(interactive)
+        .mimeType(contentType)
+        .buildLiteral());
+  }
+
+  /**
+   * Evals a given sript string.
+   *
+   * @param script  string containing code.
+   * @param name    string containing name of the script (e.g.: the filename).
    * @param literal literals are non listed on debug sessions
    * @return returns the evaluation result.
    */
