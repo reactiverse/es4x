@@ -58,7 +58,7 @@ public class InteropTest {
     runtime.eval(
       "var Interop = Java.type('io.reactiverse.es4x.test.Interop');" +
         "var interop = new Interop();" +
-        "interop.printSet(new Set(['1', '2', '3']));");
+        "interop.printSet(['1', '2', '3']);");
   }
 
   @Test

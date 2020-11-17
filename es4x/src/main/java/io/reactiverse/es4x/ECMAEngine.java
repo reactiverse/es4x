@@ -89,7 +89,6 @@ public final class ECMAEngine {
   private final HostAccess hostAccess;
   private final FileSystem fileSystem;
   private final PolyglotAccess polyglotAccess;
-  private final Source arrayFrom;
   private final Source objLookup;
   private final Source arrLookup;
 
@@ -122,35 +121,53 @@ public final class ECMAEngine {
     polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
 
     // source caches
-    arrayFrom = Source.newBuilder("js", "Array.from", "<cache#1>")
+    objLookup = Source.newBuilder("js", "(function (fn) { fn({}); })", "<cache#objLookup>")
       .cached(true)
       .internal(true)
       .buildLiteral();
-    objLookup = Source.newBuilder("js", "(function (fn) { fn({}); })", "<cache#2>")
-      .cached(true)
-      .internal(true)
-      .buildLiteral();
-    arrLookup = Source.newBuilder("js", "(function (fn) { fn([]); })", "<cache#3>")
+    arrLookup = Source.newBuilder("js", "(function (fn) { fn([]); })", "<cache#arrLookup>")
       .cached(true)
       .internal(true)
       .buildLiteral();
 
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
-      /// High Precedence
+      /// Highest Precedence
+      /// accepts is null, so we can quickly assert the type
+
       // [] -> Object
       .targetTypeMapping(
         List.class,
         Object.class,
         null,
-        v -> v)
-      /// High precedence Number => (Byte)
+        v -> v,
+        HostAccess.TargetMappingPrecedence.HIGHEST)
       // number -> Byte
       .targetTypeMapping(
         Number.class,
         Byte.class,
         null,
-        Number::byteValue)
-      /// High precedence Map => (Thenable, Error)
+        Number::byteValue,
+        HostAccess.TargetMappingPrecedence.HIGHEST)
+
+      /// High Precedence
+      /// Most usual types
+
+      // [...] -> JsonArray
+      .targetTypeMapping(
+        Value.class,
+        JsonArray.class,
+        Value::hasArrayElements,
+        v -> {
+          if (v.isProxyObject()) {
+            final Proxy p = v.asProxyObject();
+            // special case, if the value is a proxy and JsonObject, just unwrap
+            if (p instanceof JsonArray) {
+              return (JsonArray) p;
+            }
+          }
+          return new JsonArray(v.as(List.class));
+        },
+        HostAccess.TargetMappingPrecedence.HIGH)
       // Thenable -> Future
       .targetTypeMapping(
         Map.class,
@@ -165,8 +182,13 @@ public final class ECMAEngine {
                 promise.fail((Throwable) failure);
               } else {
                 if (failure instanceof Map) {
-                  if (((Map) failure).containsKey("name") && ((Map) failure).containsKey("message")) {
-                    promise.fail(wrap((Map) failure));
+                  final Map map = (Map) failure;
+                  if (map.containsKey("name") && map.containsKey("message")) {
+                    promise.fail(
+                      wrap(
+                        (String) map.get("name"),
+                        (String) map.get("message"),
+                        (String) map.get("stack")));
                   } else {
                     promise.fail(failure.toString());
                   }
@@ -177,110 +199,71 @@ public final class ECMAEngine {
             }
           });
           return promise.future();
-        })
-      // Error -> Throwable
-      .targetTypeMapping(
-        Map.class,
-        Throwable.class,
-        v -> v.containsKey("name") && v.containsKey("message"),
-        ECMAEngine::wrap)
-      // ArrayBuffer -> Buffer
-      .targetTypeMapping(
-        Value.class,
-        Buffer.class,
-        v -> typeOf(v, "EArrayBuffer"),
-        v -> {
-          if (v.hasMember("__jbuffer")) {
-            return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class)));
-          } else {
-            throw new ClassCastException("Cannot cast ArrayBuffer without j.n.ByteBuffer to Buffer");
-          }
-        })
-      // Set -> java.util.Set
-      .targetTypeMapping(
-        Value.class,
-        Set.class,
-        v -> typeOf(v,"Set"),
-        v ->
-          new HashSet(
-            v.getContext()
-              .eval(arrayFrom)
-              .execute(v)
-              .as(List.class)))
-      // [...] -> JsonArray
-      .targetTypeMapping(
-        Value.class,
-        JsonArray.class,
-        Value::hasArrayElements,
-        v -> {
-          // special case, if the value is a proxy and JsonObject, just unwrap
-          if (v.isProxyObject()) {
-            final Proxy p = v.asProxyObject();
-            if (p instanceof JsonArray) {
-              return (JsonArray) p;
-            }
-          }
-          return new JsonArray(v.as(List.class));
-        })
+        },
+        HostAccess.TargetMappingPrecedence.HIGH)
       // {...} -> JsonObject
       .targetTypeMapping(
         Value.class,
         JsonObject.class,
         v -> v.hasMembers() && !v.hasArrayElements(),
         v -> {
-          // special case, if the value is a proxy and JsonObject, just unwrap
           if (v.isProxyObject()) {
             final Proxy p = v.asProxyObject();
+            // special case, if the value is a proxy and JsonObject, just unwrap
             if (p instanceof JsonObject) {
               return (JsonObject) p;
             }
           }
           return new JsonObject(v.as(Map.class));
-        })
+        },
+        HostAccess.TargetMappingPrecedence.HIGH)
+
+      /// Low Precedence
+      /// Either because the higher ones are more important, or are not expected to be used often
+
+      // ArrayBuffer -> Buffer
+      .targetTypeMapping(
+        Value.class,
+        Buffer.class,
+        v -> v.hasMember("__jbuffer"),
+        v -> Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class))),
+        HostAccess.TargetMappingPrecedence.LOW)
+      // [...] -> java.util.Set
+      .targetTypeMapping(
+        Value.class,
+        Set.class,
+        Value::hasArrayElements,
+        v -> new HashSet(v.as(List.class)),
+        HostAccess.TargetMappingPrecedence.LOW)
+      // Error -> Throwable
+      .targetTypeMapping(
+        Value.class,
+        Throwable.class,
+        v -> v.hasMember("name") && v.hasMember("message"),
+        v -> {
+          if (v.hasMember("stack")) {
+            return wrap(
+              v.getMember("name").asString(),
+              v.getMember("message").asString(),
+              v.getMember("stack").asString());
+          } else {
+            return wrap(
+              v.getMember("name").asString(),
+              v.getMember("message").asString(),
+              null);
+          }
+        },
+        HostAccess.TargetMappingPrecedence.LOW)
       .build();
 
     fileSystem = new VertxFileSystem(vertx, ".mjs", ".js");
   }
 
-  /**
-   * This is a simple and Naive way to perform inheritance checks on JavaScript without
-   * (hopefully) relying on running code on the engine.
-   * @param obj the object to check
-   * @param match any of the expected type name to be matched
-   * @return true if the prototype constructor name matches
-   */
-  private boolean typeOf(Value obj, String match) {
-    if (obj == null) {
-      return false;
-    }
-
-    if (!obj.hasMembers() && !obj.isProxyObject()) {
-      return false;
-    }
-
-    Value meta = obj.getMetaObject();
-    if (meta == null) {
-      return false;
-    }
-    if (meta.isMetaObject()) {
-      final String mqn = meta.getMetaQualifiedName();
-      if (mqn != null) {
-        return match.equals(mqn);
-      }
-    }
-
-    return false;
-  }
-
-  private static Throwable wrap(Map v) {
-    // an error has 2 fields: name + message
-    final String nameField = v.get("name").toString();
-    final String messageField = v.get("message").toString();
+  private static Throwable wrap(String name, String message, String stack) {
     // empty message fields usually it JS prints the name field
-    final Throwable t = new Throwable("".equals(messageField) ? nameField : messageField);
+    final Throwable t = new Throwable("".equals(message) ? name : message);
     // the stacktrace for JS is a single string and we need to parse it back to a Java friendly way
-    if (v.containsKey("stack")) {
-      String stack = v.get("stack").toString();
+    if (stack != null) {
       String[] sel = stack.split("\n");
       StackTraceElement[] elements = new StackTraceElement[sel.length - 1];
       for (int i = 1; i < sel.length; i++) {

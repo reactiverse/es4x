@@ -254,9 +254,9 @@ public final class Util {
       case LIST:
       case SET:
         if (type.isParameterized()) {
-          return "Set<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
+          return genType(((ParameterizedTypeInfo) type).getArg(0));
         } else {
-          return "Set<any>";
+          return "any[]";
         }
       case MAP:
         if (type.isParameterized()) {

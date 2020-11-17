@@ -86,6 +86,16 @@ public class Mapping {
       .onSuccess(System.out::println);
   }
 
+  public void mapErrFunction(Function<Object, Future<String>> object) {
+    System.out.println("Function");
+    System.out.println(object);
+    object.apply("OK")
+      .onSuccess(res -> {
+        throw new RuntimeException("should not happen");
+      })
+      .onFailure(Throwable::printStackTrace);
+  }
+
   public void mapObject(Object object) {
     System.out.println("Object");
     System.out.println(object);

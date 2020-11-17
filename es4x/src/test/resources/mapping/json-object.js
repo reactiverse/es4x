@@ -63,26 +63,26 @@ try {
 } catch (e) {
 }
 
-// try {
-//   mapping.map(new Set([1, 2, 3]));
-// } catch (e) {
-//   should.fail('Should have not failed [[1,2,3]]');
-// }
-//
-// try {
-//   mapping.map(new Set([]));
-// } catch (e) {
-//   should.fail('Should have not failed [[]]');
-// }
-
 try {
-  mapping.mapSet(new Set([1, 2, 3]));
+  mapping.map([1, 2, 3]);
 } catch (e) {
   should.fail('Should have not failed [[1,2,3]]');
 }
 
 try {
-  mapping.mapSet(new Set([]));
+  mapping.map([]);
+} catch (e) {
+  should.fail('Should have not failed [[]]');
+}
+
+try {
+  mapping.mapSet([1, 2, 3]);
+} catch (e) {
+  should.fail('Should have not failed [[1,2,3]]');
+}
+
+try {
+  mapping.mapSet([]);
 } catch (e) {
   should.fail('Should have not failed [[]]');
 }
@@ -138,25 +138,23 @@ try {
   should.fail('Should have not failed [{}]');
 }
 
-// try {
-//   mapping.map(new ArrayBuffer(5));
-//   should.fail('Should have failed [new ArrayBuffer(5)]');
-// } catch (e) {
-//   print(e)
-// }
-//
-// try {
-//   mapping.map(new ArrayBuffer(ByteBuffer.allocateDirect(16)));
-// } catch (e) {
-//   print(e)
-//   should.fail('Should have not failed [new ArrayBuffer(ByteBuffer.allocateDirect(16))]');
-// }
+try {
+  mapping.map(new ArrayBuffer(5));
+} catch (e) {
+  should.fail('Should have not failed [new ArrayBuffer(5)]');
+}
+
+try {
+  mapping.map(new ArrayBuffer(ByteBuffer.allocateDirect(16)));
+} catch (e) {
+  print(e)
+  should.fail('Should have not failed [new ArrayBuffer(ByteBuffer.allocateDirect(16))]');
+}
 
 try {
   mapping.mapBuffer(new ArrayBuffer(5));
-  should.fail('Should have failed [new ArrayBuffer(5)]');
 } catch (e) {
-  print(e)
+  should.fail('Should have not failed [new ArrayBuffer(5)]');
 }
 
 try {
@@ -197,4 +195,16 @@ try {
 } catch (e) {
   print(e)
   should.fail('Should have not failed [null]');
+}
+
+try {
+  mapping.mapErrFunction((err) => Promise.reject(err));
+} catch (e) {
+  should.fail('Should have not failed [(ctx) => Promise.reject(ctx)]');
+}
+
+try {
+  mapping.mapErrFunction((err) => Promise.reject(new TypeError(err)));
+} catch (e) {
+  should.fail('Should have not failed [(ctx) => Promise.reject(ctx)]');
 }
