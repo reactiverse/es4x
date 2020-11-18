@@ -134,14 +134,19 @@ public final class ECMAEngine {
       /// Highest Precedence
       /// accepts is null, so we can quickly assert the type
 
-      // [] -> Object
+      // Goal: [] -> Object
+      // When the target type is "exactly" <java.lang.Object> and the source is a array like object (json array for
+      // example) then we want it to be a <java.util.List>, otherwise the default behavior of graal is <java.util.Map>
       .targetTypeMapping(
         List.class,
         Object.class,
         null,
         v -> v,
         HostAccess.TargetMappingPrecedence.HIGHEST)
-      // number -> Byte
+      // Goal: number -> Byte
+      // Graal already converts numeric types to byte, however most JS APIs assume bytes to be treated as unsigned
+      // values, which is not the default behaviour of the JVM. Here we override the default and "explicitly" declare
+      // that if the target is "java.lang.Byte" always assume the source to be "unsigned"
       .targetTypeMapping(
         Number.class,
         Byte.class,
@@ -149,10 +154,12 @@ public final class ECMAEngine {
         Number::byteValue,
         HostAccess.TargetMappingPrecedence.HIGHEST)
 
-      /// High Precedence
+      /// High Precedence (default precedence)
       /// Most usual types
 
-      // [...] -> JsonArray
+      // Goal: [...] -> JsonArray
+      // Convert array like object to <io.vertx.core.json.JsonArray> and unwrap if the source is a proxy that extends
+      // the JsonArray class.
       .targetTypeMapping(
         Value.class,
         JsonArray.class,
@@ -160,7 +167,7 @@ public final class ECMAEngine {
         v -> {
           if (v.isProxyObject()) {
             final Proxy p = v.asProxyObject();
-            // special case, if the value is a proxy and JsonObject, just unwrap
+            // special case, if the value is a proxy and JsonArray, just unwrap
             if (p instanceof JsonArray) {
               return (JsonArray) p;
             }
@@ -168,11 +175,13 @@ public final class ECMAEngine {
           return new JsonArray(v.as(List.class));
         },
         HostAccess.TargetMappingPrecedence.HIGH)
-      // Thenable -> Future
+      // Goal: Thenable -> Future
+      // This shall be heavily used. When the source object is a "Thenable" object and the target a
+      // <io.vertx.core.Future> wrap it to match the desired target.
       .targetTypeMapping(
         Map.class,
         Future.class,
-        v -> v.containsKey("then") && v.get("then") instanceof Function,
+        v -> v.get("then") instanceof Function,
         v -> {
           final Promise<Object> promise = ((VertxInternal) vertx).promise();
           ((Function<Object[], Object>) v.get("then")).apply(new Object[] {
@@ -182,6 +191,7 @@ public final class ECMAEngine {
                 promise.fail((Throwable) failure);
               } else {
                 if (failure instanceof Map) {
+                  // this happens when JS error messages are bubbled up from the thenable
                   final Map map = (Map) failure;
                   if (map.containsKey("name") && map.containsKey("message")) {
                     promise.fail(
@@ -201,7 +211,9 @@ public final class ECMAEngine {
           return promise.future();
         },
         HostAccess.TargetMappingPrecedence.HIGH)
-      // {...} -> JsonObject
+      // Goal: {...} -> JsonObject
+      // By default this is the catch all for JS object, just like the Array above, if the object is a Proxy and an
+      // instance of JsonObject then unwrap
       .targetTypeMapping(
         Value.class,
         JsonObject.class,
@@ -221,21 +233,28 @@ public final class ECMAEngine {
       /// Low Precedence
       /// Either because the higher ones are more important, or are not expected to be used often
 
-      // ArrayBuffer -> Buffer
+      // Goal: ArrayBuffer -> Buffer
+      // This is a "power user" feature and not expected to be used often. If the object contains a property "__jbuffer"
+      // assume it is a wrapped Buffer and get it underlying <java.nio.ByteBuffer> and adapt to vertx Buffer type.
       .targetTypeMapping(
         Value.class,
         Buffer.class,
         v -> v.hasMember("__jbuffer"),
         v -> Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class))),
         HostAccess.TargetMappingPrecedence.LOW)
-      // [...] -> java.util.Set
+      // Goal: [...] -> java.util.Set
+      // Sets are used sporadically on vert.x APIs, as converting from JS Set to <java.util.Set> is a bit cumbersome
+      // this mapping assumes sources to be array like objects and tries to wrap as a <java.util.HashSet>. As the
+      // precedence is low, when on doubt graal shall pick the mapping above first
       .targetTypeMapping(
         Value.class,
         Set.class,
         Value::hasArrayElements,
         v -> new HashSet(v.as(List.class)),
         HostAccess.TargetMappingPrecedence.LOW)
-      // Error -> Throwable
+      // Goal: Error -> Throwable
+      // Errors are expected to be used sporadically too, this helper is just extracting the default error fields from
+      // a JS error to build a <java.util.Throwable> including the stacktrace if possible.
       .targetTypeMapping(
         Value.class,
         Throwable.class,
