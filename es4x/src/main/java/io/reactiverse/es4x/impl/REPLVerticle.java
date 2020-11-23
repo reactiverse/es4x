@@ -18,10 +18,11 @@ package io.reactiverse.es4x.impl;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.parsetools.RecordParser;
 import org.graalvm.polyglot.PolyglotException;
+import org.graalvm.polyglot.Value;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -71,9 +72,8 @@ public class REPLVerticle extends AbstractVerticle {
         }
 
         try {
-          System.out.println("\u001B[1;90m" + runtime.eval(statement, true) + "\u001B[0m");
-          System.out.print("js:> ");
-          System.out.flush();
+          Value parsed = runtime.parse(statement, true);
+          System.out.println("\u001B[1;90m" + parsed.execute() + "\u001B[0m");
         } catch (PolyglotException t) {
           if (t.isIncompleteSource()) {
             updateBuffer(statement, false);
@@ -82,7 +82,7 @@ public class REPLVerticle extends AbstractVerticle {
 
           System.out.println("\u001B[1m\u001B[31m" + t.getMessage() + "\u001B[0m");
 
-          if (t.isExit()) {
+          if (t.isExit() || t.isResourceExhausted()) {
             // polyglot engine is requesting to exit
             // REPLVerticle is cancelled, close the loader
             cancel = true;
@@ -92,11 +92,9 @@ public class REPLVerticle extends AbstractVerticle {
               System.exit(1);
             });
           }
-
-          System.out.print("js:> ");
-          System.out.flush();
         } catch (Exception ex) {
           log.error(ex.getMessage(), ex);
+        } finally {
           System.out.print("js:> ");
           System.out.flush();
         }

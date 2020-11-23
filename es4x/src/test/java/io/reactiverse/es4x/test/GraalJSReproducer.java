@@ -1,13 +1,13 @@
 package io.reactiverse.es4x.test;
 
 import org.graalvm.polyglot.*;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GraalJSReproducer {
 
   @Test
-  @Ignore
   public void test() {
 
     //@language=js
@@ -42,6 +42,29 @@ public class GraalJSReproducer {
           "js",
           "log.log(Level.INFO, 'some text', [])",
           "script.js").buildLiteral());
+    }
+  }
+
+  @Test
+  public void test21_0_0_DEV() {
+
+    try (Context context = Context.newBuilder("js")
+      .allowHostClassLookup(fqcn -> true)
+      .allowHostAccess(HostAccess.ALL)
+      .build()) {
+
+      Value bindings = context.getBindings("js");
+
+      bindings.putMember("mybinding", new ConcurrentHashMap<>());
+
+      context.eval(
+        Source.newBuilder(
+          "js",
+          "print(mybinding);",
+          "script.js").buildLiteral());
+
+      // failure
+      bindings.removeMember("mybinding");
     }
   }
 }

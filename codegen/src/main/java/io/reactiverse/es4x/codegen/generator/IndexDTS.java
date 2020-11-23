@@ -16,9 +16,7 @@
 package io.reactiverse.es4x.codegen.generator;
 
 import io.vertx.codegen.*;
-import io.vertx.codegen.type.ApiTypeInfo;
-import io.vertx.codegen.type.ClassTypeInfo;
-import io.vertx.codegen.type.EnumTypeInfo;
+import io.vertx.codegen.type.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -127,11 +125,6 @@ public class IndexDTS extends Generator<ClassModel> {
     final Set<String> superTypes = new HashSet<>();
     model.getAbstractSuperTypes().forEach(ti -> superTypes.add(genType(ti)));
 
-    // special case
-    if ("io.vertx.core.Future".equals(type.getName())) {
-      superTypes.add("PromiseLike" + genGeneric(type.getParams()));
-    }
-
     if (model.isHandler()) {
       if (model.isConcrete()) {
         superTypes.add("Handler<" + genType(model.getHandlerArg()) + ">");
@@ -187,7 +180,7 @@ public class IndexDTS extends Generator<ClassModel> {
     boolean hasStaticMethodsInInterface = false;
 
     for (MethodInfo method : model.getMethods()) {
-      if (isEcluded(type.getSimpleName(), method.getName(), method.getParams())) {
+      if (isExcluded(type.getSimpleName(), method.getName(), method.getParams())) {
         continue;
       }
 
@@ -207,7 +200,7 @@ public class IndexDTS extends Generator<ClassModel> {
     // BEGIN of non polyglot methods...
 
     for (MethodInfo method : model.getAnyJavaTypeMethods()) {
-      if (isEcluded(type.getSimpleName(), method.getName(), method.getParams())) {
+      if (isExcluded(type.getSimpleName(), method.getName(), method.getParams())) {
         continue;
       }
 
@@ -217,21 +210,6 @@ public class IndexDTS extends Generator<ClassModel> {
 
       generateMethod(writer, type, method);
       moreMethods = true;
-    }
-
-    // special case
-
-    if ("io.vertx.core.Future".equals(type.getName())) {
-      if (moreMethods || moreConstants) {
-        writer.print("\n");
-      }
-      writer.println("  /**");
-      writer.println("   * Attaches callbacks for the resolution and/or rejection of the Future.");
-      writer.println("   * @param onfulfilled The callback to execute when the Future is resolved.");
-      writer.println("   * @param onrejected The callback to execute when the Future is rejected.");
-      writer.println("   * @returns A Promise for the completion of which ever callback is executed.");
-      writer.println("   */");
-      writer.println("   then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): PromiseLike<TResult1 | TResult2>;");
     }
 
     writer.print("}\n");
@@ -258,7 +236,7 @@ public class IndexDTS extends Generator<ClassModel> {
 
       moreMethods = false;
       for (MethodInfo method : model.getMethods()) {
-        if (isEcluded(type.getSimpleName(), method.getName(), method.getParams())) {
+        if (isExcluded(type.getSimpleName(), method.getName(), method.getParams())) {
           continue;
         }
 
@@ -286,6 +264,19 @@ public class IndexDTS extends Generator<ClassModel> {
   }
 
   private void generateMethod(PrintWriter writer, ClassTypeInfo type, MethodInfo method) {
+    if (method.getKind() == MethodKind.FUTURE) {
+      // slice the last element
+      List<ParamInfo> params = new ArrayList<>(method.getParams());
+      ParamInfo lastParam = params.remove(params.size() - 1);
+      // extract the generic param out of the Future
+      TypeInfo arg = ((ParameterizedTypeInfo) lastParam.getType()).getArg(0);
+      generateMethod(writer, type, method, params, lastParam.isNullable(), "PromiseLike<" + (arg.isParameterized() ? genType(((ParameterizedTypeInfo) arg).getArg(0)) : "any") + ">");
+      writer.print("\n");
+    }
+    generateMethod(writer, type, method, method.getParams(), method.getReturnType().isNullable(), genType(method.getReturnType()));
+  }
+
+  private void generateMethod(PrintWriter writer, ClassTypeInfo type, MethodInfo method, List<ParamInfo> params, boolean returnTypeNullable, String returnOverride) {
 
     generateDoc(writer, method.getDoc(), "  ");
 
@@ -294,7 +285,7 @@ public class IndexDTS extends Generator<ClassModel> {
     } else {
       writer.printf("  %s%s%s(", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()));
       boolean more = false;
-      for (ParamInfo param : method.getParams()) {
+      for (ParamInfo param : params) {
         if (more) {
           writer.print(", ");
         }
@@ -304,9 +295,9 @@ public class IndexDTS extends Generator<ClassModel> {
     }
 
     if (getOverrideReturn(type.getSimpleName(), method.getName()) != null) {
-      writer.printf(") : %s%s;\n", getOverrideReturn(type.getSimpleName(), method.getName()), method.getReturnType().isNullable() ? " | null" : "");
+      writer.printf(") : %s%s;\n", getOverrideReturn(type.getSimpleName(), method.getName()), returnTypeNullable ? " | null" : "");
     } else {
-      writer.printf(") : %s%s;\n", genType(method.getReturnType()), method.getReturnType().isNullable() ? " | null" : "");
+      writer.printf(") : %s%s;\n", returnOverride, returnTypeNullable ? " | null" : "");
     }
   }
 }

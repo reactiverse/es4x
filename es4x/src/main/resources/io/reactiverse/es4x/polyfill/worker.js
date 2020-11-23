@@ -67,9 +67,7 @@
         // create a new consumer
         self.consumer = eventBus[remote ? 'consumer' : 'localConsumer'](deploymentId + '.in', function (aMessage) {
           if (self.context) {
-            self.context.runOnContext(function onmessage() {
-              value(aMessage.body());
-            });
+            self.context.emit(aMessage.body(), value);
           } else {
             value(aMessage.body());
           }
@@ -78,9 +76,7 @@
         self.consumer.exceptionHandler(function (error) {
           if (self.onerror) {
             if (self.context) {
-              self.context.runOnContext(function onerror() {
-                self.onerror(error);
-              });
+              self.context.emit(error, self.onerror);
             } else {
               self.onerror(error);
             }
@@ -108,9 +104,7 @@
 
         if (self.onerror) {
           if (self.context) {
-            self.context.runOnContext(function onerror() {
-              self.onerror(error);
-            });
+            self.context.emit(error, self.onerror);
           } else {
             self.onerror(error);
           }

@@ -21,7 +21,6 @@ import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
-import org.graalvm.polyglot.proxy.Proxy;
 import org.graalvm.polyglot.proxy.ProxyArray;
 
 import java.util.List;
@@ -35,8 +34,16 @@ public final class ProxyUtil {
 
   private static final Logger LOG = LoggerFactory.getLogger(ProxyUtil.class.getSimpleName());
 
+  private static final Object unwrapValue(Value v) {
+    if (v == null) {
+      return null;
+    }
+
+    return v.isHostObject() ? v.asHostObject() : v.as(Object.class);
+  }
+
   public static void putMember(JsonObject self, String key, Value value) {
-    self.put(key, value.isHostObject() ? value.asHostObject() : value);
+    self.put(key, unwrapValue(value));
   }
 
   public static boolean hasMember(JsonObject self, String key) {
@@ -85,7 +92,11 @@ public final class ProxyUtil {
 
   public static void set(JsonArray self, long index, Value value) {
     checkIndex(index);
-    self.set((int) index, value.isHostObject() ? value.asHostObject() : value);
+    if (self.size() <= index) {
+      self.add((int) index, unwrapValue(value));
+    } else {
+      self.set((int) index, unwrapValue(value));
+    }
   }
 
   private static void checkIndex(long index) {
@@ -139,24 +150,5 @@ public final class ProxyUtil {
     }
 
     return val;
-  }
-
-  public static boolean isJavaObject(Value value) {
-    if (value == null) {
-      return false;
-    }
-
-    if (value.isHostObject()) {
-      return true;
-    }
-
-    if (value.isProxyObject()) {
-      final Proxy unwrap = value.asProxyObject();
-
-      return
-        unwrap instanceof JsonObject || unwrap instanceof JsonArray;
-    }
-
-    return false;
   }
 }

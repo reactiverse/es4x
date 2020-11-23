@@ -19,20 +19,22 @@ import io.netty.buffer.Unpooled;
 import io.reactiverse.es4x.impl.JSObjectMessageCodec;
 import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.reactiverse.es4x.jul.ES4XFormatter;
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.impl.VertxInternal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.io.FileSystem;
+import org.graalvm.polyglot.proxy.Proxy;
 
 import java.nio.ByteBuffer;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
@@ -84,6 +86,8 @@ public final class ECMAEngine {
   private final HostAccess hostAccess;
   private final FileSystem fileSystem;
   private final PolyglotAccess polyglotAccess;
+  private final Source objLookup;
+  private final Source arrLookup;
 
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
@@ -113,99 +117,178 @@ public final class ECMAEngine {
     // enable or disable the polyglot access
     polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
 
-    // cache common source lookups
-    final Source error = Source.create("js", "Error");
-    final Source arrayBuffer = Source.create("js", "ArrayBuffer");
+    // source caches
+    objLookup = Source.newBuilder("js", "(function (fn) { fn({}); })", "<cache#objLookup>")
+      .cached(true)
+      .internal(true)
+      .buildLiteral();
+    arrLookup = Source.newBuilder("js", "(function (fn) { fn([]); })", "<cache#arrLookup>")
+      .cached(true)
+      .internal(true)
+      .buildLiteral();
 
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
-      // Ensure bytes are supported
-      .targetTypeMapping(Number.class, Byte.class, null, Number::byteValue)
-      // map native JSON Object to Vert.x JSONObject
-      .targetTypeMapping(Map.class, JsonObject.class, v -> {
-        final Value it = Value.asValue(v);
-        return it.hasMembers() && !it.hasArrayElements();
-      }, JsonObject::new)
-      // map native JSON Array to Vert.x JSONArray
-      .targetTypeMapping(List.class, JsonArray.class, v -> {
-        final Value it = Value.asValue(v);
-        return it.hasMembers() && it.hasArrayElements();
-      }, JsonArray::new)
-      // Ensure Arrays are exposed as Set when the Java API is accepting Set
-      .targetTypeMapping(List.class, Set.class, null, HashSet::new)
-      // Ensure Arrays are exposed as List when the Java API is accepting Object
-      .targetTypeMapping(List.class, Object.class, v -> {
-        final Value it = Value.asValue(v);
-        return it.hasMembers() && it.hasArrayElements();
-      }, v -> v)
-      // map native buffer to Vert.x Buffer
+      /// Highest Precedence
+      /// accepts is null, so we can quickly assert the type
+
+      // Goal: [] -> Object
+      // When the target type is "exactly" <java.lang.Object> and the source is a array like object (json array for
+      // example) then we want it to be a <java.util.List>, otherwise the default behavior of graal is <java.util.Map>
+      .targetTypeMapping(
+        List.class,
+        Object.class,
+        Objects::nonNull,
+        v -> v,
+        HostAccess.TargetMappingPrecedence.HIGHEST)
+      // Goal: number -> Byte
+      // Graal already converts numeric types to byte, however most JS APIs assume bytes to be treated as unsigned
+      // values, which is not the default behaviour of the JVM. Here we override the default and "explicitly" declare
+      // that if the target is "java.lang.Byte" always assume the source to be "unsigned"
+      .targetTypeMapping(
+        Number.class,
+        Byte.class,
+        Objects::nonNull,
+        Number::byteValue,
+        HostAccess.TargetMappingPrecedence.HIGHEST)
+
+      /// High Precedence (default precedence)
+      /// Most usual types
+
+      // Goal: [...] -> JsonArray
+      // Convert array like object to <io.vertx.core.json.JsonArray> and unwrap if the source is a proxy that extends
+      // the JsonArray class.
+      .targetTypeMapping(
+        Value.class,
+        JsonArray.class,
+        Value::hasArrayElements,
+        v -> {
+          if (v.isProxyObject()) {
+            final Proxy p = v.asProxyObject();
+            // special case, if the value is a proxy and JsonArray, just unwrap
+            if (p instanceof JsonArray) {
+              return (JsonArray) p;
+            }
+          }
+          return new JsonArray(v.as(List.class));
+        },
+        HostAccess.TargetMappingPrecedence.HIGH)
+      // Goal: Thenable -> Future
+      // This shall be heavily used. When the source object is a "Thenable" object and the target a
+      // <io.vertx.core.Future> wrap it to match the desired target.
+      .targetTypeMapping(
+        Map.class,
+        Future.class,
+        v -> v.get("then") instanceof Function,
+        v -> {
+          final Promise<Object> promise = ((VertxInternal) vertx).promise();
+          ((Function<Object[], Object>) v.get("then")).apply(new Object[] {
+            (Consumer<Object>) promise::complete,
+            (Consumer<Object>) failure -> {
+              if (failure instanceof Throwable) {
+                promise.fail((Throwable) failure);
+              } else {
+                if (failure instanceof Map) {
+                  // this happens when JS error messages are bubbled up from the thenable
+                  final Map map = (Map) failure;
+                  if (map.containsKey("name") && map.containsKey("message")) {
+                    promise.fail(
+                      wrap(
+                        (String) map.get("name"),
+                        (String) map.get("message"),
+                        (String) map.get("stack")));
+                  } else {
+                    promise.fail(failure.toString());
+                  }
+                } else {
+                  promise.fail(failure == null ? null : failure.toString());
+                }
+              }
+            }
+          });
+          return promise.future();
+        },
+        HostAccess.TargetMappingPrecedence.HIGH)
+      // Goal: {...} -> JsonObject
+      // By default this is the catch all for JS object, just like the Array above, if the object is a Proxy and an
+      // instance of JsonObject then unwrap
+      .targetTypeMapping(
+        Value.class,
+        JsonObject.class,
+        v -> v.hasMembers() && !v.hasArrayElements(),
+        v -> {
+          if (v.isProxyObject()) {
+            final Proxy p = v.asProxyObject();
+            // special case, if the value is a proxy and JsonObject, just unwrap
+            if (p instanceof JsonObject) {
+              return (JsonObject) p;
+            }
+          }
+          return new JsonObject(v.as(Map.class));
+        },
+        HostAccess.TargetMappingPrecedence.HIGH)
+
+      /// Low Precedence
+      /// Either because the higher ones are more important, or are not expected to be used often
+
+      // Goal: ArrayBuffer -> Buffer
+      // This is a "power user" feature and not expected to be used often. If the object contains a property "__jbuffer"
+      // assume it is a wrapped Buffer and get it underlying <java.nio.ByteBuffer> and adapt to vertx Buffer type.
       .targetTypeMapping(
         Value.class,
         Buffer.class,
-        // ensure that the type really matches
-        v -> isScriptObject(v) && Context.getCurrent().eval(arrayBuffer).isMetaInstance(v),
-        v -> {
-          if (v.hasMember("__jbuffer")) {
-            return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class)));
-          } else {
-            // this is a raw ArrayBuffer
-            throw new ClassCastException("Cannot cast ArrayBuffer(without j.n.ByteBuffer)");
-          }
-        })
-      // map native Error Object to Throwable
+        v -> v.hasMember("__jbuffer"),
+        v -> Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class))),
+        HostAccess.TargetMappingPrecedence.LOW)
+      // Goal: [...] -> java.util.Set
+      // Sets are used sporadically on vert.x APIs, as converting from JS Set to <java.util.Set> is a bit cumbersome
+      // this mapping assumes sources to be array like objects and tries to wrap as a <java.util.HashSet>. As the
+      // precedence is low, when on doubt graal shall pick the mapping above first
+      .targetTypeMapping(
+        Value.class,
+        Set.class,
+        Value::hasArrayElements,
+        v -> new HashSet(v.as(List.class)),
+        HostAccess.TargetMappingPrecedence.LOW)
+      // Goal: Error -> Throwable
+      // Errors are expected to be used sporadically too, this helper is just extracting the default error fields from
+      // a JS error to build a <java.util.Throwable> including the stacktrace if possible.
       .targetTypeMapping(
         Value.class,
         Throwable.class,
-        v -> isScriptObject(v) && Context.getCurrent().eval(error).isMetaInstance(v),
+        v -> v.hasMember("name") && v.hasMember("message"),
         v -> {
-          // an error has 2 fields: name + message
-          final String nameField = v.getMember("name").asString();
-          final String messageField = v.getMember("message").asString();
-          // empty message fields usually it JS prints the name field
-          final Throwable t = new Throwable("".equals(messageField) ? nameField : messageField);
-          // the stacktrace for JS is a single string and we need to parse it back to a Java friendly way
           if (v.hasMember("stack")) {
-            String stack = v.getMember("stack").asString();
-            String[] sel = stack.split("\n");
-            StackTraceElement[] elements = new StackTraceElement[sel.length - 1];
-            for (int i = 1; i < sel.length; i++) {
-              elements[i - 1] = parseStrackTraceElement(sel[i]);
-            }
-            t.setStackTrace(elements);
+            return wrap(
+              v.getMember("name").asString(),
+              v.getMember("message").asString(),
+              v.getMember("stack").asString());
+          } else {
+            return wrap(
+              v.getMember("name").asString(),
+              v.getMember("message").asString(),
+              null);
           }
-
-          return t;
-        })
+        },
+        HostAccess.TargetMappingPrecedence.LOW)
       .build();
 
     fileSystem = new VertxFileSystem(vertx, ".mjs", ".js");
   }
 
-  /**
-   * Is script like object.
-   *
-   * @param v the value to consider
-   * @return true for non null, unknown shape and not Proxy
-   */
-  private static boolean isScriptObject(Value v) {
-    return
-      // nullability
-      !v.isNull() &&
-        // primitives
-        !v.isNumber() &&
-        !v.isBoolean() &&
-        !v.isString() &&
-        !v.isDate() &&
-        !v.isTime() &&
-        !v.isTimeZone() &&
-        !v.isDuration() &&
-        !v.isInstant() &&
-        // exceptions
-        !v.isException() &&
-        // rest
-        !v.isNativePointer() &&
-        !v.isHostObject() &&
-        // meta
-        !v.isMetaObject();
+  private static Throwable wrap(String name, String message, String stack) {
+    // empty message fields usually it JS prints the name field
+    final Throwable t = new Throwable("".equals(message) ? name : message);
+    // the stacktrace for JS is a single string and we need to parse it back to a Java friendly way
+    if (stack != null) {
+      String[] sel = stack.split("\n");
+      StackTraceElement[] elements = new StackTraceElement[sel.length - 1];
+      for (int i = 1; i < sel.length; i++) {
+        elements[i - 1] = parseStrackTraceElement(sel[i]);
+      }
+      t.setStackTrace(elements);
+    }
+
+    return t;
   }
 
   private void registerCodec(Class className) {
@@ -213,11 +296,6 @@ public final class ECMAEngine {
       .unregisterDefaultCodec(className)
       .registerDefaultCodec(className, new JSObjectMessageCodec(className.getName()));
   }
-
-  public FileSystem fileSystem() {
-    return fileSystem;
-  }
-
 
   /**
    * return a new context for this engine.
@@ -261,6 +339,8 @@ public final class ECMAEngine {
       builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version"));
     }
 
+    builder.option("js.foreign-object-prototype", "true");
+
     // the instance
     final Context context = builder.build();
 
@@ -268,14 +348,8 @@ public final class ECMAEngine {
     if (codecInstalled.compareAndSet(false, true)) {
       // register a default codec to allow JSON messages directly from GraalJS to the JVM world
       final Consumer<?> callback = value -> registerCodec(value.getClass());
-
-      context.eval(
-        Source.newBuilder("js", "(function (fn) { fn({}); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
-      ).execute(callback);
-
-      context.eval(
-        Source.newBuilder("js", "(function (fn) { fn([]); })", "<class-lookup>").cached(false).internal(true).buildLiteral()
-      ).execute(callback);
+      context.eval(objLookup).execute(callback);
+      context.eval(arrLookup).execute(callback);
     }
 
     // setup complete

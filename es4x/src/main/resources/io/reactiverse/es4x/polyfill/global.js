@@ -52,7 +52,7 @@
   global.setImmediate = function (callback) {
     const args = Array.prototype.slice.call(arguments, 1);
 
-    vertx.runOnContext(function setImmediate(v) {
+    vertx.execute(null, function setImmediate(v) {
       callback.apply(global, args);
     });
   };
@@ -112,7 +112,7 @@
       }
     }),
     pid: pid,
-    engine: 'graaljs',
+    platform: System.getProperty('os.name').toLowerCase(),
 
     exit: function (exitCode) {
       vertx.close(function exit(res) {

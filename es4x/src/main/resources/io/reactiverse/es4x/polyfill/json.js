@@ -19,43 +19,28 @@
   const Buffer = Java.type('io.vertx.core.buffer.Buffer');
   const Json = Java.type('io.vertx.core.json.Json');
 
-  const ProxyUtil = Java.type('io.reactiverse.es4x.impl.ProxyUtil');
-
-  // this will wrap the original function to handle Vert.x native types too
+  // will wrap the original function to handle Vert.x native types too
   const _stringify = JSON.stringify;
   const _parse = JSON.parse;
+  // vert.x json codec
+  const _encodeToBuffer = Json.encodeToBuffer;
+  const _decodeValue = Json.decodeValue;
 
   // patch the original JSON object
   JSON.stringify = function (value, replacer, space) {
-    if (value === undefined) {
-      return undefined;
+    if (replacer === 'buffer') {
+      return _encodeToBuffer(value);
     }
 
-    if (ProxyUtil.isJavaObject(value)) {
-      switch (replacer) {
-        case 'buffer':
-          return Json.encodeToBuffer(value);
-        case 'pretty':
-        case 'prettily':
-          return Json.encodePrettily(value);
-        default:
-          return Json.encode(value);
-      }
-    }
     return _stringify(value, replacer, space);
   };
 
   // patch the original JSON object
   JSON.parse = function (text, reviver) {
-    if (text === undefined) {
-      return undefined;
+    if (text instanceof Buffer) {
+      return _decodeValue(text);
     }
 
-    if (Java.isJavaObject(text)) {
-      if (text instanceof Buffer) {
-        return Json.decodeValue(text);
-      }
-    }
     return _parse(text, reviver);
   };
 })(JSON);

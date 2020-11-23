@@ -254,7 +254,7 @@ public final class Util {
       case LIST:
       case SET:
         if (type.isParameterized()) {
-          return genType(((ParameterizedTypeInfo) type).getArg(0)) + "[]";
+          return genType(((ParameterizedTypeInfo) type).getArg(0));
         } else {
           return "any[]";
         }
@@ -320,6 +320,12 @@ public final class Util {
           return "AsyncResult<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
         } else {
           return "AsyncResult<any>";
+        }
+      case FUTURE:
+        if (type.isParameterized()) {
+          return "PromiseLike<" + genType(((ParameterizedTypeInfo) type).getArg(0)) + ">";
+        } else {
+          return "PromiseLike<any>";
         }
       case CLASS_TYPE:
         return "any /* TODO: class */";
@@ -526,7 +532,7 @@ public final class Util {
     return null;
   }
 
-  public static boolean isEcluded(String type, String method, Object params) {
+  public static boolean isExcluded(String type, String method, Object params) {
     JsonObject excludes = getExclude(type);
 
     Object result = excludes.getValue(method);

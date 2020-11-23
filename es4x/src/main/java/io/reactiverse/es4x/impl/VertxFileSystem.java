@@ -413,4 +413,18 @@ public final class VertxFileSystem implements FileSystem {
     }
     return true;
   }
+
+  @Override
+  public boolean isSameFile(Path path1, Path path2, LinkOption... options) throws IOException {
+    // TODO: also consider cache files vs non cached ones
+    if (toAbsolutePath(path1).equals(toAbsolutePath(path2))) {
+      return true;
+    }
+    return toRealPath(path1, options).equals(toRealPath(path2, options));
+  }
+
+  @Override
+  public Path getTempDirectory() {
+    return new File(System.getProperty("java.io.tmpdir")).toPath();
+  }
 }

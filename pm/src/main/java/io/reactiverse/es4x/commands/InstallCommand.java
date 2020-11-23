@@ -39,8 +39,16 @@ public class InstallCommand extends DefaultCommand {
 
   @Option(longName = "only", shortName = "o", choices = {"prod", "dev", "all"})
   @Description("Only install 'prod/dev/all' (default: all).")
+  @DefaultValue("all")
   public void setOnly(String only) {
     command.setOnly(only);
+  }
+
+  @Option(longName = "dest", shortName = "d")
+  @Description("Destination (default: node_modules).")
+  @DefaultValue("node_modules")
+  public void setDestination(String destination) {
+    command.setDestination(destination);
   }
 
   @Override
