@@ -184,7 +184,7 @@ try {
 try {
   mapping.map(new JsonObject());
 } catch (e) {
-  should.fail('Should have not failed [null]');
+  should.fail('Should have not failed [JsonObject]');
 }
 
 try {
@@ -193,8 +193,7 @@ try {
   arr[6] = undefined;
   mapping.map(arr);
 } catch (e) {
-  print(e)
-  should.fail('Should have not failed [null]');
+  should.fail('Should have not failed [JsonArray]');
 }
 
 try {

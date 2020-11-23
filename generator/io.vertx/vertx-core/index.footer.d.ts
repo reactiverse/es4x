@@ -25,10 +25,11 @@ declare global {
     extensions: any;
   } | undefined;
 
+  // @ts-ignore
   const process: {
     env: { [key: string]: string };
     pid: String;
-    engine: String;
+    platform: String;
     exit: (exitCode: number) => void;
     nextTick: (callback: (...args: any[]) => void) => void;
     stdout: any;

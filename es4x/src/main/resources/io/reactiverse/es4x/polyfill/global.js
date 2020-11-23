@@ -112,7 +112,7 @@
       }
     }),
     pid: pid,
-    engine: 'graaljs',
+    platform: System.getProperty('os.name').toLowerCase(),
 
     exit: function (exitCode) {
       vertx.close(function exit(res) {

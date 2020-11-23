@@ -32,7 +32,7 @@
       return _encodeToBuffer(value);
     }
 
-    return _stringify.call(JSON, value, replacer, space);
+    return _stringify(value, replacer, space);
   };
 
   // patch the original JSON object
@@ -41,6 +41,6 @@
       return _decodeValue(text);
     }
 
-    return _parse.call(JSON, text, reviver);
+    return _parse(text, reviver);
   };
 })(JSON);

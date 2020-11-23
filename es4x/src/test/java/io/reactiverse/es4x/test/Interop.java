@@ -29,7 +29,7 @@ public class Interop {
   }
 
   public void printSet(Set<String> json) {
-    System.out.println(json.toArray());
+    System.out.println(json);
   }
 
   public void printThrowable(Throwable throwable) {

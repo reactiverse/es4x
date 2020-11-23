@@ -31,10 +31,7 @@ import org.graalvm.polyglot.io.FileSystem;
 import org.graalvm.polyglot.proxy.Proxy;
 
 import java.nio.ByteBuffer;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -140,7 +137,7 @@ public final class ECMAEngine {
       .targetTypeMapping(
         List.class,
         Object.class,
-        null,
+        Objects::nonNull,
         v -> v,
         HostAccess.TargetMappingPrecedence.HIGHEST)
       // Goal: number -> Byte
@@ -150,7 +147,7 @@ public final class ECMAEngine {
       .targetTypeMapping(
         Number.class,
         Byte.class,
-        null,
+        Objects::nonNull,
         Number::byteValue,
         HostAccess.TargetMappingPrecedence.HIGHEST)
 
@@ -341,6 +338,8 @@ public final class ECMAEngine {
     if (System.getProperty("js.ecmascript-version") != null) {
       builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version"));
     }
+
+    builder.option("js.foreign-object-prototype", "true");
 
     // the instance
     final Context context = builder.build();
