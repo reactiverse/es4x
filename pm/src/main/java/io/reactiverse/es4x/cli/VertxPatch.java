@@ -1,4 +1,4 @@
-package io.reactiverse.es4x;
+package io.reactiverse.es4x.cli;
 
 import io.reactiverse.es4x.asm.FutureBaseVisitor;
 import io.reactiverse.es4x.asm.JsonArrayVisitor;
@@ -15,13 +15,35 @@ public class VertxPatch {
 
   public static void main(String[] args) throws IOException {
 
-    System.err.println(args[0]);
-    System.err.println(args[1]);
+    String _version;
+    String _target;
+
+    switch (args.length) {
+      case 1:
+        if (args[0] == null) {
+          throw new RuntimeException("Missing vertx-core version (e.g.: 4.0.0)");
+        }
+        _version = args[0];
+        _target = "target";
+        break;
+      case 2:
+        if (args[0] == null) {
+          throw new RuntimeException("Missing vertx-core version (e.g.: 4.0.0)");
+        }
+        _version = args[0];
+        if (args[1] == null) {
+          throw new RuntimeException("Missing target (e.g.: 'target')");
+        }
+        _target = args[1];
+        break;
+      default:
+        throw new RuntimeException("Invalid number of arguments (e.g.: '4.0.0' 'target')");
+    }
 
     Resolver resolver = new Resolver();
     File coreJar = null;
 
-    for (Artifact a : resolver.resolve("io.vertx:vertx-core:" + args[0], Collections.emptyList())) {
+    for (Artifact a : resolver.resolve("io.vertx:vertx-core:" + _version, Collections.emptyList())) {
       if ("io.vertx".equals(a.getGroupId()) && "vertx-core".equals(a.getArtifactId())) {
         coreJar = a.getFile();
         break;
@@ -40,7 +62,7 @@ public class VertxPatch {
         switch (je.getName()) {
           case "io/vertx/core/json/JsonObject.class":
             bytes = new JsonObjectVisitor().rewrite(jar);
-            target = new File(args[1], "io/vertx/core/json");
+            target = new File(_target, "io/vertx/core/json");
             target.mkdirs();
             try (OutputStream writer = new FileOutputStream(new File(target, "JsonObject.class"))) {
               writer.write(bytes);
@@ -49,7 +71,7 @@ public class VertxPatch {
 
           case "io/vertx/core/json/JsonArray.class":
             bytes = new JsonArrayVisitor().rewrite(jar);
-            target = new File(args[1], "io/vertx/core/json");
+            target = new File(_target, "io/vertx/core/json");
             target.mkdirs();
             try (OutputStream writer = new FileOutputStream(new File(target, "JsonArray.class"))) {
               writer.write(bytes);
@@ -57,7 +79,7 @@ public class VertxPatch {
             break;
           case "io/vertx/core/impl/future/FutureBase.class":
             bytes = new FutureBaseVisitor().rewrite(jar);
-            target = new File(args[1], "io/vertx/core/impl/future");
+            target = new File(_target, "io/vertx/core/impl/future");
             target.mkdirs();
             try (OutputStream writer = new FileOutputStream(new File(target, "FutureBase.class"))) {
               writer.write(bytes);
