@@ -15,8 +15,8 @@
  */
 package io.reactiverse.es4x.commands;
 
-import com.github.cliftonlabs.json_simple.JsonObject;
 import io.reactiverse.es4x.cli.CmdLineParser;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -143,7 +143,7 @@ public class Project implements Runnable {
         }
       }
 
-      JsonObject npm = JSON.parse(file);
+      JSONObject npm = JSON.parseObject(file);
       String name = null;
 
       // this was a new project, either derive the name from the cwd or set to "unnamed"
@@ -162,7 +162,7 @@ public class Project implements Runnable {
 
       npm.put("name", name);
 
-      JSON.encode(file, npm);
+      JSON.encodeObject(file, npm);
 
     } catch (IOException e) {
       fatal(e.getMessage());

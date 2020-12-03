@@ -22,10 +22,29 @@ import java.util.logging.*;
 
 import static java.util.logging.Level.*;
 
-public class ES4XFormatter extends Formatter {
+public class ANSIFormatter extends Formatter {
 
-  // the user is not explicitly disable ANSI colors
-  private final boolean colors = !Boolean.getBoolean("es4x.bare");
+  // are ANSI colors allowed?
+  private static final boolean colors;
+
+  static {
+    String term = System.getenv("TERM");
+    if (term != null) {
+      term = term.toLowerCase();
+      colors =
+        // this is where the most common config will be on unices
+        term.equals("xterm-color")
+          // however as there are lots of terminal emulators, it seems
+          // safer to look up for the suffix "-256color" as it covers:
+          // vte, linux, tmux, screen, putty, rxvt, nsterm, ...
+          || term.endsWith("-256color");
+    } else {
+      // there's no env variable (we're running either embedded (no shell)
+      // or on a OS that doesn't set the TERM variable (Windows maybe)
+      // in this case rely on the system property to DISABLE the colors.
+      colors = !Boolean.getBoolean("es4x.bare");
+    }
+  }
 
   @Override
   public synchronized String format(LogRecord record) {
@@ -79,13 +98,13 @@ public class ES4XFormatter extends Formatter {
 
   private static String prefix(Level l) {
     if (SEVERE.equals(l)) {
-        return "\u001B[1m\u001B[31m";
+      return "\u001B[1m\u001B[31m";
     }
     if (WARNING.equals(l)) {
-        return "\u001B[1m\u001B[33m";
+      return "\u001B[1m\u001B[33m";
     }
     if (INFO.equals(l)) {
-        return "";
+      return "";
     }
     if (CONFIG.equals(l)) {
       return "\u001B[1m\u001B[34m";
@@ -97,7 +116,7 @@ public class ES4XFormatter extends Formatter {
       return "\u001B[1m\u001B[94m";
     }
     if (FINEST.equals(l)) {
-        return "\u001B[94m";
+      return "\u001B[94m";
     }
 
     return "[" + l.getName().toUpperCase() + "] ";

@@ -9,7 +9,7 @@ La configuracion por defecto es:
 
 ```properties
 handlers=java.util.logging.ConsoleHandler
-java.util.logging.ConsoleHandler.formatter=io.reactiverse.es4x.jul.ES4XFormatter
+java.util.logging.ConsoleHandler.formatter=io.reactiverse.es4x.jul.ANSIFormatter
 java.util.logging.ConsoleHandler.level=FINEST
 
 .level=INFO

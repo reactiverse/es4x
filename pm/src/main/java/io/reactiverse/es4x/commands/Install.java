@@ -15,14 +15,14 @@
  */
 package io.reactiverse.es4x.commands;
 
-import com.github.cliftonlabs.json_simple.JsonArray;
-import com.github.cliftonlabs.json_simple.JsonObject;
 import io.reactiverse.es4x.cli.CmdLineParser;
 import io.reactiverse.es4x.asm.FutureBaseVisitor;
 import io.reactiverse.es4x.asm.JsonArrayVisitor;
 import io.reactiverse.es4x.asm.JsonObjectVisitor;
 import io.reactiverse.es4x.cli.GraalVMVersion;
 import org.eclipse.aether.artifact.Artifact;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -151,9 +151,9 @@ public class Install implements Runnable {
 
   private void processPackageJson(File json, Set<String> dependencies) throws IOException {
     if (json.exists()) {
-      JsonObject npm = JSON.parse(json);
-      if (npm.containsKey("maven")) {
-        final JsonObject maven = (JsonObject) npm.get("maven");
+      JSONObject npm = JSON.parseObject(json);
+      if (npm.has("maven")) {
+        final JSONObject maven = npm.getJSONObject("maven");
         // add this dependency
         dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
       }
@@ -162,8 +162,8 @@ public class Install implements Runnable {
         case ALL:
         case PROD:
         case PRODUCTION:
-          if (npm.containsKey("mvnDependencies")) {
-            final JsonArray maven = (JsonArray) npm.get("mvnDependencies");
+          if (npm.has("mvnDependencies")) {
+            final JSONArray maven = npm.getJSONArray("mvnDependencies");
             for (Object el : maven) {
               // add this dependency
               dependencies.add((String) el);
@@ -175,8 +175,8 @@ public class Install implements Runnable {
         case ALL:
         case DEV:
         case DEVELOPMENT:
-          if (npm.containsKey("mvnDevDependencies")) {
-            final JsonArray maven = (JsonArray) npm.get("mvnDevDependencies");
+          if (npm.has("mvnDevDependencies")) {
+            final JSONArray maven = npm.getJSONArray("mvnDevDependencies");
             for (Object el : maven) {
               // add this dependency
               dependencies.add((String) el);
@@ -412,13 +412,13 @@ public class Install implements Runnable {
 
     if (json.exists()) {
       try {
-        JsonObject npm = JSON.parse(json);
+        JSONObject npm = JSON.parseObject(json);
         // default main script
         String main = ".";
         String verticleFactory = "js";
 
         // if package json declares a different main, then it shall be used
-        if (npm.containsKey("main")) {
+        if (npm.has("main")) {
           main = (String) npm.get("main");
           // allow main to be a mjs
           if (main != null && main.endsWith(".mjs")) {
@@ -427,7 +427,7 @@ public class Install implements Runnable {
         }
 
         // if package json declares a different main, then it shall be used
-        if (npm.containsKey("module")) {
+        if (npm.has("module")) {
           main = (String) npm.get("module");
           verticleFactory = "mjs";
         }

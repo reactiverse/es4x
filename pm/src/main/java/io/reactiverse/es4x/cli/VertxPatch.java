@@ -1,16 +1,44 @@
+/*
+ * Copyright 2019 Red Hat, Inc.
+ *
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  and Apache License v2.0 which accompanies this distribution.
+ *
+ *  The Eclipse Public License is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  The Apache License v2.0 is available at
+ *  http://www.opensource.org/licenses/apache2.0.php
+ *
+ *  You may elect to redistribute this code under either of these licenses.
+ */
 package io.reactiverse.es4x.cli;
 
 import io.reactiverse.es4x.asm.FutureBaseVisitor;
 import io.reactiverse.es4x.asm.JsonArrayVisitor;
 import io.reactiverse.es4x.asm.JsonObjectVisitor;
 import io.reactiverse.es4x.commands.Resolver;
+import io.reactiverse.es4x.commands.Versions;
 import org.eclipse.aether.artifact.Artifact;
 
 import java.io.*;
 import java.util.Collections;
+import java.util.Scanner;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
+/**
+ * Internal tooling to ASM patch the vert.x core classes in order to allow JS interop. The patch involves:
+ *
+ * <ul>
+ *   <li>JsonObject - to allow using the Java type as a pure JSON object in JavaScript</li>
+ *   <li>JsonArray - to allow using the Java type as a pure JSON object in JavaScript</li>
+ *   <li>FutureBase - to allow using the Java type as a pure Thenable (async/await and Promise APIs) in JavaScript</li>
+ * </ul>
+ *
+ * Usage: {@code java io.reactiverse.es4x.cli.VertxPatch [vertx version] [target]}
+ */
 public class VertxPatch {
 
   public static void main(String[] args) throws IOException {
@@ -19,6 +47,19 @@ public class VertxPatch {
     String _target;
 
     switch (args.length) {
+      case 0:
+        // load the versions from vertx if possible
+        try (InputStream is = Versions.class.getClassLoader().getResourceAsStream("META-INF/vertx/vertx-version.txt")) {
+          if (is != null) {
+            Scanner scanner = (new Scanner(is, "UTF-8")).useDelimiter("\\A");
+            if (scanner.hasNext()) {
+              _version = scanner.next().trim();
+              _target = "target";
+              break;
+            }
+          }
+        }
+        throw new RuntimeException("Missing 'vert-core' from the classpath (cannot guess the right version)");
       case 1:
         if (args[0] == null) {
           throw new RuntimeException("Missing vertx-core version (e.g.: 4.0.0)");
