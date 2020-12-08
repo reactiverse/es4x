@@ -55,7 +55,7 @@ public class IndexDTS extends Generator<ClassModel> {
     if (index == 0) {
       Util.generateLicense(writer);
       registerJvmClasses();
-      for (Object fqcn : jvmClasses()) {
+      for (Object fqcn : jvmClasses("api")) {
         JVMClass.generateDTS(writer, fqcn.toString());
       }
 
@@ -78,57 +78,64 @@ public class IndexDTS extends Generator<ClassModel> {
     @SuppressWarnings("unchecked")
     Map<String, String> aliasMap = (Map<String, String>) session.computeIfAbsent("aliasMap", (a) -> new HashMap<String, String>());
     for (ApiTypeInfo referencedType : model.getReferencedTypes()) {
-      if (!isImported(referencedType, session)) {
-        if (!referencedType.getRaw().getModuleName().equals(type.getModuleName())) {
-          String simpleName = referencedType.getSimpleName();
-          if (simpleName.equals(model.getIfaceSimpleName())) {
-            String aliasName = simpleName + "Super";
-            simpleName = simpleName + " as " + aliasName;
-            aliasMap.put(referencedType.getName(), aliasName);
-          }
-          // ignore missing imports
-          if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
-            writer.println("// @ts-ignore");
-          }
-          writer.printf("import { %s } from '%s';\n", simpleName, getNPMScope(referencedType.getRaw().getModule()));
-          imports = true;
+      if (!sameModule(type, referencedType.getRaw())) {
+        String simpleName = referencedType.getSimpleName();
+        if (simpleName.equals(model.getIfaceSimpleName())) {
+          String aliasName = simpleName + "Super";
+          simpleName = simpleName + " as " + aliasName;
+          aliasMap.put(referencedType.getName(), aliasName);
         }
+        importType(writer, session, referencedType, simpleName, getNPMScope(referencedType.getRaw().getModule()));
+        imports = true;
       }
     }
     for (ClassTypeInfo dataObjectType : model.getReferencedDataObjectTypes()) {
-      if (!isImported(dataObjectType, session)) {
-        if (dataObjectType.getRaw().getModuleName().equals(type.getModuleName())) {
-          writer.printf("import { %s } from './options';\n", dataObjectType.getSimpleName());
-          imports = true;
-        } else {
-          writer.printf("import { %s } from '%s/options';\n", dataObjectType.getSimpleName(), getNPMScope(dataObjectType.getRaw().getModule()));
-          imports = true;
-        }
+      if (sameModule(type, dataObjectType.getRaw())) {
+        importType(writer, session, dataObjectType, dataObjectType.getSimpleName(), "./options");
+        imports = true;
+      } else {
+        importType(writer, session, dataObjectType, dataObjectType.getSimpleName(), getNPMScope(dataObjectType.getRaw().getModule()) + "/options");
+        imports = true;
       }
     }
     for (EnumTypeInfo enumType : model.getReferencedEnumTypes()) {
-      if (!isImported(enumType, session)) {
-        if (enumType.getRaw().getModuleName().equals(type.getModuleName())) {
-          writer.printf("import { %s } from './enums';\n", enumType.getSimpleName());
-          imports = true;
-        } else {
-          writer.printf("import { %s } from '%s/enums';\n", enumType.getSimpleName(), getNPMScope(enumType.getRaw().getModule()));
+      if (enumType.getRaw().getModuleName() == null) {
+        System.err.println("@@@ Missing module for ENUM: " + enumType);
+        continue;
+      }
+      if (sameModule(type, enumType.getRaw())) {
+        importType(writer, session, enumType, enumType.getSimpleName(), "./enums");
+        imports = true;
+      } else {
+        importType(writer, session, enumType, enumType.getSimpleName(), getNPMScope(enumType.getRaw().getModule()) + "/enums");
+        imports = true;
+      }
+    }
+
+    final Set<String> superTypes = new HashSet<>();
+    // ensure that all super types are also imported
+    model.getAbstractSuperTypes().forEach(ti -> {
+      if (!sameModule(type, ti.getRaw())) {
+        importType(writer, session, ti, ti.getSimpleName(), getNPMScope(ti.getRaw().getModule()));
+      }
+      superTypes.add(genType(ti));
+    });
+
+    imports |= superTypes.size() > 0;
+
+    if (model.isHandler()) {
+      if (model.isConcrete()) {
+        TypeInfo ti = model.getHandlerArg();
+        if (!sameModule(type, ti.getRaw())) {
+          importType(writer, session, ti, ti.getSimpleName(), getNPMScope(ti.getRaw().getModule()) + (ti.isDataObjectHolder() ? "/options" : ""));
           imports = true;
         }
+        superTypes.add("Handler<" + genType(ti) + ">");
       }
     }
 
     if (imports) {
       writer.print("\n");
-    }
-
-    final Set<String> superTypes = new HashSet<>();
-    model.getAbstractSuperTypes().forEach(ti -> superTypes.add(genType(ti)));
-
-    if (model.isHandler()) {
-      if (model.isConcrete()) {
-        superTypes.add("Handler<" + genType(model.getHandlerArg()) + ">");
-      }
     }
 
     generateDoc(writer, model.getDoc(), "");
