@@ -56,7 +56,7 @@ public final class Util {
 
   private final static JsonArray OPTIONAL_DEPENDENCIES;
   private final static JsonArray CLASS_EXCLUSIONS;
-  private final static JsonArray JVMCLASSES;
+  private final static JsonObject JVMCLASSES;
 
   static {
     /* parse the registry from the system property */
@@ -65,7 +65,7 @@ public final class Util {
     OPTIONAL_DEPENDENCIES = new JsonArray(System.getProperty("npm-optional-dependencies", "[]"));
     CLASS_EXCLUSIONS = new JsonArray(System.getProperty("npm-class-exclusions", "[]"));
 
-    JVMCLASSES = new JsonArray(System.getProperty("jvm-classes", "[]"));
+    JVMCLASSES = new JsonObject(System.getProperty("jvm-classes", "{}"));
 
     // register known java <-> js types
     TYPES.put("void", "void");
@@ -134,6 +134,8 @@ public final class Util {
     TYPES.put("java.time.ZonedDateTime", "Date");
 //    TYPES.put("java.time.ZoneId", "Date");
 //    TYPES.put("java.time.Duration", "Date");
+    TYPES.put("io.vertx.core.json.JsonObject", "{ [key: string]: any }");
+    TYPES.put("io.vertx.core.json.JsonArray", "any[]");
 
     // special cases
     GENERIC_TYPES.put("java.lang.Iterable", "%s[]");
@@ -201,8 +203,8 @@ public final class Util {
     return CLASS_EXCLUSIONS.contains(name);
   }
 
-  public static List<?> jvmClasses() {
-    return JVMCLASSES.getList();
+  public static List<?> jvmClasses(String kind) {
+    return JVMCLASSES.getJsonArray(kind, new JsonArray()).getList();
   }
 
   public static String genType(TypeInfo type) {
@@ -365,12 +367,20 @@ public final class Util {
     return sb.toString();
   }
 
-  public static boolean isImported(TypeInfo ref, Map<String, Object> session) {
+  private static boolean isImported(TypeInfo ref, Map<String, Object> session) {
     if (ref.getRaw().getModuleName() == null) {
       return true;
     }
 
-    final String key = ref.getRaw().getModuleName() + "/" + ref.getSimpleName();
+    String simpleName;
+    int stop = ref.getSimpleName().indexOf('<');
+    if (stop > 0) {
+      simpleName = ref.getSimpleName().substring(0, stop);
+    } else {
+      simpleName = ref.getSimpleName();
+    }
+
+    final String key = ref.getRaw().getModuleName() + "/" + simpleName;
 
     if (!session.containsKey(key)) {
       session.put(key, ref);
@@ -378,6 +388,19 @@ public final class Util {
     }
 
     return true;
+  }
+
+  public static void importType(PrintWriter writer, Map<String, Object> session, TypeInfo referencedType, String simpleName, String module) {
+    if (!isImported(referencedType, session)) {
+      if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
+        writer.println("// @ts-ignore");
+      }
+      int stop = simpleName.indexOf('<');
+      if (stop > 0) {
+        simpleName = simpleName.substring(0, stop);
+      }
+      writer.printf("import { %s } from '%s';\n", simpleName, module);
+    }
   }
 
   public static String getNPMScope(ModuleInfo module) {
@@ -419,6 +442,14 @@ public final class Util {
     }
 
     return scope + name;
+  }
+
+  public static boolean sameModule(ClassTypeInfo typeA, ClassTypeInfo typeB) {
+    if (typeA.getModuleName().equals(typeB.getModuleName())) {
+      return true;
+    } else {
+      return getNPMScope(typeA.getModule()).equals(getNPMScope(typeB.getModule()));
+    }
   }
 
   public static String includeFileIfPresent(String file) {
@@ -600,27 +631,18 @@ public final class Util {
   }
 
   public static void registerJvmClasses() {
-    JVMCLASSES.forEach(fqcn -> {
-      try {
-        Class<?> clazz = Class.forName(fqcn.toString());
-        String name = clazz.getName();
-        int idx = name.lastIndexOf('.');
-        TYPES.put(clazz.getName(), name.substring(idx + 1));
-      } catch (ClassNotFoundException e) {
-        System.err.println("Can't process: " + fqcn);
-      }
-    });
-  }
-
-  public static void unregisterJvmClasses() {
-    JVMCLASSES.forEach(fqcn -> {
-      try {
-        Class<?> clazz = Class.forName(fqcn.toString());
-        TYPES.remove(clazz.getName());
-      } catch (ClassNotFoundException e) {
-        System.err.println("Can't process: " + fqcn);
-      }
-    });
+    for (String kind : new String[] {"api", "dataObject", "enum"}) {
+      JVMCLASSES.getJsonArray(kind, new JsonArray()).forEach(fqcn -> {
+        try {
+          Class<?> clazz = Class.forName(fqcn.toString());
+          String name = clazz.getName();
+          int idx = name.lastIndexOf('.');
+          TYPES.put(clazz.getName(), name.substring(idx + 1));
+        } catch (ClassNotFoundException e) {
+          System.err.println("Can't process: " + fqcn);
+        }
+      });
+    }
   }
 
   public static CharSequence genType(String name) {

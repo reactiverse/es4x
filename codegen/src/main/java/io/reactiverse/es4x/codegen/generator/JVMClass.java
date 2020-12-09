@@ -54,7 +54,7 @@ public class JVMClass {
       return;
     }
 
-    writer.printf("/** Auto-generated from %s %s extends %s\n", Modifier.toString(clazz.getModifiers()), clazz.getName(), clazz.getSuperclass().getName());
+    writer.printf("/** Auto-generated from %s %s extends %s\n", Modifier.toString(clazz.getModifiers()), clazz.getName(), clazz.getSuperclass() != null ? clazz.getSuperclass().getName() : "");
     // Get the list of implemented interfaces in the form of Class array using getInterface() method
     Class<?>[] clazzInterfaces = clazz.getInterfaces();
     for (Class<?> c : clazzInterfaces) {
@@ -64,7 +64,7 @@ public class JVMClass {
       writer.println(" * @deprecated");
     }
     writer.println(" */");
-    writer.printf("export %s%s %s {\n", Modifier.isAbstract(clazz.getModifiers()) ? "abstract " : "", clazz.isInterface() ? "interface" : "class", getSimpleName(clazz));
+    writer.printf("export %s%s %s {\n", !clazz.isInterface() && Modifier.isAbstract(clazz.getModifiers()) ? "abstract " : "", clazz.isInterface() ? "interface" : "class", getSimpleName(clazz));
     writer.println();
 
     // Get the metadata of all the fields of the class

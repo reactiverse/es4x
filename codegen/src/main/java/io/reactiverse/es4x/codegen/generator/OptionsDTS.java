@@ -49,6 +49,7 @@ public class OptionsDTS extends Generator<DataObjectModel> {
 
     return result;
   }
+
   @Override
   public String render(DataObjectModel model, int index, int size, Map<String, Object> session) {
 
@@ -63,6 +64,11 @@ public class OptionsDTS extends Generator<DataObjectModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
+      registerJvmClasses();
+      for (Object fqcn : jvmClasses("dataObject")) {
+        JVMClass.generateDTS(writer, fqcn.toString());
+      }
+
       // include a file if present
       writer.print(includeFileIfPresent("options.header.d.ts"));
     } else {
@@ -70,42 +76,32 @@ public class OptionsDTS extends Generator<DataObjectModel> {
     }
 
     for (ClassTypeInfo referencedType : filterImports(model.getPropertyMap())) {
-      if (!isImported(referencedType, session)) {
-        if (referencedType.getKind() == ClassKind.ENUM) {
-          if (referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
-            writer.printf("import { %s } from './enums';\n", referencedType.getSimpleName());
-            imports = true;
-          } else {
-            // ignore missing imports
-            if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
-              writer.println("// @ts-ignore");
-            }
-            writer.printf("import { %s } from '%s/enums';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
-            imports = true;
-          }
+      if (referencedType.getKind() == ClassKind.ENUM) {
+        if (referencedType.getRaw().getModuleName() == null) {
+          System.err.println("@@@ Missing module for ENUM: " + referencedType);
+          continue;
         }
-        if (referencedType.getKind() == ClassKind.OTHER && referencedType.getDataObject() != null) {
-          if (!referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
-            // ignore missing imports
-            if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
-              writer.println("// @ts-ignore");
-            }
-            writer.printf("import { %s } from '%s/options';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
-            imports = true;
-          }
+        if (sameModule(model.getType(), referencedType.getRaw())) {
+          importType(writer, session, referencedType, referencedType.getSimpleName(), "./enums");
+          imports = true;
+        } else {
+          importType(writer, session, referencedType, referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()) + "/enums");
+          imports = true;
         }
-        if (referencedType.getKind() == ClassKind.API) {
-          if (referencedType.getRaw().getModuleName().equals(model.getType().getRaw().getModuleName())) {
-            writer.printf("import { %s } from './index';\n", referencedType.getSimpleName());
-            imports = true;
-          } else {
-            // ignore missing imports
-            if (isOptionalModule(getNPMScope(referencedType.getRaw().getModule()))) {
-              writer.println("// @ts-ignore");
-            }
-            writer.printf("import { %s } from '%s';\n", referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
-            imports = true;
-          }
+      }
+      if (referencedType.getKind() == ClassKind.OTHER && referencedType.getDataObject() != null) {
+        if (!sameModule(model.getType(), referencedType.getRaw())) {
+          importType(writer, session, referencedType, referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()) + "/options");
+          imports = true;
+        }
+      }
+      if (referencedType.getKind() == ClassKind.API) {
+        if (sameModule(model.getType(), referencedType.getRaw())) {
+          importType(writer, session, referencedType, referencedType.getSimpleName(), "./index");
+          imports = true;
+        } else {
+          importType(writer, session, referencedType, referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
+          imports = true;
         }
       }
     }

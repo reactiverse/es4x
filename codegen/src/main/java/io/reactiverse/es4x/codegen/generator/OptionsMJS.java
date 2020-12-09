@@ -23,7 +23,7 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Map;
 
-import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
+import static io.reactiverse.es4x.codegen.generator.Util.*;
 
 public class OptionsMJS extends Generator<DataObjectModel> {
 
@@ -49,6 +49,11 @@ public class OptionsMJS extends Generator<DataObjectModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
+      registerJvmClasses();
+      for (Object fqcn : jvmClasses("dataObject")) {
+        JVMClass.generateMJS(writer, fqcn.toString());
+      }
+
       writer.printf("/// <reference types=\"%s/options\" />\n\n", getNPMScope(model.getType().getRaw().getModule()));
       writer.printf(
         "/**\n" +

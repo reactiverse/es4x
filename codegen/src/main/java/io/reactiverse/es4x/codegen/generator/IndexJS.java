@@ -59,7 +59,7 @@ public class IndexJS extends Generator<ClassModel> {
       writer.print("module.exports = {\n");
 
       registerJvmClasses();
-      for (Object fqcn : jvmClasses()) {
+      for (Object fqcn : jvmClasses("api")) {
         JVMClass.generateJS(writer, fqcn.toString());
         writer.println(',');
       }

@@ -5,14 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.14.0-CR2] -
+## [0.14.0] - 2020-12-09
 * Started paving the way for the `install` command to allow other target than `node_modules`
 * Implemented the official `import-map` spec to map url based modules
 * Improvements on REPL
 * Added more interop tests
 * Improvements on `typeMappings` (calls from JS -> Java)
 * Update codegen for the upstream changes in `vertx-core`
-* Ensure that wrapped calls are correclty translated (Future related)
+* Ensure that wrapped calls are correctly translated (Future related)
 * Adapt codegen to transform `Future` to `PromiseLike`
 
 ## [0.14.0-CR1] - 2020-11-04
