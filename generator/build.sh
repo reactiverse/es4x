@@ -3,12 +3,12 @@ set -e
 # build
 if [ "$1" = "publish-local" ]; then
   REGISTRY="http://localhost:4873"
-  TAG=${2:-release}
+  TAG=${2:-latest}
   npm adduser --registry "$REGISTRY"
   mvn -fae -Pio.vertx,io.reactiverse -Dnpm-registry="$REGISTRY" -Dnpm-tag=${TAG} clean generate-sources install exec:exec@npm-publish | tee build-$1.log
 elif [ "$1" = "publish" ]; then
   REGISTRY="https://registry.npmjs.org"
-  TAG=${2:-release}
+  TAG=${2:-latest}
 
   echo "login as vertx"
   npm adduser --registry "$REGISTRY"
