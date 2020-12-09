@@ -17,6 +17,7 @@ package io.reactiverse.es4x.codegen.generator;
 
 import io.vertx.codegen.*;
 import io.vertx.codegen.type.*;
+import io.vertx.core.json.JsonObject;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -74,6 +75,12 @@ public class IndexDTS extends Generator<ClassModel> {
     }
 
     boolean imports = false;
+
+    JsonObject includes = getIncludes(type.getSimpleName());
+
+    if (includes.containsKey("import<d.ts>")) {
+      writer.printf("%s\n", includes.getString("import<d.ts>"));
+    }
 
     @SuppressWarnings("unchecked")
     Map<String, String> aliasMap = (Map<String, String>) session.computeIfAbsent("aliasMap", (a) -> new HashMap<String, String>());
@@ -186,6 +193,11 @@ public class IndexDTS extends Generator<ClassModel> {
     boolean moreMethods = false;
     boolean hasStaticMethodsInInterface = false;
 
+    // need to redeclare the parent static methods  or else TSC will complain that the extension is not correct
+    if (includes.containsKey("d.ts")) {
+      writer.printf("%s\n", includes.getString("d.ts"));
+    }
+
     for (MethodInfo method : model.getMethods()) {
       if (isExcluded(type.getSimpleName(), method.getName(), method.getParams())) {
         continue;
@@ -242,6 +254,12 @@ public class IndexDTS extends Generator<ClassModel> {
       }
 
       moreMethods = false;
+
+      // need to redeclare the parent static methods  or else TSC will complain that the extension is not correct
+      if (includes.containsKey("d.ts")) {
+        writer.printf("%s\n", includes.getString("d.ts"));
+      }
+
       for (MethodInfo method : model.getMethods()) {
         if (isExcluded(type.getSimpleName(), method.getName(), method.getParams())) {
           continue;

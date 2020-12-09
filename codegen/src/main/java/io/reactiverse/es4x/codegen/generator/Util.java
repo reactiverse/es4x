@@ -53,6 +53,7 @@ public final class Util {
 
   private final static Map<String, JsonObject> OVERRIDES = new HashMap<>();
   private final static Map<String, JsonObject> EXCLUDES = new HashMap<>();
+  private final static Map<String, JsonObject> INCLUDES = new HashMap<>();
 
   private final static JsonArray OPTIONAL_DEPENDENCIES;
   private final static JsonArray CLASS_EXCLUSIONS;
@@ -529,6 +530,22 @@ public final class Util {
     }
 
     return excludes;
+  }
+
+  public static JsonObject getIncludes(String type) {
+    JsonObject includes = INCLUDES.get(type);
+
+    if (includes == null) {
+      String raw = includeFileIfPresent(type + ".includes.json");
+      if (raw.equals("")) {
+        includes = new JsonObject();
+      } else {
+        includes = new JsonObject(raw);
+      }
+      INCLUDES.put(type, includes);
+    }
+
+    return includes;
   }
 
   public static String getOverrideArgs(String type, String method) {
