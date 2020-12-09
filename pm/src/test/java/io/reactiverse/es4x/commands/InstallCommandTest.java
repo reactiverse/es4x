@@ -1,13 +1,13 @@
 package io.reactiverse.es4x.commands;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import static org.junit.Assert.*;
 
@@ -24,21 +24,23 @@ public class InstallCommandTest {
 
     assertFalse(packageJson.exists());
 
-    Map json = new HashMap();
+    JSONObject json = new JSONObject();
     json.put("name", "empty");
-    Map dependencies = new HashMap();
+    JSONObject dependencies = new JSONObject();
     dependencies.put("@vertx/core", "3.6.3");
     json.put("dependencies", dependencies);
-    Map devDependencies = new HashMap();
+    JSONObject devDependencies = new JSONObject();
     devDependencies.put("@vertx/unit", "3.6.3");
     json.put("devDependencies", devDependencies);
-    List mvnDependencies = new ArrayList();
-    mvnDependencies.add("io.reactiverse:es4x:0.7.2");
-      mvnDependencies.add("io.vertx:vertx-core:3.6.3");
-      mvnDependencies.add("io.vertx:vertx-unit:3.6.3");
+    JSONArray mvnDependencies = new JSONArray();
+    mvnDependencies.put("io.reactiverse:es4x:0.7.2");
+      mvnDependencies.put("io.vertx:vertx-core:3.6.3");
+      mvnDependencies.put("io.vertx:vertx-unit:3.6.3");
     json.put("mvnDependencies", mvnDependencies);
 
-    JSON.encode(packageJson, json);
+    JSON.encodeObject(packageJson, json);
+
+    System.out.println(new String(Files.readAllBytes(packageJson.toPath()), StandardCharsets.UTF_8));
 
     command.run();
   }

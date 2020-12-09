@@ -15,31 +15,35 @@
  */
 package io.reactiverse.es4x.commands;
 
-import com.github.cliftonlabs.json_simple.JsonException;
-import com.github.cliftonlabs.json_simple.Jsoner;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 /**
  * Utility class to handle JSON read/write
  */
 public class JSON {
 
-  @SuppressWarnings("unchecked")
-  static <T> T parse(File in) throws IOException {
-    try (Reader fileReader = new FileReader(in)) {
-      return (T) Jsoner.deserialize(fileReader);
-    } catch (JsonException | ClassCastException e) {
-      throw new IOException(e);
+  static JSONObject parseObject(File in) throws IOException {
+    return new JSONObject(new String(Files.readAllBytes(in.toPath()), StandardCharsets.UTF_8));
+  }
+
+  static JSONArray parseArray(File in) throws IOException {
+    return new JSONArray(new String(Files.readAllBytes(in.toPath()), StandardCharsets.UTF_8));
+  }
+
+  static void encodeObject(File file, JSONObject json) throws IOException {
+    try (OutputStream out = new FileOutputStream(file)) {
+      out.write(json.toString(2).getBytes(StandardCharsets.UTF_8));
     }
   }
 
-  static void encode(File file, Object json) throws IOException {
-    try (Writer writer = new FileWriter(file)) {
-      Jsoner.prettyPrint(new StringReader(Jsoner.serialize(json)), writer, "  ", System.lineSeparator());
-      writer.flush();
-    } catch (JsonException e) {
-      throw new IOException(e);
+  static void encodeArray(File file, JSONArray json) throws IOException {
+    try (OutputStream out = new FileOutputStream(file)) {
+      out.write(json.toString(2).getBytes(StandardCharsets.UTF_8));
     }
   }
 }

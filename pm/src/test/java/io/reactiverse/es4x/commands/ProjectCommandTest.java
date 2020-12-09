@@ -1,10 +1,10 @@
 package io.reactiverse.es4x.commands;
 
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +25,7 @@ public class ProjectCommandTest {
     command.run();
     assertTrue(packageJson.exists());
 
-    Map json = JSON.parse(packageJson);
+    JSONObject json = JSON.parseObject(packageJson);
     assertEquals(projectName, json.get("name"));
   }
 }

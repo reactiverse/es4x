@@ -15,15 +15,14 @@
  */
 package io.reactiverse.es4x.commands;
 
-import com.github.cliftonlabs.json_simple.JsonArray;
-import com.github.cliftonlabs.json_simple.JsonObject;
 import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.annotations.*;
 import io.vertx.core.spi.launcher.DefaultCommand;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.*;
 
 import static io.reactiverse.es4x.cli.Helper.*;
 
@@ -47,62 +46,62 @@ public class VscodeCommand extends DefaultCommand {
     String app = "Launch";
 
     if (pkg.exists()) {
-      JsonObject pkgJson = JSON.parse(pkg);
+      JSONObject pkgJson = JSON.parseObject(pkg);
       app = "Launch " + pkgJson.get("name");
     }
 
-    JsonObject launch = JSON.parse(json);
+    JSONObject launch = JSON.parseObject(json);
 
-    if (!launch.containsKey("configurations")) {
-			launch.put("configurations", new ArrayList<>());
+    if (!launch.has("configurations")) {
+			launch.put("configurations", new JSONArray());
 		}
 
-		final JsonArray configurations = (JsonArray) launch.get("configurations");
+		final JSONArray configurations = launch.getJSONArray("configurations");
 
     // replace the launcher if already present
-    Object toRemove = null;
+    int toRemove = -1;
 
-    for (Object c : configurations) {
-      JsonObject config = (JsonObject) c;
+    for (int i = 0; i < configurations.length(); i++) {
+      JSONObject config = configurations.getJSONObject(i);
       if (app.equals(config.get("name"))) {
-        toRemove = c;
+        toRemove = i;
         break;
       }
     }
 
-    if (toRemove != null) {
+    if (toRemove != -1) {
       configurations.remove(toRemove);
     }
 
-		Map<String, Object> config = new LinkedHashMap<>();
+    JSONObject config = new JSONObject();
 		config.put("name", app);
 		config.put("type", "node");
 		config.put("request", "launch");
 		config.put("cwd", "${workspaceFolder}");
     config.put("runtimeExecutable", launcher);
-		List<String> args = new ArrayList<>();
+		JSONArray args = new JSONArray();
 		if ("npm".equals(launcher)) {
 		  // delegate to npm
-      args.add("start");
-      args.add("--");
+      args.put("start");
+      args.put("--");
     }
     if ("yarn".equals(launcher)) {
       // delegate to npm
-      args.add("start");
+      args.put("start");
     }
-    args.add("-Dinspect=9229");
+    args.put("-Dinspect=9229");
 		config.put("runtimeArgs", args);
 		config.put("port", 9229);
 		config.put("outputCapture", "std");
 		// server ready
-    Map<String, Object> serverReady = new LinkedHashMap<>();
+    JSONObject serverReady = new JSONObject();
     serverReady.put("pattern", "started on port ([0-9]+)");
     serverReady.put("uriFormat", "http://localhost:%s");
     serverReady.put("action", "openExternally");
     config.put("serverReadyAction", serverReady);
 
-		configurations.add(config);
-    JSON.encode(json, launch);
+		configurations.put(config);
+    JSON.encodeObject(json, launch);
 	}
 
 	@Override

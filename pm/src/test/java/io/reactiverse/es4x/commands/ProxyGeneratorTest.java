@@ -44,24 +44,24 @@ public class ProxyGeneratorTest {
         if ("io/vertx/core/json/JsonObject.class".equals(je.getName())) {
           byte[] bytes = new JsonObjectVisitor().rewrite(jar);
           assertNotNull(bytes);
-          new File("target/classes/io/vertx/core/json").mkdirs();
-          try (OutputStream writer = new FileOutputStream("target/classes/io/vertx/core/json/JsonObject.class")) {
+          new File("target/test-classes/io/vertx/core/json").mkdirs();
+          try (OutputStream writer = new FileOutputStream("target/test-classes/io/vertx/core/json/JsonObject.class")) {
             writer.write(bytes);
           }
         }
         if ("io/vertx/core/json/JsonArray.class".equals(je.getName())) {
           byte[] bytes = new JsonArrayVisitor().rewrite(jar);
           assertNotNull(bytes);
-          new File("target/classes/io/vertx/core/json").mkdirs();
-          try (OutputStream writer = new FileOutputStream("target/classes/io/vertx/core/json/JsonArray.class")) {
+          new File("target/test-classes/io/vertx/core/json").mkdirs();
+          try (OutputStream writer = new FileOutputStream("target/test-classes/io/vertx/core/json/JsonArray.class")) {
             writer.write(bytes);
           }
         }
         if ("io/vertx/core/impl/future/FutureBase.class".equals(je.getName())) {
           byte[] bytes = new FutureBaseVisitor().rewrite(jar);
           assertNotNull(bytes);
-          new File("target/classes/io/vertx/core/impl/future").mkdirs();
-          try (OutputStream writer = new FileOutputStream("target/classes/io/vertx/core/impl/future/FutureBase.class")) {
+          new File("target/test-classes/io/vertx/core/impl/future").mkdirs();
+          try (OutputStream writer = new FileOutputStream("target/test-classes/io/vertx/core/impl/future/FutureBase.class")) {
             writer.write(bytes);
           }
         }

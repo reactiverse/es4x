@@ -18,7 +18,7 @@ package io.reactiverse.es4x;
 import io.netty.buffer.Unpooled;
 import io.reactiverse.es4x.impl.JSObjectMessageCodec;
 import io.reactiverse.es4x.impl.VertxFileSystem;
-import io.reactiverse.es4x.jul.ES4XFormatter;
+import io.reactiverse.es4x.jul.ANSIFormatter;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -97,7 +97,7 @@ public final class ECMAEngine {
     this.vertx = vertx;
     final Handler logHandler = new ConsoleHandler();
     // customize the formatter
-    logHandler.setFormatter(new ES4XFormatter());
+    logHandler.setFormatter(new ANSIFormatter());
     // build it
     this.engine = Engine.newBuilder()
       .logHandler(logHandler)

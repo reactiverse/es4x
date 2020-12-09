@@ -57,7 +57,7 @@ public class IndexMJS extends Generator<ClassModel> {
           " */\n");
 
       registerJvmClasses();
-      for (Object fqcn : jvmClasses()) {
+      for (Object fqcn : jvmClasses("api")) {
         JVMClass.generateMJS(writer, fqcn.toString());
         writer.println();
       }
