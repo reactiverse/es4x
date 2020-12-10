@@ -221,7 +221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2715</li>
+									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2717</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -229,6 +229,7 @@
 									<p>Adds a JsonObject argument, the encoding will serialize the json as key0, value0, key1, value1, ... keyN, valueN.
 									This is a non-optimized serialization and will just use the string encoding of the values for non buffers.</p>
 								</div>
+								<p>All <code>null</code> values will follow the encoding rules of {@link Request#nullArg}.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -246,7 +247,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2721</li>
+									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2725</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -254,6 +255,7 @@
 									<p>Adds a JsonArray argument, the encoding will serialize the json as value0, value1, ... valueN.
 									This is a non-optimized serialization and will just use the string encoding of the values for non buffers.</p>
 								</div>
+								<p>All <code>null</code> values will follow the encoding rules of {@link Request#nullArg}.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -266,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2736</li>
+									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2744</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -285,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2741</li>
+									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2749</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,7 +306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2746</li>
+									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2754</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -323,7 +325,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2751</li>
+									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2759</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -351,7 +353,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2731</li>
+									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2739</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -373,13 +375,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2726</li>
+									<li>Defined in io.vertx/vertx-redis-client/target/npm/index.d.ts:2734</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Adds a NULL encoded string</p>
+									<p>Adds a <code>null</code> encoded string. Redis does not allow storing the <code>null</code> value by itself. This method
+									will encode any null value as the four character long string <code>"null"</code>.</p>
 								</div>
+								<p>As a recommendation, this method should not be used directly unless this is the intented behavior. It is present
+								to handle special cases such as encoding of  and  which may contain null values.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="request.html" class="tsd-signature-type">Request</a></h4>
 						</li>
