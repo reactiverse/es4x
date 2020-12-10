@@ -144,7 +144,7 @@ public class Install implements Runnable {
   }
 
   public void setDestination(String dest) {
-    if (only != null) {
+    if (dest != null) {
       this.dest = dest;
     }
   }
