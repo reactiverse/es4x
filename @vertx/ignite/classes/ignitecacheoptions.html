@@ -88,7 +88,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#getatomicitymode" class="tsd-kind-icon">get<wbr>Atomicity<wbr>Mode</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#getbackups" class="tsd-kind-icon">get<wbr>Backups</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#getcachemode" class="tsd-kind-icon">get<wbr>Cache<wbr>Mode</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#getdefaultlocktimeout" class="tsd-kind-icon">get<wbr>Default<wbr>Lock<wbr>Timeout</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#getexpirypolicy" class="tsd-kind-icon">get<wbr>Expiry<wbr>Policy</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#getgroupname" class="tsd-kind-icon">get<wbr>Group<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#getmaxconcurrentasyncoperations" class="tsd-kind-icon">get<wbr>Max<wbr>Concurrent<wbr>Async<wbr>Operations</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#getmaxqueryinteratorscount" class="tsd-kind-icon">get<wbr>Max<wbr>Query<wbr>Interators<wbr>Count</a></li>
@@ -109,10 +109,10 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#setbackups" class="tsd-kind-icon">set<wbr>Backups</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#setcachemode" class="tsd-kind-icon">set<wbr>Cache<wbr>Mode</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#setcopyonread" class="tsd-kind-icon">set<wbr>Copy<wbr>OnRead</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#setdefaultlocktimeout" class="tsd-kind-icon">set<wbr>Default<wbr>Lock<wbr>Timeout</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#seteagerttl" class="tsd-kind-icon">set<wbr>Eager<wbr>Ttl</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#setencryptionenabled" class="tsd-kind-icon">set<wbr>Encryption<wbr>Enabled</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#seteventsdisabled" class="tsd-kind-icon">set<wbr>Events<wbr>Disabled</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#setexpirypolicy" class="tsd-kind-icon">set<wbr>Expiry<wbr>Policy</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#setgroupname" class="tsd-kind-icon">set<wbr>Group<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#setinvalidate" class="tsd-kind-icon">set<wbr>Invalidate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ignitecacheoptions.html#setmaxconcurrentasyncoperations" class="tsd-kind-icon">set<wbr>Max<wbr>Concurrent<wbr>Async<wbr>Operations</a></li>
@@ -234,24 +234,31 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getdefaultlocktimeout" class="tsd-anchor"></a>
-					<h3>get<wbr>Default<wbr>Lock<wbr>Timeout</h3>
+					<a name="getexpirypolicy" class="tsd-anchor"></a>
+					<h3>get<wbr>Expiry<wbr>Policy</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Default<wbr>Lock<wbr>Timeout<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Expiry<wbr>Policy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:68</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:100</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets default lock timeout in milliseconds.</p>
+									<p>Sets cache expiry policy object.
+										Requires a duration in milliseconds and an optional type which defaults to &quot;created&quot;
+									Valid type values are: accessed, modified, touched and created</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-index-signature">
+									<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -265,7 +272,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:113</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:117</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -290,7 +297,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:138</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:142</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -312,7 +319,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:148</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:152</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -334,7 +341,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:158</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:162</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -356,7 +363,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:179</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:183</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -379,7 +386,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:200</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:204</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -401,7 +408,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:210</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:214</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -423,7 +430,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:220</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:224</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -445,7 +452,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:230</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:234</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -489,7 +496,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:78</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:68</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -511,7 +518,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:88</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:78</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -533,7 +540,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:98</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:88</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -555,7 +562,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:128</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:132</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -577,7 +584,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:168</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:172</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -599,7 +606,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:190</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:194</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -724,34 +731,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setdefaultlocktimeout" class="tsd-anchor"></a>
-					<h3>set<wbr>Default<wbr>Lock<wbr>Timeout</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Default<wbr>Lock<wbr>Timeout<span class="tsd-signature-symbol">(</span>defaultLockTimeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ignitecacheoptions.html" class="tsd-signature-type">IgniteCacheOptions</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:73</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets default lock timeout in milliseconds.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>defaultLockTimeout: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="ignitecacheoptions.html" class="tsd-signature-type">IgniteCacheOptions</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="seteagerttl" class="tsd-anchor"></a>
 					<h3>set<wbr>Eager<wbr>Ttl</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -761,7 +740,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:83</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:73</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -789,7 +768,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:93</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:83</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -817,7 +796,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:103</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:93</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -836,6 +815,41 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setexpirypolicy" class="tsd-anchor"></a>
+					<h3>set<wbr>Expiry<wbr>Policy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Expiry<wbr>Policy<span class="tsd-signature-symbol">(</span>expiryPolicy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ignitecacheoptions.html" class="tsd-signature-type">IgniteCacheOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:107</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets cache expiry policy object.
+										Requires a duration in milliseconds and an optional type which defaults to &quot;created&quot;
+									Valid type values are: accessed, modified, touched and created</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>expiryPolicy: <span class="tsd-signature-symbol">{}</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-index-signature">
+											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="ignitecacheoptions.html" class="tsd-signature-type">IgniteCacheOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="setgroupname" class="tsd-anchor"></a>
 					<h3>set<wbr>Group<wbr>Name</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -845,7 +859,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:123</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:127</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -876,7 +890,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:133</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:137</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -904,7 +918,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:143</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:147</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -932,7 +946,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:153</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:157</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -960,7 +974,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:163</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:167</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -988,7 +1002,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:173</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:177</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1016,7 +1030,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:185</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:189</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1045,7 +1059,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:195</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:199</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1073,7 +1087,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:205</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:209</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1101,7 +1115,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:215</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:219</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1129,7 +1143,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:225</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:229</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1157,7 +1171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:235</li>
+									<li>Defined in io.vertx/vertx-ignite/target/npm/options.d.ts:239</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1205,7 +1219,7 @@
 								<a href="ignitecacheoptions.html#getcachemode" class="tsd-kind-icon">get<wbr>Cache<wbr>Mode</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="ignitecacheoptions.html#getdefaultlocktimeout" class="tsd-kind-icon">get<wbr>Default<wbr>Lock<wbr>Timeout</a>
+								<a href="ignitecacheoptions.html#getexpirypolicy" class="tsd-kind-icon">get<wbr>Expiry<wbr>Policy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="ignitecacheoptions.html#getgroupname" class="tsd-kind-icon">get<wbr>Group<wbr>Name</a>
@@ -1268,9 +1282,6 @@
 								<a href="ignitecacheoptions.html#setcopyonread" class="tsd-kind-icon">set<wbr>Copy<wbr>OnRead</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="ignitecacheoptions.html#setdefaultlocktimeout" class="tsd-kind-icon">set<wbr>Default<wbr>Lock<wbr>Timeout</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="ignitecacheoptions.html#seteagerttl" class="tsd-kind-icon">set<wbr>Eager<wbr>Ttl</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -1278,6 +1289,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="ignitecacheoptions.html#seteventsdisabled" class="tsd-kind-icon">set<wbr>Events<wbr>Disabled</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="ignitecacheoptions.html#setexpirypolicy" class="tsd-kind-icon">set<wbr>Expiry<wbr>Policy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="ignitecacheoptions.html#setgroupname" class="tsd-kind-icon">set<wbr>Group<wbr>Name</a>
