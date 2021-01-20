@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.14.1] -
+* Avoided deprecated API
+* Bumped graalvm to 20.3.1 (LTS)
+* Several TSC fixes for missing (non annotated API)
+* Error messages updated to be easier to follow
+* Silent install should not take other commands arguments
+* Fix wrong guard on install command
+
 ## [0.14.0] - 2020-12-09
 * Started paving the way for the `install` command to allow other target than `node_modules`
 * Implemented the official `import-map` spec to map url based modules
