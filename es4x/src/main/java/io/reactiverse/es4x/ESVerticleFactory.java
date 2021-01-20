@@ -20,6 +20,8 @@ import io.reactiverse.es4x.impl.StructuredClone;
 import io.vertx.core.Promise;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.spi.VerticleFactory;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
@@ -38,6 +40,7 @@ import java.util.concurrent.Callable;
  */
 public abstract class ESVerticleFactory implements VerticleFactory {
 
+  protected static final Logger LOGGER = LoggerFactory.getLogger(ESVerticleFactory.class);
   protected ECMAEngine engine;
 
   @Override
