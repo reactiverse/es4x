@@ -26,7 +26,7 @@ public class JVMClass {
       return;
     }
 
-    writer.printf("  %s: Java.type('%s')", getSimpleName(clazz), clazz.getName());
+    writer.printf("  %s: Java.type('%s'),\n", getSimpleName(clazz), clazz.getName());
   }
 
   public static void generateMJS(PrintWriter writer, String fqcn) {
@@ -40,7 +40,7 @@ public class JVMClass {
       return;
     }
 
-    writer.printf("export const %s = Java.type('%s');", getSimpleName(clazz), clazz.getName());
+    writer.printf("export const %s = Java.type('%s');\n", getSimpleName(clazz), clazz.getName());
   }
 
   public static void generateDTS(PrintWriter writer, String fqcn) {
