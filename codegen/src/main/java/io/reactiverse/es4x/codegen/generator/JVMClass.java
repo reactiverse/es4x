@@ -54,7 +54,26 @@ public class JVMClass {
       return;
     }
 
-    writer.printf("/** Auto-generated from %s %s extends %s\n", Modifier.toString(clazz.getModifiers()), clazz.getName(), clazz.getSuperclass() != null ? clazz.getSuperclass().getName() : "");
+    boolean isInterface = clazz.isInterface();
+    boolean isAbstract = !clazz.isInterface() && Modifier.isAbstract(clazz.getModifiers());
+
+    // verify if we need to "change" from interface to abstract class, this is needed when "static" methods exist
+    // on interfaces
+    if (isInterface) {
+      // Get the metadata or information of all the methods of the class using getDeclaredMethods()
+      for (Method method : clazz.getMethods()) {
+        if (isExcluded(getSimpleName(clazz), method.getName(), Arrays.asList(method.getParameterTypes()))) {
+          continue;
+        }
+        if (Modifier.isPublic(method.getModifiers()) && Modifier.isStatic(method.getModifiers())) {
+          isInterface = false;
+          isAbstract = true;
+          break;
+        }
+      }
+    }
+
+    writer.printf("/** Auto-generated from %s %s %s %s\n", Modifier.toString(clazz.getModifiers()), clazz.getName(), clazz.isInterface() ? "" : "extends", clazz.getSuperclass() != null ? clazz.getSuperclass().getName() : "");
     // Get the list of implemented interfaces in the form of Class array using getInterface() method
     Class<?>[] clazzInterfaces = clazz.getInterfaces();
     for (Class<?> c : clazzInterfaces) {
@@ -64,7 +83,7 @@ public class JVMClass {
       writer.println(" * @deprecated");
     }
     writer.println(" */");
-    writer.printf("export %s%s %s {\n", !clazz.isInterface() && Modifier.isAbstract(clazz.getModifiers()) ? "abstract " : "", clazz.isInterface() ? "interface" : "class", getSimpleName(clazz));
+    writer.printf("export %s%s %s {\n", isAbstract ? "abstract " : "", isInterface ? "interface" : "class", getSimpleName(clazz));
     writer.println();
 
     // Get the metadata of all the fields of the class
