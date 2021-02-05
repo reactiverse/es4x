@@ -123,7 +123,7 @@ public class PM {
         // then perform the silent install and let the control flow from the script
         if (System.getProperty("silent-install") != null) {
           verifyRuntime(true);
-          new Install(cmdArgs).run();
+          new Install().run();
           System.exit(0);
         } else {
           verifyRuntime(false);

@@ -49,10 +49,6 @@ public class OptionsJS extends Generator<DataObjectModel> {
 
     if (index == 0) {
       Util.generateLicense(writer);
-      registerJvmClasses();
-      for (Object fqcn : jvmClasses("dataObject")) {
-        JVMClass.generateJS(writer, fqcn.toString());
-      }
 
       writer.printf("/// <reference types=\"%s/options\" />\n\n", getNPMScope(model.getType().getRaw().getModule()));
       writer.printf(
@@ -60,6 +56,10 @@ public class OptionsJS extends Generator<DataObjectModel> {
           " * @typedef { import(\"@vertx/core\") } Java\n" +
           " */\n");
       writer.print("module.exports = {\n");
+      registerJvmClasses();
+      for (Object fqcn : jvmClasses("dataObject")) {
+        JVMClass.generateJS(writer, fqcn.toString());
+      }
     }
 
     writer.printf("  %s: Java.type('%s')", model.getType().getRaw().getSimpleName(), model.getType().getName());

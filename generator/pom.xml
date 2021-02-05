@@ -6,13 +6,13 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.14.0</version>
+    <version>0.14.1</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>io.reactiverse.es4x</groupId>
   <artifactId>es4x-generator</artifactId>
-  <version>0.14.0</version>
+  <version>0.14.1</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -62,7 +62,7 @@
     <profile>
       <id>io.vertx</id>
       <modules>
-        <!-- // https://search.maven.org/solrsearch/select?q=g:%22io.vertx%22+AND+v:%224.0.0.Beta3%22+AND+p:%22jar%22&core=gav&rows=200&wt=json-->
+        <!-- // https://search.maven.org/solrsearch/select?q=g:%22io.vertx%22+AND+v:%224.0.0%22+AND+p:%22jar%22&core=gav&rows=200&wt=json-->
         <!-- for (let doc of require('./stack.json').response.docs) {-->
         <!--   if (doc.a.indexOf('scala_') === -1 && doc.a.indexOf('-lang-') === -1) {-->
         <!--     console.log(`<module>${doc.g}/${doc.a}</module>`);-->
@@ -82,34 +82,20 @@
         <module>io.vertx/vertx-auth-sql-client</module>
         <module>io.vertx/vertx-auth-webauthn</module>
         <module>io.vertx/vertx-bridge-common</module>
-<!--        <module>io.vertx/vertx-camel-bridge</module>-->
+        <module>io.vertx/vertx-camel-bridge</module>
         <module>io.vertx/vertx-cassandra-client</module>
         <module>io.vertx/vertx-circuit-breaker</module>
-<!--        <module>io.vertx/vertx-config-consul</module>-->
-<!--        <module>io.vertx/vertx-config-git</module>-->
-<!--        <module>io.vertx/vertx-config-hocon</module>-->
-<!--        <module>io.vertx/vertx-config-kubernetes-configmap</module>-->
         <module>io.vertx/vertx-config</module>
-<!--        <module>io.vertx/vertx-config-redis</module>-->
-<!--        <module>io.vertx/vertx-config-spring-config-server</module>-->
-        <module>io.vertx/vertx-config-vault</module>
-<!--        <module>io.vertx/vertx-config-yaml</module>-->
-<!--        <module>io.vertx/vertx-config-zookeeper</module>-->
         <module>io.vertx/vertx-consul-client</module>
         <module>io.vertx/vertx-core</module>
         <module>io.vertx/vertx-db2-client</module>
         <module>io.vertx/vertx-dropwizard-metrics</module>
-<!--        <module>io.vertx/vertx-grpc</module>-->
-        <module>io.vertx/vertx-hazelcast</module>
+        <module>io.vertx/vertx-grpc</module>
         <module>io.vertx/vertx-health-check</module>
-<!--        <module>io.vertx/vertx-http-service-factory</module>-->
-        <module>io.vertx/vertx-ignite</module>
-        <module>io.vertx/vertx-infinispan</module>
         <module>io.vertx/vertx-jdbc-client</module>
         <module>io.vertx/vertx-json-schema</module>
         <module>io.vertx/vertx-kafka-client</module>
         <module>io.vertx/vertx-mail-client</module>
-<!--        <module>io.vertx/vertx-maven-service-factory</module>-->
         <module>io.vertx/vertx-micrometer-metrics</module>
         <module>io.vertx/vertx-mongo-client</module>
         <module>io.vertx/vertx-mqtt</module>
@@ -120,19 +106,9 @@
         <module>io.vertx/vertx-proton</module>
         <module>io.vertx/vertx-rabbitmq-client</module>
         <module>io.vertx/vertx-redis-client</module>
-<!--        <module>io.vertx/vertx-service-discovery-backend-consul</module>-->
-<!--        <module>io.vertx/vertx-service-discovery-backend-redis</module>-->
-<!--        <module>io.vertx/vertx-service-discovery-backend-zookeeper</module>-->
-<!--        <module>io.vertx/vertx-service-discovery-bridge-consul</module>-->
-<!--        <module>io.vertx/vertx-service-discovery-bridge-docker-links</module>-->
-<!--        <module>io.vertx/vertx-service-discovery-bridge-docker</module>-->
-<!--        <module>io.vertx/vertx-service-discovery-bridge-kubernetes</module>-->
-<!--        <module>io.vertx/vertx-service-discovery-bridge-zookeeper</module>-->
         <module>io.vertx/vertx-service-discovery</module>
-<!--        <module>io.vertx/vertx-service-factory</module>-->
         <module>io.vertx/vertx-service-proxy</module>
         <module>io.vertx/vertx-shell</module>
-<!--        <module>io.vertx/vertx-sockjs-service-proxy</module>-->
         <module>io.vertx/vertx-sql-client</module>
         <module>io.vertx/vertx-sql-client-templates</module>
         <module>io.vertx/vertx-stomp</module>
@@ -154,6 +130,7 @@
         <module>io.vertx/vertx-web-templ-mvel</module>
         <module>io.vertx/vertx-web-templ-pebble</module>
         <module>io.vertx/vertx-web-templ-rocker</module>
+        <module>io.vertx/vertx-web-templ-rythm</module>
         <module>io.vertx/vertx-web-templ-thymeleaf</module>
         <module>io.vertx/vertx-web-validation</module>
         <module>io.vertx/vertx-zipkin</module>
@@ -352,7 +329,7 @@
       <plugin>
         <groupId>org.bsc.maven</groupId>
         <artifactId>maven-processor-plugin</artifactId>
-        <version>4.4-jdk8</version>
+        <version>4.5-jdk8</version>
         <configuration>
           <systemProperties>
             <java.util.logging.SimpleFormatter.format>%4$s: %3$s - %5$s %6$s%n

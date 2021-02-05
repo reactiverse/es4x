@@ -65,13 +65,23 @@ public final class ES4X extends Launcher {
 
       if (isFileOrDir) {
         // we will assume a js command
-        launcher.execute("run", args);
+        try {
+          launcher.execute("run", args);
+        } catch (NoClassDefFoundError e) {
+          System.err.println("'node_modules' jars missing and/or wrong versions. Removing 'node_modules' may solve the problem.");
+          System.exit(1);
+        }
         return;
       }
     }
 
     // default behavior
-    launcher.dispatch(args);
+    try {
+      launcher.dispatch(args);
+    } catch (NoClassDefFoundError e) {
+      System.err.println("'node_modules' jars missing and/or wrong versions. Removing 'node_modules' may solve the problem.");
+      System.exit(1);
+    }
   }
 
   private static void processProperty(String name, String defaultEmpty, Consumer<String> consumer) {
