@@ -18,6 +18,7 @@ package io.reactiverse.es4x.codegen.generator;
 import io.vertx.codegen.*;
 import io.vertx.codegen.type.ClassKind;
 import io.vertx.codegen.type.ClassTypeInfo;
+import io.vertx.core.json.JsonObject;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -60,8 +61,6 @@ public class OptionsDTS extends Generator<DataObjectModel> {
     StringWriter sw = new StringWriter();
     PrintWriter writer = new PrintWriter(sw);
 
-    boolean imports = false;
-
     if (index == 0) {
       Util.generateLicense(writer);
       registerJvmClasses();
@@ -73,6 +72,14 @@ public class OptionsDTS extends Generator<DataObjectModel> {
       writer.print(includeFileIfPresent("options.header.d.ts"));
     } else {
       writer.print("\n");
+    }
+
+    boolean imports = false;
+
+    JsonObject includes = getIncludes(model.getType().getSimpleName());
+
+    if (includes.containsKey("import<d.ts>")) {
+      writer.printf("%s\n", includes.getString("import<d.ts>"));
     }
 
     for (ClassTypeInfo referencedType : filterImports(model.getPropertyMap())) {
@@ -112,16 +119,22 @@ public class OptionsDTS extends Generator<DataObjectModel> {
 
     generateDoc(writer, model.getDoc(), "");
 
-    writer.printf("export %sclass %s {\n", model.isConcrete() ? "" : "abstract ", model.getType().getRaw().getSimpleName());
-
     // TODO: handle extends/implements
+    writer.printf("export %sclass %s {\n\n", model.isConcrete() ? "" : "abstract ", model.getType().getRaw().getSimpleName());
 
-    writer.print("\n");
+    if (includes.containsKey("d.ts")) {
+      writer.printf("%s\n", includes.getString("d.ts"));
+    }
+
     if (model.hasEmptyConstructor()) {
       writer.print("  constructor();\n\n");
     }
-    // copy constructor
-    writer.printf("  constructor(obj: %s);\n\n", model.getType().getRaw().getSimpleName());
+
+    // constructor
+    writer.printf("  constructor(obj: %s%s%s);\n\n",
+      model.getType().getRaw().getSimpleName(),
+      model.hasStringConstructor() ? " | string" : "",
+      model.hasJsonConstructor() ? " | { [key: string]: any }" : "");
 
     for (Map.Entry<String, PropertyInfo> entry : model.getPropertyMap().entrySet()) {
 
@@ -148,6 +161,10 @@ public class OptionsDTS extends Generator<DataObjectModel> {
           writer.printf("  %s(%s: %s%s): %s;\n\n", property.getAdderMethod(), cleanReserved(property.getName()), genType(property.getType(), true), property.getType().isNullable() ? " | null | undefined" : "", model.getType().getRaw().getSimpleName());
         }
       }
+    }
+
+    if (model.hasToJsonMethod()) {
+      writer.print("\n  toJson(): { [key: string]: any };\n");
     }
 
     writer.print("}\n");
