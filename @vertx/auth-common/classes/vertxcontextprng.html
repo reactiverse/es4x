@@ -1,0 +1,540 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VertxContextPRNG | @vertx/auth-common</title>
+	<meta name="description" content="Documentation for @vertx/auth-common">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@vertx/auth-common</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="vertxcontextprng.html">VertxContextPRNG</a>
+				</li>
+			</ul>
+			<h1>Class VertxContextPRNG</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A secure non blocking random number generator isolated to the current context. The PRNG is bound to the vert.x
+						context and setup to close when the context shuts down.</p>
+						<p>
+							When applicable, use of VertxContextPRNG rather than create new PRNG objects is helpful to keep the system entropy
+							usage to the minimum avoiding potential blocking across the application.
+							<p>
+								The use of VertxContextPRNG is particularly appropriate when multiple handlers use random numbers.
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">VertxContextPRNG</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vertxcontextprng.html#close" class="tsd-kind-icon">close</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vertxcontextprng.html#nextboolean" class="tsd-kind-icon">next<wbr>Boolean</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vertxcontextprng.html#nextbytes" class="tsd-kind-icon">next<wbr>Bytes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vertxcontextprng.html#nextdouble" class="tsd-kind-icon">next<wbr>Double</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vertxcontextprng.html#nextfloat" class="tsd-kind-icon">next<wbr>Float</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vertxcontextprng.html#nextgaussian" class="tsd-kind-icon">next<wbr>Gaussian</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vertxcontextprng.html#nextint" class="tsd-kind-icon">next<wbr>Int</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vertxcontextprng.html#nextlong" class="tsd-kind-icon">next<wbr>Long</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vertxcontextprng.html#nextstring" class="tsd-kind-icon">next<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="vertxcontextprng.html#current" class="tsd-kind-icon">current</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="close" class="tsd-anchor"></a>
+					<h3>close</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:555</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>stop seeding the PRNG</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="nextboolean" class="tsd-anchor"></a>
+					<h3>next<wbr>Boolean</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">next<wbr>Boolean<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:576</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a secure random boolean</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="nextbytes" class="tsd-anchor"></a>
+					<h3>next<wbr>Bytes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">next<wbr>Bytes<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:602</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fills the given byte array with random bytes.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bytes: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="nextdouble" class="tsd-anchor"></a>
+					<h3>next<wbr>Double</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">next<wbr>Double<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:591</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a secure random double value. The value is uniformly distributed between 0.0 and 1.0</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="nextfloat" class="tsd-anchor"></a>
+					<h3>next<wbr>Float</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">next<wbr>Float<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:586</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a secure random float value. The value is uniformly distributed between 0.0 and 1.0</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="nextgaussian" class="tsd-anchor"></a>
+					<h3>next<wbr>Gaussian</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">next<wbr>Gaussian<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:597</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a secure random double value. The value is Gaussian (&quot;normally&quot;) distributed
+									with mean 0.0 and standard deviation 1.0</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="nextint" class="tsd-anchor"></a>
+					<h3>next<wbr>Int</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">next<wbr>Int<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">next<wbr>Int<span class="tsd-signature-symbol">(</span>bound<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:566</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a secure random int</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:571</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a secure random int, between 0 (inclusive) and the specified bound (exclusive).</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bound: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="nextlong" class="tsd-anchor"></a>
+					<h3>next<wbr>Long</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">next<wbr>Long<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:581</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a secure random long</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="nextstring" class="tsd-anchor"></a>
+					<h3>next<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">next<wbr>String<span class="tsd-signature-symbol">(</span>length<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:561</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a Base64 url encoded String of random data with the given length. The length parameter refers to the length
+									of the String before the encoding step.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>length: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="current" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> current</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">current<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="vertxcontextprng.html" class="tsd-signature-type">VertxContextPRNG</a></li>
+						<li class="tsd-signature tsd-kind-icon">current<span class="tsd-signature-symbol">(</span>vertx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vertx</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="vertxcontextprng.html" class="tsd-signature-type">VertxContextPRNG</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:543</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get or create a secure non blocking random number generator using the current vert.x context. If there is no
+									current context (i.e.: not running on the eventloop) then a IllegalStateException is thrown.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="vertxcontextprng.html" class="tsd-signature-type">VertxContextPRNG</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:550</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get or create a secure non blocking random number generator using the current vert.x instance. Since the context
+										might be different this method will attempt to use the current context first if available and then fall back to
+									create a new instance of the PRNG.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>vertx: <span class="tsd-signature-type">Vertx</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="vertxcontextprng.html" class="tsd-signature-type">VertxContextPRNG</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="andauthorization.html" class="tsd-kind-icon">And<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authoptions.html" class="tsd-kind-icon">Auth<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authprovider.html" class="tsd-kind-icon">Auth<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authenticationprovider.html" class="tsd-kind-icon">Authentication<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authorization.html" class="tsd-kind-icon">Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authorizationcontext.html" class="tsd-kind-icon">Authorization<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authorizationprovider.html" class="tsd-kind-icon">Authorization<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="authorizations.html" class="tsd-kind-icon">Authorizations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="chainauth.html" class="tsd-kind-icon">Chain<wbr>Auth</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="hashingalgorithm.html" class="tsd-kind-icon">Hashing<wbr>Algorithm</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="hashingstrategy.html" class="tsd-kind-icon">Hashing<wbr>Strategy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="jwtoptions.html" class="tsd-kind-icon">JWTOptions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="keystoreoptions.html" class="tsd-kind-icon">Key<wbr>Store<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="notauthorization.html" class="tsd-kind-icon">Not<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="orauthorization.html" class="tsd-kind-icon">Or<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="permissionbasedauthorization.html" class="tsd-kind-icon">Permission<wbr>Based<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="pubseckeyoptions.html" class="tsd-kind-icon">Pub<wbr>Sec<wbr>Key<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="rolebasedauthorization.html" class="tsd-kind-icon">Role<wbr>Based<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="tokencredentials.html" class="tsd-kind-icon">Token<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="user.html" class="tsd-kind-icon">User</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="usernamepasswordcredentials.html" class="tsd-kind-icon">Username<wbr>Password<wbr>Credentials</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="vertxcontextprng.html" class="tsd-kind-icon">Vertx<wbr>ContextPRNG</a>
+						<ul>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vertxcontextprng.html#close" class="tsd-kind-icon">close</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vertxcontextprng.html#nextboolean" class="tsd-kind-icon">next<wbr>Boolean</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vertxcontextprng.html#nextbytes" class="tsd-kind-icon">next<wbr>Bytes</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vertxcontextprng.html#nextdouble" class="tsd-kind-icon">next<wbr>Double</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vertxcontextprng.html#nextfloat" class="tsd-kind-icon">next<wbr>Float</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vertxcontextprng.html#nextgaussian" class="tsd-kind-icon">next<wbr>Gaussian</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vertxcontextprng.html#nextint" class="tsd-kind-icon">next<wbr>Int</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vertxcontextprng.html#nextlong" class="tsd-kind-icon">next<wbr>Long</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vertxcontextprng.html#nextstring" class="tsd-kind-icon">next<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="vertxcontextprng.html#current" class="tsd-kind-icon">current</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class">
+						<a href="wildcardpermissionbasedauthorization.html" class="tsd-kind-icon">Wildcard<wbr>Permission<wbr>Based<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/credentials.html" class="tsd-kind-icon">Credentials</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
