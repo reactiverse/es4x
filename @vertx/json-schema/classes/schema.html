@@ -75,7 +75,7 @@
 								<li>Asynchronous: One or more branches of the validator tree requires an asynchronous validation, so you must use  to validate your json. If you use  it will throw a {@link NoSyncValidationException}</li>
 							</ul>
 							<p>
-								To check the schema state you can use method  <br/>
+								To check the schema state you can use method . Note that invoking {@link Schema#validateAsync} generally doesn't have any additional overhead than invoking {@link Schema#validateSync}. <br/>
 								The schema can mutate the state in time, e.g. if you have a schema that is asynchronous because of a <code>$ref</code>,
 								after the first validation the external schema is cached inside <a href="schemarouter.html">SchemaRouter</a> and this schema will switch to synchronous state<br/>
 					</div>
@@ -96,11 +96,8 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schema.html#applydefaultvalues" class="tsd-kind-icon">apply<wbr>Default<wbr>Values</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schema.html#getdefaultvalue" class="tsd-kind-icon">get<wbr>Default<wbr>Value</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schema.html#getjson" class="tsd-kind-icon">get<wbr>Json</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schema.html#getscope" class="tsd-kind-icon">get<wbr>Scope</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schema.html#hasdefaultvalue" class="tsd-kind-icon">has<wbr>Default<wbr>Value</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schema.html#issync" class="tsd-kind-icon">is<wbr>Sync</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schema.html#validateasync" class="tsd-kind-icon">validate<wbr>Async</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schema.html#validatesync" class="tsd-kind-icon">validate<wbr>Sync</a></li>
@@ -112,81 +109,6 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="applydefaultvalues" class="tsd-anchor"></a>
-					<h3>apply<wbr>Default<wbr>Values</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">apply<wbr>Default<wbr>Values<span class="tsd-signature-symbol">(</span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						<li class="tsd-signature tsd-kind-icon">apply<wbr>Default<wbr>Values<span class="tsd-signature-symbol">(</span>object<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:70</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>This function mutates <code>array</code> applying default values, when available.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>array: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:75</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>This function mutates <code>object</code> applying default values, when available.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>object: <span class="tsd-signature-symbol">{}</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-index-signature">
-											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getdefaultvalue" class="tsd-anchor"></a>
-					<h3>get<wbr>Default<wbr>Value</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Default<wbr>Value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:60</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Return the default value defined in the schema</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getjson" class="tsd-anchor"></a>
 					<h3>get<wbr>Json</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -196,14 +118,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:55</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:53</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get Json representation of the schema</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
@@ -218,37 +135,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:50</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:49</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get scope of this schema</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">JsonPointer</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="hasdefaultvalue" class="tsd-anchor"></a>
-					<h3>has<wbr>Default<wbr>Value</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">has<wbr>Default<wbr>Value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:65</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Return true if the schema has a default value defined</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -262,14 +152,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:80</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:57</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns true if this validator can actually provide a synchronous validation</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -289,7 +174,7 @@
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Validate the json performing an asynchronous validation. Returns a failed future with {@link ValidationException} if json doesn&#39;t match the schema.<br/></p>
+									<p>Validate the json performing an asynchronous validation.<br/></p>
 									<p>
 										Note: If the schema is synchronous, this method will call internally
 								</div>
@@ -353,19 +238,10 @@
 						<a href="schema.html" class="tsd-kind-icon">Schema</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="schema.html#applydefaultvalues" class="tsd-kind-icon">apply<wbr>Default<wbr>Values</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="schema.html#getdefaultvalue" class="tsd-kind-icon">get<wbr>Default<wbr>Value</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="schema.html#getjson" class="tsd-kind-icon">get<wbr>Json</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="schema.html#getscope" class="tsd-kind-icon">get<wbr>Scope</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="schema.html#hasdefaultvalue" class="tsd-kind-icon">has<wbr>Default<wbr>Value</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="schema.html#issync" class="tsd-kind-icon">is<wbr>Sync</a>
