@@ -12,23 +12,22 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>vertx-web-api-contract</artifactId>
+  <artifactId>vertx-web-templ-jte</artifactId>
   <version>0.14.2</version>
 
   <properties>
     <maven.groupId>io.vertx</maven.groupId>
-    <npm-name>@vertx/web-api-contract</npm-name>
+    <npm-name>@vertx/web-templ-jte</npm-name>
     <npm-version>${stack.version}</npm-version>
     <npm-skip>false</npm-skip>
     <!-- language=json -->
     <npm-dependencies>
       {
         "@vertx/core": "${stack.version}",
-        "@vertx/web": "${stack.version}"
+        "@vertx/web-common": "${stack.version}"
       }
     </npm-dependencies>
-    <!-- language=json -->
-    <npm-optional-dependencies>["@vertx/auth-jwt"]</npm-optional-dependencies>  </properties>
+  </properties>
 
   <dependencies>
     <!-- SOURCE TO GENERATE -->
@@ -43,12 +42,6 @@
       <version>${npm-version}</version>
       <scope>provided</scope>
       <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-auth-jwt</artifactId>
-      <version>${npm-version}</version>
-      <optional>true</optional>
     </dependency>
   </dependencies>
 
