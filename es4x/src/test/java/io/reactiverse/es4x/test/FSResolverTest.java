@@ -3,9 +3,7 @@ package io.reactiverse.es4x.test;
 import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.VertxInternal;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.File;
 import java.net.URI;
@@ -20,14 +18,16 @@ public class FSResolverTest {
   private static Vertx vertx;
   private static VertxFileSystem fs;
 
-  @BeforeClass
-  public static void beforeAll() {
+  @Before
+  public void before() {
     vertx = Vertx.vertx();
+    System.setProperty("import-map", "import-map.json");
     fs = new VertxFileSystem(vertx, ".mjs", ".js");
   }
 
-  @AfterClass
-  public static void afterAll() {
+  @After
+  public void after() {
+    System.clearProperty("import-map");
     vertx.close();
   }
 

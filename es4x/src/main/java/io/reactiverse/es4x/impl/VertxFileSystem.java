@@ -16,13 +16,16 @@
 package io.reactiverse.es4x.impl;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.impl.VertxInternal;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
+import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.io.FileSystem;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.channels.SeekableByteChannel;
@@ -116,11 +119,30 @@ public final class VertxFileSystem implements FileSystem {
   private final String downloaddir;
   private final String baseUrl;
 
+  private final ImportMapper mapper;
+
   public VertxFileSystem(final Vertx vertx, String... extensions) {
     this.vertx = (VertxInternal) vertx;
+
     this.extensions = extensions;
     // resolve the well known roots
     this.cwd = getCWD();
+
+    // attempt to load an import map
+    try {
+      System.out.println("> " + System.getProperty("import-map"));
+      if (System.getProperties().containsKey("import-map")) {
+        Buffer buffer = vertx.fileSystem().readFileBlocking(System.getProperty("import-map"));
+        mapper = new ImportMapper(
+          new JsonObject(buffer),
+          new File(this.cwd).toURI().toURL());
+      } else {
+        mapper = new ImportMapper(new JsonObject(Collections.emptyMap()), new File(this.cwd).toURI().toURL());
+      }
+    } catch (MalformedURLException e) {
+      throw new IllegalStateException(e);
+    }
+
     this.cachedir = this.vertx.resolveFile("").getPath() + File.separator;
     this.baseUrl = new File(this.cwd, System.getProperty("baseUrl", "node_modules")).getPath() + File.separator;
     this.downloaddir = new File(this.baseUrl, ".download").getPath() + File.separator;
@@ -206,6 +228,9 @@ public final class VertxFileSystem implements FileSystem {
     } else {
       file = new File(path);
     }
+
+    LOGGER.trace(String.format("mapper.resolve() : exp [%s] %s", file.getPath(), mapper.resolve(path)));
+
     // make absolute
     if (!file.isAbsolute()) {
       file = new File(cwd, file.getPath());

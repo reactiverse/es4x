@@ -16,6 +16,10 @@ public class ImportMapper {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ImportMapper.class);
 
+  public ImportMapper(JsonObject config) throws MalformedURLException {
+    this(config, new URL("file://" + VertxFileSystem.getCWD()));
+  }
+
   public ImportMapper(JsonObject config, URL baseURL) {
     imports = config.containsKey("imports") ?
       sortAndNormalizeSpecifierMap(config.getJsonObject("imports"), baseURL) :
@@ -28,10 +32,18 @@ public class ImportMapper {
     this.baseURL = baseURL;
   }
 
-  public URL resolve(String specifier) {
-    final URL asURL = tryURLLikeSpecifierParse(specifier, baseURL);
-    final String normalizedSpecifier = asURL != null ? asURL.toExternalForm() : specifier;
-    final String scriptURLString = baseURL.toExternalForm();
+  public String resolve(String specifier) {
+    return resolve(specifier, baseURL);
+  }
+
+  public String resolve(String specifier, String referrer) throws MalformedURLException {
+    return resolve(specifier, new URL(baseURL, referrer));
+  }
+
+  public String resolve(String specifier, URL scriptURL) {
+    final URL asURL = tryURLLikeSpecifierParse(specifier, scriptURL);
+    final String normalizedSpecifier = asURL != null ? href(asURL) : specifier;
+    final String scriptURLString = href(scriptURL);
 
     for (Map.Entry<String, Map<String, URL>> kv : scopes.entrySet()) {
       final String scopePrefix = kv.getKey();
@@ -40,22 +52,24 @@ public class ImportMapper {
       if (scopePrefix.equals(scriptURLString) || (scopePrefix.endsWith("/") && scriptURLString.startsWith(scopePrefix))) {
         final URL scopeImportsMatch = resolveImportsMatch(normalizedSpecifier, asURL, scopeImports);
         if (scopeImportsMatch != null) {
-          return scopeImportsMatch;
+          return href(scopeImportsMatch);
         }
       }
     }
 
     final URL topLevelImportsMatch = resolveImportsMatch(normalizedSpecifier, asURL, imports);
     if (topLevelImportsMatch != null) {
-      return topLevelImportsMatch;
+      return href(topLevelImportsMatch);
     }
 
     // The specifier was able to be turned into a URL, but wasn't remapped into anything.
     if (asURL != null) {
-      return asURL;
+      return href(asURL);
     }
 
-    throw new RuntimeException("Unmapped bare specifier " + specifier);
+    return null;
+
+//    throw new RuntimeException("Unmapped bare specifier " + specifier);
   }
 
   private Map<String, URL> sortAndNormalizeSpecifierMap(JsonObject obj, URL baseURL) {
@@ -80,8 +94,8 @@ public class ImportMapper {
         continue;
       }
 
-      if (kv.getKey().endsWith("/") && !addressURL.toExternalForm().endsWith("/")) {
-        LOGGER.warn("Invalid address " + addressURL.toExternalForm() + " for package specifier key " + kv.getKey() + ". Package addresses must end with \"/\".");
+      if (kv.getKey().endsWith("/") && !href(addressURL).endsWith("/")) {
+        LOGGER.warn("Invalid address " + href(addressURL) + " for package specifier key " + kv.getKey() + ". Package addresses must end with \"/\".");
         normalized.put(normalizedSpecifierKey, null);
         continue;
       }
@@ -106,7 +120,7 @@ public class ImportMapper {
         continue;
       }
 
-      final String normalizedScopePrefix = scopePrefixURL.toExternalForm();
+      final String normalizedScopePrefix = href(scopePrefixURL);
       normalized.put(normalizedScopePrefix, sortAndNormalizeSpecifierMap((JsonObject) kv.getValue(), baseURL));
     }
 
@@ -123,7 +137,7 @@ public class ImportMapper {
 
     final URL url = tryURLLikeSpecifierParse(specifierKey, baseURL);
     if (url != null) {
-      return url.toExternalForm();
+      return href(url);
     }
 
     return specifierKey;
@@ -162,7 +176,7 @@ public class ImportMapper {
         final String afterPrefix = normalizedSpecifier.substring(specifierKey.length());
 
         // Enforced by parsing
-        assert (resolutionResult.toExternalForm().endsWith("/"));
+        assert (href(resolutionResult).endsWith("/"));
 
         final URL url = tryURLParse(afterPrefix, resolutionResult);
 
@@ -189,5 +203,24 @@ public class ImportMapper {
 
   private static boolean isSpecial(URL url) {
     return specialProtocols.contains(url.getProtocol());
+  }
+
+  private static String href(URL url) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(url.getProtocol());
+    sb.append("://");
+    String authority = url.getAuthority();
+    if (authority != null) {
+      sb.append(authority);
+    }
+    String file = url.getFile();
+    if (file != null) {
+      if ("".equals(file)) {
+        sb.append("/");
+      } else {
+        sb.append(url.getFile());
+      }
+    }
+    return sb.toString();
   }
 }
