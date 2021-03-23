@@ -130,7 +130,6 @@ public final class VertxFileSystem implements FileSystem {
 
     // attempt to load an import map
     try {
-      System.out.println("> " + System.getProperty("import-map"));
       if (System.getProperties().containsKey("import-map")) {
         Buffer buffer = vertx.fileSystem().readFileBlocking(System.getProperty("import-map"));
         mapper = new ImportMapper(
