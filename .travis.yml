@@ -32,10 +32,10 @@ jobs:
       - JDK='OpenJDK 11'
       - SKIP_JACOCO='false'
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk"
-    - name: "OpenJDK 15"
+    - name: "OpenJDK 16"
       env:
-      - JDK='OpenJDK 15'
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/15/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk"
+      - JDK='OpenJDK 16'
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/16/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk"
   # GraalVM
     - name: "GraalVM 20.3.0 (8)"
       env:
@@ -55,15 +55,15 @@ jobs:
       env:
       - JDK='OpenJ9 11'
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/openj9/normal/adoptopenjdk"
-    - name: "OpenJ9 15"
+    - name: "OpenJ9 16"
       env:
-      - JDK='OpenJ9 15'
-      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/15/ga/linux/x64/jdk/openj9/normal/adoptopenjdk"
+      - JDK='OpenJ9 16'
+      install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v3/binary/latest/16/ga/linux/x64/jdk/openj9/normal/adoptopenjdk"
   allow_failures:
     - env:
-      - JDK='OpenJDK 15'
+      - JDK='OpenJDK 16'
     - env:
-      - JDK='OpenJ9 15'
+      - JDK='OpenJ9 16'
 
 script:
   - ./mvnw clean verify
