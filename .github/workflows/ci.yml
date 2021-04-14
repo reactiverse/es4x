@@ -1,0 +1,40 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+jobs:
+  Test:
+    name: Run tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        jdk:
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk'
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk'
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/16/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk'
+          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-20.3.0/graalvm-ce-java8-linux-amd64-20.3.0.tar.gz'
+          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-20.3.0/graalvm-ce-java11-linux-amd64-20.3.0.tar.gz'
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/openj9/normal/adoptopenjdk'
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/16/ga/linux/x64/jdk/openj9/normal/adoptopenjdk'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download JDK
+        run: wget -O $RUNNER_TEMP/java_package.tar.gz ${{ matrix.jdk }}
+      - name: Install JDK
+        uses: actions/setup-jdk@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/java_package.tar.gz
+          architecture: x64
+      - name: Run tests
+        run: mvn clean verify
