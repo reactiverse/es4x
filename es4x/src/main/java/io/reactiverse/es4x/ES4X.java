@@ -48,8 +48,19 @@ public final class ES4X extends Launcher {
 
     final ES4X launcher = new ES4X();
 
+    if (args != null && args.length > 0 && "--compgen".equals(args[0])) {
+      String prefix = args.length == 2 ? args[1] : null;
+      for (String name : launcher.commandByName.keySet()) {
+        if (prefix == null || name.startsWith(prefix)) {
+          System.out.println(name);
+        }
+      }
+      System.exit(3);
+      return;
+    }
+
     // small behavior change
-    if (args.length == 1) {
+    if (args != null && args.length == 1) {
       // arg[0] is a file (or directory)
       boolean isFileOrDir;
 
