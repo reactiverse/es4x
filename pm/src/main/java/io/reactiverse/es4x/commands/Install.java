@@ -457,35 +457,37 @@ public class Install implements Runnable {
         attributes.put(new Attributes.Name("Main-Command"), "run");
         attributes.put(new Attributes.Name("Default-Verticle-Factory"), verticleFactory);
 
-        try (JarOutputStream target = new JarOutputStream(new FileOutputStream(new File(bin, "es4x-launcher.jar")), manifest)) {
-          if (coreJar != null) {
-            try (InputStream in = new FileInputStream(coreJar)) {
-              try (JarInputStream jar = new JarInputStream(in)) {
-                JarEntry je;
-                while ((je = jar.getNextJarEntry()) != null) {
-                  switch (je.getName()) {
-                    case "io/vertx/core/json/JsonObject.class":
-                      target.putNextEntry(je);
-                      target.write(new JsonObjectVisitor().rewrite(jar));
-                      target.closeEntry();
-                      break;
-                    case "io/vertx/core/json/JsonArray.class":
-                      target.putNextEntry(je);
-                      target.write(new JsonArrayVisitor().rewrite(jar));
-                      target.closeEntry();
-                      break;
-                    case "io/vertx/core/impl/future/FutureBase.class":
-                      target.putNextEntry(je);
-                      target.write(new FutureBaseVisitor().rewrite(jar));
-                      target.closeEntry();
-                      break;
+        try (OutputStream os = new FileOutputStream(new File(bin, "es4x-launcher.jar"))) {
+          try (JarOutputStream target = new JarOutputStream(os, manifest)) {
+            if (coreJar != null) {
+              try (InputStream in = new FileInputStream(coreJar)) {
+                try (JarInputStream jar = new JarInputStream(in)) {
+                  JarEntry je;
+                  while ((je = jar.getNextJarEntry()) != null) {
+                    switch (je.getName()) {
+                      case "io/vertx/core/json/JsonObject.class":
+                        target.putNextEntry(je);
+                        target.write(new JsonObjectVisitor().rewrite(jar));
+                        target.closeEntry();
+                        break;
+                      case "io/vertx/core/json/JsonArray.class":
+                        target.putNextEntry(je);
+                        target.write(new JsonArrayVisitor().rewrite(jar));
+                        target.closeEntry();
+                        break;
+                      case "io/vertx/core/impl/future/FutureBase.class":
+                        target.putNextEntry(je);
+                        target.write(new FutureBaseVisitor().rewrite(jar));
+                        target.closeEntry();
+                        break;
+                    }
                   }
+                } catch (RuntimeException e) {
+                  warn(e.getMessage());
                 }
               } catch (RuntimeException e) {
                 warn(e.getMessage());
               }
-            } catch (RuntimeException e) {
-              warn(e.getMessage());
             }
           }
         }
