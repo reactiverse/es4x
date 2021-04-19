@@ -1,4 +1,4 @@
-/// <reference types="es4x" />
+/// <reference types="@vertx/core" />
 
 import { Router } from '@vertx/web';
 import { home } from './routes';
