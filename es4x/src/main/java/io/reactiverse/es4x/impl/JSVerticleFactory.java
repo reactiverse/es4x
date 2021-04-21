@@ -78,33 +78,23 @@ public final class JSVerticleFactory extends ESVerticleFactory {
           }
 
           module.invokeMember("runMain", mainScript(fsVerticleName));
+
+          waitFor(runtime, "deploy")
+            .onComplete(startFuture);
+
         } catch (RuntimeException e) {
           startFuture.fail(e);
-          return;
         }
-
-        startFuture.complete();
       }
 
       @Override
       public void stop(Promise<Void> stopFuture) {
-        final Promise<Void> wrapper = Promise.promise();
-
-        try {
-          int arity = runtime.emit("undeploy", wrapper);
-          final Future<Void> future = wrapper.future();
-
-          future.onComplete(undeploy -> {
+        // call the undeploy if available
+        waitFor(runtime, "undeploy")
+          .onComplete(undeploy -> {
             stopFuture.handle(undeploy);
             runtime.close();
           });
-
-          if (arity == 0) {
-            wrapper.complete();
-          }
-        } catch (RuntimeException e) {
-          wrapper.fail(e);
-        }
       }
     };
   }

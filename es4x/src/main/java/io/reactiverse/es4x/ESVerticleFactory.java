@@ -17,6 +17,7 @@ package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.REPLVerticle;
 import io.reactiverse.es4x.impl.StructuredClone;
+import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
@@ -154,6 +155,22 @@ public abstract class ESVerticleFactory implements VerticleFactory {
     }
 
     return main;
+  }
+
+  protected final Future<Void> waitFor(Runtime runtime, String callback) {
+    final Promise<Void> wrapper = Promise.promise();
+
+    try {
+      int arity = runtime.emit(callback, wrapper);
+
+      if (arity == 0) {
+        wrapper.complete();
+      }
+
+      return wrapper.future();
+    } catch (RuntimeException e) {
+      return Future.failedFuture(e);
+    }
   }
 
   /**
