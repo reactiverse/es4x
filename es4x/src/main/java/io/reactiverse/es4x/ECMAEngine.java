@@ -128,6 +128,9 @@ public final class ECMAEngine {
       .buildLiteral();
 
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
+      // temp workaround for 21.1.0 regression
+      .allowBufferAccess(true)
+
       /// Highest Precedence
       /// accepts is null, so we can quickly assert the type
 
@@ -236,8 +239,20 @@ public final class ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Buffer.class,
-        v -> v.hasMember("__jbuffer"),
-        v -> Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class))),
+        Value::hasBufferElements,
+        v -> {
+          if (v.hasMember("__jbuffer")) {
+            return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class)));
+          } else {
+            // slow path
+            long size = v.getBufferSize();
+            Buffer b = Buffer.buffer((int) size);
+            for (long i = 0; i < size; i++) {
+              b.appendByte(v.readBufferByte(i));
+            }
+            return b;
+          }
+        },
         HostAccess.TargetMappingPrecedence.LOW)
       // Goal: [...] -> java.util.Set
       // Sets are used sporadically on vert.x APIs, as converting from JS Set to <java.util.Set> is a bit cumbersome
@@ -332,7 +347,8 @@ public final class ECMAEngine {
         }
       })
       .allowHostAccess(hostAccess)
-      .allowPolyglotAccess(polyglotAccess);
+      .allowPolyglotAccess(polyglotAccess)
+      .allowEnvironmentAccess(EnvironmentAccess.INHERIT);
 
     // allow specifying the custom ecma version
     if (System.getProperty("js.ecmascript-version") != null) {

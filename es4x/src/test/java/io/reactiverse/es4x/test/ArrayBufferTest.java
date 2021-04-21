@@ -70,10 +70,8 @@ public class ArrayBufferTest {
         "let buffer2 = new ArrayBuffer(10);\n" +
           "helper.callMe(buffer2);\n");
 
-      fail("Should fail as raw buffers are not automatically casted.");
     } catch (RuntimeException e) {
-      e.printStackTrace();
-      // OK!
+      fail("Raw buffers should are automatically casted");
     }
   }
 }

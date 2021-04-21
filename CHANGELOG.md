@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.15.0] -
 * Add support for bash completions
 * Fixed some potential leaks on PM
+* Upgrade to Graal 21.1.0
 
 ## [0.14.2] - 2021-03-12
 * Bumped vert.x to 4.0.3
