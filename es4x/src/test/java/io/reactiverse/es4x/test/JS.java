@@ -38,7 +38,6 @@ public final class JS {
 
   static Runtime commonjs(Vertx vertx) {
     return new ECMAEngine(vertx).newContext(
-      Source.newBuilder("js", JS.class.getResource("../polyfill/json.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/console.js")).buildLiteral(),
@@ -52,7 +51,6 @@ public final class JS {
 
   static Runtime esm(Vertx vertx) {
     return new ECMAEngine(vertx).newContext(
-      Source.newBuilder("js", JS.class.getResource("../polyfill/json.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/console.js")).buildLiteral(),

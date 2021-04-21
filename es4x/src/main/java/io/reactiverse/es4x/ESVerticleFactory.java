@@ -20,8 +20,6 @@ import io.reactiverse.es4x.impl.StructuredClone;
 import io.vertx.core.Promise;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
-import io.vertx.core.impl.logging.Logger;
-import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.spi.VerticleFactory;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
@@ -40,7 +38,6 @@ import java.util.concurrent.Callable;
  */
 public abstract class ESVerticleFactory implements VerticleFactory {
 
-  protected static final Logger LOGGER = LoggerFactory.getLogger(ESVerticleFactory.class);
   protected ECMAEngine engine;
 
   @Override
@@ -70,7 +67,6 @@ public abstract class ESVerticleFactory implements VerticleFactory {
    */
   protected Runtime createRuntime(ECMAEngine engine) {
     return engine.newContext(
-      Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/json.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/console.js")).buildLiteral(),
