@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed some potential leaks on PM
 * Upgrade to Graal 21.1.0
 * Install command respects the --dest parameter
+* Deployment of verticles happens inside an execute blocking
+  so downloads/read of scripts won't block the event loop
 
 ## [0.14.2] - 2021-03-12
 * Bumped vert.x to 4.0.3
