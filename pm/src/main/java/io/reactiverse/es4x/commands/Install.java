@@ -35,7 +35,7 @@ import static io.reactiverse.es4x.cli.Helper.*;
 public class Install implements Runnable {
 
   public static final String NAME = "install";
-  public static final String SUMMARY = "Installs required jars from maven to 'node_modules'.";
+  public static final String SUMMARY = "Installs required jars from maven to '$dest'.";
 
   enum Only {
     PROD,
@@ -63,7 +63,7 @@ public class Install implements Runnable {
   private List<String> vendor;
   private File coreJar;
   private Only only = Only.ALL;
-  private String dest;
+  private String dest = "node_modules";
 
   private File cwd;
 
@@ -131,7 +131,7 @@ public class Install implements Runnable {
     if (vendor != null) {
       this.vendor = new ArrayList<>();
       for (String v : vendor.split(",")) {
-        // the jar lives in node_modules/.bin (rebase to the project root)
+        // the jar lives in $dest/.bin (rebase to the project root)
         this.vendor.add(".." + File.separator + ".." + File.separator + v);
       }
     }
@@ -201,7 +201,7 @@ public class Install implements Runnable {
         // process
         processPackageJson(json, dependencies);
 
-        File submod = new File(mod, "node_modules");
+        File submod = new File(mod, dest);
         if (submod.exists() && submod.isDirectory()) {
           processModules(submod, dependencies);
         }
@@ -248,7 +248,7 @@ public class Install implements Runnable {
       case ALL:
       case DEV:
       case DEVELOPMENT:
-        File control = new File(new File(cwd,"node_modules"), "es4x_install_successful");
+        File control = new File(new File(cwd, dest), "es4x_install_successful");
         if (control.exists()) {
           warn("Skipping install (recent successful run)");
           return;
@@ -276,12 +276,12 @@ public class Install implements Runnable {
   }
 
   private void installGraalJS(Collection<String> artifacts) {
-    final File base = new File(cwd,"node_modules");
+    final File base = new File(cwd, dest);
 
     File lib = new File(base, ".lib");
     if (!lib.exists()) {
       if (!lib.mkdirs()) {
-        fatal("Failed to mkdirs 'node_modules/.lib'.");
+        fatal("Failed to mkdirs '$dest/.lib'.");
       }
     }
 
@@ -317,12 +317,12 @@ public class Install implements Runnable {
   }
 
   private void installGraalJMVCICompiler() {
-    final File base = new File(cwd, "node_modules");
+    final File base = new File(cwd, dest);
 
     File jvmci = new File(base, ".jvmci");
     if (!jvmci.exists()) {
       if (!jvmci.mkdirs()) {
-        fatal("Failed to mkdirs 'node_modules/.jvmci'.");
+        fatal("Failed to mkdirs '$dest/.jvmci'.");
       }
     }
 
@@ -345,7 +345,7 @@ public class Install implements Runnable {
   }
 
   private void installNodeModules(Collection<String> artifacts) {
-    final File base = new File(cwd, "node_modules");
+    final File base = new File(cwd, dest);
     final Set<String> dependencies = new HashSet<>();
 
     // process mvnDependencies from CWD package.json
@@ -383,7 +383,7 @@ public class Install implements Runnable {
       for (Artifact a : resolver.resolve(root, dependencies)) {
         if (!libs.exists()) {
           if (!libs.mkdirs()) {
-            fatal("Failed to mkdirs 'node_modules/.lib'.");
+            fatal("Failed to mkdirs '$dest/.lib'.");
           }
         }
         addIfMissing(artifacts, ".." + File.separator + ".lib" + File.separator + a.getFile().getName());
@@ -432,11 +432,11 @@ public class Install implements Runnable {
           verticleFactory = "mjs";
         }
 
-        final File base = new File(cwd, "node_modules");
+        final File base = new File(cwd, dest);
         File bin = new File(base, ".bin");
         if (!bin.exists()) {
           if (!bin.mkdirs()) {
-            fatal("Failed to mkdirs 'node_modules/.bin'.");
+            fatal("Failed to mkdirs '$dest/.bin'.");
           }
         }
 
@@ -553,7 +553,7 @@ public class Install implements Runnable {
 
     // this is a best effort
     if (!exe.setExecutable(true, false)) {
-      fatal("Cannot set script 'node_modules/.bin/es4x-launcher' executable!");
+      fatal("Cannot set script '$dest/.bin/es4x-launcher' executable!");
     }
   }
 

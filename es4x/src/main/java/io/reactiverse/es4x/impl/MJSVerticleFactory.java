@@ -68,21 +68,27 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
           if (worker) {
             setupVerticleMessaging(runtime, vertx, address);
           }
-
-          // the main script buffer
-          final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
-          runtime.eval(
-            // strip the shebang if present
-            ESModuleIO.stripShebang(buffer.toString()),
-            fsVerticleName,
-            "application/javascript+module",
-            false);
-
-          waitFor(runtime, "deploy")
-            .onComplete(startFuture);
-
-        } catch (InvalidPathException e) {
-          startFuture.fail("File Not Found: " + fsVerticleName);
+          // wrap the deployment in a execute blocking as blocking net/io can happen during deploy
+          vertx
+            .<Void>executeBlocking(deploy -> {
+              try {
+                // the main script buffer
+                final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
+                runtime.eval(
+                  // strip the shebang if present
+                  ESModuleIO.stripShebang(buffer.toString()),
+                  fsVerticleName,
+                  "application/javascript+module",
+                  false);
+                deploy.complete();
+              } catch (InvalidPathException e) {
+                deploy.fail("File Not Found: " + fsVerticleName);
+              } catch (RuntimeException e) {
+                deploy.fail(e);
+              }
+            }, true)
+            .onFailure(startFuture::fail)
+            .onSuccess(v -> waitFor(runtime, "deploy").onComplete(startFuture));
         } catch (RuntimeException e) {
           startFuture.fail(e);
         }

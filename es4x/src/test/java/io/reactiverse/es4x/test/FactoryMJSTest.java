@@ -35,4 +35,16 @@ public class FactoryMJSTest {
       }));
     });
   }
+
+  @Test(timeout = 30000)
+  public void shouldDeployVerticleWithMod(TestContext ctx) {
+    final Async async = ctx.async();
+    rule.vertx().deployVerticle("mjs:./online.mjs", deploy -> {
+      ctx.assertTrue(deploy.succeeded());
+      rule.vertx().setTimer(1000L, t -> rule.vertx().undeploy(deploy.result(), undeploy -> {
+        ctx.assertTrue(undeploy.succeeded());
+        async.complete();
+      }));
+    });
+  }
 }

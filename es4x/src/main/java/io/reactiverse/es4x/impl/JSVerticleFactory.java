@@ -70,17 +70,23 @@ public final class JSVerticleFactory extends ESVerticleFactory {
           address = null;
         }
 
-        // this can take some time to load so it might block the event loop
-        // this is usually not a issue as it is a one time operation
         try {
           if (worker) {
             setupVerticleMessaging(runtime, vertx, address);
           }
 
-          module.invokeMember("runMain", mainScript(fsVerticleName));
-
-          waitFor(runtime, "deploy")
-            .onComplete(startFuture);
+          // wrap the deployment in a execute blocking as blocking io can happen during deploy
+          vertx
+            .<Void>executeBlocking(deploy -> {
+              try {
+                module.invokeMember("runMain", mainScript(fsVerticleName));
+                deploy.complete();
+              } catch (RuntimeException e) {
+                deploy.fail(e);
+              }
+            })
+            .onFailure(startFuture::fail)
+            .onSuccess(v -> waitFor(runtime, "deploy").onComplete(startFuture));
 
         } catch (RuntimeException e) {
           startFuture.fail(e);

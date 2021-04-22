@@ -41,6 +41,15 @@ import java.util.regex.Pattern;
 
 public final class VertxFileSystem implements FileSystem {
 
+  private static <K, V> Map<K, V> createLRUMap(final int maxEntries) {
+    return new LinkedHashMap<K, V>(maxEntries*10/7, 0.7f, true) {
+      @Override
+      protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > maxEntries;
+      }
+    };
+  }
+
   private static final Logger LOGGER = LoggerFactory.getLogger(VertxFileSystem.class);
 
   private static final Pattern DOT_SLASH = Pattern.compile("^\\." + Pattern.quote(File.separator) + "|" + Pattern.quote(File.separator) + "\\." + Pattern.quote(File.separator));
@@ -421,7 +430,24 @@ public final class VertxFileSystem implements FileSystem {
     // if file doesn't exist, we try to guess it it's missing the extension or is an index
     // if it still fails, it fallbacks to the original file
     if (!file.exists()) {
-      file = resolveFile(file, null);
+      if (name.startsWith(downloaddir)) {
+        // build an URL from the path
+        String target = name.substring(downloaddir.length());
+        int split = target.indexOf(File.separator);
+        String source = target.substring(0, split);
+        // can we map the hash to a url?
+        if (!urlMap.containsKey(source)) {
+          throw new InvalidPathException(name, "Cannot resolve the source of the hash: " + source);
+        }
+        try {
+          // try to download
+          download(new URL(urlMap.get(source) + target.substring(split)), file);
+        } catch (IOException e) {
+          throw new InvalidPathException(name, e.getMessage());
+        }
+      } else {
+        file = resolveFile(file, null);
+      }
     }
 
     return file
