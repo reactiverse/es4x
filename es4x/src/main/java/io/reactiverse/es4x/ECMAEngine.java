@@ -17,7 +17,6 @@ package io.reactiverse.es4x;
 
 import io.netty.buffer.Unpooled;
 import io.reactiverse.es4x.impl.JSObjectMessageCodec;
-import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.reactiverse.es4x.jul.ANSIFormatter;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -191,7 +190,7 @@ public final class ECMAEngine {
               } else {
                 if (failure instanceof Map) {
                   // this happens when JS error messages are bubbled up from the thenable
-                  final Map map = (Map) failure;
+                  final Map<?,?> map = (Map) failure;
                   if (map.containsKey("name") && map.containsKey("message")) {
                     promise.fail(
                       wrap(
@@ -261,7 +260,7 @@ public final class ECMAEngine {
         Value.class,
         Set.class,
         Value::hasArrayElements,
-        v -> new HashSet(v.as(List.class)),
+        v -> new HashSet<>(v.as(List.class)),
         HostAccess.TargetMappingPrecedence.LOW)
       // Goal: Error -> Throwable
       // Errors are expected to be used sporadically too, this helper is just extracting the default error fields from
@@ -348,9 +347,6 @@ public final class ECMAEngine {
       .allowEnvironmentAccess(EnvironmentAccess.INHERIT)
       .option("js.foreign-object-prototype", "true");
 
-    // allow specifying the custom ecma version
-    setBuilderOption(builder, "js.ecmascript-version");
-
     // the instance
     final Context context = builder.build();
 
@@ -368,12 +364,5 @@ public final class ECMAEngine {
 
   public void close() {
     engine.close();
-  }
-
-  private static void setBuilderOption(Context.Builder builder, String option) {
-    String value = System.getProperty(option);
-    if (value != null) {
-      builder.option(option, value);
-    }
   }
 }
