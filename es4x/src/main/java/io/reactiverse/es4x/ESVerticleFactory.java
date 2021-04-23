@@ -17,7 +17,6 @@ package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.REPLVerticle;
 import io.reactiverse.es4x.impl.StructuredClone;
-import io.reactiverse.es4x.impl.Utils;
 import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -47,9 +46,11 @@ public abstract class ESVerticleFactory implements VerticleFactory {
 
   protected ECMAEngine engine;
   private FileSystem fileSystem;
+  private Vertx vertx;
 
   @Override
   public void init(final Vertx vertx) {
+    this.vertx = vertx;
     synchronized (this) {
       if (engine == null) {
         try {
@@ -180,18 +181,18 @@ public abstract class ESVerticleFactory implements VerticleFactory {
 
   protected final Future<Void> waitFor(Runtime runtime, String callback) {
     final Promise<Void> wrapper = Promise.promise();
+    vertx
+      .runOnContext(v -> {
+        try {
+          if (runtime.emit(callback, wrapper) == 0) {
+            wrapper.complete();
+          }
+        } catch (RuntimeException e) {
+          wrapper.fail(e);
+        }
+      });
 
-    try {
-      int arity = runtime.emit(callback, wrapper);
-
-      if (arity == 0) {
-        wrapper.complete();
-      }
-
-      return wrapper.future();
-    } catch (RuntimeException e) {
-      return Future.failedFuture(e);
-    }
+    return wrapper.future();
   }
 
   /**
