@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 @RunWith(VertxUnitRunner.class)
 public class CodecTest {
 
-  @Test(timeout = 30000)
+  @Test(timeout = 120_000)
   public void testClusteredCodec(TestContext should) {
     final Async test = should.async();
     Vertx.clusteredVertx(new VertxOptions(), clusteredVertx -> {
@@ -32,7 +32,7 @@ public class CodecTest {
     });
   }
 
-  @Test(timeout = 30000)
+  @Test(timeout = 120_000)
   public void testNonClusteredCodec(TestContext should) {
     final Async test = should.async();
     Vertx vertx = Vertx.vertx(new VertxOptions());
