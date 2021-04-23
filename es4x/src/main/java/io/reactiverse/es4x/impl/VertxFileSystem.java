@@ -39,15 +39,6 @@ import static io.reactiverse.es4x.impl.Utils.*;
 
 public final class VertxFileSystem implements FileSystem {
 
-  private static <K, V> Map<K, V> createLRUMap(final int maxEntries) {
-    return new LinkedHashMap<K, V>(maxEntries * 10 / 7, 0.7f, true) {
-      @Override
-      protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-        return size() > maxEntries;
-      }
-    };
-  }
-
   private static final Logger LOGGER = LoggerFactory.getLogger(VertxFileSystem.class);
 
   private static final Pattern DOT_SLASH = Pattern.compile("^\\." + Pattern.quote(File.separator) + "|" + Pattern.quote(File.separator) + "\\." + Pattern.quote(File.separator));
@@ -266,6 +257,10 @@ public final class VertxFileSystem implements FileSystem {
   }
 
   private boolean fetchIfNeeded(File file, String path) {
+    if (!file.isAbsolute()) {
+      file = file.getAbsoluteFile();
+    }
+
     if (file.getPath().startsWith(downloadDir)) {
       // download if missing
       if (!file.exists()) {
