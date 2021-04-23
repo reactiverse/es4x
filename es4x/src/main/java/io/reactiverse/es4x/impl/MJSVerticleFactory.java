@@ -89,9 +89,8 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
             }, true)
             .onFailure(startFuture::fail)
             .onSuccess(v ->
-              waitFor(runtime, "deploy")
-                .onFailure(startFuture::fail)
-                .onSuccess(v0 -> vertx.runOnContext(startFuture::complete)));
+              waitFor(runtime, "deploy").onComplete(startFuture));
+
         } catch (RuntimeException e) {
           startFuture.fail(e);
         }

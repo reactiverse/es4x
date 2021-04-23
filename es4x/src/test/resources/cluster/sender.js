@@ -1,16 +1,18 @@
-var eb = vertx.eventBus();
+const eb = vertx.eventBus();
 
-eb.request("ping-address", {"k": 1}, function (request) {
-  if (request.failed()) {
-    console.trace(request.cause());
-  } else {
-    var result = request.result();
-    console.log('Sender received: ' + result.body());
+process.on('deploy', () => {
+  eb.request("ping-address", {"k": 1}, function (request) {
+    if (request.failed()) {
+      console.trace(request.cause());
+    } else {
+      var result = request.result();
+      console.log('Sender received: ' + result.body());
 
-    process.nextTick(function () {
-      eb.send("test-complete", 'OK');
-    });
-  }
+      process.nextTick(function () {
+        eb.send("test-complete", 'OK');
+      });
+    }
+  });
 });
 
 console.log("Sender ready!");
