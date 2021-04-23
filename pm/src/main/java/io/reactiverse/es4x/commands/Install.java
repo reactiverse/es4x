@@ -35,14 +35,40 @@ import static io.reactiverse.es4x.cli.Helper.*;
 public class Install implements Runnable {
 
   public static final String NAME = "install";
-  public static final String SUMMARY = "Installs required jars from maven to '$dest'.";
+  public static final String SUMMARY = "Installs required jars from maven to 'node_modules'.";
 
-  enum Only {
+  enum Environment {
     PROD,
     PRODUCTION,
     DEV,
     DEVELOPMENT,
     ALL
+  }
+
+  enum Mode {
+    NODE_MODULES("node_modules", "node_modules"),
+    IMPORT_MAP("import-map", null);
+
+    final String baseDir;
+    final String name;
+
+    Mode(String name, String baseDir) {
+      this.name = name;
+      this.baseDir = baseDir;
+    }
+
+    File baseDir(File cwd) {
+      if (baseDir != null) {
+        return new File(cwd, baseDir);
+      } else {
+        return cwd;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return name;
+    }
   }
 
   private static final Properties VERSIONS = new Properties();
@@ -62,8 +88,8 @@ public class Install implements Runnable {
   private boolean link;
   private List<String> vendor;
   private File coreJar;
-  private Only only = Only.ALL;
-  private String dest = "node_modules";
+  private Environment environment = Environment.ALL;
+  private Mode mode = Mode.NODE_MODULES;
 
   private File cwd;
 
@@ -75,7 +101,7 @@ public class Install implements Runnable {
     CmdLineParser.Option<Boolean> helpOption = parser.addBooleanOption('h', "help");
     CmdLineParser.Option<String> vendorOption = parser.addStringOption('v', "vendor");
     CmdLineParser.Option<Boolean> linkOption = parser.addBooleanOption('l', "link");
-    CmdLineParser.Option<String> onlyOption = parser.addStringOption('o', "only");
+    CmdLineParser.Option<String> environmentOption = parser.addStringOption('e', "environment");
     CmdLineParser.Option<String> destOption = parser.addStringOption('d', "dest");
 
     try {
@@ -100,8 +126,8 @@ public class Install implements Runnable {
     }
 
     setVendor(parser.getOptionValue(vendorOption));
-    setOnly(parser.getOptionValue(onlyOption, "all"));
-    setDestination(parser.getOptionValue(destOption, "node_modules"));
+    setEnvironment(parser.getOptionValue(environmentOption, "all"));
+    setMode(parser.getOptionValue(destOption, "node_modules"));
     setCwd(new File("."));
   }
 
@@ -111,9 +137,10 @@ public class Install implements Runnable {
     System.err.println(SUMMARY);
     System.err.println();
     System.err.println("Options and Arguments:");
+    System.err.println(" -e,--environment\t\t\t\tEnvironment 'prod[uction]/dev[elopment]' (default: all).");
     System.err.println(" -f,--force\t\t\t\tWill always install a basic runtime in the current working dir.");
-    System.err.println(" -o,--only\t\t\t\tOnly install 'prod[uction]/dev[elopment]' (default: all).");
     System.err.println(" -l,--link\t\t\t\tSymlink jars instead of copy.");
+    System.err.println(" -m,--mode\t\t\t\tMode 'node_modules/import-map' (default: node_modules).");
     System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
     System.err.println();
   }
@@ -137,15 +164,15 @@ public class Install implements Runnable {
     }
   }
 
-  public void setOnly(String only) {
-    if (only != null) {
-      this.only = Only.valueOf(only.toUpperCase());
+  public void setEnvironment(String environment) {
+    if (environment != null) {
+      this.environment = Environment.valueOf(environment.toUpperCase());
     }
   }
 
-  public void setDestination(String dest) {
-    if (dest != null) {
-      this.dest = dest;
+  public void setMode(String mode) {
+    if (mode != null) {
+      this.mode = Mode.valueOf(mode.toUpperCase().replace('-', '_'));
     }
   }
 
@@ -158,7 +185,7 @@ public class Install implements Runnable {
         dependencies.add(maven.get("groupId") + ":" + maven.get("artifactId") + ":" + maven.get("version"));
       }
 
-      switch (only) {
+      switch (environment) {
         case ALL:
         case PROD:
         case PRODUCTION:
@@ -171,7 +198,7 @@ public class Install implements Runnable {
           }
       }
 
-      switch (only) {
+      switch (environment) {
         case ALL:
         case DEV:
         case DEVELOPMENT:
@@ -201,7 +228,7 @@ public class Install implements Runnable {
         // process
         processPackageJson(json, dependencies);
 
-        File submod = new File(mod, dest);
+        File submod = new File(mod, "node_modules");
         if (submod.exists() && submod.isDirectory()) {
           processModules(submod, dependencies);
         }
@@ -215,7 +242,14 @@ public class Install implements Runnable {
     final List<String> artifacts = new ArrayList<>();
 
     final Runnable run = () -> {
-      installNodeModules(artifacts);
+      switch (mode) {
+        case NODE_MODULES:
+          installNodeModules(artifacts);
+          return;
+        case IMPORT_MAP:
+          err("Not implemented");
+          return;
+      }
 
       if (!GraalVMVersion.isGraalVM()) {
         final double version = Double.parseDouble(System.getProperty("java.specification.version"));
@@ -244,11 +278,11 @@ public class Install implements Runnable {
       createLauncher(artifacts);
     };
 
-    switch (only) {
+    switch (environment) {
       case ALL:
       case DEV:
       case DEVELOPMENT:
-        File control = new File(new File(cwd, dest), "es4x_install_successful");
+        File control = new File(mode.baseDir(cwd), "es4x_install_successful");
         if (control.exists()) {
           warn("Skipping install (recent successful run)");
           return;
@@ -276,12 +310,12 @@ public class Install implements Runnable {
   }
 
   private void installGraalJS(Collection<String> artifacts) {
-    final File base = new File(cwd, dest);
+    final File base = mode.baseDir(cwd);
 
     File lib = new File(base, ".lib");
     if (!lib.exists()) {
       if (!lib.mkdirs()) {
-        fatal("Failed to mkdirs '$dest/.lib'.");
+        fatal(String.format("Failed to mkdirs '%s'.", lib));
       }
     }
 
@@ -289,7 +323,7 @@ public class Install implements Runnable {
 
     try {
       Resolver resolver = new Resolver();
-      List<String> mvnArtifacts = only == Only.ALL || only == Only.DEV ?
+      List<String> mvnArtifacts = environment == Environment.ALL || environment == Environment.DEV ?
         Collections.singletonList("org.graalvm.tools:chromeinspector:" + VERSIONS.getProperty("graalvm")) :
         Collections.emptyList();
 
@@ -317,12 +351,12 @@ public class Install implements Runnable {
   }
 
   private void installGraalJMVCICompiler() {
-    final File base = new File(cwd, dest);
+    final File base = mode.baseDir(cwd);
 
     File jvmci = new File(base, ".jvmci");
     if (!jvmci.exists()) {
       if (!jvmci.mkdirs()) {
-        fatal("Failed to mkdirs '$dest/.jvmci'.");
+        fatal(String.format("Failed to mkdirs '%s'.", jvmci));
       }
     }
 
@@ -345,7 +379,7 @@ public class Install implements Runnable {
   }
 
   private void installNodeModules(Collection<String> artifacts) {
-    final File base = new File(cwd, dest);
+    final File base = mode.baseDir(cwd);
     final Set<String> dependencies = new HashSet<>();
 
     // process mvnDependencies from CWD package.json
@@ -383,7 +417,7 @@ public class Install implements Runnable {
       for (Artifact a : resolver.resolve(root, dependencies)) {
         if (!libs.exists()) {
           if (!libs.mkdirs()) {
-            fatal("Failed to mkdirs '$dest/.lib'.");
+            fatal(String.format("Failed to mkdirs '%s'.", libs));
           }
         }
         addIfMissing(artifacts, ".." + File.separator + ".lib" + File.separator + a.getFile().getName());
@@ -432,11 +466,11 @@ public class Install implements Runnable {
           verticleFactory = "mjs";
         }
 
-        final File base = new File(cwd, dest);
+        final File base = mode.baseDir(cwd);
         File bin = new File(base, ".bin");
         if (!bin.exists()) {
           if (!bin.mkdirs()) {
-            fatal("Failed to mkdirs '$dest/.bin'.");
+            fatal(String.format("Failed to mkdirs '%s'.", bin));
           }
         }
 
@@ -456,6 +490,7 @@ public class Install implements Runnable {
         attributes.put(new Attributes.Name("Main-Verticle"), main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
         attributes.put(new Attributes.Name("Default-Verticle-Factory"), verticleFactory);
+        attributes.put(new Attributes.Name("ES4X-Mode"), mode.toString());
 
         try (OutputStream os = new FileOutputStream(new File(bin, "es4x-launcher.jar"))) {
           try (JarOutputStream target = new JarOutputStream(os, manifest)) {
@@ -553,7 +588,7 @@ public class Install implements Runnable {
 
     // this is a best effort
     if (!exe.setExecutable(true, false)) {
-      fatal("Cannot set script '$dest/.bin/es4x-launcher' executable!");
+      fatal(String.format("Cannot set script '%s' executable!", exe));
     }
   }
 

@@ -5,6 +5,8 @@ import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
@@ -32,12 +34,28 @@ public class ImportMapper {
     this.baseURL = baseURL;
   }
 
-  public String resolve(String specifier) {
-    return resolve(specifier, baseURL);
+  public URI resolve(String specifier) {
+    try {
+      String resolved = resolve(specifier, baseURL);
+      if (resolved != null) {
+        return new URI(resolved);
+      }
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+    return null;
   }
 
-  public String resolve(String specifier, String referrer) throws MalformedURLException {
-    return resolve(specifier, new URL(baseURL, referrer));
+  public URI resolve(String specifier, String referrer) throws MalformedURLException {
+    try {
+      String resolved = resolve(specifier, new URL(baseURL, referrer));
+      if (resolved != null) {
+        return new URI(resolved);
+      }
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+    return null;
   }
 
   public String resolve(String specifier, URL scriptURL) {
@@ -68,8 +86,6 @@ public class ImportMapper {
     }
 
     return null;
-
-//    throw new RuntimeException("Unmapped bare specifier " + specifier);
   }
 
   private Map<String, URL> sortAndNormalizeSpecifierMap(JsonObject obj, URL baseURL) {

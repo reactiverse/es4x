@@ -24,25 +24,23 @@ import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.io.FileSystem;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.channels.SeekableByteChannel;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.spi.FileSystemProvider;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import static io.reactiverse.es4x.impl.Utils.*;
+
 public final class VertxFileSystem implements FileSystem {
 
   private static <K, V> Map<K, V> createLRUMap(final int maxEntries) {
-    return new LinkedHashMap<K, V>(maxEntries*10/7, 0.7f, true) {
+    return new LinkedHashMap<K, V>(maxEntries * 10 / 7, 0.7f, true) {
       @Override
       protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
         return size() > maxEntries;
@@ -54,23 +52,6 @@ public final class VertxFileSystem implements FileSystem {
 
   private static final Pattern DOT_SLASH = Pattern.compile("^\\." + Pattern.quote(File.separator) + "|" + Pattern.quote(File.separator) + "\\." + Pattern.quote(File.separator));
   private static final FileSystemProvider DELEGATE = FileSystems.getDefault().provider();
-
-  private static String md5(String input) throws NoSuchAlgorithmException {
-    // Create MessageDigest instance for MD5
-    MessageDigest md = MessageDigest.getInstance("MD5");
-    //Add password bytes to digest
-    md.update(input.getBytes(StandardCharsets.UTF_8));
-    //Get the hash's bytes
-    byte[] bytes = md.digest();
-    //This bytes[] has bytes in decimal format;
-    //Convert it to hexadecimal format
-    StringBuilder sb = new StringBuilder();
-    for (byte b : bytes) {
-      sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
-    }
-    //Get complete hashed input in hex format
-    return sb.toString();
-  }
 
   public static String getCWD() {
     // clean up the current working dir
@@ -124,36 +105,43 @@ public final class VertxFileSystem implements FileSystem {
   private final String[] extensions;
   // keep track of the well-known roots
   private final String cwd;
-  private final String cachedir;
-  private final String downloaddir;
-  private final String baseUrl;
+  private final String cacheDir;
+  private final String downloadDir;
+  private final String baseDir;
 
   private final ImportMapper mapper;
 
-  public VertxFileSystem(final Vertx vertx, String... extensions) {
+  public VertxFileSystem(final Vertx vertx, String mode, String... extensions) {
     this.vertx = (VertxInternal) vertx;
 
     this.extensions = extensions;
     // resolve the well known roots
     this.cwd = getCWD();
+    this.cacheDir = this.vertx.resolveFile("").getPath() + File.separator;
 
     // attempt to load an import map
-    try {
-      if (System.getProperties().containsKey("import-map")) {
-        Buffer buffer = vertx.fileSystem().readFileBlocking(System.getProperty("import-map"));
-        mapper = new ImportMapper(
-          new JsonObject(buffer),
-          new File(this.cwd).toURI().toURL());
-      } else {
-        mapper = new ImportMapper(new JsonObject(Collections.emptyMap()), new File(this.cwd).toURI().toURL());
-      }
-    } catch (MalformedURLException e) {
-      throw new IllegalStateException(e);
+    switch (mode) {
+      case "node_modules":
+        mapper = null;
+        baseDir = new File(this.cwd, "node_modules").getPath() + File.separator;
+        downloadDir = new File(this.baseDir, ".download").getPath() + File.separator;
+        break;
+      case "import-map":
+        baseDir = new File(this.cwd).getPath() + File.separator;
+        downloadDir = new File(this.baseDir, ".download").getPath() + File.separator;
+        try {
+          URL cwdUrl = new File(this.cwd).toURI().toURL();
+          Buffer buffer = vertx.fileSystem().readFileBlocking("import-map.json");
+          mapper = new ImportMapper(
+            new JsonObject(buffer),
+            cwdUrl);
+        } catch (MalformedURLException e) {
+          throw new IllegalStateException("CWD toURL() failure", e);
+        }
+        break;
+      default:
+        throw new IllegalStateException("Invalid ES4X-mode: " + mode);
     }
-
-    this.cachedir = this.vertx.resolveFile("").getPath() + File.separator;
-    this.baseUrl = new File(this.cwd, System.getProperty("baseUrl", "node_modules")).getPath() + File.separator;
-    this.downloaddir = new File(this.baseUrl, ".download").getPath() + File.separator;
   }
 
   private File resolveFile(File root, String suffix) {
@@ -190,7 +178,7 @@ public final class VertxFileSystem implements FileSystem {
 
   @Override
   public Path parsePath(URI uri) {
-    LOGGER.trace("parsePath(URI)");
+    LOGGER.trace(String.format("parsePath(%s)", uri));
     switch (uri.getScheme()) {
       case "file":
         return parsePath(uri.getPath());
@@ -202,20 +190,20 @@ public final class VertxFileSystem implements FileSystem {
           String hash = md5(source);
           // save
           urlMap.put(hash, source);
-          File target = new File(downloaddir, hash + File.separator + uri.getPath());
+          File target = new File(downloadDir, hash + File.separator + uri.getPath());
 
           if (uri.getQuery() != null) {
             LOGGER.warn("URI with query will always force a download");
-            download(uri.toURL(), target);
+            downloadTo(uri.toURL(), target);
           } else {
             if (!target.exists()) {
-              download(uri.toURL(), target);
+              downloadTo(uri.toURL(), target);
             }
           }
           // the newly saved file
           assert target.isAbsolute() : "path should be absolute";
           return target.toPath();
-        } catch (IOException | NoSuchAlgorithmException e) {
+        } catch (IOException e) {
           throw new InvalidPathException(uri.toString(), e.getMessage());
         }
       default:
@@ -228,16 +216,22 @@ public final class VertxFileSystem implements FileSystem {
    */
   @Override
   public Path parsePath(String path) {
+    if (mapper != null) {
+      URI resolved = mapper.resolve(path);
+      if (resolved != null) {
+        LOGGER.trace(String.format("import-map.resolve(%s) : %s", path, resolved));
+        path = resolved.getPath();
+      }
+    }
+
     LOGGER.trace(String.format("parsePath(%s)", path));
     File file;
     // relativize the path
     if (!isRelativeImport(path)) {
-      file = new File(baseUrl, path);
+      file = new File(baseDir, path);
     } else {
       file = new File(path);
     }
-
-    LOGGER.trace(String.format("mapper.resolve() : exp [%s] %s", file.getPath(), mapper.resolve(path)));
 
     // make absolute
     if (!file.isAbsolute()) {
@@ -246,29 +240,11 @@ public final class VertxFileSystem implements FileSystem {
     // simple normalize
     file = new File(DOT_SLASH.matcher(file.getPath()).replaceAll(File.separator));
     // aliasing from cache back to CWD
-    if (file.getPath().startsWith(cachedir)) {
-      file = new File(cwd, file.getPath().substring(cachedir.length()));
+    if (file.getPath().startsWith(cacheDir)) {
+      file = new File(cwd, file.getPath().substring(cacheDir.length()));
     }
     // if it's a download, get the file to the download dir
-    if (file.getPath().startsWith(downloaddir)) {
-      // download if missing
-      if (!file.exists()) {
-        // build an URL from the path
-        String target = file.getPath().substring(downloaddir.length());
-        int split = target.indexOf(File.separator);
-        String source = target.substring(0, split);
-        // can we map the hash to a url?
-        if (!urlMap.containsKey(source)) {
-          throw new InvalidPathException(path, "Cannot resolve the source of the hash: " + source);
-        }
-        try {
-          // try to download
-          download(new URL(urlMap.get(source) + target.substring(split)), file);
-        } catch (IOException e) {
-          throw new InvalidPathException(path, e.getMessage());
-        }
-      }
-    }
+    fetchIfNeeded(file, path);
     // if a paths starts with cwd -> strip + force resolve through vertx
     if (file.getPath().startsWith(cwd)) {
       String stripped = file.getPath().substring(cwd.length());
@@ -276,8 +252,8 @@ public final class VertxFileSystem implements FileSystem {
       // getting the right path objects even if on the classpath
       file = vertx.resolveFile(stripped);
       // aliasing from cache back to CWD
-      if (file.getPath().startsWith(cachedir)) {
-        file = new File(cwd, file.getPath().substring(cachedir.length()));
+      if (file.getPath().startsWith(cacheDir)) {
+        file = new File(cwd, file.getPath().substring(cacheDir.length()));
       }
       // make absolute
       if (!file.isAbsolute()) {
@@ -289,32 +265,28 @@ public final class VertxFileSystem implements FileSystem {
     return file.toPath();
   }
 
-  private void download(URL url, File target) throws IOException {
-    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    conn.setInstanceFollowRedirects(true);
-    conn.setRequestProperty("User-Agent", "es4x/pm");
-
-    if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-      throw new IOException(conn.getResponseMessage());
-    }
-
-    try (InputStream inputStream = conn.getInputStream()) {
-      try (BufferedInputStream reader = new BufferedInputStream(inputStream)) {
-        final File parent = target.getParentFile();
-        if (!parent.exists()) {
-          if (!parent.mkdirs()) {
-            throw new RuntimeException("Failed to mkdirs: " + parent);
-          }
+  private boolean fetchIfNeeded(File file, String path) {
+    if (file.getPath().startsWith(downloadDir)) {
+      // download if missing
+      if (!file.exists()) {
+        // build an URL from the path
+        String target = file.getPath().substring(downloadDir.length());
+        int split = target.indexOf(File.separator);
+        String source = target.substring(0, split);
+        // can we map the hash to a url?
+        if (!urlMap.containsKey(source)) {
+          throw new InvalidPathException(path, "Cannot resolve the source of the hash: " + source);
         }
-        try (BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(target))) {
-          byte[] buffer = new byte[4096];
-          int bytesRead;
-          while ((bytesRead = reader.read(buffer)) != -1) {
-            writer.write(buffer, 0, bytesRead);
-          }
+        try {
+          // try to download
+          downloadTo(new URL(urlMap.get(source) + target.substring(split)), file);
+        } catch (IOException e) {
+          throw new InvalidPathException(path, e.getMessage());
         }
       }
+      return true;
     }
+    return false;
   }
 
   @Override
@@ -427,27 +399,12 @@ public final class VertxFileSystem implements FileSystem {
       file = path.toFile();
     }
 
+    boolean isDownloaded = fetchIfNeeded(file, name);
+
     // if file doesn't exist, we try to guess it it's missing the extension or is an index
     // if it still fails, it fallbacks to the original file
-    if (!file.exists()) {
-      if (name.startsWith(downloaddir)) {
-        // build an URL from the path
-        String target = name.substring(downloaddir.length());
-        int split = target.indexOf(File.separator);
-        String source = target.substring(0, split);
-        // can we map the hash to a url?
-        if (!urlMap.containsKey(source)) {
-          throw new InvalidPathException(name, "Cannot resolve the source of the hash: " + source);
-        }
-        try {
-          // try to download
-          download(new URL(urlMap.get(source) + target.substring(split)), file);
-        } catch (IOException e) {
-          throw new InvalidPathException(name, e.getMessage());
-        }
-      } else {
-        file = resolveFile(file, null);
-      }
+    if (!isDownloaded && !file.exists()) {
+      file = resolveFile(file, null);
     }
 
     return file

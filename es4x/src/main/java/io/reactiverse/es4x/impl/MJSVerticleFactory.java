@@ -105,4 +105,12 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
     };
   }
+
+  @Override
+  protected String[] defaultExtensions() {
+    return new String[] {
+      ".mjs",
+      ".js"
+    };
+  }
 }

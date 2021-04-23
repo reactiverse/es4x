@@ -104,4 +104,11 @@ public final class JSVerticleFactory extends ESVerticleFactory {
       }
     };
   }
+
+  @Override
+  protected String[] defaultExtensions() {
+    return new String[] {
+      ".js"
+    };
+  }
 }

@@ -1,10 +1,13 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.ECMAEngine;
+import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.vertx.core.Vertx;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 import io.reactiverse.es4x.Runtime;
+
+import java.io.IOException;
 
 public final class JS {
 
@@ -38,6 +41,7 @@ public final class JS {
 
   static Runtime commonjs(Vertx vertx) {
     return new ECMAEngine(vertx).newContext(
+      new VertxFileSystem(vertx, "node_modules", ".js"),
       Source.newBuilder("js", JS.class.getResource("../polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/console.js")).buildLiteral(),
@@ -49,8 +53,9 @@ public final class JS {
     );
   }
 
-  static Runtime esm(Vertx vertx) {
+  static Runtime esm(Vertx vertx, String mode) {
     return new ECMAEngine(vertx).newContext(
+      new VertxFileSystem(vertx, mode, ".mjs", ".js"),
       Source.newBuilder("js", JS.class.getResource("../polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/console.js")).buildLiteral(),

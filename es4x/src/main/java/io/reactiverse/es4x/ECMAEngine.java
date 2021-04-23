@@ -84,7 +84,6 @@ public final class ECMAEngine {
   private final Vertx vertx;
   private final Engine engine;
   private final HostAccess hostAccess;
-  private final FileSystem fileSystem;
   private final PolyglotAccess polyglotAccess;
   private final Source objLookup;
   private final Source arrLookup;
@@ -115,7 +114,7 @@ public final class ECMAEngine {
     }
 
     // enable or disable the polyglot access
-    polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
+    polyglotAccess = Boolean.getBoolean("es4x.no-polyglot-access") ? PolyglotAccess.NONE : PolyglotAccess.ALL;
 
     // source caches
     objLookup = Source.newBuilder("js", "(function (fn) { fn({}); })", "<cache#objLookup>")
@@ -286,8 +285,6 @@ public final class ECMAEngine {
         },
         HostAccess.TargetMappingPrecedence.LOW)
       .build();
-
-    fileSystem = new VertxFileSystem(vertx, ".mjs", ".js");
   }
 
   private static Throwable wrap(String name, String message, String stack) {
@@ -319,7 +316,7 @@ public final class ECMAEngine {
    *                usually for polyfills, initialization, customization.
    * @return new context.
    */
-  public synchronized Runtime newContext(Source... scripts) {
+  public synchronized Runtime newContext(FileSystem fileSystem, Source... scripts) {
 
     final Pattern[] allowedHostAccessClassFilters = ECMAEngine.allowedHostClassFilters();
 
@@ -348,14 +345,11 @@ public final class ECMAEngine {
       })
       .allowHostAccess(hostAccess)
       .allowPolyglotAccess(polyglotAccess)
-      .allowEnvironmentAccess(EnvironmentAccess.INHERIT);
+      .allowEnvironmentAccess(EnvironmentAccess.INHERIT)
+      .option("js.foreign-object-prototype", "true");
 
     // allow specifying the custom ecma version
-    if (System.getProperty("js.ecmascript-version") != null) {
-      builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version"));
-    }
-
-    builder.option("js.foreign-object-prototype", "true");
+    setBuilderOption(builder, "js.ecmascript-version");
 
     // the instance
     final Context context = builder.build();
@@ -374,5 +368,12 @@ public final class ECMAEngine {
 
   public void close() {
     engine.close();
+  }
+
+  private static void setBuilderOption(Context.Builder builder, String option) {
+    String value = System.getProperty(option);
+    if (value != null) {
+      builder.option(option, value);
+    }
   }
 }

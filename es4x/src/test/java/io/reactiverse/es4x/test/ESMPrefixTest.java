@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+
 import static io.reactiverse.es4x.test.JS.esm;
 
 @RunWith(VertxUnitRunner.class)
@@ -19,10 +21,8 @@ public class ESMPrefixTest {
   public RunTestOnContext rule = new RunTestOnContext();
 
   @Before
-  public void initialize() {
-    System.setProperty("baseUrl", "prefix");
-    runtime = esm(rule.vertx());
-    System.clearProperty("baseUrl");
+  public void initialize() throws IOException {
+    runtime = esm(rule.vertx(), "import-map");
   }
 
   @Test

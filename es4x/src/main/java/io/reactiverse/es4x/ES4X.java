@@ -25,8 +25,6 @@ public final class ES4X extends Launcher {
 
   @Override
   public void beforeStartingVertx(VertxOptions options) {
-    processProperty("polyglot", "true", polyglot -> System.setProperty("es4x.polyglot", polyglot));
-
     processProperty("inspect", "9229", inspect -> {
       System.setProperty("polyglot.inspect", inspect);
       options.setBlockedThreadCheckInterval(1000000);

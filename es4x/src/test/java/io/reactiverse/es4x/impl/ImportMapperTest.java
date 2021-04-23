@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +23,7 @@ public class ImportMapperTest {
   public RunTestOnContext rule = new RunTestOnContext();
 
   @Test
-  public void testSimple() throws MalformedURLException {
+  public void testSimple() throws MalformedURLException, URISyntaxException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
@@ -30,9 +32,9 @@ public class ImportMapperTest {
           .put("slash", "/foo")),
       new URL("https://base.example/path1/path2/path3"));
 
-    assertEquals("https://base.example/foo", mapper.resolve("slash"));
-    assertEquals("https://base.example/path1/path2/foo", mapper.resolve("dotSlash"));
-    assertEquals("https://base.example/path1/foo", mapper.resolve("dotDotSlash"));
+    assertEquals(new URI("https://base.example/foo"), mapper.resolve("slash"));
+    assertEquals(new URI("https://base.example/path1/path2/foo"), mapper.resolve("dotSlash"));
+    assertEquals(new URI("https://base.example/path1/foo"), mapper.resolve("dotDotSlash"));
   }
 
   static class Case {
@@ -48,7 +50,7 @@ public class ImportMapperTest {
   }
 
   @Test
-  public void testExampleComplex() throws MalformedURLException {
+  public void testExampleComplex() throws MalformedURLException, URISyntaxException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject(rule.vertx().fileSystem().readFileBlocking("import-map.json")));
 
@@ -67,37 +69,37 @@ public class ImportMapperTest {
     );
 
     for (Case c : cases) {
-      assertEquals(c.result, mapper.resolve(c.specifier, c.referrer));
+      assertEquals(new URI(c.result), mapper.resolve(c.specifier, c.referrer));
     }
   }
 
   @Test
-  public void testFromDeno1() throws MalformedURLException {
+  public void testFromDeno1() throws MalformedURLException, URISyntaxException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
           .put("fmt/", "https://deno.land/std@0.90.0/fmt/")));
 
-    assertEquals("https://deno.land/std@0.90.0/fmt/colors.ts", mapper.resolve("fmt/colors.ts"));
+    assertEquals(new URI("https://deno.land/std@0.90.0/fmt/colors.ts"), mapper.resolve("fmt/colors.ts"));
   }
 
   @Test
-  public void testFromDeno2() throws MalformedURLException {
+  public void testFromDeno2() throws MalformedURLException, URISyntaxException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
           .put("/", "./")));
 
-    assertEquals("file://" + VertxFileSystem.getCWD() + "util.ts", mapper.resolve("/util.ts"));
+    assertEquals(new URI("file://" + VertxFileSystem.getCWD() + "util.ts"), mapper.resolve("/util.ts"));
   }
 
   @Test
-  public void testFromDeno3() throws MalformedURLException {
+  public void testFromDeno3() throws MalformedURLException, URISyntaxException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
           .put("/", "./src/")));
 
-    assertEquals("file://" + VertxFileSystem.getCWD() + "src/util.ts", mapper.resolve("/util.ts"));
+    assertEquals(new URI("file://" + VertxFileSystem.getCWD() + "src/util.ts"), mapper.resolve("/util.ts"));
   }
 }

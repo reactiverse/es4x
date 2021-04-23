@@ -15,12 +15,8 @@ public class ES4XTest {
 
   @After
   public void cleanUp() {
-    System.clearProperty("prefix");
-    System.clearProperty("polyglot");
     System.clearProperty("inspect");
     System.clearProperty("inspect-brk");
-    System.clearProperty("baseUrl");
-    System.clearProperty("es4x.polyglot");
     System.clearProperty("polyglot.inspect");
     System.clearProperty("polyglot.inspect.Suspend");
   }
@@ -40,26 +36,6 @@ public class ES4XTest {
     }
 
     ES4X.main("run", script.getAbsolutePath());
-  }
-
-  @Test
-  public void testEmptyPolyglot() {
-    System.setProperty("polyglot", "");
-    ES4X runner = new ES4X();
-    runner.beforeStartingVertx(new VertxOptions());
-    assertNull(System.getProperty("polyglot"));
-    assertNotNull(System.getProperty("es4x.polyglot"));
-    assertEquals("true", System.getProperty("es4x.polyglot"));
-  }
-
-  @Test
-  public void testPolyglot() {
-    System.setProperty("polyglot", "false");
-    ES4X runner = new ES4X();
-    runner.beforeStartingVertx(new VertxOptions());
-    assertNull(System.getProperty("polyglot"));
-    assertNotNull(System.getProperty("es4x.polyglot"));
-    assertEquals("false", System.getProperty("es4x.polyglot"));
   }
 
   @Test

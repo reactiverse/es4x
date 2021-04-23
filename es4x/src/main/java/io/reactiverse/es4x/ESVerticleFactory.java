@@ -17,6 +17,8 @@ package io.reactiverse.es4x;
 
 import io.reactiverse.es4x.impl.REPLVerticle;
 import io.reactiverse.es4x.impl.StructuredClone;
+import io.reactiverse.es4x.impl.Utils;
+import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Verticle;
@@ -24,9 +26,13 @@ import io.vertx.core.Vertx;
 import io.vertx.core.spi.VerticleFactory;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
+import org.graalvm.polyglot.io.FileSystem;
 import org.graalvm.polyglot.proxy.ProxyExecutable;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
+
+import static io.reactiverse.es4x.impl.Utils.getManifestAttribute;
 
 /**
  * An abstract verticle factory for EcmaScript verticles. All factories can extend
@@ -40,11 +46,17 @@ import java.util.concurrent.Callable;
 public abstract class ESVerticleFactory implements VerticleFactory {
 
   protected ECMAEngine engine;
+  private FileSystem fileSystem;
 
   @Override
   public void init(final Vertx vertx) {
     synchronized (this) {
       if (engine == null) {
+        try {
+          this.fileSystem = new VertxFileSystem(vertx, getManifestAttribute("ES4X-Mode", "node_modules"), defaultExtensions());
+        } catch (IOException e) {
+          throw new IllegalStateException("Failed to initialize the file system", e);
+        }
         this.engine = new ECMAEngine(vertx);
       } else {
         throw new IllegalStateException("Engine already initialized");
@@ -58,7 +70,7 @@ public abstract class ESVerticleFactory implements VerticleFactory {
   }
 
   /**
-   * Create a runtime. Use the method {@link ECMAEngine#newContext(Source...)} to create the runtime.
+   * Create a runtime. Use the method {@link ECMAEngine#newContext(FileSystem, Source...)} to create the runtime.
    * <p>
    * This method allows the customization of the runtime (which initial scripts will be run, and add/remove
    * objects to the global scope).
@@ -68,6 +80,7 @@ public abstract class ESVerticleFactory implements VerticleFactory {
    */
   protected Runtime createRuntime(ECMAEngine engine) {
     return engine.newContext(
+      fileSystem,
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/console.js")).buildLiteral(),
@@ -86,6 +99,14 @@ public abstract class ESVerticleFactory implements VerticleFactory {
    * @return the configured verticle.
    */
   protected abstract Verticle createVerticle(Runtime runtime, String fsVerticleName);
+
+  /**
+   * Declares the default extensions this verticle factory will use when looking up for modules without extension on the
+   * filesystem.
+   *
+   * @return array of string in the format {@code .EXTENSION}
+   */
+  protected abstract String[] defaultExtensions();
 
   @Override
   public final void createVerticle(String verticleName, ClassLoader classLoader, Promise<Callable<Verticle>> promise) {

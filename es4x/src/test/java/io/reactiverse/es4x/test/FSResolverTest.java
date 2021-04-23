@@ -6,6 +6,7 @@ import io.vertx.core.impl.VertxInternal;
 import org.junit.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -19,15 +20,13 @@ public class FSResolverTest {
   private static VertxFileSystem fs;
 
   @Before
-  public void before() {
+  public void before() throws IOException {
     vertx = Vertx.vertx();
-    System.setProperty("import-map", "import-map.json");
-    fs = new VertxFileSystem(vertx, ".mjs", ".js");
+    fs = new VertxFileSystem(vertx, "node_modules", ".mjs", ".js");
   }
 
   @After
   public void after() {
-    System.clearProperty("import-map");
     vertx.close();
   }
 
