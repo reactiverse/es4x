@@ -1,5 +1,6 @@
 package io.reactiverse.es4x.impl;
 
+import io.vertx.core.impl.VertxInternal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -7,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,7 +25,7 @@ public class ImportMapperTest {
   public RunTestOnContext rule = new RunTestOnContext();
 
   @Test
-  public void testSimple() throws MalformedURLException, URISyntaxException {
+  public void testSimple() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
@@ -50,7 +52,7 @@ public class ImportMapperTest {
   }
 
   @Test
-  public void testExampleComplex() throws MalformedURLException, URISyntaxException {
+  public void testExampleComplex() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject(rule.vertx().fileSystem().readFileBlocking("import-map.json")));
 
@@ -74,7 +76,7 @@ public class ImportMapperTest {
   }
 
   @Test
-  public void testFromDeno1() throws MalformedURLException, URISyntaxException {
+  public void testFromDeno1() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
@@ -84,7 +86,7 @@ public class ImportMapperTest {
   }
 
   @Test
-  public void testFromDeno2() throws MalformedURLException, URISyntaxException {
+  public void testFromDeno2() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
@@ -94,12 +96,35 @@ public class ImportMapperTest {
   }
 
   @Test
-  public void testFromDeno3() throws MalformedURLException, URISyntaxException {
+  public void testFromDeno3() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
           .put("/", "./src/")));
 
     assertEquals(new URI("file://" + VertxFileSystem.getCWD() + "src/util.ts"), mapper.resolve("/util.ts"));
+  }
+
+  @Test
+  public void testCacheResolve() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
+
+    VertxInternal vertx = (VertxInternal) rule.vertx();
+    String cacheDir = vertx.resolveFile("").getPath() + File.separator;
+    String baseDir = new File(VertxFileSystem.getCWD()).getPath() + File.separator;
+
+    ImportMapper mapper = new ImportMapper(
+      new JsonObject()
+        .put("imports", new JsonObject()
+          .put(cacheDir, "./")));
+
+    assertEquals(new URI("file://" + baseDir + "test.js"), mapper.resolve(cacheDir + "test.js"));
+  }
+
+  @Test
+  public void testURI() {
+    System.out.println(new File("base.txt").toURI().getPath());
+    System.out.println(new File("./base.txt").toURI().getPath());
+    System.out.println(new File("../base.txt").toURI().getPath());
+    System.out.println(new File("/base.txt").toURI().getPath());
   }
 }

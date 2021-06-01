@@ -16,7 +16,6 @@
 package io.reactiverse.es4x.impl;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.impl.VertxInternal;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
@@ -26,6 +25,7 @@ import org.graalvm.polyglot.io.FileSystem;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.*;
@@ -64,32 +64,6 @@ public final class VertxFileSystem implements FileSystem {
     return cwd;
   }
 
-  /**
-   * A relative import is one that starts with {@code /}, {@code ./} or {@code ../}. Some examples include:
-   *
-   * <ul>
-   *   <li>{@code import Entry from "./components/Entry";}</li>
-   *   <li>{@code import { DefaultHeaders } from "../constants/http";}</li>
-   *   <li>{@code import "/mod";}</li>
-   * </ul>
-   */
-  private static boolean isRelativeImport(String path) {
-    int len = path.length();
-    if (len > 0) {
-      if (path.charAt(0) == '/') {
-        return true;
-      } else if (len > 1) {
-        if (path.charAt(0) == '.' && path.charAt(1) == '/') {
-          return true;
-        } else if (len > 2) {
-          return path.charAt(0) == '.' && path.charAt(1) == '.' && path.charAt(2) == '/';
-        }
-      }
-    }
-
-    return false;
-  }
-
   private final Map<String, String> urlMap = new ConcurrentHashMap<>();
   private final VertxInternal vertx;
 
@@ -102,36 +76,43 @@ public final class VertxFileSystem implements FileSystem {
 
   private final ImportMapper mapper;
 
-  public VertxFileSystem(final Vertx vertx, String mode, String... extensions) {
+  public VertxFileSystem(final Vertx vertx, String importMap, String... extensions) {
     this.vertx = (VertxInternal) vertx;
 
     this.extensions = extensions;
     // resolve the well known roots
     this.cwd = getCWD();
+    URL cwdUrl;
+    try {
+      cwdUrl = new File(this.cwd).toURI().toURL();
+    } catch (MalformedURLException e) {
+      throw new IllegalStateException("CWD toURL() failure", e);
+    }
+
     this.cacheDir = this.vertx.resolveFile("").getPath() + File.separator;
 
-    // attempt to load an import map
-    switch (mode) {
-      case "node_modules":
-        mapper = null;
-        baseDir = new File(this.cwd, "node_modules").getPath() + File.separator;
-        downloadDir = new File(this.baseDir, ".download").getPath() + File.separator;
-        break;
-      case "import-map":
-        baseDir = new File(this.cwd).getPath() + File.separator;
-        downloadDir = new File(this.baseDir, ".download").getPath() + File.separator;
-        try {
-          URL cwdUrl = new File(this.cwd).toURI().toURL();
-          Buffer buffer = vertx.fileSystem().readFileBlocking("import-map.json");
-          mapper = new ImportMapper(
-            new JsonObject(buffer),
-            cwdUrl);
-        } catch (MalformedURLException e) {
-          throw new IllegalStateException("CWD toURL() failure", e);
-        }
-        break;
-      default:
-        throw new IllegalStateException("Invalid ES4X-mode: " + mode);
+    if (importMap == null) {
+      mapper = new ImportMapper(
+        new JsonObject()
+          .put("imports", new JsonObject()
+            .put(cacheDir, "./")),
+        cwdUrl);
+      baseDir = new File(this.cwd, "node_modules").getPath() + File.separator;
+      downloadDir = new File(this.baseDir, ".download").getPath() + File.separator;
+    } else {
+      baseDir = new File(this.cwd).getPath() + File.separator;
+      downloadDir = new File(this.baseDir, ".download").getPath() + File.separator;
+      JsonObject json = new JsonObject(vertx.fileSystem().readFileBlocking(importMap));
+      if (json.containsKey("imports")) {
+        json
+          .getJsonObject("imports")
+          .put(cacheDir, "./");
+      } else {
+        json
+          .put("imports", new JsonObject()
+            .put(cacheDir, "./"));
+      }
+      mapper = new ImportMapper(json, cwdUrl);
     }
   }
 
@@ -167,6 +148,31 @@ public final class VertxFileSystem implements FileSystem {
     return root;
   }
 
+  private Path parsePath(URL url) {
+    try {
+      // compute hash
+      String source = url.getProtocol() + "://" + url.getAuthority();
+      String hash = md5(source);
+      // save
+      urlMap.put(hash, source);
+      File target = new File(downloadDir, hash + File.separator + url.getPath());
+
+      if (url.getQuery() != null) {
+        LOGGER.warn("URI with query will always force a download");
+        downloadTo(url, target);
+      } else {
+        if (!target.exists()) {
+          downloadTo(url, target);
+        }
+      }
+      // the newly saved file
+      assert target.isAbsolute() : "path should be absolute";
+      return target.toPath();
+    } catch (IOException e) {
+      throw new InvalidPathException(url.toString(), e.getMessage());
+    }
+  }
+
   @Override
   public Path parsePath(URI uri) {
     LOGGER.trace(String.format("parsePath(%s)", uri));
@@ -176,29 +182,12 @@ public final class VertxFileSystem implements FileSystem {
       case "http":
       case "https":
         try {
-          // compute hash
-          String source = uri.getScheme() + "://" + uri.getAuthority();
-          String hash = md5(source);
-          // save
-          urlMap.put(hash, source);
-          File target = new File(downloadDir, hash + File.separator + uri.getPath());
-
-          if (uri.getQuery() != null) {
-            LOGGER.warn("URI with query will always force a download");
-            downloadTo(uri.toURL(), target);
-          } else {
-            if (!target.exists()) {
-              downloadTo(uri.toURL(), target);
-            }
-          }
-          // the newly saved file
-          assert target.isAbsolute() : "path should be absolute";
-          return target.toPath();
-        } catch (IOException e) {
+          return parsePath(uri.toURL());
+        } catch (MalformedURLException e) {
           throw new InvalidPathException(uri.toString(), e.getMessage());
         }
       default:
-        throw new UnsupportedOperationException("unsupported scheme: " + uri.getScheme());
+        throw new IllegalArgumentException("unsupported scheme: " + uri.getScheme());
     }
   }
 
@@ -207,48 +196,58 @@ public final class VertxFileSystem implements FileSystem {
    */
   @Override
   public Path parsePath(String path) {
-    if (mapper != null) {
+    if ("".equals(path)) {
+      return new File(cwd).toPath();
+    }
+
+    File file;
+    try {
       URI resolved = mapper.resolve(path);
-      if (resolved != null) {
-        LOGGER.trace(String.format("import-map.resolve(%s) : %s", path, resolved));
-        path = resolved.getPath();
+      LOGGER.trace(String.format("import-map.resolve(%s) : %s", path, resolved));
+      switch (resolved.getScheme()) {
+        case "file":
+          file = new File(resolved.getPath());
+          break;
+        case "http":
+        case "https":
+          try {
+            return parsePath(resolved.toURL());
+          } catch (MalformedURLException e) {
+            throw new InvalidPathException(path, e.getMessage());
+          }
+        default:
+          throw new IllegalArgumentException("unsupported scheme: " + resolved.getScheme());
       }
+    } catch (UnmappedBareSpecifierException e) {
+      LOGGER.warn("Failed to resolve module", e);
+      // bare specifier
+      file = new File(baseDir, path);
+    } catch (URISyntaxException e) {
+      throw new InvalidPathException(path, e.getMessage());
     }
 
     LOGGER.trace(String.format("parsePath(%s)", path));
-    File file;
-    // relativize the path
-    if (!isRelativeImport(path)) {
-      file = new File(baseDir, path);
-    } else {
-      file = new File(path);
-    }
 
-    // make absolute
-    if (!file.isAbsolute()) {
-      file = new File(cwd, file.getPath());
-    }
     // simple normalize
     file = new File(DOT_SLASH.matcher(file.getPath()).replaceAll(File.separator));
-    // aliasing from cache back to CWD
-    if (file.getPath().startsWith(cacheDir)) {
-      file = new File(cwd, file.getPath().substring(cacheDir.length()));
-    }
+
     // if it's a download, get the file to the download dir
-    fetchIfNeeded(file, path);
-    // if a paths starts with cwd -> strip + force resolve through vertx
-    if (file.getPath().startsWith(cwd)) {
-      String stripped = file.getPath().substring(cwd.length());
-      // force all resolutions to go over vertx file resolver to allow
-      // getting the right path objects even if on the classpath
-      file = vertx.resolveFile(stripped);
-      // aliasing from cache back to CWD
-      if (file.getPath().startsWith(cacheDir)) {
-        file = new File(cwd, file.getPath().substring(cacheDir.length()));
-      }
-      // make absolute
-      if (!file.isAbsolute()) {
-        file = new File(cwd, file.getPath());
+    // if not, continue the processing...
+    if (!fetchIfNeeded(file, path)) {
+      // if a paths starts with cwd -> strip + force resolve through vertx
+      if (file.getPath().startsWith(cwd)) {
+        String stripped = file.getPath().substring(cwd.length());
+        // force all resolutions to go over vertx file resolver to allow
+        // getting the right path objects even if on the classpath
+        file = vertx.resolveFile(stripped);
+        // aliasing from cache back to CWD
+        if (file.getPath().startsWith(cacheDir)) {
+          file = new File(cwd, file.getPath().substring(cacheDir.length()));
+        }
+        // make absolute
+        if (!file.isAbsolute()) {
+          file = new File(cwd, file.getPath());
+        }
       }
     }
     // assure the format is right

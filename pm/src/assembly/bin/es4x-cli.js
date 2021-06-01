@@ -51,6 +51,10 @@ if (existsSync(path.join(process.cwd(), 'logging.properties'))) {
   argv.push('-Djava.util.logging.config.file=logging.properties');
 }
 
+if (!process.stdout.isTTY) {
+  argv.push('-Dbare=true');
+}
+
 argv.push('-cp');
 
 let launcher = path.join('node_modules', '.bin', 'es4x-launcher.jar');

@@ -41,7 +41,7 @@ public final class JS {
 
   static Runtime commonjs(Vertx vertx) {
     return new ECMAEngine(vertx).newContext(
-      new VertxFileSystem(vertx, "node_modules", ".js"),
+      new VertxFileSystem(vertx, null, ".js"),
       Source.newBuilder("js", JS.class.getResource("../polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/console.js")).buildLiteral(),
@@ -53,9 +53,9 @@ public final class JS {
     );
   }
 
-  static Runtime esm(Vertx vertx, String mode) {
+  static Runtime esm(Vertx vertx, String importMap) {
     return new ECMAEngine(vertx).newContext(
-      new VertxFileSystem(vertx, mode, ".mjs", ".js"),
+      new VertxFileSystem(vertx, importMap, ".mjs", ".js"),
       Source.newBuilder("js", JS.class.getResource("../polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", JS.class.getResource("../polyfill/console.js")).buildLiteral(),

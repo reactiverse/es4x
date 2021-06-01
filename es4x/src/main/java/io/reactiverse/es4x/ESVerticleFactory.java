@@ -52,7 +52,7 @@ public abstract class ESVerticleFactory implements VerticleFactory {
     synchronized (this) {
       if (engine == null) {
         try {
-          this.fileSystem = new VertxFileSystem(vertx, getManifestAttribute("ES4X-Mode", "node_modules"), defaultExtensions());
+          this.fileSystem = new VertxFileSystem(vertx, getManifestAttribute("Import-Map"), defaultExtensions());
         } catch (IOException e) {
           throw new IllegalStateException("Failed to initialize the file system", e);
         }

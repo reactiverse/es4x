@@ -23,7 +23,7 @@ public class ESModuleTest {
   @Before
   public void initialize() throws IOException {
     runtime = new ECMAEngine(rule.vertx())
-      .newContext(new VertxFileSystem(rule.vertx(), "node_modules", ".mjs", ".js"));
+      .newContext(new VertxFileSystem(rule.vertx(), null, ".mjs", ".js"));
   }
 
   @Test

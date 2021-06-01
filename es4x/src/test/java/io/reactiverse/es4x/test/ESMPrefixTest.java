@@ -22,7 +22,7 @@ public class ESMPrefixTest {
 
   @Before
   public void initialize() throws IOException {
-    runtime = esm(rule.vertx(), "import-map");
+    runtime = esm(rule.vertx(), "import-map.json");
   }
 
   @Test

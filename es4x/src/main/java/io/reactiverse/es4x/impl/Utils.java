@@ -70,7 +70,7 @@ public final class Utils {
     }
   }
 
-  public static String getManifestAttribute(String attribute, String defaultValue) throws IOException {
+  public static String getManifestAttribute(String attribute) throws IOException {
     Enumeration<URL> resEnum = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
     while (resEnum.hasMoreElements()) {
       URL url = resEnum.nextElement();
@@ -88,6 +88,6 @@ public final class Utils {
       }
     }
 
-    return defaultValue;
+    return null;
   }
 }

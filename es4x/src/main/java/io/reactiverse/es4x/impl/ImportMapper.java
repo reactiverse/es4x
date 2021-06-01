@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,7 +20,11 @@ public class ImportMapper {
   private static final Logger LOGGER = LoggerFactory.getLogger(ImportMapper.class);
 
   public ImportMapper(JsonObject config) throws MalformedURLException {
-    this(config, new URL("file://" + VertxFileSystem.getCWD()));
+    this(config, new File(VertxFileSystem.getCWD()).toURI());
+  }
+
+  public ImportMapper(JsonObject config, URI baseURI) throws MalformedURLException {
+    this(config, baseURI.toURL());
   }
 
   public ImportMapper(JsonObject config, URL baseURL) {
@@ -34,31 +39,29 @@ public class ImportMapper {
     this.baseURL = baseURL;
   }
 
-  public URI resolve(String specifier) {
-    try {
-      String resolved = resolve(specifier, baseURL);
-      if (resolved != null) {
-        return new URI(resolved);
-      }
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
+  public URI resolve(String specifier) throws UnmappedBareSpecifierException, URISyntaxException {
+    URL resolved = resolve(specifier, baseURL);
+    URI uri = resolved.toURI();
+
+    if ("".equals(uri.getPath())) {
+      // recreate the URI but with a fixed path
+      return new URI(uri.getScheme(), uri.getAuthority(), "/", uri.getFragment());
     }
-    return null;
+    return uri;
   }
 
-  public URI resolve(String specifier, String referrer) throws MalformedURLException {
-    try {
-      String resolved = resolve(specifier, new URL(baseURL, referrer));
-      if (resolved != null) {
-        return new URI(resolved);
-      }
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
+  public URI resolve(String specifier, String referrer) throws MalformedURLException, UnmappedBareSpecifierException, URISyntaxException {
+    URL resolved = resolve(specifier, new URL(baseURL, referrer));
+    URI uri = resolved.toURI();
+
+    if ("".equals(uri.getPath())) {
+      // recreate the URI but with a fixed path
+      return new URI(uri.getScheme(), uri.getAuthority(), "/", uri.getFragment());
     }
-    return null;
+    return uri;
   }
 
-  public String resolve(String specifier, URL scriptURL) {
+  public URL resolve(String specifier, URL scriptURL) throws UnmappedBareSpecifierException {
     final URL asURL = tryURLLikeSpecifierParse(specifier, scriptURL);
     final String normalizedSpecifier = asURL != null ? href(asURL) : specifier;
     final String scriptURLString = href(scriptURL);
@@ -70,22 +73,22 @@ public class ImportMapper {
       if (scopePrefix.equals(scriptURLString) || (scopePrefix.endsWith("/") && scriptURLString.startsWith(scopePrefix))) {
         final URL scopeImportsMatch = resolveImportsMatch(normalizedSpecifier, asURL, scopeImports);
         if (scopeImportsMatch != null) {
-          return href(scopeImportsMatch);
+          return scopeImportsMatch;
         }
       }
     }
 
     final URL topLevelImportsMatch = resolveImportsMatch(normalizedSpecifier, asURL, imports);
     if (topLevelImportsMatch != null) {
-      return href(topLevelImportsMatch);
+      return topLevelImportsMatch;
     }
 
     // The specifier was able to be turned into a URL, but wasn't remapped into anything.
     if (asURL != null) {
-      return href(asURL);
+      return asURL;
     }
 
-    return null;
+    throw new UnmappedBareSpecifierException(specifier);
   }
 
   private Map<String, URL> sortAndNormalizeSpecifierMap(JsonObject obj, URL baseURL) {
@@ -240,3 +243,4 @@ public class ImportMapper {
     return sb.toString();
   }
 }
+

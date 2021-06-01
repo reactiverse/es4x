@@ -16,6 +16,10 @@ case `uname` in
     *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
 esac
 
+if ! [[ -t 1 ]]; then
+  TTY_OPTS=-DnoTTY=true
+fi
+
 # Attempt to use JAVA_HOME
 if [ -z ${JAVA_HOME+x} ]; then
   JAVA_EXE=java
@@ -50,7 +54,7 @@ if [[ -f "logging.properties" ]]; then
 fi
 
 if [[ -f "node_modules/.bin/es4x-launcher.jar" ]]; then
-  exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS -cp "node_modules/.bin/es4x-launcher.jar:$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X "$@"
+  exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS $TTY_OPTS -cp "node_modules/.bin/es4x-launcher.jar:$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X "$@"
 else
   echo "Missing node_modules/.bin/es4x-launcher.jar" >&2
   exit 3

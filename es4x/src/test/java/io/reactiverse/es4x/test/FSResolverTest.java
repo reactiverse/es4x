@@ -22,7 +22,7 @@ public class FSResolverTest {
   @Before
   public void before() throws IOException {
     vertx = Vertx.vertx();
-    fs = new VertxFileSystem(vertx, "node_modules", ".mjs", ".js");
+    fs = new VertxFileSystem(vertx, null, ".mjs", ".js");
   }
 
   @After
@@ -40,8 +40,9 @@ public class FSResolverTest {
     assertEquals(cwd + $ + "node_modules" + $ + "index.js", fs.parsePath("index.js").toString());
     // resolve to cwd
     assertEquals(cwd + $ + "index.js", fs.parsePath("./index.js").toString());
-    // resolve to cwd
-    assertEquals(cwd + $ + ".." + $ + "index.js", fs.parsePath("../index.js").toString());
+    // resolve to cwd parent
+    int s = cwd.lastIndexOf('/');
+    assertEquals(cwd.substring(0, s) + $ + "index.js", fs.parsePath("../index.js").toString());
     // resolve to root
     assertEquals($ + "index.js", fs.parsePath("/index.js").toString());
     // rewrite to cwd

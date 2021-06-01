@@ -20,17 +20,11 @@ COPY --from=NPM /usr/src/app /usr/src/app
 WORKDIR /usr/src/app
 # force es4x maven resolution only to consider production dependencies
 RUN es4x install --only=prod
-# Build Custom runtime
-RUN es4x jlink --target=/es4x
 
 # Third stage (contain)
-FROM gcr.io/distroless/base
+FROM gcr.io/distroless/java:11
 # Collect the jars from the previous step
 COPY --from=JVM /usr/src/app /usr/src/app
-# Collect the runtime
-COPY --from=JVM /es4x /usr
-# We also need libz
-COPY --from=JVM /lib/x86_64-linux-gnu/libz.so.1 /usr/lib
 # use the copied workspace
 WORKDIR /usr/src/app
 # define the entrypoint

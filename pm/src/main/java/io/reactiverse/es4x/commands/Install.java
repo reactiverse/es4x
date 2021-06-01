@@ -490,7 +490,7 @@ public class Install implements Runnable {
         attributes.put(new Attributes.Name("Main-Verticle"), main);
         attributes.put(new Attributes.Name("Main-Command"), "run");
         attributes.put(new Attributes.Name("Default-Verticle-Factory"), verticleFactory);
-        attributes.put(new Attributes.Name("ES4X-Mode"), mode.toString());
+        attributes.put(new Attributes.Name("Import-Map"), mode.toString());
 
         try (OutputStream os = new FileOutputStream(new File(bin, "es4x-launcher.jar"))) {
           try (JarOutputStream target = new JarOutputStream(os, manifest)) {
@@ -562,6 +562,10 @@ public class Install implements Runnable {
         "    *CYGWIN*) basedir=`cygpath -w \"$basedir\"`;;\n" +
         "esac\n" +
         "\n" +
+        "if ! [[ -t 1 ]]; then\n" +
+        "  TTY_OPTS=-DnoTTY=true\n" +
+        "fi\n" +
+        "\n" +
         "JAVA_EXE=\"$JAVA_HOME/bin/java\"\n" +
         "if ! [[ -x \"$JAVA_EXE\" ]]; then\n" +
         "  JAVA_EXE=java\n" +
@@ -579,7 +583,7 @@ public class Install implements Runnable {
         "  LOGGING_PROPERTIES=\"-Djava.util.logging.config.file=$basedir/../../logging.properties\"\n" +
         "fi\n" +
         "\n" +
-        "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS -jar \"$basedir/es4x-launcher.jar\" \"$@\"\n";
+        "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS $TTY_OPTS -jar \"$basedir/es4x-launcher.jar\" \"$@\"\n";
 
     final File exe = new File(bin, "es4x-launcher");
     try (FileOutputStream out = new FileOutputStream(exe)) {
