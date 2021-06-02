@@ -17,7 +17,6 @@ package io.reactiverse.es4x;
 
 import io.netty.buffer.Unpooled;
 import io.reactiverse.es4x.impl.JSObjectMessageCodec;
-import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.reactiverse.es4x.jul.ANSIFormatter;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -84,7 +83,6 @@ public final class ECMAEngine {
   private final Vertx vertx;
   private final Engine engine;
   private final HostAccess hostAccess;
-  private final FileSystem fileSystem;
   private final PolyglotAccess polyglotAccess;
   private final Source objLookup;
   private final Source arrLookup;
@@ -115,7 +113,7 @@ public final class ECMAEngine {
     }
 
     // enable or disable the polyglot access
-    polyglotAccess = Boolean.getBoolean("es4x.polyglot") ? PolyglotAccess.ALL : PolyglotAccess.NONE;
+    polyglotAccess = Boolean.getBoolean("es4x.no-polyglot-access") ? PolyglotAccess.NONE : PolyglotAccess.ALL;
 
     // source caches
     objLookup = Source.newBuilder("js", "(function (fn) { fn({}); })", "<cache#objLookup>")
@@ -128,6 +126,9 @@ public final class ECMAEngine {
       .buildLiteral();
 
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
+      // temp workaround for 21.1.0 regression
+      .allowBufferAccess(true)
+
       /// Highest Precedence
       /// accepts is null, so we can quickly assert the type
 
@@ -189,7 +190,7 @@ public final class ECMAEngine {
               } else {
                 if (failure instanceof Map) {
                   // this happens when JS error messages are bubbled up from the thenable
-                  final Map map = (Map) failure;
+                  final Map<?,?> map = (Map) failure;
                   if (map.containsKey("name") && map.containsKey("message")) {
                     promise.fail(
                       wrap(
@@ -236,8 +237,20 @@ public final class ECMAEngine {
       .targetTypeMapping(
         Value.class,
         Buffer.class,
-        v -> v.hasMember("__jbuffer"),
-        v -> Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class))),
+        Value::hasBufferElements,
+        v -> {
+          if (v.hasMember("__jbuffer")) {
+            return Buffer.buffer(Unpooled.wrappedBuffer(v.getMember("__jbuffer").as(ByteBuffer.class)));
+          } else {
+            // slow path
+            long size = v.getBufferSize();
+            Buffer b = Buffer.buffer((int) size);
+            for (long i = 0; i < size; i++) {
+              b.appendByte(v.readBufferByte(i));
+            }
+            return b;
+          }
+        },
         HostAccess.TargetMappingPrecedence.LOW)
       // Goal: [...] -> java.util.Set
       // Sets are used sporadically on vert.x APIs, as converting from JS Set to <java.util.Set> is a bit cumbersome
@@ -247,7 +260,7 @@ public final class ECMAEngine {
         Value.class,
         Set.class,
         Value::hasArrayElements,
-        v -> new HashSet(v.as(List.class)),
+        v -> new HashSet<>(v.as(List.class)),
         HostAccess.TargetMappingPrecedence.LOW)
       // Goal: Error -> Throwable
       // Errors are expected to be used sporadically too, this helper is just extracting the default error fields from
@@ -271,8 +284,6 @@ public final class ECMAEngine {
         },
         HostAccess.TargetMappingPrecedence.LOW)
       .build();
-
-    fileSystem = new VertxFileSystem(vertx, ".mjs", ".js");
   }
 
   private static Throwable wrap(String name, String message, String stack) {
@@ -304,7 +315,7 @@ public final class ECMAEngine {
    *                usually for polyfills, initialization, customization.
    * @return new context.
    */
-  public synchronized Runtime newContext(Source... scripts) {
+  public synchronized Runtime newContext(FileSystem fileSystem, Source... scripts) {
 
     final Pattern[] allowedHostAccessClassFilters = ECMAEngine.allowedHostClassFilters();
 
@@ -332,14 +343,9 @@ public final class ECMAEngine {
         }
       })
       .allowHostAccess(hostAccess)
-      .allowPolyglotAccess(polyglotAccess);
-
-    // allow specifying the custom ecma version
-    if (System.getProperty("js.ecmascript-version") != null) {
-      builder.option("js.ecmascript-version", System.getProperty("js.ecmascript-version"));
-    }
-
-    builder.option("js.foreign-object-prototype", "true");
+      .allowPolyglotAccess(polyglotAccess)
+      .allowEnvironmentAccess(EnvironmentAccess.INHERIT)
+      .option("js.foreign-object-prototype", "true");
 
     // the instance
     final Context context = builder.build();

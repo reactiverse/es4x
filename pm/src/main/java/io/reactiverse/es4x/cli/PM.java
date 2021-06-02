@@ -75,7 +75,27 @@ public class PM {
   private static final String[] EMPTY_ARGS = new String[]{""};
   private static final String[] EMPTY = new String[]{};
 
+  private static final String[] COMMANDS = new String[] {
+    "app",
+    Project.NAME,
+    Install.NAME,
+    SecurityPolicy.NAME,
+    Versions.NAME
+  };
+
   public static void main(String[] args) {
+    // --compgen (bash completion)
+    if (args != null && args.length > 0 && "--compgen".equals(args[0])) {
+      String prefix = args.length == 2 ? args[1] : null;
+      for (String name : COMMANDS) {
+        if (prefix == null || name.startsWith(prefix)) {
+          System.out.println(name);
+        }
+      }
+      System.exit(3);
+      return;
+    }
+
     if (args == null || args.length == 0) {
       args = EMPTY_ARGS;
     }

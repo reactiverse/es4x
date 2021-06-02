@@ -21,6 +21,7 @@ import java.nio.file.Files;
 
 public final class Helper {
 
+  private static final boolean NO_TTY = Boolean.getBoolean("noTTY");
   private static final String OS = System.getProperty("os.name").toLowerCase();
 
   public static boolean isWindows() {
@@ -74,7 +75,11 @@ public final class Helper {
   }
 
   public static void fatal(String message) {
-    System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
+    if (NO_TTY) {
+      System.err.println("F: " + message);
+    } else {
+      System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
+    }
     System.exit(1);
   }
 
@@ -98,10 +103,18 @@ public final class Helper {
   }
 
   public static void err(String message) {
-    System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
+    if (NO_TTY) {
+      System.err.println("E: " + message);
+    } else {
+      System.err.println("\u001B[1m\u001B[31m" + message + "\u001B[0m");
+    }
   }
 
   public static void warn(String message) {
-    System.err.println("\u001B[1m\u001B[33m" + message + "\u001B[0m");
+    if (NO_TTY) {
+      System.err.println("W: " + message);
+    } else {
+      System.err.println("\u001B[1m\u001B[33m" + message + "\u001B[0m");
+    }
   }
 }

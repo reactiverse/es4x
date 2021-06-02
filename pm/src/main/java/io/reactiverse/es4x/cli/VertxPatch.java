@@ -95,37 +95,39 @@ public class VertxPatch {
       throw new RuntimeException("Failed to locate the core jar");
     }
 
-    try (JarInputStream jar = new JarInputStream(new FileInputStream(coreJar))) {
-      JarEntry je;
-      byte[] bytes;
-      File target;
-      while ((je = jar.getNextJarEntry()) != null) {
-        switch (je.getName()) {
-          case "io/vertx/core/json/JsonObject.class":
-            bytes = new JsonObjectVisitor().rewrite(jar);
-            target = new File(_target, "io/vertx/core/json");
-            target.mkdirs();
-            try (OutputStream writer = new FileOutputStream(new File(target, "JsonObject.class"))) {
-              writer.write(bytes);
-            }
-            break;
+    try (InputStream is = new FileInputStream(coreJar)) {
+      try (JarInputStream jar = new JarInputStream(is)) {
+        JarEntry je;
+        byte[] bytes;
+        File target;
+        while ((je = jar.getNextJarEntry()) != null) {
+          switch (je.getName()) {
+            case "io/vertx/core/json/JsonObject.class":
+              bytes = new JsonObjectVisitor().rewrite(jar);
+              target = new File(_target, "io/vertx/core/json");
+              target.mkdirs();
+              try (OutputStream writer = new FileOutputStream(new File(target, "JsonObject.class"))) {
+                writer.write(bytes);
+              }
+              break;
 
-          case "io/vertx/core/json/JsonArray.class":
-            bytes = new JsonArrayVisitor().rewrite(jar);
-            target = new File(_target, "io/vertx/core/json");
-            target.mkdirs();
-            try (OutputStream writer = new FileOutputStream(new File(target, "JsonArray.class"))) {
-              writer.write(bytes);
-            }
-            break;
-          case "io/vertx/core/impl/future/FutureBase.class":
-            bytes = new FutureBaseVisitor().rewrite(jar);
-            target = new File(_target, "io/vertx/core/impl/future");
-            target.mkdirs();
-            try (OutputStream writer = new FileOutputStream(new File(target, "FutureBase.class"))) {
-              writer.write(bytes);
-            }
-            break;
+            case "io/vertx/core/json/JsonArray.class":
+              bytes = new JsonArrayVisitor().rewrite(jar);
+              target = new File(_target, "io/vertx/core/json");
+              target.mkdirs();
+              try (OutputStream writer = new FileOutputStream(new File(target, "JsonArray.class"))) {
+                writer.write(bytes);
+              }
+              break;
+            case "io/vertx/core/impl/future/FutureBase.class":
+              bytes = new FutureBaseVisitor().rewrite(jar);
+              target = new File(_target, "io/vertx/core/impl/future");
+              target.mkdirs();
+              try (OutputStream writer = new FileOutputStream(new File(target, "FutureBase.class"))) {
+                writer.write(bytes);
+              }
+              break;
+          }
         }
       }
     }

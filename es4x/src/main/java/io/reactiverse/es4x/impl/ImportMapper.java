@@ -4,7 +4,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 
+import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
@@ -15,6 +18,14 @@ public class ImportMapper {
   private final URL baseURL;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ImportMapper.class);
+
+  public ImportMapper(JsonObject config) throws MalformedURLException {
+    this(config, new File(VertxFileSystem.getCWD()).toURI());
+  }
+
+  public ImportMapper(JsonObject config, URI baseURI) throws MalformedURLException {
+    this(config, baseURI.toURL());
+  }
 
   public ImportMapper(JsonObject config, URL baseURL) {
     imports = config.containsKey("imports") ?
@@ -28,10 +39,32 @@ public class ImportMapper {
     this.baseURL = baseURL;
   }
 
-  public URL resolve(String specifier) {
-    final URL asURL = tryURLLikeSpecifierParse(specifier, baseURL);
-    final String normalizedSpecifier = asURL != null ? asURL.toExternalForm() : specifier;
-    final String scriptURLString = baseURL.toExternalForm();
+  public URI resolve(String specifier) throws UnmappedBareSpecifierException, URISyntaxException {
+    URL resolved = resolve(specifier, baseURL);
+    URI uri = resolved.toURI();
+
+    if ("".equals(uri.getPath())) {
+      // recreate the URI but with a fixed path
+      return new URI(uri.getScheme(), uri.getAuthority(), "/", uri.getFragment());
+    }
+    return uri;
+  }
+
+  public URI resolve(String specifier, String referrer) throws MalformedURLException, UnmappedBareSpecifierException, URISyntaxException {
+    URL resolved = resolve(specifier, new URL(baseURL, referrer));
+    URI uri = resolved.toURI();
+
+    if ("".equals(uri.getPath())) {
+      // recreate the URI but with a fixed path
+      return new URI(uri.getScheme(), uri.getAuthority(), "/", uri.getFragment());
+    }
+    return uri;
+  }
+
+  public URL resolve(String specifier, URL scriptURL) throws UnmappedBareSpecifierException {
+    final URL asURL = tryURLLikeSpecifierParse(specifier, scriptURL);
+    final String normalizedSpecifier = asURL != null ? href(asURL) : specifier;
+    final String scriptURLString = href(scriptURL);
 
     for (Map.Entry<String, Map<String, URL>> kv : scopes.entrySet()) {
       final String scopePrefix = kv.getKey();
@@ -55,7 +88,7 @@ public class ImportMapper {
       return asURL;
     }
 
-    throw new RuntimeException("Unmapped bare specifier " + specifier);
+    throw new UnmappedBareSpecifierException(specifier);
   }
 
   private Map<String, URL> sortAndNormalizeSpecifierMap(JsonObject obj, URL baseURL) {
@@ -80,8 +113,8 @@ public class ImportMapper {
         continue;
       }
 
-      if (kv.getKey().endsWith("/") && !addressURL.toExternalForm().endsWith("/")) {
-        LOGGER.warn("Invalid address " + addressURL.toExternalForm() + " for package specifier key " + kv.getKey() + ". Package addresses must end with \"/\".");
+      if (kv.getKey().endsWith("/") && !href(addressURL).endsWith("/")) {
+        LOGGER.warn("Invalid address " + href(addressURL) + " for package specifier key " + kv.getKey() + ". Package addresses must end with \"/\".");
         normalized.put(normalizedSpecifierKey, null);
         continue;
       }
@@ -106,7 +139,7 @@ public class ImportMapper {
         continue;
       }
 
-      final String normalizedScopePrefix = scopePrefixURL.toExternalForm();
+      final String normalizedScopePrefix = href(scopePrefixURL);
       normalized.put(normalizedScopePrefix, sortAndNormalizeSpecifierMap((JsonObject) kv.getValue(), baseURL));
     }
 
@@ -123,7 +156,7 @@ public class ImportMapper {
 
     final URL url = tryURLLikeSpecifierParse(specifierKey, baseURL);
     if (url != null) {
-      return url.toExternalForm();
+      return href(url);
     }
 
     return specifierKey;
@@ -162,7 +195,7 @@ public class ImportMapper {
         final String afterPrefix = normalizedSpecifier.substring(specifierKey.length());
 
         // Enforced by parsing
-        assert (resolutionResult.toExternalForm().endsWith("/"));
+        assert (href(resolutionResult).endsWith("/"));
 
         final URL url = tryURLParse(afterPrefix, resolutionResult);
 
@@ -190,4 +223,24 @@ public class ImportMapper {
   private static boolean isSpecial(URL url) {
     return specialProtocols.contains(url.getProtocol());
   }
+
+  private static String href(URL url) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(url.getProtocol());
+    sb.append("://");
+    String authority = url.getAuthority();
+    if (authority != null) {
+      sb.append(authority);
+    }
+    String file = url.getFile();
+    if (file != null) {
+      if ("".equals(file)) {
+        sb.append("/");
+      } else {
+        sb.append(url.getFile());
+      }
+    }
+    return sb.toString();
+  }
 }
+

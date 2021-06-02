@@ -5,6 +5,7 @@ import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,19 @@ public class FactoryMJSTest {
   public void shouldDeployVerticleWithOnStop(TestContext ctx) {
     final Async async = ctx.async();
     rule.vertx().deployVerticle("mjs:./verticle2.mjs", new DeploymentOptions().setInstances(8), deploy -> {
+      ctx.assertTrue(deploy.succeeded());
+      rule.vertx().setTimer(1000L, t -> rule.vertx().undeploy(deploy.result(), undeploy -> {
+        ctx.assertTrue(undeploy.succeeded());
+        async.complete();
+      }));
+    });
+  }
+
+  @Test(timeout = 30000)
+  @Ignore("This test requires the npm modules for 4.1 to be released first")
+  public void shouldDeployVerticleWithMod(TestContext ctx) {
+    final Async async = ctx.async();
+    rule.vertx().deployVerticle("mjs:./online.mjs", deploy -> {
       ctx.assertTrue(deploy.succeeded());
       rule.vertx().setTimer(1000L, t -> rule.vertx().undeploy(deploy.result(), undeploy -> {
         ctx.assertTrue(undeploy.succeeded());

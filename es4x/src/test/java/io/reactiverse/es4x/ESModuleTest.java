@@ -1,5 +1,6 @@
 package io.reactiverse.es4x;
 
+import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -8,6 +9,8 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.IOException;
 
 @RunWith(VertxUnitRunner.class)
 public class ESModuleTest {
@@ -18,8 +21,9 @@ public class ESModuleTest {
   public RunTestOnContext rule = new RunTestOnContext();
 
   @Before
-  public void initialize() {
-    runtime = new ECMAEngine(rule.vertx()).newContext();
+  public void initialize() throws IOException {
+    runtime = new ECMAEngine(rule.vertx())
+      .newContext(new VertxFileSystem(rule.vertx(), null, ".mjs", ".js"));
   }
 
   @Test

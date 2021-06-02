@@ -34,12 +34,12 @@ import org.eclipse.aether.transfer.TransferResource;
 /**
  * A simplistic transfer listener that logs uploads/downloads to the console.
  */
-final class ConsoleTransferListener
-  extends AbstractTransferListener {
+final class ConsoleTransferListener extends AbstractTransferListener {
 
+  private static final boolean bare = Boolean.getBoolean("bare");
   private final PrintStream out;
 
-  private final Map<TransferResource, Long> downloads = new ConcurrentHashMap<TransferResource, Long>();
+  private final Map<TransferResource, Long> downloads = new ConcurrentHashMap<>();
 
   private int lastLength;
 
@@ -63,21 +63,22 @@ final class ConsoleTransferListener
     TransferResource resource = event.getResource();
     downloads.put(resource, event.getTransferredBytes());
 
-    StringBuilder buffer = new StringBuilder(64);
+    if (!bare) {
+      StringBuilder buffer = new StringBuilder(64);
 
-    for (Map.Entry<TransferResource, Long> entry : downloads.entrySet()) {
-      long total = entry.getKey().getContentLength();
-      long complete = entry.getValue();
+      for (Map.Entry<TransferResource, Long> entry : downloads.entrySet()) {
+        long total = entry.getKey().getContentLength();
+        long complete = entry.getValue();
+        buffer.append(getStatus(complete, total)).append("  ");
+      }
 
-      buffer.append(getStatus(complete, total)).append("  ");
+      int pad = lastLength - buffer.length();
+      lastLength = buffer.length();
+      pad(buffer, pad);
+      buffer.append('\r');
+
+      out.print(buffer);
     }
-
-    int pad = lastLength - buffer.length();
-    lastLength = buffer.length();
-    pad(buffer, pad);
-    buffer.append('\r');
-
-    out.print(buffer);
   }
 
   private String getStatus(long complete, long total) {
@@ -120,8 +121,7 @@ final class ConsoleTransferListener
         throughput = " at " + format.format(kbPerSec) + " KB/sec";
       }
 
-      out.println(type + ": " + resource.getRepositoryUrl() + resource.getResourceName() + " (" + len
-        + throughput + ")");
+      out.println(type + ": " + resource.getRepositoryUrl() + resource.getResourceName() + " (" + len + throughput + ")");
     }
   }
 
@@ -136,11 +136,12 @@ final class ConsoleTransferListener
 
   private void transferCompleted(TransferEvent event) {
     downloads.remove(event.getResource());
-
-    StringBuilder buffer = new StringBuilder(64);
-    pad(buffer, lastLength);
-    buffer.append('\r');
-    out.print(buffer);
+    if (!bare) {
+      StringBuilder buffer = new StringBuilder(64);
+      pad(buffer, lastLength);
+      buffer.append('\r');
+      out.print(buffer);
+    }
   }
 
   public void transferCorrupted(TransferEvent event) {

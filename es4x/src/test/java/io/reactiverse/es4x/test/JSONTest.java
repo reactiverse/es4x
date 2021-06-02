@@ -42,19 +42,21 @@ public class JSONTest {
   @Test
   public void shouldStringifyNativeJsonTypes(TestContext should) {
     Value res =
-      runtime.eval("var JsonObject = Java.type('io.vertx.core.json.JsonObject'); var x = new JsonObject(); x['k'] = 1; JSON.stringify(x, 'buffer')");
+      runtime.eval("var JsonObject = Java.type('io.vertx.core.json.JsonObject'); var x = new JsonObject(); x['k'] = 1; JSON.stringify(x)");
 
-    should.assertNotNull(res.as(Buffer.class));
+    should.assertNotNull(res.as(String.class));
 
     try {
-      res.as(String.class);
+      res.as(Buffer.class);
       should.fail("Output should be Buffer");
     } catch (ClassCastException e) {
       // expected
     }
 
+    should.assertEquals("{\"k\":1}", res.asString());
+
     Value res2 =
-      runtime.eval("var JsonObject = Java.type('io.vertx.core.json.JsonObject'); var x = new JsonObject(); x['k'] = 1; JSON.stringify(x, 'pretty')");
+      runtime.eval("var JsonObject = Java.type('io.vertx.core.json.JsonObject'); var x = new JsonObject(); x['k'] = 1; JSON.stringify(x)");
 
     try {
       res2.as(Buffer.class);

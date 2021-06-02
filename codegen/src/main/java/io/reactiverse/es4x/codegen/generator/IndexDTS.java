@@ -289,7 +289,7 @@ public class IndexDTS extends Generator<ClassModel> {
   }
 
   private void generateMethod(PrintWriter writer, ClassTypeInfo type, MethodInfo method) {
-    if (method.getKind() == MethodKind.FUTURE) {
+    if (method.getKind() == MethodKind.CALLBACK) {
       // slice the last element
       List<ParamInfo> params = new ArrayList<>(method.getParams());
       ParamInfo lastParam = params.remove(params.size() - 1);

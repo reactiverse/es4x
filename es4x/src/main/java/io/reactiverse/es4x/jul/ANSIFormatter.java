@@ -28,21 +28,25 @@ public class ANSIFormatter extends Formatter {
   private static final boolean colors;
 
   static {
-    String term = System.getenv("TERM");
-    if (term != null) {
-      term = term.toLowerCase();
-      colors =
-        // this is where the most common config will be on unices
-        term.equals("xterm-color")
-          // however as there are lots of terminal emulators, it seems
-          // safer to look up for the suffix "-256color" as it covers:
-          // vte, linux, tmux, screen, putty, rxvt, nsterm, ...
-          || term.endsWith("-256color");
-    } else {
-      // there's no env variable (we're running either embedded (no shell)
-      // or on a OS that doesn't set the TERM variable (Windows maybe)
+    if (Boolean.getBoolean("noTTY")) {
       // in this case rely on the system property to DISABLE the colors.
-      colors = !Boolean.getBoolean("es4x.bare");
+      colors = false;
+    } else {
+      String term = System.getenv("TERM");
+      if (term != null) {
+        term = term.toLowerCase();
+        colors =
+          // this is where the most common config will be on unices
+          term.equals("xterm-color")
+            // however as there are lots of terminal emulators, it seems
+            // safer to look up for the suffix "-256color" as it covers:
+            // vte, linux, tmux, screen, putty, rxvt, nsterm, ...
+            || term.endsWith("-256color");
+      } else {
+        // there's no env variable (we're running either embedded (no shell)
+        // or on a OS that doesn't set the TERM variable (Windows maybe)
+        colors = false;
+      }
     }
   }
 

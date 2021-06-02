@@ -70,42 +70,45 @@ public final class JSVerticleFactory extends ESVerticleFactory {
           address = null;
         }
 
-        // this can take some time to load so it might block the event loop
-        // this is usually not a issue as it is a one time operation
         try {
           if (worker) {
             setupVerticleMessaging(runtime, vertx, address);
           }
 
-          module.invokeMember("runMain", mainScript(fsVerticleName));
+          // wrap the deployment in a execute blocking as blocking io can happen during deploy
+          vertx
+            .<Void>executeBlocking(deploy -> {
+              try {
+                module.invokeMember("runMain", mainScript(fsVerticleName));
+                deploy.complete();
+              } catch (RuntimeException e) {
+                deploy.fail(e);
+              }
+            })
+            .onFailure(startFuture::fail)
+            .onSuccess(v ->
+              waitFor(runtime, "deploy").onComplete(startFuture));
         } catch (RuntimeException e) {
           startFuture.fail(e);
-          return;
         }
-
-        startFuture.complete();
       }
 
       @Override
       public void stop(Promise<Void> stopFuture) {
-        final Promise<Void> wrapper = Promise.promise();
-
-        try {
-          int arity = runtime.emit("undeploy", wrapper);
-          final Future<Void> future = wrapper.future();
-
-          future.onComplete(undeploy -> {
+        // call the undeploy if available
+        waitFor(runtime, "undeploy")
+          .onComplete(undeploy -> {
             stopFuture.handle(undeploy);
             runtime.close();
           });
-
-          if (arity == 0) {
-            wrapper.complete();
-          }
-        } catch (RuntimeException e) {
-          wrapper.fail(e);
-        }
       }
+    };
+  }
+
+  @Override
+  protected String[] defaultExtensions() {
+    return new String[] {
+      ".js"
     };
   }
 }

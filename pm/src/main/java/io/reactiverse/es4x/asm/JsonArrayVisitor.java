@@ -52,6 +52,7 @@ public class JsonArrayVisitor extends ClassVisitor {
     generateSet();
     generateRemove();
     generateGetSize();
+    generateGetIterator();
     super.visitEnd();
   }
 
@@ -94,6 +95,15 @@ public class JsonArrayVisitor extends ClassVisitor {
     mv.visitInsn(IRETURN);
     mv.visitMaxs(3, 3);
     mv.visitEnd();
+  }
+
+  private void generateGetIterator() {
+    MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getIterator", "()Ljava/lang/Object;", null, null);
+    mv.visitCode();
+    mv.visitVarInsn(ALOAD, 0);
+    mv.visitMethodInsn(INVOKESTATIC, "io/reactiverse/es4x/impl/ProxyUtil", "getIterator", "(Lio/vertx/core/json/JsonArray;)Ljava/lang/Object;", false);
+    mv.visitInsn(ARETURN);
+    mv.visitMaxs(2, 1);
   }
 
   public byte[] rewrite(InputStream source) throws IOException {

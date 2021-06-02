@@ -3,11 +3,10 @@ package io.reactiverse.es4x.test;
 import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.VertxInternal;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -20,14 +19,14 @@ public class FSResolverTest {
   private static Vertx vertx;
   private static VertxFileSystem fs;
 
-  @BeforeClass
-  public static void beforeAll() {
+  @Before
+  public void before() throws IOException {
     vertx = Vertx.vertx();
-    fs = new VertxFileSystem(vertx, ".mjs", ".js");
+    fs = new VertxFileSystem(vertx, null, ".mjs", ".js");
   }
 
-  @AfterClass
-  public static void afterAll() {
+  @After
+  public void after() {
     vertx.close();
   }
 
@@ -41,8 +40,9 @@ public class FSResolverTest {
     assertEquals(cwd + $ + "node_modules" + $ + "index.js", fs.parsePath("index.js").toString());
     // resolve to cwd
     assertEquals(cwd + $ + "index.js", fs.parsePath("./index.js").toString());
-    // resolve to cwd
-    assertEquals(cwd + $ + ".." + $ + "index.js", fs.parsePath("../index.js").toString());
+    // resolve to cwd parent
+    int s = cwd.lastIndexOf('/');
+    assertEquals(cwd.substring(0, s) + $ + "index.js", fs.parsePath("../index.js").toString());
     // resolve to root
     assertEquals($ + "index.js", fs.parsePath("/index.js").toString());
     // rewrite to cwd

@@ -106,11 +106,7 @@
   }
 
   global.process = {
-    env: new Proxy({}, {
-      get: function (obj, prop) {
-        return System.getenv(prop);
-      }
-    }),
+    env: System.getenv(),
     pid: pid,
     platform: System.getProperty('os.name').toLowerCase(),
 
@@ -150,6 +146,13 @@
       },
       get: function (obj, prop) {
         return System.getProperty(prop);
+      },
+      getOwnPropertyDescriptor: function(obj, prop) {
+        return  {
+          configurable: true,
+          enumerable: true,
+          value: System.getenv(prop)
+        };
       }
     }),
 

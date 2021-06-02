@@ -42,4 +42,11 @@ public class ProcessTest {
       assertFalse(cwd.endsWith("/"));
     }
   }
+
+  @Test(timeout = 10000)
+  public void testProcessProperties() {
+    Map env = runtime.eval("process.properties").as(Map.class);
+    // PATH is usually available on all OSes
+    assertNotNull(env.get("user.dir"));
+  }
 }

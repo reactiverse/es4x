@@ -19,8 +19,6 @@ import io.reactiverse.es4x.ESVerticleFactory;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
-import org.graalvm.polyglot.Value;
-import org.graalvm.polyglot.proxy.ProxyExecutable;
 
 import java.nio.file.InvalidPathException;
 
@@ -70,18 +68,29 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
           if (worker) {
             setupVerticleMessaging(runtime, vertx, address);
           }
+          // wrap the deployment in a execute blocking as blocking net/io can happen during deploy
+          vertx
+            .<Void>executeBlocking(deploy -> {
+              try {
+                // the main script buffer
+                final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
+                runtime.eval(
+                  // strip the shebang if present
+                  ESModuleIO.stripShebang(buffer.toString()),
+                  fsVerticleName,
+                  "application/javascript+module",
+                  false);
+                deploy.complete();
+              } catch (InvalidPathException e) {
+                deploy.fail("File Not Found: " + fsVerticleName);
+              } catch (RuntimeException e) {
+                deploy.fail(e);
+              }
+            }, true)
+            .onFailure(startFuture::fail)
+            .onSuccess(v ->
+              waitFor(runtime, "deploy").onComplete(startFuture));
 
-          // the main script buffer
-          final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
-          runtime.eval(
-            // strip the shebang if present
-            ESModuleIO.stripShebang(buffer.toString()),
-            fsVerticleName,
-            "application/javascript+module",
-            false);
-          startFuture.complete();
-        } catch (InvalidPathException e) {
-          startFuture.fail("File Not Found: " + fsVerticleName);
         } catch (RuntimeException e) {
           startFuture.fail(e);
         }
@@ -89,25 +98,21 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
 
       @Override
       public void stop(Promise<Void> stopFuture) {
-        final Promise<Void> wrapper = Promise.promise();
-
-        try {
-          int arity = runtime.emit("undeploy", wrapper);
-          final Future<Void> future = wrapper.future();
-
-          // ensure we shutdown this runtime
-          future.onComplete(undeploy -> {
+        // call the undeploy if available
+        waitFor(runtime, "undeploy")
+          .onComplete(undeploy -> {
             stopFuture.handle(undeploy);
             runtime.close();
           });
-
-          if (arity == 0) {
-            wrapper.complete();
-          }
-        } catch (RuntimeException e) {
-          wrapper.fail(e);
-        }
       }
+    };
+  }
+
+  @Override
+  protected String[] defaultExtensions() {
+    return new String[] {
+      ".mjs",
+      ".js"
     };
   }
 }

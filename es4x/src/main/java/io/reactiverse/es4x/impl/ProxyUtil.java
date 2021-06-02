@@ -22,9 +22,12 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Value;
 import org.graalvm.polyglot.proxy.ProxyArray;
+import org.graalvm.polyglot.proxy.ProxyIterator;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * This class provides a default implementation for the graalvm proxy interface methods, to be used by
@@ -34,7 +37,7 @@ public final class ProxyUtil {
 
   private static final Logger LOG = LoggerFactory.getLogger(ProxyUtil.class.getSimpleName());
 
-  private static final Object unwrapValue(Value v) {
+  private static Object unwrapValue(Value v) {
     if (v == null) {
       return null;
     }
@@ -117,6 +120,22 @@ public final class ProxyUtil {
     }
     self.remove((int) index);
     return true;
+  }
+
+  public static Object getIterator(JsonArray self) {
+    return new ProxyIterator() {
+      final Iterator<?> it = self.iterator();
+
+      @Override
+      public boolean hasNext() {
+        return it.hasNext();
+      }
+
+      @Override
+      public Object getNext() throws NoSuchElementException, UnsupportedOperationException {
+        return it.next();
+      }
+    };
   }
 
   public static void then(Future<?> self, Value onFulfilled, Value onRejected) {

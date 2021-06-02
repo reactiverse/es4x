@@ -1,0 +1,121 @@
+name: CI
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+jobs:
+  java8:
+    name: Run Java 8 tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        jdk:
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk'
+          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.1.0/graalvm-ce-java8-linux-amd64-21.1.0.tar.gz'
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/8/ga/linux/x64/jdk/openj9/normal/adoptopenjdk'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache JVM
+        id: cache-java
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ runner.temp }}/java_package.tar.gz
+            ~/.m2/repository
+          key: ${{ runner.os }}-java-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-java-
+      - name: Download JDK
+        if: steps.cache-java.outputs.cache-hit != 'true'
+        run: wget -O $RUNNER_TEMP/java_package.tar.gz ${{ matrix.jdk }}
+      - name: Install JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/java_package.tar.gz
+          java-version: '8'
+          architecture: x64
+      - name: Run tests
+        run: mvn clean verify
+
+  java11:
+    name: Run Java 11 tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        jdk:
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk'
+          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.1.0/graalvm-ce-java11-linux-amd64-21.1.0.tar.gz'
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/openj9/normal/adoptopenjdk'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache JVM
+        id: cache-jvm
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ runner.temp }}/java_package.tar.gz
+            ~/.m2/repository
+          key: ${{ runner.os }}-java-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-java-
+      - name: Download JDK
+        if: steps.cache-java.outputs.cache-hit != 'true'
+        run: wget -O $RUNNER_TEMP/java_package.tar.gz ${{ matrix.jdk }}
+      - name: Install JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/java_package.tar.gz
+          java-version: '11'
+          architecture: x64
+      - name: Run tests
+        run: mvn clean verify
+
+  java16:
+    name: Run Java 16 tests
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+        jdk:
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/16/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk'
+          - 'https://api.adoptopenjdk.net/v3/binary/latest/16/ga/linux/x64/jdk/openj9/normal/adoptopenjdk'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache JVM
+        id: cache-jvm
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ runner.temp }}/java_package.tar.gz
+            ~/.m2/repository
+          key: ${{ runner.os }}-java-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-java-
+      - name: Download JDK
+        if: steps.cache-java.outputs.cache-hit != 'true'
+        run: wget -O $RUNNER_TEMP/java_package.tar.gz ${{ matrix.jdk }}
+      - name: Install JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/java_package.tar.gz
+          java-version: '16'
+          architecture: x64
+      - name: Run tests
+        run: mvn clean verify
