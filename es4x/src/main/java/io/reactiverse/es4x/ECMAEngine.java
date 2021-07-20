@@ -36,14 +36,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import static io.reactiverse.es4x.impl.AsyncError.parseStrackTraceElement;
 
 public final class ECMAEngine {
-
-  private static final Logger LOG = Logger.getLogger(ECMAEngine.class.getName());
 
   private static Pattern[] allowedHostClassFilters() {
     String hostClassFilter = System.getProperty("es4x.host.class.filter", System.getenv("ES4XHOSTCLASSFILTER"));
@@ -89,7 +86,6 @@ public final class ECMAEngine {
 
   // lazy install the codec
   private final AtomicBoolean codecInstalled = new AtomicBoolean(false);
-  private static boolean nag = true;
 
   public ECMAEngine(Vertx vertx) {
     this.vertx = vertx;
@@ -103,13 +99,6 @@ public final class ECMAEngine {
 
     if (!engine.getLanguages().containsKey("js")) {
       throw new IllegalStateException("A language with id 'js' is not installed");
-    }
-
-    if (nag) {
-      nag = false;
-      if ("Interpreted".equalsIgnoreCase(engine.getImplementationName())) {
-        LOG.warning("ES4X is using graaljs in interpreted mode! Add the JVMCI compiler module in order to run in optimal mode!");
-      }
     }
 
     // enable or disable the polyglot access
@@ -182,7 +171,7 @@ public final class ECMAEngine {
         v -> v.get("then") instanceof Function,
         v -> {
           final Promise<Object> promise = ((VertxInternal) vertx).promise();
-          ((Function<Object[], Object>) v.get("then")).apply(new Object[] {
+          ((Function<Object[], Object>) v.get("then")).apply(new Object[]{
             (Consumer<Object>) promise::complete,
             (Consumer<Object>) failure -> {
               if (failure instanceof Throwable) {
@@ -190,7 +179,7 @@ public final class ECMAEngine {
               } else {
                 if (failure instanceof Map) {
                   // this happens when JS error messages are bubbled up from the thenable
-                  final Map<?,?> map = (Map) failure;
+                  final Map<?, ?> map = (Map<?, ?>) failure;
                   if (map.containsKey("name") && map.containsKey("message")) {
                     promise.fail(
                       wrap(

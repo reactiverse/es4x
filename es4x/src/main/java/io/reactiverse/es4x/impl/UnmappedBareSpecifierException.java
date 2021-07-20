@@ -5,5 +5,4 @@ public final class UnmappedBareSpecifierException extends Exception {
   public UnmappedBareSpecifierException(String bareSpecifier) {
     super("Unmapped bare specifier: " + bareSpecifier);
   }
-
 }

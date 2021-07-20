@@ -79,9 +79,9 @@ public final class Runtime extends EventEmitterImpl {
             source = Source.newBuilder("js", (File) value).build();
           } else if (value instanceof Map) {
             // a json document
-            final String script = (String) ((Map) value).get("script");
+            final String script = (String) ((Map<?, ?>) value).get("script");
             // might be optional
-            final String name = (String) ((Map) value).get("name");
+            final String name = (String) ((Map<?, ?>) value).get("name");
 
             if (name != null && name.length() > 0) {
               final URI uri;
@@ -199,7 +199,7 @@ public final class Runtime extends EventEmitterImpl {
   /**
    * Parse a given script string.
    *
-   * @param script string containing code.
+   * @param script      string containing code.
    * @param interactive literals are non listed on debug sessions
    * @return returns the parsing result.
    */
@@ -210,7 +210,7 @@ public final class Runtime extends EventEmitterImpl {
   /**
    * Parse a given script string.
    *
-   * @param script string containing code.
+   * @param script      string containing code.
    * @param contentType the script content type
    * @param interactive literals are non listed on debug sessions
    * @return returns the parsing result.
