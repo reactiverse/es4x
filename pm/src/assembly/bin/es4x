@@ -30,7 +30,17 @@ else
   fi
 fi
 
-if [ ! -f "node_modules/es4x_install_successful" ]; then
+# if package.json exists then prefix is node_modules
+# and binDir is hidden to respect npm semantics
+if [[ -f "package.json" ]]; then
+  PREFIX="node_modules"
+  BINDIR="$PREFIX/.bin"
+else
+  PREFIX=""
+  BINDIR="bin"
+fi
+
+if [ ! -f "$BINDIR/es4x-launcher.jar" ]; then
   "$JAVA_EXE" $JAVA_OPTS -Dsilent-install -jar "$basedir/../es4x-pm-${project.version}.jar" "$@"
   EXIT_STATUS=$?
   if [[ "$EXIT_STATUS" -ne "0" ]]; then
@@ -39,8 +49,8 @@ if [ ! -f "node_modules/es4x_install_successful" ]; then
 fi
 
 # Use JVMCI if installed
-if [[ -d "node_modules/.jvmci" ]]; then
-  JVMCI="--module-path=node_modules/.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=node_modules/.jvmci/compiler.jar"
+if [[ -d "$PREFIX/.jvmci" ]]; then
+  JVMCI="--module-path=$PREFIX/.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=$PREFIX/.jvmci/compiler.jar"
 fi
 
 # If exists security.policy start the VM in secure mode
@@ -53,9 +63,9 @@ if [[ -f "logging.properties" ]]; then
   LOGGING_PROPERTIES="-Djava.util.logging.config.file=logging.properties"
 fi
 
-if [[ -f "node_modules/.bin/es4x-launcher.jar" ]]; then
-  exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS $TTY_OPTS -cp "node_modules/.bin/es4x-launcher.jar:$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X "$@"
+if [[ -f "$BINDIR/es4x-launcher.jar" ]]; then
+  exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS $TTY_OPTS -cp "$BINDIR/es4x-launcher.jar:$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X "$@"
 else
-  echo "Missing node_modules/.bin/es4x-launcher.jar" >&2
+  echo "Missing $BINDIR/es4x-launcher.jar" >&2
   exit 3
 fi

@@ -115,9 +115,6 @@ public final class ECMAEngine {
       .buildLiteral();
 
     hostAccess = HostAccess.newBuilder(HostAccess.ALL)
-      // temp workaround for 21.1.0 regression
-      .allowBufferAccess(true)
-
       /// Highest Precedence
       /// accepts is null, so we can quickly assert the type
 

@@ -20,6 +20,7 @@ import io.vertx.core.cli.annotations.Name;
 import io.vertx.core.cli.annotations.Summary;
 import io.vertx.core.spi.launcher.DefaultCommand;
 
+@Deprecated
 @Name(SecurityPolicy.NAME)
 @Summary(SecurityPolicy.SUMMARY)
 public class SecurityPolicyCommand extends DefaultCommand {
