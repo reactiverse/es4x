@@ -32,34 +32,82 @@ public class ESModuleIO {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ESModuleIO.class);
 
-  private static final Pattern importDef = Pattern.compile("import (\\* as [a-zA-Z_$][0-9a-zA-Z_$]*|\\{.+?}) from ['\"]([0-9a-zA-Z_$@./\\- ]+)['\"];?", Pattern.DOTALL);
+  private static final Pattern importDef = Pattern.compile("import (\\* as [a-zA-Z_$][0-9a-zA-Z_$]*|\\{.+?}|[a-zA-Z_$][0-9a-zA-Z_$]*(\\s*,\\s*\\{.+?})?) from ['\"]([0-9a-zA-Z_$@./\\- ]+)['\"];?", Pattern.DOTALL);
   private static final Pattern exportDef = Pattern.compile("\\{(.+?)}", Pattern.DOTALL);
   private static final Pattern aliasDef = Pattern.compile("(\\*|[a-zA-Z_$][0-9a-zA-Z_$]*) as ([a-zA-Z_$][0-9a-zA-Z_$]*)", Pattern.DOTALL);
+  private static final Pattern defaultDef = Pattern.compile("[a-zA-Z_$][0-9a-zA-Z_$]*(\\s*,\\s*\\{.+?})?", Pattern.DOTALL);
+
+  private static final Pattern exportPattern = Pattern.compile("export (default|\\{(.+?)})", Pattern.DOTALL);
 
   private static String replace(String source, Pattern pattern, Function<Matcher, String> fn) {
-    final Matcher m = pattern.matcher(source);
-    boolean result = m.find();
-    if (result) {
-      StringBuilder sb = new StringBuilder(source.length());
-      int p = 0;
-      do {
-        sb.append(source, p, m.start());
-        sb.append(fn.apply(m));
-        p = m.end();
-      } while (m.find());
-      sb.append(source, p, source.length());
-      return sb.toString();
-    }
-    return source;
+      final Matcher m = pattern.matcher(source);
+      boolean result = m.find();
+      if (result) {
+        StringBuilder sb = new StringBuilder(source.length());
+        int p = 0;
+        do {
+          sb.append(source, p, m.start());
+          sb.append(fn.apply(m));
+          p = m.end();
+        } while (m.find());
+        sb.append(source, p, source.length());
+        return sb.toString();
+      }
+      return source;
   }
 
   public static String adapt(String statement) {
-    return replace(statement, importDef, importMatcher -> {
+    // replace `import` to `require`
+    statement = replace(statement, importDef, importMatcher -> {
 
       LOGGER.debug(importMatcher.group(0));
 
-      final String exports = importMatcher.group(1);
-      final String module = importMatcher.group(2);
+      String exports = importMatcher.group(1).trim();
+      String module = importMatcher.group(2);
+      if (importMatcher.groupCount() > 2) {
+        module = importMatcher.group(3);
+      }
+
+      final StringBuilder sb = new StringBuilder();
+      int idx = exports.indexOf(",");
+      if (idx > 0 && exports.indexOf("{") > idx) {
+        String def = exports.substring(0, idx);
+        exports = exports.substring(idx+1).trim();
+        sb.append("const " + def + " = require('" + module + "').default;");
+      }
+      // is it single or multiple
+      final Matcher exportMatcher = exportDef.matcher(exports);
+      if (exportMatcher.find()) {
+        final String[] multi = exportMatcher.group(1).split("\\s*,\\s*");
+        for (String single : multi) {
+          sb.append(adaptImport(single.trim(), module));
+        }
+      } else {
+        final Matcher aliasMatcher = aliasDef.matcher(exports);
+        if (aliasMatcher.find()) {
+          sb.append(adaptImport(exports.trim(), module));
+        } else {
+          final Matcher defaultMatcher = defaultDef.matcher(exports);
+          if (defaultMatcher.find()) {
+            sb.append("const " + exports + " = require('" + module + "').default;");
+          } else {
+            sb.append(adaptImport(exports.trim(), module));
+          }
+        }
+      }
+      // ensure that the line numbers match
+      for (int i = 0; i < exports.length(); i++) {
+        if (exports.charAt(i) == '\r' || exports.charAt(i) == '\n') {
+          sb.append(exports.charAt(i));
+        }
+      }
+
+      return sb.toString();
+    });
+
+    // replace `export` to `module.exports = `
+    return replace(statement, exportPattern, matcher -> {
+      final String exports = matcher.group(1);
       // is it single or multiple
       final Matcher exportMatcher = exportDef.matcher(exports);
       final StringBuilder sb = new StringBuilder();
@@ -67,11 +115,12 @@ public class ESModuleIO {
       if (exportMatcher.find()) {
         final String[] multi = exportMatcher.group(1).split("\\s*,\\s*");
         for (String single : multi) {
-          sb.append(adaptImport(single.trim(), module));
+          sb.append(adaptExport(single.trim())+";");
         }
       } else {
-        sb.append(adaptImport(exports.trim(), module));
+        sb.append("module.exports.default =");
       }
+
       // ensure that the line numbers match
       for (int i = 0; i < exports.length(); i++) {
         if (exports.charAt(i) == '\r' || exports.charAt(i) == '\n') {
@@ -96,6 +145,17 @@ public class ESModuleIO {
       }
     } else {
       return "const " + exports + " = require('" + module + "')." + exports + ";";
+    }
+  }
+
+  private static String adaptExport(final String exports) {
+    final Matcher aliasMatcher = aliasDef.matcher(exports);
+    if (aliasMatcher.find()) {
+      final String base = aliasMatcher.group(1).trim();
+      final String alias = aliasMatcher.group(2).trim();
+      return "module.exports." + alias + " = " + base;
+    } else {
+      return "module.exports." + exports + " = " + exports;
     }
   }
 
@@ -156,6 +216,10 @@ public class ESModuleIO {
   }
 
   public String readFile(URI uri, boolean main) throws IOException {
+    return readFile(uri, main, true);
+  }
+
+  public String readFile(URI uri, boolean main, boolean adapt) throws IOException {
     Buffer buffer;
 
     switch (uri.getScheme()) {
@@ -169,13 +233,16 @@ public class ESModuleIO {
         throw new IOException("Cannot handle scheme [" + uri.getScheme() + "]");
     }
 
+    String content;
     if (main) {
-      String content = stripShebang(buffer.toString());
-      return adapt(content);
+      content = stripShebang(buffer.toString());
     } else {
-      String content = stripBOM(buffer.toString());
+      content = stripBOM(buffer.toString());
+    }
+    if (adapt) {
       return adapt(content);
     }
+    return content;
   }
 
   /**
@@ -221,7 +288,7 @@ public class ESModuleIO {
    * @return the striped content
    */
   public static String stripBOM(String content) {
-    if (content.charAt(0) == 0xFEFF) {
+    if (content != null && content.length() > 0 && content.charAt(0) == 0xFEFF) {
       content = content.substring(1);
     }
     return content;
