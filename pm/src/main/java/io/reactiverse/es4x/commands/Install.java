@@ -114,7 +114,6 @@ public class Install implements Runnable {
     System.err.println();
     System.err.println("Options and Arguments:");
     System.err.println(" -e,--environment\t\t\t\tEnvironment 'prod[uction]/dev[elopment]/all' (default: all).");
-    System.err.println(" -f,--force\t\t\t\tWill always install a basic runtime in the current working dir.");
     System.err.println(" -l,--link\t\t\t\tSymlink jars instead of copy.");
     System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
     System.err.println();
@@ -427,7 +426,7 @@ public class Install implements Runnable {
   private void createLauncher(Collection<String> artifacts) {
 
     // default main script
-    String main = ".";
+    String main = null;
     String verticleFactory = "js";
 
     if (hasPackageJson) {
@@ -443,10 +442,18 @@ public class Install implements Runnable {
           }
         }
 
-        // if package json declares a different main, then it shall be used
-        if (npm.has("module")) {
-          main = (String) npm.get("module");
-          verticleFactory = "mjs";
+        // if package json declares a different type, then it shall be used
+        if (npm.has("type")) {
+          switch ((String) npm.get("module")) {
+            case "commonjs":
+              verticleFactory = "js";
+              break;
+            case "module":
+              verticleFactory = "mjs";
+              break;
+            default:
+              fatal("Unknown package.json type: " + npm.get("module"));
+          }
         }
       } catch (IOException e) {
         fatal(e.getMessage());
@@ -472,8 +479,10 @@ public class Install implements Runnable {
       classpath += " " + String.join(" ", vendor);
     }
     attributes.put(Attributes.Name.CLASS_PATH, classpath);
-    attributes.put(new Attributes.Name("Main-Verticle"), main);
-    attributes.put(new Attributes.Name("Main-Command"), "run");
+    if (main != null) {
+      attributes.put(new Attributes.Name("Main-Command"), "run");
+      attributes.put(new Attributes.Name("Main-Verticle"), main);
+    }
     attributes.put(new Attributes.Name("Default-Verticle-Factory"), verticleFactory);
     if (hasImportMap) {
       attributes.put(new Attributes.Name("Import-Map"), "import-map.json");
