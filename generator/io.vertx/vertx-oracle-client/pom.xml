@@ -3,8 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>io.reactiverse.es4x</groupId>
     <artifactId>es4x-generator</artifactId>
@@ -12,33 +10,27 @@
     <relativePath>../..</relativePath>
   </parent>
 
-  <artifactId>hot-reload</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>vertx-oracle-client</artifactId>
   <version>0.15.1-SNAPSHOT</version>
 
-  <packaging>jar</packaging>
-
   <properties>
-    <maven.groupId>xyz.jetdrone</maven.groupId>
-    <npm-version>0.0.6</npm-version>
+    <maven.groupId>io.vertx</maven.groupId>
+    <npm-name>@vertx/oracle-client</npm-name>
+    <npm-version>${stack.version}</npm-version>
     <npm-skip>false</npm-skip>
+
     <!-- language=json -->
-    <npm-dev-dependencies>
+    <npm-dependencies>
       {
-        "${npm-scope}vertx-web": "${stack.version}"
+        "@vertx/core": "${stack.version}",
+        "@vertx/sql-client": "${stack.version}"
       }
-    </npm-dev-dependencies>
-    <!-- language=json -->
-    <npm-optional-dependencies>["@vertx/web"]</npm-optional-dependencies>
+    </npm-dependencies>
   </properties>
 
   <dependencies>
-    <!-- Optional -->
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-web</artifactId>
-      <version>${stack.version}</version>
-      <optional>true</optional>
-    </dependency>
     <!-- SOURCE TO GENERATE -->
     <dependency>
       <groupId>${maven.groupId}</groupId>

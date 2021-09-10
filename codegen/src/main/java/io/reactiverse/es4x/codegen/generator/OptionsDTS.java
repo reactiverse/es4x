@@ -119,12 +119,11 @@ public class OptionsDTS extends Generator<DataObjectModel> {
 
     generateDoc(writer, model.getDoc(), "");
 
-    // TODO: handle extends/implements
-    writer.printf("export %sclass %s {\n\n", model.isConcrete() ? "" : "abstract ", model.getType().getRaw().getSimpleName());
-
-    if (includes.containsKey("d.ts")) {
-      writer.printf("%s\n", includes.getString("d.ts"));
-    }
+    writer.printf("export %sclass %s%s%s {\n\n",
+      model.isConcrete() ? "" : "abstract ",
+      model.getType().getRaw().getSimpleName(),
+      model.getSuperType() != null ? " extends " + model.getType().getRaw().getSimpleName() : "",
+      includes.containsKey("dataObjectImplements<d.ts>") ? " implements " + includes.getString("dataObjectImplements<d.ts>") : "");
 
     if (model.hasEmptyConstructor()) {
       writer.print("  constructor();\n\n");
@@ -165,6 +164,10 @@ public class OptionsDTS extends Generator<DataObjectModel> {
 
     if (model.hasToJsonMethod()) {
       writer.print("\n  toJson(): { [key: string]: any };\n");
+    }
+
+    if (includes.containsKey("d.ts")) {
+      writer.printf("%s\n", includes.getString("d.ts"));
     }
 
     writer.print("}\n");

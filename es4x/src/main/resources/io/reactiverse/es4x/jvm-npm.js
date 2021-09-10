@@ -222,9 +222,6 @@
     if (io.exists(uri)) {
       const body = io.readFile(uri);
       const package_ = JSON.parse(body);
-      if (package_.type && package_.type !== 'commonjs') {
-        throw new ModuleError('Module "' + id + '" type not of type commonjs', 'MODULE_NOT_COMMONJS');
-      }
       // add alias to alias cache
       if (package_.es4xAlias) {
         console.log('Loading alias');
@@ -243,6 +240,10 @@
       if (package_.main) {
         return (resolveAsFile(package_.main, base) ||
           resolveAsDirectory(package_.main, base));
+      }
+      // if there is type validate that we don't load this module
+      if (package_.type && package_.type !== 'commonjs') {
+        throw new ModuleError('Module "' + id + '" type not of type commonjs', 'MODULE_NOT_COMMONJS');
       }
       // if no package.main exists, look for index.js
       return resolveAsFile('index.js', base);

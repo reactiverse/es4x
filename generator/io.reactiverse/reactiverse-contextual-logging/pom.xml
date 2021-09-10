@@ -12,32 +12,46 @@
     <relativePath>../..</relativePath>
   </parent>
 
-  <artifactId>hot-reload</artifactId>
+  <artifactId>reactiverse-contextual-logging</artifactId>
   <version>0.15.1-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 
   <properties>
-    <maven.groupId>xyz.jetdrone</maven.groupId>
-    <npm-version>0.0.6</npm-version>
+    <maven.groupId>io.reactiverse</maven.groupId>
+    <npm-name>@reactiverse/contextual-logging</npm-name>
+    <npm-version>1.1.0-SNAPSHOT</npm-version>
     <npm-skip>false</npm-skip>
     <!-- language=json -->
-    <npm-dev-dependencies>
+    <npm-dependencies>
       {
-        "${npm-scope}vertx-web": "${stack.version}"
+        "@vertx/core": "${stack.version}"
       }
-    </npm-dev-dependencies>
-    <!-- language=json -->
-    <npm-optional-dependencies>["@vertx/web"]</npm-optional-dependencies>
+    </npm-dependencies>
+    <logback.version>1.2.3</logback.version>
+    <log4j2.version>2.14.0</log4j2.version>
   </properties>
 
   <dependencies>
-    <!-- Optional -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j2.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <!-- CODEGEN -->
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-web</artifactId>
-      <version>${stack.version}</version>
+      <artifactId>vertx-codegen</artifactId>
+      <scope>provided</scope>
       <optional>true</optional>
+      <version>${stack.version}</version>
     </dependency>
     <!-- SOURCE TO GENERATE -->
     <dependency>

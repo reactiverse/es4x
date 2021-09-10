@@ -82,7 +82,7 @@ public class FutureTest {
     final Async test;
 
     final AtomicInteger ok = new AtomicInteger(3);
-    final AtomicInteger fail = new AtomicInteger(3);
+    final AtomicInteger fail = new AtomicInteger(4);
 
     FutureTest2(Vertx vertx, TestContext should, Async test) {
       this.should = should;
