@@ -36,15 +36,21 @@ public class FSResolverTest {
     cwd = cwd.substring(0, cwd.length() - 1);
     String cache = ((VertxInternal) vertx).resolveFile("").getPath();
 
+    String drive = "";
+
+    if (File.separatorChar != '/') {
+      drive = cwd.substring(0, 2);
+    }
+
     // resolve to node modules
     assertEquals(cwd + $ + "node_modules" + $ + "index.js", fs.parsePath("index.js").toString());
     // resolve to cwd
     assertEquals(cwd + $ + "index.js", fs.parsePath("./index.js").toString());
     // resolve to cwd parent
-    int s = cwd.lastIndexOf('/');
+    int s = cwd.lastIndexOf(File.separatorChar);
     assertEquals(cwd.substring(0, s) + $ + "index.js", fs.parsePath("../index.js").toString());
     // resolve to root
-    assertEquals($ + "index.js", fs.parsePath("/index.js").toString());
+    assertEquals(drive + $ + "index.js", fs.parsePath("/index.js").toString());
     // rewrite to cwd
     assertEquals(cwd + $ + "index.js", fs.parsePath(cache + $ + "index.js").toString());
     // attempt download

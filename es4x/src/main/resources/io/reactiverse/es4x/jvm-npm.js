@@ -160,7 +160,9 @@
       if (p) {
         // all paths need to be absolute
         if (p.indexOf('./') === 0) {
-          let cwd = System.getProperty("user.dir");
+          let cwd = System.getProperty("user.dir")
+            // transform \ into /
+            .replace(/\\/g, '/');
           if (cwd.length > 0) {
             if (cwd[cwd.length - 1] !== '/') {
               cwd += '/';

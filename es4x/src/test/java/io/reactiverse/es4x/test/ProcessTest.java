@@ -32,6 +32,9 @@ public class ProcessTest {
     Map env = runtime.eval("process.env").as(Map.class);
     // PATH is usually available on all OSes
     assertNotNull(env.get("PATH"));
+
+    String ref = runtime.eval("process.env['PATH']").as(String.class);
+    assertNotNull(ref);
   }
 
   @Test(timeout = 10000)
@@ -46,7 +49,9 @@ public class ProcessTest {
   @Test(timeout = 10000)
   public void testProcessProperties() {
     Map env = runtime.eval("process.properties").as(Map.class);
-    // PATH is usually available on all OSes
     assertNotNull(env.get("user.dir"));
+
+    String ref = runtime.eval("process.properties['user.dir']").as(String.class);
+    assertNotNull(ref);
   }
 }

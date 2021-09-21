@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
+import static io.reactiverse.es4x.impl.Utils.toNixPath;
+
 public class ImportMapper {
 
   private final Map<String, URL> imports;
@@ -62,8 +64,9 @@ public class ImportMapper {
   }
 
   public URL resolve(String specifier, URL scriptURL) throws UnmappedBareSpecifierException {
-    final URL asURL = tryURLLikeSpecifierParse(specifier, scriptURL);
-    final String normalizedSpecifier = asURL != null ? href(asURL) : specifier;
+    final String posixSpecifier = toNixPath(specifier);
+    final URL asURL = tryURLLikeSpecifierParse(posixSpecifier, scriptURL);
+    final String normalizedSpecifier = asURL != null ? href(asURL) : posixSpecifier;
     final String scriptURLString = href(scriptURL);
 
     for (Map.Entry<String, Map<String, URL>> kv : scopes.entrySet()) {
