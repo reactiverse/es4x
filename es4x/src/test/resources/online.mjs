@@ -1,4 +1,4 @@
-import { Router } from 'https://unpkg.io/@vertx/web@4.0.3/mod.js'
+import { Router } from 'https://unpkg.io/@vertx/web@4.1.0/mod.js'
 
 Router.router(vertx);
 

@@ -190,6 +190,8 @@ public final class VertxFileSystem implements FileSystem {
    */
   @Override
   public Path parsePath(String path) {
+    LOGGER.trace(String.format("parsePath(%s)", path));
+
     if ("".equals(path)) {
       return new File(cwd).toPath();
     }
@@ -213,17 +215,12 @@ public final class VertxFileSystem implements FileSystem {
           throw new IllegalArgumentException("unsupported scheme: " + resolved.getScheme());
       }
     } catch (UnmappedBareSpecifierException e) {
-      LOGGER.warn("Failed to resolve module", e);
+      LOGGER.debug("Failed to resolve module", e);
       // bare specifier
       file = new File(baseDir, path);
     } catch (URISyntaxException e) {
       throw new InvalidPathException(path, e.getMessage());
     }
-
-    LOGGER.trace(String.format("parsePath(%s)", path));
-
-    // simple normalize
-    file = file.getAbsoluteFile();
 
     // if it's a download, get the file to the download dir
     // if not, continue the processing...
@@ -231,21 +228,18 @@ public final class VertxFileSystem implements FileSystem {
       // force resolve through vertx, this allows fixing paths from cache back to the right location
       file = vertx.resolveFile(file.getPath());
     }
-    // assure the format is right
-    assert file.isAbsolute() : "path should be absolute";
+
     return file.toPath();
   }
 
   private boolean fetchIfNeeded(File file, String path) {
-    if (!file.isAbsolute()) {
-      file = file.getAbsoluteFile();
-    }
+    LOGGER.trace(String.format("fetchIfNeeded(%s, %s)", file, path));
 
-    if (file.getPath().startsWith(downloadDir)) {
+    if (path.startsWith(downloadDir)) {
       // download if missing
       if (!file.exists()) {
         // build an URL from the path
-        String target = file.getPath().substring(downloadDir.length());
+        String target = relativize(downloadDir, path);
         int split = target.indexOf(File.separator);
         String source = target.substring(0, split);
         // can we map the hash to an url?

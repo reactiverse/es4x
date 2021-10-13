@@ -38,7 +38,7 @@ public class SourceMap {
     sourceFileNames = sourceMapRoot.getJsonArray("sources");
     sourceSymbolNames = sourceMapRoot.getJsonArray("names");
 
-    lines = new ArrayList<ArrayList<Mapping>>();
+    lines = new ArrayList<>();
 
     new MappingBuilder(sourceMapRoot.getString("mappings")).build();
   }

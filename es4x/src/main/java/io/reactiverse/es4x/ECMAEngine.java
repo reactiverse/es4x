@@ -17,6 +17,7 @@ package io.reactiverse.es4x;
 
 import io.netty.buffer.Unpooled;
 import io.reactiverse.es4x.impl.JSObjectMessageCodec;
+import io.reactiverse.es4x.impl.SetContainer;
 import io.reactiverse.es4x.jul.ANSIFormatter;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -246,7 +247,7 @@ public final class ECMAEngine {
         Value.class,
         Set.class,
         Value::hasArrayElements,
-        v -> new HashSet<>(v.as(List.class)),
+        v -> new SetContainer<>(v.as(List.class)),
         HostAccess.TargetMappingPrecedence.LOW)
       // Goal: Error -> Throwable
       // Errors are expected to be used sporadically too, this helper is just extracting the default error fields from
@@ -273,7 +274,7 @@ public final class ECMAEngine {
   }
 
   private static Throwable wrap(String name, String message, String stack) {
-    // empty message fields usually it JS prints the name field
+    // empty message fields usually in JS prints the name field
     final Throwable t = new Throwable("".equals(message) ? name : message);
     // the stacktrace for JS is a single string and we need to parse it back to a Java friendly way
     if (stack != null) {

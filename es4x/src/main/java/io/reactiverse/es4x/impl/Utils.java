@@ -101,7 +101,7 @@ public final class Utils {
     }
   }
 
-  public static String slashify(String path, boolean isDirectory) {
+  private static String slashify(String path, boolean isDirectory) {
     String p = path;
     if (File.separatorChar != '/')
       p = p.replace(File.separatorChar, '/');

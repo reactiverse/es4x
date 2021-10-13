@@ -50,9 +50,9 @@ public class FSResolverTest {
     int s = cwd.lastIndexOf(File.separatorChar);
     assertEquals(cwd.substring(0, s) + $ + "index.js", fs.parsePath("../index.js").toString());
     // resolve to root
-    assertEquals(drive + $ + "index.js", fs.parsePath("/index.js").toString());
-    // rewrite to cwd
-    assertEquals(cwd + $ + "index.js", fs.parsePath(cache + $ + "index.js").toString());
+    assertEquals(drive + $ + "index.js", fs.parsePath(drive + "/index.js").toString());
+    // rewrite to relative
+    assertEquals("index.js", fs.parsePath(cache + $ + "index.js").toString());
     // attempt download
     assertEquals(cwd + $ + "node_modules" + $ + ".download" + $ + "eedc890765ef80e2b57c447a50f911cd" + $ + "@vertx" + $ + "core@3.9.1" + $ + "options.mjs", fs.parsePath(new URI("https://unpkg.io/@vertx/core@3.9.1/options.mjs")).toString());
     // attempt from download cache

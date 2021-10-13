@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.impl;
 
-import io.vertx.core.impl.VertxInternal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -107,18 +106,18 @@ public class ImportMapperTest {
   }
 
   @Test
-  public void testCacheResolve() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
+  public void testRelativeResolve() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
 
-    VertxInternal vertx = (VertxInternal) rule.vertx();
-    String cacheDir = vertx.resolveFile("").getPath() + File.separator;
+    String tmpDir = new File(System.getProperty("java.io.tmpdir")).getPath() + File.separator;
     String baseDir = VertxFileSystem.getCWD();
 
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
-          .put(toNixPath(cacheDir), "./")));
+          .put(toNixPath(tmpDir), "./"))
+    );
 
-    assertEquals(new File(baseDir, "test.js").toURI(), mapper.resolve(cacheDir + "test.js"));
+    assertEquals(new File(baseDir, "test.js").toURI(), mapper.resolve(tmpDir + "test.js"));
   }
 
   @Test
