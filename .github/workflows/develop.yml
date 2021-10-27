@@ -52,7 +52,7 @@ jobs:
           - ubuntu-latest
         jdk:
           - 'https://api.adoptium.net/v3/binary/latest/11/ga/linux/x64/jdk/hotspot/normal/eclipse?project=jdk'
-          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.2.0/graalvm-ce-java11-linux-amd64-21.2.0.tar.gz'
+          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.3.0/graalvm-ce-java11-linux-amd64-21.3.0.tar.gz'
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -80,42 +80,6 @@ jobs:
       - name: Run tests
         run: mvn clean verify
 
-  java16:
-    name: Run Java 16 tests
-    strategy:
-      fail-fast: true
-      matrix:
-        os:
-          - ubuntu-latest
-        jdk:
-          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.2.0/graalvm-ce-java16-linux-amd64-21.2.0.tar.gz'
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Cache JVM
-        id: cache-jvm
-        uses: actions/cache@v2
-        with:
-          path: |
-            ${{ runner.temp }}/java_package.tar.gz
-            ~/.m2/repository
-          key: ${{ runner.os }}-java-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-java-
-      - name: Download JDK
-        if: steps.cache-java.outputs.cache-hit != 'true'
-        run: wget -O $RUNNER_TEMP/java_package.tar.gz ${{ matrix.jdk }}
-      - name: Install JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'jdkfile'
-          jdkFile: ${{ runner.temp }}/java_package.tar.gz
-          java-version: '16'
-          architecture: x64
-      - name: Run tests
-        run: mvn clean verify
-
   java17:
     name: Run Java 17 tests
     strategy:
@@ -125,6 +89,7 @@ jobs:
           - ubuntu-latest
         jdk:
           - 'https://api.adoptium.net/v3/binary/latest/17/ga/linux/x64/jdk/hotspot/normal/eclipse?project=jdk'
+          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.3.0/graalvm-ce-java17-linux-amd64-21.3.0.tar.gz'
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
