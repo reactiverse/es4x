@@ -1,6 +1,5 @@
 package io.reactiverse.es4x.impl;
 
-import io.vertx.core.impl.VertxInternal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -16,6 +15,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import static io.reactiverse.es4x.impl.Utils.toNixPath;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(VertxUnitRunner.class)
@@ -92,7 +92,7 @@ public class ImportMapperTest {
         .put("imports", new JsonObject()
           .put("/", "./")));
 
-    assertEquals(new URI("file://" + VertxFileSystem.getCWD() + "util.ts"), mapper.resolve("/util.ts"));
+    assertEquals(new File(VertxFileSystem.getCWD(), "util.ts").toURI(), mapper.resolve("/util.ts"));
   }
 
   @Test
@@ -102,22 +102,22 @@ public class ImportMapperTest {
         .put("imports", new JsonObject()
           .put("/", "./src/")));
 
-    assertEquals(new URI("file://" + VertxFileSystem.getCWD() + "src/util.ts"), mapper.resolve("/util.ts"));
+    assertEquals(new File(VertxFileSystem.getCWD(), "src/util.ts").toURI(), mapper.resolve("/util.ts"));
   }
 
   @Test
-  public void testCacheResolve() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
+  public void testRelativeResolve() throws MalformedURLException, URISyntaxException, UnmappedBareSpecifierException {
 
-    VertxInternal vertx = (VertxInternal) rule.vertx();
-    String cacheDir = vertx.resolveFile("").getPath() + File.separator;
-    String baseDir = new File(VertxFileSystem.getCWD()).getPath() + File.separator;
+    String tmpDir = new File(System.getProperty("java.io.tmpdir")).getPath() + File.separator;
+    String baseDir = VertxFileSystem.getCWD();
 
     ImportMapper mapper = new ImportMapper(
       new JsonObject()
         .put("imports", new JsonObject()
-          .put(cacheDir, "./")));
+          .put(toNixPath(tmpDir), "./"))
+    );
 
-    assertEquals(new URI("file://" + baseDir + "test.js"), mapper.resolve(cacheDir + "test.js"));
+    assertEquals(new File(baseDir, "test.js").toURI(), mapper.resolve(tmpDir + "test.js"));
   }
 
   @Test

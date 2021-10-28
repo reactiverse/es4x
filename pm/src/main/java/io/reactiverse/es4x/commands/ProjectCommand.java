@@ -29,9 +29,15 @@ public class ProjectCommand extends DefaultCommand {
   private final Project command = new Project();
 
   @Option(longName = "ts", shortName = "t", flag = true)
-  @Description("Init a TypeScript project.")
-  public void setForce(boolean force) {
-    command.setTypeScript(force);
+  @Description("Create a TypeScript project instead of JavaScript.")
+  public void setTypeScript(boolean typeScript) {
+    command.setTypeScript(typeScript);
+  }
+
+  @Option(longName = "importmap", shortName = "i", flag = true)
+  @Description("Create a import-map.json instead of package.json.")
+  public void setImportMap(boolean importMap) {
+    command.setImportMap(importMap);
   }
 
   @Override

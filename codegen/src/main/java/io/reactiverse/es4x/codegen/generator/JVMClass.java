@@ -1,11 +1,12 @@
 package io.reactiverse.es4x.codegen.generator;
 
+import io.vertx.core.json.JsonObject;
+
 import java.io.PrintWriter;
 import java.lang.reflect.*;
 import java.util.Arrays;
 
-import static io.reactiverse.es4x.codegen.generator.Util.genType;
-import static io.reactiverse.es4x.codegen.generator.Util.isExcluded;
+import static io.reactiverse.es4x.codegen.generator.Util.*;
 
 public class JVMClass {
 
@@ -52,6 +53,12 @@ public class JVMClass {
     } catch (ClassNotFoundException e) {
       System.err.println("Can't process: " + fqcn);
       return;
+    }
+
+    JsonObject includes = getIncludes(getSimpleName(clazz));
+
+    if (includes.containsKey("import<d.ts>")) {
+      writer.printf("%s\n", includes.getString("import<d.ts>"));
     }
 
     boolean isInterface = clazz.isInterface();

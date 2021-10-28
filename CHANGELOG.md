@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.16.0] - 2021-10-28
+* Bump graaljs to 20.3.0
+* Bump vert.x to 4.2.0
+* Added new vert.x modules
+* Bumped dependencies (dependabot)
+* Removed nag about no compiler, as graal does it for us
+* PM can now run without NPM
+* ES fixes for generated code
+* Re-enabling manual generation
+* Added a CoC
+
 ## [0.15.0] - 2021-06-02
 * FileSystemResolver will use import maps when available
 * Started implementing support for import-map

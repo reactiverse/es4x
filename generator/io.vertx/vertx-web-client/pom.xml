@@ -6,14 +6,14 @@
   <parent>
     <groupId>io.reactiverse.es4x</groupId>
     <artifactId>es4x-generator</artifactId>
-    <version>0.15.0</version>
+    <version>0.16.0</version>
     <relativePath>../..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>vertx-web-client</artifactId>
-  <version>0.15.0</version>
+  <version>0.16.0</version>
 
   <properties>
     <maven.groupId>io.vertx</maven.groupId>
@@ -27,9 +27,23 @@
         "@vertx/web-common": "${stack.version}"
       }
     </npm-dependencies>
+    <!-- language=json -->
+    <npm-dev-dependencies>
+      {
+        "@vertx/auth-oauth2": "${stack.version}"
+      }
+    </npm-dev-dependencies>
+    <!-- language=json -->
+    <npm-optional-dependencies>["@vertx/auth-oauth2"]</npm-optional-dependencies>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-auth-oauth2</artifactId>
+      <version>${stack.version}</version>
+      <optional>true</optional>
+    </dependency>
     <!-- SOURCE TO GENERATE -->
     <dependency>
       <groupId>${maven.groupId}</groupId>

@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import static io.reactiverse.es4x.cli.Helper.fatal;
 import static io.reactiverse.es4x.cli.Helper.warn;
 
+@Deprecated
 public class SecurityPolicy implements Runnable {
 
   public static final String NAME = "security-policy";

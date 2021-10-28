@@ -37,38 +37,14 @@ public class Install implements Runnable {
   public static final String NAME = "install";
   public static final String SUMMARY = "Installs required jars from maven to 'node_modules'.";
 
+  private final boolean silent;
+
   enum Environment {
     PROD,
     PRODUCTION,
     DEV,
     DEVELOPMENT,
     ALL
-  }
-
-  enum Mode {
-    NODE_MODULES("node_modules", "node_modules"),
-    IMPORT_MAP("import-map", null);
-
-    final String baseDir;
-    final String name;
-
-    Mode(String name, String baseDir) {
-      this.name = name;
-      this.baseDir = baseDir;
-    }
-
-    File baseDir(File cwd) {
-      if (baseDir != null) {
-        return new File(cwd, baseDir);
-      } else {
-        return cwd;
-      }
-    }
-
-    @Override
-    public String toString() {
-      return name;
-    }
   }
 
   private static final Properties VERSIONS = new Properties();
@@ -89,20 +65,21 @@ public class Install implements Runnable {
   private List<String> vendor;
   private File coreJar;
   private Environment environment = Environment.ALL;
-  private Mode mode = Mode.NODE_MODULES;
 
   private File cwd;
 
-  public Install() {
+  public Install(boolean silent) {
+    this.silent = silent;
+    this.cwd = new File(".");
   }
 
   public Install(String[] args) {
+    silent = false;
     CmdLineParser parser = new CmdLineParser();
     CmdLineParser.Option<Boolean> helpOption = parser.addBooleanOption('h', "help");
     CmdLineParser.Option<String> vendorOption = parser.addStringOption('v', "vendor");
     CmdLineParser.Option<Boolean> linkOption = parser.addBooleanOption('l', "link");
     CmdLineParser.Option<String> environmentOption = parser.addStringOption('e', "environment");
-    CmdLineParser.Option<String> destOption = parser.addStringOption('d', "dest");
 
     try {
       parser.parse(args);
@@ -127,7 +104,6 @@ public class Install implements Runnable {
 
     setVendor(parser.getOptionValue(vendorOption));
     setEnvironment(parser.getOptionValue(environmentOption, "all"));
-    setMode(parser.getOptionValue(destOption, "node_modules"));
     setCwd(new File("."));
   }
 
@@ -137,10 +113,8 @@ public class Install implements Runnable {
     System.err.println(SUMMARY);
     System.err.println();
     System.err.println("Options and Arguments:");
-    System.err.println(" -e,--environment\t\t\t\tEnvironment 'prod[uction]/dev[elopment]' (default: all).");
-    System.err.println(" -f,--force\t\t\t\tWill always install a basic runtime in the current working dir.");
+    System.err.println(" -e,--environment\t\t\t\tEnvironment 'prod[uction]/dev[elopment]/all' (default: all).");
     System.err.println(" -l,--link\t\t\t\tSymlink jars instead of copy.");
-    System.err.println(" -m,--mode\t\t\t\tMode 'node_modules/import-map' (default: node_modules).");
     System.err.println(" -v,--vendor <value>\tComma separated list of vendor jars.");
     System.err.println();
   }
@@ -170,13 +144,7 @@ public class Install implements Runnable {
     }
   }
 
-  public void setMode(String mode) {
-    if (mode != null) {
-      this.mode = Mode.valueOf(mode.toUpperCase().replace('-', '_'));
-    }
-  }
-
-  private void processPackageJson(File json, Set<String> dependencies) throws IOException {
+  private void processJson(File json, Set<String> dependencies) throws IOException {
     if (json.exists()) {
       JSONObject npm = JSON.parseObject(json);
       if (npm.has("maven")) {
@@ -226,7 +194,7 @@ public class Install implements Runnable {
         File json = new File(mod, "package.json");
 
         // process
-        processPackageJson(json, dependencies);
+        processJson(json, dependencies);
 
         File submod = new File(mod, "node_modules");
         if (submod.exists() && submod.isDirectory()) {
@@ -236,19 +204,37 @@ public class Install implements Runnable {
     }
   }
 
+  private File baseDir;
+  private File binDir;
+  private boolean hasImportMap;
+  private boolean hasPackageJson;
+
   @Override
   public void run() {
 
+    // mode is dependent on the availability of "package.json"
+    if (new File(cwd, "package.json").exists()) {
+      baseDir = new File(cwd, "node_modules");
+      binDir = new File(baseDir, ".bin");
+      hasPackageJson = true;
+    } else {
+      baseDir = cwd;
+      binDir = new File(baseDir, "bin");
+    }
+
+    hasImportMap = new File(cwd, "import-map.json").exists();
+
     final List<String> artifacts = new ArrayList<>();
 
-    final Runnable run = () -> {
-      switch (mode) {
-        case NODE_MODULES:
-          installNodeModules(artifacts);
-          return;
-        case IMPORT_MAP:
-          err("Not implemented");
-          return;
+    final Runnable runAction = () -> {
+      if (hasPackageJson) {
+        installModules(artifacts, "package.json");
+      }
+      if (hasImportMap) {
+        installModules(artifacts, "import-map.json");
+      }
+      if (!hasPackageJson && !hasImportMap) {
+        installModules(artifacts, null);
       }
 
       if (!GraalVMVersion.isGraalVM()) {
@@ -278,29 +264,26 @@ public class Install implements Runnable {
       createLauncher(artifacts);
     };
 
+    // control
+    if (!hasPackageJson && !hasImportMap) {
+      if (!silent) {
+        fatal("Nothing to install, missing 'package.json' or 'import-map.json'");
+      }
+    }
+
     switch (environment) {
       case ALL:
       case DEV:
       case DEVELOPMENT:
-        File control = new File(mode.baseDir(cwd), "es4x_install_successful");
+        File control = new File(baseDir, "es4x-launcher.jar");
         if (control.exists()) {
           warn("Skipping install (recent successful run)");
           return;
         }
-        run.run();
-        // touch the control file
-        try (FileOutputStream fileOutputStream = new FileOutputStream(control)) {
-          for (String s : artifacts) {
-            fileOutputStream.write(s.getBytes(StandardCharsets.UTF_8));
-            fileOutputStream.write('\n');
-          }
-        } catch (IOException e) {
-          fatal(e.getMessage());
-        }
         break;
-      default:
-        run.run();
     }
+
+    runAction.run();
   }
 
   private static <T> void addIfMissing(Collection<T> collection, T element) {
@@ -310,16 +293,14 @@ public class Install implements Runnable {
   }
 
   private void installGraalJS(Collection<String> artifacts) {
-    final File base = mode.baseDir(cwd);
-
-    File lib = new File(base, ".lib");
+    File lib = new File(baseDir, ".lib");
     if (!lib.exists()) {
       if (!lib.mkdirs()) {
         fatal(String.format("Failed to mkdirs '%s'.", lib));
       }
     }
 
-    File jvmci = new File(base, ".jvmci");
+    File jvmci = new File(baseDir, ".jvmci");
 
     try {
       Resolver resolver = new Resolver();
@@ -351,9 +332,7 @@ public class Install implements Runnable {
   }
 
   private void installGraalJMVCICompiler() {
-    final File base = mode.baseDir(cwd);
-
-    File jvmci = new File(base, ".jvmci");
+    File jvmci = new File(baseDir, ".jvmci");
     if (!jvmci.exists()) {
       if (!jvmci.mkdirs()) {
         fatal(String.format("Failed to mkdirs '%s'.", jvmci));
@@ -378,27 +357,30 @@ public class Install implements Runnable {
     }
   }
 
-  private void installNodeModules(Collection<String> artifacts) {
-    final File base = mode.baseDir(cwd);
+  private void installModules(Collection<String> artifacts, String jsonProject) {
     final Set<String> dependencies = new HashSet<>();
 
     // process mvnDependencies from CWD package.json
-    try {
-      processPackageJson(new File(cwd, "package.json"), dependencies);
-    } catch (IOException e) {
-      fatal(e.getMessage());
-    }
-
-    // crawl node modules
-    if (base.exists() && base.isDirectory()) {
+    if (jsonProject != null) {
       try {
-        processModules(base, dependencies);
+        processJson(new File(cwd, jsonProject), dependencies);
       } catch (IOException e) {
         fatal(e.getMessage());
       }
+
+      // crawl node modules
+      if (!baseDir.equals(cwd)) {
+        if (baseDir.exists() && baseDir.isDirectory()) {
+          try {
+            processModules(baseDir, dependencies);
+          } catch (IOException e) {
+            fatal(e.getMessage());
+          }
+        }
+      }
     }
 
-    File libs = new File(base, ".lib");
+    File libs = new File(baseDir, ".lib");
 
     try {
       Resolver resolver = new Resolver();
@@ -442,14 +424,14 @@ public class Install implements Runnable {
   }
 
   private void createLauncher(Collection<String> artifacts) {
-    File json = new File(cwd, "package.json");
 
-    if (json.exists()) {
+    // default main script
+    String main = null;
+    String verticleFactory = "js";
+
+    if (hasPackageJson) {
       try {
-        JSONObject npm = JSON.parseObject(json);
-        // default main script
-        String main = ".";
-        String verticleFactory = "js";
+        JSONObject npm = JSON.parseObject(new File(cwd, "package.json"));
 
         // if package json declares a different main, then it shall be used
         if (npm.has("main")) {
@@ -460,88 +442,103 @@ public class Install implements Runnable {
           }
         }
 
-        // if package json declares a different main, then it shall be used
-        if (npm.has("module")) {
-          main = (String) npm.get("module");
-          verticleFactory = "mjs";
-        }
-
-        final File base = mode.baseDir(cwd);
-        File bin = new File(base, ".bin");
-        if (!bin.exists()) {
-          if (!bin.mkdirs()) {
-            fatal(String.format("Failed to mkdirs '%s'.", bin));
+        // if package json declares a different type, then it shall be used
+        if (npm.has("type")) {
+          switch ((String) npm.get("module")) {
+            case "commonjs":
+              verticleFactory = "js";
+              break;
+            case "module":
+              verticleFactory = "mjs";
+              break;
+            default:
+              fatal("Unknown package.json type: " + npm.get("module"));
           }
         }
-
-        final Manifest manifest = new Manifest();
-        final Attributes attributes = manifest.getMainAttributes();
-
-        attributes.put(Attributes.Name.MANIFEST_VERSION, "1.0");
-        attributes.put(new Attributes.Name("Created-By"), "ES4X " + VERSIONS.getProperty("es4x"));
-        attributes.put(new Attributes.Name("Built-By"), System.getProperty("user.name"));
-        attributes.put(new Attributes.Name("Build-Jdk"), System.getProperty("java.version"));
-        attributes.put(Attributes.Name.MAIN_CLASS, "io.reactiverse.es4x.ES4X");
-        String classpath = String.join(" ", artifacts);
-        if (vendor != null && vendor.size() > 0) {
-          classpath += " " + String.join(" ", vendor);
-        }
-        attributes.put(Attributes.Name.CLASS_PATH, classpath);
-        attributes.put(new Attributes.Name("Main-Verticle"), main);
-        attributes.put(new Attributes.Name("Main-Command"), "run");
-        attributes.put(new Attributes.Name("Default-Verticle-Factory"), verticleFactory);
-        attributes.put(new Attributes.Name("Import-Map"), mode.toString());
-
-        try (OutputStream os = new FileOutputStream(new File(bin, "es4x-launcher.jar"))) {
-          try (JarOutputStream target = new JarOutputStream(os, manifest)) {
-            if (coreJar != null) {
-              try (InputStream in = new FileInputStream(coreJar)) {
-                try (JarInputStream jar = new JarInputStream(in)) {
-                  JarEntry je;
-                  while ((je = jar.getNextJarEntry()) != null) {
-                    switch (je.getName()) {
-                      case "io/vertx/core/json/JsonObject.class":
-                        target.putNextEntry(je);
-                        target.write(new JsonObjectVisitor().rewrite(jar));
-                        target.closeEntry();
-                        break;
-                      case "io/vertx/core/json/JsonArray.class":
-                        target.putNextEntry(je);
-                        target.write(new JsonArrayVisitor().rewrite(jar));
-                        target.closeEntry();
-                        break;
-                      case "io/vertx/core/impl/future/FutureBase.class":
-                        target.putNextEntry(je);
-                        target.write(new FutureBaseVisitor().rewrite(jar));
-                        target.closeEntry();
-                        break;
-                    }
-                  }
-                } catch (RuntimeException e) {
-                  warn(e.getMessage());
-                }
-              } catch (RuntimeException e) {
-                warn(e.getMessage());
-              }
-            }
-          }
-        }
-
-        // create the launcher scripts
-        if (isUnix()) {
-          createUNIXScript(bin);
-        }
-        if (isWindows()) {
-          createDOSScript(bin);
-        }
-
       } catch (IOException e) {
         fatal(e.getMessage());
       }
     }
+
+    if (!binDir.exists()) {
+      if (!binDir.mkdirs()) {
+        fatal(String.format("Failed to mkdirs '%s'.", binDir));
+      }
+    }
+
+    final Manifest manifest = new Manifest();
+    final Attributes attributes = manifest.getMainAttributes();
+
+    attributes.put(Attributes.Name.MANIFEST_VERSION, "1.0");
+    attributes.put(new Attributes.Name("Created-By"), "ES4X " + VERSIONS.getProperty("es4x"));
+    attributes.put(new Attributes.Name("Built-By"), System.getProperty("user.name"));
+    attributes.put(new Attributes.Name("Build-Jdk"), System.getProperty("java.version"));
+    attributes.put(Attributes.Name.MAIN_CLASS, "io.reactiverse.es4x.ES4X");
+    String classpath = String.join(" ", artifacts);
+    if (vendor != null && vendor.size() > 0) {
+      classpath += " " + String.join(" ", vendor);
+    }
+    attributes.put(Attributes.Name.CLASS_PATH, classpath);
+    if (main != null) {
+      attributes.put(new Attributes.Name("Main-Command"), "run");
+      attributes.put(new Attributes.Name("Main-Verticle"), main);
+    }
+    attributes.put(new Attributes.Name("Default-Verticle-Factory"), verticleFactory);
+    if (hasImportMap) {
+      attributes.put(new Attributes.Name("Import-Map"), "import-map.json");
+    }
+
+    try {
+      try (OutputStream os = new FileOutputStream(new File(binDir, "es4x-launcher.jar"))) {
+        try (JarOutputStream target = new JarOutputStream(os, manifest)) {
+          if (coreJar != null) {
+            try (InputStream in = new FileInputStream(coreJar)) {
+              try (JarInputStream jar = new JarInputStream(in)) {
+                JarEntry je;
+                while ((je = jar.getNextJarEntry()) != null) {
+                  switch (je.getName()) {
+                    case "io/vertx/core/json/JsonObject.class":
+                      target.putNextEntry(je);
+                      target.write(new JsonObjectVisitor().rewrite(jar));
+                      target.closeEntry();
+                      break;
+                    case "io/vertx/core/json/JsonArray.class":
+                      target.putNextEntry(je);
+                      target.write(new JsonArrayVisitor().rewrite(jar));
+                      target.closeEntry();
+                      break;
+                    case "io/vertx/core/impl/future/FutureBase.class":
+                      target.putNextEntry(je);
+                      target.write(new FutureBaseVisitor().rewrite(jar));
+                      target.closeEntry();
+                      break;
+                  }
+                }
+              } catch (RuntimeException e) {
+                warn(e.getMessage());
+              }
+            } catch (RuntimeException e) {
+              warn(e.getMessage());
+            }
+          }
+        }
+      }
+
+      // create the launcher scripts
+      if (isUnix()) {
+        createUNIXScript(binDir);
+      }
+      if (isWindows()) {
+        createDOSScript(binDir);
+      }
+    } catch (IOException e) {
+      fatal(e.getMessage());
+    }
   }
 
   private void createUNIXScript(File bin) throws IOException {
+
+    String relPath = baseDir.equals(cwd) ? ".." : "../..";
 
     String script =
       "#!/usr/bin/env bash\n" +
@@ -575,12 +572,12 @@ public class Install implements Runnable {
         "  JVMCI=\"--module-path=$basedir/../.jvmci -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=$basedir/../.jvmci/compiler.jar\"\n" +
         "fi\n" +
         "\n" +
-        "if [[ -f \"$basedir/../../security.policy\" ]]; then\n" +
-        "  SECURITY_MANAGER=\"-Djava.security.manager -Djava.security.policy=$basedir/../../security.policy\"\n" +
+        "if [[ -f \"$basedir/" + relPath + "/security.policy\" ]]; then\n" +
+        "  SECURITY_MANAGER=\"-Djava.security.manager -Djava.security.policy=$basedir/" + relPath + "/security.policy\"\n" +
         "fi\n" +
         "\n" +
-        "if [[ -f \"$basedir/../../logging.properties\" ]]; then\n" +
-        "  LOGGING_PROPERTIES=\"-Djava.util.logging.config.file=$basedir/../../logging.properties\"\n" +
+        "if [[ -f \"$basedir/" + relPath + "/logging.properties\" ]]; then\n" +
+        "  LOGGING_PROPERTIES=\"-Djava.util.logging.config.file=$basedir/" + relPath + "/logging.properties\"\n" +
         "fi\n" +
         "\n" +
         "exec \"$JAVA_EXE\" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS $TTY_OPTS -jar \"$basedir/es4x-launcher.jar\" \"$@\"\n";
@@ -598,6 +595,9 @@ public class Install implements Runnable {
 
   private void createDOSScript(File bin) throws IOException {
 
+    String relPath = baseDir.equals(cwd) ? ".." : "..\\..";
+
+
     String script =
       "@ECHO OFF\n" +
         "\n" +
@@ -612,12 +612,12 @@ public class Install implements Runnable {
         "  SET \"JVMCI=--module-path=\"\"%~dp0\\..\\.jvmci\"\" -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --upgrade-module-path=\"\"%~dp0\\..\\.jvmci\\compiler.jar\"\"\"\n" +
         ")\n" +
         "\n" +
-        "IF EXIST \"%~dp0\\..\\..\\security.policy\" (\n" +
-        "  SET \"SECURITY_MANAGER=-Djava.security.manager -Djava.security.policy=\"\"%~dp0\\..\\..\\security.policy\"\"\"\n" +
+        "IF EXIST \"%~dp0\\" + relPath + "\\security.policy\" (\n" +
+        "  SET \"SECURITY_MANAGER=-Djava.security.manager -Djava.security.policy=\"\"%~dp0\\" + relPath + "\\security.policy\"\"\"\n" +
         ")\n" +
         "\n" +
-        "IF EXIST \"%~dp0\\..\\..\\logging.properties\" (\n" +
-        "  SET \"LOGGING_PROPERTIES=-Djava.util.logging.config.file=\"\"%~dp0\\..\\..\\logging.properties\"\"\"\n" +
+        "IF EXIST \"%~dp0\\" + relPath + "\\logging.properties\" (\n" +
+        "  SET \"LOGGING_PROPERTIES=-Djava.util.logging.config.file=\"\"%~dp0\\" + relPath + "\\logging.properties\"\"\"\n" +
         ")\n" +
         "\n" +
         "\"%JAVA_EXE%\" -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %SECURITY_MANAGER% %LOGGING_PROPERTIES% %JAVA_OPTS% -jar \"%~dp0\\es4x-launcher.jar\" %*\n";

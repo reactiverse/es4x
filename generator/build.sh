@@ -18,7 +18,7 @@ elif [ "$1" = "publish" ]; then
   npm adduser --registry "$REGISTRY"
   mvn -fae -Pio.reactiverse -Dnpm-registry="$REGISTRY" -Dnpm-tag=${TAG} exec:exec@npm-publish | tee build-$1-reactiverse.log
 elif [ "$1" = "tsdocs" ]; then
-  mvn -fae -Pio.vertx,io.reactiverse clean generate-sources install exec:exec@typedoc | tee build-$1.log
+  mvn -Pio.vertx,io.reactiverse clean generate-sources install exec:exec@typedoc | tee build-$1.log
 else
   mvn -fae -Pio.vertx,io.reactiverse clean generate-sources install | tee build.log
 fi

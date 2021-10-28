@@ -6,13 +6,13 @@
   <parent>
     <groupId>io.reactiverse</groupId>
     <artifactId>es4x-parent</artifactId>
-    <version>0.15.0</version>
+    <version>0.16.0</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>io.reactiverse.es4x</groupId>
   <artifactId>es4x-generator</artifactId>
-  <version>0.15.0</version>
+  <version>0.16.0</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -62,7 +62,7 @@
     <profile>
       <id>io.vertx</id>
       <modules>
-        <!-- // https://search.maven.org/solrsearch/select?q=g:%22io.vertx%22+AND+v:%224.0.0%22+AND+p:%22jar%22&core=gav&rows=200&wt=json-->
+        <!-- // https://search.maven.org/solrsearch/select?q=g:%22io.vertx%22+AND+v:%224.0.0%22+AND+p:%22jar%22&core=gav&rows=200&wt=json -->
         <!-- for (let doc of require('./stack.json').response.docs) {-->
         <!--   if (doc.a.indexOf('scala_') === -1 && doc.a.indexOf('-lang-') === -1) {-->
         <!--     console.log(`<module>${doc.g}/${doc.a}</module>`);-->
@@ -81,6 +81,7 @@
         <module>io.vertx/vertx-auth-shiro</module>
         <module>io.vertx/vertx-auth-sql-client</module>
         <module>io.vertx/vertx-auth-webauthn</module>
+        <module>io.vertx/vertx-auth-otp</module>
         <module>io.vertx/vertx-bridge-common</module>
         <module>io.vertx/vertx-camel-bridge</module>
         <module>io.vertx/vertx-cassandra-client</module>
@@ -89,6 +90,7 @@
         <module>io.vertx/vertx-consul-client</module>
         <module>io.vertx/vertx-core</module>
         <module>io.vertx/vertx-db2-client</module>
+        <module>io.vertx/vertx-oracle-client</module>
         <module>io.vertx/vertx-dropwizard-metrics</module>
         <module>io.vertx/vertx-grpc</module>
         <module>io.vertx/vertx-health-check</module>
@@ -135,6 +137,7 @@
         <module>io.vertx/vertx-web-templ-thymeleaf</module>
         <module>io.vertx/vertx-web-validation</module>
         <module>io.vertx/vertx-zipkin</module>
+        <module>io.vertx/vertx-http-proxy</module>
 
         <module>io.vertx</module>
       </modules>
@@ -143,6 +146,7 @@
       <id>io.reactiverse</id>
       <modules>
         <module>io.reactiverse/elasticsearch-client</module>
+        <module>io.reactiverse/reactiverse-contextual-logging</module>
       </modules>
     </profile>
     <profile>
@@ -269,7 +273,7 @@
       <artifactId>vertx-docgen</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
-      <version>0.9.3</version>
+      <version>0.9.4</version>
     </dependency>
     <!-- CORE -->
     <dependency>

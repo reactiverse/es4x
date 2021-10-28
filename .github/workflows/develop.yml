@@ -15,9 +15,7 @@ jobs:
         os:
           - ubuntu-latest
         jdk:
-          - 'https://api.adoptopenjdk.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk'
-          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.1.0/graalvm-ce-java8-linux-amd64-21.1.0.tar.gz'
-          - 'https://api.adoptopenjdk.net/v3/binary/latest/8/ga/linux/x64/jdk/openj9/normal/adoptopenjdk'
+          - 'https://api.adoptium.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/eclipse?project=jdk'
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -53,9 +51,8 @@ jobs:
         os:
           - ubuntu-latest
         jdk:
-          - 'https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk'
-          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.1.0/graalvm-ce-java11-linux-amd64-21.1.0.tar.gz'
-          - 'https://api.adoptopenjdk.net/v3/binary/latest/11/ga/linux/x64/jdk/openj9/normal/adoptopenjdk'
+          - 'https://api.adoptium.net/v3/binary/latest/11/ga/linux/x64/jdk/hotspot/normal/eclipse?project=jdk'
+          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.3.0/graalvm-ce-java11-linux-amd64-21.3.0.tar.gz'
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -83,16 +80,16 @@ jobs:
       - name: Run tests
         run: mvn clean verify
 
-  java16:
-    name: Run Java 16 tests
+  java17:
+    name: Run Java 17 tests
     strategy:
       fail-fast: true
       matrix:
         os:
           - ubuntu-latest
         jdk:
-          - 'https://api.adoptopenjdk.net/v3/binary/latest/16/ga/linux/x64/jdk/hotspot/normal/adoptopenjdk'
-          - 'https://api.adoptopenjdk.net/v3/binary/latest/16/ga/linux/x64/jdk/openj9/normal/adoptopenjdk'
+          - 'https://api.adoptium.net/v3/binary/latest/17/ga/linux/x64/jdk/hotspot/normal/eclipse?project=jdk'
+          - 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.3.0/graalvm-ce-java17-linux-amd64-21.3.0.tar.gz'
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -115,7 +112,7 @@ jobs:
         with:
           distribution: 'jdkfile'
           jdkFile: ${{ runner.temp }}/java_package.tar.gz
-          java-version: '16'
+          java-version: '17'
           architecture: x64
       - name: Run tests
         run: mvn clean verify

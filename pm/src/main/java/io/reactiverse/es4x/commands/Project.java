@@ -32,6 +32,7 @@ public class Project implements Runnable {
 
   private File cwd;
   private boolean typeScript;
+  private boolean importMap;
 
   public Project() {
   }
@@ -39,6 +40,7 @@ public class Project implements Runnable {
   public Project(String[] args) {
     CmdLineParser parser = new CmdLineParser();
     CmdLineParser.Option<Boolean> helpOption = parser.addBooleanOption('h', "help");
+    CmdLineParser.Option<Boolean> importMapOption = parser.addBooleanOption('i', "importmap");
     CmdLineParser.Option<Boolean> tsOption = parser.addBooleanOption('t', "ts");
 
     try {
@@ -60,6 +62,10 @@ public class Project implements Runnable {
     Boolean typeScript = parser.getOptionValue(tsOption, Boolean.FALSE);
     if (typeScript != null && typeScript) {
       setTypeScript(true);
+    }
+    Boolean importMap = parser.getOptionValue(importMapOption, Boolean.FALSE);
+    if (importMap != null && importMap) {
+      setImportMap(true);
     }
 
     String[] commandArgs = parser.getRemainingArgs();
@@ -92,6 +98,7 @@ public class Project implements Runnable {
     System.err.println(SUMMARY);
     System.err.println();
     System.err.println("Options and Arguments:");
+    System.err.println(" -i,--importmap\t\t\tCreate a import-map.json instead of package.json.");
     System.err.println(" -t,--ts\t\t\t\tCreate a TypeScript project instead of JavaScript.");
     System.err.println();
   }
@@ -105,26 +112,30 @@ public class Project implements Runnable {
     this.typeScript = typeScript;
   }
 
+  public void setImportMap(boolean importMap) {
+    this.importMap = importMap;
+  }
+
   @Override
   public void run() {
     try {
       final File file = new File(cwd, "package.json");
 
       if (file.exists()) {
-        fatal(file.toPath().toRealPath().toString() + " already exists!");
+        fatal(file.toPath().toRealPath() + " already exists!");
       }
 
       String[] templates = typeScript ?
         new String[]
           {
-            "META-INF/es4x-commands/init/ts/package.json",
+            importMap ? "META-INF/es4x-commands/init/ts/import-map.json" : "META-INF/es4x-commands/init/ts/package.json",
             "META-INF/es4x-commands/init/ts/index.ts",
             "META-INF/es4x-commands/init/ts/index.test.ts",
             "META-INF/es4x-commands/init/ts/tsconfig.json"
           } :
         new String[]
           {
-            "META-INF/es4x-commands/init/js/package.json",
+            importMap ? "META-INF/es4x-commands/init/js/import-map.json" : "META-INF/es4x-commands/init/js/package.json",
             "META-INF/es4x-commands/init/js/index.js",
             "META-INF/es4x-commands/init/js/index.test.js"
           };

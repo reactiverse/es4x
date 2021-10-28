@@ -15,12 +15,23 @@ if (process.env['JAVA_HOME']) {
   }
 }
 
-if (!existsSync(path.join(process.cwd(), 'node_modules', 'es4x_install_successful'))) {
+let prefix;
+let binDir;
+
+if (existsSync(path.join(process.cwd(), 'package.json'))) {
+  prefix = "node_modules";
+  binDir = path.join(prefix, ".bin");
+} else {
+  prefix = "";
+  binDir = "bin";
+}
+
+if (!existsSync(path.join(process.cwd(), binDir, 'es4x-launcher.jar'))) {
   // classpath is incomplete we need to run the PM package
   let statusCode =
     spawnSync(
       java,
-      [ '-Dsilent-install', '-jar', `${path.join(__dirname, '..', pm)}`].concat(process.argv.slice(2)),
+      ['-Dsilent-install', '-jar', `${path.join(__dirname, '..', pm)}`].concat(process.argv.slice(2)),
       {cwd: process.cwd(), env: process.env, stdio: 'inherit'}).status;
 
   if (statusCode !== 0) {
@@ -32,7 +43,7 @@ let argv = [
   '-XX:+IgnoreUnrecognizedVMOptions'
 ];
 
-let jvmci = path.join('node_modules', '.jvmci');
+let jvmci = path.join(prefix, '.jvmci');
 if (existsSync(path.join(process.cwd(), jvmci))) {
   argv.push(`--module-path=${jvmci}`);
   argv.push('-XX:+UnlockExperimentalVMOptions');
@@ -57,7 +68,7 @@ if (!process.stdout.isTTY) {
 
 argv.push('-cp');
 
-let launcher = path.join('node_modules', '.bin', 'es4x-launcher.jar');
+let launcher = path.join(binDir, 'es4x-launcher.jar');
 if (existsSync(path.join(process.cwd(), launcher))) {
   argv.push(`${launcher}${path.delimiter}${path.join(__dirname, '..', pm)}`);
   argv.push('io.reactiverse.es4x.ES4X');

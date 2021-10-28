@@ -4,7 +4,7 @@
 
   <groupId>io.reactiverse</groupId>
   <artifactId>es4x-parent</artifactId>
-  <version>0.15.0</version>
+  <version>0.16.0</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -14,8 +14,8 @@
     <maven.compiler.testSource>1.8</maven.compiler.testSource>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Dependency versions -->
-    <stack.version>4.1.0</stack.version>
-    <graalvm.version>21.1.0</graalvm.version>
+    <stack.version>4.2.0</stack.version>
+    <graalvm.version>21.3.0</graalvm.version>
     <!-- deployment -->
     <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
   </properties>
@@ -62,6 +62,17 @@
       <id>sonatype-nexus-snapshots</id>
       <name>Sonatype Nexus Snapshots</name>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>sonatype-nexus-s01-snapshots</id>
+      <name>Sonatype Nexus S01 Snapshots</name>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -118,7 +129,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

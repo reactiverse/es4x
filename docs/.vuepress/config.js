@@ -132,7 +132,8 @@ module.exports = {
                 'worker',
                 'jars',
                 'security',
-                'logging'
+                'logging',
+                'codegen'
               ]
             }
           ],

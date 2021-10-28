@@ -44,8 +44,8 @@ public class ANSIFormatter extends Formatter {
             || term.endsWith("-256color");
       } else {
         // there's no env variable (we're running either embedded (no shell)
-        // or on a OS that doesn't set the TERM variable (Windows maybe)
-        colors = false;
+        // or on an OS that doesn't set the TERM variable (Windows maybe)
+        colors = System.console() != null;
       }
     }
   }

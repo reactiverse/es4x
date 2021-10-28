@@ -121,14 +121,14 @@ In order to get code completion on [Visual Studio Code](https://code.visualstudi
 script should be:
 
 ```js
-/// <reference types="es4x" />
+/// <reference types="@vertx/core" />
 ```
 :::
 
 The hello application `index.js` should be like:
 
 ```js{1-2}
-/// <reference types="es4x" />
+/// <reference types="@vertx/core" />
 // @ts-check
 import { Router } from '@vertx/web';
 

@@ -17,6 +17,7 @@ package io.reactiverse.es4x.commands;
 
 import io.vertx.core.spi.launcher.DefaultCommandFactory;
 
+@Deprecated
 public class SecurityPolicyCommandFactory extends DefaultCommandFactory<SecurityPolicyCommand> {
 
   public SecurityPolicyCommandFactory() {

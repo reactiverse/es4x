@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.reactiverse.es4x</groupId>
+    <artifactId>es4x-generator</artifactId>
+    <version>0.16.0</version>
+    <relativePath>../..</relativePath>
+  </parent>
+
+  <artifactId>reactiverse-contextual-logging</artifactId>
+  <version>0.16.0</version>
+
+  <packaging>jar</packaging>
+
+  <properties>
+    <maven.groupId>io.reactiverse</maven.groupId>
+    <npm-name>@reactiverse/contextual-logging</npm-name>
+    <npm-version>1.1.0</npm-version>
+    <npm-skip>false</npm-skip>
+    <!-- language=json -->
+    <npm-dependencies>
+      {
+        "@vertx/core": "${stack.version}"
+      }
+    </npm-dependencies>
+    <logback.version>1.2.3</logback.version>
+    <log4j2.version>2.14.0</log4j2.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j2.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <!-- CODEGEN -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-codegen</artifactId>
+      <scope>provided</scope>
+      <optional>true</optional>
+      <version>${stack.version}</version>
+    </dependency>
+    <!-- SOURCE TO GENERATE -->
+    <dependency>
+      <groupId>${maven.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${npm-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${maven.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${npm-version}</version>
+      <scope>provided</scope>
+      <classifier>sources</classifier>
+    </dependency>
+  </dependencies>
+
+</project>

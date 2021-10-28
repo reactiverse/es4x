@@ -23,7 +23,7 @@ import io.vertx.core.spi.launcher.DefaultCommand;
 @Summary(Install.SUMMARY)
 public class InstallCommand extends DefaultCommand {
 
-  private final Install command = new Install();
+  private final Install command = new Install(false);
 
   @Option(longName = "vendor", shortName = "v")
   @Description("Comma separated list of vendor jars.")
@@ -42,13 +42,6 @@ public class InstallCommand extends DefaultCommand {
   @DefaultValue("all")
   public void setEnvironment(String environment) {
     command.setEnvironment(environment);
-  }
-
-  @Option(longName = "mode", shortName = "m")
-  @Description("Mode 'node_modules/import-map' (default: node_modules).")
-  @DefaultValue("node_modules")
-  public void setMode(String mode) {
-    command.setMode(mode);
   }
 
   @Override

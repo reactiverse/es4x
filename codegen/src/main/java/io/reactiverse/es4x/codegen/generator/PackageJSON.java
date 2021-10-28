@@ -45,7 +45,7 @@ public class PackageJSON extends Generator<Model> {
   public String render(Model model, int index, int size, Map<String, Object> session) {
 
     if (model instanceof EnumModel) {
-      session.putIfAbsent("enum", "seen");
+      session.putIfAbsent("enums", "seen");
     }
 
     if (model instanceof ClassModel) {
@@ -71,26 +71,32 @@ public class PackageJSON extends Generator<Model> {
     if (session.containsKey("index")) {
       /* always overwritten */
       json.put("main", "index.js");
-      json.put("module", "index.mjs");
       json.put("types", "index.d.ts");
     }
 
+    boolean isModule = false;
+
     // generate exports for bundlers/cdn's
-    if (session.containsKey("index") || session.containsKey("enum") || session.containsKey("options")) {
+    if (session.containsKey("index") || session.containsKey("enums") || session.containsKey("options")) {
+      isModule = true;
       JsonObject exports = new JsonObject();
 
       if (session.containsKey("index")) {
         exports.put(".", "./index.mjs");
         exports.put("./index", "./index.mjs");
       }
-      if (session.containsKey("enum")) {
-        exports.put("./enum", "./enum.mjs");
+      if (session.containsKey("enums")) {
+        exports.put("./enums", "./enums.mjs");
       }
-      if (session.containsKey("index")) {
+      if (session.containsKey("options")) {
         exports.put("./options", "./options.mjs");
       }
 
       json.put("exports", exports);
+    }
+
+    if (isModule) {
+      json.put("type", "module");
     }
 
     // extras

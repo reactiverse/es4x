@@ -305,10 +305,16 @@ public class IndexDTS extends Generator<ClassModel> {
 
     generateDoc(writer, method.getDoc(), "  ");
 
-    if (getOverrideArgs(type.getSimpleName(), method.getName()) != null) {
-      writer.printf("  %s%s%s(%s", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()), getOverrideArgs(type.getSimpleName(), method.getName()));
+    if (method.isMethodOverride()) {
+      writer.print("  override ");
     } else {
-      writer.printf("  %s%s%s(", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()));
+      writer.print("  ");
+    }
+
+    if (getOverrideArgs(type.getSimpleName(), method.getName()) != null) {
+      writer.printf("%s%s%s(%s", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()), getOverrideArgs(type.getSimpleName(), method.getName()));
+    } else {
+      writer.printf("%s%s%s(", method.isStaticMethod() ? "static " : "", method.getName(), genGeneric(method.getTypeParams()));
       boolean more = false;
       for (ParamInfo param : params) {
         if (more) {
