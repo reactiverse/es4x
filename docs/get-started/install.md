@@ -24,13 +24,13 @@ Using `jabba` you can install `openjdk 11` and/or `graalvm` (once) as:
 
 ```bash
 jabba install openjdk@1.11.0
-jabba install graalvm@20.2.0
+jabba install graalvm@21.3.0
 ```
 
 And later switch to the desired runtime by executing:
 
 ```bash
-jabba use openjdk@1.11 # OR jabba use graalvm@20.2
+jabba use openjdk@1.11 # OR jabba use graalvm@21.2
 ```
 :::
 
@@ -63,7 +63,7 @@ When working on CI environments where the amount of packages is limited, the pac
 unzipping the prepackaged tar/zip file.
 
 ```bash
-ES4X='0.9.0' \
+ES4X='0.16.0' \
   curl -sL \
   https://github.com/reactiverse/es4x/releases/download/$ES4X/es4x-pm-$ES4X-bin.tar.gz \
   | tar zx --strip-components=1 -C /usr/local
