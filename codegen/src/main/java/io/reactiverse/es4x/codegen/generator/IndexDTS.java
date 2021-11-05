@@ -306,7 +306,7 @@ public class IndexDTS extends Generator<ClassModel> {
     generateDoc(writer, method.getDoc(), "  ");
 
     if (method.isMethodOverride()) {
-      writer.print("  override ");
+      writer.print("  /* override */ ");
     } else {
       writer.print("  ");
     }
