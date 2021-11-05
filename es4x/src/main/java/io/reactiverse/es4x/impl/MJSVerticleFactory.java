@@ -19,7 +19,9 @@ import io.reactiverse.es4x.ESVerticleFactory;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
+import org.graalvm.polyglot.Source;
 
+import java.io.File;
 import java.nio.file.InvalidPathException;
 
 public final class MJSVerticleFactory extends ESVerticleFactory {
@@ -74,12 +76,16 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
               try {
                 // the main script buffer
                 final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
-                runtime.eval(
+                final Source source = Source
+                  .newBuilder("js", new File(fsVerticleName))
                   // strip the shebang if present
-                  ESModuleIO.stripShebang(buffer.toString()),
-                  fsVerticleName,
-                  "application/javascript+module",
-                  false);
+                  .content(ESModuleIO.stripShebang(buffer.toString()))
+                  .cached(true)
+                  .interactive(false)
+                  .mimeType("application/javascript+module")
+                  .buildLiteral();
+
+                runtime.eval(source);
                 deploy.complete();
               } catch (InvalidPathException e) {
                 deploy.fail("File Not Found: " + fsVerticleName);

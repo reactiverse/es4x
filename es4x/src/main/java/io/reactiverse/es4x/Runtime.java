@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
@@ -141,9 +140,7 @@ public final class Runtime extends EventEmitterImpl {
    */
   public Value eval(String script, String name, String contentType, boolean interactive) {
     final Source source = Source
-      .newBuilder("js", new File(name))
-      .content(script)
-      .cached(true)
+      .newBuilder("js", script, name)
       .interactive(interactive)
       .mimeType(contentType)
       .buildLiteral();
