@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.concurrent.Callable;
 
 import static io.reactiverse.es4x.impl.Utils.getManifestAttribute;
+import static io.reactiverse.es4x.impl.Utils.toNixPath;
 
 /**
  * An abstract verticle factory for EcmaScript verticles. All factories can extend
@@ -108,9 +109,9 @@ public abstract class ESVerticleFactory implements VerticleFactory {
   @Override
   public final void createVerticle(String verticleName, ClassLoader classLoader, Promise<Callable<Verticle>> promise) {
 
-    final String fsVerticleName = VerticleFactory.removePrefix(verticleName);
+    final String strippedName = toNixPath(VerticleFactory.removePrefix(verticleName));
 
-    if (">".equals(fsVerticleName)) {
+    if (">".equals(strippedName)) {
       promise.complete(() -> {
         // Runtime needs to be initialized here to ensure
         // we are on the right context thread for the graaljs engine
@@ -122,7 +123,7 @@ public abstract class ESVerticleFactory implements VerticleFactory {
         // Runtime needs to be initialized here to ensure
         // we are on the right context thread for the graaljs engine
         final Runtime runtime = createRuntime(engine);
-        return createVerticle(runtime, fsVerticleName);
+        return createVerticle(runtime, mainScript(strippedName));
       });
     }
   }
@@ -159,7 +160,7 @@ public abstract class ESVerticleFactory implements VerticleFactory {
    * @param fsVerticleName the verticle name.
    * @return the normalized name.
    */
-  protected final String mainScript(String fsVerticleName) {
+  private String mainScript(String fsVerticleName) {
     String main = fsVerticleName;
 
     if (fsVerticleName.equals(".") || fsVerticleName.equals("..")) {

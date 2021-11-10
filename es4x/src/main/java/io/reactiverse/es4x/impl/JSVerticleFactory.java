@@ -82,7 +82,7 @@ public final class JSVerticleFactory extends ESVerticleFactory {
           vertx
             .<Void>executeBlocking(deploy -> {
               try {
-                module.invokeMember("runMain", mainScript(fsVerticleName));
+                module.invokeMember("runMain", fsVerticleName);
                 deploy.complete();
               } catch (RuntimeException e) {
                 deploy.fail(e);
