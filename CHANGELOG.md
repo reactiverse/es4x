@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * ES start module can now run from sub directories
 * Define `global` and `self` objects to better work with libraries like `Rx`
 * Start script file is adapted to a absolute or relative path to avoid ambiguity with bare modules.
+* Ensure that `config` is available on any script as `config` global.
 
 ## [0.16.0] - 2021-10-28
 * Bump graaljs to 20.3.0
