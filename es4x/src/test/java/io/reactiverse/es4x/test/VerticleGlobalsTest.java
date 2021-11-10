@@ -1,5 +1,7 @@
 package io.reactiverse.es4x.test;
 
+import io.vertx.core.DeploymentOptions;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
@@ -45,4 +47,21 @@ public class VerticleGlobalsTest {
       }
     });
   }
+
+  @Test(timeout = 30000)
+  public void testThatConfigObjectsArePresentJS(TestContext ctx) {
+    final Async async = ctx.async();
+    rule.vertx().deployVerticle("js:globals-config.js", new DeploymentOptions().setConfig(new JsonObject().put("foo", "bar")), deploy -> {
+      if (deploy.failed()) {
+        ctx.fail(deploy.cause());
+      } else {
+        ctx.assertTrue(deploy.succeeded());
+        rule.vertx().setTimer(1000L, t -> rule.vertx().undeploy(deploy.result(), undeploy -> {
+          ctx.assertTrue(undeploy.succeeded());
+          async.complete();
+        }));
+      }
+    });
+  }
+
 }
