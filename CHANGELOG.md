@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.16.1] - 2021-11-10
+* Bump vert.x to 4.2.1
+* Fixed codegen for data objects to properly handle collection types
+* ES start module can now run from sub directories
+* Define `global` and `self` objects to better work with libraries like `Rx`
+* Start script file is adapted to a absolute or relative path to avoid ambiguity with bare modules.
+
 ## [0.16.0] - 2021-10-28
 * Bump graaljs to 20.3.0
 * Bump vert.x to 4.2.0
