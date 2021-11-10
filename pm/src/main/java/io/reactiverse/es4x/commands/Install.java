@@ -427,7 +427,7 @@ public class Install implements Runnable {
 
     // default main script
     String main = null;
-    String verticleFactory = "js";
+    String verticleFactory = null;
 
     if (hasPackageJson) {
       try {
@@ -444,7 +444,7 @@ public class Install implements Runnable {
 
         // if package json declares a different type, then it shall be used
         if (npm.has("type")) {
-          switch ((String) npm.get("module")) {
+          switch ((String) npm.get("type")) {
             case "commonjs":
               verticleFactory = "js";
               break;
@@ -452,7 +452,7 @@ public class Install implements Runnable {
               verticleFactory = "mjs";
               break;
             default:
-              fatal("Unknown package.json type: " + npm.get("module"));
+              fatal("Unknown package.json type: " + npm.get("type"));
           }
         }
       } catch (IOException e) {

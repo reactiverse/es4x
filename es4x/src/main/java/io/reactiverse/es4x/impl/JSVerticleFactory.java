@@ -72,7 +72,10 @@ public final class JSVerticleFactory extends ESVerticleFactory {
 
         try {
           if (worker) {
+            runtime.put("self", runtime.eval(Source.create("js", "this")));
             setupVerticleMessaging(runtime, vertx, address);
+          } else {
+            runtime.put("global", runtime.eval(Source.create("js", "this")));
           }
 
           // wrap the deployment in a execute blocking as blocking io can happen during deploy

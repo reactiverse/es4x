@@ -48,18 +48,16 @@ public abstract class ESVerticleFactory implements VerticleFactory {
   private FileSystem fileSystem;
 
   @Override
-  public void init(final Vertx vertx) {
-    synchronized (this) {
-      if (engine == null) {
-        try {
-          this.fileSystem = new VertxFileSystem(vertx, getManifestAttribute("Import-Map"), defaultExtensions());
-        } catch (IOException e) {
-          throw new IllegalStateException("Failed to initialize the file system", e);
-        }
-        this.engine = new ECMAEngine(vertx);
-      } else {
-        throw new IllegalStateException("Engine already initialized");
+  public synchronized void init(final Vertx vertx) {
+    if (engine == null) {
+      try {
+        this.fileSystem = new VertxFileSystem(vertx, getManifestAttribute("Import-Map"), defaultExtensions());
+      } catch (IOException e) {
+        throw new IllegalStateException("Failed to initialize the file system", e);
       }
+      this.engine = new ECMAEngine(vertx);
+    } else {
+      throw new IllegalStateException("Engine already initialized");
     }
   }
 
