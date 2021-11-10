@@ -45,7 +45,7 @@ In order to generate an `es4x` module for this component all we need is a `pom.x
   <parent>
     <groupId>io.reactiverse.es4x</groupId>
     <artifactId>es4x-generator</artifactId>
-    <version>0.15.1-SNAPSHOT</version>
+    <version>0.16.0</version>
     <relativePath>../..</relativePath>
   </parent>
 

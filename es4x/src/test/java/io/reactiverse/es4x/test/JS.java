@@ -3,11 +3,10 @@ package io.reactiverse.es4x.test;
 import io.reactiverse.es4x.ECMAEngine;
 import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 import io.reactiverse.es4x.Runtime;
-
-import java.io.IOException;
 
 public final class JS {
 

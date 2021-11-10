@@ -5,7 +5,6 @@ import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +40,22 @@ public class FactoryMJSTest {
   public void shouldDeployVerticleWithMod(TestContext ctx) {
     final Async async = ctx.async();
     rule.vertx().deployVerticle("mjs:./online.mjs", deploy -> {
+      if (deploy.failed()) {
+        deploy.cause().printStackTrace();
+      }
+
+      ctx.assertTrue(deploy.succeeded());
+      rule.vertx().setTimer(1000L, t -> rule.vertx().undeploy(deploy.result(), undeploy -> {
+        ctx.assertTrue(undeploy.succeeded());
+        async.complete();
+      }));
+    });
+  }
+
+  @Test(timeout = 30000)
+  public void deployUnderSubdirectoryAndPathsStillBeCorrect(TestContext ctx) {
+    final Async async = ctx.async();
+    rule.vertx().deployVerticle("mjs:./lib/main.spec.mjs", deploy -> {
       if (deploy.failed()) {
         deploy.cause().printStackTrace();
       }

@@ -31,6 +31,8 @@ Modules to perform authentication and/or authorization.
 * [auth-mongo](/es4x/@vertx/auth-mongo)
 * [auth-oauth2](/es4x/@vertx/auth-oauth2)
 * [auth-shiro](/es4x/@vertx/auth-shiro)
+* [auth-webauthn](/es4x/@vertx/auth-webauthn)
+* [auth-otp](/es4x/@vertx/auth-otp)
 
 ## Data Access
 
@@ -47,7 +49,7 @@ Modules for accessing data.
 Modules to work with monitoring tools.
 
 * [dropwizard-metrics](/es4x/@vertx/dropwizard-metrics)
-* [hawkular-metrics](/es4x/@vertx/hawkular-metrics)
+* [micrometer-metrics](/es4x/@vertx/micrometer-metrics)
 
 ## Microservices
 

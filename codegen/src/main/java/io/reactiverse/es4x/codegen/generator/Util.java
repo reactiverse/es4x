@@ -143,6 +143,7 @@ public final class Util {
     GENERIC_TYPES.put("java.util.Collection", "%s[]");
     GENERIC_TYPES.put("java.util.List", "%s[]");
     GENERIC_TYPES.put("java.util.Map", "{ [key: %s]: %s }");
+    GENERIC_TYPES.put("java.util.function.Supplier", "() => %s");
 
     // reserved typescript keywords
     RESERVED.addAll(Arrays.asList(
