@@ -35,7 +35,7 @@ public class WorkerTest {
     // @language=JavaScript
     String script =
       "Worker.create('workers/worker.js', function (create) {" +
-//        "console.log(create.cause());\n" +
+        "print(create.cause());\n" +
         "var worker = create.result();\n" +
         "worker.onmessage = function (msg) {\n" +
         "  console.log('onmessage: ' + msg)\n" +
