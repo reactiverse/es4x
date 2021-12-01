@@ -1,9 +1,6 @@
 package io.reactiverse.es4x;
 
-import io.reactiverse.es4x.impl.VertxFileSystem;
 import io.reactiverse.es4x.sourcemap.SourceMap;
-import io.vertx.core.Vertx;
-import org.graalvm.polyglot.io.FileSystem;
 import org.junit.Test;
 
 import java.io.File;
@@ -37,9 +34,8 @@ public class MappingTest {
 
 
 
-    SourceMap source = new SourceMap(new String(
-      Files.readAllBytes(new File("src/test/resources/bundle.js.map").toPath())
-    ));
+    SourceMap source = new SourceMap(
+      Files.readAllBytes(new File("src/test/resources/bundle.js.map").toPath()));
 
     source.eachMapping(System.out::println);
 

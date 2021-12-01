@@ -15,9 +15,22 @@
  */
 package io.reactiverse.es4x.jul;
 
+import io.reactiverse.es4x.sourcemap.SourceMap;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
+import org.graalvm.polyglot.PolyglotException;
+import org.graalvm.polyglot.SourceSection;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Set;
 import java.util.logging.*;
 
 import static java.util.logging.Level.*;
@@ -26,6 +39,7 @@ public class ANSIFormatter extends Formatter {
 
   // are ANSI colors allowed?
   private static final boolean colors;
+//  private static final SourceMap sourceMap;
 
   static {
     if (Boolean.getBoolean("noTTY")) {
@@ -48,6 +62,14 @@ public class ANSIFormatter extends Formatter {
         colors = System.console() != null;
       }
     }
+//
+//    // handle source maps
+//    String sourceMapFile = System.getProperty("sourceMap");
+//    if (sourceMapFile != null) {
+//      sourceMap = new SourceMap(Buffer.buffer(Files.readAllBytes(Paths.get(sourceMapFile))));
+//    } else {
+//      sourceMap = null;
+//    }
   }
 
   @Override
@@ -150,5 +172,105 @@ public class ANSIFormatter extends Formatter {
     }
 
     return "";
+  }
+
+
+  private static final String CAUSE_CAPTION = "Caused by: ";
+  private static final String SUPPRESSED_CAPTION = "Suppressed: ";
+
+  public static void printStackTrace(Throwable self, PrintWriter s) {
+    // Guard against malicious overrides of Throwable.equals by
+    // using a Set with identity equality semantics.
+    Set<Throwable> dejaVu = Collections.newSetFromMap(new IdentityHashMap<>());
+    dejaVu.add(self);
+
+    // Print our stack trace
+    s.println(self);
+    StackTraceElement[] trace = self.getStackTrace();
+    printTrace(self, trace, trace.length, s);
+
+    // Print suppressed exceptions, if any
+    for (Throwable se : self.getSuppressed())
+      printEnclosedStackTrace(se, s, trace, SUPPRESSED_CAPTION, "\t", dejaVu);
+
+    // Print cause, if any
+    Throwable ourCause = self.getCause();
+    if (ourCause != null)
+      printEnclosedStackTrace(ourCause, s, trace, CAUSE_CAPTION, "", dejaVu);
+  }
+
+  private static void printEnclosedStackTrace(
+    Throwable self,
+    PrintWriter s,
+    StackTraceElement[] enclosingTrace,
+    String caption,
+    String prefix,
+    Set<Throwable> dejaVu) {
+
+    if (dejaVu.contains(self)) {
+      s.println(prefix + caption + "[CIRCULAR REFERENCE: " + self + "]");
+    } else {
+      dejaVu.add(self);
+      // Compute number of frames in common between this and enclosing trace
+      StackTraceElement[] trace = self.getStackTrace();
+      int m = trace.length - 1;
+      int n = enclosingTrace.length - 1;
+      while (m >= 0 && n >= 0 && trace[m].equals(enclosingTrace[n])) {
+        m--;
+        n--;
+      }
+      int framesInCommon = trace.length - 1 - m;
+
+      // Print our stack trace
+      s.println(prefix + caption + self);
+      printTrace(self, trace, m, s);
+
+      if (framesInCommon != 0)
+        s.println(prefix + "\t... " + framesInCommon + " more");
+
+      // Print suppressed exceptions, if any
+      for (Throwable se : self.getSuppressed())
+        printEnclosedStackTrace(se, s, trace, SUPPRESSED_CAPTION,
+          prefix + "\t", dejaVu);
+
+      // Print cause, if any
+      Throwable ourCause = self.getCause();
+      if (ourCause != null)
+        printEnclosedStackTrace(ourCause, s, trace, CAUSE_CAPTION, prefix, dejaVu);
+    }
+  }
+
+  private static void printTrace(Throwable self, StackTraceElement[] trace, int limit, PrintWriter s) {
+    if (self instanceof PolyglotException) {
+      int i = 0;
+      for (PolyglotException.StackFrame stackFrame : ((PolyglotException) self).getPolyglotStackTrace()) {
+        if (i++ == limit) {
+          break;
+        }
+        if (stackFrame.isHostFrame()) {
+          s.println("\tat " + stackFrame);
+        } else {
+          SourceSection sourceSection = stackFrame.getSourceLocation();
+          if (sourceSection != null) {
+            URI uri = sourceSection.getSource().getURI();
+
+            // TODO: rewrite with sourcemap is available
+
+            s.println("\tat <js> " + stackFrame.getRootName()
+              + "(" +
+              ("file".equals(uri.getScheme()) ? uri.getPath() : uri) +
+              (sourceSection.hasLines() ? ":" + sourceSection.getStartLine() : "") +
+              (sourceSection.hasColumns() ? ":" + sourceSection.getStartColumn() : "") +
+              ")");
+          } else {
+            s.println("\tat " + stackFrame);
+          }
+        }
+      }
+    } else {
+      for (int i = 0; i <= limit; i++) {
+        s.println("\tat " + trace[i]);
+      }
+    }
   }
 }

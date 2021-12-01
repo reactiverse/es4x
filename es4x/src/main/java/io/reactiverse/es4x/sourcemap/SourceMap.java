@@ -1,11 +1,10 @@
 package io.reactiverse.es4x.sourcemap;
 
-import io.vertx.core.json.Json;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,15 +20,15 @@ public class SourceMap {
   private ArrayList<ArrayList<Mapping>> lines = null;
   private String sourceRoot;
 
-  public SourceMap(String sourceMapData) {
+  public SourceMap(byte[] sourceMapData) {
     parse(sourceMapData);
   }
 
   /**
    * Parses the given contents containing a source map.
    */
-  private void parse(String sourceMapData) {
-    JsonObject sourceMapRoot = new JsonObject(sourceMapData);
+  private void parse(byte[] sourceMapData) {
+    JsonObject sourceMapRoot = new JsonObject(Buffer.buffer(sourceMapData));
 
     // Check basic assertions about the format.
     int version = sourceMapRoot.getInteger("version");
