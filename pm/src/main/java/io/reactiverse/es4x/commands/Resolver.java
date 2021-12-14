@@ -44,6 +44,7 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,15 +73,14 @@ public final class Resolver {
       return;
     }
 
-    // add user repo
-    String registry = System.getProperty("maven.registry", System.getenv("MAVEN_REGISTRY"));
-    if (registry != null && !"".equals(registry)) {
+    // add user repo(s)
+    for (String registry : getRepositories()) {
       URL url = new URL(registry);
       Authentication auth = extractAuth(url);
       if (auth != null) {
         url = new URL(url.getProtocol(), url.getHost(), url.getPort(), url.getFile());
       }
-      RemoteRepository.Builder builder = new RemoteRepository.Builder("registry", "default", url.toString());
+      RemoteRepository.Builder builder = new RemoteRepository.Builder(url.getHost(), "default", url.toString());
       if (auth != null) {
         builder.setAuthentication(auth);
       }
@@ -107,6 +107,22 @@ public final class Resolver {
     } catch (IllegalArgumentException | NullPointerException e) {
       return false;
     }
+  }
+
+  private List<String> getRepositories() {
+    String registry = System.getProperty("maven.registry", System.getenv("MAVEN_REGISTRY"));
+    if (registry != null && !"".equals(registry)) {
+      String[] repositories = registry.split(",");
+      List<String> repos = new ArrayList<>();
+      for (String repo : repositories) {
+        if (repo != null && !"".equals(repo)) {
+          repos.add(repo.trim());
+        }
+      }
+      return repos;
+    }
+
+    return Collections.emptyList();
   }
 
   /**
