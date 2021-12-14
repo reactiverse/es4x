@@ -97,16 +97,20 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#getlinkname" class="tsd-kind-icon">get<wbr>Link<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#getmaxbufferedmessages" class="tsd-kind-icon">get<wbr>Max<wbr>Buffered<wbr>Messages</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#getqos" class="tsd-kind-icon">get<wbr>Qos</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#getselector" class="tsd-kind-icon">get<wbr>Selector</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#isautoacknowledgement" class="tsd-kind-icon">is<wbr>Auto<wbr>Acknowledgement</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#isdurable" class="tsd-kind-icon">is<wbr>Durable</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#isdynamic" class="tsd-kind-icon">is<wbr>Dynamic</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#isnolocal" class="tsd-kind-icon">is<wbr>NoLocal</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#setautoacknowledgement" class="tsd-kind-icon">set<wbr>Auto<wbr>Acknowledgement</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#setcapabilities" class="tsd-kind-icon">set<wbr>Capabilities</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#setdurable" class="tsd-kind-icon">set<wbr>Durable</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#setdynamic" class="tsd-kind-icon">set<wbr>Dynamic</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#setlinkname" class="tsd-kind-icon">set<wbr>Link<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#setmaxbufferedmessages" class="tsd-kind-icon">set<wbr>Max<wbr>Buffered<wbr>Messages</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#setnolocal" class="tsd-kind-icon">set<wbr>NoLocal</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#setqos" class="tsd-kind-icon">set<wbr>Qos</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#setselector" class="tsd-kind-icon">set<wbr>Selector</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="amqpreceiveroptions.html#tojson" class="tsd-kind-icon">to<wbr>Json</a></li>
 							</ul>
 						</section>
@@ -249,13 +253,38 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:565</li>
+									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:583</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Sets the local QOS config.</p>
 								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getselector" class="tsd-anchor"></a>
+					<h3>get<wbr>Selector</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Selector<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:597</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets a message selector string.</p>
+								</div>
+								<p>Used to define an &quot;apache.org:selector-filter:string&quot; filter on the source terminus, using SQL-based syntax to request
+									the server filters which messages are delivered to the receiver (if supported by the server in question). Precise
+								functionality supported and syntax needed can vary depending on the server.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
@@ -332,6 +361,31 @@
 										The address provided by the peer can then be inspected using the
 										{@link AmqpReceiver#address} method on the <a href="amqpreceiver.html">AmqpReceiver</a> received once opened.
 								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isnolocal" class="tsd-anchor"></a>
+					<h3>is<wbr>NoLocal</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>NoLocal<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:569</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets whether this receiver should not receive messages that were sent using the same underlying connection.</p>
+								</div>
+								<p>Used to determine whether to define an &quot;apache.org:no-local-filter:list&quot; filter on the source terminus, requesting
+									that the server filters which messages are delivered to the receiver so that they do not include messages sent on
+								the same underlying connection (if supported by the server in question).</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
@@ -511,6 +565,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setnolocal" class="tsd-anchor"></a>
+					<h3>set<wbr>NoLocal</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>NoLocal<span class="tsd-signature-symbol">(</span>noLocal<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="amqpreceiveroptions.html" class="tsd-signature-type">AmqpReceiverOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:578</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets whether this receiver should not receive messages that were sent using the same underlying connection.</p>
+								</div>
+								<p>Used to determine whether to define an &quot;apache.org:no-local-filter:list&quot; filter on the source terminus, requesting
+									that the server filters which messages are delivered to the receiver so that they do not include messages sent on
+								the same underlying connection (if supported by the server in question).</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>noLocal: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="amqpreceiveroptions.html" class="tsd-signature-type">AmqpReceiverOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="setqos" class="tsd-anchor"></a>
 					<h3>set<wbr>Qos</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -520,7 +605,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:570</li>
+									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:588</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -539,6 +624,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setselector" class="tsd-anchor"></a>
+					<h3>set<wbr>Selector</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Selector<span class="tsd-signature-symbol">(</span>selector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="amqpreceiveroptions.html" class="tsd-signature-type">AmqpReceiverOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:606</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets a message selector string.</p>
+								</div>
+								<p>Used to define an &quot;apache.org:selector-filter:string&quot; filter on the source terminus, using SQL-based syntax to request
+									the server filters which messages are delivered to the receiver (if supported by the server in question). Precise
+								functionality supported and syntax needed can vary depending on the server.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>selector: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="amqpreceiveroptions.html" class="tsd-signature-type">AmqpReceiverOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="tojson" class="tsd-anchor"></a>
 					<h3>to<wbr>Json</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -548,7 +664,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:573</li>
+									<li>Defined in io.vertx/vertx-amqp-client/target/npm/options.d.ts:609</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
@@ -614,6 +730,9 @@
 								<a href="amqpreceiveroptions.html#getqos" class="tsd-kind-icon">get<wbr>Qos</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="amqpreceiveroptions.html#getselector" class="tsd-kind-icon">get<wbr>Selector</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="amqpreceiveroptions.html#isautoacknowledgement" class="tsd-kind-icon">is<wbr>Auto<wbr>Acknowledgement</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -621,6 +740,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="amqpreceiveroptions.html#isdynamic" class="tsd-kind-icon">is<wbr>Dynamic</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="amqpreceiveroptions.html#isnolocal" class="tsd-kind-icon">is<wbr>NoLocal</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="amqpreceiveroptions.html#setautoacknowledgement" class="tsd-kind-icon">set<wbr>Auto<wbr>Acknowledgement</a>
@@ -641,7 +763,13 @@
 								<a href="amqpreceiveroptions.html#setmaxbufferedmessages" class="tsd-kind-icon">set<wbr>Max<wbr>Buffered<wbr>Messages</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="amqpreceiveroptions.html#setnolocal" class="tsd-kind-icon">set<wbr>NoLocal</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="amqpreceiveroptions.html#setqos" class="tsd-kind-icon">set<wbr>Qos</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="amqpreceiveroptions.html#setselector" class="tsd-kind-icon">set<wbr>Selector</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="amqpreceiveroptions.html#tojson" class="tsd-kind-icon">to<wbr>Json</a>
