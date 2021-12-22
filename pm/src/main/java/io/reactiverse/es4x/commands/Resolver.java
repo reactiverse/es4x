@@ -26,7 +26,6 @@ import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.graph.DependencyFilter;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.graph.Exclusion;
-import org.eclipse.aether.impl.DefaultServiceLocator;
 import org.eclipse.aether.repository.*;
 import org.eclipse.aether.resolution.*;
 import org.eclipse.aether.spi.connector.RepositoryConnectorFactory;
@@ -62,9 +61,12 @@ public final class Resolver {
   private final List<RemoteRepository> remotes = new ArrayList<>();
 
   public Resolver() throws MalformedURLException {
-    DefaultServiceLocator locator = getDefaultServiceLocator();
+    system = MavenRepositorySystemUtils.newServiceLocator()
+      .addService(RepositoryConnectorFactory.class, BasicRepositoryConnectorFactory.class)
+      .addService(TransporterFactory.class, FileTransporterFactory.class)
+      .addService(TransporterFactory.class, HttpTransporterFactory.class)
+      .getService(RepositorySystem.class);
 
-    system = locator.getService(RepositorySystem.class);
     localRepo = new LocalRepository(DEFAULT_MAVEN_LOCAL);
 
     if (isOffline()) {
@@ -91,14 +93,6 @@ public final class Resolver {
       new RemoteRepository
         .Builder("central", "default", DEFAULT_MAVEN_REMOTE)
         .setSnapshotPolicy(new RepositoryPolicy(false, RepositoryPolicy.UPDATE_POLICY_NEVER, RepositoryPolicy.CHECKSUM_POLICY_FAIL)).build());
-  }
-
-  private static DefaultServiceLocator getDefaultServiceLocator() {
-    DefaultServiceLocator locator = MavenRepositorySystemUtils.newServiceLocator();
-    locator.addService(RepositoryConnectorFactory.class, BasicRepositoryConnectorFactory.class);
-    locator.addService(TransporterFactory.class, FileTransporterFactory.class);
-    locator.addService(TransporterFactory.class, HttpTransporterFactory.class);
-    return locator;
   }
 
   private static boolean isOffline() {
