@@ -2,6 +2,7 @@ package io.reactiverse.es4x;
 
 import io.vertx.core.VertxOptions;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -39,6 +40,7 @@ public class ES4XTest {
   }
 
   @Test
+  @Ignore("If we run this the VM stops with error (as expected)")
   public void testInspect() {
     System.setProperty("inspect", "");
     ES4X runner = new ES4X();
@@ -50,6 +52,7 @@ public class ES4XTest {
   }
 
   @Test
+  @Ignore("If we run this the VM stops with error (as expected)")
   public void testInspectBrk() {
     System.setProperty("inspect-brk", "");
     ES4X runner = new ES4X();
