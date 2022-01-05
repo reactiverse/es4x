@@ -233,12 +233,6 @@ public final class VertxFileSystem implements FileSystem {
   }
 
   private boolean fetchIfNeeded(File file, String path) {
-
-//    downloadDir = D:\a\es4x\es4x\es4x\node_modules\.download\
-//    file        = node_modules\.download\eedc890765ef80e2b57c447a50f911cd\@vertx\web@4.2.0\enums.mjs
-//    path        = D:\a\es4x\es4x\es4x\node_modules\.download\eedc890765ef80e2b57c447a50f911cd\@vertx\web@4.2.0\enums.mjs
-//    target      = eedc890765ef80e2b57c447a50f911cd\@vertx\web@4.2.0\enums.mjs
-
     LOGGER.trace(String.format("fetchIfNeeded(%s, %s)", file, path));
 
     if (path.startsWith(downloadDir)) {
@@ -254,17 +248,10 @@ public final class VertxFileSystem implements FileSystem {
         }
         try {
           // try to download
-          downloadTo(new URL(urlMap.get(source) + target.substring(split)), file);
+          final URL url = new URL(urlMap.get(source) + slashify(target.substring(split), false));
+          System.err.println(url);
+          downloadTo(url, file);
         } catch (IOException e) {
-          System.err.println(downloadDir);
-          System.err.println(file);
-          System.err.println(path);
-          System.err.println(target);
-          System.err.println(source);
-
-          System.err.println(urlMap.get(source));
-          System.err.println(target.substring(split));
-
           throw new InvalidPathException(path, e.getMessage());
         }
       }
