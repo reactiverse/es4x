@@ -94,6 +94,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#getbits" class="tsd-kind-icon">get<wbr>Bits</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#getbucketsize" class="tsd-kind-icon">get<wbr>Bucket<wbr>Size</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#getcollation" class="tsd-kind-icon">get<wbr>Collation</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#getdefaultlanguage" class="tsd-kind-icon">get<wbr>Default<wbr>Language</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#getlanguageoverride" class="tsd-kind-icon">get<wbr>Language<wbr>Override</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#getmax" class="tsd-kind-icon">get<wbr>Max</a></li>
@@ -108,6 +109,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#isbackground" class="tsd-kind-icon">is<wbr>Background</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#issparse" class="tsd-kind-icon">is<wbr>Sparse</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#isunique" class="tsd-kind-icon">is<wbr>Unique</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#setcollation" class="tsd-kind-icon">set<wbr>Collation</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="indexoptions.html#tojson" class="tsd-kind-icon">to<wbr>Json</a></li>
 							</ul>
 						</section>
@@ -127,7 +129,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:299</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:761</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="indexoptions.html" class="tsd-signature-type">IndexOptions</a></h4>
@@ -135,7 +137,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:301</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:763</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -161,7 +163,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:313</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:775</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -183,7 +185,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:318</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:780</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -192,6 +194,36 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcollation" class="tsd-anchor"></a>
+					<h3>get<wbr>Collation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Collation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="collationoptions.html" class="tsd-signature-type">CollationOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:793</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Optional. Specifies the collation for the index.</p>
+									<p>
+										Collation allows users to specify language-specific rules for string comparison, such as rules for lettercase and accent marks.
+										<p>
+											If you have specified a collation at the collection level, then:
+											If you do not specify a collation when creating the index, MongoDB creates the index with the collection's default collation.
+											If you do specify a collation when creating the index, MongoDB creates the index with the specified collation.
+											When specifying collation, the locale field is mandatory; all other collation fields are optional.
+											For descriptions of the fields, see <a href="https://docs.mongodb.com/manual/reference/collation/#std-label-collation-document-fields">Collation Document</a>.
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="collationoptions.html" class="tsd-signature-type">CollationOptions</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -205,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:325</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:813</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,7 +260,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:332</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:820</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -251,7 +283,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:337</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:825</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -273,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:342</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:830</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -295,7 +327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:347</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:835</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -317,7 +349,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:352</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:840</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -344,7 +376,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:362</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:850</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -366,7 +398,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:367</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:855</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -393,7 +425,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:372</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:860</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -415,7 +447,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:382</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:870</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -437,7 +469,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:390</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:878</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -466,7 +498,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:308</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:770</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -488,7 +520,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:357</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:845</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -510,7 +542,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:377</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:865</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -519,6 +551,42 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setcollation" class="tsd-anchor"></a>
+					<h3>set<wbr>Collation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Collation<span class="tsd-signature-symbol">(</span>collation<span class="tsd-signature-symbol">: </span><a href="collationoptions.html" class="tsd-signature-type">CollationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="indexoptions.html" class="tsd-signature-type">IndexOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:806</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Optional. Specifies the collation for the index.</p>
+									<p>
+										Collation allows users to specify language-specific rules for string comparison, such as rules for lettercase and accent marks.
+										<p>
+											If you have specified a collation at the collection level, then:
+											If you do not specify a collation when creating the index, MongoDB creates the index with the collection's default collation.
+											If you do specify a collation when creating the index, MongoDB creates the index with the specified collation.
+											When specifying collation, the locale field is mandatory; all other collation fields are optional.
+											For descriptions of the fields, see <a href="https://docs.mongodb.com/manual/reference/collation/#std-label-collation-document-fields">Collation Document</a>.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>collation: <a href="collationoptions.html" class="tsd-signature-type">CollationOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="indexoptions.html" class="tsd-signature-type">IndexOptions</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -532,7 +600,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:393</li>
+									<li>Defined in io.vertx/vertx-mongo-client/target/npm/options.d.ts:881</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
@@ -557,7 +625,16 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum">
+						<a href="../enums/alternate.html" class="tsd-kind-icon">Alternate</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="../enums/bulkoperationtype.html" class="tsd-kind-icon">Bulk<wbr>Operation<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="../enums/casefirst.html" class="tsd-kind-icon">Case<wbr>First</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="../enums/maxvariable.html" class="tsd-kind-icon">Max<wbr>Variable</a>
 					</li>
 					<li class=" tsd-kind-enum">
 						<a href="../enums/writeoption.html" class="tsd-kind-icon">Write<wbr>Option</a>
@@ -572,6 +649,18 @@
 						<a href="bulkwriteoptions.html" class="tsd-kind-icon">Bulk<wbr>Write<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="collationoptions.html" class="tsd-kind-icon">Collation<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="countoptions.html" class="tsd-kind-icon">Count<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="createcollectionoptions.html" class="tsd-kind-icon">Create<wbr>Collection<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="distinctoptions.html" class="tsd-kind-icon">Distinct<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="findoptions.html" class="tsd-kind-icon">Find<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -582,6 +671,9 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="indexmodel.html" class="tsd-kind-icon">Index<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="indexoptiondefaults.html" class="tsd-kind-icon">Index<wbr>Option<wbr>Defaults</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -596,6 +688,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="indexoptions.html#getbucketsize" class="tsd-kind-icon">get<wbr>Bucket<wbr>Size</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="indexoptions.html#getcollation" class="tsd-kind-icon">get<wbr>Collation</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="indexoptions.html#getdefaultlanguage" class="tsd-kind-icon">get<wbr>Default<wbr>Language</a>
@@ -640,6 +735,9 @@
 								<a href="indexoptions.html#isunique" class="tsd-kind-icon">is<wbr>Unique</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="indexoptions.html#setcollation" class="tsd-kind-icon">set<wbr>Collation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="indexoptions.html#tojson" class="tsd-kind-icon">to<wbr>Json</a>
 							</li>
 						</ul>
@@ -663,6 +761,9 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="updateoptions.html" class="tsd-kind-icon">Update<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="validationoptions.html" class="tsd-kind-icon">Validation<wbr>Options</a>
 					</li>
 				</ul>
 			</nav>
