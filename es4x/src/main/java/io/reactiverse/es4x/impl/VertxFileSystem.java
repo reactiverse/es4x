@@ -250,6 +250,10 @@ public final class VertxFileSystem implements FileSystem {
           // try to download
           downloadTo(new URL(urlMap.get(source) + target.substring(split)), file);
         } catch (IOException e) {
+          System.err.println(downloadDir);
+          System.err.println(file);
+          System.err.println(path);
+          System.err.println(target);
           throw new InvalidPathException(path, e.getMessage());
         }
       }
