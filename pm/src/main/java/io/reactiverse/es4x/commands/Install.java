@@ -427,7 +427,7 @@ public class Install implements Runnable {
 
     // default main script
     String main = null;
-    String verticleFactory = null;
+    String verticleFactory = "js";
 
     if (hasPackageJson) {
       try {

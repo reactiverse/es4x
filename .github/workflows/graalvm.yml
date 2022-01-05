@@ -1,0 +1,40 @@
+name: GraalVM CI
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+jobs:
+  build:
+    name: ${{ matrix.version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        version: [latest, dev, '21.3.0']
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache JVM
+        id: cache-java
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ runner.temp }}/java_package.tar.gz
+            ~/.m2/repository
+          key: ${{ runner.os }}-java-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-java-
+      - name: Setup GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: ${{ matrix.version }}
+          java-version: '11'
+      - name: Run tests (UNIX)
+        run: ./mvnw clean verify
+        if: runner.os != 'Windows'
+      - name: Run tests (Windows)
+        run: mvnw.cmd clean verify
+        if: runner.os == 'Windows'
