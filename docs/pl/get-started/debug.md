@@ -5,7 +5,7 @@
 Podczas pracy z [GraalVM](https://graalvm.org) lub JDK z graalvm (JVMCI) uruchom swoją aplikację jako:
 
 ```sh
-npm start -- -Dinspect
+npm start -- -Dinspect=9229
 ```
 
 Rozpocznie to pracę debugera Chrome Inspector na porcie 9229, który możesz dołączyć do sesji debugowania z poziomu
