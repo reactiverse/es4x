@@ -1,0 +1,40 @@
+name: Java CI
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+jobs:
+  build:
+    name: ${{ matrix.version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        version: [8, 11, 17]
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache JVM
+        id: cache-java
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ runner.temp }}/java_package.tar.gz
+            ~/.m2/repository
+          key: ${{ runner.os }}-java-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-java-
+      - name: Setup Java
+        uses: graalvm/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.version }}
+      - name: Run tests (UNIX)
+        run: ./mvnw clean verify
+        if: runner.os != 'Windows'
+      - name: Run tests (Windows)
+        run: .\mvnw.cmd clean verify
+        if: runner.os == 'Windows'
