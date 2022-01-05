@@ -88,11 +88,11 @@ public final class VertxFileSystem implements FileSystem {
             .put("imports", new JsonObject()
               .put(toNixPath(cwd), "./")),
           cwdUrl);
-        baseDir = new File(this.cwd, "node_modules").getPath() + File.separator;
-        downloadDir = new File(this.baseDir, ".download").getPath() + File.separator;
+        baseDir = new File(this.cwd, "node_modules").getCanonicalPath() + File.separator;
+        downloadDir = new File(this.baseDir, ".download").getCanonicalPath() + File.separator;
       } else {
-        baseDir = new File(this.cwd).getPath() + File.separator;
-        downloadDir = new File(this.baseDir, ".download").getPath() + File.separator;
+        baseDir = new File(this.cwd).getCanonicalPath() + File.separator;
+        downloadDir = new File(this.baseDir, ".download").getCanonicalPath() + File.separator;
         JsonObject json = new JsonObject(vertx.fileSystem().readFileBlocking(importMap));
         if (json.containsKey("imports")) {
           json
