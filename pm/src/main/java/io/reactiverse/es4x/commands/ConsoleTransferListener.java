@@ -148,7 +148,7 @@ final class ConsoleTransferListener extends AbstractTransferListener {
     event.getException().printStackTrace(out);
   }
 
-  protected long toKB(long bytes) {
+  private long toKB(long bytes) {
     return (bytes + 1023) / 1024;
   }
 

@@ -5,14 +5,14 @@
 Όταν εργάζεστε σε [GraalVM](https://graalvm.org) ή σε JDK με κομμάτια graalvm (JVMCI), ξεκινήστε την εφαρμογή σας ως:
 
 ```sh
-npm start -- -Dinspect
+npm start -- -Dinspect=9229
 ```
 
 Αυτό θα ξεκινήσει έναν παράγοντα εντοπισμού σφαλμάτων Chrome inspection στο port 9229 που μπορείτε να επισυνάψετε για μια περίοδο λειτουργίας απομακρυσμένου εντοπισμού σφαλμάτων από το πρόγραμμα περιήγησής σας.
 
 ```
 Chrome devtools listening at port: 9229
-Running: java ... 
+Running: java ...
 Debugger listening on port 9229.
 To start debugging, open the following URL in Chrome:
     chrome-devtools://devtools/bundled/js_app.html?ws=127.0.0.1:9229/436e852b-329b5c44c3e

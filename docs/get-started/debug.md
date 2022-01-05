@@ -5,7 +5,7 @@
 When working on [GraalVM](https://graalvm.org) or a JDK with the graalvm (JVMCI) bits, start your application as:
 
 ```sh
-npm start -- -Dinspect
+npm start -- -Dinspect=9229
 ```
 
 This will start a Chrome inspector debugger agent on port 9229 that you can attach for a remote
@@ -13,7 +13,7 @@ debug session from your Browser.
 
 ```
 Chrome devtools listening at port: 9229
-Running: java ... 
+Running: java ...
 Debugger listening on port 9229.
 To start debugging, open the following URL in Chrome:
     chrome-devtools://devtools/bundled/js_app.html?ws=127.0.0.1:9229/436e852b-329b5c44c3e

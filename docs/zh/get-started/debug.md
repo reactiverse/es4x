@@ -5,7 +5,7 @@
 在[GraalVM](https://graalvm.org)或者 a JDK with the graalvm (JVMCI) bits 上工作时，可以通过下面的命令启动您的应用：
 
 ```sh
-npm start -- -Dinspect
+npm start -- -Dinspect=9229
 ```
 
 这将在端口9229上启动一个Chrome inspector调试器代理，您可以通过浏览器来附加到这个远程调试会话。

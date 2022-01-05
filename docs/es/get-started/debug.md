@@ -5,7 +5,7 @@
 Cuandro trabajes con [GraalVM](https://graalvm.org) o un JDK con los bits graalvm (JVMCI), comienza tu aplicacion asi:
 
 ```sh
-npm start -- -Dinspect
+npm start -- -Dinspect=9229
 ```
 
 Esto comenzara el agente debugger del inspector de Chrome en el puerto 9229 que puedes conectar a una sesion remota
@@ -13,7 +13,7 @@ de debug desde tu navegador.
 
 ```
 Chrome devtools listening at port: 9229
-Running: java ... 
+Running: java ...
 Debugger listening on port 9229.
 To start debugging, open the following URL in Chrome:
     chrome-devtools://devtools/bundled/js_app.html?ws=127.0.0.1:9229/436e852b-329b5c44c3e
@@ -61,5 +61,5 @@ Y conecta tu debugger.
 
 ![vscode-chrome-inspector](./res/vscode-debug.png)
 
-Si imprimes el mensaje `Server started on port 8000` sera capturado en visual studio y una ventana del navegador 
+Si imprimes el mensaje `Server started on port 8000` sera capturado en visual studio y una ventana del navegador
 abrira la URL adecuada.
