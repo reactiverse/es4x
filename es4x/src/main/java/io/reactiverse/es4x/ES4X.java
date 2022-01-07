@@ -26,13 +26,13 @@ public final class ES4X extends Launcher {
   @Override
   public void beforeStartingVertx(VertxOptions options) {
     processProperty("inspect", inspect -> {
-      System.setProperty("polyglot.inspect", inspect.toString());
+      System.setProperty("polyglot.inspect", inspect);
       System.setProperty("polyglot.inspect.Suspend", "false");
       options.setBlockedThreadCheckInterval(1000000);
     });
 
     processProperty("inspect-brk", inspect -> {
-      System.setProperty("polyglot.inspect", inspect.toString());
+      System.setProperty("polyglot.inspect", inspect);
       System.setProperty("polyglot.inspect.Suspend", "true");
       options.setBlockedThreadCheckInterval(1000000);
     });
@@ -94,12 +94,17 @@ public final class ES4X extends Launcher {
     }
   }
 
-  private static void processProperty(String name, Consumer<Integer> consumer) {
+  private static void processProperty(String name, Consumer<String> consumer) {
 
     if (System.getProperties().containsKey(name)) {
       try {
-        consumer.accept(Integer.getInteger(name));
+        String addr = System.getProperty(name);
+        if ("".equals(addr)) {
+          addr = "9229";
+        }
+        consumer.accept(addr);
       } catch (RuntimeException e) {
+        System.err.println(e.getMessage());
         System.exit(1);
       }
     }
