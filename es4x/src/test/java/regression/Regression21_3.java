@@ -8,6 +8,7 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.PolyglotAccess;
 import org.graalvm.polyglot.Source;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -23,6 +24,7 @@ public class Regression21_3 {
   }
 
   @Test
+  @Ignore
   public void regression() throws InterruptedException, IOException {
 
     Context context = Context.newBuilder("js")
