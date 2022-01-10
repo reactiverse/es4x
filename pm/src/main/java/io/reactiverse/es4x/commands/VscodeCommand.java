@@ -30,33 +30,24 @@ import static io.reactiverse.es4x.cli.Helper.*;
 @Summary("Launcher for vscode project.")
 public class VscodeCommand extends DefaultCommand {
 
-	private String launcher;
-
-	@Option(longName = "launcher", shortName = "l")
-	@Description("The launcher name")
-  @DefaultValue("npm")
-	public void setLauncher(String launcher) {
-		this.launcher = launcher;
-	}
-
 	private void processLauncher(File json) throws IOException {
 
     final File pkg = new File(getCwd(), "package.json");
 
-    String app = "Launch";
+    String app = "Attach";
 
     if (pkg.exists()) {
       JSONObject pkgJson = JSON.parseObject(pkg);
-      app = "Launch " + pkgJson.get("name");
+      app = "Attach " + pkgJson.get("name");
     }
 
-    JSONObject launch = JSON.parseObject(json);
+    JSONObject attach = JSON.parseObject(json);
 
-    if (!launch.has("configurations")) {
-			launch.put("configurations", new JSONArray());
+    if (!attach.has("configurations")) {
+			attach.put("configurations", new JSONArray());
 		}
 
-		final JSONArray configurations = launch.getJSONArray("configurations");
+		final JSONArray configurations = attach.getJSONArray("configurations");
 
     // replace the launcher if already present
     int toRemove = -1;
@@ -75,33 +66,13 @@ public class VscodeCommand extends DefaultCommand {
 
     JSONObject config = new JSONObject();
 		config.put("name", app);
-		config.put("type", "node");
+		config.put("type", "graalvm");
 		config.put("request", "launch");
 		config.put("cwd", "${workspaceFolder}");
-    config.put("runtimeExecutable", launcher);
-		JSONArray args = new JSONArray();
-		if ("npm".equals(launcher)) {
-		  // delegate to npm
-      args.put("start");
-      args.put("--");
-    }
-    if ("yarn".equals(launcher)) {
-      // delegate to npm
-      args.put("start");
-    }
-    args.put("-Dinspect=9229");
-		config.put("runtimeArgs", args);
 		config.put("port", 9229);
-		config.put("outputCapture", "std");
-		// server ready
-    JSONObject serverReady = new JSONObject();
-    serverReady.put("pattern", "started on port ([0-9]+)");
-    serverReady.put("uriFormat", "http://localhost:%s");
-    serverReady.put("action", "openExternally");
-    config.put("serverReadyAction", serverReady);
 
 		configurations.put(config);
-    JSON.encodeObject(json, launch);
+    JSON.encodeObject(json, attach);
 	}
 
 	@Override
