@@ -43,6 +43,6 @@ IF EXIST "logging.properties" (
 IF EXIST "%BINDIR%\es4x-launcher.jar" (
   %JAVA_EXE% -XX:+IgnoreUnrecognizedVMOptions %JVMCI% %SECURITY_MANAGER% %LOGGING_PROPERTIES% %JAVA_OPTS% -cp "%BINDIR%\es4x-launcher.jar;%~dp0\..\es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X %*
 ) ELSE (
-  ECHO "Missing %BINDIR%\es4x-launcher.jar"
-  EXIT /B 3
+  ECHO "Please run: es4x install"
+  EXIT /B 0
 )

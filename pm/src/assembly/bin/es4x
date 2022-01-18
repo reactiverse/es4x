@@ -66,6 +66,6 @@ fi
 if [[ -f "$BINDIR/es4x-launcher.jar" ]]; then
   exec "$JAVA_EXE" -XX:+IgnoreUnrecognizedVMOptions $JVMCI $SECURITY_MANAGER $LOGGING_PROPERTIES $JAVA_OPTS $TTY_OPTS -cp "$BINDIR/es4x-launcher.jar:$basedir/../es4x-pm-${project.version}.jar" io.reactiverse.es4x.ES4X "$@"
 else
-  echo "Missing $BINDIR/es4x-launcher.jar" >&2
-  exit 3
+  echo "Please run: \"es4x install\"" >&2
+  exit 0
 fi

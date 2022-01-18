@@ -86,6 +86,6 @@ if (existsSync(path.join(process.cwd(), launcher))) {
 
   subProcess.on('close', process.exit);
 } else {
-  console.error(`Missing ${launcher}`);
-  process.exit(3);
+  console.error(`Please run "es4x install"`);
+  process.exit(0);
 }
