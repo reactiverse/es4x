@@ -73,33 +73,27 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
           } else {
             runtime.put("global", runtime.eval(Source.create("js", "this")));
           }
-          // wrap the deployment in a execute blocking as blocking net/io can happen during deploy
-          vertx
-            .<Void>executeBlocking(deploy -> {
-              try {
-                // the main script buffer
-                final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
-                final Source source = Source
-                  .newBuilder("js", new File(fsVerticleName))
-                  // strip the shebang if present
-                  .content(ESModuleIO.stripShebang(buffer.toString()))
-                  .cached(true)
-                  .interactive(false)
-                  .mimeType("application/javascript+module")
-                  .buildLiteral();
 
-                runtime.eval(source);
-                deploy.complete();
-              } catch (InvalidPathException e) {
-                deploy.fail("File Not Found: " + fsVerticleName);
-              } catch (RuntimeException e) {
-                deploy.fail(e);
-              }
-            }, true)
-            .onFailure(startFuture::fail)
-            .onSuccess(v ->
-              waitFor(runtime, "deploy").onComplete(startFuture));
+          try {
+            // the main script buffer
+            final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
+            final Source source = Source
+              .newBuilder("js", new File(fsVerticleName))
+              // strip the shebang if present
+              .content(ESModuleIO.stripShebang(buffer.toString()))
+              .cached(true)
+              .interactive(false)
+              .mimeType("application/javascript+module")
+              .buildLiteral();
 
+            runtime.eval(source);
+            waitFor(runtime, "deploy")
+              .onComplete(startFuture);
+          } catch (InvalidPathException e) {
+            startFuture.fail("File Not Found: " + fsVerticleName);
+          } catch (RuntimeException e) {
+            startFuture.fail(e);
+          }
         } catch (RuntimeException e) {
           startFuture.fail(e);
         }

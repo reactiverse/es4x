@@ -129,6 +129,7 @@ module.exports = {
                 'esm',
                 'globals',
                 'vertx',
+                'hot-reload',
                 'worker',
                 'jars',
                 'security',

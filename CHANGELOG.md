@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.17.0] - 2022-01-20
+* Bump vert.x to 4.2.4
+* Bump graaljs to 22.0.0
+* bare specifiers are now resolved using es4x rules, not relative to working dir
+* verticle start run on event loop to avoid threading issues
+* Debug manual updated to reflect current state of debugging on vscode
+* Manual now includes section on hot-reload
+
 ## [0.16.3] - 2022-01-05
 * Bump vert.x to 4.2.3
 * CI runs and passes on Windows, MacOS and Linux
