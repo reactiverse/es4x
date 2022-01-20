@@ -46,7 +46,7 @@ In order to generate an `es4x` module for this component all we need is a `pom.x
     <groupId>io.reactiverse.es4x</groupId>
     <artifactId>es4x-generator</artifactId>
     <version>0.16.0</version>
-    <relativePath>../..</relativePath>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <artifactId>hot-reload</artifactId>

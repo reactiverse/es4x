@@ -18,6 +18,7 @@ package io.reactiverse.es4x.codegen.generator;
 import io.vertx.codegen.*;
 import io.vertx.codegen.type.ClassKind;
 import io.vertx.codegen.type.ClassTypeInfo;
+import io.vertx.codegen.type.TypeInfo;
 import io.vertx.core.json.JsonObject;
 
 import java.io.PrintWriter;
@@ -25,6 +26,7 @@ import java.io.StringWriter;
 import java.util.*;
 
 import static io.reactiverse.es4x.codegen.generator.Util.*;
+import static io.reactiverse.es4x.codegen.generator.Util.getNPMScope;
 
 public class OptionsDTS extends Generator<DataObjectModel> {
 
@@ -110,6 +112,17 @@ public class OptionsDTS extends Generator<DataObjectModel> {
           importType(writer, session, referencedType, referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
           imports = true;
         }
+      }
+    }
+
+    // address extends outside the module
+    if (model.getSuperType() != null) {
+      String selfScope = getNPMScope(model.getModule());
+      String superScope = getNPMScope(model.getSuperType().getModule());
+      if (!selfScope.equals(superScope)) {
+        TypeInfo referencedType = model.getSuperType();
+        importType(writer, session, referencedType, referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
+        imports = true;
       }
     }
 

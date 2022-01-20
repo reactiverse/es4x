@@ -67,4 +67,20 @@ public class FactoryMJSTest {
       }));
     });
   }
+
+  @Test(timeout = 30000)
+  public void mjsBareResolutionCorrect(TestContext ctx) {
+    final Async async = ctx.async();
+    rule.vertx().deployVerticle("mjs:./lib/main.js", deploy -> {
+      if (deploy.failed()) {
+        deploy.cause().printStackTrace();
+      }
+
+      ctx.assertTrue(deploy.succeeded());
+      rule.vertx().setTimer(1000L, t -> rule.vertx().undeploy(deploy.result(), undeploy -> {
+        ctx.assertTrue(undeploy.succeeded());
+        async.complete();
+      }));
+    });
+  }
 }
