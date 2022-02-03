@@ -78,10 +78,8 @@ public class StructuredClone {
       return oToBeCloned.asTimeZone();
     }
 
-    // others
+    final String fConstrName = getConstructorName(oToBeCloned);
 
-    Value fConstr = oToBeCloned.getMember("constructor");
-    String fConstrName = fConstr.getMember("name").asString();
     Object oClone;
 
     switch (fConstrName) {
@@ -292,5 +290,20 @@ public class StructuredClone {
     }
 
     return null;
+  }
+
+  private static String getConstructorName(Value oToBeCloned) {
+    // proxy objects do not behave like native Object/Array, so we need to mask it
+    if (oToBeCloned.isProxyObject()) {
+      if (oToBeCloned.hasArrayElements()) {
+        return "Array";
+      }
+      if (oToBeCloned.hasMembers()) {
+        return "Object";
+      }
+    }
+    // other types, get constructor or return "undefined"
+    Value fConstr = oToBeCloned.getMember("constructor");
+    return fConstr == null ? "undefined" : fConstr.getMember("name").asString();
   }
 }
