@@ -158,7 +158,7 @@ public final class Resolver {
           }
 
           for (Exclusion e : ex) {
-            // Check the the passed artifact is excluded
+            // Check if the passed artifact is excluded
             if (e.getArtifactId().equals(dependencyNode.getArtifact().getArtifactId())
               && e.getGroupId().equals(dependencyNode.getArtifact().getGroupId())) {
               return false;
@@ -178,11 +178,11 @@ public final class Resolver {
         // Remove provided dependencies and transitive dependencies of provided dependencies
         (dependencyNode, list) -> {
           for (DependencyNode parent : list) {
-            if (!parent.getDependency().getScope().toLowerCase().equals("compile")) {
+            if (!parent.getDependency().getScope().equalsIgnoreCase("compile")) {
               return false;
             }
           }
-          return dependencyNode.getDependency().getScope().toLowerCase().equals("compile");
+          return dependencyNode.getDependency().getScope().equalsIgnoreCase("compile");
         }
       );
 
@@ -203,8 +203,7 @@ public final class Resolver {
         system.resolveDependencies(session, dependencyRequest).getArtifactResults();
 
     } catch (DependencyResolutionException e) {
-      throw new IllegalArgumentException("Cannot resolve artifacts " + artifacts.toString() +
-        " in maven repositories: " + e.getMessage());
+      throw new IllegalArgumentException("Cannot resolve artifacts " + artifacts + " in maven repositories: " + e.getMessage());
     }
 
     return artifactResults.stream().map(ArtifactResult::getArtifact)
@@ -226,8 +225,7 @@ public final class Resolver {
         }
       } catch (final UnsupportedEncodingException e) {
         throw new IllegalArgumentException(
-          "maven registry url is not encoded with " + defaultCharset +
-          " charset and percent-encoded username/password: " + url,
+          "maven registry url is not encoded with " + defaultCharset + " charset and percent-encoded username/password: " + url,
           e);
       }
       return authBuilder.build();
