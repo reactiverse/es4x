@@ -213,7 +213,8 @@
 
   function resolveAsNodeModule(id, root) {
     let base = root ? [root, 'node_modules'].join('/') : 'node_modules';
-    return resolveAsFile(id, base) ||
+    return resolveAsFile(id, base, '.js') ||
+      resolveAsFile(id, base, '.json') ||
       resolveAsDirectory(id, base) ||
       (root ? resolveAsNodeModule(id, io.getParent(root)) : false);
   }
