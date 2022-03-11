@@ -1,6 +1,7 @@
 package io.reactiverse.es4x.test;
 
 import io.reactiverse.es4x.Runtime;
+import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
@@ -63,4 +64,30 @@ public class EventBusTest {
 
     runtime.eval("eb.send('test.address.array', ['foo', 'bar'])");
   }
+
+  @Test(timeout = 10000)
+  public void testStructuredCloneWithDataObjectTest(TestContext ctx) {
+    final Async async = ctx.async();
+
+    rule.vertx().eventBus().consumer("test.address.data-object", msg -> {
+      ctx.assertNotNull(msg);
+      ctx.assertNotNull(msg.body());
+      Object res = msg.body();
+      ctx.assertNotNull(res);
+      ctx.assertTrue(res instanceof JsonObject);
+      ctx.assertEquals(
+        new HttpServerOptions().setHost("somewhere.com").toJson(),
+        res);
+      async.complete();
+    });
+
+    // @lang=JavaScript
+    String script =
+      "const HttpServerOptions = Java.type('io.vertx.core.http.HttpServerOptions')\n" +
+        "let data = new HttpServerOptions().setHost(\"somewhere.com\")\n" +
+        "eb.send('test.address.data-object', data.toJson())";
+
+    runtime.eval(script);
+  }
+
 }

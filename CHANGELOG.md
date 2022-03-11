@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.17.1] -
 * Bump graaljs to 22.0.0.2
+* codegen: fix imports on options
+* structured clone: fix handling of graal proxy objects
+* polyfill: same type coercion for globals as defined in MDN
+* commonjs: loader will also work for `.json` files on `node_modules`
+* graaljs: 1 instance per verticle to avoid cross thread access
+* Bump vert.x to 4.2.5
 
 ## [0.17.0] - 2022-01-20
 * Bump vert.x to 4.2.4

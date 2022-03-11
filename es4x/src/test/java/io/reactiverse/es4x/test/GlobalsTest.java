@@ -62,6 +62,57 @@ public class GlobalsTest {
   }
 
   @Test(timeout = 10000)
+  public void testSetTimeoutNaN(TestContext ctx) {
+    final Async async = ctx.async();
+
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
+
+    /// @language=JavaScript
+    String script =
+      "setTimeout(function () {" +
+        "  async.complete();" +
+        "}, NaN);";
+
+
+    runtime.eval(script);
+  }
+
+  @Test(timeout = 10000)
+  public void testSetTimeoutText(TestContext ctx) {
+    final Async async = ctx.async();
+
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
+
+    /// @language=JavaScript
+    String script =
+      "setTimeout(function () {" +
+        "  async.complete();" +
+        "}, 'Durp');";
+
+
+    runtime.eval(script);
+  }
+
+  @Test(timeout = 10000)
+  public void testSetTimeoutObj(TestContext ctx) {
+    final Async async = ctx.async();
+
+    runtime.put("ctx", ctx);
+    runtime.put("async", async);
+
+    /// @language=JavaScript
+    String script =
+      "setTimeout(function () {" +
+        "  async.complete();" +
+        "}, {});";
+
+
+    runtime.eval(script);
+  }
+
+  @Test(timeout = 10000)
   public void testSetTimeoutWithParams(TestContext ctx) {
     final Async async = ctx.async();
 

@@ -46,16 +46,12 @@ import static io.reactiverse.es4x.impl.Utils.toNixPath;
 public abstract class ESVerticleFactory implements VerticleFactory {
 
   protected ECMAEngine engine;
-  private FileSystem fileSystem;
+  private Vertx vertx;
 
   @Override
   public synchronized void init(final Vertx vertx) {
     if (engine == null) {
-      try {
-        this.fileSystem = new VertxFileSystem(vertx, getManifestAttribute("Import-Map"), defaultExtensions());
-      } catch (IOException e) {
-        throw new IllegalStateException("Failed to initialize the file system", e);
-      }
+      this.vertx = vertx;
       this.engine = new ECMAEngine(vertx);
     } else {
       throw new IllegalStateException("Engine already initialized");
@@ -78,7 +74,7 @@ public abstract class ESVerticleFactory implements VerticleFactory {
    */
   protected Runtime createRuntime(ECMAEngine engine) {
     return engine.newContext(
-      fileSystem,
+      createFileSystem(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/global.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/date.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/console.js")).buildLiteral(),
@@ -86,6 +82,14 @@ public abstract class ESVerticleFactory implements VerticleFactory {
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/arraybuffer.js")).buildLiteral(),
       Source.newBuilder("js", ESVerticleFactory.class.getResource("polyfill/async-error.js")).buildLiteral()
     );
+  }
+
+  private FileSystem createFileSystem() {
+    try {
+      return new VertxFileSystem(vertx, getManifestAttribute("Import-Map"), defaultExtensions());
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to initialize the file system", e);
+    }
   }
 
   /**
@@ -196,6 +200,7 @@ public abstract class ESVerticleFactory implements VerticleFactory {
   public void close() {
     if (engine != null) {
       engine.close();
+      vertx = null;
     }
   }
 }
