@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [0.17.2] -
+* Added new module `@vertx/uri-template`
+* Force commonjs loader to be synchronized
 
 ## [0.17.1] - 2022-03-11
 * Bump graaljs to 22.0.0.2

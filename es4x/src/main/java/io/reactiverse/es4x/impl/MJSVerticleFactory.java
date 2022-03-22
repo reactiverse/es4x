@@ -19,6 +19,7 @@ import io.reactiverse.es4x.ESVerticleFactory;
 import io.reactiverse.es4x.Runtime;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.impl.ContextInternal;
 import org.graalvm.polyglot.Source;
 
 import java.io.File;
@@ -50,7 +51,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
       }
 
       @Override
-      public void start(Promise<Void> startFuture) {
+      public void start(Promise<Void> startPromise) {
         final String address;
         final boolean worker;
 
@@ -87,25 +88,29 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
               .buildLiteral();
 
             runtime.eval(source);
-            waitFor(runtime, "deploy")
-              .onComplete(startFuture);
+            waitFor(runtime, (ContextInternal) context,"deploy")
+              .onComplete(startPromise);
           } catch (InvalidPathException e) {
-            startFuture.fail("File Not Found: " + fsVerticleName);
+            startPromise.fail("File Not Found: " + fsVerticleName);
           } catch (RuntimeException e) {
-            startFuture.fail(e);
+            startPromise.fail(e);
           }
         } catch (RuntimeException e) {
-          startFuture.fail(e);
+          startPromise.fail(e);
         }
       }
 
       @Override
-      public void stop(Promise<Void> stopFuture) {
+      public void stop(Promise<Void> stopPromise) {
         // call the undeploy if available
-        waitFor(runtime, "undeploy")
-          .onComplete(undeploy -> {
-            stopFuture.handle(undeploy);
-            runtime.close();
+        waitFor(runtime, (ContextInternal) context, "undeploy")
+          .onComplete(stopPromise)
+          .onSuccess(v -> {
+            try {
+              runtime.close();
+            } catch (RuntimeException e) {
+              e.printStackTrace();
+            }
           });
       }
     };
