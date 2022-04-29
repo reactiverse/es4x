@@ -1,13 +1,13 @@
 # Install
 
 Assuming you’ve already installed [Node.js](https://nodejs.org/), you will need a working JVM. The requirements are
-either ([Java](https://adoptopenjdk.net/) or [GraalVM](http://www.graalvm.org/)).
+either ([Java](https://adoptium.net/) or [GraalVM](http://www.graalvm.org/)).
 
 ```bash
 $ java -version
-openjdk version "1.8.0_265"
-OpenJDK Runtime Environment (build 1.8.0_265-8u265-b01-0ubuntu2~20.04-b01)
-OpenJDK 64-Bit Server VM (build 25.265-b01, mixed mode)
+openjdk version "11.0.15" 2022-04-19
+OpenJDK Runtime Environment (build 11.0.15+10-Ubuntu-0ubuntu0.22.04.1)
+OpenJDK 64-Bit Server VM (build 11.0.15+10-Ubuntu-0ubuntu0.22.04.1, mixed mode)
 ```
 
 If you see a similar output, this means your system currently has `java` **8**, which is not the best option as it will

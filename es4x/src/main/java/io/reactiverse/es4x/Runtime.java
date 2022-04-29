@@ -57,7 +57,7 @@ public final class Runtime extends EventEmitterImpl {
     // override the default load function to allow proper mapping of file for debugging
     bindings.putMember("load", new Function<Object, Value>() {
       @Override
-      public Value apply(Object value) {
+      public synchronized Value apply(Object value) {
 
         try {
           final Source source;

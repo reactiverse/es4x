@@ -121,7 +121,15 @@ public class OptionsDTS extends Generator<DataObjectModel> {
       String superScope = getNPMScope(model.getSuperType().getModule());
       if (!selfScope.equals(superScope)) {
         TypeInfo referencedType = model.getSuperType();
-        importType(writer, session, referencedType, referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()));
+        String suffix = "";
+        // take care of the suffixes
+        if (referencedType.getKind() == ClassKind.ENUM) {
+          suffix = "/enums";
+        }
+        if (referencedType.getKind() == ClassKind.OTHER && referencedType.getDataObject() != null) {
+          suffix = "/options";
+        }
+        importType(writer, session, referencedType, referencedType.getSimpleName(), getNPMScope(referencedType.getRaw().getModule()) + suffix);
         imports = true;
       }
     }

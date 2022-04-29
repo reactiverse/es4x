@@ -18,10 +18,8 @@ package io.reactiverse.es4x;
 import io.reactiverse.es4x.impl.REPLVerticle;
 import io.reactiverse.es4x.impl.StructuredClone;
 import io.reactiverse.es4x.impl.VertxFileSystem;
-import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.core.Verticle;
-import io.vertx.core.Vertx;
+import io.vertx.core.*;
+import io.vertx.core.impl.ContextInternal;
 import io.vertx.core.spi.VerticleFactory;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
@@ -180,8 +178,8 @@ public abstract class ESVerticleFactory implements VerticleFactory {
     return main;
   }
 
-  protected final Future<Void> waitFor(Runtime runtime, String callback) {
-    final Promise<Void> wrapper = Promise.promise();
+  protected final Future<Void> waitFor(Runtime runtime, ContextInternal context, String callback) {
+    final Promise<Void> wrapper = context.promise();
     try {
       if (runtime.emit(callback, wrapper) == 0) {
         wrapper.complete();

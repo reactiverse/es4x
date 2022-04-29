@@ -5,7 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.17.1] -
+## [0.18.0] -
+* Added new module `@vertx/uri-template`
+* Force commonjs loader to be synchronized
+* Bumped graal to 22.1.0
+* Bumped vertx to 4.2.7
+* Given that graaljs no longer supports java8, we bump the minor
+
+## [0.17.1] - 2022-03-11
 * Bump graaljs to 22.0.0.2
 * codegen: fix imports on options
 * structured clone: fix handling of graal proxy objects
