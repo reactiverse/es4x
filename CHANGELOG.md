@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.17.2] -
 * Added new module `@vertx/uri-template`
 * Force commonjs loader to be synchronized
+* Bumped graal to 22.1.0
+* Bumped vertx to 4.2.7
 
 ## [0.17.1] - 2022-03-11
 * Bump graaljs to 22.0.0.2
