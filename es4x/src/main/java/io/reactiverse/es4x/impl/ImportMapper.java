@@ -22,11 +22,9 @@ public class ImportMapper {
   private static final Logger LOGGER = LoggerFactory.getLogger(ImportMapper.class);
 
   public ImportMapper(JsonObject config) throws MalformedURLException {
-    this(config, new File(VertxFileSystem.getCWD()).toURI());
-  }
-
-  public ImportMapper(JsonObject config, URI baseURI) throws MalformedURLException {
-    this(config, baseURI.toURL());
+    this(
+      config,
+      new URL("file", "", Utils.slashify(VertxFileSystem.getCWD(), true)));
   }
 
   public ImportMapper(JsonObject config, URL baseURL) {
