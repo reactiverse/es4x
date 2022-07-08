@@ -35,6 +35,6 @@ npm start # OR yarn start
 ```
 
 ::: tip COMPATIBILITY NOTE
-ES4X requires [GraalVM](https://www.graalvm.org) or Java >= 11. If you're not sure which version is installed on your
-system, consider using [jabba](https://github.com/shyiko/jabba).
+ES4X requires [GraalVM](https://www.graalvm.org) or Java >= 11. GraalVM 22.2 and up will require the installation of the
+JavaScript module with `gu install js`.
 :::
