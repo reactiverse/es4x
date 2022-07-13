@@ -101,6 +101,8 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="eventbus.html#addinboundinterceptor" class="tsd-kind-icon">add<wbr>Inbound<wbr>Interceptor</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="eventbus.html#addoutboundinterceptor" class="tsd-kind-icon">add<wbr>Outbound<wbr>Interceptor</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventbus.html#clusterserializablechecker" class="tsd-kind-icon">cluster<wbr>Serializable<wbr>Checker</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventbus.html#codecselector" class="tsd-kind-icon">codec<wbr>Selector</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="eventbus.html#consumer" class="tsd-kind-icon">consumer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventbus.html#ismetricsenabled" class="tsd-kind-icon">is<wbr>Metrics<wbr>Enabled</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="eventbus.html#localconsumer" class="tsd-kind-icon">local<wbr>Consumer</a></li>
@@ -112,6 +114,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="eventbus.html#request" class="tsd-kind-icon">request</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventbus.html#send" class="tsd-kind-icon">send</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="eventbus.html#sender" class="tsd-kind-icon">sender</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventbus.html#serializablechecker" class="tsd-kind-icon">serializable<wbr>Checker</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventbus.html#unregistercodec" class="tsd-kind-icon">unregister<wbr>Codec</a></li>
 							</ul>
 						</section>
@@ -130,7 +133,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2079</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2203</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -164,7 +167,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2069</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2193</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -188,6 +191,102 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clusterserializablechecker" class="tsd-anchor"></a>
+					<h3>cluster<wbr>Serializable<wbr>Checker</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">cluster<wbr>Serializable<wbr>Checker<span class="tsd-signature-symbol">(</span>classNamePredicate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventbus.html" class="tsd-signature-type">EventBus</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2215</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register a predicate to invoke when verifying if an object is forbidden to be encoded/decoded as {@link ClusterSerializable}.</p>
+									<p>
+										This is only used when Vert.x is clustered.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>classNamePredicate: <span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <span class="tsd-signature-type">string</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventbus.html" class="tsd-signature-type">EventBus</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="codecselector" class="tsd-anchor"></a>
+					<h3>codec<wbr>Selector</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">codec<wbr>Selector<span class="tsd-signature-symbol">(</span>selector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventbus.html" class="tsd-signature-type">EventBus</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2188</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set selector to be invoked when the bus has not found any codec for a <a href="message.html">Message</a> body.</p>
+									<p>
+										The selector must return the name of a codec which has been registered with either {@link EventBus#registerCodec} or {@link EventBus#registerDefaultCodec}.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>selector: <span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <span class="tsd-signature-type">any</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventbus.html" class="tsd-signature-type">EventBus</a></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="consumer" class="tsd-anchor"></a>
 					<h3>consumer</h3>
@@ -199,7 +298,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2019</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2136</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,7 +327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2024</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2141</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -266,7 +365,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/measured.html">Measured</a>.<a href="../interfaces/measured.html#ismetricsenabled">isMetricsEnabled</a></p>
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:1961</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2078</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -289,7 +388,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2029</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2146</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -314,7 +413,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2034</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2151</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -352,7 +451,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2005</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2122</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -375,7 +474,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2010</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2127</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -410,7 +509,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2058</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2175</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -439,7 +538,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2064</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2181</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -477,7 +576,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2094</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2232</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -510,7 +609,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2084</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2208</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -544,7 +643,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2074</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2198</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -581,7 +680,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:1981</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2098</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -612,7 +711,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:1989</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2106</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -646,7 +745,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:1994</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2111</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -677,7 +776,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:1999</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2116</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -721,7 +820,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:1968</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2085</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -745,7 +844,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:1973</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2090</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -780,7 +879,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2043</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2160</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -809,7 +908,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2049</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2166</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -838,6 +937,54 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="serializablechecker" class="tsd-anchor"></a>
+					<h3>serializable<wbr>Checker</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">serializable<wbr>Checker<span class="tsd-signature-symbol">(</span>classNamePredicate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventbus.html" class="tsd-signature-type">EventBus</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2222</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register a predicate to invoke when verifying if an object is allowed to be encoded/decoded as Serializable.</p>
+									<p>
+										This is only used when Vert.x is clustered.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>classNamePredicate: <span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>arg: <span class="tsd-signature-type">string</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventbus.html" class="tsd-signature-type">EventBus</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="unregistercodec" class="tsd-anchor"></a>
 					<h3>unregister<wbr>Codec</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -847,13 +994,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2100</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:2237</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Unregister a message codec.</p>
-									<p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -889,6 +1035,12 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="eventbus.html#addoutboundinterceptor" class="tsd-kind-icon">add<wbr>Outbound<wbr>Interceptor</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventbus.html#clusterserializablechecker" class="tsd-kind-icon">cluster<wbr>Serializable<wbr>Checker</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventbus.html#codecselector" class="tsd-kind-icon">codec<wbr>Selector</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="eventbus.html#consumer" class="tsd-kind-icon">consumer</a>
 							</li>
@@ -921,6 +1073,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="eventbus.html#sender" class="tsd-kind-icon">sender</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventbus.html#serializablechecker" class="tsd-kind-icon">serializable<wbr>Checker</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="eventbus.html#unregistercodec" class="tsd-kind-icon">unregister<wbr>Codec</a>
