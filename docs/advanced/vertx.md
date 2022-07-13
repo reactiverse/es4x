@@ -85,11 +85,15 @@ Can be used as a `Thenable`:
 
 ```js
 try {
-  let server = await vertx
-    .createHttpServer()
-    .listen(0);
+  (async function futureTest1 () {
+    let server = await vertx
+        .createHttpServer()
+        .requestHandler(req => {
+        })
+        .listen(0);
 
-  console.log('Server Ready!');
+    console.log('Server Ready!');
+  })();
 } catch (err) {
   console.log('Server startup failed!')
 }
