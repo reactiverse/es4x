@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.19.0] -
 * Bumped vertx to 4.3.2
-* Allow spaces in CWD
+* Fixed bug where spaces were not allowed on CWD
 * Update CI as latest graal will not include `js` by default
 * Update docs for latest graal
 

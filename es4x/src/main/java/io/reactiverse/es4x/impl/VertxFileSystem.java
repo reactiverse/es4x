@@ -80,7 +80,7 @@ public final class VertxFileSystem implements FileSystem {
     // resolve the well known roots
     try {
       cwd = getCWD();
-      URI cwdUrl = fileToURI(new File(this.cwd).getCanonicalFile());
+      URL cwdUrl = fileToURL(new File(this.cwd).getCanonicalFile());
 
       if (importMap == null) {
         mapper = new ImportMapper(

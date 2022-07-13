@@ -20,7 +20,7 @@ else
   echo "login as es4x"
   npm adduser --registry "$REGISTRY"
 fi
-TAG=${2:-release}
+TAG=${2:-latest}
 
 # publish
 npm publish --registry $REGISTRY --tag=${TAG}

@@ -1,11 +1,9 @@
 package io.reactiverse.es4x.impl;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
@@ -61,7 +59,7 @@ public final class Utils {
             throw new RuntimeException("Failed to mkdirs: " + parent);
           }
         }
-        try (BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(target))) {
+        try (BufferedOutputStream writer = new BufferedOutputStream(Files.newOutputStream(target.toPath()))) {
           byte[] buffer = new byte[4096];
           int bytesRead;
           while ((bytesRead = reader.read(buffer)) != -1) {
@@ -93,10 +91,10 @@ public final class Utils {
     return null;
   }
 
-  public static URI fileToURI(File file) {
+  public static URL fileToURL(File file) {
     try {
-      return new URI("file://" + slashify(file.getPath(), file.isDirectory()));
-    } catch (URISyntaxException e) {
+      return new URL("file://" + slashify(file.getPath(), file.isDirectory()));
+    } catch (MalformedURLException e) {
       throw new IllegalArgumentException("Cannot convert to URI: " + file, e);
     }
   }
