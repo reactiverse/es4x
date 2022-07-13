@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [0.19.0] -
-* Bumped vertx to 4.3.0
+* Bumped vertx to 4.3.2
+* Allow spaces in CWD
+* Update CI as latest graal will not include `js` by default
+* Update docs for latest graal
 
 ## [0.18.0] - 2022-04-28
 * Added new module `@vertx/uri-template`
