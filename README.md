@@ -2,7 +2,7 @@
 
 This is the EcmaScript (5.1+) language support for [Eclipse Vert.x](http://vertx.io)
 
-[![CI](https://github.com/reactiverse/es4x/actions/workflows/develop.yml/badge.svg?branch=develop)](https://github.com/reactiverse/es4x/actions/workflows/develop.yml)
+[![CI](https://github.com/reactiverse/es4x/actions/workflows/java.yml/badge.svg?branch=develop)](https://github.com/reactiverse/es4x/actions/workflows/java.yml)
 [![Join the chat at https://gitter.im/es4x/Lobby](https://badges.gitter.im/es4x/Lobby.svg)](https://gitter.im/es4x/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Security Status](https://snyk-widget.herokuapp.com/badge/mvn/io.reactiverse/es4x/badge.svg)](https://snyk.io/vuln/maven:io.reactiverse:es4x?utm_medium=referral&utm_source=badge&utm_campaign=snyk-widget)
 
