@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        version: ['22.1.0']
+        version: ['22.2.0']
         os: [macos-latest, windows-latest, ubuntu-latest]
     steps:
       - name: Checkout
@@ -32,6 +32,7 @@ jobs:
         with:
           version: ${{ matrix.version }}
           java-version: '11'
+          components: 'js'
       - name: Run tests (UNIX)
         run: ./mvnw clean verify
         if: runner.os != 'Windows'
