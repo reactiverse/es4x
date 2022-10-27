@@ -87,11 +87,14 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#close" class="tsd-kind-icon">close</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#createacls" class="tsd-kind-icon">create<wbr>Acls</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#createpartitions" class="tsd-kind-icon">create<wbr>Partitions</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#createtopics" class="tsd-kind-icon">create<wbr>Topics</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#deleteacls" class="tsd-kind-icon">delete<wbr>Acls</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#deleteconsumergroupoffsets" class="tsd-kind-icon">delete<wbr>Consumer<wbr>Group<wbr>Offsets</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#deleteconsumergroups" class="tsd-kind-icon">delete<wbr>Consumer<wbr>Groups</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#deletetopics" class="tsd-kind-icon">delete<wbr>Topics</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#describeacls" class="tsd-kind-icon">describe<wbr>Acls</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#describecluster" class="tsd-kind-icon">describe<wbr>Cluster</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#describeconsumergroups" class="tsd-kind-icon">describe<wbr>Consumer<wbr>Groups</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="kafkaadminclient.html#describetopics" class="tsd-kind-icon">describe<wbr>Topics</a></li>
@@ -184,6 +187,57 @@
 								</li>
 								<li>
 									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="createacls" class="tsd-anchor"></a>
+					<h3>create<wbr>Acls</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Acls<span class="tsd-signature-symbol">(</span>aclBindings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Acls<span class="tsd-signature-symbol">(</span>aclBindings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, completionHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-kafka-client/target/npm/index.d.ts:207</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create the ACL rules.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aclBindings: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-kafka-client/target/npm/index.d.ts:212</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create the ACL rules.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aclBindings: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>completionHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -296,6 +350,57 @@
 								</li>
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deleteacls" class="tsd-anchor"></a>
+					<h3>delete<wbr>Acls</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Acls<span class="tsd-signature-symbol">(</span>aclBindings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Acls<span class="tsd-signature-symbol">(</span>aclBindings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, completionHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-kafka-client/target/npm/index.d.ts:217</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Delete the ACL rules.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aclBindings: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-kafka-client/target/npm/index.d.ts:222</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Delete the ACL rules.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aclBindings: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>completionHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -459,6 +564,57 @@
 								</li>
 								<li>
 									<h5>completionHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="describeacls" class="tsd-anchor"></a>
+					<h3>describe<wbr>Acls</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">describe<wbr>Acls<span class="tsd-signature-symbol">(</span>aclBindingFilter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">describe<wbr>Acls<span class="tsd-signature-symbol">(</span>aclBindingFilter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, completionHandler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-kafka-client/target/npm/index.d.ts:197</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Describe the ACL rules.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aclBindingFilter: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-kafka-client/target/npm/index.d.ts:202</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Describe the ACL rules.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aclBindingFilter: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>completionHandler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Handler</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AsyncResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -921,10 +1077,16 @@
 								<a href="kafkaadminclient.html#close" class="tsd-kind-icon">close</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="kafkaadminclient.html#createacls" class="tsd-kind-icon">create<wbr>Acls</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="kafkaadminclient.html#createpartitions" class="tsd-kind-icon">create<wbr>Partitions</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="kafkaadminclient.html#createtopics" class="tsd-kind-icon">create<wbr>Topics</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="kafkaadminclient.html#deleteacls" class="tsd-kind-icon">delete<wbr>Acls</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="kafkaadminclient.html#deleteconsumergroupoffsets" class="tsd-kind-icon">delete<wbr>Consumer<wbr>Group<wbr>Offsets</a>
@@ -934,6 +1096,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="kafkaadminclient.html#deletetopics" class="tsd-kind-icon">delete<wbr>Topics</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="kafkaadminclient.html#describeacls" class="tsd-kind-icon">describe<wbr>Acls</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="kafkaadminclient.html#describecluster" class="tsd-kind-icon">describe<wbr>Cluster</a>
