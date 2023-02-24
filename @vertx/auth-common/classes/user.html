@@ -94,6 +94,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="user.html#containskey" class="tsd-kind-icon">contains<wbr>Key</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="user.html#expired" class="tsd-kind-icon">expired</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="user.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="user.html#getordefault" class="tsd-kind-icon">get<wbr>OrDefault</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="user.html#hasamr" class="tsd-kind-icon">has<wbr>Amr</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="user.html#isauthorized" class="tsd-kind-icon">is<wbr>Authorized</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="user.html#merge" class="tsd-kind-icon">merge</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="user.html#principal" class="tsd-kind-icon">principal</a></li>
@@ -147,7 +149,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:471</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:482</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -169,7 +171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:497</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:508</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -192,7 +194,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:466</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:477</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -312,6 +314,80 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="getordefault" class="tsd-anchor"></a>
+					<h3>get<wbr>OrDefault</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>OrDefault&lt;T&gt;<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, defaultValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:466</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a value from the user object. This method will perform lookups on several places before returning a value.</p>
+									<ol>
+										<li>If there is a <code>rootClaim</code> the look up will happen in the <code>attributes[rootClaim]</code></li>
+										<li>If exists the value will be returned from the {@link User#attributes}</li>
+										<li>If exists the value will be returned from the {@link User#principal}</li>
+										<li>Otherwise it will be <code>null</code></li>
+									</ol>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>key: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>defaultValue: <span class="tsd-signature-type">T</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="hasamr" class="tsd-anchor"></a>
+					<h3>has<wbr>Amr</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">has<wbr>Amr<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:565</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The &quot;amr&quot; (Authentication Methods References) returns a unique list of claims as defined and
+										registered in the IANA &quot;JSON Web Token Claims&quot; registry. The values in this collection are based
+										on <a href="https://datatracker.ietf.org/doc/html/rfc8176">RFC8176</a>. This information can be used
+									to filter authenticated users by their authentication mechanism.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="isauthorized" class="tsd-anchor"></a>
 					<h3>is<wbr>Authorized</h3>
@@ -325,7 +401,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:476</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:487</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -344,7 +420,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:481</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:492</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -366,7 +442,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:486</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:497</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -385,7 +461,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:491</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:502</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -416,7 +492,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:546</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:557</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -466,7 +542,7 @@ roles: [ 'read', 'write' ]</code>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:508</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:519</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -499,7 +575,7 @@ roles: [ 'read', 'write' ]</code>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:514</li>
+									<li>Defined in io.vertx/vertx-auth-common/target/npm/index.d.ts:525</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -766,6 +842,12 @@ roles: [ 'read', 'write' ]</code>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="user.html#get" class="tsd-kind-icon">get</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="user.html#getordefault" class="tsd-kind-icon">get<wbr>OrDefault</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="user.html#hasamr" class="tsd-kind-icon">has<wbr>Amr</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="user.html#isauthorized" class="tsd-kind-icon">is<wbr>Authorized</a>
