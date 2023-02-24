@@ -78,6 +78,7 @@ public final class MJSVerticleFactory extends ESVerticleFactory {
           try {
             // the main script buffer
             final Buffer buffer = vertx.fileSystem().readFileBlocking(fsVerticleName);
+            // TODO: parse sourcemap and store it for the logger
             final Source source = Source
               .newBuilder("js", new File(fsVerticleName))
               // strip the shebang if present

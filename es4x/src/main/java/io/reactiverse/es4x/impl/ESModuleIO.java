@@ -242,6 +242,7 @@ public class ESModuleIO {
     if (adapt) {
       return adapt(content);
     }
+    // TODO: extract the sourcemap if present and store it so the logger can use it
     return content;
   }
 
