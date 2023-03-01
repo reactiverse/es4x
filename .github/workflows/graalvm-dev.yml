@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         version: [dev]
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [ubuntu-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -31,11 +31,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           version: ${{ matrix.version }}
-          java-version: '11'
+          java-version: '17'
           components: 'js'
-      - name: Run tests (UNIX)
+      - name: Run tests
         run: ./mvnw clean verify
-        if: runner.os != 'Windows'
-      - name: Run tests (Windows)
-        run: .\mvnw.cmd clean verify
-        if: runner.os == 'Windows'
