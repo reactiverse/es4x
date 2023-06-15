@@ -12,14 +12,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        version: ['22.2.0']
+        version: ['22.3.1']
         os: [macos-latest, windows-latest, ubuntu-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Cache JVM
         id: cache-java
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ${{ runner.temp }}/java_package.tar.gz
@@ -31,7 +31,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           version: ${{ matrix.version }}
-          java-version: '11'
+          java-version: '17'
           components: 'js'
       - name: Run tests (UNIX)
         run: ./mvnw clean verify
