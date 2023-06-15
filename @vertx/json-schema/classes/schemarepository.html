@@ -68,8 +68,9 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>A repository is a holder of dereferenced schemas, it can be used to create validator instances for a specific schema.</p>
+						<p>
+							This is to be used when multiple schema objects compose the global schema to be used for validation.
 					</div>
-					<p>This is to be used when multiple schema objects compose the global schema to be used for validation.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -89,6 +90,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schemarepository.html#dereference" class="tsd-kind-icon">dereference</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schemarepository.html#find" class="tsd-kind-icon">find</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schemarepository.html#preloadmetaschema" class="tsd-kind-icon">preload<wbr>Meta<wbr>Schema</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schemarepository.html#resolve" class="tsd-kind-icon">resolve</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="schemarepository.html#validator" class="tsd-kind-icon">validator</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="schemarepository.html#create" class="tsd-kind-icon">create</a></li>
@@ -110,7 +112,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:205</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:239</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -129,7 +131,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:210</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:244</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -160,7 +162,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:251</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:317</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -179,30 +181,91 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="resolve" class="tsd-anchor"></a>
-					<h3>resolve</h3>
+					<a name="preloadmetaschema" class="tsd-anchor"></a>
+					<h3>preload<wbr>Meta<wbr>Schema</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>schema<span class="tsd-signature-symbol">: </span><a href="jsonschema.html" class="tsd-signature-type">JsonSchema</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
-						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>ref<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
+						<li class="tsd-signature tsd-kind-icon">preload<wbr>Meta<wbr>Schema<span class="tsd-signature-symbol">(</span>fs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FileSystem</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="schemarepository.html" class="tsd-signature-type">SchemaRepository</a></li>
+						<li class="tsd-signature tsd-kind-icon">preload<wbr>Meta<wbr>Schema<span class="tsd-signature-symbol">(</span>fs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FileSystem</span>, draft<span class="tsd-signature-symbol">: </span><a href="../enums/draft.html" class="tsd-signature-type">Draft</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="schemarepository.html" class="tsd-signature-type">SchemaRepository</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:238</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:251</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Tries to resolve all internal and repository local references. External references are not resolved.</p>
+									<p>Preloads the repository with the meta schemas for the related @link <a href="../../enums.html#Draft">Draft</a> version. The related draft version
+										is determined from the <a href="../../dataobjects.html#JsonSchemaOptions">JsonSchemaOptions</a>, in case that no draft is set in the options an
+									IllegalStateException is thrown.</p>
 								</div>
-								<p>The result is an object where all references have been resolved. Resolution of references is shallow. This
-								should normally not be a problem for this use case.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>schema: <a href="jsonschema.html" class="tsd-signature-type">JsonSchema</a></h5>
+									<h5>fs: <span class="tsd-signature-type">FileSystem</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="schemarepository.html" class="tsd-signature-type">SchemaRepository</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:256</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Preloads the repository with the meta schemas for the related draft version.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fs: <span class="tsd-signature-type">FileSystem</span></h5>
+								</li>
+								<li>
+									<h5>draft: <a href="../enums/draft.html" class="tsd-signature-type">Draft</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="schemarepository.html" class="tsd-signature-type">SchemaRepository</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="resolve" class="tsd-anchor"></a>
+					<h3>resolve</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>schema<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
+						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>ref<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
+						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>schema<span class="tsd-signature-symbol">: </span><a href="jsonschema.html" class="tsd-signature-type">JsonSchema</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:296</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resolve all <code>$ref</code> in the given . The resolution algrithm is not aware of other
+										specifications. When resolving OpenAPI documents (which only allow <code>$ref</code> at specific locations) you
+									should validate if the document is valid before performing a resolution.</p>
+								</div>
+								<p>It is important to note that any sibling elements of a <code>$ref</code> is ignored. This is because <code>$ref</code>
+								works by replacing itself and everything on its level with the definition it is pointing at.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>schema: <span class="tsd-signature-symbol">{}</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-index-signature">
+											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
@@ -215,20 +278,48 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:246</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:304</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Tries to resolve all internal and repository local references. External references are not resolved.</p>
+									<p>
+										The result is an object where all references have been resolved. Resolution of circular references is shallow. This
+										should normally not be a problem for this use case.
 								</div>
-								<p>The result is an object where all references have been resolved. Resolution of references is shallow. This
-								should normally not be a problem for this use case.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ref: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-index-signature">
+									<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:312</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tries to resolve all internal and repository local references. External references are not resolved.</p>
+									<p>
+										The result is an object where all references have been resolved. Resolution of circular references is shallow. This
+										should normally not be a problem for this use case.
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>schema: <a href="jsonschema.html" class="tsd-signature-type">JsonSchema</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
@@ -246,14 +337,15 @@
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">validator<span class="tsd-signature-symbol">(</span>schema<span class="tsd-signature-symbol">: </span><a href="jsonschema.html" class="tsd-signature-type">JsonSchema</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="validator.html" class="tsd-signature-type">Validator</a></li>
 						<li class="tsd-signature tsd-kind-icon">validator<span class="tsd-signature-symbol">(</span>ref<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="validator.html" class="tsd-signature-type">Validator</a></li>
-						<li class="tsd-signature tsd-kind-icon">validator<span class="tsd-signature-symbol">(</span>schema<span class="tsd-signature-symbol">: </span><a href="jsonschema.html" class="tsd-signature-type">JsonSchema</a>, options<span class="tsd-signature-symbol">: </span><a href="jsonschemaoptions.html" class="tsd-signature-type">JsonSchemaOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="validator.html" class="tsd-signature-type">Validator</a></li>
 						<li class="tsd-signature tsd-kind-icon">validator<span class="tsd-signature-symbol">(</span>ref<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="jsonschemaoptions.html" class="tsd-signature-type">JsonSchemaOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="validator.html" class="tsd-signature-type">Validator</a></li>
+						<li class="tsd-signature tsd-kind-icon">validator<span class="tsd-signature-symbol">(</span>schema<span class="tsd-signature-symbol">: </span><a href="jsonschema.html" class="tsd-signature-type">JsonSchema</a>, options<span class="tsd-signature-symbol">: </span><a href="jsonschemaoptions.html" class="tsd-signature-type">JsonSchemaOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="validator.html" class="tsd-signature-type">Validator</a></li>
+						<li class="tsd-signature tsd-kind-icon">validator<span class="tsd-signature-symbol">(</span>schema<span class="tsd-signature-symbol">: </span><a href="jsonschema.html" class="tsd-signature-type">JsonSchema</a>, options<span class="tsd-signature-symbol">: </span><a href="jsonschemaoptions.html" class="tsd-signature-type">JsonSchemaOptions</a>, dereference<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="validator.html" class="tsd-signature-type">Validator</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:215</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:261</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -272,12 +364,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:220</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:268</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>A new validator instance using this repository options.</p>
+									<p>A new validator instance using this repository options. This is the preferred way
+										to create a validator as it avoids reparsing schemas and reuses the cache in the
+									repository.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -291,12 +385,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:225</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:275</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>A new validator instance overriding this repository options.</p>
+									<p>A new validator instance overriding this repository options. This is the preferred way
+										to create a validator as it avoids reparsing schemas and reuses the cache in the
+									repository.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ref: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>options: <a href="jsonschemaoptions.html" class="tsd-signature-type">JsonSchemaOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="validator.html" class="tsd-signature-type">Validator</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:281</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A new validator instance overriding this repository options.
+									The given schema will not be referenced to the repository.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -313,7 +432,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:230</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:286</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -324,10 +443,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>ref: <span class="tsd-signature-type">string</span></h5>
+									<h5>schema: <a href="jsonschema.html" class="tsd-signature-type">JsonSchema</a></h5>
 								</li>
 								<li>
 									<h5>options: <a href="jsonschemaoptions.html" class="tsd-signature-type">JsonSchemaOptions</a></h5>
+								</li>
+								<li>
+									<h5>dereference: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="validator.html" class="tsd-signature-type">Validator</a></h4>
@@ -344,7 +466,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:200</li>
+									<li>Defined in io.vertx/vertx-json-schema/target/npm/index.d.ts:234</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -393,6 +515,9 @@
 						<a href="outputunit.html" class="tsd-kind-icon">Output<wbr>Unit</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="ref.html" class="tsd-kind-icon">Ref</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="schema.html" class="tsd-kind-icon">Schema</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -408,6 +533,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="schemarepository.html#find" class="tsd-kind-icon">find</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="schemarepository.html#preloadmetaschema" class="tsd-kind-icon">preload<wbr>Meta<wbr>Schema</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="schemarepository.html#resolve" class="tsd-kind-icon">resolve</a>
@@ -445,6 +573,7 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>

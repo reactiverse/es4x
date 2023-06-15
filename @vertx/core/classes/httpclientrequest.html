@@ -121,6 +121,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#connection" class="tsd-kind-icon">connection</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#continuehandler" class="tsd-kind-icon">continue<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#drainhandler" class="tsd-kind-icon">drain<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#earlyhintshandler" class="tsd-kind-icon">early<wbr>Hints<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#end" class="tsd-kind-icon">end</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#exceptionhandler" class="tsd-kind-icon">exception<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="httpclientrequest.html#gethost" class="tsd-kind-icon">get<wbr>Host</a></li>
@@ -170,7 +171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3359</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3380</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -188,7 +189,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3451</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3478</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -211,7 +212,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3471</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3498</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -249,7 +250,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3635</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3662</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="httpconnection.html" class="tsd-signature-type">HttpConnection</a></h4>
@@ -266,13 +267,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3419</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3440</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>If you send an HTTP request with the header <code>Expect</code> set to the value <code>100-continue</code>
-										and the server responds with an interim HTTP response with a status code of <code>100</code> and a continue handler
+										and the server responds with an interim HTTP response with a status code of <code>100</code> and a Continue handler
 									has been set using this method, then the <code>handler</code> will be called.</p>
 									<p>
 										You can then continue to write data to the request body and later end it. This is normally used in conjunction with
@@ -299,13 +300,42 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3302</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3323</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="earlyhintshandler" class="tsd-anchor"></a>
+					<h3>early<wbr>Hints<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">early<wbr>Hints<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="multimap.html" class="tsd-signature-type">MultiMap</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="multimap.html" class="tsd-signature-type">MultiMap</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3446</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>If the server responds with an interim HTTP response with a status code of <code>103</code> and a Early Hints handler
+									has been set using this method, then the <code>handler</code> will be called.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><a href="multimap.html" class="tsd-signature-type">MultiMap</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/handler.html" class="tsd-signature-type">Handler</a><span class="tsd-signature-symbol">&lt;</span><a href="multimap.html" class="tsd-signature-type">MultiMap</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="httpclientrequest.html" class="tsd-signature-type">HttpClientRequest</a></h4>
@@ -329,7 +359,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3536</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3563</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -348,7 +378,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3541</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3568</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -370,7 +400,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3546</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3573</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -392,7 +422,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3551</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3578</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -417,7 +447,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3556</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3583</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -436,7 +466,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3561</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3588</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -459,7 +489,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#end">end</a></p>
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3566</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3593</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -472,7 +502,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3571</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3598</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -500,7 +530,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3298</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3319</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -523,7 +553,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3313</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3334</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -540,7 +570,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3350</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3371</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -562,7 +592,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3325</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3346</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -579,7 +609,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3665</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3692</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="streampriority.html" class="tsd-signature-type">StreamPriority</a></h4>
@@ -596,7 +626,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3363</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3384</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -613,7 +643,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3380</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3401</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="multimap.html" class="tsd-signature-type">MultiMap</a></h4>
@@ -630,7 +660,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3345</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3366</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -647,7 +677,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3372</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3393</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -664,7 +694,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3600</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3627</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -705,7 +735,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3385</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3406</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -727,7 +757,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3670</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3697</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -749,7 +779,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3675</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3702</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -771,7 +801,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3680</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3707</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -802,7 +832,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3376</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3397</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -821,7 +851,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3605</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3632</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -834,7 +864,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3618</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3645</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -861,7 +891,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3631</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3658</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -901,7 +931,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3478</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3505</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -915,7 +945,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3485</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3512</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -951,7 +981,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3490</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3517</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -964,7 +994,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3495</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3522</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -983,7 +1013,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3500</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3527</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1002,7 +1032,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3505</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3532</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1024,7 +1054,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3510</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3537</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1043,7 +1073,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3515</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3542</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1065,7 +1095,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3523</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3550</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1086,7 +1116,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3531</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3558</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1120,7 +1150,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3425</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3452</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1134,7 +1164,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3431</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3458</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1163,7 +1193,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3341</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3362</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1191,7 +1221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3330</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3351</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1219,7 +1249,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3309</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3330</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1249,7 +1279,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3336</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3357</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1278,7 +1308,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3355</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3376</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1306,7 +1336,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3321</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3342</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1336,7 +1366,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3661</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3688</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1366,7 +1396,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3581</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3608</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1399,7 +1429,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3368</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3389</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1428,7 +1458,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#setwritequeuemaxsize">setWriteQueueMaxSize</a></p>
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3300</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3321</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1451,7 +1481,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3649</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3676</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1468,7 +1498,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3389</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3410</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/httpversion.html" class="tsd-signature-type">HttpVersion</a></h4>
@@ -1490,7 +1520,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3286</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3307</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1509,7 +1539,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3291</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3312</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1531,7 +1561,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3394</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3415</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1550,7 +1580,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3399</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3420</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1572,7 +1602,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3404</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3425</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1594,7 +1624,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3409</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3430</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1629,7 +1659,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3645</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3672</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1657,7 +1687,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3654</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3681</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1686,7 +1716,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/writestream.html">WriteStream</a>.<a href="../interfaces/writestream.html#writequeuefull">writeQueueFull</a></p>
 								<ul>
-									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3296</li>
+									<li>Defined in generator/io.vertx/vertx-core/target/npm/index.d.ts:3317</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1729,6 +1759,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientrequest.html#drainhandler" class="tsd-kind-icon">drain<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="httpclientrequest.html#earlyhintshandler" class="tsd-kind-icon">early<wbr>Hints<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="httpclientrequest.html#end" class="tsd-kind-icon">end</a>
