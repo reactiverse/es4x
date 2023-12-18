@@ -12,14 +12,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        version: [17, 21]
+        version: [17]
         os: [macos-latest, windows-latest, ubuntu-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Cache JVM
         id: cache-java
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ${{ runner.temp }}/java_package.tar.gz
@@ -28,7 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-java-
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.version }}
