@@ -110,7 +110,25 @@ This projects is composed of several main modules/components:
 
 ### Build the Java part
 
-Building the java part is as simple as:
+
+**Pre requisite**: Building this requires **GraalVM JDK version 17** and the **Javascript Engine**. 
+GraalVM website does not give link to install this. Use the command `sdk install java 17.0.9-graalce` to install GraalVM JDK 17.
+
+Javascript engine needs to be installed using `gu` command. 
+
+**Note**: `gu` commnd is removed from the GraalVM distribution from version 19 and upwards. So you can't build this with latest JDK.
+
+**On Linux or Mac:**
+```
+$JAVA_HOME/bin/gu install js 
+```
+**On windows:**
+
+```
+%JAVA_HOME%/bin/gu install js  
+```
+
+#### Compilation step
 
 ```bash
 mvn -Pcodegen install
